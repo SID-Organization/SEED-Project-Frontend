@@ -62,6 +62,31 @@ export default function Login() {
                   />
                 </div>
               </div>
+              <div className="flex justify-between items-center">
+                <div className="flex gap-1 justify-center items-center">
+                  <input
+                    className="
+                  w-4 h-4
+                  outline-none
+                  text-xl
+                  pl-4
+                  rounded-lg
+                  border-2
+                  border-slate-300
+                  cursor-pointer
+                  "
+                    type="checkbox"
+                    name=""
+                    id=""
+                  />
+                  <h1 className="text-gray-600">Lembrar de mim</h1>
+                </div>
+                <div>
+                  <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition">
+                    Esqueceu a senha?
+                  </h1>
+                </div>
+              </div>
               <div className="grid gap-4 justify-center items-center">
                 <Button
                   variant="contained"
