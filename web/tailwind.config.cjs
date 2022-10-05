@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         sans: ["Montserrat", "sans-serif"],
       },
+      colors: {
+        "blue-weg": "#00579D",
+      },
     },
     backgroundImage: {
       loginWallpaper: "url('./src/assets/login-background.png')",
