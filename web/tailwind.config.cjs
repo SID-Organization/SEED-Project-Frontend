@@ -9,6 +9,10 @@ module.exports = {
       },
       colors: {
         "blue-weg": "#00579D",
+        "breadcrumb-bg": "#D5EDFA",
+      },
+      boxShadow: {
+        "breadcrumb-shadow": "0px -4px 10px 1px;",
       },
     },
     backgroundImage: {
