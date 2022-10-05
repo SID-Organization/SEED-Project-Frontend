@@ -1,5 +1,3 @@
-import React from "react";
-
 import WegLogo from "../../assets/weg-logo.png";
 
 import Container from "@mui/material/Container";

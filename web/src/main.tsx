@@ -4,9 +4,10 @@ import App from "./App";
 import "./styles/index.css";
 
 import Login from "./pages/login";
+import Header from "./Components/Header";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Login />
+    <Header />
   </React.StrictMode>
 );
