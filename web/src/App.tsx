@@ -5,11 +5,12 @@ import "./App.css";
 
 import Login from "./pages/login";
 import Header from "./Components/Header";
+import NoDemands from "./pages/requester/noDemands";
 
 function App() {
   return (
     <>
-      <Header />
+      <NoDemands />
     </>
   );
 }
