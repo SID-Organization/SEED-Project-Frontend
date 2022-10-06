@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Montserrat", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
       },
       colors: {
         "blue-weg": "#00579D",
@@ -13,6 +14,7 @@ module.exports = {
       },
       boxShadow: {
         "breadcrumb-shadow": "0px -4px 10px 1px;",
+        "page-title-shadow": "0 3px 9px -2px #b3b3b3;",
       },
     },
     backgroundImage: {
