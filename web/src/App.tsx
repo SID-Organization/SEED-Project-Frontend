@@ -7,15 +7,16 @@ import "./App.css";
 
 import Login from "./pages/login";
 import Sidebar from "./Components/Sidebar";
+import Layout from "./Components/Layout";
 
 function App() {
   return (
     <>
-      <Sidebar />
       <BrowserRouter>
         <Routes>
-          <Route>
-
+          <Route path="/" element={<Layout />}>
+          <Route index element={<Login />} />
+            
           </Route>
         </Routes>
       </BrowserRouter>

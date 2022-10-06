@@ -5,7 +5,7 @@ import Header from "../Header";
 const Sidebar: React.FC = () => {
   return(
     <div>
-        <Header />
+      <h1>Sidebar</h1>
     </div>
   ) 
 }
