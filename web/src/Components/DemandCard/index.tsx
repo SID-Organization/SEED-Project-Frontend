@@ -7,18 +7,29 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 
-export default function CancelledCard() {
+interface DemandCardProps {
+  status: string;
+}
+
+export default function DemandCard(props: DemandCardProps) {
   function valuetext(value: number) {
     return `${value}°C`;
   }
 
+  const statusColor: any = {
+    Cancelado: "#C31700",
+    AprovadoPelaComissao: "#7EB61C",
+    AprovadoPeloAnalistaTi: "#64C3D5",
+  };
+
+  const progressInputColor: any = {
+    Cancelado: "#707070",
+    AprovadoPelaComissao: "#7EB61C",
+    AprovadoPeloAnalistaTi: "#7EB61C",
+  };
+
   const score = 2143;
   const value = "R$ 10.000,00";
-  const statusType = {
-    1: "Cancelada",
-    2: "Aprovada pela comissão",
-    3: "Aprovada pelo analista de TI",
-  };
 
   return (
     <div className="grid justify-center items-center mt-9">
@@ -26,7 +37,7 @@ export default function CancelledCard() {
         sx={{ width: 570 }}
         style={{
           boxShadow: "1px 1px 5px 0px #808080db",
-          borderLeft: "7px solid #C31700",
+          borderLeft: "7px solid " + statusColor[props.status],
         }}
       >
         <CardContent>
@@ -49,7 +60,7 @@ export default function CancelledCard() {
               className="flex"
             >
               <h1 className="mr-1">Status:</h1>
-              <h1 className="font-medium text-black">{statusType[1]}</h1>
+              <h1 className="font-medium text-black">{props.status}</h1>
             </Typography>
           </div>
           <div className="flex items-center justify-between">
@@ -92,7 +103,7 @@ export default function CancelledCard() {
                       sx={{
                         height: 17,
                         width: 150,
-                        color: "#707070",
+                        color: progressInputColor[props.status],
                         "& .MuiSlider-thumb": {
                           display: "none",
                         },
@@ -127,16 +138,19 @@ export default function CancelledCard() {
             </div>
           </div>
           <div className="flex justify-center items-center gap-9 mr-4">
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#C2BEBE",
-                color: "#707070",
-                width: 100,
-              }}
-            >
-              Motivo
-            </Button>
+            {props.status === "Cancelado" && (
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#C2BEBE",
+                  color: "#707070",
+                  width: 100,
+                }}
+              >
+                Motivo
+              </Button>
+            )}
+
             <Button variant="contained" sx={{ backgroundColor: "#0075B1" }}>
               Ver mais
             </Button>
