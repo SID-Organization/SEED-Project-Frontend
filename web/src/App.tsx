@@ -5,7 +5,7 @@ import "./App.css";
 
 import Login from "./pages/login";
 import Header from "./Components/Header";
-import NoDemands from "./pages/requester/noDemands";
+import NoDemands from "./pages/noDemands";
 
 function App() {
   return (
