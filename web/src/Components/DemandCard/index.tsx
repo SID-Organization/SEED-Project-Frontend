@@ -6,15 +6,40 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
+import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
 
 interface DemandCardProps {
   status: string;
 }
 
 export default function DemandCard(props: DemandCardProps) {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   function valuetext(value: number) {
     return `${value}°C`;
   }
+
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 580,
+    height: 405,
+    bgcolor: "background.paper",
+    borderTop: "8px solid #0075B1",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const reasonOfCancellation = {
+    message:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec consequat sollicitudin erat. Phasellus nec eleifend metus. Nulla sed semper leo. Fusce non enim nunc. In cursus purus eget aliquet consectetur. In pellentesque venenatis elit, eu ultrices arcu sodales.",
+  };
 
   const statusColor: any = {
     Cancelado: "#C31700",
@@ -139,18 +164,89 @@ export default function DemandCard(props: DemandCardProps) {
           </div>
           <div className="flex justify-center items-center gap-9 mr-4">
             {props.status === "Cancelado" && (
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "#C2BEBE",
-                  color: "#707070",
-                  width: 100,
-                }}
-              >
-                Motivo
-              </Button>
+              <div>
+                <Button
+                  onClick={handleOpen}
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#C2BEBE",
+                    color: "#707070",
+                    width: 100,
+                  }}
+                >
+                  Motivo
+                </Button>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                      sx={{
+                        color: "#0075B1",
+                        fontWeight: "bold",
+                        fontSize: 30,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      Motivo da reprovação da demanda
+                    </Typography>
+                    <Typography
+                      id="modal-modal-description"
+                      sx={{
+                        mt: 5,
+                        fontSize: 18,
+                        fontWeight: 700,
+                        color: "#000000",
+                        display: "flex",
+                        columnGap: 0.5,
+                      }}
+                    >
+                      Motivo
+                      <Typography sx={{ color: "#AD0D0D", fontWeight: 500 }}>
+                        *
+                      </Typography>
+                    </Typography>
+                    <TextField
+                      id="outlined-multiline-static"
+                      disabled
+                      multiline
+                      rows={4}
+                      value={reasonOfCancellation.message}
+                      variant="outlined"
+                      sx={{
+                        width: 500,
+                        height: 100,
+                        mt: 2,
+                        mb: 5,
+                        borderRadius: 5,
+                        borderColor: "#0075B1",
+                      }}
+                    />
+                    <div className="flex justify-center items-center gap-4">
+                      <Button
+                        onClick={handleClose}
+                        variant="contained"
+                        style={{
+                          backgroundColor: "#0075B1",
+                          color: "#FFFFFF",
+                          width: 100,
+                        }}
+                      >
+                        OK
+                      </Button>
+                    </div>
+                  </Box>
+                </Modal>
+              </div>
             )}
-
             <Button variant="contained" sx={{ backgroundColor: "#0075B1" }}>
               Ver mais
             </Button>
