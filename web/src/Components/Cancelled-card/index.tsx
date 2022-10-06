@@ -23,7 +23,7 @@ export default function CancelledCard() {
   return (
     <div className="grid justify-center items-center mt-9">
       <Card
-        sx={{ width: 990 }}
+        sx={{ width: 570 }}
         style={{
           boxShadow: "1px 1px 5px 0px #808080db",
           borderLeft: "7px solid #C31700",
@@ -37,7 +37,7 @@ export default function CancelledCard() {
               sx={{
                 color: "#023A67",
                 fontWeight: "bold",
-                fontSize: "1.5rem",
+                fontSize: "1.2rem",
               }}
             >
               LOREM IPSUM
