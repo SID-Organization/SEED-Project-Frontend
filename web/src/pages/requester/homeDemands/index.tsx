@@ -1,5 +1,5 @@
 import MyDemands from "../../../Components/SubHeader";
-import CancelledCard from "../../../Components/Cancelled-card";
+import DemandCard from "../../../Components/DemandCard";
 
 import "../../../styles/index.css";
 
@@ -10,18 +10,14 @@ export default function homeDemands() {
       <MyDemands>Minhas demandas</MyDemands>
       </div>
       <div className="flex flex-wrap justify-around">
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
-        <CancelledCard />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="AprovadoPelaComissao" />
+        <DemandCard status="AprovadoPelaComissao" />
+        <DemandCard status="AprovadoPeloAnalistaTi" />
+        <DemandCard status="AprovadoPeloAnalistaTi" />
+        <DemandCard status="AprovadoPeloAnalistaTi" />
         {/* Aprovada pela comissão's card */}
       </div>
     </div>

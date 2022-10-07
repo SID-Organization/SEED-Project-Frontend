@@ -8,6 +8,7 @@ import "./App.css";
 import Login from "./pages/login";
 import Layout from "./Components/Layout";
 import HomeDemands from "./pages/requester/homeDemands";
+import Drafts from "./pages/requester/drafts";
 
 function App() {
   return (
@@ -16,7 +17,12 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
+<<<<<<< HEAD
             <Route path="tes" element={<HomeDemands />} />
+=======
+            <Route path="home" element={<HomeDemands />} />
+            <Route path="rascunhos" element={<Drafts />} />
+>>>>>>> tryMergeCole
           </Route>
         </Routes>
       </BrowserRouter>
