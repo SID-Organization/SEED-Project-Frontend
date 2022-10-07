@@ -9,12 +9,14 @@ import Slider from "@mui/material/Slider";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 
+import { useState } from "react";
+
 interface DemandCardProps {
   status: string;
 }
 
 export default function DemandCard(props: DemandCardProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -51,6 +53,7 @@ export default function DemandCard(props: DemandCardProps) {
     Cancelado: "#707070",
     AprovadoPelaComissao: "#7EB61C",
     AprovadoPeloAnalistaTi: "#7EB61C",
+    Rascunho: "#d9d9d937",
   };
 
   const score = 2143;
@@ -247,9 +250,31 @@ export default function DemandCard(props: DemandCardProps) {
                 </Modal>
               </div>
             )}
-            <Button variant="contained" sx={{ backgroundColor: "#0075B1" }}>
-              Ver mais
-            </Button>
+            {props.status === "Rascunho" && (
+              <div>
+                <Button
+                  onClick={handleOpen}
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#C2BEBE",
+                    color: "#707070",
+                    width: 100,
+                  }}
+                >
+                  Deletar
+                </Button>
+              </div>
+            )}
+            {props.status === "Rascunho" && (
+              <Button variant="contained" sx={{ backgroundColor: "#0075B1" }}>
+                Continuar
+              </Button>
+            )}
+            {props.status !== "Rascunho" && (
+              <Button variant="contained" sx={{ backgroundColor: "#0075B1" }}>
+                Ver mais
+              </Button>
+            )}
           </div>
         </CardActions>
       </Card>

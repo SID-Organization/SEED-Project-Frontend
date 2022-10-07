@@ -10,6 +10,7 @@ import Sidebar from "./Components/Sidebar";
 import Header from "./Components/Header";
 import NoDemands from "./pages/noDemands";
 import HomeDemands from "./pages/requester/homeDemands";
+import Drafts from "./pages/requester/drafts";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Route></Route>
         </Routes>
       </BrowserRouter>
-      <HomeDemands />
+      <Drafts />
     </>
   );
 }
