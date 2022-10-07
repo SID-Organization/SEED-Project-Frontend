@@ -6,22 +6,22 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import Login from "./pages/login";
-import Sidebar from "./Components/Sidebar";
-import Header from "./Components/Header";
-import NoDemands from "./pages/noDemands";
+import Layout from "./Components/Layout";
 import HomeDemands from "./pages/requester/homeDemands";
 import Drafts from "./pages/requester/drafts";
 
 function App() {
   return (
     <>
-      <Sidebar />
       <BrowserRouter>
         <Routes>
-          <Route></Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Layout />}>
+            <Route path="home" element={<HomeDemands />} />
+            <Route path="rascunhos" element={<Drafts />} />
+          </Route>
         </Routes>
       </BrowserRouter>
-      <Drafts />
     </>
   );
 }

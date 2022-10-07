@@ -7,7 +7,7 @@ export default function homeDemands() {
   return (
     <div>
       <div>
-        <MyDemands>Minhas demandas</MyDemands>
+      <MyDemands>Minhas demandas</MyDemands>
       </div>
       <div className="flex flex-wrap justify-around">
         <DemandCard status="Cancelado" />
