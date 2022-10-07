@@ -17,12 +17,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
-<<<<<<< HEAD
-            <Route path="tes" element={<HomeDemands />} />
-=======
             <Route path="home" element={<HomeDemands />} />
             <Route path="rascunhos" element={<Drafts />} />
->>>>>>> tryMergeCole
           </Route>
         </Routes>
       </BrowserRouter>

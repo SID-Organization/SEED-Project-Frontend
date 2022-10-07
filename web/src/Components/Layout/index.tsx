@@ -15,14 +15,7 @@ export default function Layout() {
 
   const getPathHistory = () => {
     return (
-<<<<<<< HEAD
-      <div
-        role="presentation"
-        className="bg-breadcrumb-bg"
-      >
-=======
       <div role="presentation" className="bg-breadcrumb-bg">
->>>>>>> tryMergeCole
         <Breadcrumbs aria-label="breadcrumb">
           <div className="ml-3">
             <Link underline="hover" color="inherit" href="/">
@@ -39,11 +32,7 @@ export default function Layout() {
           <Typography color="text.primary">Breadcrumbs</Typography>
         </Breadcrumbs>
       </div>
-<<<<<<< HEAD
-    )
-=======
     );
->>>>>>> tryMergeCole
   };
 
   return (
@@ -53,14 +42,10 @@ export default function Layout() {
         isSidebarOpen={isSidebarOpen}
       />
       <div className="flex">
-<<<<<<< HEAD
-        <Sidebar isSidebarOpen={isSidebarOpen}  setIsSidebarOpen={setIsSidebarOpen}/>
-=======
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
->>>>>>> tryMergeCole
         <div className="screen-content w-full h-full">
           {getPathHistory()}
           <Outlet />
