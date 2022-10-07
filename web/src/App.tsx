@@ -14,13 +14,12 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
-          <Route index element={<Login />} />
-            
+            <Route path="tes" element={<HomeDemands />} />
           </Route>
         </Routes>
       </BrowserRouter>
-      <HomeDemands />
     </>
   );
 }

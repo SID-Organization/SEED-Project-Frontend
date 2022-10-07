@@ -27,7 +27,6 @@ export default function homeDemands() {
 
   return (
     <div>
-      <Header />
       <MyDemands>Minhas demandas</MyDemands>
       {/* Demand card */}
       <div className="grid justify-center items-center mt-9">

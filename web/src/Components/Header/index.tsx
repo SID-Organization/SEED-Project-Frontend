@@ -10,26 +10,24 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import Typography from "@mui/material/Typography";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Link from "@mui/material/Link";
+
 
 import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
 
-export default function PrimarySearchAppBar() {
+interface HeaderProps{
+  setIsSidebarOpen: (value: boolean) => void;
+  isSidebarOpen: boolean;
+}
+
+export default function PrimarySearchAppBar(props: HeaderProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    event.preventDefault();
-    console.info("You clicked a breadcrumb.");
-  }
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -88,7 +86,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+        <IconButton  size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
@@ -130,6 +128,7 @@ export default function PrimarySearchAppBar() {
           sx={{ "& .MuiToolbar-root": { backgroundColor: "#0075B1" } }}
         >
           <Toolbar>
+            <button onClick={() => props.setIsSidebarOpen(!props.isSidebarOpen)}>Abrir navegação</button>
             <img className="h-10 w-16" src={WegLogo} alt="" />
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -182,28 +181,8 @@ export default function PrimarySearchAppBar() {
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
-      </Box>
-      <div
-        role="presentation"
-        onClick={handleClick}
-        className="bg-breadcrumb-bg shadow-breadcrumb-shadow"
-      >
-        <Breadcrumbs aria-label="breadcrumb">
-          <div className="ml-3">
-            <Link underline="hover" color="inherit" href="/">
-              MUI
-            </Link>
-          </div>
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/material-ui/getting-started/installation/"
-          >
-            Core
-          </Link>
-          <Typography color="text.primary">Breadcrumbs</Typography>
-        </Breadcrumbs>
-      </div>
+      </Box>  
+
     </div>
   );
 }
