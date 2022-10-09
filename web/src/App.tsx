@@ -10,6 +10,7 @@ import Layout from "./Components/Layout";
 import HomeDemands from "./pages/requester/homeDemands";
 import Drafts from "./pages/requester/drafts";
 import DemandCardList from "./Components/DemandCardList";
+import CreateDemand from "./pages/requester/createDemand";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="home" element={<HomeDemands />} />
             <Route path="rascunhos" element={<Drafts />} />
             <Route path="list" element={<DemandCardList />} />
+            <Route path="create" element={<CreateDemand />} />
           </Route>
         </Routes>
       </BrowserRouter>
