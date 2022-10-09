@@ -11,20 +11,21 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
+import { useState } from "react";
 
 import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
 
-interface HeaderProps{
+interface HeaderProps {
   setIsSidebarOpen: (value: boolean) => void;
   isSidebarOpen: boolean;
 }
 
 export default function PrimarySearchAppBar(props: HeaderProps) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -86,7 +87,7 @@ export default function PrimarySearchAppBar(props: HeaderProps) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton  size="large" aria-label="show 4 new mails" color="inherit">
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
@@ -128,7 +129,11 @@ export default function PrimarySearchAppBar(props: HeaderProps) {
           sx={{ "& .MuiToolbar-root": { backgroundColor: "#0075B1" } }}
         >
           <Toolbar>
-            <button onClick={() => props.setIsSidebarOpen(!props.isSidebarOpen)}>Abrir navegação</button>
+            <button
+              onClick={() => props.setIsSidebarOpen(!props.isSidebarOpen)}
+            >
+              Abrir navegação
+            </button>
             <img className="h-10 w-16" src={WegLogo} alt="" />
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -181,8 +186,7 @@ export default function PrimarySearchAppBar(props: HeaderProps) {
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
-      </Box>  
-
+      </Box>
     </div>
   );
 }

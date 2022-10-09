@@ -13,11 +13,15 @@ import IconButton from "@mui/material/IconButton";
 
 import SearchIcon from "@mui/icons-material/Search";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import GridOnIcon from "@mui/icons-material/GridOn";
 import FilterListIcon from "@mui/icons-material/FilterList";
+
+import { useState } from "react";
 
 import "../../styles/index.css";
 
 export default function myDemands({ children }: any) {
+  const [listFormat, setListFormat] = useState(false);
   const options = [
     "Create a merge commit",
     "Filtrar demandas por",
@@ -165,13 +169,27 @@ export default function myDemands({ children }: any) {
             inputProps={{ "aria-label": "Procure aqui" }}
           />
         </Paper>
-        <ListAltIcon
-          style={{
-            fontSize: "30px",
-            color: "#0075B1",
-            cursor: "pointer",
-          }}
-        />
+
+        <div
+          onClick={() => setListFormat(!listFormat)}
+          className="cursor-pointer"
+        >
+          {listFormat ? (
+            <GridOnIcon
+              sx={{
+                fontSize: "30px",
+                color: "#0075B1",
+              }}
+            />
+          ) : (
+            <ListAltIcon
+              sx={{
+                fontSize: "30px",
+                color: "#0075B1",
+              }}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
