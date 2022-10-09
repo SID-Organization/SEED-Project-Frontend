@@ -11,6 +11,11 @@ export default function homeDemands() {
       </div>
       <div className="flex flex-wrap justify-around">
         <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
       </div>
     </div>
   );
