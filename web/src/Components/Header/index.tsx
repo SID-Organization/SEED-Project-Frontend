@@ -11,6 +11,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
+import Switch from "@mui/material/Switch";
+
 import { useState } from "react";
 
 import WegLogo from "../../assets/weg-logo.png";
@@ -29,6 +31,8 @@ export default function PrimarySearchAppBar(props: HeaderProps) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const label = { inputProps: { "aria-label": "Switch demo" } };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -50,6 +54,7 @@ export default function PrimarySearchAppBar(props: HeaderProps) {
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
+      sx={{ marginTop: "40px" }}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: "top",
@@ -64,8 +69,13 @@ export default function PrimarySearchAppBar(props: HeaderProps) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Idioma</MenuItem>
+      <MenuItem>
+        <Switch {...label} defaultChecked />
+        Modo escuro
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>Sair</MenuItem>
     </Menu>
   );
 
