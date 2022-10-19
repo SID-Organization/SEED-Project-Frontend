@@ -23,6 +23,12 @@ export default function homeDemands() {
         <DemandCard status="Cancelado" />
         <DemandCard status="Cancelado" />
         <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
       </div>
     );
   }
