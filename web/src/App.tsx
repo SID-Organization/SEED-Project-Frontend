@@ -11,6 +11,7 @@ import HomeDemands from "./pages/requester/homeDemands";
 import Drafts from "./pages/requester/drafts";
 import DemandCardList from "./Components/DemandCardList";
 import CreateDemand from "./pages/requester/createDemand";
+import OpenedDemand from "./pages/requester/openedDemand";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="rascunhos" element={<Drafts />} />
             <Route path="list" element={<DemandCardList />} />
             <Route path="create" element={<CreateDemand />} />
+            <Route path="opened" element={<OpenedDemand />} />
           </Route>
         </Routes>
       </BrowserRouter>
