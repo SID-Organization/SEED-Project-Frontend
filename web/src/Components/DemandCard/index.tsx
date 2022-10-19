@@ -62,7 +62,7 @@ export default function DemandCard(props: DemandCardProps) {
   return (
     <div className="grid justify-center items-center mt-9">
       <Card
-        sx={{ width: 570 }}
+        sx={{ width: 430, height: 180 }}
         style={{
           boxShadow: "1px 1px 5px 0px #808080db",
           borderLeft: "7px solid " + statusColor[props.status],
@@ -76,7 +76,7 @@ export default function DemandCard(props: DemandCardProps) {
               sx={{
                 color: "#023A67",
                 fontWeight: "bold",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
               }}
             >
               LOREM IPSUM
@@ -87,8 +87,10 @@ export default function DemandCard(props: DemandCardProps) {
               fontWeight="bold"
               className="flex"
             >
-              <h1 className="mr-1">Status:</h1>
-              <h1 className="font-medium text-black">{props.status}</h1>
+              <h1 className="mr-1 text-[0.95rem]">Status:</h1>
+              <h1 className="font-medium text-black text-[0.95rem]">
+                {props.status}
+              </h1>
             </Typography>
           </div>
           <div className="flex items-center justify-between">
@@ -99,8 +101,10 @@ export default function DemandCard(props: DemandCardProps) {
                 fontWeight="bold"
                 className="flex"
               >
-                <h1 className="mr-1">Score:</h1>
-                <h1 className="font-medium text-black">{score}</h1>
+                <h1 className="mr-1 text-[0.95rem]">Score:</h1>
+                <h1 className="font-medium text-black text-[0.95rem]">
+                  {score}
+                </h1>
               </Typography>
               <Typography
                 sx={{ mb: 1.5 }}
@@ -108,8 +112,10 @@ export default function DemandCard(props: DemandCardProps) {
                 fontWeight="bold"
                 className="flex"
               >
-                <h1 className="mr-1">Valor:</h1>
-                <h1 className="font-medium text-black">{value}</h1>
+                <h1 className="mr-1 text-[0.95rem]">Valor:</h1>
+                <h1 className="font-medium text-black text-[0.95rem]">
+                  {value}
+                </h1>
               </Typography>
             </div>
             <div className="flex justify-center items-center">
@@ -119,7 +125,7 @@ export default function DemandCard(props: DemandCardProps) {
                 fontWeight="bold"
                 className="flex"
               >
-                <h1 className="mr-1 flex justify-center items-center text-black">
+                <h1 className="mr-1 flex justify-center text-[0.95rem] items-center text-black">
                   Progresso:
                 </h1>
                 <div className="grid">
@@ -129,8 +135,8 @@ export default function DemandCard(props: DemandCardProps) {
                       defaultValue={30}
                       getAriaValueText={valuetext}
                       sx={{
-                        height: 17,
-                        width: 150,
+                        height: 16,
+                        width: 120,
                         color: progressInputColor[props.status],
                         "& .MuiSlider-thumb": {
                           display: "none",
@@ -147,25 +153,25 @@ export default function DemandCard(props: DemandCardProps) {
           </div>
         </CardContent>
         <CardActions className="flex justify-between">
-          <div className="flex justify-start items-center gap-8 ml-2">
+          <div className="flex justify-start items-center gap-2 ml-1 mr-1">
             <div className="flex">
               <Typography color="#675E5E" fontWeight="bold" className="flex">
-                <h1>De: </h1>
+                <h1 className="text-[0.85rem]">De: </h1>
               </Typography>
               <Typography color="black" fontWeight="bold" className="flex">
-                <h1>10/05/2022</h1>
+                <h1 className="text-[0.85rem]">10/05/2022</h1>
               </Typography>
             </div>
             <div className="flex">
               <Typography color="#675E5E" fontWeight="bold" className="flex">
-                <h1>Até: </h1>
+                <h1 className="text-[0.85rem]">Até: </h1>
               </Typography>
               <Typography color="black" fontWeight="bold" className="flex">
-                <h1>14/05/2022</h1>
+                <h1 className="text-[0.85rem]">14/05/2022</h1>
               </Typography>
             </div>
           </div>
-          <div className="flex justify-center items-center gap-9 mr-4">
+          <div className="flex justify-center items-center gap-3 mr-4">
             {props.status === "Cancelado" && (
               <div>
                 <Button
@@ -174,7 +180,8 @@ export default function DemandCard(props: DemandCardProps) {
                   style={{
                     backgroundColor: "#C2BEBE",
                     color: "#707070",
-                    width: 100,
+                    width: 85,
+                    fontSize: 12,
                   }}
                 >
                   Motivo
@@ -271,7 +278,14 @@ export default function DemandCard(props: DemandCardProps) {
               </Button>
             )}
             {props.status !== "Rascunho" && (
-              <Button variant="contained" sx={{ backgroundColor: "#0075B1" }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#0075B1",
+                  fontSize: 12,
+                  width: 90,
+                }}
+              >
                 Ver mais
               </Button>
             )}

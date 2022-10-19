@@ -2,7 +2,7 @@ import * as React from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 
 const columns: GridColDef[] = [
-  { field: "status", headerName: "Status", width: 120 },
+  { field: "status", headerName: "Status", width: 180 },
   { field: "solicitante", headerName: "Solicitante", width: 140 },
   { field: "ultimaAtualizacao", headerName: "Última atualização", width: 200 },
   {
@@ -19,14 +19,17 @@ const columns: GridColDef[] = [
   },
 ];
 
-const doneDemandStatus = () => {
-  return <div className="w-8 h-7 bg-[#00612E]" />;
-};
+const demandStatusType = [
+  "Cancelado",
+  "Aprovado pela comissão",
+  "Aprovado pelo analista de TI",
+  "Rascunho",
+];
 
 const rows = [
   {
     id: 1,
-    status: doneDemandStatus(),
+    status: demandStatusType[0],
     solicitante: "Henrique Cole",
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
@@ -34,7 +37,7 @@ const rows = [
   },
   {
     id: 2,
-    status: doneDemandStatus(),
+    status: demandStatusType[1],
     solicitante: "Leonardo Rafaelli",
     ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
     score: 543,

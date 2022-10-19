@@ -20,8 +20,11 @@ import { useState } from "react";
 
 import "../../styles/index.css";
 
-export default function myDemands({ children }: any) {
-  const [listFormat, setListFormat] = useState(false);
+export default function subHeader({
+  children,
+  isListFormat,
+  setIsListFormat,
+}: any) {
   const options = [
     "Create a merge commit",
     "Filtrar demandas por",
@@ -171,10 +174,10 @@ export default function myDemands({ children }: any) {
         </Paper>
 
         <div
-          onClick={() => setListFormat(!listFormat)}
           className="cursor-pointer"
+          onClick={() => setIsListFormat(!isListFormat)}
         >
-          {listFormat ? (
+          {isListFormat ? (
             <GridOnIcon
               sx={{
                 fontSize: "30px",
