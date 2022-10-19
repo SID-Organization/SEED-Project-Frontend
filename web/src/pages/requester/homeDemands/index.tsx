@@ -11,7 +11,7 @@ export default function homeDemands() {
 
   function getDemandsList() {
     return (
-      <div className="flex flex-wrap justify-around">
+      <div className="flex justify-center items-center">
         <DemandList />
       </div>
     );
