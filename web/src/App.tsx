@@ -11,12 +11,14 @@ import HomeDemands from "./pages/requester/homeDemands";
 import Drafts from "./pages/requester/drafts";
 import DemandCardList from "./Components/DemandCardList";
 import CreateDemand from "./pages/requester/createDemand";
+import { Navigate } from "react-router";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="*" element={<Navigate to='/home' replace={true}/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
             <Route path="home" element={<HomeDemands />} />

@@ -10,6 +10,11 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { MenuOutlined } from "@mui/icons-material";
+
+const MenuIcon = styled(MenuOutlined)({
+  cursor: "pointer",
+});
 
 import Switch from "@mui/material/Switch";
 
@@ -18,6 +23,7 @@ import { useState } from "react";
 import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
+import styled from "@emotion/styled";
 
 interface HeaderProps {
   setIsSidebarOpen: (value: boolean) => void;
@@ -135,15 +141,11 @@ export default function PrimarySearchAppBar(props: HeaderProps) {
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
-          position="static"
+          position="fixed"
           sx={{ "& .MuiToolbar-root": { backgroundColor: "#0075B1" } }}
         >
           <Toolbar>
-            <button
-              onClick={() => props.setIsSidebarOpen(!props.isSidebarOpen)}
-            >
-              Abrir navegação
-            </button>
+            <MenuIcon onClick={() => props.setIsSidebarOpen(!props.isSidebarOpen)}/>
             <img className="h-10 w-16" src={WegLogo} alt="" />
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>

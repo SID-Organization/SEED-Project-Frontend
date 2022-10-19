@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Box } from "@mui/material"
 import MuiDrawer from "@mui/material/Drawer";
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
+import { HomeOutlined } from "@mui/icons-material";
 import Toolbar from "@mui/material/Toolbar";
 
 interface SidebarProps {
@@ -11,58 +11,58 @@ interface SidebarProps {
   setIsSidebarOpen: (value: boolean) => void;
 }
 
-const drawerWidth = 200;
+const drawerWidth = 150;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
+    duration: theme.transitions.duration.enteringScreen
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden"
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.leavingScreen
   }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
+  overflowX: "hidden",
+  width: `calc(${theme.spacing(6)} + 1px)`,
+  [theme.breakpoints.up("sm")]: {
+    width: `calc(${theme.spacing(7)} + 1px)`
+  }
 });
 
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: prop => prop !== "open"
+})
+(
+  ({ theme, open }: any) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme)
+  },
+  ...!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme)
+  }
+}));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open } : any) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-  }),
-);
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
+  ...theme.mixins.toolbar
 }));
 
 const Sidebar = (props: SidebarProps) => {
-
   const theme = useTheme();
 
   const handleDrawerClose = () => {
@@ -71,12 +71,19 @@ const Sidebar = (props: SidebarProps) => {
 
   return (
     <div>
-      <Drawer variant="permanent" open={props.isSidebarOpen} sx={{'& .MuiPaper-root': {zIndex: -1}}}>
+      <Drawer
+        variant="permanent"
+        open={props.isSidebarOpen}
+        sx={{ "& .MuiPaper-root": { zIndex: -1 } }}
+      >
         <Toolbar />
-        <DrawerHeader >
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? '<ChevronRightIcon />' : '<ChevronLeftIcon />'}
+        <DrawerHeader>
+          <div className="fixed flex align-middle">
+          <IconButton onClick={handleDrawerClose} sx={{width: "100%", display: 'flex', justifyContent: 'space-around'}}>
+            <p className="text-[16px] mr-[28px]">Home</p>
+            <HomeOutlined/>
           </IconButton>
+          </div>
         </DrawerHeader>
       </Drawer>
     </div>

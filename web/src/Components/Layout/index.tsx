@@ -9,7 +9,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 
 export default function Layout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, toggleSidebarOpen] = useState(false);
 
   console.log(isSidebarOpen);
 
@@ -38,15 +38,15 @@ export default function Layout() {
   return (
     <div>
       <Header
-        setIsSidebarOpen={setIsSidebarOpen}
+        setIsSidebarOpen={toggleSidebarOpen}
         isSidebarOpen={isSidebarOpen}
       />
       <div className="flex">
         <Sidebar
           isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
+          setIsSidebarOpen={toggleSidebarOpen}
         />
-        <div className="screen-content w-full h-full">
+        <div className="screen-content w-full h-full mt-[64px]">
           {getPathHistory()}
           <Outlet />
         </div>
