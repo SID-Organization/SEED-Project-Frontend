@@ -21,7 +21,7 @@ export default function homeDemands() {
     return (
       <div className="flex flex-wrap justify-around">
         <DemandCard status="Cancelado" />
-        <DemandCard status="Cancelado" />
+        <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Cancelado" />
         <DemandCard status="Cancelado" />
         <DemandCard status="Cancelado" />

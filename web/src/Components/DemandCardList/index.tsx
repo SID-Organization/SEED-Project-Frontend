@@ -3,8 +3,8 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 
 const columns: GridColDef[] = [
   { field: "status", headerName: "Status", width: 210 },
-  { field: "solicitante", headerName: "Solicitante", width: 140 },
-  { field: "ultimaAtualizacao", headerName: "Última atualização", width: 200 },
+  { field: "solicitante", headerName: "Solicitante", width: 210 },
+  { field: "ultimaAtualizacao", headerName: "Última atualização", width: 210 },
   {
     field: "score",
     headerName: "Score",
@@ -99,6 +99,102 @@ const rows = [
     score: 324,
     versao: 4.2,
   },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
 ];
 
 export default function DataTable() {
@@ -106,13 +202,13 @@ export default function DataTable() {
     <div
       style={{
         height: 600,
-        width: "65%",
+        width: "100%",
       }}
     >
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
+        pageSize={10}
         rowsPerPageOptions={[5]}
         sx={{ color: "#023A67", fontWeight: "bold", border: "none" }}
       />

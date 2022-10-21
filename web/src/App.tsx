@@ -12,6 +12,7 @@ import Drafts from "./pages/requester/drafts";
 import DemandCardList from "./Components/DemandCardList";
 import CreateDemand from "./pages/requester/createDemand";
 import OpenedDemand from "./pages/requester/openedDemand";
+import SubHeaderOpenedDemand from "./Components/SubHeaderOpenedDemand";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="list" element={<DemandCardList />} />
             <Route path="create" element={<CreateDemand />} />
             <Route path="opened" element={<OpenedDemand />} />
+            <Route path="subheader" element={<SubHeaderOpenedDemand />} />
           </Route>
         </Routes>
       </BrowserRouter>
