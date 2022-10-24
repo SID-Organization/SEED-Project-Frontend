@@ -67,6 +67,13 @@ export default function CreateDemand() {
 
   return (
     <div>
+      <div className="mb-7">
+        <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
+          <h1 className="text-[#023A67] font-bold text-3xl font-roboto">
+            Criar demanda
+          </h1>
+        </div>
+      </div>
       <div className="grid justify-center items-center">
         <div className="grid mb-4">
           <h1 className="font-roboto text-[17px] font-bold">Título</h1>
