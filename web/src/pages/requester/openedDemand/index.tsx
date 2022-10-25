@@ -1,20 +1,68 @@
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Tooltip from "@mui/material/Tooltip";
+
 import SubHeaderOpenedDemand from "../../../Components/SubHeaderOpenedDemand";
 
 import Button from "@mui/material/Button";
 
+import DescriptionIcon from "@mui/icons-material/Description";
 import MessageIcon from "@mui/icons-material/Message";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import DeleteIcon from "@mui/icons-material/Delete";
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 
 import "../../../styles/index.css";
 import { useState } from "react";
+import BenefitsCard from "../../../Components/BenefitsCard";
+import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 
 export default function openedDemand() {
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+
+  function createData(name: string, size: string) {
+    return { name, size };
+  }
+
+  const rows = [
+    createData("Resumo.docx", "17/08/2022"),
+    createData("Resumo.docx", "17/08/2022"),
+    createData("Resumo.docx", "17/08/2022"),
+    createData("Resumo.docx", "17/08/2022"),
+  ];
+
   return (
     <div>
       <SubHeaderOpenedDemand>Visualização Demanda 0012</SubHeaderOpenedDemand>
-      <div>
+      <div className="grid">
         <div className="flex justify-around items-center mt-5">
-          <Button variant="contained">Workflow</Button>
+          <Tooltip title="Abrir workflow">
+            <Button variant="contained">Workflow</Button>
+          </Tooltip>
           <div className="grid justify-center items-center">
             <div className="flex justify-center items-center">
               <div>
@@ -23,14 +71,16 @@ export default function openedDemand() {
                 </h1>
               </div>
               <div>
-                <MessageIcon
-                  sx={{
-                    color: "#00579D",
-                    fontSize: 30,
-                    marginLeft: 2,
-                    cursor: "pointer",
-                  }}
-                />
+                <Tooltip title="Abrir chat">
+                  <MessageIcon
+                    sx={{
+                      color: "#00579D",
+                      fontSize: 30,
+                      marginLeft: 2,
+                      cursor: "pointer",
+                    }}
+                  />
+                </Tooltip>
               </div>
             </div>
             <div className="flex justify-center items-center">
@@ -40,9 +90,11 @@ export default function openedDemand() {
             </div>
           </div>
           <div>
-            <Button variant="contained">
-              <OpenInFullIcon />
-            </Button>
+            <Tooltip title="Abrir como documento">
+              <Button variant="contained">
+                <OpenInFullIcon />
+              </Button>
+            </Tooltip>
           </div>
         </div>
         <div className="flex justify-around items-center">
@@ -145,6 +197,113 @@ export default function openedDemand() {
               </h1>
             </div>
           </div>
+        </div>
+        <div className="flex justify-center items-center gap-8 ml-[6.5rem] mr-[6.5rem]">
+          <BenefitsCard>Benefícios reais</BenefitsCard>
+          <BenefitsCard>Benefícios potenciais</BenefitsCard>
+          <BenefitsCard>Benefícios qualitativos</BenefitsCard>
+        </div>
+        <div className="grid justify-center items-center mt-16">
+          <div className="flex justify-center items-center">
+            <h1 className="mb-5 font-roboto text-2xl font-bold text-[#023A67]">
+              Arquivos anexados
+            </h1>
+          </div>
+          <div>
+            <TableContainer
+              component={Paper}
+              sx={{
+                "&:first-child": {
+                  backgroundColor: "#e5e5e5",
+                },
+              }}
+            >
+              <Table sx={{ minWidth: 500 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        "&:first-child": {
+                          backgroundColor: "#e5e5e5",
+                          color: "black",
+                          fontWeight: "bold",
+                          fontSize: "1.2rem",
+                          border: "#d4d4d4 solid 2px",
+                        },
+                      }}
+                    >
+                      Arquivo
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        fontSize: "1.2rem",
+                        border: "#d4d4d4 solid 2px",
+                        "&:last-child": {
+                          backgroundColor: "#e5e5e5",
+                          color: "black",
+                          fontWeight: "bold",
+                        },
+                      }}
+                    >
+                      Anexado em
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <StyledTableRow key={row.name}>
+                      <StyledTableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                      >
+                        <Tooltip title="Baixar arquivo">
+                          <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
+                        </Tooltip>
+                        {row.name}
+                      </StyledTableCell>
+                      <div className="flex justify-center items-center">
+                        <StyledTableCell align="center">
+                          {row.size}
+                        </StyledTableCell>
+                        <Tooltip title="Deletar arquivo">
+                          <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
+                        </Tooltip>
+                      </div>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <div className="flex justify-center items-center mt-5 mb-5">
+                <Button
+                  variant="contained"
+                  component="label"
+                  sx={{
+                    backgroundColor: "#0075B1",
+                  }}
+                >
+                  <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
+                  Escolher arquivo
+                  <input hidden accept="file/*" multiple type="file" />
+                </Button>
+              </div>
+            </TableContainer>
+          </div>
+        </div>
+        <div className="flex justify-center items-center mt-10">
+          <Button
+            variant="contained"
+            sx={{
+              width: "5rem",
+              height: "2.5rem",
+              marginBottom: "2rem",
+            }}
+            className="text-white font-roboto font-bold text-lg"
+          >
+            Ok
+          </Button>
         </div>
       </div>
     </div>

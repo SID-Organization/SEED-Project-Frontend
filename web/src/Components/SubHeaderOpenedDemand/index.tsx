@@ -61,7 +61,12 @@ export default function subHeader({ children }: any) {
         <Tooltip title="Editar">
           <Button
             variant="contained"
-            sx={{ backgroundColor: "#00579D", columnGap: 2 }}
+            sx={{
+              backgroundColor: "#00579D",
+              columnGap: 2,
+              width: 50,
+              height: 40,
+            }}
           >
             <ModeEditIcon />
           </Button>
@@ -79,7 +84,12 @@ export default function subHeader({ children }: any) {
               aria-expanded={open ? "true" : undefined}
               aria-label="select merge strategy"
               aria-haspopup="menu"
-              sx={{ backgroundColor: "#00579D" }}
+              sx={{
+                backgroundColor: "#00579D",
+                width: 100,
+                height: 40,
+                fontSize: 14,
+              }}
               onClick={handleToggle}
             >
               Ações
