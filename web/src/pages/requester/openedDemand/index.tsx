@@ -18,6 +18,7 @@ import WorkflowTable from "../../../Components/WorkflowTable";
 
 import Button from "@mui/material/Button";
 
+import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from "@mui/icons-material/Description";
 import MessageIcon from "@mui/icons-material/Message";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
@@ -31,6 +32,7 @@ import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined
 
 export default function openedDemand() {
   const [open, setOpen] = useState(false);
+  const [editEnabled, setEditEnabled] = useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -39,8 +41,8 @@ export default function openedDemand() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 1000,
-    height: 405,
+    width: 1200,
+    height: 600,
     bgcolor: "background.paper",
     borderRadius: 2,
     boxShadow: 24,
@@ -106,9 +108,19 @@ export default function openedDemand() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+              <div className="flex justify-end items-center mb-5">
+                <Tooltip title="Fechar">
+                  <CloseIcon
+                    onClick={handleClose}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                  />
+                </Tooltip>
+              </div>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 <div className="flex justify-between items-center text-lg">
-                  <div className="flex">
+                  <div className="flex mt-[-5rem]">
                     <h1 className="font-bold">Número de demanda:</h1>{" "}
                     <span className="font-normal">1000018</span>
                   </div>
@@ -146,11 +158,10 @@ export default function openedDemand() {
               </Typography>
               <div className="grid items-center">
                 <div className="flex justify-start items-center">
-                  <h1 className="font-roboto font-bold mt-10 text-lg">
+                  <h1 className="font-roboto font-bold mt-5 text-lg">
                     Histórico
                   </h1>
                 </div>
-                {/* table here */}
                 <WorkflowTable />
               </div>
             </Box>
@@ -225,7 +236,10 @@ export default function openedDemand() {
               <h1 className="text-[#023A67] font-bold font-roboto text-lg">
                 Descrição:
               </h1>
-              <h1 className="font-roboto text-justify font-medium">
+              <textarea
+                className="font-roboto text-justify font-medium w-[71rem]"
+                disabled={editEnabled}
+              >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in
                 imperdiet felis. Donec et porta elit. Sed nec est id diam
                 placerat mattis. Fusce molestie lobortis erat, a laoreet turpis
@@ -233,13 +247,16 @@ export default function openedDemand() {
                 placerat leo aliquam. Cras imperdiet mauris in orci placerat,
                 vitae efficitur dolor egestas. Donec ex libero, vehicula ut
                 aliquam id, auctor in diam.
-              </h1>
+              </textarea>
             </div>
             <div className="grid justify-center items-center">
               <h1 className="text-[#023A67] font-bold font-roboto text-lg">
                 Problema a ser resolvido:
               </h1>
-              <h1 className="font-roboto text-justify font-medium">
+              <textarea
+                className="font-roboto text-justify font-medium w-[71rem]"
+                disabled={editEnabled}
+              >
                 Sed ut iaculis felis. Phasellus eget pharetra tortor. Proin
                 tempor risus purus. Suspendisse porttitor ultricies nibh
                 facilisis interdum. In et nisi quis magna vulputate finibus ac
@@ -251,13 +268,16 @@ export default function openedDemand() {
                 quam ac ante luctus, et dictum ligula euismod. Nullam efficitur
                 urna urna, vel varius erat suscipit ac. Donec dolor velit,
                 luctus a ligula eu, auctor convallis turpis.
-              </h1>
+              </textarea>
             </div>
             <div className="grid justify-center items-center">
               <h1 className="text-[#023A67] font-bold font-roboto text-lg">
                 Proposta:
               </h1>
-              <h1 className="font-roboto text-justify font-medium">
+              <textarea
+                className="font-roboto text-justify font-medium w-[71rem]"
+                disabled={editEnabled}
+              >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 facilisis velit sapien, nec dapibus velit tempor et. Vivamus
                 fringilla venenatis nisi, malesuada efficitur quam elementum
@@ -271,13 +291,16 @@ export default function openedDemand() {
                 taciti sociosqu ad litora torquent per conubia nostra, per
                 inceptos himenaeos. Nunc vestibulum a felis quis efficitur. In
                 fermentum sit amet libero eleifend rutrum.
-              </h1>
+              </textarea>
             </div>
             <div className="grid justify-center items-center">
               <h1 className="text-[#023A67] font-bold font-roboto text-lg">
                 Em que irá ajudar:
               </h1>
-              <h1 className="font-roboto text-justify font-medium">
+              <textarea
+                className="font-roboto text-justify font-medium w-[71rem]"
+                disabled={editEnabled}
+              >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 facilisis velit sapien, nec dapibus velit tempor et. Vivamus
                 fringilla venenatis nisi, malesuada efficitur quam elementum
@@ -286,7 +309,7 @@ export default function openedDemand() {
                 a elit condimentum, sodales dui sed, ullamcorper tellus. Sed
                 vitae lacinia libero. Praesent ut lacus imperdiet, euismod
                 libero vitae, sollicitudin augue.
-              </h1>
+              </textarea>
             </div>
           </div>
         </div>
