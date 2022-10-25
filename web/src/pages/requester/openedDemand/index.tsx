@@ -260,7 +260,8 @@ export default function openedDemand() {
                 Problema a ser resolvido:
               </h1>
               <textarea
-                className="font-roboto text-justify font-medium w-[71rem]"
+                className="font-roboto text-justify font-medium w-[71rem] 
+                rounded-[0.5rem] p-2 outline-[#023A67] border-1"
                 disabled={isEditEnabled}
               >
                 Sed ut iaculis felis. Phasellus eget pharetra tortor. Proin
@@ -281,7 +282,8 @@ export default function openedDemand() {
                 Proposta:
               </h1>
               <textarea
-                className="font-roboto text-justify font-medium w-[71rem]"
+                className="font-roboto text-justify font-medium w-[71rem] 
+                rounded-[0.5rem] p-2 outline-[#023A67] border-1"
                 disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -304,7 +306,8 @@ export default function openedDemand() {
                 Em que irá ajudar:
               </h1>
               <textarea
-                className="font-roboto text-justify font-medium w-[71rem]"
+                className="font-roboto text-justify font-medium w-[71rem] 
+                rounded-[0.5rem] p-2 outline-[#023A67] border-1"
                 disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
