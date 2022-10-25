@@ -12,6 +12,9 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
+import toast, { Toaster } from "react-hot-toast";
+
+import DoneIcon from "@mui/icons-material/Done";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -21,9 +24,16 @@ import { useState } from "react";
 
 import "../../styles/index.css";
 
-export default function subHeader({ children }: any) {
+export default function subHeader({
+  children,
+  isEditEnabled,
+  setIsEditEnabled,
+}: any) {
   const [arrowUp, setArrowUp] = useState(false);
   const options = ["Aceitar", "Devolver", "Recusar"];
+  const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
+  const notifyEditEnabledOff = () =>
+    toast.success("Alterações salvas com sucesso!");
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -52,25 +62,55 @@ export default function subHeader({ children }: any) {
     setOpen(false);
   };
 
+  function editInput() {
+    setIsEditEnabled(!isEditEnabled);
+    if (isEditEnabled) {
+      notifyEditEnabledOn();
+    } else {
+      notifyEditEnabledOff();
+    }
+  }
+
   return (
     <div>
       <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
         <h1 className="text-[#023A67] font-bold text-3xl font-roboto">
           {children}
         </h1>
-        <Tooltip title="Editar">
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#00579D",
-              columnGap: 2,
-              width: 50,
-              height: 40,
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "#00579D",
+            columnGap: 2,
+            width: 50,
+            height: 40,
+          }}
+          onClick={() => editInput()}
+        >
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              success: {
+                iconTheme: {
+                  primary: "#7EB61C",
+                  secondary: "white",
+                },
+              },
+              style: {
+                fontSize: "14px",
+              },
             }}
-          >
-            <ModeEditIcon />
-          </Button>
-        </Tooltip>
+          />
+          {isEditEnabled ? (
+            <Tooltip title="Editar">
+              <ModeEditIcon />
+            </Tooltip>
+          ) : (
+            <Tooltip title="Salvar alterações">
+              <DoneIcon />
+            </Tooltip>
+          )}
+        </Button>
 
         <Tooltip title="Ações">
           <ButtonGroup

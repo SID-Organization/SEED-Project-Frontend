@@ -32,7 +32,7 @@ import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined
 
 export default function openedDemand() {
   const [open, setOpen] = useState(false);
-  const [editEnabled, setEditEnabled] = useState(true);
+  const [isEditEnabled, setIsEditEnabled] = useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -81,7 +81,12 @@ export default function openedDemand() {
 
   return (
     <div>
-      <SubHeaderOpenedDemand>Visualização Demanda 0012</SubHeaderOpenedDemand>
+      <SubHeaderOpenedDemand
+        isEditEnabled={isEditEnabled}
+        setIsEditEnabled={setIsEditEnabled}
+      >
+        Visualização Demanda 0012
+      </SubHeaderOpenedDemand>
       <div className="grid">
         <div className="flex justify-around items-center mt-5">
           <Tooltip title="Abrir workflow">
@@ -237,8 +242,9 @@ export default function openedDemand() {
                 Descrição:
               </h1>
               <textarea
-                className="font-roboto text-justify font-medium w-[71rem]"
-                disabled={editEnabled}
+                className="font-roboto text-justify font-medium w-[71rem]
+              rounded-[0.5rem] p-2 outline-[#023A67] border-1"
+                disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in
                 imperdiet felis. Donec et porta elit. Sed nec est id diam
@@ -255,7 +261,7 @@ export default function openedDemand() {
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem]"
-                disabled={editEnabled}
+                disabled={isEditEnabled}
               >
                 Sed ut iaculis felis. Phasellus eget pharetra tortor. Proin
                 tempor risus purus. Suspendisse porttitor ultricies nibh
@@ -276,7 +282,7 @@ export default function openedDemand() {
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem]"
-                disabled={editEnabled}
+                disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 facilisis velit sapien, nec dapibus velit tempor et. Vivamus
@@ -299,7 +305,7 @@ export default function openedDemand() {
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem]"
-                disabled={editEnabled}
+                disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 facilisis velit sapien, nec dapibus velit tempor et. Vivamus
