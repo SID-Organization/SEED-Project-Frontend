@@ -277,17 +277,19 @@ export default function openedDemand() {
                 </TableBody>
               </Table>
               <div className="flex justify-center items-center mt-5 mb-5">
-                <Button
-                  variant="contained"
-                  component="label"
-                  sx={{
-                    backgroundColor: "#0075B1",
-                  }}
-                >
-                  <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
-                  Escolher arquivo
-                  <input hidden accept="file/*" multiple type="file" />
-                </Button>
+                <Tooltip title="Adicionar arquivo">
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{
+                      backgroundColor: "#0075B1",
+                    }}
+                  >
+                    <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
+                    Escolher arquivo
+                    <input hidden accept="file/*" multiple type="file" />
+                  </Button>
+                </Tooltip>
               </div>
             </TableContainer>
           </div>
