@@ -9,6 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
 import SubHeaderOpenedDemand from "../../../Components/SubHeaderOpenedDemand";
 
 import Button from "@mui/material/Button";
@@ -25,6 +29,23 @@ import BenefitsCard from "../../../Components/BenefitsCard";
 import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 
 export default function openedDemand() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 1000,
+    height: 405,
+    bgcolor: "background.paper",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+  };
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -61,8 +82,77 @@ export default function openedDemand() {
       <div className="grid">
         <div className="flex justify-around items-center mt-5">
           <Tooltip title="Abrir workflow">
-            <Button variant="contained">Workflow</Button>
+            <Button
+              onClick={handleOpen}
+              variant="contained"
+              sx={{
+                backgroundColor: "#D7D7D7",
+                borderLeft: "3px solid #0075B1",
+                fontWeight: "bold",
+                color: "#343434",
+                "&:hover": {
+                  backgroundColor: "#D7D7D7",
+                },
+              }}
+            >
+              Workflow
+            </Button>
           </Tooltip>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                <div className="flex justify-between items-center text-lg">
+                  <div className="flex">
+                    <h1 className="font-bold">Número de demanda:</h1>{" "}
+                    <span className="font-normal">1000018</span>
+                  </div>
+                  <div className="grid items-center justify-center">
+                    <div className="flex">
+                      <h1 className="font-bold">Iniciada em:</h1>{" "}
+                      <span className="font-normal">10/05/2022 - 15:25</span>
+                    </div>
+                    <div className="flex">
+                      <h1 className="font-bold">Concluída em:</h1>{" "}
+                      <span className="font-normal">10/05/2022 - 15:25</span>
+                    </div>
+                  </div>
+                </div>
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <div className="flex justify-start items-center gap-[7rem]">
+                  <div className="grid items-center justify-center">
+                    <h1 className="font-bold font-roboto">Solicitante</h1>
+                    <h1 className="font-roboto font-medium">Gustavo Santos</h1>
+                    <h1 className="text-[#5B5B5B] text-sm">
+                      WEG Digital Solutions
+                    </h1>
+                  </div>
+                  <div className="grid items-center justify-center">
+                    <h1 className="font-bold font-roboto">
+                      Analista responsável
+                    </h1>
+                    <h1 className="font-roboto font-medium">Otavio Zapella</h1>
+                    <h1 className="text-[#5B5B5B] text-sm">
+                      WEG Digital Solutions
+                    </h1>
+                  </div>
+                </div>
+              </Typography>
+              <div className="grid items-center">
+                <div className="flex justify-start items-center">
+                  <h1 className="font-roboto font-bold mt-10 text-lg">
+                    Histórico
+                  </h1>
+                </div>
+                {/* table here */}
+              </div>
+            </Box>
+          </Modal>
           <div className="grid justify-center items-center">
             <div className="flex justify-center items-center">
               <div>
@@ -286,7 +376,7 @@ export default function openedDemand() {
                     }}
                   >
                     <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
-                    Escolher arquivo
+                    Anexar arquivo
                     <input hidden accept="file/*" multiple type="file" />
                   </Button>
                 </Tooltip>
