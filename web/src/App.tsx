@@ -12,6 +12,7 @@ import Drafts from "./pages/requester/drafts";
 import DemandCardList from "./Components/DemandCardList";
 import CreateDemand from "./pages/requester/createDemand";
 import { Navigate } from "react-router";
+import Perfil from "./pages/perfil";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="rascunhos" element={<Drafts />} />
             <Route path="list" element={<DemandCardList />} />
             <Route path="create" element={<CreateDemand />} />
+            <Route path="perfil" element={<Perfil />} />
           </Route>
         </Routes>
       </BrowserRouter>
