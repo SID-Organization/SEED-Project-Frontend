@@ -10,6 +10,8 @@ import Link from "@mui/material/Link";
 
 import MuiDivider from "@mui/material/Divider";
 
+import SidebarItem from "../SiderbarItem";
+
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
@@ -127,315 +129,51 @@ const Sidebar = () => {
           </IconButton>
         </div>
 
-        <div>
-          <Tooltip title="Nova demanda" placement="right">
-            <Box>
-              <Link
-                onClick={() => {
-                  setNewDemandIcon(!newDemandIcon);
-                }}
-                sx={{
-                  cursor: "pointer",
-                  marginLeft: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    color: "#fff",
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {newDemandIcon ? (
-                  <AddBoxIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                ) : (
-                  <AddBoxOutlinedIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                )}
-                <div className="flex justify-end items-center ml-[1rem]">
-                  <h1 className="text-white text-sm">Nova demanda</h1>
-                </div>
-              </Link>
-            </Box>
-          </Tooltip>
-        </div>
-        {/* Divisor heere */}
-        <div>
-          <Tooltip title="Minhas demandas" placement="right">
-            <Box>
-              <Link
-                onClick={() => {
-                  setHomeIcon(!homeIcon);
-                }}
-                sx={{
-                  cursor: "pointer",
-                  marginLeft: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    color: "#fff",
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {homeIcon ? (
-                  <HomeIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                ) : (
-                  <HomeOutlinedIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                )}
-                <div className="flex justify-end items-center ml-[1rem]">
-                  <h1 className="text-white text-sm">Minhas demandas</h1>
-                </div>
-              </Link>
-            </Box>
-          </Tooltip>
-        </div>
-        <div>
-          <Tooltip title="Rascunhos" placement="right">
-            <Box>
-              <Link
-                onClick={() => {
-                  setDraftIcon(!draftIcon);
-                }}
-                sx={{
-                  cursor: "pointer",
-                  marginLeft: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    color: "#fff",
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {draftIcon ? (
-                  <NoteAltIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                ) : (
-                  <NoteAltOutlinedIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                )}
-                <div className="flex justify-end items-center ml-[1rem]">
-                  <h1 className="text-white text-sm">Rascunhos</h1>
-                </div>
-              </Link>
-            </Box>
-          </Tooltip>
-        </div>
-        {/* Divisor here */}
-        <div>
-          <Tooltip title="Gerenciar demandas" placement="right">
-            <Box>
-              <Link
-                onClick={() => {
-                  setManageDemandIcon(!manageDemandIcon);
-                }}
-                sx={{
-                  cursor: "pointer",
-                  marginLeft: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    color: "#fff",
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {manageDemandIcon ? (
-                  <ManageAccountsIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                ) : (
-                  <ManageAccountsOutlinedIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                )}
-                <div className="flex justify-end items-center ml-[1rem]">
-                  <h1 className="text-white text-sm">Gerenciar demandas</h1>
-                </div>
-              </Link>
-            </Box>
-          </Tooltip>
-        </div>
-        {/* Divisor here */}
-        <div>
-          <Tooltip title="Pautas" placement="right">
-            <Box>
-              <Link
-                onClick={() => {
-                  setPautasIcon(!pautasIcon);
-                }}
-                sx={{
-                  cursor: "pointer",
-                  marginLeft: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    color: "#fff",
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {pautasIcon ? (
-                  <EventNoteIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                ) : (
-                  <EventNoteOutlinedIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                )}
-                <div className="flex justify-end items-center ml-[1rem]">
-                  <h1 className="text-white text-sm">Pautas</h1>
-                </div>
-              </Link>
-            </Box>
-          </Tooltip>
-        </div>
-        <div>
-          <Tooltip title="Atas" placement="right">
-            <Box>
-              <Link
-                onClick={() => {
-                  setAtasIcon(!atasIcon);
-                }}
-                sx={{
-                  cursor: "pointer",
-                  marginLeft: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    color: "#fff",
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {atasIcon ? (
-                  <ClassIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                ) : (
-                  <ClassOutlinedIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                )}
-                <div className="flex justify-end items-center ml-[1rem]">
-                  <h1 className="text-white text-sm">Atas registradas</h1>
-                </div>
-              </Link>
-            </Box>
-          </Tooltip>
-        </div>
-        {/* Divisor here */}
-        <div>
-          <Tooltip title="Propostas" placement="right">
-            <Box>
-              <Link
-                onClick={() => {
-                  setProposalsIcon(!proposalsIcon);
-                }}
-                sx={{
-                  cursor: "pointer",
-                  marginLeft: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    color: "#fff",
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {proposalsIcon ? (
-                  <DescriptionIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                ) : (
-                  <DescriptionOutlinedIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                )}
-                <div className="flex justify-end items-center ml-[1rem]">
-                  <h1 className="text-white text-sm">Propostas</h1>
-                </div>
-              </Link>
-            </Box>
-          </Tooltip>
-        </div>
-        {/* Divisor here */}
-        <div>
-          <Tooltip title="Conversas" placement="right">
-            <Box>
-              <Link
-                onClick={() => {
-                  setMessagesIcon(!messagesIcon);
-                }}
-                sx={{
-                  cursor: "pointer",
-                  marginLeft: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    color: "#fff",
-                    textDecoration: "none",
-                  },
-                }}
-              >
-                {messagesIcon ? (
-                  <MessageIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                ) : (
-                  <MessageOutlinedIcon
-                    sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-                  />
-                )}
-                <div className="flex justify-end items-center ml-[1rem]">
-                  <h1 className="text-white text-sm">Mensagens</h1>
-                </div>
-              </Link>
-            </Box>
-          </Tooltip>
-        </div>
+        
+        <SidebarItem title="Nova demanda"
+        outlinedIcon={<AddBoxOutlinedIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        fullIcon={<AddBoxIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        hasDivider={true}/>
+        
+        <SidebarItem title="Minhas demandas"
+        outlinedIcon={<HomeOutlinedIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        fullIcon={<HomeIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        />
+
+        <SidebarItem title="Rascunhos"
+        outlinedIcon={<NoteAltOutlinedIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        fullIcon={<NoteAltIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        hasDivider={true}
+        />
+
+        <SidebarItem title="Gerenciar demandas"
+        outlinedIcon={<ManageAccountsOutlinedIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        fullIcon={<ManageAccountsIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        hasDivider={true}
+        />
+
+        <SidebarItem title="Pautas"
+        outlinedIcon={<EventNoteOutlinedIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        fullIcon={<EventNoteIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        />
+
+        <SidebarItem title="Atas  "
+        outlinedIcon={<ClassOutlinedIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        fullIcon={<ClassIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        hasDivider={true}
+        />
+
+        <SidebarItem title="Propostas"
+        fullIcon={<DescriptionIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        outlinedIcon={<DescriptionOutlinedIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        hasDivider={true}
+        />
+
+        <SidebarItem title="Mensagens"
+        outlinedIcon={<MessageOutlinedIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        fullIcon={<MessageIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}/>}
+        />
+
       </Drawer>
     </div>
   );
