@@ -21,6 +21,9 @@ import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlin
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+
 import ClassIcon from "@mui/icons-material/Class";
 import ClassOutlinedIcon from "@mui/icons-material/ClassOutlined";
 
