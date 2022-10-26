@@ -14,7 +14,6 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.8",
     "@mui/x-data-grid": "^5.17.6",
-    "@react-pdf/renderer": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
