@@ -12,6 +12,8 @@ import Draggable from "react-draggable";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
+import toast, { Toaster } from "react-hot-toast";
+
 import UploadIcon from "@mui/icons-material/Upload";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -50,6 +52,7 @@ export default function CreateDemand() {
 
   const handleClose = () => {
     setOpen(false);
+    toast.success("Demanda criada com sucesso!");
   };
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -67,6 +70,14 @@ export default function CreateDemand() {
 
   return (
     <div>
+      <Toaster />
+      <div className="mb-7">
+        <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
+          <h1 className="text-[#023A67] font-bold text-3xl font-roboto">
+            Criar demanda
+          </h1>
+        </div>
+      </div>
       <div className="grid justify-center items-center">
         <div className="grid mb-4">
           <h1 className="font-roboto text-[17px] font-bold">Título</h1>
@@ -284,10 +295,7 @@ export default function CreateDemand() {
             Cancelar
           </Button>
           <Button
-            onClick={handleClickAlert({
-              vertical: "top",
-              horizontal: "center",
-            })}
+            onClick={handleClose}
             sx={{
               backgroundColor: "#0075B1",
               color: "#fff",
@@ -300,24 +308,7 @@ export default function CreateDemand() {
           </Button>
         </DialogActions>
       </Dialog>
-      <div>
-        <Snackbar
-          anchorOrigin={{ vertical, horizontal }}
-          open={openAlert}
-          onClose={handleCloseAlert}
-          message="Demanda criada com sucesso!"
-          key={vertical + horizontal}
-          autoHideDuration={2000}
-        >
-          <Alert
-            onClose={handleCloseAlert}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            Demanda criada com sucesso!
-          </Alert>
-        </Snackbar>
-      </div>
+      <div></div>
     </div>
   );
 }

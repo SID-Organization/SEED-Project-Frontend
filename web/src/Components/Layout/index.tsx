@@ -9,10 +9,6 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 
 export default function Layout() {
-  const [isSidebarOpen, toggleSidebarOpen] = useState(false);
-
-  console.log(isSidebarOpen);
-
   const getPathHistory = () => {
     return (
       <div role="presentation" className="bg-breadcrumb-bg">
@@ -37,16 +33,10 @@ export default function Layout() {
 
   return (
     <div>
-      <Header
-        setIsSidebarOpen={toggleSidebarOpen}
-        isSidebarOpen={isSidebarOpen}
-      />
+      <Header />
       <div className="flex">
-        <Sidebar
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={toggleSidebarOpen}
-        />
-        <div className="screen-content w-full h-full mt-[64px]">
+        <Sidebar />
+        <div className="screen-content w-full h-full">
           {getPathHistory()}
           <Outlet />
         </div>

@@ -11,7 +11,7 @@ export default function homeDemands() {
 
   function getDemandsList() {
     return (
-      <div className="flex flex-wrap justify-around">
+      <div className="flex justify-center items-center">
         <DemandList />
       </div>
     );
@@ -21,7 +21,7 @@ export default function homeDemands() {
     return (
       <div className="flex flex-wrap justify-around">
         <DemandCard status="Cancelado" />
-        <DemandCard status="Cancelado" />
+        <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Cancelado" />
         <DemandCard status="Cancelado" />
         <DemandCard status="Cancelado" />
