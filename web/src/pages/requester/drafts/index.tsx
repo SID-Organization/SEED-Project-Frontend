@@ -10,6 +10,11 @@ export default function drafts() {
         <DemandCard status="Rascunho" />
         <DemandCard status="Rascunho" />
         <DemandCard status="Rascunho" />
+        <DemandCard status="Rascunho" />
+        <DemandCard status="Rascunho" />
+        <DemandCard status="Rascunho" />
+        <DemandCard status="Rascunho" />
+        <DemandCard status="Rascunho" />
       </div>
     </div>
   );

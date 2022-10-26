@@ -9,6 +9,8 @@ import Slider from "@mui/material/Slider";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 
+import { Link } from "react-router-dom";
+
 import { useState } from "react";
 
 interface DemandCardProps {
@@ -265,7 +267,8 @@ export default function DemandCard(props: DemandCardProps) {
                   style={{
                     backgroundColor: "#C2BEBE",
                     color: "#707070",
-                    width: 100,
+                    fontSize: 12,
+                    width: 90,
                   }}
                 >
                   Deletar
@@ -273,21 +276,26 @@ export default function DemandCard(props: DemandCardProps) {
               </div>
             )}
             {props.status === "Rascunho" && (
-              <Button variant="contained" sx={{ backgroundColor: "#0075B1" }}>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: "#0075B1", fontSize: 12, width: 90 }}
+              >
                 Continuar
               </Button>
             )}
             {props.status !== "Rascunho" && (
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#0075B1",
-                  fontSize: 12,
-                  width: 90,
-                }}
-              >
-                Ver mais
-              </Button>
+              <Link to="/demanda-aberta">
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#0075B1",
+                    fontSize: 12,
+                    width: 90,
+                  }}
+                >
+                  Ver mais
+                </Button>
+              </Link>
             )}
           </div>
         </CardActions>
