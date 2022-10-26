@@ -38,7 +38,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Tooltip } from "@mui/material";
 
-const drawerWidth = 150;
+const drawerWidth = 245;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
