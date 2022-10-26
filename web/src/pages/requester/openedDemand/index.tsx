@@ -75,7 +75,6 @@ export default function openedDemand() {
     createData("Resumo.docx", "17/08/2022"),
     createData("Resumo.docx", "17/08/2022"),
     createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
   ];
 
   return (

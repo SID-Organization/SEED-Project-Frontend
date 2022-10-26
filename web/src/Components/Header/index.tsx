@@ -17,12 +17,7 @@ import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
 
-interface HeaderProps {
-  setIsSidebarOpen: (value: boolean) => void;
-  isSidebarOpen: boolean;
-}
-
-export default function PrimarySearchAppBar(props: HeaderProps) {
+export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -126,14 +121,11 @@ export default function PrimarySearchAppBar(props: HeaderProps) {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="static"
-          sx={{ "& .MuiToolbar-root": { backgroundColor: "#0075B1" } }}
+          sx={{
+            "& .MuiToolbar-root": { zIndex: 20, backgroundColor: "#0075B1" },
+          }}
         >
           <Toolbar>
-            <button
-              onClick={() => props.setIsSidebarOpen(!props.isSidebarOpen)}
-            >
-              Abrir navegação
-            </button>
             <img className="h-10 w-16" src={WegLogo} alt="" />
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
