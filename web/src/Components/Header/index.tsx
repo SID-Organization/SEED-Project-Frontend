@@ -12,9 +12,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { MenuOutlined } from "@mui/icons-material";
 
-const MenuIcon = styled(MenuOutlined)({
-  cursor: "pointer",
-});
+import { Link } from "react-router-dom";
 
 import Switch from "@mui/material/Switch";
 
@@ -142,7 +140,9 @@ export default function PrimarySearchAppBar() {
           }}
         >
           <Toolbar>
-            <img className="h-10 w-16" src={WegLogo} alt="" />
+            <Link to="/minhas-demandas" className="cursor-pointer">
+              <img className="h-10 w-16" src={WegLogo} alt="" />
+            </Link>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <h1 className="text-base flex justify-center items-center">
