@@ -23,11 +23,11 @@ function App() {
           <Route path="*" element={<Navigate to="/home" replace={true} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
-            <Route path="home" element={<HomeDemands />} />
+            <Route path="minhas-demandas" element={<HomeDemands />} />
             <Route path="rascunhos" element={<Drafts />} />
             <Route path="list" element={<DemandCardList />} />
-            <Route path="create" element={<CreateDemand />} />
-            <Route path="opened" element={<OpenedDemand />} />
+            <Route path="nova-demanda" element={<CreateDemand />} />
+            <Route path="demanda-aberta" element={<OpenedDemand />} />
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
           </Route>
         </Routes>
