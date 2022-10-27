@@ -14,6 +14,7 @@ import CreateDemand from "./pages/requester/createDemand";
 import { Navigate } from "react-router";
 import OpenedDemand from "./pages/requester/openedDemand";
 import SubHeaderOpenedDemand from "./Components/SubHeaderOpenedDemand";
+import DemandManager from "./pages/BusinessManager";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="nova-demanda" element={<CreateDemand />} />
             <Route path="demanda-aberta" element={<OpenedDemand />} />
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
+            <Route path="gerenciar-demandas" element={<DemandManager />} />
           </Route>
         </Routes>
       </BrowserRouter>

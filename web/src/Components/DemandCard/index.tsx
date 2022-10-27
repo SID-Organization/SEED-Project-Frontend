@@ -49,6 +49,7 @@ export default function DemandCard(props: DemandCardProps) {
     Cancelado: "#C31700",
     AprovadoPelaComissao: "#7EB61C",
     AprovadoPeloAnalistaTi: "#64C3D5",
+    Aberto: "#00579D",
   };
 
   const progressInputColor: any = {
