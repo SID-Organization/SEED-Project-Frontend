@@ -36,7 +36,7 @@ export default function Layout() {
       <Header />
       <div className="flex">
         <Sidebar />
-        <div className="screen-content w-full h-full">
+        <div className="screen-content w-full h-full mt-16">
           {getPathHistory()}
           <Outlet />
         </div>

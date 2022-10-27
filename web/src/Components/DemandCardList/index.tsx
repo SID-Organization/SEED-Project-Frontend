@@ -210,7 +210,11 @@ export default function DataTable() {
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[5]}
-        sx={{ color: "#023A67", fontWeight: "bold", border: "none" }}
+        sx={{
+          color: "#023A67",
+          fontWeight: "bold",
+          border: "none",
+        }}
       />
     </div>
   );

@@ -134,7 +134,7 @@ export default function PrimarySearchAppBar() {
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
-          position="static"
+          position="fixed"
           sx={{
             "& .MuiToolbar-root": { zIndex: 20, backgroundColor: "#0075B1" },
           }}
