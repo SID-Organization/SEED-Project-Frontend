@@ -3,6 +3,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Button } from "@mui/material";
 
+import "../../styles/index.css";
+
 export default function Perfil() {
   return (
     <div>
@@ -19,28 +21,32 @@ export default function Perfil() {
         />
       </div>
       <div className="flex justify-around">
-        <h1 className="text-[#000000] font-bold text-lg font-roboto mr-36 mt-2 opacity-50">
-          Nome
-        </h1>
-        <h1 className="text-[#000000] font-bold text-lg font-roboto mr-40 mt-2 opacity-50">
-          Email
-        </h1>
-      </div>
-      <div className="flex justify-around">
-        <div className="flex border-b-2 border-black">
-          <h1 className="text-[#000000] font-bold text-2xl font-roboto ml-11">
-            Gustavo Santos
+        <div className="w-max">
+          <h1 className="text-[#000000] font-bold text-lg font-roboto mr-36 mt-2 opacity-50">
+            Nome
           </h1>
-          <EditIcon className="ml-1" />
-        </div>
-        <div className="flex border-b-2 border-cyan-600">
-          <h1 className="text-[#0075B1] font-bold text-2xl font-roboto ml-10">
-            Email do usuário
-          </h1>
-          <div title="Impossivel editar o email!">
-            <WarningIcon color="warning" className="ml-1 mb-3" />
+          <div className="flex justify-center border-b-2 w-full border-black">
+            <div className="w-7"></div>
+            <h1 className="text-[#000000] font-bold text-2xl font-roboto">
+              Gustavo Santossssssssssssssssss
+            </h1>
+            <EditIcon className="ml-1" />
           </div>
         </div>
+        <div className="">
+          <h1 className="text-[#000000] w-max flex justify-start font-bold text-lg font-roboto mr-40 mt-2 opacity-50">
+            Email
+          </h1>
+          <div className="flex border-b-2 border-cyan-600">
+            <div className="w-7"></div>
+            <h1 className="text-[#0075B1] font-bold text-2xl font-roboto">
+              gustavo_santos@weeeeeeeeeeeeeeg.net
+            </h1>
+            <div title="Impossivel editar o email!">
+              <WarningIcon color="warning" className="ml-1 mb-3" />
+            </div>
+          </div>
+      </div>
       </div>
         <div className="flex flex-col justify-center items-center mt-10">
           <Button variant="contained" className="mt-10">Salvar</Button>
