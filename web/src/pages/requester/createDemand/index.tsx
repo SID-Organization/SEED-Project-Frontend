@@ -12,11 +12,13 @@ import Draggable from "react-draggable";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-import toast, { Toaster } from "react-hot-toast";
-
 import UploadIcon from "@mui/icons-material/Upload";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+import toast, { Toaster } from "react-hot-toast";
+
+import Notification from "../../../Components/Notification";
 
 import { useState } from "react";
 
@@ -52,7 +54,6 @@ export default function CreateDemand() {
 
   const handleClose = () => {
     setOpen(false);
-    toast.success("Demanda criada com sucesso!");
   };
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -68,9 +69,10 @@ export default function CreateDemand() {
     setState({ ...state, openAlert: false });
   };
 
+  const [notification, setNotification] = useState(false);
+
   return (
     <div>
-      <Toaster />
       <div className="mb-7">
         <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
           <h1 className="text-[#023A67] font-bold text-3xl font-roboto">
