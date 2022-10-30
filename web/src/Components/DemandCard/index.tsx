@@ -60,6 +60,7 @@ export default function DemandCard(props: DemandCardProps) {
     AprovadoPelaComissao: "#7EB61C",
     AprovadoPeloAnalistaTi: "#7EB61C",
     Rascunho: "#d9d9d937",
+    Aberto: "#00579D",
   };
 
   const score = 2143;
@@ -163,8 +164,12 @@ export default function DemandCard(props: DemandCardProps) {
                     <Box className="flex justify-center items-center ">
                       <Slider
                         aria-label="Temperature"
-                        defaultValue={30}
+                        defaultValue={50}
                         getAriaValueText={valuetext}
+                        disabled
+                        style={{
+                          color: progressInputColor[props.status],
+                        }}
                         sx={{
                           height: 16,
                           width: 120,
