@@ -93,7 +93,7 @@ const Sidebar = () => {
     <div className="flex items-center">
       <div
         onMouseEnter={() => setIsSidebarOpen(true)}
-        className="z-20 w-4 h-full"
+        className="z-20 h-full text-[1px]"
       >
         .
       </div>
