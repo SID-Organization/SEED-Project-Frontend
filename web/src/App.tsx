@@ -11,10 +11,11 @@ import HomeDemands from "./pages/requester/homeDemands";
 import Drafts from "./pages/requester/drafts";
 import DemandCardList from "./Components/DemandCardList";
 import CreateDemand from "./pages/requester/createDemand";
-import { Navigate } from "react-router";
 import OpenedDemand from "./pages/requester/openedDemand";
 import SubHeaderOpenedDemand from "./Components/SubHeaderOpenedDemand";
 import DemandManager from "./pages/BusinessManager";
+import Pautas from "./pages/analista/pautas";
+import { Navigate } from "react-router";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="demanda-aberta" element={<OpenedDemand />} />
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
             <Route path="gerenciar-demandas" element={<DemandManager />} />
+            <Route path="pautas" element={<Pautas />} />
           </Route>
         </Routes>
       </BrowserRouter>
