@@ -71,8 +71,8 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
       <MenuItem onClick={handleMenuClose}>Idioma</MenuItem>
       <MenuItem>
-        <Switch {...label} defaultChecked />
         Modo escuro
+        <Switch {...label} defaultChecked />
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>Sair</MenuItem>
     </Menu>
@@ -145,20 +145,33 @@ export default function PrimarySearchAppBar() {
             </Link>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <h1 className="text-base flex justify-center items-center">
-                Henrique Cole
-              </h1>
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
                 onClick={handleProfileMenuOpen}
-                color="inherit"
               >
-                <AccountCircle />
-              </IconButton>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  color="inherit"
+                  sx={{
+                    borderRadius: "0.5rem",
+                    columnGap: "0.5rem",
+                  }}
+                >
+                  <h1 className="text-base flex justify-center items-center">
+                    Henrique Cole
+                  </h1>
+                  <AccountCircle />
+                </IconButton>
+              </Box>
+
               <IconButton
                 size="large"
                 aria-label="show 4 new mails"
