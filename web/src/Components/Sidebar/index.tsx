@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import MuiBox from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -87,9 +87,22 @@ const Sidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const [isSidebarFixed, setIsSidebarFixed] = useState(false);
+
   return (
-    <div>
+    <div className="flex items-center">
+      <div
+        onMouseEnter={() => setIsSidebarOpen(true)}
+        className="z-20 w-4 h-full"
+      >
+        .
+      </div>
       <Drawer
+        onMouseLeave={
+          isSidebarFixed
+            ? () => setIsSidebarOpen(true)
+            : () => setIsSidebarOpen(false)
+        }
         variant="permanent"
         open={isSidebarOpen}
         sx={{ "& .MuiPaper-root": { zIndex: 10, backgroundColor: "#023A67" } }}
@@ -107,13 +120,23 @@ const Sidebar = () => {
             }}
           >
             {isSidebarOpen ? (
-              <ChevronLeftIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
+              <div
+                onClick={
+                  isSidebarFixed
+                    ? () => setIsSidebarFixed(false)
+                    : () => setIsSidebarFixed(true)
+                }
+                className="flex justify-center items-center"
+              >
+                <ChevronLeftIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
+              </div>
             ) : (
-              <ChevronRightIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
+              <div className="flex justify-center items-center">
+                <ChevronRightIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
+              </div>
             )}
           </IconButton>
         </div>
-
         <SidebarLink
           title="Nova demanda"
           outlinedIcon={
@@ -129,7 +152,6 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/nova-demanda"
         />
-
         <SidebarLink
           title="Minhas demandas"
           outlinedIcon={
@@ -142,7 +164,6 @@ const Sidebar = () => {
           }
           linkTo="/minhas-demandas"
         />
-
         <SidebarLink
           title="Rascunhos"
           outlinedIcon={
@@ -158,7 +179,6 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/rascunhos"
         />
-
         <SidebarLink
           title="Gerenciar demandas"
           outlinedIcon={
@@ -174,7 +194,6 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/gerenciar-demandas"
         />
-
         <SidebarLink
           title="Pautas"
           outlinedIcon={
@@ -189,7 +208,6 @@ const Sidebar = () => {
           }
           linkTo="/pautas"
         />
-
         <SidebarLink
           title="Atas  "
           outlinedIcon={
@@ -205,7 +223,6 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/atas"
         />
-
         <SidebarLink
           title="Propostas"
           fullIcon={
@@ -221,7 +238,6 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/propostas"
         />
-
         <SidebarLink
           title="Mensagens"
           outlinedIcon={
