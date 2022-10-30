@@ -5,6 +5,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 
+import { Link } from "react-router-dom";
+
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
@@ -81,20 +83,22 @@ export default function Login() {
                 </div>
               </div>
               <div className="grid gap-4 justify-center items-center">
-                <Button
-                  variant="contained"
-                  sx={{
-                    marginTop: "3rem",
-                    width: "140px",
-                    height: "45px",
-                    fontSize: "17px",
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    backgroundColor: "#00579D",
-                  }}
-                >
-                  Entrar
-                </Button>
+                <Link to="/minhas-demandas">
+                  <Button
+                    variant="contained"
+                    sx={{
+                      marginTop: "3rem",
+                      width: "140px",
+                      height: "45px",
+                      fontSize: "17px",
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      backgroundColor: "#00579D",
+                    }}
+                  >
+                    Entrar
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
