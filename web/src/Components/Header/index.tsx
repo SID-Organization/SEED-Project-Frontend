@@ -176,6 +176,9 @@ export default function PrimarySearchAppBar() {
                 size="large"
                 aria-label="show 4 new mails"
                 color="inherit"
+                sx={{
+                  marginLeft: "0.5rem",
+                }}
               >
                 <Badge badgeContent={4} color="error">
                   <MailIcon />
