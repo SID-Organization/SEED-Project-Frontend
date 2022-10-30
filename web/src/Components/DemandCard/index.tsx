@@ -9,9 +9,11 @@ import Slider from "@mui/material/Slider";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 
+import Skeleton from "@mui/material/Skeleton";
+
 import { Link } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface DemandCardProps {
   status: string;
@@ -63,245 +65,271 @@ export default function DemandCard(props: DemandCardProps) {
   const score = 2143;
   const value = "R$ 10.000,00";
 
+  const [data, setData] = useState(null);
+  const [isDemandLoading, setIsDemandLoading] = useState(false);
+
+  const getData = async () => {
+    setIsDemandLoading(true);
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/todos/1"
+    );
+    const data = await response.json();
+    setData(data);
+    setIsDemandLoading(false);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="grid justify-center items-center mt-9">
-      <Card
-        sx={{ width: 430, height: 180 }}
-        style={{
-          boxShadow: "1px 1px 5px 0px #808080db",
-          borderLeft: "7px solid " + statusColor[props.status],
-        }}
-      >
-        <CardContent>
-          <div className="flex justify-between items-center">
-            <Typography
-              variant="h5"
-              component="div"
-              sx={{
-                color: "#023A67",
-                fontWeight: "bold",
-                fontSize: "1rem",
-              }}
-            >
-              LOREM IPSUM
-            </Typography>
-            <Typography
-              sx={{ mt: 1 }}
-              color="#675E5E"
-              fontWeight="bold"
-              className="flex"
-            >
-              <h1 className="mr-1 text-[0.95rem]">Status:</h1>
-              <h1 className="font-medium text-black text-[0.95rem]">
-                {props.status}
-              </h1>
-            </Typography>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="grid">
+      {isDemandLoading ? (
+        <Skeleton
+          variant="rectangular"
+          width={430}
+          height={180}
+          animation="wave"
+        />
+      ) : (
+        <Card
+          sx={{ width: 430, height: 180 }}
+          style={{
+            boxShadow: "1px 1px 5px 0px #808080db",
+            borderLeft: "7px solid " + statusColor[props.status],
+          }}
+        >
+          <CardContent>
+            <div className="flex justify-between items-center">
+              <Typography
+                variant="h5"
+                component="div"
+                sx={{
+                  color: "#023A67",
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                }}
+              >
+                LOREM IPSUM
+              </Typography>
               <Typography
                 sx={{ mt: 1 }}
                 color="#675E5E"
                 fontWeight="bold"
                 className="flex"
               >
-                <h1 className="mr-1 text-[0.95rem]">Score:</h1>
+                <h1 className="mr-1 text-[0.95rem]">Status:</h1>
                 <h1 className="font-medium text-black text-[0.95rem]">
-                  {score}
-                </h1>
-              </Typography>
-              <Typography
-                sx={{ mb: 1.5 }}
-                color="#675E5E"
-                fontWeight="bold"
-                className="flex"
-              >
-                <h1 className="mr-1 text-[0.95rem]">Valor:</h1>
-                <h1 className="font-medium text-black text-[0.95rem]">
-                  {value}
+                  {props.status}
                 </h1>
               </Typography>
             </div>
-            <div className="flex justify-center items-center">
-              <Typography
-                sx={{ mb: 1.5 }}
-                color="#675E5E"
-                fontWeight="bold"
-                className="flex"
-              >
-                <h1 className="mr-1 flex justify-center text-[0.95rem] items-center text-black">
-                  Progresso:
-                </h1>
-                <div className="grid">
-                  <Box className="flex justify-center items-center ">
-                    <Slider
-                      aria-label="Temperature"
-                      defaultValue={30}
-                      getAriaValueText={valuetext}
-                      sx={{
-                        height: 16,
-                        width: 120,
-                        color: progressInputColor[props.status],
-                        "& .MuiSlider-thumb": {
-                          display: "none",
-                        },
-                      }}
-                    />
-                  </Box>
-                </div>
-                <h1 className="text-xs flex justify-end items-center text-black ml-1">
-                  15%
-                </h1>
-              </Typography>
-            </div>
-          </div>
-        </CardContent>
-        <CardActions className="flex justify-between">
-          <div className="flex justify-start items-center gap-2 ml-1 mr-1">
-            <div className="flex">
-              <Typography color="#675E5E" fontWeight="bold" className="flex">
-                <h1 className="text-[0.85rem]">De: </h1>
-              </Typography>
-              <Typography color="black" fontWeight="bold" className="flex">
-                <h1 className="text-[0.85rem]">10/05/2022</h1>
-              </Typography>
-            </div>
-            <div className="flex">
-              <Typography color="#675E5E" fontWeight="bold" className="flex">
-                <h1 className="text-[0.85rem]">Até: </h1>
-              </Typography>
-              <Typography color="black" fontWeight="bold" className="flex">
-                <h1 className="text-[0.85rem]">14/05/2022</h1>
-              </Typography>
-            </div>
-          </div>
-          <div className="flex justify-center items-center gap-3 mr-4">
-            {props.status === "Cancelado" && (
-              <div>
-                <Button
-                  onClick={handleOpen}
-                  variant="contained"
-                  style={{
-                    backgroundColor: "#C2BEBE",
-                    color: "#707070",
-                    width: 85,
-                    fontSize: 12,
-                  }}
+            <div className="flex items-center justify-between">
+              <div className="grid">
+                <Typography
+                  sx={{ mt: 1 }}
+                  color="#675E5E"
+                  fontWeight="bold"
+                  className="flex"
                 >
-                  Motivo
-                </Button>
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
+                  <h1 className="mr-1 text-[0.95rem]">Score:</h1>
+                  <h1 className="font-medium text-black text-[0.95rem]">
+                    {score}
+                  </h1>
+                </Typography>
+                <Typography
+                  sx={{ mb: 1.5 }}
+                  color="#675E5E"
+                  fontWeight="bold"
+                  className="flex"
                 >
-                  <Box sx={style}>
-                    <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
-                      sx={{
-                        color: "#0075B1",
-                        fontWeight: "bold",
-                        fontSize: 30,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      Motivo da reprovação da demanda
-                    </Typography>
-                    <Typography
-                      id="modal-modal-description"
-                      sx={{
-                        mt: 5,
-                        fontSize: 18,
-                        fontWeight: 700,
-                        color: "#000000",
-                        display: "flex",
-                        columnGap: 0.5,
-                      }}
-                    >
-                      Motivo
-                      <Typography sx={{ color: "#AD0D0D", fontWeight: 500 }}>
-                        *
-                      </Typography>
-                    </Typography>
-                    <TextField
-                      id="outlined-multiline-static"
-                      disabled
-                      multiline
-                      rows={4}
-                      value={reasonOfCancellation.message}
-                      variant="outlined"
-                      sx={{
-                        width: 500,
-                        height: 100,
-                        mt: 2,
-                        mb: 5,
-                        borderRadius: 5,
-                        borderColor: "#0075B1",
-                      }}
-                    />
-                    <div className="flex justify-center items-center gap-4">
-                      <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        style={{
-                          backgroundColor: "#0075B1",
-                          color: "#FFFFFF",
-                          width: 100,
+                  <h1 className="mr-1 text-[0.95rem]">Valor:</h1>
+                  <h1 className="font-medium text-black text-[0.95rem]">
+                    {value}
+                  </h1>
+                </Typography>
+              </div>
+              <div className="flex justify-center items-center">
+                <Typography
+                  sx={{ mb: 1.5 }}
+                  color="#675E5E"
+                  fontWeight="bold"
+                  className="flex"
+                >
+                  <h1 className="mr-1 flex justify-center text-[0.95rem] items-center text-black">
+                    Progresso:
+                  </h1>
+                  <div className="grid">
+                    <Box className="flex justify-center items-center ">
+                      <Slider
+                        aria-label="Temperature"
+                        defaultValue={30}
+                        getAriaValueText={valuetext}
+                        sx={{
+                          height: 16,
+                          width: 120,
+                          color: progressInputColor[props.status],
+                          "& .MuiSlider-thumb": {
+                            display: "none",
+                          },
+                        }}
+                      />
+                    </Box>
+                  </div>
+                  <h1 className="text-xs flex justify-end items-center text-black ml-1">
+                    15%
+                  </h1>
+                </Typography>
+              </div>
+            </div>
+          </CardContent>
+          <CardActions className="flex justify-between">
+            <div className="flex justify-start items-center gap-2 ml-1 mr-1">
+              <div className="flex">
+                <Typography color="#675E5E" fontWeight="bold" className="flex">
+                  <h1 className="text-[0.85rem]">De: </h1>
+                </Typography>
+                <Typography color="black" fontWeight="bold" className="flex">
+                  <h1 className="text-[0.85rem]">10/05/2022</h1>
+                </Typography>
+              </div>
+              <div className="flex">
+                <Typography color="#675E5E" fontWeight="bold" className="flex">
+                  <h1 className="text-[0.85rem]">Até: </h1>
+                </Typography>
+                <Typography color="black" fontWeight="bold" className="flex">
+                  <h1 className="text-[0.85rem]">14/05/2022</h1>
+                </Typography>
+              </div>
+            </div>
+            <div className="flex justify-center items-center gap-3 mr-4">
+              {props.status === "Cancelado" && (
+                <div>
+                  <Button
+                    onClick={handleOpen}
+                    variant="contained"
+                    style={{
+                      backgroundColor: "#C2BEBE",
+                      color: "#707070",
+                      width: 85,
+                      fontSize: 12,
+                    }}
+                  >
+                    Motivo
+                  </Button>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={style}>
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                        sx={{
+                          color: "#0075B1",
+                          fontWeight: "bold",
+                          fontSize: 30,
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
                         }}
                       >
-                        OK
-                      </Button>
-                    </div>
-                  </Box>
-                </Modal>
-              </div>
-            )}
-            {props.status === "Rascunho" && (
-              <div>
+                        Motivo da reprovação da demanda
+                      </Typography>
+                      <Typography
+                        id="modal-modal-description"
+                        sx={{
+                          mt: 5,
+                          fontSize: 18,
+                          fontWeight: 700,
+                          color: "#000000",
+                          display: "flex",
+                          columnGap: 0.5,
+                        }}
+                      >
+                        Motivo
+                        <Typography sx={{ color: "#AD0D0D", fontWeight: 500 }}>
+                          *
+                        </Typography>
+                      </Typography>
+                      <TextField
+                        id="outlined-multiline-static"
+                        disabled
+                        multiline
+                        rows={4}
+                        value={reasonOfCancellation.message}
+                        variant="outlined"
+                        sx={{
+                          width: 500,
+                          height: 100,
+                          mt: 2,
+                          mb: 5,
+                          borderRadius: 5,
+                          borderColor: "#0075B1",
+                        }}
+                      />
+                      <div className="flex justify-center items-center gap-4">
+                        <Button
+                          onClick={handleClose}
+                          variant="contained"
+                          style={{
+                            backgroundColor: "#0075B1",
+                            color: "#FFFFFF",
+                            width: 100,
+                          }}
+                        >
+                          OK
+                        </Button>
+                      </div>
+                    </Box>
+                  </Modal>
+                </div>
+              )}
+              {props.status === "Rascunho" && (
+                <div>
+                  <Button
+                    onClick={handleOpen}
+                    variant="contained"
+                    style={{
+                      backgroundColor: "#C2BEBE",
+                      color: "#707070",
+                      fontSize: 12,
+                      width: 90,
+                    }}
+                  >
+                    Deletar
+                  </Button>
+                </div>
+              )}
+              {props.status === "Rascunho" && (
                 <Button
-                  onClick={handleOpen}
                   variant="contained"
-                  style={{
-                    backgroundColor: "#C2BEBE",
-                    color: "#707070",
-                    fontSize: 12,
-                    width: 90,
-                  }}
+                  sx={{ backgroundColor: "#0075B1", fontSize: 12, width: 90 }}
                 >
-                  Deletar
+                  Continuar
                 </Button>
-              </div>
-            )}
-            {props.status === "Rascunho" && (
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#0075B1", fontSize: 12, width: 90 }}
-              >
-                Continuar
-              </Button>
-            )}
-            {props.status !== "Rascunho" && (
-              <Link to="/demanda-aberta">
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#0075B1",
-                    fontSize: 12,
-                    width: 90,
-                  }}
-                >
-                  Ver mais
-                </Button>
-              </Link>
-            )}
-          </div>
-        </CardActions>
-      </Card>
+              )}
+              {props.status !== "Rascunho" && (
+                <Link to="/demanda-aberta">
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#0075B1",
+                      fontSize: 12,
+                      width: 90,
+                    }}
+                  >
+                    Ver mais
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </CardActions>
+        </Card>
+      )}
     </div>
   );
 }
