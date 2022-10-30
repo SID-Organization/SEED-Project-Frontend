@@ -242,7 +242,7 @@ export default function openedDemand() {
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem]
-              rounded-[0.5rem] p-2 outline-darktext-dark-blue-weg border-1"
+              rounded-[0.5rem] p-2 outline-dark text-dark-blue-weg border-1"
                 disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in
@@ -260,7 +260,7 @@ export default function openedDemand() {
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem] 
-                rounded-[0.5rem] p-2 outline-darktext-dark-blue-weg border-1"
+                rounded-[0.5rem] p-2 outline-dark text-dark-blue-weg border-1"
                 disabled={isEditEnabled}
               >
                 Sed ut iaculis felis. Phasellus eget pharetra tortor. Proin
@@ -282,7 +282,7 @@ export default function openedDemand() {
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem] 
-                rounded-[0.5rem] p-2 outline-darktext-dark-blue-weg border-1"
+                rounded-[0.5rem] p-2 outline-dark text-dark-blue-weg border-1"
                 disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -306,7 +306,7 @@ export default function openedDemand() {
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem] 
-                rounded-[0.5rem] p-2 outline-darktext-dark-blue-weg border-1"
+                rounded-[0.5rem] p-2 outline-dark text-dark-blue-weg border-1"
                 disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
