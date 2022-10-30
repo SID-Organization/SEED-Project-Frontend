@@ -10,6 +10,7 @@ module.exports = {
       },
       colors: {
         "blue-weg": "#00579D",
+        "dark-blue-weg": "#023A67",
         "light-blue-weg": "#0075B1",
         "breadcrumb-bg": "#D5EDFA",
       },

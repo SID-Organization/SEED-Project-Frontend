@@ -191,7 +191,7 @@ export default function openedDemand() {
               </div>
             </div>
             <div className="flex justify-center items-center">
-              <h1 className="font-semibold text-[#023A67] font-roboto">
+              <h1 className="font-semibold text-dark-blue-weg font-roboto">
                 Score: 2143
               </h1>
             </div>
@@ -206,7 +206,7 @@ export default function openedDemand() {
         </div>
         <div className="flex justify-around items-center">
           <div className="grid justify-center items-center">
-            <h1 className="font-roboto font-bold text-[#023A67] text-lg">
+            <h1 className="font-roboto font-bold text-dark-blue-weg text-lg">
               Solicitante
             </h1>
             <h1 className="font-roboto font-semibold text-base">
@@ -216,14 +216,14 @@ export default function openedDemand() {
           </div>
           <div className="flex justify-center items-center gap-5">
             <h1 className="font-roboto font-bold">
-              De: <span className="text-[#023A67]">10/05/2022</span>
+              De: <span className="text-dark-blue-weg">10/05/2022</span>
             </h1>
             <h1 className="font-roboto font-bold">
-              Até: <span className="text-[#023A67]">20/06/2022</span>
+              Até: <span className="text-dark-blue-weg">20/06/2022</span>
             </h1>
           </div>
           <div className="grid justify-center items-center">
-            <h1 className="text-[#023A67] font-bold font-roboto">
+            <h1 className="text-dark-blue-weg font-bold font-roboto">
               Centro de custo
             </h1>
             <h1 className="font-roboto">Departamento 3</h1>
@@ -237,12 +237,12 @@ export default function openedDemand() {
         >
           <div className="grid justify-around items-center gap-5">
             <div className="grid justify-center items-center">
-              <h1 className="text-[#023A67] font-bold font-roboto text-lg">
+              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
                 Descrição:
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem]
-              rounded-[0.5rem] p-2 outline-[#023A67] border-1"
+              rounded-[0.5rem] p-2 outline-darktext-dark-blue-weg border-1"
                 disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in
@@ -255,12 +255,12 @@ export default function openedDemand() {
               </textarea>
             </div>
             <div className="grid justify-center items-center">
-              <h1 className="text-[#023A67] font-bold font-roboto text-lg">
+              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
                 Problema a ser resolvido:
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem] 
-                rounded-[0.5rem] p-2 outline-[#023A67] border-1"
+                rounded-[0.5rem] p-2 outline-darktext-dark-blue-weg border-1"
                 disabled={isEditEnabled}
               >
                 Sed ut iaculis felis. Phasellus eget pharetra tortor. Proin
@@ -277,12 +277,12 @@ export default function openedDemand() {
               </textarea>
             </div>
             <div className="grid justify-center items-center">
-              <h1 className="text-[#023A67] font-bold font-roboto text-lg">
+              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
                 Proposta:
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem] 
-                rounded-[0.5rem] p-2 outline-[#023A67] border-1"
+                rounded-[0.5rem] p-2 outline-darktext-dark-blue-weg border-1"
                 disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -301,12 +301,12 @@ export default function openedDemand() {
               </textarea>
             </div>
             <div className="grid justify-center items-center">
-              <h1 className="text-[#023A67] font-bold font-roboto text-lg">
+              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
                 Em que irá ajudar:
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[71rem] 
-                rounded-[0.5rem] p-2 outline-[#023A67] border-1"
+                rounded-[0.5rem] p-2 outline-darktext-dark-blue-weg border-1"
                 disabled={isEditEnabled}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -328,7 +328,7 @@ export default function openedDemand() {
         </div>
         <div className="grid justify-center items-center mt-16">
           <div className="flex justify-center items-center">
-            <h1 className="mb-5 font-roboto text-2xl font-bold text-[#023A67]">
+            <h1 className="mb-5 font-roboto text-2xl font-bold text-dark-blue-weg">
               Arquivos anexados
             </h1>
           </div>
