@@ -10,13 +10,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import Draggable from "react-draggable";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 
 import UploadIcon from "@mui/icons-material/Upload";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
-import toast, { Toaster } from "react-hot-toast";
 
 import Notification from "../../../Components/Notification";
 
@@ -46,7 +43,6 @@ export default function CreateDemand() {
     vertical: "top",
     horizontal: "center",
   });
-  const { vertical, horizontal, openAlert } = state;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -59,17 +55,6 @@ export default function CreateDemand() {
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);
   };
-
-  const handleClickAlert = (newState: SnackbarOrigin) => () => {
-    setState({ openAlert: true, ...newState });
-    handleClose();
-  };
-
-  const handleCloseAlert = () => {
-    setState({ ...state, openAlert: false });
-  };
-
-  const [notification, setNotification] = useState(false);
 
   return (
     <div>
