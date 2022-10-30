@@ -83,7 +83,7 @@ export default function DemandCard(props: DemandCardProps) {
   }, []);
 
   return (
-    <div className="grid justify-center items-center mt-9">
+    <div className="grid justify-center items-center mb-7">
       {isDemandLoading ? (
         <Skeleton
           variant="rectangular"

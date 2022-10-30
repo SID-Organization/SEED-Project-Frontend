@@ -15,7 +15,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import styled from "@mui/styled-engine-sc";
 
 import { useState } from "react";
 
@@ -64,7 +63,7 @@ export default function subHeader({
   };
 
   return (
-    <div>
+    <div className="mb-10">
       <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
         <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
           {children}
