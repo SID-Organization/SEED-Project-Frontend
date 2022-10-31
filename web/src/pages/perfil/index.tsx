@@ -1,6 +1,4 @@
 import ProfilePic from "../../assets/profile-pic.png";
-import EditIcon from "@mui/icons-material/Edit";
-import WarningIcon from "@mui/icons-material/Warning";
 import { Button } from "@mui/material";
 
 import "../../styles/index.css";
@@ -13,44 +11,53 @@ export default function Perfil() {
           Meu perfil
         </h1>
       </div>
-      <div className="flex flex-col justify-center items-center mt-9">
-        <img
-          src={ProfilePic}
-          alt="Foto de perfil"
-          className="rounded-full w-65 h-65"
-        />
-      </div>
-      <div className="flex justify-around">
-        <div className="w-max">
-          <h1 className="text-[#000000] font-bold text-lg font-roboto mr-36 mt-2 opacity-50">
-            Nome
-          </h1>
-          <div className="flex justify-center border-b-2 w-full border-black">
-            <div className="w-7"></div>
-            <h1 className="text-[#000000] font-bold text-2xl font-roboto">
-              Gustavo Santossssssssssssssssss
+      <div className="grid gap-8">
+        <div className="flex justify-center items-center mt-9">
+          <img
+            src={ProfilePic}
+            alt="Foto de perfil"
+            className="rounded-full w-65 h-65"
+          />
+        </div>
+        <div className="flex justify-center flex-wrap mt-2">
+          <div className="grid text-center mr-16">
+            <h1 className="text-[#0075B1] font-bold text-xl font-roboto">10</h1>
+            <h1 className="text-black font-bold text-lg font-roboto opacity-50">
+              Demandas criadas
             </h1>
-            <EditIcon className="ml-1" />
+          </div>
+          <div className="grid text-center mr-16">
+            <h1 className="text-[#0075B1] font-bold text-xl font-roboto">5</h1>
+            <h1 className="text-black font-bold text-lg font-roboto opacity-50">
+              Demandas aceitas
+            </h1>
+          </div>
+          <div className="grid text-center">
+            <h1 className="text-[#0075B1] font-bold text-xl font-roboto">5</h1>
+            <h1 className="text-black font-bold text-lg font-roboto opacity-50">
+              Demandas canceladas
+            </h1>
           </div>
         </div>
-        <div className="">
-          <h1 className="text-[#000000] w-max flex justify-start font-bold text-lg font-roboto mr-40 mt-2 opacity-50">
-            Email
-          </h1>
-          <div className="flex border-b-2 border-cyan-600">
-            <div className="w-7"></div>
-            <h1 className="text-[#0075B1] font-bold text-2xl font-roboto">
-              gustavo_santos@weeeeeeeeeeeeeeg.net
+        <div className="flex justify-center gap-x-16 flex-wrap text-center items-center">
+          <div className="grid justify-end w-[21rem]">
+            <h1 className="text-[#023A67] font-bold text-2xl font-roboto">
+              Gustavo Santos
             </h1>
-            <div title="Impossivel editar o email!">
-              <WarningIcon color="warning" className="ml-1 mb-3" />
+            <h1 className="text-black font-bold text-base font-roboto opacity-50">
+              WEG Digital Solutions
+            </h1>
+            <h1 className="text-black font-bold text-base font-roboto opacity-50">
+              Jaraguá do Sul, Brazil
+            </h1>
+          </div>
+          <div className="grid h-16">
+            <div>
+              <Button variant="outlined">Editar perfil</Button>
             </div>
           </div>
-      </div>
-      </div>
-        <div className="flex flex-col justify-center items-center mt-10">
-          <Button variant="contained" className="mt-10">Salvar</Button>
         </div>
+      </div>
     </div>
   );
 }
