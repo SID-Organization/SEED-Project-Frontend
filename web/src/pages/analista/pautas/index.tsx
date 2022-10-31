@@ -1,11 +1,11 @@
-import SubHeader from "../../../Components/SubHeader";
+import SubHeaderPautas from "../../../Components/SubHeaderPautas";
 
 import "../../../styles/index.css";
 
 export default function Pautas() {
   return (
     <div>
-      <SubHeader>Pautas</SubHeader>
+      <SubHeaderPautas />
     </div>
   );
 }
