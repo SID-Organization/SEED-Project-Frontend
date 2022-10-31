@@ -61,7 +61,7 @@ export default function CreateDemand() {
       <div className="mb-7">
         <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
           <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
-            Criar demanda
+            Criar nova demanda
           </h1>
         </div>
       </div>
