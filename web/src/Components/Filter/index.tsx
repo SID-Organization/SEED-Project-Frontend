@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 
 import { useState } from "react";
 
+export default function Filter() {
 const options = [
   "Create a merge commit",
   "Filtrar demandas por",
@@ -48,7 +49,6 @@ const handleClose = (event: Event) => {
   setOpen(false);
 };
 
-export default function Filter() {
   return (
     <div>
       <React.Fragment>
@@ -127,7 +127,7 @@ export default function Filter() {
             </Grow>
           )}
         </Popper>
-      </React.Fragment>
+        </React.Fragment>
     </div>
   );
 }
