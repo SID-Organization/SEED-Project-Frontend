@@ -13,7 +13,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-import SubHeaderOpenedDemand from "../../../Components/SubHeaderOpenedDemand";
+import SubHeader from "../../../Components/SubHeader";
 import WorkflowTable from "../../../Components/WorkflowTable";
 
 import Button from "@mui/material/Button";
@@ -80,12 +80,12 @@ export default function openedDemand() {
 
   return (
     <div>
-      <SubHeaderOpenedDemand
+      <SubHeader
         isEditEnabled={isEditEnabled}
         setIsEditEnabled={setIsEditEnabled}
       >
         Visualização Demanda 0012
-      </SubHeaderOpenedDemand>
+      </SubHeader>
       <div className="grid">
         <div className="flex justify-around items-center mt-5">
           <Tooltip title="Abrir workflow">

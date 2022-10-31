@@ -90,7 +90,7 @@ export default function DemandCard(props: DemandCardProps) {
           variant="rectangular"
           width={430}
           height={180}
-          animation="wave"
+          animation="pulse"
         />
       ) : (
         <Card

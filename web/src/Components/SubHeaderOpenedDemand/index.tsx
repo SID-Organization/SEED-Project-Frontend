@@ -29,7 +29,6 @@ export default function subHeader({
   isEditEnabled,
   setIsEditEnabled,
 }: any) {
-  const [arrowUp, setArrowUp] = useState(false);
   const options = ["Aceitar", "Devolver", "Recusar"];
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
   const notifyEditEnabledOff = () =>
