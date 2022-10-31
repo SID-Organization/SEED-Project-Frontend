@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MuiBox from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -46,48 +46,50 @@ const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
+    duration: theme.transitions.duration.enteringScreen
   }),
-  overflowX: "hidden",
+  overflowX: "hidden"
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.leavingScreen
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
+    width: `calc(${theme.spacing(8)} + 1px)`
+  }
 });
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: prop => prop !== "open"
 })(({ theme, open }: any) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  ...(open && {
+  ...open && {
     ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
-  ...(!open && {
+    "& .MuiDrawer-paper": openedMixin(theme)
+  },
+  ...!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
+    "& .MuiDrawer-paper": closedMixin(theme)
+  }
 }));
 
 const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarFixed, setIsSidebarFixed] = useState(false);
 
-  const handleDrawerClose = () => {
+  useEffect(() => {}, [isSidebarFixed, isSidebarOpen]);
+
+  const handleDrawerToggle = () => {
+    setIsSidebarFixed(!isSidebarFixed);
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  const [isSidebarFixed, setIsSidebarFixed] = useState(false);
 
   return (
     <div className="flex items-center">
@@ -99,9 +101,7 @@ const Sidebar = () => {
       </div>
       <Drawer
         onMouseLeave={
-          isSidebarFixed
-            ? () => setIsSidebarOpen(true)
-            : () => setIsSidebarOpen(false)
+          !isSidebarFixed ? () => setIsSidebarOpen(false) : () => {}
         }
         variant="permanent"
         open={isSidebarOpen}
@@ -110,31 +110,24 @@ const Sidebar = () => {
         <Toolbar />
         <div
           className="flex justify-end items-center"
-          onClick={() => handleDrawerClose()}
+          onClick={() => handleDrawerToggle()}
         >
           <IconButton
             sx={{
               backgroundColor: "#002848",
               height: "20px",
-              width: "20px",
+              width: "20px"
             }}
           >
-            {isSidebarOpen ? (
-              <div
-                onClick={
-                  isSidebarFixed
-                    ? () => setIsSidebarFixed(false)
-                    : () => setIsSidebarFixed(true)
-                }
-                className="flex justify-center items-center"
-              >
-                <ChevronLeftIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
-              </div>
-            ) : (
-              <div className="flex justify-center items-center">
-                <ChevronRightIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
-              </div>
-            )}
+            {isSidebarOpen
+              ? <div className="flex justify-center items-center">
+                  <ChevronLeftIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
+                </div>
+              : <div className="flex justify-center items-center">
+                  <ChevronRightIcon
+                    sx={{ color: "#fff", fontSize: "1.4rem" }}
+                  />
+                </div>}
           </IconButton>
         </div>
         <SidebarLink
