@@ -13,7 +13,7 @@ import "../../styles/index.css";
 export default function subHeader({
   children,
   isListFormat,
-  setIsListFormat
+  setIsListFormat,
 }: any) {
   return (
     <div className="mb-10">
@@ -32,16 +32,16 @@ export default function subHeader({
               display: "flex",
               alignItems: "center",
               width: 240,
-              height: 40
+              height: 40,
             }}
             style={{
-              boxShadow: "#bdbdbd 0px 1px 5px 1px"
+              boxShadow: "#bdbdbd 0px 1px 5px 1px",
             }}
           >
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <SearchIcon
                 sx={{
-                  fontSize: "20px"
+                  fontSize: "20px",
                 }}
               />
             </IconButton>
@@ -57,19 +57,21 @@ export default function subHeader({
             className="cursor-pointer"
             onClick={() => setIsListFormat(!isListFormat)}
           >
-            {isListFormat
-              ? <GridOnIcon
-                  sx={{
-                    fontSize: "30px",
-                    color: "#0075B1"
-                  }}
-                />
-              : <ListAltIcon
-                  sx={{
-                    fontSize: "30px",
-                    color: "#0075B1"
-                  }}
-                />}
+            {isListFormat ? (
+              <GridOnIcon
+                sx={{
+                  fontSize: "30px",
+                  color: "#0075B1",
+                }}
+              />
+            ) : (
+              <ListAltIcon
+                sx={{
+                  fontSize: "30px",
+                  color: "#0075B1",
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

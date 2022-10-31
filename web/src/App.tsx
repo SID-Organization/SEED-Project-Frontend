@@ -7,13 +7,13 @@ import "./App.css";
 
 import Login from "./pages/login";
 import Layout from "./Components/Layout";
-import HomeDemands from "./pages/requester/homeDemands";
+import HomeDemands from "./pages/requester/home-demands";
 import Drafts from "./pages/requester/drafts";
 import DemandCardList from "./Components/DemandCardList";
-import CreateDemand from "./pages/requester/createDemand";
-import OpenedDemand from "./pages/requester/openedDemand";
+import CreateDemand from "./pages/requester/create-demand";
+import OpenedDemand from "./pages/requester/opened-demand";
 import SubHeaderOpenedDemand from "./Components/SubHeaderOpenedDemand";
-import DemandManager from "./pages/BusinessManager";
+import DemandManager from "./pages/business-manager";
 import Pautas from "./pages/analista/pautas";
 import { Navigate } from "react-router";
 
