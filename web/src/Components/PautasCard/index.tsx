@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { Tooltip } from "@mui/material";
+import { Divider, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -253,7 +253,7 @@ export default function PautasCard() {
             </div>
           </Box>
         </Modal>
-
+        <Divider />
         <AccordionDetails>{/* Proposals here */} proposals</AccordionDetails>
       </Accordion>
     </div>
