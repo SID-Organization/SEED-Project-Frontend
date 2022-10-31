@@ -68,7 +68,9 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
+      <Link to="/perfil">
+        <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
+      </Link>
       <MenuItem onClick={handleMenuClose}>Idioma</MenuItem>
       <MenuItem>
         Modo escuro
