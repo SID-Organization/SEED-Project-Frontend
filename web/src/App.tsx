@@ -16,6 +16,7 @@ import SubHeaderOpenedDemand from "./Components/SubHeaderOpenedDemand";
 import DemandManager from "./pages/business-manager";
 import Pautas from "./pages/analista/pautas";
 import { Navigate } from "react-router";
+import Perfil from "./pages/perfil";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
             <Route path="gerenciar-demandas" element={<DemandManager />} />
             <Route path="pautas" element={<Pautas />} />
+            <Route path="perfil" element={<Perfil />} />
           </Route>
         </Routes>
       </BrowserRouter>
