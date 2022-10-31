@@ -39,6 +39,7 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Tooltip } from "@mui/material";
+import { positions } from "@mui/system";
 
 const drawerWidth = 245;
 
@@ -87,17 +88,29 @@ const Sidebar = () => {
   useEffect(() => {}, [isSidebarFixed, isSidebarOpen]);
 
   const handleDrawerToggle = () => {
+    if(!isSidebarOpen && !isSidebarFixed) {
+      setIsSidebarOpen(true);
+    }
+
+    if(isSidebarOpen && !isSidebarFixed) {
+      setIsSidebarOpen(true);
+    }
+
+    if(isSidebarOpen && isSidebarFixed) {
+      setIsSidebarOpen(false);
+    }
+
     setIsSidebarFixed(!isSidebarFixed);
-    setIsSidebarOpen(!isSidebarOpen);
   };
+
+
 
   return (
     <div className="flex items-center">
       <div
         onMouseEnter={() => setIsSidebarOpen(true)}
-        className="z-20 h-full text-[1px]"
+        className="z-20 h-full w-1 text-[1px] fixed"
       >
-        .
       </div>
       <Drawer
         onMouseLeave={
@@ -105,7 +118,7 @@ const Sidebar = () => {
         }
         variant="permanent"
         open={isSidebarOpen}
-        sx={{ "& .MuiPaper-root": { zIndex: 10, backgroundColor: "#023A67" } }}
+        sx={{ "& .MuiPaper-root": { zIndex: 10, backgroundColor: "#023A67"} }}
       >
         <Toolbar />
         <div
@@ -119,7 +132,7 @@ const Sidebar = () => {
               width: "20px"
             }}
           >
-            {isSidebarOpen
+            {isSidebarFixed
               ? <div className="flex justify-center items-center">
                   <ChevronLeftIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
                 </div>
