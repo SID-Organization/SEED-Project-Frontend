@@ -12,42 +12,42 @@ import Paper from "@mui/material/Paper";
 import { useState } from "react";
 
 export default function Filter() {
-const options = [
-  "Create a merge commit",
-  "Filtrar demandas por",
-  "Rebase and merge",
-];
+  const options = [
+    "Create a merge commit",
+    "Filtrar demandas por",
+    "Rebase and merge",
+  ];
 
-const [open, setOpen] = useState(false);
-const anchorRef = React.useRef<HTMLDivElement>(null);
-const [selectedIndex, setSelectedIndex] = useState(1);
+  const [open, setOpen] = useState(false);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const [selectedIndex, setSelectedIndex] = useState(1);
 
-const handleClick = () => {
-  console.info(`You clicked ${options[selectedIndex]}`);
-};
+  const handleClick = () => {
+    console.info(`You clicked ${options[selectedIndex]}`);
+  };
 
-const handleMenuItemClick = (
-  event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-  index: number
-) => {
-  setSelectedIndex(index);
-  setOpen(false);
-};
+  const handleMenuItemClick = (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    index: number
+  ) => {
+    setSelectedIndex(index);
+    setOpen(false);
+  };
 
-const handleToggle = () => {
-  setOpen((prevOpen) => !prevOpen);
-};
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
 
-const handleClose = (event: Event) => {
-  if (
-    anchorRef.current &&
-    anchorRef.current.contains(event.target as HTMLElement)
-  ) {
-    return;
-  }
+  const handleClose = (event: Event) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
 
-  setOpen(false);
-};
+    setOpen(false);
+  };
 
   return (
     <div>
