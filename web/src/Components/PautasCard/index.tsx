@@ -9,10 +9,12 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { Divider, IconButton, Tooltip } from "@mui/material";
+import { Divider, Icon, IconButton, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiIconButton from "@mui/material/IconButton";
+import ProposalCard from "../ProposalCard";
 
+import MuiEditRoundedIcon from "@mui/icons-material/EditRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
@@ -20,7 +22,6 @@ import MuiMailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import MuiWhatsAppIcon from "@mui/icons-material/WhatsApp";
 import MuiLinkIcon from "@mui/icons-material/Link";
 import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import ProposalCard from "../ProposalCard";
 
 export default function PautasCard() {
   const [shareModal, setShareModal] = useState(false);
@@ -31,6 +32,16 @@ export default function PautasCard() {
     width: "100%",
     height: "100%",
   }));
+
+  const EditRoundedIcon = styled(MuiEditRoundedIcon)({
+    color: "#707070",
+    cursor: "pointer",
+    transition: "0.2s",
+
+    "&:hover": {
+      color: "#00A3FF",
+    },
+  });
 
   const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
     color: "#707070",
@@ -139,6 +150,9 @@ export default function PautasCard() {
                 </Tooltip>
                 <Tooltip title="Visualizar pauta">
                   <VisibilityRoundedIcon />
+                </Tooltip>
+                <Tooltip title="Editar pauta">
+                  <EditRoundedIcon />
                 </Tooltip>
                 <Tooltip title="Gerar ATA">
                   <Button variant="contained">Gerar ATA</Button>
