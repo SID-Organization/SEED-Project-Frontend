@@ -105,7 +105,13 @@ const Sidebar = () => {
         }
         variant="permanent"
         open={isSidebarOpen}
-        sx={{ "& .MuiPaper-root": { zIndex: 10, backgroundColor: "#023A67" } }}
+        sx={{
+          "& .MuiPaper-root": {
+            zIndex: 10,
+            backgroundColor: "#023A67",
+            boxShadow: "1px 0px 7px 0px #838383",
+          },
+        }}
       >
         <Toolbar />
         <div
