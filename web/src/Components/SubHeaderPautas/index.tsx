@@ -20,6 +20,8 @@ const Button = styled(MuiButton)({
 
 const AddRoundedIcon = styled(MuiAddRoundedIcon)({
   color: "#fff",
+  height: "1.5rem",
+  width: "1.5rem",
 });
 
 export default function SubHeaderPautas() {
@@ -30,10 +32,7 @@ export default function SubHeaderPautas() {
           Pautas
         </h1>
         <div className="flex mr-10 gap-16">
-          <Button variant="contained">
-            <div className="flex justify-center items-center">
-              <AddRoundedIcon />
-            </div>
+          <Button variant="contained" startIcon={<AddRoundedIcon />}>
             <div className="flex justify-center items-center">Nova pauta</div>
           </Button>
           <Search />
