@@ -10,7 +10,7 @@ import Link from "@mui/material/Link";
 
 import MuiDivider from "@mui/material/Divider";
 
-import SidebarLink from "../SidebarLink";
+import SidebarItem from "./SidebarItem";
 
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -46,38 +46,38 @@ const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen
+    duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: "hidden"
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`
-  }
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
 });
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: prop => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }: any) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  ...open && {
+  ...(open && {
     ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme)
-  },
-  ...!open && {
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme)
-  }
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
 }));
 
 const Sidebar = () => {
@@ -116,21 +116,21 @@ const Sidebar = () => {
             sx={{
               backgroundColor: "#002848",
               height: "20px",
-              width: "20px"
+              width: "20px",
             }}
           >
-            {isSidebarOpen
-              ? <div className="flex justify-center items-center">
-                  <ChevronLeftIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
-                </div>
-              : <div className="flex justify-center items-center">
-                  <ChevronRightIcon
-                    sx={{ color: "#fff", fontSize: "1.4rem" }}
-                  />
-                </div>}
+            {isSidebarOpen ? (
+              <div className="flex justify-center items-center">
+                <ChevronLeftIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
+              </div>
+            ) : (
+              <div className="flex justify-center items-center">
+                <ChevronRightIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
+              </div>
+            )}
           </IconButton>
         </div>
-        <SidebarLink
+        <SidebarItem
           title="Nova demanda"
           outlinedIcon={
             <AddBoxOutlinedIcon
@@ -145,7 +145,7 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/nova-demanda"
         />
-        <SidebarLink
+        <SidebarItem
           title="Minhas demandas"
           outlinedIcon={
             <HomeOutlinedIcon
@@ -157,7 +157,7 @@ const Sidebar = () => {
           }
           linkTo="/minhas-demandas"
         />
-        <SidebarLink
+        <SidebarItem
           title="Rascunhos"
           outlinedIcon={
             <NoteAltOutlinedIcon
@@ -172,7 +172,7 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/rascunhos"
         />
-        <SidebarLink
+        <SidebarItem
           title="Gerenciar demandas"
           outlinedIcon={
             <ManageAccountsOutlinedIcon
@@ -187,7 +187,7 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/gerenciar-demandas"
         />
-        <SidebarLink
+        <SidebarItem
           title="Pautas"
           outlinedIcon={
             <CalendarMonthOutlinedIcon
@@ -201,7 +201,7 @@ const Sidebar = () => {
           }
           linkTo="/pautas"
         />
-        <SidebarLink
+        <SidebarItem
           title="Atas  "
           outlinedIcon={
             <ClassOutlinedIcon
@@ -216,7 +216,7 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/atas"
         />
-        <SidebarLink
+        <SidebarItem
           title="Propostas"
           fullIcon={
             <DescriptionIcon
@@ -231,7 +231,7 @@ const Sidebar = () => {
           hasDivider={true}
           linkTo="/propostas"
         />
-        <SidebarLink
+        <SidebarItem
           title="Mensagens"
           outlinedIcon={
             <MessageOutlinedIcon
