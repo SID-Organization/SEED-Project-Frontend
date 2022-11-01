@@ -9,8 +9,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { Divider, Tooltip } from "@mui/material";
+import { Divider, IconButton, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import MuiIconButton from "@mui/material/IconButton";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
@@ -24,6 +25,11 @@ export default function PautasCard() {
   const [shareModal, setShareModal] = useState(false);
   const handleOpenShareModal = () => setShareModal(true);
   const handleCloseShareModal = () => setShareModal(false);
+
+  const IconButton = styled(MuiIconButton)(({ theme }) => ({
+    width: "100%",
+    height: "100%",
+  }));
 
   const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
     color: "#707070",
@@ -170,7 +176,9 @@ export default function PautasCard() {
                       hover:bg-gray-300
                     "
                     >
-                      <MailOutlineRoundedIcon />
+                      <IconButton>
+                        <MailOutlineRoundedIcon />
+                      </IconButton>
                     </div>
                   </div>
                   <div className="flex justify-center items-center">
@@ -194,7 +202,9 @@ export default function PautasCard() {
                       hover:bg-gray-300
                     "
                     >
-                      <WhatsAppIcon />
+                      <IconButton>
+                        <WhatsAppIcon />
+                      </IconButton>
                     </div>
                   </div>
                   <div className="flex justify-center items-center">
@@ -218,7 +228,9 @@ export default function PautasCard() {
                       hover:bg-gray-300
                     "
                     >
-                      <LinkIcon />
+                      <IconButton>
+                        <LinkIcon />
+                      </IconButton>
                     </div>
                   </div>
                   <div className="flex justify-center items-center">
@@ -242,7 +254,9 @@ export default function PautasCard() {
                       hover:bg-gray-300
                     "
                     >
-                      <DownloadRoundedIcon />
+                      <IconButton>
+                        <DownloadRoundedIcon />
+                      </IconButton>
                     </div>
                   </div>
                   <div className="flex justify-center items-center">
