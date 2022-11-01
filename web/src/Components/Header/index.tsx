@@ -11,6 +11,11 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { MenuOutlined } from "@mui/icons-material";
+import styled from "@emotion/styled";
+import { Accordion, Button } from "@mui/material";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import MuiButton from "@mui/material/Button";
 
 import { Link } from "react-router-dom";
 
@@ -18,10 +23,11 @@ import Switch from "@mui/material/Switch";
 
 import { useState } from "react";
 
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
-import styled from "@emotion/styled";
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -30,6 +36,23 @@ export default function PrimarySearchAppBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({}));
+
+  const Button = styled(MuiButton)({
+    backgroundColor: "transparent",
+    color: "#000",
+    textTransform: "none",
+    fontSize: "0.875rem",
+    fontFamily: "Roboto",
+    boxShadow: "none",
+    width: "100%",
+
+    "&:hover": {
+      backgroundColor: "transparent",
+      color: "#000",
+    },
+  });
 
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -71,7 +94,33 @@ export default function PrimarySearchAppBar() {
       <Link to="/perfil">
         <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
       </Link>
-      <MenuItem onClick={handleMenuClose}>Idioma</MenuItem>
+      <Accordion
+        sx={{
+          border: "none",
+          boxShadow: "none",
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          className="font-roboto"
+        >
+          <h1 className="font-roboto">Idioma</h1>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Button variant="contained">Português</Button>
+        </AccordionDetails>
+        <AccordionDetails>
+          <Button variant="contained">Inglês</Button>
+        </AccordionDetails>
+        <AccordionDetails>
+          <Button variant="contained">Chinês</Button>
+        </AccordionDetails>
+        <AccordionDetails>
+          <Button variant="contained">Alemão</Button>
+        </AccordionDetails>
+      </Accordion>
       <MenuItem>
         Modo escuro
         <Switch {...label} defaultChecked />
