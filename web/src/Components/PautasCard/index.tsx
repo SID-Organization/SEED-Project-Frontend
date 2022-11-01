@@ -20,6 +20,7 @@ import MuiMailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import MuiWhatsAppIcon from "@mui/icons-material/WhatsApp";
 import MuiLinkIcon from "@mui/icons-material/Link";
 import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
+import ProposalCard from "../ProposalCard";
 
 export default function PautasCard() {
   const [shareModal, setShareModal] = useState(false);
@@ -268,7 +269,13 @@ export default function PautasCard() {
           </Box>
         </Modal>
         <Divider />
-        <AccordionDetails>{/* Proposals here */} proposals</AccordionDetails>
+        <AccordionDetails>
+          <div className="grid gap-5">
+            <ProposalCard />
+            <ProposalCard />
+            <ProposalCard />
+          </div>
+        </AccordionDetails>
       </Accordion>
     </div>
   );
