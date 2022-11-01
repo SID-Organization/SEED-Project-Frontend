@@ -3,7 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Button } from "@mui/material";
+import { Button, InputAdornment } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -16,6 +16,8 @@ import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import Notification from "../../../Components/Notification";
+
+import TextField from "@mui/material/TextField";
 
 import { useState } from "react";
 
@@ -37,6 +39,7 @@ export interface State extends SnackbarOrigin {
 export default function CreateDemand() {
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
+  const [currentProblem, setCurrentProblem] = useState("");
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<State>({
     openAlert: false,
@@ -66,7 +69,7 @@ export default function CreateDemand() {
         </div>
       </div>
       <div className="grid justify-center items-center">
-        <div className="grid mb-4">
+        <div className="mb-4">
           <h1 className="font-roboto text-[17px] font-bold">Título</h1>
           <input
             className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
@@ -75,23 +78,33 @@ export default function CreateDemand() {
             value={title}
           />
         </div>
-        <div className="grid mb-4">
-          <h1 className="font-roboto text-[17px] font-bold">
-            Problema a ser resolvido (Situação atual)
-          </h1>
-          <input
+          <TextField
+            id="problem-to-be-solved"
+            label="Problema a ser resolvido (Situação atual)"
+            multiline
+            maxRows={10}
+            value={currentProblem}
+            onChange={(e) => {
+              setCurrentProblem(e.target.value)
+            }}
+            variant="outlined"
             className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
-            type="text"
           />
-        </div>
-        <div className="grid mb-4">
+          <TextField
+            id="proposal-solution"
+            label="Proposta de solução"
+            multiline
+            maxRows={10}
+            className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
+            />
+        <div className="mb-4">
           <h1 className="font-roboto text-[17px] font-bold">Proposta</h1>
           <input
             className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
             type="text"
           />
         </div>
-        <div className="grid mb-4">
+        <div className="mb-4">
           <h1 className="font-roboto text-[17px] font-bold">
             Objetivo (O que irá melhorar com a execução desta proposta?)
           </h1>
@@ -100,7 +113,6 @@ export default function CreateDemand() {
             type="text"
           />
         </div>
-        <div className="grid">
           <div className="flex justify-center items-center gap-10 mb-5">
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
             <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
@@ -145,7 +157,6 @@ export default function CreateDemand() {
               />
             </div>
           </div>
-        </div>
         <div className="grid mb-6">
           <div className="flex justify-center items-center gap-10 mb-5">
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />

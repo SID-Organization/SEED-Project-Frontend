@@ -1,6 +1,6 @@
 import SubHeader from "../../../Components/SubHeader";
 import DemandCard from "../../../Components/DemandCard";
-import DemandList from "../../../Components/DemandCardList";
+import DemandsList from "../../../Components/DemandCardList";
 import NoDemands from "../../../Components/noDemands";
 
 import "../../../styles/index.css";
@@ -12,7 +12,7 @@ export default function homeDemands() {
   function getDemandsList() {
     return (
       <div className="flex justify-center items-center">
-        <DemandList />
+        <DemandsList />
       </div>
     );
   }

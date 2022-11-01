@@ -21,8 +21,9 @@ interface DemandCardProps {
 
 export default function DemandCard(props: DemandCardProps) {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleReasonOpen = () => setOpen(!open);
+  const [data, setData] = useState(null);
+  const [isDemandLoading, setIsDemandLoading] = useState(false);
 
   function valuetext(value: number) {
     return `${value}°C`;
@@ -66,9 +67,6 @@ export default function DemandCard(props: DemandCardProps) {
   const score = 2143;
   const value = "R$ 10.000,00";
 
-  const [data, setData] = useState(null);
-  const [isDemandLoading, setIsDemandLoading] = useState(false);
-
   const getData = async () => {
     setIsDemandLoading(true);
     const response = await fetch(
@@ -104,7 +102,6 @@ export default function DemandCard(props: DemandCardProps) {
             <div className="flex justify-between items-center">
               <Typography
                 variant="h5"
-                component="div"
                 sx={{
                   color: "#023A67",
                   fontWeight: "bold",
@@ -119,10 +116,10 @@ export default function DemandCard(props: DemandCardProps) {
                 fontWeight="bold"
                 className="flex"
               >
-                <h1 className="mr-1 text-[0.95rem]">Status:</h1>
-                <h1 className="font-medium text-black text-[0.95rem]">
+                <span className="mr-1 text-[0.95rem]">Status:</span>
+                <span className="font-medium text-black text-[0.95rem]">
                   {props.status}
-                </h1>
+                </span>
               </Typography>
             </div>
             <div className="flex items-center justify-between">
@@ -133,10 +130,10 @@ export default function DemandCard(props: DemandCardProps) {
                   fontWeight="bold"
                   className="flex"
                 >
-                  <h1 className="mr-1 text-[0.95rem]">Score:</h1>
-                  <h1 className="font-medium text-black text-[0.95rem]">
+                  <span className="mr-1 text-[0.95rem]">Score:</span>
+                  <span className="font-medium text-black text-[0.95rem]">
                     {score}
-                  </h1>
+                  </span>
                 </Typography>
                 <Typography
                   sx={{ mb: 1.5 }}
@@ -144,10 +141,10 @@ export default function DemandCard(props: DemandCardProps) {
                   fontWeight="bold"
                   className="flex"
                 >
-                  <h1 className="mr-1 text-[0.95rem]">Valor:</h1>
-                  <h1 className="font-medium text-black text-[0.95rem]">
+                  <span className="mr-1 text-[0.95rem]">Valor:</span>
+                  <span className="font-medium text-black text-[0.95rem]">
                     {value}
-                  </h1>
+                  </span>
                 </Typography>
               </div>
               <div className="flex justify-center items-center">
@@ -157,10 +154,10 @@ export default function DemandCard(props: DemandCardProps) {
                   fontWeight="bold"
                   className="flex"
                 >
-                  <h1 className="mr-1 flex justify-center text-[0.95rem] items-center text-black">
+                  <span className="mr-1 flex justify-center text-[0.95rem] items-center text-black">
                     Progresso:
-                  </h1>
-                  <div className="grid">
+                  </span>
+                  <span className="grid">
                     <Box className="flex justify-center items-center ">
                       <Slider
                         aria-label="Temperature"
@@ -180,10 +177,10 @@ export default function DemandCard(props: DemandCardProps) {
                         }}
                       />
                     </Box>
-                  </div>
-                  <h1 className="text-xs flex justify-end items-center text-black ml-1">
+                  </span>
+                  <span className="text-xs flex justify-end items-center text-black ml-1">
                     15%
-                  </h1>
+                  </span>
                 </Typography>
               </div>
             </div>
@@ -192,18 +189,18 @@ export default function DemandCard(props: DemandCardProps) {
             <div className="flex justify-start items-center gap-2 ml-1 mr-1">
               <div className="flex">
                 <Typography color="#675E5E" fontWeight="bold" className="flex">
-                  <h1 className="text-[0.85rem]">De: </h1>
+                  <span className="text-[0.85rem]">De: </span>
                 </Typography>
                 <Typography color="black" fontWeight="bold" className="flex">
-                  <h1 className="text-[0.85rem]">10/05/2022</h1>
+                  <span className="text-[0.85rem]">10/05/2022</span>
                 </Typography>
               </div>
               <div className="flex">
                 <Typography color="#675E5E" fontWeight="bold" className="flex">
-                  <h1 className="text-[0.85rem]">Até: </h1>
+                  <span className="text-[0.85rem]">Até: </span>
                 </Typography>
                 <Typography color="black" fontWeight="bold" className="flex">
-                  <h1 className="text-[0.85rem]">14/05/2022</h1>
+                  <span className="text-[0.85rem]">14/05/2022</span>
                 </Typography>
               </div>
             </div>
@@ -211,7 +208,7 @@ export default function DemandCard(props: DemandCardProps) {
               {props.status === "Cancelado" && (
                 <div>
                   <Button
-                    onClick={handleOpen}
+                    onClick={handleReasonOpen}
                     variant="contained"
                     style={{
                       backgroundColor: "#C2BEBE",
@@ -224,7 +221,7 @@ export default function DemandCard(props: DemandCardProps) {
                   </Button>
                   <Modal
                     open={open}
-                    onClose={handleClose}
+                    onClose={handleReasonOpen}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                   >
@@ -256,9 +253,9 @@ export default function DemandCard(props: DemandCardProps) {
                         }}
                       >
                         Motivo
-                        <Typography sx={{ color: "#AD0D0D", fontWeight: 500 }}>
+                        <span style={{ color: "#AD0D0D", fontWeight: 500 }}>
                           *
-                        </Typography>
+                        </span>
                       </Typography>
                       <TextField
                         id="outlined-multiline-static"
@@ -276,9 +273,9 @@ export default function DemandCard(props: DemandCardProps) {
                           borderColor: "#0075B1",
                         }}
                       />
-                      <div className="flex justify-center items-center gap-4">
+                      <span className="flex justify-center items-center gap-4">
                         <Button
-                          onClick={handleClose}
+                          onClick={handleReasonOpen}
                           variant="contained"
                           style={{
                             backgroundColor: "#0075B1",
@@ -288,7 +285,7 @@ export default function DemandCard(props: DemandCardProps) {
                         >
                           OK
                         </Button>
-                      </div>
+                      </span>
                     </Box>
                   </Modal>
                 </div>
@@ -296,7 +293,7 @@ export default function DemandCard(props: DemandCardProps) {
               {props.status === "Rascunho" && (
                 <div>
                   <Button
-                    onClick={handleOpen}
+                    onClick={handleReasonOpen}
                     variant="contained"
                     style={{
                       backgroundColor: "#C2BEBE",

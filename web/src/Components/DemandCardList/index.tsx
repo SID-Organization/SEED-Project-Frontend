@@ -44,7 +44,7 @@ const rows = [
     versao: 1.2,
   },
   {
-    id: 1,
+    id: 3,
     status: demandStatusType[0],
     solicitante: "Henrique Cole",
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
@@ -52,7 +52,7 @@ const rows = [
     versao: 4.2,
   },
   {
-    id: 2,
+    id: 4,
     status: demandStatusType[2],
     solicitante: "Leonardo Rafaelli",
     ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
@@ -60,15 +60,15 @@ const rows = [
     versao: 1.2,
   },
   {
-    id: 1,
-    status: demandStatusType[0],
+    id: 5,
+    status: demandStatusType[1],
     solicitante: "Henrique Cole",
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     versao: 4.2,
   },
   {
-    id: 2,
+    id: 6,
     status: demandStatusType[2],
     solicitante: "Leonardo Rafaelli",
     ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
@@ -76,15 +76,15 @@ const rows = [
     versao: 1.2,
   },
   {
-    id: 1,
-    status: demandStatusType[0],
+    id: 7,
+    status: demandStatusType[3],
     solicitante: "Henrique Cole",
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     versao: 4.2,
   },
   {
-    id: 2,
+    id: 8,
     status: demandStatusType[2],
     solicitante: "Leonardo Rafaelli",
     ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
@@ -92,7 +92,23 @@ const rows = [
     versao: 1.2,
   },
   {
-    id: 1,
+    id: 9,
+    status: demandStatusType[3],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 10,
+    status: demandStatusType[1],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 11,
     status: demandStatusType[0],
     solicitante: "Henrique Cole",
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
@@ -100,7 +116,7 @@ const rows = [
     versao: 4.2,
   },
   {
-    id: 1,
+    id: 12,
     status: demandStatusType[0],
     solicitante: "Henrique Cole",
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
@@ -108,7 +124,63 @@ const rows = [
     versao: 4.2,
   },
   {
-    id: 1,
+    id: 13,
+    status: demandStatusType[1],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 14,
+    status: demandStatusType[2],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 15,
+    status: demandStatusType[3],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 16,
+    status: demandStatusType[3],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 17,
+    status: demandStatusType[2],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 18,
+    status: demandStatusType[1],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 19,
+    status: demandStatusType[2],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    versao: 4.2,
+  },
+  {
+    id: 20,
     status: demandStatusType[0],
     solicitante: "Henrique Cole",
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
@@ -116,79 +188,7 @@ const rows = [
     versao: 4.2,
   },
   {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    versao: 4.2,
-  },
-  {
-    id: 1,
+    id: 21,
     status: demandStatusType[0],
     solicitante: "Henrique Cole",
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
@@ -200,16 +200,14 @@ const rows = [
 export default function DataTable() {
   return (
     <div
-      style={{
-        height: 600,
-        width: "100%",
-      }}
+      className="h-full w-full"
+      style={{height: 600}}
     >
       <DataGrid
         rows={rows}
         columns={columns}
         pageSize={10}
-        rowsPerPageOptions={[5]}
+        rowsPerPageOptions={[10]}
         sx={{
           color: "#023A67",
           fontWeight: "bold",

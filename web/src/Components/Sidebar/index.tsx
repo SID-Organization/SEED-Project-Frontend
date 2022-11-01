@@ -4,7 +4,7 @@ import MuiBox from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
-import { HomeOutlined } from "@mui/icons-material";
+import { Add, HomeOutlined } from "@mui/icons-material";
 import Toolbar from "@mui/material/Toolbar";
 import Link from "@mui/material/Link";
 
@@ -38,13 +38,149 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Tooltip } from "@mui/material";
-import { positions } from "@mui/system";
 
-const drawerWidth = 245;
+const openDrawerWidth = 230;
+
+export default function Sidebar() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarFixed, setIsSidebarFixed] = useState(false);
+
+  const iconStyle = { color: "#fff", fontSize: "1.9rem", marginLeft: 1.1 };
+  const openSidebarIconStyle = { color: "#fff", fontSize: "1.4rem" };
+
+  const adminSidebarItems = [
+    {
+      title: "Nova demanda",
+      outlinedIcon: <AddBoxOutlinedIcon sx={iconStyle} />,
+      fullIcon: <AddBoxIcon sx={iconStyle} />,
+      linkTo: "/nova-demanda",
+      hasDivider: true
+    },
+    {
+      title: "Minhas demandas",
+      outlinedIcon: <HomeOutlinedIcon sx={iconStyle} />,
+      fullIcon: <HomeIcon sx={iconStyle} />,
+      linkTo: "/minhas-demandas"
+    },
+    {
+      title: "Rascunhos",
+      outlinedIcon: <NoteAltOutlinedIcon sx={iconStyle} />,
+      fullIcon: <NoteAltIcon sx={iconStyle} />,
+      linkTo: "/rascunhos",
+      hasDivider: true
+    },
+    {
+      title: "Gerenciar demandas",
+      outlinedIcon: <ManageAccountsOutlinedIcon sx={iconStyle} />,
+      fullIcon: <ManageAccountsIcon sx={iconStyle} />,
+      hasDivider: true,
+      linkTo: "/gerenciar-demandas"
+    },
+    {
+      title: "Pautas",
+      outlinedIcon: <CalendarMonthOutlinedIcon sx={iconStyle} />,
+      fullIcon: <CalendarMonthIcon sx={iconStyle} />,
+      linkTo: "/pautas"
+    },
+    {
+      title: "Atas",
+      outlinedIcon: <ClassOutlinedIcon sx={iconStyle} />,
+      fullIcon: <ClassIcon sx={iconStyle} />,
+      linkTo: "/atas",
+      hasDivider: true
+    },
+    {
+      title: "Propostas",
+      outlinedIcon: <DescriptionOutlinedIcon sx={iconStyle} />,
+      fullIcon: <DescriptionIcon sx={iconStyle} />,
+      linkTo: "/propostas",
+      hasDivider: true
+    },
+    {
+      title: "Mensagens",
+      outlinedIcon: <MessageOutlinedIcon sx={iconStyle} />,
+      fullIcon: <MessageIcon sx={iconStyle} />,
+      linkTo: "/mensagens"
+    }
+  ];
+
+  const getSideBarItems = () => {
+    return adminSidebarItems.map((item, index) => {
+      return (
+        <SidebarLink
+          key={index}
+          title={item.title}
+          outlinedIcon={item.outlinedIcon}
+          fullIcon={item.fullIcon}
+          linkTo={item.linkTo}
+          hasDivider={item.hasDivider}
+        />
+      );
+    });
+  };
+
+  useEffect(() => {}, [isSidebarFixed, isSidebarOpen]);
+  const handleDrawerToggle = () => {
+    if (!isSidebarOpen && !isSidebarFixed) {
+      setIsSidebarOpen(true);
+    }
+
+    if (isSidebarOpen && !isSidebarFixed) {
+      setIsSidebarOpen(true);
+    }
+
+    if (isSidebarOpen && isSidebarFixed) {
+      setIsSidebarOpen(false);
+    }
+
+    setIsSidebarFixed(!isSidebarFixed);
+  };
+
+  return (
+    <div className="flex items-center">
+      <div
+        onMouseEnter={() => setIsSidebarOpen(true)}
+        className="z-20 h-[200%] w-1 text-[1px] mt-14 fixed"
+      />
+      <Drawer
+        onMouseLeave={
+          !isSidebarFixed ? () => setIsSidebarOpen(false) : () => {}
+        }
+        variant="permanent"
+        open={isSidebarOpen}
+        sx={{ "& .MuiPaper-root": { zIndex: 10, backgroundColor: "#023A67" } }}
+      >
+        <Toolbar />
+        <div
+          className="flex justify-end items-center"
+          onClick={() => handleDrawerToggle()}
+        >
+          <IconButton
+            sx={{
+              backgroundColor: "#002848",
+              height: "20px",
+              width: "20px"
+            }}
+          >
+            {isSidebarFixed
+              ? <div className="flex justify-center items-center">
+                  <ChevronLeftIcon sx={openSidebarIconStyle} />
+                </div>
+              : <div className="flex justify-center items-center">
+                  <ChevronRightIcon
+                    sx={openSidebarIconStyle}
+                  />
+                </div>}
+          </IconButton>
+        </div>
+        {getSideBarItems()}
+      </Drawer>
+    </div>
+  );
+}
 
 const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
+  width: openDrawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen
@@ -67,7 +203,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: prop => prop !== "open"
 })(({ theme, open }: any) => ({
-  width: drawerWidth,
+  width: openDrawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
@@ -80,187 +216,3 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme)
   }
 }));
-
-const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSidebarFixed, setIsSidebarFixed] = useState(false);
-
-  useEffect(() => {}, [isSidebarFixed, isSidebarOpen]);
-
-  const handleDrawerToggle = () => {
-    if(!isSidebarOpen && !isSidebarFixed) {
-      setIsSidebarOpen(true);
-    }
-
-    if(isSidebarOpen && !isSidebarFixed) {
-      setIsSidebarOpen(true);
-    }
-
-    if(isSidebarOpen && isSidebarFixed) {
-      setIsSidebarOpen(false);
-    }
-
-    setIsSidebarFixed(!isSidebarFixed);
-  };
-
-
-
-  return (
-    <div className="flex items-center">
-      <div
-        onMouseEnter={() => setIsSidebarOpen(true)}
-        className="z-20 h-full w-1 text-[1px] fixed"
-      >
-      </div>
-      <Drawer
-        onMouseLeave={
-          !isSidebarFixed ? () => setIsSidebarOpen(false) : () => {}
-        }
-        variant="permanent"
-        open={isSidebarOpen}
-        sx={{ "& .MuiPaper-root": { zIndex: 10, backgroundColor: "#023A67"} }}
-      >
-        <Toolbar />
-        <div
-          className="flex justify-end items-center"
-          onClick={() => handleDrawerToggle()}
-        >
-          <IconButton
-            sx={{
-              backgroundColor: "#002848",
-              height: "20px",
-              width: "20px"
-            }}
-          >
-            {isSidebarFixed
-              ? <div className="flex justify-center items-center">
-                  <ChevronLeftIcon sx={{ color: "#fff", fontSize: "1.4rem" }} />
-                </div>
-              : <div className="flex justify-center items-center">
-                  <ChevronRightIcon
-                    sx={{ color: "#fff", fontSize: "1.4rem" }}
-                  />
-                </div>}
-          </IconButton>
-        </div>
-        <SidebarLink
-          title="Nova demanda"
-          outlinedIcon={
-            <AddBoxOutlinedIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          fullIcon={
-            <AddBoxIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          hasDivider={true}
-          linkTo="/nova-demanda"
-        />
-        <SidebarLink
-          title="Minhas demandas"
-          outlinedIcon={
-            <HomeOutlinedIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          fullIcon={
-            <HomeIcon sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }} />
-          }
-          linkTo="/minhas-demandas"
-        />
-        <SidebarLink
-          title="Rascunhos"
-          outlinedIcon={
-            <NoteAltOutlinedIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          fullIcon={
-            <NoteAltIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          hasDivider={true}
-          linkTo="/rascunhos"
-        />
-        <SidebarLink
-          title="Gerenciar demandas"
-          outlinedIcon={
-            <ManageAccountsOutlinedIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          fullIcon={
-            <ManageAccountsIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          hasDivider={true}
-          linkTo="/gerenciar-demandas"
-        />
-        <SidebarLink
-          title="Pautas"
-          outlinedIcon={
-            <CalendarMonthOutlinedIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          fullIcon={
-            <CalendarMonthIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          linkTo="/pautas"
-        />
-        <SidebarLink
-          title="Atas  "
-          outlinedIcon={
-            <ClassOutlinedIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          fullIcon={
-            <ClassIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          hasDivider={true}
-          linkTo="/atas"
-        />
-        <SidebarLink
-          title="Propostas"
-          fullIcon={
-            <DescriptionIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          outlinedIcon={
-            <DescriptionOutlinedIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          hasDivider={true}
-          linkTo="/propostas"
-        />
-        <SidebarLink
-          title="Mensagens"
-          outlinedIcon={
-            <MessageOutlinedIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          fullIcon={
-            <MessageIcon
-              sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
-            />
-          }
-          linkTo="/mensagens"
-        />
-      </Drawer>
-    </div>
-  );
-};
-
-export default Sidebar;
