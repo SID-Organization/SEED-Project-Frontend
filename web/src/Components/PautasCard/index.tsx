@@ -23,7 +23,15 @@ import MuiWhatsAppIcon from "@mui/icons-material/WhatsApp";
 import MuiLinkIcon from "@mui/icons-material/Link";
 import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 
-export default function PautasCard() {
+interface PautaCardProps {
+  PautaName: string;
+  QtyProposals: number;
+  MeetingDate: string;
+  MeetingTime: string;
+  ResponsibleAnalyst: string;
+}
+
+export default function PautasCard(props: PautaCardProps) {
   const [shareModal, setShareModal] = useState(false);
   const handleOpenShareModal = () => setShareModal(true);
   const handleCloseShareModal = () => setShareModal(false);
@@ -98,7 +106,7 @@ export default function PautasCard() {
   }));
 
   return (
-    <div className="mt-10">
+    <div className="mt-5">
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -107,19 +115,23 @@ export default function PautasCard() {
         >
           <div className="grid font-roboto">
             <div className="flex justify-center gap-28">
-              <h1 className="font-bold">Pauta 001</h1>
+              <h1 className="font-bold">{props.PautaName}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
-                <span className="font-normal text-[#707070]">2</span>
+                <span className="font-normal text-[#707070]">
+                  {props.QtyProposals}
+                </span>
               </h1>
               <h1 className="font-bold">
                 Data da reunião:{" "}
-                <span className="font-normal text-[#707070]">29/07/2022</span>
+                <span className="font-normal text-[#707070]">
+                  {props.MeetingDate}
+                </span>
               </h1>
               <h1 className="font-bold">
                 Horário:{" "}
                 <span className="font-normal text-[#707070]">
-                  14:00 - 15:30
+                  {props.MeetingTime}
                 </span>
               </h1>
             </div>
@@ -128,7 +140,7 @@ export default function PautasCard() {
                 <h1 className="mt-5 font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
-                    Gustavo Santos
+                    {props.ResponsibleAnalyst}
                   </span>
                 </h1>
               </div>
