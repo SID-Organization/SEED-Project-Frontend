@@ -182,6 +182,7 @@ export default function subHeader({
             alignItems: "center",
             width: 240,
             height: 40,
+            marginRight: "1rem",
           }}
           style={{
             boxShadow: "#bdbdbd 0px 1px 5px 1px",
