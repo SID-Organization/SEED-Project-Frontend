@@ -38,6 +38,9 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+
 import { Tooltip } from "@mui/material";
 
 const drawerWidth = 245;
@@ -249,8 +252,26 @@ const Sidebar = () => {
               sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
             />
           }
+          hasDivider={true}
           linkTo="/mensagens"
         />
+
+        <div className="mt-14">
+          <SidebarItem
+            title="Sair"
+            outlinedIcon={
+              <LogoutRoundedIcon
+                sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
+              />
+            }
+            fullIcon={
+              <LogoutRoundedIcon
+                sx={{ color: "#fff", fontSize: "2rem", marginLeft: 1 }}
+              />
+            }
+            linkTo="/"
+          />
+        </div>
       </Drawer>
     </div>
   );
