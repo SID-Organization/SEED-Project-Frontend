@@ -17,6 +17,12 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiButton from "@mui/material/Button";
 
+import BrazilFlag from "../../assets/flag-countries/brazil.png";
+import UnitedStatesFlag from "../../assets/flag-countries/united-states.png";
+import SpainFlag from "../../assets/flag-countries/spain.png";
+import ChinaFlag from "../../assets/flag-countries/china.png";
+import GermanyFlag from "../../assets/flag-countries/germany.png";
+
 import { Link } from "react-router-dom";
 
 import Switch from "@mui/material/Switch";
@@ -37,7 +43,9 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({}));
+  const AccordionDetails = styled(MuiAccordionDetails)({
+    padding: "0",
+  });
 
   const Button = styled(MuiButton)({
     backgroundColor: "transparent",
@@ -47,6 +55,8 @@ export default function PrimarySearchAppBar() {
     fontFamily: "Roboto",
     boxShadow: "none",
     width: "100%",
+    height: "3rem",
+    fontWeight: "normal",
 
     "&:hover": {
       backgroundColor: "transparent",
@@ -109,16 +119,64 @@ export default function PrimarySearchAppBar() {
           <h1 className="font-roboto">Idioma</h1>
         </AccordionSummary>
         <AccordionDetails>
-          <Button variant="contained">Português</Button>
+          <Button variant="contained">
+            <div className="flex items-center justify-center gap-5">
+              <img
+                className="
+                  w-7
+                  h-7
+              "
+                src={BrazilFlag}
+                alt=""
+              />
+              Português
+            </div>
+          </Button>
         </AccordionDetails>
         <AccordionDetails>
-          <Button variant="contained">Inglês</Button>
+          <Button variant="contained">
+            <div className="flex items-center justify-center gap-5">
+              <img
+                className="
+                  w-7
+                  h-7
+              "
+                src={UnitedStatesFlag}
+                alt=""
+              />
+              <h1 className="mr-6 ml-1">Inglês</h1>
+            </div>
+          </Button>
         </AccordionDetails>
         <AccordionDetails>
-          <Button variant="contained">Chinês</Button>
+          <Button variant="contained">
+            <div className="flex items-center justify-center gap-5">
+              <img
+                className="
+                  w-7
+                  h-7
+              "
+                src={SpainFlag}
+                alt=""
+              />
+              <h1 className="ml-1">Espanhol</h1>
+            </div>
+          </Button>
         </AccordionDetails>
         <AccordionDetails>
-          <Button variant="contained">Alemão</Button>
+          <Button variant="contained">
+            <div className="flex items-center justify-center gap-5">
+              <img
+                className="
+                  w-7
+                  h-7
+              "
+                src={ChinaFlag}
+                alt=""
+              />
+              <h1 className="mr-[0.9rem] ml-1">Chinês</h1>
+            </div>
+          </Button>
         </AccordionDetails>
       </Accordion>
       <MenuItem>
