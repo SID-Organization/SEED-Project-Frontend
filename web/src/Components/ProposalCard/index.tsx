@@ -5,9 +5,15 @@ import CardContent from "@mui/material/CardContent";
 import { styled } from "@mui/material/styles";
 
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import MuiOpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
+
 import { IconButton, Tooltip } from "@mui/material";
 
-export default function ProposalCard() {
+interface ProposalCardProps {
+  newPauta: boolean;
+}
+
+export default function ProposalCard(props: ProposalCardProps) {
   const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
     color: "#707070",
     cursor: "pointer",
@@ -19,9 +25,17 @@ export default function ProposalCard() {
     },
   });
 
+  const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
+    color: "#00A3FF",
+    cursor: "pointer",
+    transition: "0.2s",
+    fontSize: "1.2rem",
+  });
+
   const Card = styled(MuiCard)({
-    width: "100%",
-    height: "100%",
+    width: props.newPauta ? "100%" : "100%",
+    height: props.newPauta ? "6rem" : "none",
+    marginLeft: props.newPauta ? "-2.6rem" : "none",
     borderRadius: "10px",
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     border: "1px solid #E5E5E5",
@@ -37,35 +51,87 @@ export default function ProposalCard() {
       <Card>
         <div className="flex justify-center items-center gap-16">
           <div className="grid font-roboto gap-7 ">
-            <div className="flex items-center justify-around">
-              <div className="mr-80">
-                <h1 className="font-bold">Proposta 0001</h1>
+            <div
+              className={`
+                ${
+                  props.newPauta
+                    ? "flex items-center justify-between ml-4"
+                    : "flex items-center justify-around"
+                }
+              `}
+            >
+              <div
+                className={`
+                ${props.newPauta ? "none" : "mr-80"}
+                `}
+              >
+                <h1
+                  className={`${
+                    props.newPauta ? "text-base font-bold" : "font-bold"
+                  }`}
+                >
+                  Proposta 0001
+                </h1>
               </div>
-              <div className="flex justify-center items-center">
-                <h1 className="font-bold">
+              <div className="flex justify-center items-center gap-5">
+                <h1
+                  className={`
+                  ${props.newPauta ? "text-sm font-bold" : "font-bold"}
+                `}
+                >
                   Tempo de execução:{" "}
                   <span className="font-normal text-gray-500">1050 horas</span>
                 </h1>
-                <h1 className="font-bold ml-10">
+                <h1
+                  className={`
+                  ${props.newPauta ? "text-sm font-bold" : "font-bold"}
+                `}
+                >
                   Valor:{" "}
                   <span className="font-normal text-gray-500"> R$ 20.000</span>
                 </h1>
               </div>
             </div>
             <div className="flex items-center">
-              <h1 className="font-bold">
+              <h1
+                className={`
+                ${props.newPauta ? "font-bold w-[49rem] ml-4" : "font-bold"}
+                `}
+              >
                 Demanda de referência:{" "}
                 <Tooltip title={demandTitle}>
-                  <span className="font-normal text-gray-500 cursor-default">
+                  <span
+                    className={`
+                    ${
+                      props.newPauta
+                        ? "font-normal text-sm text-gray-500 cursor-default"
+                        : "font-normal text-gray-500 cursor-default"
+                    }
+                    `}
+                  >
                     {demandTitle.length > 80
                       ? demandTitle.substring(0, 80) + "..."
                       : demandTitle}
                   </span>
                 </Tooltip>
               </h1>
+              {props.newPauta && (
+                <h1
+                  className="text-sm w-[10rem] flex justify-center items-center cursor-pointer gap-1 font-bold text-light-blue-weg
+                    hover:underline
+                  "
+                >
+                  Link para a proposta
+                  <OpenInNewRoundedIcon />
+                </h1>
+              )}
             </div>
           </div>
-          <div className="flex justify-end items-center">
+          <div
+            className={`
+              ${props.newPauta ? "mr-4" : "flex justify-end items-center"}
+            `}
+          >
             <Tooltip title="Visualizar pauta">
               <IconButton>
                 <VisibilityRoundedIcon />

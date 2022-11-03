@@ -14,6 +14,7 @@ import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 
 import { IMaskInput } from "react-imask";
+import MuiCheckbox from "@mui/material/Checkbox";
 
 export default function CreateNewPauta() {
   const [openedModal, setOpenedModal] = useState(false);
@@ -22,11 +23,21 @@ export default function CreateNewPauta() {
   const handleOpenModal = () => setOpenedModal(true);
   const handleCloseModal = () => setOpenedModal(false);
 
+  const checkBoxLabel = { inputProps: { "aria-label": "Checkbox demo" } };
+
   const Comissions = [
     { label: "Comissão de Educação" },
     { label: "Comissão de Saúde" },
     { label: "Comissão de Segurança" },
   ];
+
+  const Checkbox = styled(MuiCheckbox)({
+    color: "#00A3FF",
+
+    "&.Mui-checked": {
+      color: "#00A3FF",
+    },
+  });
 
   const TextField = styled(MuiTextField)({
     width: "14rem",
@@ -39,11 +50,14 @@ export default function CreateNewPauta() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 600,
+    width: 1200,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
     borderRadius: "10px",
+    overflow: "scroll",
+    overflowX: "hidden",
+    height: "80%",
   };
 
   const Button = styled(MuiButton)({
@@ -145,8 +159,35 @@ export default function CreateNewPauta() {
               "
               />
             </div>
-            <div>
-              <ProposalCard />
+            <div className="grid gap-5">
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
             </div>
           </div>
         </Box>
