@@ -18,7 +18,6 @@ import MuiCheckbox from "@mui/material/Checkbox";
 
 export default function CreateNewPauta() {
   const [openedModal, setOpenedModal] = useState(false);
-  const [checkDate, setCheckDate] = useState(false);
 
   const handleOpenModal = () => setOpenedModal(true);
   const handleCloseModal = () => setOpenedModal(false);
