@@ -384,39 +384,45 @@ export default function DemandCard(props: DemandCardProps) {
               )}
               {props.status === "Rascunho" && (
                 <div>
-                  <Button
-                    variant="contained"
-                    style={{
-                      backgroundColor: "#C2BEBE",
-                      color: "#707070",
-                      fontSize: 12,
-                      width: 90,
-                    }}
-                  >
-                    Deletar
-                  </Button>
+                  <Tooltip title="Deletar rascunho">
+                    <Button
+                      variant="contained"
+                      style={{
+                        backgroundColor: "#C2BEBE",
+                        color: "#707070",
+                        fontSize: 12,
+                        width: 90,
+                      }}
+                    >
+                      Deletar
+                    </Button>
+                  </Tooltip>
                 </div>
               )}
               {props.status === "Rascunho" && (
-                <Button
-                  variant="contained"
-                  sx={{ backgroundColor: "#0075B1", fontSize: 12, width: 90 }}
-                >
-                  Continuar
-                </Button>
+                <Tooltip title="Continuar rascunho">
+                  <Button
+                    variant="contained"
+                    sx={{ backgroundColor: "#0075B1", fontSize: 12, width: 90 }}
+                  >
+                    Continuar
+                  </Button>
+                </Tooltip>
               )}
               {props.status !== "Rascunho" && (
                 <Link to="/demanda-aberta">
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "#0075B1",
-                      fontSize: 12,
-                      width: 90,
-                    }}
-                  >
-                    Ver mais
-                  </Button>
+                  <Tooltip title="Visualizar demanda">
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#0075B1",
+                        fontSize: 12,
+                        width: 90,
+                      }}
+                    >
+                      Ver mais
+                    </Button>
+                  </Tooltip>
                 </Link>
               )}
             </div>

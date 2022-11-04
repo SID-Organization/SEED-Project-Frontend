@@ -25,6 +25,13 @@ export default function homeDemands() {
         <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Aberto" />
         <DemandCard status="Cancelado" />
+        <DemandCard status="Aberto" />
+        <DemandCard status="AprovadoPelaComissao" />
+        <DemandCard status="Aberto" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="AprovadoPelaComissao" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Cancelado" />
         <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Cancelado" />
         <DemandCard status="Aberto" />
