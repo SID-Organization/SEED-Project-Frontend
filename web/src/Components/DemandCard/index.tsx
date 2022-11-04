@@ -14,6 +14,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
+import { Tooltip } from "@mui/material";
 
 interface DemandCardProps {
   status: string;
@@ -21,8 +22,8 @@ interface DemandCardProps {
 
 export default function DemandCard(props: DemandCardProps) {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenReasonOfCancellation = () => setOpen(true);
+  const handleCloseReasonOfCancellation = () => setOpen(false);
 
   function valuetext(value: number) {
     return `${value}°C`;
@@ -208,23 +209,23 @@ export default function DemandCard(props: DemandCardProps) {
               </div>
             </div>
             <div className="flex justify-center items-center gap-3 mr-4">
-              {props.status === "Cancelado" && (
+              {props.status === "Aberto" && (
                 <div>
-                  <Button
-                    onClick={handleOpen}
-                    variant="contained"
-                    style={{
-                      backgroundColor: "#C2BEBE",
-                      color: "#707070",
-                      width: 85,
-                      fontSize: 12,
-                    }}
-                  >
-                    Motivo
-                  </Button>
+                  <Tooltip title="Gerar proposta">
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#0075B1",
+                        fontSize: 12,
+                        width: 90,
+                      }}
+                    >
+                      Proposta
+                    </Button>
+                  </Tooltip>
                   <Modal
                     open={open}
-                    onClose={handleClose}
+                    onClose={handleCloseReasonOfCancellation}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                   >
@@ -278,7 +279,95 @@ export default function DemandCard(props: DemandCardProps) {
                       />
                       <div className="flex justify-center items-center gap-4">
                         <Button
-                          onClick={handleClose}
+                          onClick={handleCloseReasonOfCancellation}
+                          variant="contained"
+                          style={{
+                            backgroundColor: "#0075B1",
+                            color: "#FFFFFF",
+                            width: 100,
+                          }}
+                        >
+                          OK
+                        </Button>
+                      </div>
+                    </Box>
+                  </Modal>
+                </div>
+              )}
+
+              {props.status === "Cancelado" && (
+                <div>
+                  <Tooltip title="Motivo da reprovação">
+                    <Button
+                      onClick={handleOpenReasonOfCancellation}
+                      variant="contained"
+                      style={{
+                        backgroundColor: "#C2BEBE",
+                        color: "#707070",
+                        width: 85,
+                        fontSize: 12,
+                      }}
+                    >
+                      Motivo
+                    </Button>
+                  </Tooltip>
+                  <Modal
+                    open={open}
+                    onClose={handleCloseReasonOfCancellation}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={style}>
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                        sx={{
+                          color: "#0075B1",
+                          fontWeight: "bold",
+                          fontSize: 30,
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        Motivo da reprovação da demanda
+                      </Typography>
+                      <Typography
+                        id="modal-modal-description"
+                        sx={{
+                          mt: 5,
+                          fontSize: 18,
+                          fontWeight: 700,
+                          color: "#000000",
+                          display: "flex",
+                          columnGap: 0.5,
+                        }}
+                      >
+                        Motivo
+                        <Typography sx={{ color: "#AD0D0D", fontWeight: 500 }}>
+                          *
+                        </Typography>
+                      </Typography>
+                      <TextField
+                        id="outlined-multiline-static"
+                        disabled
+                        multiline
+                        rows={4}
+                        value={reasonOfCancellation.message}
+                        variant="outlined"
+                        sx={{
+                          width: 500,
+                          height: 100,
+                          mt: 2,
+                          mb: 5,
+                          borderRadius: 5,
+                          borderColor: "#0075B1",
+                        }}
+                      />
+                      <div className="flex justify-center items-center gap-4">
+                        <Button
+                          onClick={handleCloseReasonOfCancellation}
                           variant="contained"
                           style={{
                             backgroundColor: "#0075B1",
@@ -296,7 +385,6 @@ export default function DemandCard(props: DemandCardProps) {
               {props.status === "Rascunho" && (
                 <div>
                   <Button
-                    onClick={handleOpen}
                     variant="contained"
                     style={{
                       backgroundColor: "#C2BEBE",
