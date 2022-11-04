@@ -50,13 +50,11 @@ export default function CreateNewPauta() {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 1200,
+    height: 800,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
     borderRadius: "10px",
-    overflow: "scroll",
-    overflowX: "hidden",
-    height: "80%",
   };
 
   const Button = styled(MuiButton)({
@@ -104,12 +102,42 @@ export default function CreateNewPauta() {
               </Button>
             </div>
             <div className="flex justify-between items-center gap-12">
-              <TextField
-                id="outlined-basic"
-                label="Data da reunião"
-                variant="outlined"
-                placeholder="dd/mm/aaaa"
-              />
+              <div className="flex items-center gap-5">
+                <h1 className="font-bold">Data da reunião: </h1>
+                <TextField
+                  id="outlined-basic"
+                  variant="outlined"
+                  placeholder="dd/mm/aaaa"
+                  type="date"
+                />
+              </div>
+
+              <div className="flex items-center gap-5">
+                <h1 className="font-bold">Horário:</h1>
+                <div className="flex items-center gap-5">
+                  <TextField
+                    id="outlined-basic"
+                    label="Início"
+                    variant="outlined"
+                    placeholder="hh:mm"
+                    sx={{
+                      width: "6rem",
+                      height: "3rem",
+                    }}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Término"
+                    variant="outlined"
+                    placeholder="hh:mm"
+                    sx={{
+                      width: "6rem",
+                      height: "3rem",
+                    }}
+                  />
+                </div>
+              </div>
+
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
@@ -120,31 +148,7 @@ export default function CreateNewPauta() {
                 )}
               />
             </div>
-            <div className="flex items-center gap-5">
-              <h1 className="font-bold">Horário:</h1>
-              <div className="flex items-center gap-5">
-                <TextField
-                  id="outlined-basic"
-                  label="Início"
-                  variant="outlined"
-                  placeholder="hh:mm"
-                  sx={{
-                    width: "6rem",
-                    height: "3rem",
-                  }}
-                />
-                <TextField
-                  id="outlined-basic"
-                  label="Término"
-                  variant="outlined"
-                  placeholder="hh:mm"
-                  sx={{
-                    width: "6rem",
-                    height: "3rem",
-                  }}
-                />
-              </div>
-            </div>
+
             <div className="flex justify-center items-center gap-5">
               <div
                 className="
@@ -158,7 +162,43 @@ export default function CreateNewPauta() {
               "
               />
             </div>
-            <div className="grid gap-5">
+            <div className="grid gap-5 overflow-scroll overflow-x-hidden max-h-[28%]">
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
+              <div className="flex items-center gap-12">
+                <Checkbox {...checkBoxLabel} defaultChecked />
+                <ProposalCard newPauta={true} />
+              </div>
               <div className="flex items-center gap-12">
                 <Checkbox {...checkBoxLabel} defaultChecked />
                 <ProposalCard newPauta={true} />
