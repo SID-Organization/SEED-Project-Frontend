@@ -35,7 +35,6 @@ export default function ProposalCard(props: ProposalCardProps) {
   const Card = styled(MuiCard)({
     width: props.newPauta ? "100%" : "100%",
     height: props.newPauta ? "6rem" : "none",
-    marginLeft: props.newPauta ? "-2.6rem" : "none",
     borderRadius: "10px",
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     border: "1px solid #E5E5E5",

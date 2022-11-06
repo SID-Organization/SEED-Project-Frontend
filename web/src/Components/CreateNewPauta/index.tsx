@@ -12,12 +12,11 @@ import MuiTextField from "@mui/material/TextField";
 
 import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import MuiCheckbox from "@mui/material/Checkbox";
 import { InputAdornment } from "@mui/material";
+import NewPautaProposalCard from "../NewPautaProposalCard";
 
 export default function CreateNewPauta() {
   const [openedModal, setOpenedModal] = useState(false);
-  const [checkboxClicked, setCheckBoxClicked] = useState(false);
 
   const handleOpenModal = () => setOpenedModal(true);
   const handleCloseModal = () => setOpenedModal(false);
@@ -28,13 +27,7 @@ export default function CreateNewPauta() {
     { label: "Comissão de Segurança" },
   ];
 
-  const Checkbox = styled(MuiCheckbox)({
-    color: "#00A3FF",
 
-    "&.Mui-checked": {
-      color: "#00A3FF",
-    },
-  });
 
   const TextField = styled(MuiTextField)({
     width: "14rem",
@@ -47,8 +40,8 @@ export default function CreateNewPauta() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 1200,
-    height: 580,
+    width: 1300,
+    height: 700,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -96,7 +89,7 @@ export default function CreateNewPauta() {
                 variant="contained"
                 endIcon={<CheckRoundedIcon />}
               >
-                Criar
+                Criar pauta
               </Button>
             </div>
             <div className="flex justify-between items-center gap-12">
@@ -170,14 +163,10 @@ export default function CreateNewPauta() {
               "
                 />
               </div>
-              <div className="grid gap-5 overflow-scroll overflow-x-hidden max-h-[20rem]">
-                <div className="flex items-center gap-12">
-                  <Checkbox
-                    onClick={() => setCheckBoxClicked(!checkboxClicked)}
-                    defaultChecked={checkboxClicked}
-                  />
-                  <ProposalCard newPauta={true} />
-                </div>
+              <div className="grid gap-5 overflow-y-scroll max-h-[27rem]">
+                {[1, 2, 3,4,5].map((item) => (
+                  <NewPautaProposalCard />
+                ))}
               </div>
             </div>
           </div>
