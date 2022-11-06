@@ -7,29 +7,46 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
+import MuiTextField from "@mui/material/TextField";
+
+import { styled } from "@mui/material/styles";
 
 import Skeleton from "@mui/material/Skeleton";
 
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import { Tooltip } from "@mui/material";
+import { Divider, InputAdornment, Tooltip } from "@mui/material";
 
 interface DemandCardProps {
   status: string;
 }
 
 export default function DemandCard(props: DemandCardProps) {
-  const [open, setOpen] = useState(false);
-  const handleOpenReasonOfCancellation = () => setOpen(true);
-  const handleCloseReasonOfCancellation = () => setOpen(false);
+  const [openReasonOfCancellation, setOpenReasonOfCancellation] =
+    useState(false);
+
+  const [openGenerateProposal, setOpenGenerateProposal] = useState(false);
+
+  const handleOpenReasonOfCancellation = () =>
+    setOpenReasonOfCancellation(true);
+  const handleCloseReasonOfCancellation = () =>
+    setOpenReasonOfCancellation(false);
+
+  const handleOpenGenerateProposal = () => setOpenGenerateProposal(true);
+  const handleCloseGenerateProposal = () => setOpenGenerateProposal(false);
 
   function valuetext(value: number) {
     return `${value}°C`;
   }
 
-  const style = {
+  const TextField = styled(MuiTextField)({
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderLeft: "3px solid #0075B1",
+    },
+  });
+
+  const styleModalReasonOfCancellation = {
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
@@ -41,6 +58,18 @@ export default function DemandCard(props: DemandCardProps) {
     borderRadius: 2,
     boxShadow: 24,
     p: 4,
+  };
+
+  const styleModalGenerateProposal = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 580,
+    height: 405,
+    bgcolor: "background.paper",
+    borderRadius: 2,
+    boxShadow: 24,
   };
 
   const reasonOfCancellation = {
@@ -213,6 +242,7 @@ export default function DemandCard(props: DemandCardProps) {
                 <div>
                   <Tooltip title="Gerar proposta">
                     <Button
+                      onClick={handleOpenGenerateProposal}
                       variant="contained"
                       sx={{
                         backgroundColor: "#0075B1",
@@ -224,71 +254,121 @@ export default function DemandCard(props: DemandCardProps) {
                     </Button>
                   </Tooltip>
                   <Modal
-                    open={open}
-                    onClose={handleCloseReasonOfCancellation}
+                    open={openGenerateProposal}
+                    onClose={handleCloseGenerateProposal}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                   >
-                    <Box sx={style}>
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                        sx={{
-                          color: "#0075B1",
-                          fontWeight: "bold",
-                          fontSize: 30,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        Motivo da reprovação da demanda
-                      </Typography>
-                      <Typography
-                        id="modal-modal-description"
-                        sx={{
-                          mt: 5,
-                          fontSize: 18,
-                          fontWeight: 700,
-                          color: "#000000",
-                          display: "flex",
-                          columnGap: 0.5,
-                        }}
-                      >
-                        Motivo
-                        <Typography sx={{ color: "#AD0D0D", fontWeight: 500 }}>
-                          *
-                        </Typography>
-                      </Typography>
-                      <TextField
-                        id="outlined-multiline-static"
-                        disabled
-                        multiline
-                        rows={4}
-                        value={reasonOfCancellation.message}
-                        variant="outlined"
-                        sx={{
-                          width: 500,
-                          height: 100,
-                          mt: 2,
-                          mb: 5,
-                          borderRadius: 5,
-                          borderColor: "#0075B1",
-                        }}
-                      />
-                      <div className="flex justify-center items-center gap-4">
-                        <Button
-                          onClick={handleCloseReasonOfCancellation}
-                          variant="contained"
-                          style={{
-                            backgroundColor: "#0075B1",
-                            color: "#FFFFFF",
-                            width: 100,
-                          }}
-                        >
-                          OK
-                        </Button>
+                    <Box sx={styleModalGenerateProposal}>
+                      <div className="mb-5 h-14 w-full bg-dark-blue-weg flex justify-center items-center rounded-t-lg">
+                        <p className="font-roboto text-[#FFF] font-bold text-xl">
+                          Insira as seguintes informações
+                        </p>
+                      </div>
+                      <div className="flex justify-center items-center font-roboto">
+                        <div className="flex gap-14">
+                          <div className="grid justify-center items-center gap-1">
+                            <p className="font-bold text-dark-blue-weg">
+                              Prazo para a elaboração da proposta
+                            </p>
+                            <div className="grid justify-center items-center gap-10">
+                              <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                placeholder="dd/mm/aaaa"
+                                type="date"
+                                label="De:"
+                                size="small"
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start" />
+                                  ),
+                                }}
+                              />
+                              <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                placeholder="dd/mm/aaaa"
+                                type="date"
+                                label="Até:"
+                                size="small"
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start" />
+                                  ),
+                                }}
+                              />
+                            </div>
+                            <div className="grid justify-center items-center gap-4">
+                              <p className="font-bold text-dark-blue-weg">
+                                Link para EPIC do projeto no Jira
+                              </p>
+                              <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                placeholder="https://jira.weg.net/browse/EPIC-123"
+                                type="text"
+                                label="Link"
+                                size="small"
+                              />
+                            </div>
+                          </div>
+                          <div className="h-[19rem] w-0.5 bg-dark-blue-weg" />
+                          <div>
+                            <div className="h-[16rem]">
+                              <div className="grid gap-4 ml-4">
+                                <p className="font-bold text-dark-blue-weg">
+                                  Código PPM
+                                </p>
+                                <TextField
+                                  sx={{
+                                    width: 100,
+                                  }}
+                                  id="outlined-basic"
+                                  variant="outlined"
+                                  placeholder="123"
+                                  type="text"
+                                  label="PPM"
+                                  size="small"
+                                />
+                              </div>
+                            </div>
+                            <div className="flex justify-between items-end gap-1">
+                              <Button
+                                onClick={handleCloseGenerateProposal}
+                                variant="contained"
+                                sx={{
+                                  backgroundColor: "#C2BEBE",
+                                  color: "#505050",
+                                  fontSize: 11.5,
+                                  width: 80,
+
+                                  "&:hover": {
+                                    backgroundColor: "#C2BEBE",
+                                  },
+                                }}
+                              >
+                                Cancelar
+                              </Button>
+                              <Button
+                                onClick={handleCloseGenerateProposal}
+                                variant="contained"
+                                sx={{
+                                  backgroundColor: "#0075B1",
+                                  fontSize: 11.5,
+                                  width: 80,
+                                  marginTop: 2,
+
+                                  "&:hover": {
+                                    backgroundColor: "#0075B1",
+                                  },
+                                }}
+                              >
+                                Enviar
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </Box>
                   </Modal>
@@ -312,12 +392,12 @@ export default function DemandCard(props: DemandCardProps) {
                     </Button>
                   </Tooltip>
                   <Modal
-                    open={open}
+                    open={openReasonOfCancellation}
                     onClose={handleCloseReasonOfCancellation}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                   >
-                    <Box sx={style}>
+                    <Box sx={styleModalReasonOfCancellation}>
                       <Typography
                         id="modal-modal-title"
                         variant="h6"
