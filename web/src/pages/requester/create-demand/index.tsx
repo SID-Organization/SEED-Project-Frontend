@@ -3,13 +3,15 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Button } from "@mui/material";
+import { Button, InputAdornment } from "@mui/material";
+import MuiTextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import Draggable from "react-draggable";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import { styled } from "@mui/material/styles";
 
 import UploadIcon from "@mui/icons-material/Upload";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
@@ -56,6 +58,38 @@ export default function CreateDemand() {
     setValue(event.target.value as string);
   };
 
+  const TextField = styled(MuiTextField)({
+    width: "700px",
+    height: "3.5rem",
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#000",
+      },
+      "&:hover fieldset": {
+        borderColor: "#0075B1",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#0075B1",
+      },
+    },
+  });
+  const TextFieldValue = styled(MuiTextField)({
+    width: "300px",
+    height: "3.5rem",
+
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#000",
+      },
+      "&:hover fieldset": {
+        borderColor: "#0075B1",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#0075B1",
+      },
+    },
+  });
+
   return (
     <div>
       <div className="mb-7">
@@ -65,41 +99,39 @@ export default function CreateDemand() {
           </h1>
         </div>
       </div>
-      <div className="grid justify-center items-center">
-        <div className="grid mb-4">
-          <h1 className="font-roboto text-[17px] font-bold">Título</h1>
-          <input
-            className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
-            type="text"
-            onChange={(e) => setTitle(e.target.value.toUpperCase())}
-            value={title}
-          />
-        </div>
-        <div className="grid mb-4">
-          <h1 className="font-roboto text-[17px] font-bold">
-            Problema a ser resolvido (Situação atual)
-          </h1>
-          <input
-            className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
-            type="text"
-          />
-        </div>
-        <div className="grid mb-4">
-          <h1 className="font-roboto text-[17px] font-bold">Proposta</h1>
-          <input
-            className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
-            type="text"
-          />
-        </div>
-        <div className="grid mb-4">
-          <h1 className="font-roboto text-[17px] font-bold">
-            Objetivo (O que irá melhorar com a execução desta proposta?)
-          </h1>
-          <input
-            className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
-            type="text"
-          />
-        </div>
+      <div className="grid justify-center items-center gap-14">
+        <TextField
+          id="outlined-textarea"
+          label="Título"
+          variant="outlined"
+          type="text"
+          multiline
+          maxRows={3}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Problema a ser resolvido (Situação atual)"
+          variant="outlined"
+          type="text"
+          multiline
+          maxRows={3}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Proposta"
+          variant="outlined"
+          type="text"
+          multiline
+          maxRows={3}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Objetivo (O que irá melhorar com a execução desta proposta?)"
+          variant="outlined"
+          type="text"
+          multiline
+          maxRows={3}
+        />
         <div className="grid">
           <div className="flex justify-center items-center gap-10 mb-5">
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
@@ -109,12 +141,19 @@ export default function CreateDemand() {
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           </div>
           <div className="grid mb-4">
-            <h1 className="font-roboto text-[17px] font-bold">Valor mensal</h1>
             <div className="grid">
               <div className="flex gap-4 mb-3">
-                <input
-                  className="w-[300px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
-                  type="text"
+                <TextFieldValue
+                  id="outlined-textarea"
+                  label="Valor mensal"
+                  variant="outlined"
+                  type="number"
+                  multiline
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">{value}</InputAdornment>
+                    ),
+                  }}
                 />
                 <Box sx={{ minWidth: 100 }}>
                   <FormControl fullWidth>
@@ -131,17 +170,20 @@ export default function CreateDemand() {
                         height: "3.5rem",
                       }}
                     >
-                      <MenuItem value={10}>BRL</MenuItem>
-                      <MenuItem value={20}>USD</MenuItem>
-                      <MenuItem value={30}>EUR</MenuItem>
+                      <MenuItem value={"R$"}>BRL</MenuItem>
+                      <MenuItem value={"$"}>USD</MenuItem>
+                      <MenuItem value={"€"}>EUR</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
               </div>
-              <h1 className="font-roboto text-[17px] font-bold">Descrição</h1>
-              <input
-                className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
+              <TextField
+                id="outlined-basic"
+                label="Descrição"
+                variant="outlined"
                 type="text"
+                multiline
+                maxRows={3}
               />
             </div>
           </div>
@@ -155,39 +197,28 @@ export default function CreateDemand() {
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           </div>
           <div className="grid mb-4">
-            <h1 className="font-roboto text-[17px] font-bold">Valor mensal</h1>
             <div className="grid">
               <div className="flex gap-4 mb-3">
-                <input
-                  className="w-[300px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
-                  type="text"
+                <TextFieldValue
+                  id="outlined-textarea"
+                  label="Valor mensal"
+                  variant="outlined"
+                  type="number"
+                  multiline
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">{value}</InputAdornment>
+                    ),
+                  }}
                 />
-                <Box sx={{ minWidth: 100 }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Moeda</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={value}
-                      label="Valor"
-                      onChange={handleChange}
-                      style={{
-                        borderRadius: "0.5rem",
-                        fontSize: "1rem",
-                        height: "3.5rem",
-                      }}
-                    >
-                      <MenuItem value={10}>BRL</MenuItem>
-                      <MenuItem value={20}>USD</MenuItem>
-                      <MenuItem value={30}>EUR</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
               </div>
-              <h1 className="font-roboto text-[17px] font-bold">Descrição</h1>
-              <input
-                className="w-[700px] h-[3.5rem] outline-none text-base pl-4 rounded-lg border-l-4 border-[1px] border-light-blue-weg font-roboto"
+              <TextField
+                id="outlined-basic"
+                label="Descrição"
+                variant="outlined"
                 type="text"
+                multiline
+                maxRows={3}
               />
             </div>
           </div>
