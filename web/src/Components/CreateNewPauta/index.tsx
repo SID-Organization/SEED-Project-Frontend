@@ -12,9 +12,8 @@ import MuiTextField from "@mui/material/TextField";
 
 import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-
-import { IMaskInput } from "react-imask";
-import MuiCheckbox from "@mui/material/Checkbox";
+import { InputAdornment } from "@mui/material";
+import NewPautaProposalCard from "../NewPautaProposalCard";
 
 export default function CreateNewPauta() {
   const [openedModal, setOpenedModal] = useState(false);
@@ -22,21 +21,11 @@ export default function CreateNewPauta() {
   const handleOpenModal = () => setOpenedModal(true);
   const handleCloseModal = () => setOpenedModal(false);
 
-  const checkBoxLabel = { inputProps: { "aria-label": "Checkbox demo" } };
-
   const Comissions = [
     { label: "Comissão de Educação" },
     { label: "Comissão de Saúde" },
     { label: "Comissão de Segurança" },
   ];
-
-  const Checkbox = styled(MuiCheckbox)({
-    color: "#00A3FF",
-
-    "&.Mui-checked": {
-      color: "#00A3FF",
-    },
-  });
 
   const TextField = styled(MuiTextField)({
     width: "14rem",
@@ -49,8 +38,8 @@ export default function CreateNewPauta() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 1200,
-    height: 800,
+    width: 1300,
+    height: 600,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -90,7 +79,7 @@ export default function CreateNewPauta() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={modalStyled}>
-          <div className="font-roboto grid gap-10">
+          <div className="font-roboto grid gap-10 w-full">
             <div className="flex justify-between items-center">
               <h1 className="text-xl font-bold">Pauta 001</h1>
               <Button
@@ -98,7 +87,7 @@ export default function CreateNewPauta() {
                 variant="contained"
                 endIcon={<CheckRoundedIcon />}
               >
-                Criar
+                Criar pauta
               </Button>
             </div>
             <div className="flex justify-between items-center gap-12">
@@ -109,6 +98,10 @@ export default function CreateNewPauta() {
                   variant="outlined"
                   placeholder="dd/mm/aaaa"
                   type="date"
+                  label="Data da reunião"
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
                 />
               </div>
 
@@ -119,9 +112,12 @@ export default function CreateNewPauta() {
                     id="outlined-basic"
                     label="Início"
                     variant="outlined"
-                    placeholder="hh:mm"
+                    type="time"
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start" />,
+                    }}
                     sx={{
-                      width: "6rem",
+                      width: "10rem",
                       height: "3rem",
                     }}
                   />
@@ -129,9 +125,12 @@ export default function CreateNewPauta() {
                     id="outlined-basic"
                     label="Término"
                     variant="outlined"
-                    placeholder="hh:mm"
+                    type="time"
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start" />,
+                    }}
                     sx={{
-                      width: "6rem",
+                      width: "10rem",
                       height: "3rem",
                     }}
                   />
@@ -148,84 +147,24 @@ export default function CreateNewPauta() {
                 )}
               />
             </div>
-
-            <div className="flex justify-center items-center gap-5">
-              <div
-                className="
-                w-10 h-[1.5px] bg-[#0075B1] rounded-full
+            <div className="grid gap-2">
+              <div className="flex justify-center items-center gap-5">
+                <div
+                  className="
+                w-10 h-[1.5px] bg-light-blue-weg rounded-full
               "
-              />
-              <h1 className="text-xl">Propostas à apreciar</h1>
-              <div
-                className="
-                w-10 h-[1.5px] bg-[#0075B1] rounded-full
+                />
+                <h1 className="text-xl">Propostas à apreciar</h1>
+                <div
+                  className="
+                w-10 h-[1.5px] bg-light-blue-weg rounded-full
               "
-              />
-            </div>
-            <div className="grid gap-5 overflow-scroll overflow-x-hidden max-h-[28%]">
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
+                />
               </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
-              </div>
-              <div className="flex items-center gap-12">
-                <Checkbox {...checkBoxLabel} defaultChecked />
-                <ProposalCard newPauta={true} />
+              <div className="grid gap-5 overflow-y-scroll max-h-[21rem]">
+                {[1, 2, 3, 4, 5].map((item) => (
+                  <NewPautaProposalCard />
+                ))}
               </div>
             </div>
           </div>

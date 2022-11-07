@@ -1,7 +1,7 @@
 import SubHeader from "../../../Components/SubHeader";
 import DemandCard from "../../../Components/DemandCard";
 import DemandList from "../../../Components/DemandCardList";
-import NoDemands from "../../../Components/NoDemands";
+import NoDemands from "../../../Components/noDemands";
 
 import "../../../styles/index.css";
 import { useState } from "react";

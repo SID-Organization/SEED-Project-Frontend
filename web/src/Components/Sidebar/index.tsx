@@ -256,7 +256,7 @@ const Sidebar = () => {
           linkTo="/mensagens"
         />
 
-        <div className="mt-32">
+        <div>
           <SidebarItem
             title="Sair"
             outlinedIcon={
