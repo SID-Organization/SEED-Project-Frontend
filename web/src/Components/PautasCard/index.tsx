@@ -297,9 +297,24 @@ export default function PautasCard(props: PautaCardProps) {
         <Divider />
         <AccordionDetails>
           <div className="grid gap-5">
-            <ProposalCard />
-            <ProposalCard />
-            <ProposalCard />
+            <ProposalCard
+              title="Proposta 1"
+              executionTime={10}
+              value={1000}
+              referenceDemand="3123 - Automação de software"
+            />
+            <ProposalCard
+              title="Proposta 2"
+              executionTime={30}
+              value={2500}
+              referenceDemand="7659 - Fixar bugs"
+            />
+            <ProposalCard
+              title="Proposta 3"
+              executionTime={20}
+              value={3000}
+              referenceDemand="4122 - Construção de app"
+            />
           </div>
         </AccordionDetails>
       </Accordion>

@@ -10,7 +10,11 @@ import MuiOpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import { IconButton, Tooltip } from "@mui/material";
 
 interface ProposalCardProps {
-  newPauta: boolean;
+  newPauta?: boolean;
+  title: string;
+  executionTime: number;
+  value: number;
+  referenceDemand: string;
 }
 
 export default function ProposalCard(props: ProposalCardProps) {
@@ -69,7 +73,7 @@ export default function ProposalCard(props: ProposalCardProps) {
                     props.newPauta ? "text-base font-bold" : "font-bold"
                   }`}
                 >
-                  Proposta 0001
+                  {props.title}
                 </h1>
               </div>
               <div className="flex justify-center items-center gap-5">
@@ -79,7 +83,9 @@ export default function ProposalCard(props: ProposalCardProps) {
                 `}
                 >
                   Tempo de execução:{" "}
-                  <span className="font-normal text-gray-500">1050 horas</span>
+                  <span className="font-normal text-gray-500">
+                    {props.executionTime} horas
+                  </span>
                 </h1>
                 <h1
                   className={`
@@ -87,7 +93,10 @@ export default function ProposalCard(props: ProposalCardProps) {
                 `}
                 >
                   Valor:{" "}
-                  <span className="font-normal text-gray-500"> R$ 20.000</span>
+                  <span className="font-normal text-gray-500">
+                    {" "}
+                    R$ {props.value}
+                  </span>
                 </h1>
               </div>
             </div>
