@@ -39,7 +39,7 @@ export default function CreateNewPauta() {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 1300,
-    height: 600,
+    height: 750,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -161,7 +161,7 @@ export default function CreateNewPauta() {
               "
                 />
               </div>
-              <div className="grid gap-5 overflow-y-scroll max-h-[21rem]">
+              <div className="grid gap-5 overflow-y-scroll max-h-[31rem]">
                 {[1, 2, 3, 4, 5].map((item) => (
                   <NewPautaProposalCard />
                 ))}
