@@ -1,10 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridToolbar
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import MuiBox from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
@@ -17,25 +13,25 @@ const columns: GridColDef[] = [
     field: "status",
     headerName: "Status",
     width: 80,
-    renderCell: params =>
+    renderCell: (params) => (
       <Tooltip title={params.value}>
         <SquareRoundedIcon sx={{ color: getStatusColor(params.value) }} />
-      </Tooltip>,
+      </Tooltip>
+    ),
     maxWidth: 80,
     align: "center",
-    headerAlign: "center"
+    headerAlign: "center",
   },
   { field: "solicitante", headerName: "Solicitante", width: 210 },
   {
     field: "ultimaAtualizacao",
     headerName: "Última atualização",
     width: 210,
-    renderCell: params =>
+    renderCell: (params) => (
       <Tooltip title={params.value}>
-        <Typography variant="body2">
-          {params.value}
-        </Typography>
+        <Typography variant="body2">{params.value}</Typography>
       </Tooltip>
+    ),
   },
   {
     field: "score",
@@ -43,14 +39,14 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     type: "number",
-    width: 120
+    width: 120,
   },
   {
     field: "valor",
     headerName: "Valor",
     headerAlign: "center",
     type: "string",
-    width: 120
+    width: 120,
   },
   {
     field: "versao",
@@ -59,11 +55,10 @@ const columns: GridColDef[] = [
     headerAlign: "center",
     type: "number",
     width: 120,
-    renderCell: params =>
-      <Typography variant="body2">
-        {params.value}
-      </Typography>
-  }
+    renderCell: (params) => (
+      <Typography variant="body2">{params.value}</Typography>
+    ),
+  },
 ];
 
 /**
@@ -72,7 +67,7 @@ const columns: GridColDef[] = [
  * 2 - Assesment (Classificado pelo analista de TI) - Azul claro - #64C3D5
  * 3 - Aprovado pelo gerente da área - Azul - #00579D
  * 4 - Aprovado pela comissão - Verde - #7EB61C
- * 5 - Proposta em execução - Laranja - #EF8300 
+ * 5 - Proposta em execução - Laranja - #EF8300
  * 6 - Suporte - Amarelo - #FFD600
  * 7 - Concluída - Verde - #00612E
  * 8 - Cancelada - Vermelho - #C31700
@@ -119,7 +114,7 @@ const demandStatusType = [
   "Proposta em execução",
   "Suporte",
   "Concluída",
-  "Cancelada"
+  "Cancelada",
 ];
 
 const rows = [
@@ -130,7 +125,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 100.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 2,
@@ -139,7 +134,7 @@ const rows = [
     ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
     score: 543,
     valor: "R$ 1.000,00",
-    versao: 1.2
+    versao: 1.2,
   },
   {
     id: 3,
@@ -148,7 +143,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 4,
@@ -157,7 +152,7 @@ const rows = [
     ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
     score: 543,
     valor: "R$ 1.000,00",
-    versao: 1.2
+    versao: 1.2,
   },
   {
     id: 5,
@@ -166,7 +161,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 6,
@@ -175,7 +170,7 @@ const rows = [
     ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
     score: 543,
     valor: "R$ 1.000,00",
-    versao: 1.2
+    versao: 1.2,
   },
   {
     id: 7,
@@ -184,7 +179,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 8,
@@ -193,7 +188,7 @@ const rows = [
     ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
     score: 543,
     valor: "R$ 1.000,00",
-    versao: 1.2
+    versao: 1.2,
   },
   {
     id: 9,
@@ -202,7 +197,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 10,
@@ -211,7 +206,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 11,
@@ -220,7 +215,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 12,
@@ -229,7 +224,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 13,
@@ -238,7 +233,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 14,
@@ -247,7 +242,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 15,
@@ -256,7 +251,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 16,
@@ -265,7 +260,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 17,
@@ -274,7 +269,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 18,
@@ -283,7 +278,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 19,
@@ -292,7 +287,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 20,
@@ -301,7 +296,7 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
+    versao: 4.2,
   },
   {
     id: 21,
@@ -310,13 +305,13 @@ const rows = [
     ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
     score: 324,
     valor: "R$ 1.000,00",
-    versao: 4.2
-  }
+    versao: 4.2,
+  },
 ];
 
 const Box = styled(MuiBox)(() => ({
   height: "45rem",
-  width: "50%"
+  width: "80%",
 }));
 
 export default function DataTable() {
@@ -329,15 +324,15 @@ export default function DataTable() {
         columns={columns}
         rowsPerPageOptions={[5, 10, 25]}
         pageSize={pageSize}
-        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         components={{
-          Toolbar: GridToolbar
+          Toolbar: GridToolbar,
         }}
         // checkboxSelection
         sx={{
           color: "#023A67",
           fontWeight: "bold",
-          border: "none"
+          border: "none",
         }}
       />
     </Box>
