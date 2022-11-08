@@ -11,6 +11,17 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { MenuOutlined } from "@mui/icons-material";
+import styled from "@emotion/styled";
+import { Accordion, Button } from "@mui/material";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import MuiButton from "@mui/material/Button";
+
+import BrazilFlag from "../../assets/flag-countries/brazil.png";
+import UnitedStatesFlag from "../../assets/flag-countries/united-states.png";
+import SpainFlag from "../../assets/flag-countries/spain.png";
+import ChinaFlag from "../../assets/flag-countries/china.png";
+import GermanyFlag from "../../assets/flag-countries/germany.png";
 
 import { Link } from "react-router-dom";
 
@@ -18,10 +29,11 @@ import Switch from "@mui/material/Switch";
 
 import { useState } from "react";
 
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
-import styled from "@emotion/styled";
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -30,6 +42,27 @@ export default function PrimarySearchAppBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const AccordionDetails = styled(MuiAccordionDetails)({
+    padding: "0",
+  });
+
+  const Button = styled(MuiButton)({
+    backgroundColor: "transparent",
+    color: "#000",
+    textTransform: "none",
+    fontSize: "0.875rem",
+    fontFamily: "Roboto",
+    boxShadow: "none",
+    width: "100%",
+    height: "3rem",
+    fontWeight: "normal",
+
+    "&:hover": {
+      backgroundColor: "transparent",
+      color: "#000",
+    },
+  });
 
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -68,8 +101,84 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Idioma</MenuItem>
+      <Link to="/perfil">
+        <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
+      </Link>
+      <Accordion
+        sx={{
+          border: "none",
+          boxShadow: "none",
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          className="font-roboto"
+        >
+          <h1 className="font-roboto">Idioma</h1>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Button variant="contained">
+            <div className="flex items-center justify-center gap-5">
+              <img
+                className="
+                  w-7
+                  h-7
+              "
+                src={BrazilFlag}
+                alt=""
+              />
+              Português
+            </div>
+          </Button>
+        </AccordionDetails>
+        <AccordionDetails>
+          <Button variant="contained">
+            <div className="flex items-center justify-center gap-5">
+              <img
+                className="
+                  w-7
+                  h-7
+              "
+                src={UnitedStatesFlag}
+                alt=""
+              />
+              <h1 className="mr-6 ml-1">Inglês</h1>
+            </div>
+          </Button>
+        </AccordionDetails>
+        <AccordionDetails>
+          <Button variant="contained">
+            <div className="flex items-center justify-center gap-5">
+              <img
+                className="
+                  w-7
+                  h-7
+              "
+                src={SpainFlag}
+                alt=""
+              />
+              <h1 className="ml-1">Espanhol</h1>
+            </div>
+          </Button>
+        </AccordionDetails>
+        <AccordionDetails>
+          <Button variant="contained">
+            <div className="flex items-center justify-center gap-5">
+              <img
+                className="
+                  w-7
+                  h-7
+              "
+                src={ChinaFlag}
+                alt=""
+              />
+              <h1 className="mr-[0.9rem] ml-1">Chinês</h1>
+            </div>
+          </Button>
+        </AccordionDetails>
+      </Accordion>
       <MenuItem>
         Modo escuro
         <Switch {...label} defaultChecked />

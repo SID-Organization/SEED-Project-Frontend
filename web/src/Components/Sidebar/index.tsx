@@ -10,7 +10,7 @@ import Link from "@mui/material/Link";
 
 import MuiDivider from "@mui/material/Divider";
 
-import SidebarLink from "../SidebarLink";
+import SidebarItem from "./SidebarItem";
 
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -39,9 +39,14 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+
+import { Tooltip } from "@mui/material";
+import SidebarLink from "./SidebarItem";
+
 const openDrawerWidth = 230;
 
-export default function Sidebar() {
+export default function Sidebar () {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarFixed, setIsSidebarFixed] = useState(false);
 
@@ -101,6 +106,12 @@ export default function Sidebar() {
       outlinedIcon: <MessageOutlinedIcon sx={iconStyle} />,
       fullIcon: <MessageIcon sx={iconStyle} />,
       linkTo: "/mensagens"
+    },
+    {
+      title: "Sair",
+      outlinedIcon: <LogoutRoundedIcon sx={iconStyle} />,
+      fullIcon: <LogoutRoundedIcon sx={iconStyle} />,
+      linkTo: "/"
     }
   ];
 
@@ -148,7 +159,13 @@ export default function Sidebar() {
         }
         variant="permanent"
         open={isSidebarOpen}
-        sx={{ "& .MuiPaper-root": { zIndex: 10, backgroundColor: "#023A67" } }}
+        sx={{
+          "& .MuiPaper-root": {
+            zIndex: 10,
+            backgroundColor: "#023A67",
+            boxShadow: "1px 0px 7px 0px #838383",
+          },
+        }}
       >
         <Toolbar />
         <div
@@ -159,7 +176,7 @@ export default function Sidebar() {
             sx={{
               backgroundColor: "#002848",
               height: "20px",
-              width: "20px"
+              width: "20px",
             }}
           >
             {isSidebarFixed
@@ -174,6 +191,7 @@ export default function Sidebar() {
           </IconButton>
         </div>
         {getSideBarItems()}
+       
       </Drawer>
     </div>
   );

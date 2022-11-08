@@ -1,7 +1,6 @@
 import SubHeader from "../../../Components/SubHeader";
 import DemandCard from "../../../Components/DemandCard";
 import DemandsList from "../../../Components/DemandCardList";
-import NoDemands from "../../../Components/noDemands";
 
 import "../../../styles/index.css";
 import { useState } from "react";
@@ -24,6 +23,13 @@ export default function homeDemands() {
         <DemandCard status="Aberto" />
         <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Aberto" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="Aberto" />
+        <DemandCard status="AprovadoPelaComissao" />
+        <DemandCard status="Aberto" />
+        <DemandCard status="Cancelado" />
+        <DemandCard status="AprovadoPelaComissao" />
+        <DemandCard status="Cancelado" />
         <DemandCard status="Cancelado" />
         <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Cancelado" />

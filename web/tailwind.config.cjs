@@ -28,6 +28,7 @@ module.exports = {
     backgroundImage: {
       loginWallpaper: "url('./src/assets/login-background.png')",
       wegLogo: "url('./src/assets/weg-logo.png')",
+      profilePicture: "url('./src/assets/profile-pic.png')",
     },
     dropShadow: {
       "weg-shadow": "9px 6px 15px #000000b8",

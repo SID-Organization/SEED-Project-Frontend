@@ -30,7 +30,20 @@ export default function subHeader({
   setIsEditEnabled,
 }: any) {
   const [arrowUp, setArrowUp] = useState(false);
-  const options = ["Aceitar", "Devolver", "Recusar"];
+  const options = [
+    {
+      text: "Classificar demanda",
+      key: 1,
+    },
+    {
+      text: "Devolver",
+      key: 2,
+    },
+    {
+      text: "Recusar",
+      key: 3,
+    },
+  ];
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
   const notifyEditEnabledOff = () =>
     toast.success("Alterações salvas com sucesso!");
@@ -160,11 +173,11 @@ export default function subHeader({
                   <MenuList id="split-button-menu" autoFocusItem>
                     {options.map((option, index) => (
                       <MenuItem
-                        key={option}
+                        key={option.key}
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
                       >
-                        {option}
+                        {option.text}
                       </MenuItem>
                     ))}
                   </MenuList>
@@ -182,6 +195,7 @@ export default function subHeader({
             alignItems: "center",
             width: 240,
             height: 40,
+            marginRight: "1rem",
           }}
           style={{
             boxShadow: "#bdbdbd 0px 1px 5px 1px",

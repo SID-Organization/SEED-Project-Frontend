@@ -27,6 +27,13 @@ export default function DemandManager() {
           <DemandCard status="Aberto" />
           <DemandCard status="Aberto" />
           <DemandCard status="Aberto" />
+          <DemandCard status="Aberto" />
+          <DemandCard status="Aberto" />
+          <DemandCard status="Aberto" />
+          <DemandCard status="Aberto" />
+          <DemandCard status="Aberto" />
+          <DemandCard status="Aberto" />
+          <DemandCard status="Aberto" />
         </div>
       )}
     </div>

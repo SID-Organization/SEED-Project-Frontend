@@ -3,7 +3,6 @@ import { useState } from "react";
 import {
   DataGrid,
   GridColDef,
-  GridValueGetterParams,
   GridToolbar
 } from "@mui/x-data-grid";
 import MuiBox from "@mui/material/Box";
@@ -317,7 +316,7 @@ const rows = [
 
 const Box = styled(MuiBox)(() => ({
   height: "45rem",
-  width: "80%"
+  width: "50%"
 }));
 
 export default function DataTable() {
