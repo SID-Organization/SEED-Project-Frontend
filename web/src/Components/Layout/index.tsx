@@ -12,7 +12,7 @@ export default function Layout() {
       <Header />
       <div className="flex">
         <Sidebar />
-        <div className="screen-content w-full h-full mt-16">
+        <div className="screen-content w-full h-full mt-14">
           <PathHistory />
           <Outlet />
         </div>

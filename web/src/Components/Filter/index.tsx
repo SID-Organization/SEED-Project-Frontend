@@ -13,14 +13,19 @@ import { useState } from "react";
 
 export default function Filter() {
   const options = [
-    "Create a merge commit",
-    "Filtrar demandas por",
-    "Rebase and merge",
+    "Solicitante",
+    "Analista",
+    "Status",
+    "Data de criação",
+    "Data de atualização",
+    "Score",
+    "Valor",
+    "Versão"
   ];
 
   const [open, setOpen] = useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);
@@ -114,7 +119,6 @@ export default function Filter() {
                     {options.map((option, index) => (
                       <MenuItem
                         key={option}
-                        disabled={index === 2}
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
                       >

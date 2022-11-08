@@ -4,6 +4,12 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontSize: {
+        "usual": "14px",
+        "text": "12px",
+        "title": "16px"
+      },
+
       fontFamily: {
         sans: ["Montserrat", "sans-serif"],
         roboto: ["Roboto", "sans-serif"],

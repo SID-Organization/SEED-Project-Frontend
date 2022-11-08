@@ -303,13 +303,15 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+
+  
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="fixed"
           sx={{
-            "& .MuiToolbar-root": { zIndex: 20, backgroundColor: "#0075B1" },
+            "& .MuiToolbar-root": { zIndex: 20, backgroundColor: "#0075B1", minHeight: "56px" },
           }}
         >
           <Toolbar>
@@ -338,7 +340,7 @@ export default function PrimarySearchAppBar() {
                     columnGap: "0.5rem",
                   }}
                 >
-                  <h1 className="text-base flex justify-center items-center">
+                  <h1 className="text-usual flex justify-center items-center">
                     Henrique Cole
                   </h1>
                   <AccountCircle />
