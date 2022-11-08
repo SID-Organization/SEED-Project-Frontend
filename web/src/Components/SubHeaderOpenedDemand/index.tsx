@@ -11,7 +11,23 @@ import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import MuiTextField from "@mui/material/TextField";
+import { styled } from "@mui/material/styles";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import {
+  Badge,
+  InputLabel,
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import MuiFormControl from "@mui/material/FormControl";
+import MuiAutocomplete from "@mui/material/Autocomplete";
 import toast, { Toaster } from "react-hot-toast";
 
 import DoneIcon from "@mui/icons-material/Done";
@@ -19,7 +35,9 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import DescriptionIcon from "@mui/icons-material/Description";
+import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 import { useState } from "react";
 
 import "../../styles/index.css";
@@ -29,8 +47,16 @@ export default function subHeader({
   isEditEnabled,
   setIsEditEnabled,
 }: any) {
-  const [arrowUp, setArrowUp] = useState(false);
-  const options = [
+  const [openModal, setOpenModal] = useState(false);
+  const [requesterBu, setRequesterBu] = useState("");
+  const [classifyDemandSize, setClassifyDemandSize] = useState("");
+  const [responsableSection, setResponsableSection] = useState("");
+  const [benefitedBu, setBenefitedBu] = useState<any>();
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+  const actionOptions = [
     {
       text: "Classificar demanda",
       key: 1,
@@ -44,27 +70,148 @@ export default function subHeader({
       key: 3,
     },
   ];
+
+  const sections = [
+    {
+      text: "Utilidades",
+      key: 1,
+    },
+    {
+      text: "Comunicação",
+      key: 2,
+    },
+    {
+      text: "Financeiro",
+      key: 3,
+    },
+    {
+      text: "RH",
+      key: 4,
+    },
+    {
+      text: "TI",
+      key: 5,
+    },
+    {
+      text: "Vendas",
+      key: 6,
+    },
+  ];
+
+  const requesterBUs = [
+    {
+      text: "WEG Digital Solutions",
+      key: 1,
+    },
+    {
+      text: "WEG Industrial Solutions",
+      key: 2,
+    },
+    {
+      text: "WEG Energy Solutions",
+      key: 3,
+    },
+    {
+      text: "WEG Automation Solutions",
+      key: 4,
+    },
+    {
+      text: "WEG Motors",
+      key: 5,
+    },
+    {
+      text: "WEG Services",
+      key: 6,
+    },
+  ];
+
+  const beneficiaryBUs = [
+    {
+      text: "WEG Digital Solutions",
+      key: 1,
+    },
+    {
+      text: "WEG Industrial Solutions",
+      key: 2,
+    },
+    {
+      text: "WEG Energy Solutions",
+      key: 3,
+    },
+    {
+      text: "WEG Automation Solutions",
+      key: 4,
+    },
+    {
+      text: "WEG Motors",
+      key: 5,
+    },
+    {
+      text: "WEG Services",
+      key: 6,
+    },
+  ];
+
+  const demandSizes = [
+    {
+      text: "Muito grande",
+      description: "Acima de 3000h",
+      key: 1,
+    },
+    {
+      text: "Grande",
+      description: "Entre 1001h e 3000h",
+      key: 2,
+    },
+    {
+      text: "Média",
+      description: "Entre 301h e 1000h",
+      key: 3,
+    },
+    {
+      text: "Pequena",
+      description: "Entre 41h e 300h",
+      key: 4,
+    },
+    {
+      text: "Muito pequena",
+      description: "Entre 1h - 40h",
+      key: 5,
+    },
+  ];
+
+  const styleModal = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 1400,
+    bgcolor: "background.paper",
+    borderRadius: "0.125rem",
+    boxShadow: 24,
+  };
+
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
   const notifyEditEnabledOff = () =>
     toast.success("Alterações salvas com sucesso!");
 
-  const [open, setOpen] = React.useState(false);
+  const [openActions, setOpenActions] = useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(1);
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
     index: number
   ) => {
     setSelectedIndex(index);
-    setOpen(false);
+    setOpenActions(false);
   };
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleToggleActions = () => {
+    setOpenActions((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: Event) => {
+  const handleCloseActions = (event: Event) => {
     if (
       anchorRef.current &&
       anchorRef.current.contains(event.target as HTMLElement)
@@ -72,7 +219,7 @@ export default function subHeader({
       return;
     }
 
-    setOpen(false);
+    setOpenActions(false);
   };
 
   function editInput() {
@@ -84,8 +231,306 @@ export default function subHeader({
     }
   }
 
+  const TextField = styled(MuiTextField)({
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderLeft: "3px solid #0075B1",
+    },
+  });
+
+  const FormControl = styled(MuiFormControl)({
+    width: 250,
+
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderLeft: "3px solid #0075B1",
+    },
+  });
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+
+  const Autocomplete = styled(MuiAutocomplete)({
+    width: 250,
+  });
+
+  const handleChangeRequesterBu = (event: SelectChangeEvent) => {
+    setRequesterBu(event.target.value as string);
+  };
+
+  const handleChangeClassifyDemandSize = (event: SelectChangeEvent) => {
+    setClassifyDemandSize(event.target.value as string);
+  };
+
+  function createData(name: string, size: string) {
+    return { name, size };
+  }
+
+  const tableFileRows = [
+    createData("Resumo.docx", "17/08/2022"),
+    createData("Resumo.docx", "17/08/2022"),
+    createData("Resumo.docx", "17/08/2022"),
+  ];
+
   return (
     <div>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleModal}>
+          <div className="font-roboto">
+            <div className="mb-5 flex items-center justify-center bg-dark-blue-weg h-20 w-full rounded-t-sm">
+              <h1 className="font-bold text-white text-2xl">
+                Insira as seguintes informações
+              </h1>
+            </div>
+            <div className="flex justify-evenly items-center mb-14">
+              <div className="grid justify-center items-center gap-2">
+                <p className="font-bold text-dark-blue-weg">
+                  Seção da TI responsável
+                </p>
+                <FormControl variant="outlined" size="small">
+                  <Autocomplete
+                    size="small"
+                    disablePortal
+                    id="combo-box-demo"
+                    options={sections.map((option) => option.text)}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Seção" />
+                    )}
+                    isOptionEqualToValue={(option, value) => option === value}
+                    value={responsableSection}
+                    onChange={(event, newValue) => {
+                      setResponsableSection(newValue as string);
+                    }}
+                  />
+                </FormControl>
+              </div>
+              <div className="grid justify-center items-center gap-2">
+                <p className="font-bold text-dark-blue-weg">BU solicitante</p>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">BU</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={requesterBu}
+                    label="BU"
+                    onChange={handleChangeRequesterBu}
+                  >
+                    {requesterBUs.map((item) => (
+                      <MenuItem value={item.key}>{item.text}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="grid justify-center items-center gap-2">
+                <p className="font-bold text-dark-blue-weg">BUs beneficiadas</p>
+                <FormControl fullWidth size="small">
+                  <Autocomplete
+                    sx={{
+                      width: 250,
+                    }}
+                    size="small"
+                    multiple
+                    id="tags-outlined"
+                    options={beneficiaryBUs.map((item) => item.text)}
+                    getOptionLabel={(option) => option as string}
+                    value={benefitedBu}
+                    onChange={(event, newValues) => {
+                      setBenefitedBu(newValues);
+                    }}
+                    isOptionEqualToValue={(option, value) => option === value}
+                    filterSelectedOptions
+                    renderInput={(params) => (
+                      <TextField {...params} label="BUs" />
+                    )}
+                  />
+                </FormControl>
+              </div>
+              <div className="grid justify-center items-center gap-2 mr-20">
+                <p className="font-bold text-dark-blue-weg">
+                  Classificação de tamanho
+                </p>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Classifique um tamanho
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={classifyDemandSize}
+                    label="Classifique um tamanho"
+                    onChange={handleChangeClassifyDemandSize}
+                    sx={{
+                      display: "grid",
+                      width: 320,
+                    }}
+                  >
+                    {demandSizes.map((item) => (
+                      <MenuItem value={item.key}>
+                        <Badge
+                          badgeContent={item.description}
+                          color="primary"
+                          anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                          }}
+                          sx={{
+                            "& .MuiBadge-badge": {
+                              backgroundColor: "#0075B1",
+                              color: "#fff",
+                              display: "flex",
+                              left: "60px",
+                              top: "12px",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "8rem",
+                            },
+                          }}
+                        >
+                          {item.text}
+                        </Badge>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+            <div className="flex justify-center items-center">
+              <TableContainer
+                component={Paper}
+                sx={{
+                  width: "35rem",
+                  "&:first-child": {
+                    backgroundColor: "#e5e5e5",
+                  },
+                }}
+              >
+                <Table sx={{ minWidth: 500 }} aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          "&:first-child": {
+                            backgroundColor: "#e5e5e5",
+                            color: "black",
+                            fontWeight: "bold",
+                            fontSize: "1.2rem",
+                            border: "#d4d4d4 solid 2px",
+                          },
+                        }}
+                      >
+                        Arquivo
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{
+                          fontSize: "1.2rem",
+                          border: "#d4d4d4 solid 2px",
+                          "&:last-child": {
+                            backgroundColor: "#e5e5e5",
+                            color: "black",
+                            fontWeight: "bold",
+                          },
+                        }}
+                      >
+                        Anexado em
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {tableFileRows.map((row) => (
+                      <StyledTableRow key={row.name}>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          <Tooltip title="Baixar arquivo">
+                            <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
+                          </Tooltip>
+                          {row.name}
+                        </StyledTableCell>
+                        <div className="flex justify-center items-center">
+                          <StyledTableCell align="center">
+                            {row.size}
+                          </StyledTableCell>
+                          <Tooltip title="Deletar arquivo">
+                            <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
+                          </Tooltip>
+                        </div>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                <div className="flex justify-center items-center mt-5 mb-5">
+                  <Tooltip title="Adicionar arquivo">
+                    <Button
+                      variant="contained"
+                      component="label"
+                      sx={{
+                        backgroundColor: "#0075B1",
+                      }}
+                    >
+                      <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
+                      Anexar arquivo
+                      <input hidden accept="file/*" multiple type="file" />
+                    </Button>
+                  </Tooltip>
+                </div>
+              </TableContainer>
+            </div>
+            <div className="flex justify-evenly items-center mt-10 mb-10">
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#C2BEBE",
+                  color: "#fff",
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#C2BEBE",
+                  },
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#0075B1",
+                  color: "#fff",
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#0075B1",
+                  },
+                }}
+              >
+                Enviar
+              </Button>
+            </div>
+          </div>
+        </Box>
+      </Modal>
       <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
         <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
           {children}
@@ -133,8 +578,8 @@ export default function subHeader({
           >
             <Button
               size="small"
-              aria-controls={open ? "split-button-menu" : undefined}
-              aria-expanded={open ? "true" : undefined}
+              aria-controls={openActions ? "split-button-menu" : undefined}
+              aria-expanded={openActions ? "true" : undefined}
               aria-label="select merge strategy"
               aria-haspopup="menu"
               sx={{
@@ -143,10 +588,10 @@ export default function subHeader({
                 height: 40,
                 fontSize: 14,
               }}
-              onClick={handleToggle}
+              onClick={handleToggleActions}
             >
               Ações
-              {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+              {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
             </Button>
           </ButtonGroup>
         </Tooltip>
@@ -154,7 +599,7 @@ export default function subHeader({
           sx={{
             zIndex: 1,
           }}
-          open={open}
+          open={openActions}
           anchorEl={anchorRef.current}
           role={undefined}
           transition
@@ -169,13 +614,17 @@ export default function subHeader({
               }}
             >
               <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
+                <ClickAwayListener onClickAway={handleCloseActions}>
                   <MenuList id="split-button-menu" autoFocusItem>
-                    {options.map((option, index) => (
+                    {actionOptions.map((option, index) => (
                       <MenuItem
+                        onClick={
+                          option.key === 1
+                            ? handleOpenModal
+                            : (event) => handleMenuItemClick(event, index)
+                        }
                         key={option.key}
                         selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClick(event, index)}
                       >
                         {option.text}
                       </MenuItem>
