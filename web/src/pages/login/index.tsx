@@ -39,7 +39,7 @@ export default function Login() {
         <Container
           maxWidth="sm"
           sx={{
-            marginTop: "10%",
+            marginTop: "8%",
             display: "flex",
             justifyContent: "end",
             alignItems: "center",
