@@ -1,4 +1,4 @@
-import Header from "../../Components/Header";
+import Header from "../Header";
 
 import FolderOffOutlinedIcon from "@mui/icons-material/FolderOffOutlined";
 import Button from "@mui/material/Button";

@@ -46,7 +46,7 @@ import SidebarLink from "./SidebarItem";
 
 const openDrawerWidth = 230;
 
-export default function Sidebar () {
+export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarFixed, setIsSidebarFixed] = useState(false);
 
@@ -59,60 +59,60 @@ export default function Sidebar () {
       outlinedIcon: <AddBoxOutlinedIcon sx={iconStyle} />,
       fullIcon: <AddBoxIcon sx={iconStyle} />,
       linkTo: "/nova-demanda",
-      hasDivider: true
+      hasDivider: true,
     },
     {
       title: "Minhas demandas",
       outlinedIcon: <HomeOutlinedIcon sx={iconStyle} />,
       fullIcon: <HomeIcon sx={iconStyle} />,
-      linkTo: "/minhas-demandas"
+      linkTo: "/minhas-demandas",
     },
     {
       title: "Rascunhos",
       outlinedIcon: <NoteAltOutlinedIcon sx={iconStyle} />,
       fullIcon: <NoteAltIcon sx={iconStyle} />,
       linkTo: "/rascunhos",
-      hasDivider: true
+      hasDivider: true,
     },
     {
       title: "Gerenciar demandas",
       outlinedIcon: <ManageAccountsOutlinedIcon sx={iconStyle} />,
       fullIcon: <ManageAccountsIcon sx={iconStyle} />,
       hasDivider: true,
-      linkTo: "/gerenciar-demandas"
+      linkTo: "/gerenciar-demandas",
     },
     {
       title: "Pautas",
       outlinedIcon: <CalendarMonthOutlinedIcon sx={iconStyle} />,
       fullIcon: <CalendarMonthIcon sx={iconStyle} />,
-      linkTo: "/pautas"
+      linkTo: "/pautas",
     },
     {
       title: "Atas",
       outlinedIcon: <ClassOutlinedIcon sx={iconStyle} />,
       fullIcon: <ClassIcon sx={iconStyle} />,
       linkTo: "/atas",
-      hasDivider: true
+      hasDivider: true,
     },
     {
       title: "Propostas",
       outlinedIcon: <DescriptionOutlinedIcon sx={iconStyle} />,
       fullIcon: <DescriptionIcon sx={iconStyle} />,
       linkTo: "/propostas",
-      hasDivider: true
+      hasDivider: true,
     },
     {
-      title: "Mensagens",
+      title: "Chat",
       outlinedIcon: <MessageOutlinedIcon sx={iconStyle} />,
       fullIcon: <MessageIcon sx={iconStyle} />,
-      linkTo: "/mensagens"
+      linkTo: "/chat",
     },
     {
       title: "Sair",
       outlinedIcon: <LogoutRoundedIcon sx={iconStyle} />,
       fullIcon: <LogoutRoundedIcon sx={iconStyle} />,
-      linkTo: "/"
-    }
+      linkTo: "/",
+    },
   ];
 
   const getSideBarItems = () => {
@@ -179,19 +179,18 @@ export default function Sidebar () {
               width: "20px",
             }}
           >
-            {isSidebarFixed
-              ? <div className="flex justify-center items-center">
-                  <ChevronLeftIcon sx={openSidebarIconStyle} />
-                </div>
-              : <div className="flex justify-center items-center">
-                  <ChevronRightIcon
-                    sx={openSidebarIconStyle}
-                  />
-                </div>}
+            {isSidebarFixed ? (
+              <div className="flex justify-center items-center">
+                <ChevronLeftIcon sx={openSidebarIconStyle} />
+              </div>
+            ) : (
+              <div className="flex justify-center items-center">
+                <ChevronRightIcon sx={openSidebarIconStyle} />
+              </div>
+            )}
           </IconButton>
         </div>
         {getSideBarItems()}
-       
       </Drawer>
     </div>
   );
@@ -201,36 +200,36 @@ const openedMixin = (theme: Theme): CSSObject => ({
   width: openDrawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen
+    duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: "hidden"
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`
-  }
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
 });
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: prop => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }: any) => ({
   width: openDrawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  ...open && {
+  ...(open && {
     ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme)
-  },
-  ...!open && {
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme)
-  }
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
 }));

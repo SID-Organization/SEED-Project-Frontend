@@ -1,5 +1,5 @@
 import Search from "../Search";
-import CreateNewPauta from "../CreateNewPauta";
+import CreateNewPauta from "../Create-new-pauta";
 
 export default function SubHeaderPautas() {
   return (

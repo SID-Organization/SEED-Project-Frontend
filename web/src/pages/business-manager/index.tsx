@@ -1,6 +1,6 @@
-import DemandCard from "../../Components/DemandCard";
-import DemandCardList from "../../Components/DemandCardList";
-import SubHeader from "../../Components/SubHeader";
+import DemandCard from "../../Components/Demand-card";
+import DemandCardList from "../../Components/Demand-card-list";
+import SubHeader from "../../Components/Sub-header";
 
 import { useState } from "react";
 

@@ -12,7 +12,7 @@ import Modal from "@mui/material/Modal";
 import { Divider, Icon, IconButton, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiIconButton from "@mui/material/IconButton";
-import ProposalCard from "../ProposalCard";
+import ProposalCard from "../Proposal-card";
 
 import MuiEditRoundedIcon from "@mui/icons-material/EditRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";

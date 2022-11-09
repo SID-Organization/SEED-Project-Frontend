@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 
 import Header from "../Header";
 import Sidebar from "../Sidebar";
-import PathHistory from "../PathHistory";
+import PathHistory from "../Path-history";
 
 export default function Layout() {
   return (

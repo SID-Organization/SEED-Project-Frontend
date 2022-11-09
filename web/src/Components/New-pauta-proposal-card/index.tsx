@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import ProposalCard from "../ProposalCard";
+import ProposalCard from "../Proposal-card";
 
 import MuiCheckbox from "@mui/material/Checkbox";
 import styled from "@emotion/styled";

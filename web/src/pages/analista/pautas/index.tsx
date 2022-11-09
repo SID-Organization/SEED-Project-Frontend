@@ -1,7 +1,7 @@
 import { getPaperUtilityClass } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import PautasCard from "../../../Components/PautasCard";
-import SubHeaderPautas from "../../../Components/SubHeaderPautas";
+import PautasCard from "../../../Components/Pautas-card";
+import SubHeaderPautas from "../../../Components/Sub-header-pautas";
 
 import "../../../styles/index.css";
 

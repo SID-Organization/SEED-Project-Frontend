@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Autocomplete from "@mui/material/Autocomplete";
 
-import ProposalCard from "../ProposalCard";
+import ProposalCard from "../Proposal-card";
 
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
@@ -13,7 +13,7 @@ import MuiTextField from "@mui/material/TextField";
 import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { InputAdornment } from "@mui/material";
-import NewPautaProposalCard from "../NewPautaProposalCard";
+import NewPautaProposalCard from "../New-pauta-proposal-card";
 
 export default function CreateNewPauta() {
   const [openedModal, setOpenedModal] = useState(false);

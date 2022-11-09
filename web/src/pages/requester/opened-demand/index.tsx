@@ -13,8 +13,8 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-import SubHeaderOpenedDemand from "../../../Components/SubHeaderOpenedDemand";
-import WorkflowTable from "../../../Components/WorkflowTable";
+import SubHeaderOpenedDemand from "../../../Components/Sub-header-opened-demand";
+import WorkflowTable from "../../../Components/Workflow-table";
 
 import Button from "@mui/material/Button";
 
@@ -26,7 +26,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import "../../../styles/index.css";
 import { useState } from "react";
-import BenefitsCard from "../../../Components/BenefitsCard";
+import BenefitsCard from "../../../Components/Benefits-card";
 import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 import { IconButton } from "@mui/material";
 

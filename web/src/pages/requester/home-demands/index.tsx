@@ -1,6 +1,6 @@
-import SubHeader from "../../../Components/SubHeader";
-import DemandCard from "../../../Components/DemandCard";
-import DemandsList from "../../../Components/DemandCardList";
+import SubHeader from "../../../Components/Sub-header";
+import DemandCard from "../../../Components/Demand-card";
+import DemandsList from "../../../Components/Demand-card-list";
 
 import "../../../styles/index.css";
 import { useState } from "react";
@@ -10,7 +10,7 @@ export default function homeDemands() {
 
   function getDemandsList() {
     return (
-      <div className="flex justify-center items-center h-full" >
+      <div className="flex justify-center items-center h-full">
         <DemandsList />
       </div>
     );

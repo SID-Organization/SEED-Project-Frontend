@@ -303,15 +303,17 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-
-  
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="fixed"
           sx={{
-            "& .MuiToolbar-root": { zIndex: 20, backgroundColor: "#0075B1", minHeight: "56px" },
+            "& .MuiToolbar-root": {
+              zIndex: 20,
+              backgroundColor: "#0075B1",
+              minHeight: "56px",
+            },
           }}
         >
           <Toolbar>

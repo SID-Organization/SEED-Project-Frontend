@@ -1,5 +1,5 @@
-import SubHeader from "../../../Components/SubHeader";
-import DemandCard from "../../../Components/DemandCard";
+import SubHeader from "../../../Components/Sub-header";
+import DemandCard from "../../../Components/Demand-card";
 
 export default function drafts() {
   return (
