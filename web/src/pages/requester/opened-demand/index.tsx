@@ -92,14 +92,14 @@ export default function openedDemand() {
   ];
 
   return (
-    <div>
+    <>
       <SubHeaderOpenedDemand
         isEditEnabled={isEditEnabled}
         setIsEditEnabled={setIsEditEnabled}
       >
         Visualização Demanda 0012
       </SubHeaderOpenedDemand>
-      <div className="grid">
+      <div className="grid justify-center items-center">
         <div className="flex justify-around items-center mt-5">
           <Tooltip title="Abrir workflow">
             <Button
@@ -109,6 +109,9 @@ export default function openedDemand() {
                 backgroundColor: "#D7D7D7",
                 borderLeft: "3px solid #0075B1",
                 fontWeight: "bold",
+                width: 100,
+                height: 35,
+                fontSize: 13,
                 color: "#343434",
                 "&:hover": {
                   backgroundColor: "#D7D7D7",
@@ -186,7 +189,7 @@ export default function openedDemand() {
           <div className="grid justify-center items-center">
             <div className="flex justify-center items-center">
               <div>
-                <h1 className="text-light-blue-weg font-bold text-2xl font-roboto">
+                <h1 className="text-light-blue-weg font-bold text-xl font-roboto">
                   Aumento da velocidade de consulta de dados
                 </h1>
               </div>
@@ -195,7 +198,7 @@ export default function openedDemand() {
                   <MessageIcon
                     sx={{
                       color: "#00579D",
-                      fontSize: 30,
+                      fontSize: 25,
                       marginLeft: 2,
                       cursor: "pointer",
                     }}
@@ -211,23 +214,29 @@ export default function openedDemand() {
           </div>
           <div>
             <Tooltip title="Abrir como documento">
-              <Button variant="contained">
+              <Button
+                variant="contained"
+                sx={{
+                  width: 40,
+                  height: 35,
+                }}
+              >
                 <OpenInFullIcon />
               </Button>
             </Tooltip>
           </div>
         </div>
-        <div className="flex justify-around items-center">
+        <div className="flex justify-around items-center mt-3">
           <div className="grid justify-center items-center">
-            <h1 className="font-roboto font-bold text-dark-blue-weg text-lg">
+            <h1 className="font-roboto font-bold text-dark-blue-weg text-base">
               Solicitante
             </h1>
-            <h1 className="font-roboto font-semibold text-base">
+            <h1 className="font-roboto font-semibold text-sm">
               GUSTAVO SANTOS
             </h1>
-            <h1 className="font-roboto text-sm">WEG DIGITAL SOLUTIONS</h1>
+            <h1 className="font-roboto text-xs">WEG DIGITAL SOLUTIONS</h1>
           </div>
-          <div className="flex justify-center items-center gap-5">
+          <div className="flex justify-center items-center gap-5 text-sm">
             <h1 className="font-roboto font-bold">
               De: <span className="text-dark-blue-weg">10/05/2022</span>
             </h1>
@@ -236,25 +245,20 @@ export default function openedDemand() {
             </h1>
           </div>
           <div className="grid justify-center items-center">
-            <h1 className="text-dark-blue-weg font-bold font-roboto">
+            <h1 className="text-dark-blue-weg font-bold font-roboto text-base">
               Centro de custo
             </h1>
-            <h1 className="font-roboto">Departamento 3</h1>
+            <h1 className="font-roboto text-sm">Departamento 3</h1>
           </div>
         </div>
-        <div
-          className="
-          flex flex-wrap justify-center items-center
-          ml-[6.5rem] mr-[6.5rem] mt-10
-        "
-        >
+        <div className="flex flex-wrap justify-center items-center mt-10">
           <div className="grid justify-around items-center gap-5">
             <div className="grid justify-center items-center">
               <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
                 Descrição:
               </h1>
               <textarea
-                className="font-roboto text-justify font-medium w-[71rem]
+                className="font-roboto text-justify font-medium w-[65rem]
                 resize-none h-20 
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
@@ -267,7 +271,7 @@ export default function openedDemand() {
                 Problema a ser resolvido:
               </h1>
               <textarea
-                className="font-roboto text-justify font-medium w-[71rem]
+                className="font-roboto text-justify font-medium w-[65rem]
                 resize-none h-20
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
@@ -280,7 +284,7 @@ export default function openedDemand() {
                 Proposta:
               </h1>
               <textarea
-                className="font-roboto text-justify font-medium w-[71rem]
+                className="font-roboto text-justify font-medium w-[65rem]
                 resize-none h-20
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
@@ -293,7 +297,7 @@ export default function openedDemand() {
                 Em que irá ajudar:
               </h1>
               <textarea
-                className="font-roboto text-justify font-medium w-[71rem]
+                className="font-roboto text-justify font-medium w-[65rem]
                 resize-none h-20
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
@@ -413,6 +417,6 @@ export default function openedDemand() {
           </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
