@@ -185,7 +185,7 @@ export default function subHeader({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 1400,
+    width: 1150,
     bgcolor: "background.paper",
     borderRadius: "0.125rem",
     boxShadow: 24,
@@ -301,7 +301,7 @@ export default function subHeader({
                 Insira as seguintes informações
               </h1>
             </div>
-            <div className="flex justify-evenly items-center mb-14">
+            <div className="flex justify-evenly items-center mb-6">
               <div className="grid justify-center items-center gap-2">
                 <p className="font-bold text-dark-blue-weg">
                   Seção da TI responsável
@@ -498,7 +498,7 @@ export default function subHeader({
                 </div>
               </TableContainer>
             </div>
-            <div className="flex justify-evenly items-center mt-10 mb-10">
+            <div className="flex justify-evenly items-center mt-10 mb-5">
               <Button
                 variant="contained"
                 sx={{
