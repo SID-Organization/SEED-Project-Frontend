@@ -15,8 +15,9 @@ import OpenedDemand from "./pages/requester/opened-demand";
 import SubHeaderOpenedDemand from "./Components/SubHeaderOpenedDemand";
 import DemandManager from "./pages/business-manager";
 import Pautas from "./pages/analista/pautas";
-import { Navigate } from "react-router";
 import Perfil from "./pages/perfil";
+import Chat from "./pages/requester/chat";
+import { Navigate } from "react-router";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="gerenciar-demandas" element={<DemandManager />} />
             <Route path="pautas" element={<Pautas />} />
             <Route path="perfil" element={<Perfil />} />
+            <Route path="chat" element={<Chat />} />
           </Route>
         </Routes>
       </BrowserRouter>
