@@ -9,8 +9,81 @@ import { useState } from "react";
 import UserMessageCard from "../../../Components/Chat-components/user-message-card";
 
 export default function Chat() {
+  const [search, setSearch] = useState("");
+
+  function filterUser(e: any) {
+    setSearch(e.target.value);
+  }
+
+  const users = [
+    {
+      name: "John Doe",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:00",
+      unreadMessages: false,
+      isOnline: false,
+    },
+    {
+      name: "Henrique",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "09:20",
+      unreadMessages: 4,
+      isOnline: true,
+    },
+    {
+      name: "Thiago",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "11:30",
+      unreadMessages: false,
+      isOnline: false,
+    },
+    {
+      name: "Leonardo de Souza Rafaelli",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Salve salve",
+      time: "13:54",
+      unreadMessages: 6,
+      isOnline: false,
+    },
+    {
+      name: "Otavio Augusto do Santos",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Eai, como ta?",
+      time: "18:20",
+      unreadMessages: false,
+      isOnline: true,
+    },
+    {
+      name: "Gustavo Rebelatto Zapella",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "07:30",
+      unreadMessages: 1,
+      isOnline: true,
+    },
+    {
+      name: "Gustavo Cole",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:03",
+      unreadMessages: false,
+      isOnline: true,
+    },
+    {
+      name: "Leonardo Rebelatto",
+      userDemand: "Software is slow",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:00",
+      unreadMessages: 10,
+      isOnline: false,
+    },
+  ];
+
   return (
-    <div className="flex max-h-[100rem]">
+    <div className="flex max-h-[100vh]">
       <div className="grid">
         <div className="w-[25rem] h-[5rem] flex justify-center items-center">
           {/* search user here */}
@@ -34,113 +107,37 @@ export default function Chat() {
             <Divider sx={{ height: "50%", m: 0.5 }} orientation="vertical" />
             <InputBase
               sx={{ ml: 1, flex: 1 }}
-              placeholder="Procure"
+              placeholder="Procure por um usuário ou demanda"
               inputProps={{ "aria-label": "search google maps" }}
+              onChange={(e) => filterUser(e)}
             />
           </Paper>
         </div>
         <div className=" w-[25rem] overflow-y-scroll h-[75vh]">
           {/* recent messages and respective users here */}
 
-          <UserMessageCard
-            name="Henrique Cole Fernandes"
-            userDemand="Software lento"
-            lastMessage="Bom dia, tudo bem?"
-            time="12:00"
-            isOnline={true}
-            unreadMessages={false}
-          />
-          <UserMessageCard
-            name="Leonardo Giuseppe de Souza Rafaelli"
-            userDemand="Maquina de café quebrada"
-            lastMessage="Hello world"
-            time="12:00"
-            isOnline={false}
-            unreadMessages={10}
-          />
-          <UserMessageCard
-            name="Otavio Augusto dos Santos"
-            userDemand="Sistema de segurança fraco"
-            lastMessage="Opa bele?"
-            time="12:00"
-            isOnline={false}
-            unreadMessages={false}
-          />
-          <UserMessageCard
-            name="Gustavo Rebelatto Zapella"
-            userDemand="Computador lento no software X"
-            lastMessage="Salve salve, tudo bem?"
-            time="12:00"
-            unreadMessages={3}
-            isOnline={true}
-          />
-          <UserMessageCard
-            name="Leonardo Rafaelli"
-            userDemand="Software lento"
-            lastMessage="Bom dia, tudo bem?"
-            time="12:00"
-            unreadMessages={4}
-            isOnline={false}
-          />
-          <UserMessageCard
-            name="Leonardo Rafaelli"
-            userDemand="Software lento"
-            lastMessage="Bom dia, tudo bem?"
-            time="12:00"
-            isOnline={true}
-            unreadMessages={false}
-          />
-          <UserMessageCard
-            name="Henrique Cole Fernandes"
-            userDemand="Software lento"
-            lastMessage="Bom dia, tudo bem?"
-            time="12:00"
-            isOnline={true}
-            unreadMessages={false}
-          />
-          <UserMessageCard
-            name="Leonardo Giuseppe de Souza Rafaelli"
-            userDemand="Maquina de café quebrada"
-            lastMessage="Hello world"
-            time="12:00"
-            isOnline={false}
-            unreadMessages={10}
-          />
-          <UserMessageCard
-            name="Otavio Augusto dos Santos"
-            userDemand="Sistema de segurança fraco"
-            lastMessage="Opa bele?"
-            time="12:00"
-            isOnline={false}
-            unreadMessages={false}
-          />
-          <UserMessageCard
-            name="Gustavo Rebelatto Zapella"
-            userDemand="Computador lento no software X"
-            lastMessage="Salve salve, tudo bem?"
-            time="12:00"
-            unreadMessages={3}
-            isOnline={false}
-          />
-          <UserMessageCard
-            name="Leonardo Rafaelli"
-            userDemand="Software lento"
-            lastMessage="Bom dia, tudo bem?"
-            time="12:00"
-            unreadMessages={4}
-            isOnline={true}
-          />
-          <UserMessageCard
-            name="Leonardo Rafaelli"
-            userDemand="Software lento"
-            lastMessage="Bom dia, tudo bem?"
-            time="12:00"
-            isOnline={false}
-            unreadMessages={false}
-          />
+          {users
+            .filter((user) => {
+              return (
+                user.name.toLowerCase().includes(search.toLowerCase()) ||
+                user.userDemand.toLowerCase().includes(search.toLowerCase())
+              );
+            })
+            .map((user) => {
+              return (
+                <UserMessageCard
+                  name={user.name}
+                  userDemand={user.userDemand}
+                  lastMessage={user.lastMessage}
+                  time={user.time}
+                  unreadMessages={user.unreadMessages}
+                  isOnline={user.isOnline}
+                />
+              );
+            })}
         </div>
       </div>
-      <div className="border-black border-2 h-auto w-full">
+      <div className="border-black border-2 max-h-[100vh] w-full">
         <div>{/* messages here */}</div>
         <div>{/* chat here */}</div>
       </div>
