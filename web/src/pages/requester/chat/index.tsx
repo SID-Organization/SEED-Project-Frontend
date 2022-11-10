@@ -4,14 +4,16 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
-import UserMessageCard from "../../../Components/Chat-components";
+import { useState } from "react";
+
+import UserMessageCard from "../../../Components/Chat-components/user-message-card";
 
 export default function Chat() {
   return (
     <div>
       <div className="flex h-full">
         <div className="grid">
-          <div className="w-[25rem] h-[5rem] flex justify-center items-center border-black border-2">
+          <div className="w-[25rem] h-[5rem] flex justify-center items-center">
             {/* search user here */}
             <Paper
               component="form"
@@ -40,30 +42,95 @@ export default function Chat() {
           </div>
           <div className="w-[25rem] overflow-y-scroll h-[50rem] max-h-[50rem]">
             {/* recent messages and respective users here */}
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
-            <UserMessageCard />
+
+            <UserMessageCard
+              name="Henrique Cole Fernandes"
+              userDemand="Software lento"
+              lastMessage="Bom dia, tudo bem?"
+              time="12:00"
+              unreadMessages={false}
+            />
+            <UserMessageCard
+              name="Leonardo Giuseppe de Souza Rafaelli"
+              userDemand="Maquina de café quebrada"
+              lastMessage="Hello world"
+              time="12:00"
+              unreadMessages={10}
+            />
+            <UserMessageCard
+              name="Otavio Augusto dos Santos"
+              userDemand="Sistema de segurança fraco"
+              lastMessage="Opa bele?"
+              time="12:00"
+              unreadMessages={false}
+            />
+            <UserMessageCard
+              name="Gustavo Rebelatto Zapella"
+              userDemand="Computador lento no software X"
+              lastMessage="Salve salve, tudo bem?"
+              time="12:00"
+              unreadMessages={3}
+            />
+            <UserMessageCard
+              name="Leonardo Rafaelli"
+              userDemand="Software lento"
+              lastMessage="Bom dia, tudo bem?"
+              time="12:00"
+              unreadMessages={4}
+            />
+            <UserMessageCard
+              name="Leonardo Rafaelli"
+              userDemand="Software lento"
+              lastMessage="Bom dia, tudo bem?"
+              time="12:00"
+              unreadMessages={false}
+            />
+            <UserMessageCard
+              name="Henrique Cole Fernandes"
+              userDemand="Software lento"
+              lastMessage="Bom dia, tudo bem?"
+              time="12:00"
+              unreadMessages={false}
+            />
+            <UserMessageCard
+              name="Leonardo Giuseppe de Souza Rafaelli"
+              userDemand="Maquina de café quebrada"
+              lastMessage="Hello world"
+              time="12:00"
+              unreadMessages={10}
+            />
+            <UserMessageCard
+              name="Otavio Augusto dos Santos"
+              userDemand="Sistema de segurança fraco"
+              lastMessage="Opa bele?"
+              time="12:00"
+              unreadMessages={false}
+            />
+            <UserMessageCard
+              name="Gustavo Rebelatto Zapella"
+              userDemand="Computador lento no software X"
+              lastMessage="Salve salve, tudo bem?"
+              time="12:00"
+              unreadMessages={3}
+            />
+            <UserMessageCard
+              name="Leonardo Rafaelli"
+              userDemand="Software lento"
+              lastMessage="Bom dia, tudo bem?"
+              time="12:00"
+              unreadMessages={4}
+            />
+            <UserMessageCard
+              name="Leonardo Rafaelli"
+              userDemand="Software lento"
+              lastMessage="Bom dia, tudo bem?"
+              time="12:00"
+              unreadMessages={false}
+            />
           </div>
         </div>
-        <div className="border-black border-2  h-auto">
-          <div>
-            <h1 className="bg-light-blue-weg p-2">BAAAAAAAAAA</h1>
-          </div>
+        <div className="border-black border-2 h-auto w-full">
+          <div>{/* messages here */}</div>
           <div>{/* chat here */}</div>
         </div>
       </div>
