@@ -235,6 +235,10 @@ export default function Chat() {
         </div>
       </div>
       <div className="border-black border-2 max-h-[100vh] w-full">
+        {/* this is the username subheader */}
+        <div className="border-black border-2 h-20 flex justify-start items-center">
+          <p className="font-roboto">Henrique Cole Fernandes</p>
+        </div>
         <div>{/* messages here */}</div>
         <div>{/* chat here */}</div>
       </div>
