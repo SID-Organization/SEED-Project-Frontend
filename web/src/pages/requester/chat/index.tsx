@@ -180,25 +180,61 @@ export default function Chat() {
         <div className=" w-[25rem] overflow-y-scroll h-[75vh]">
           {/* recent messages and respective users here */}
 
-          {users
-            .filter((user) => {
-              return (
-                user.name.toLowerCase().includes(search.toLowerCase()) ||
-                user.userDemand.toLowerCase().includes(search.toLowerCase())
-              );
-            })
-            .map((user) => {
-              return (
-                <UserMessageCard
-                  name={user.name}
-                  userDemand={user.userDemand}
-                  lastMessage={user.lastMessage}
-                  time={user.time}
-                  unreadMessages={user.unreadMessages}
-                  isOnline={user.isOnline}
-                />
-              );
-            })}
+          {search === ""
+            ? users
+                .sort((a, b) => {
+                  if (a.isOnline && !b.isOnline) {
+                    return -1;
+                  }
+                  if (!a.isOnline && b.isOnline) {
+                    return 1;
+                  }
+                  const timeA = new Date(
+                    a.time.split(":")[0] as any,
+                    a.time.split(":")[1] as any
+                  );
+                  const timeB = new Date(
+                    b.time.split(":")[0] as any,
+                    b.time.split(":")[1] as any
+                  );
+                  if (timeA > timeB) {
+                    return -1;
+                  }
+                  if (timeA < timeB) {
+                    return 1;
+                  }
+
+                  return 0;
+                })
+                .map((user) => (
+                  <UserMessageCard
+                    name={user.name}
+                    userDemand={user.userDemand}
+                    lastMessage={user.lastMessage}
+                    time={user.time}
+                    unreadMessages={user.unreadMessages}
+                    isOnline={user.isOnline}
+                  />
+                ))
+            : users
+                .filter((user) => {
+                  return (
+                    user.name.toLowerCase().includes(search.toLowerCase()) ||
+                    user.userDemand.toLowerCase().includes(search.toLowerCase())
+                  );
+                })
+                .map((user) => {
+                  return (
+                    <UserMessageCard
+                      name={user.name}
+                      userDemand={user.userDemand}
+                      lastMessage={user.lastMessage}
+                      time={user.time}
+                      unreadMessages={user.unreadMessages}
+                      isOnline={user.isOnline}
+                    />
+                  );
+                })}
         </div>
       </div>
       <div className="border-black border-2 max-h-[100vh] w-full">
