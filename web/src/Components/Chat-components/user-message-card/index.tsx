@@ -24,9 +24,10 @@ export default function UserMessageCard(
       sx={{
         cursor: "pointer",
         transition: "0.2s",
-        borderBottom: "1px solid #dadada",
+        borderBottom: "1px solid #63176c",
+        backgroundColor: "#00579D",
         "&:hover": {
-          backgroundColor: "#E5E5E5",
+          backgroundColor: "#004b88",
         },
       }}
     >
@@ -45,7 +46,7 @@ export default function UserMessageCard(
                   backgroundColor: props.isOnline ? "#7EB61C" : "#a7a7a7",
                   right: ".3rem",
                   top: "1.5rem",
-                  border: "2px solid currentColor",
+                  border: "2px solid #00579D",
                   padding: "0 4px",
                 },
               }}
@@ -57,15 +58,15 @@ export default function UserMessageCard(
         <div className="grid items-center w-[13rem]">
           <p className="font-bold text-base flex gap-2">
             <Tooltip title={props.name}>
-              <p>
+              <p className="text-white">
                 {props.name.length > 10
                   ? props.name.slice(0, 10) + ""
                   : props.name}
               </p>
             </Tooltip>{" "}
-            -{" "}
+            <p className="text-white">-</p>{" "}
             <Tooltip title={"Demanda: " + props.userDemand} placement="top">
-              <span className="font-normal text-[#888888] cursor-default">
+              <span className="font-normal text-[#d1d1d1] cursor-default">
                 {" "}
                 {props.userDemand.length > 9
                   ? props.userDemand.slice(0, 9) + "..."
@@ -73,17 +74,17 @@ export default function UserMessageCard(
               </span>
             </Tooltip>
           </p>
-          <p>
+          <p className="text-white">
             {props.lastMessage.length > 20
               ? props.lastMessage.slice(0, 20) + "..."
               : props.lastMessage}
           </p>
         </div>
         <div className="grid items-center">
-          <p className="font-normal text-[#888888]">{props.time}</p>
+          <p className="font-normal text-[#d1d1d1]">{props.time}</p>
           <div className="flex justify-center items-center">
             {props.unreadMessages === false ? null : (
-              <div className="bg-dark-blue-weg h-5 w-5 rounded-full flex justify-center items-center text-[#FFF] text-xs font-bold">
+              <div className="bg-white text-dark-blue-weg h-5 w-5 rounded-full flex justify-center items-center  text-xs font-bold">
                 {props.unreadMessages}
               </div>
             )}

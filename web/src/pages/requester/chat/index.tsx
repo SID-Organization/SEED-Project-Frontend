@@ -147,9 +147,9 @@ export default function Chat() {
   ];
 
   return (
-    <div className="flex max-h-[100vh]">
-      <div className="grid">
-        <div className="w-[25rem] h-[5rem] flex justify-center items-center">
+    <div className="flex max-h-screen h-[calc(100vh-10rem)]">
+      <div>
+        <div className="w-[25rem] h-[5rem] flex justify-center items-center bg-blue-weg">
           {/* search user here */}
           <Paper
             component="form"
@@ -162,24 +162,30 @@ export default function Chat() {
               borderRadius: "50px",
               marginLeft: "1rem",
               marginRight: "1rem",
-              backgroundColor: "#F5F5F5",
+              backgroundColor: "#5e80c1",
             }}
           >
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-              <SearchIcon />
+              <SearchIcon
+                sx={{
+                  color: "#fff",
+                }}
+              />
             </IconButton>
-            <Divider sx={{ height: "50%", m: 0.5 }} orientation="vertical" />
+            <Divider
+              sx={{ height: "50%", m: 0.5, backgroundColor: "#fff" }}
+              orientation="vertical"
+            />
             <InputBase
-              sx={{ ml: 1, flex: 1 }}
+              sx={{ ml: 1, flex: 1, color: "#fff" }}
               placeholder="Procure por um usuário ou demanda"
               inputProps={{ "aria-label": "search google maps" }}
               onChange={(e) => filterUser(e)}
             />
           </Paper>
         </div>
-        <div className=" w-[25rem] overflow-y-scroll h-[75vh]">
+        <div className=" w-[25rem] overflow-y-scroll h-[calc(100vh-10rem)]">
           {/* recent messages and respective users here */}
-
           {search === ""
             ? users
                 .sort((a, b) => {
@@ -234,10 +240,12 @@ export default function Chat() {
                 })}
         </div>
       </div>
-      <div className="border-black border-2 max-h-[100vh] w-full">
+      <div className="border-black border-2 w-full ">
         {/* this is the username subheader */}
-        <div className="border-black border-2 h-20 flex justify-start items-center">
-          <p className="font-roboto">Henrique Cole Fernandes</p>
+        <div className="shadow-md h-20 flex justify-start items-center bg-[#eeedef]">
+          <p className="ml-5 font-roboto text-blue-weg font-bold text-2xl">
+            Henrique Cole Fernandes
+          </p>
         </div>
         <div>{/* messages here */}</div>
         <div>{/* chat here */}</div>
