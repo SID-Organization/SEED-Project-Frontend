@@ -27,6 +27,27 @@ const pautasMock = [
     MeetingTime: "10:00",
     ResponsibleAnalyst: "Leonardo Giuseppe de Souza Rafaelli",
   },
+  {
+    PautaName: "Pauta 5",
+    QtyProposals: 2,
+    MeetingDate: "10/11/2021",
+    MeetingTime: "10:00",
+    ResponsibleAnalyst: "João da Silva",
+  },
+  {
+    PautaName: "Pauta 6",
+    QtyProposals: 2,
+    MeetingDate: "10/06/2021",
+    MeetingTime: "10:00",
+    ResponsibleAnalyst: "Henrique Cole Fernandes",
+  },
+  {
+    PautaName: "Pauta 7",
+    QtyProposals: 2,
+    MeetingDate: "10/06/2022",
+    MeetingTime: "10:00",
+    ResponsibleAnalyst: "Leonardo Giuseppe de Souza Rafaelli",
+  },
 ];
 
 export default function Pautas() {

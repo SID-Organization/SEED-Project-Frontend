@@ -1,6 +1,7 @@
 import SubHeader from "../../../Components/Sub-header";
 import DemandCard from "../../../Components/Demand-card";
 import DemandsList from "../../../Components/Demand-card-list";
+import NoDemands from "../../../Components/No-demands";
 
 import "../../../styles/index.css";
 import { useState } from "react";
@@ -49,7 +50,9 @@ export default function homeDemands() {
           Minhas demandas
         </SubHeader>
       </div>
-      <div>{isListFormat ? getDemandsList() : getDemandsGrid()}</div>
+      <div className="flex justify-center">
+        {isListFormat ? getDemandsList() : getDemandsGrid()}
+      </div>
     </div>
   );
 }
