@@ -40,25 +40,35 @@ export interface State extends SnackbarOrigin {
 
 export default function CreateDemand() {
   const [title, setTitle] = useState("");
-  const [value, setValue] = useState("");
-  const [currentProblem, setCurrentProblem] = useState("");
-  const [open, setOpen] = useState(false);
-  const [state, setState] = useState<State>({
-    openAlert: false,
-    vertical: "top",
-    horizontal: "center"
+  // const [currentProblem, setCurrentProblem] = useState("");
+  // const [proposal, setProposal] = useState("");
+  // const [objective, setObjective] = useState("");
+  // const [coin, setCoin] = useState("");
+
+  const [demandInfo, setDemandInfo] = useState({
+    title: "",
+    currentProblem: "",
+    proposal: "",
+    objective: "",
+    coin: "",
   });
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
+    useState(false);
+
+  const handleClickOpenModalConfirmationDemand = () => {
+    setOpenModalConfirmationDemand(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseModalConfirmationDemand = () => {
+    setOpenModalConfirmationDemand(false);
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setValue(event.target.value as string);
+  const handleChangeCoinIcon = (event: SelectChangeEvent) => {
+    setDemandInfo({
+      ...demandInfo,
+      coin: event.target.value,
+    });
   };
 
   const TextField = styled(MuiTextField)({
@@ -66,15 +76,15 @@ export default function CreateDemand() {
     height: "3.5rem",
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "#000"
+        borderColor: "#000",
       },
       "&:hover fieldset": {
-        borderColor: "#0075B1"
+        borderColor: "#0075B1",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#0075B1"
-      }
-    }
+        borderColor: "#0075B1",
+      },
+    },
   });
   const TextFieldValue = styled(MuiTextField)({
     width: "300px",
@@ -82,15 +92,15 @@ export default function CreateDemand() {
 
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "#000"
+        borderColor: "#000",
       },
       "&:hover fieldset": {
-        borderColor: "#0075B1"
+        borderColor: "#0075B1",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#0075B1"
-      }
-    }
+        borderColor: "#0075B1",
+      },
+    },
   });
 
   return (
@@ -110,6 +120,10 @@ export default function CreateDemand() {
           type="text"
           multiline
           maxRows={3}
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
         />
         <TextField
           id="outlined-basic"
@@ -155,9 +169,9 @@ export default function CreateDemand() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        {value}
+                        {demandInfo.coin}
                       </InputAdornment>
-                    )
+                    ),
                   }}
                 />
                 <Box sx={{ minWidth: 100 }}>
@@ -166,13 +180,13 @@ export default function CreateDemand() {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={value}
+                      value={demandInfo.coin}
                       label="Valor"
-                      onChange={handleChange}
+                      onChange={handleChangeCoinIcon}
                       style={{
                         borderRadius: "0.5rem",
                         fontSize: "1rem",
-                        height: "3.5rem"
+                        height: "3.5rem",
                       }}
                     >
                       <MenuItem value={"R$"}>BRL</MenuItem>
@@ -212,9 +226,9 @@ export default function CreateDemand() {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          {value}
+                          {demandInfo.coin}
                         </InputAdornment>
-                      )
+                      ),
                     }}
                   />
                 </div>
@@ -240,7 +254,7 @@ export default function CreateDemand() {
                 <UploadIcon
                   sx={{
                     fontSize: "5rem",
-                    color: "#0075B1"
+                    color: "#0075B1",
                   }}
                 />
               </div>
@@ -265,8 +279,8 @@ export default function CreateDemand() {
                       backgroundColor: "#0075B1",
                       color: "#fff",
                       "&:hover": {
-                        backgroundColor: "#0075B1"
-                      }
+                        backgroundColor: "#0075B1",
+                      },
                     }}
                   >
                     Escolher arquivo
@@ -278,22 +292,22 @@ export default function CreateDemand() {
         </div>
         <div className="flex justify-end items-end mr-5 mb-8">
           <Button
-            onClick={handleClickOpen}
+            onClick={handleClickOpenModalConfirmationDemand}
             variant="contained"
             sx={{
               backgroundColor: "#0075B1",
               color: "#fff",
               "&:hover": {
-                backgroundColor: "#0075B1"
-              }
+                backgroundColor: "#0075B1",
+              },
             }}
           >
             Concluir
           </Button>
         </div>
         <Dialog
-          open={open}
-          onClose={handleClose}
+          open={openModalConfirmationDemand}
+          onClose={handleCloseModalConfirmationDemand}
           PaperComponent={PaperComponent}
         >
           <div className="grid justify-center items-center">
@@ -301,7 +315,7 @@ export default function CreateDemand() {
               <ReportProblemIcon
                 sx={{
                   fontSize: "5rem",
-                  color: "#0075B1"
+                  color: "#0075B1",
                 }}
               />
             </div>
@@ -313,25 +327,25 @@ export default function CreateDemand() {
           <DialogActions>
             <Button
               autoFocus
-              onClick={handleClose}
+              onClick={handleCloseModalConfirmationDemand}
               sx={{
                 backgroundColor: "#C2BEBE",
                 color: "#fff",
                 "&:hover": {
-                  backgroundColor: "#C2BEBE"
-                }
+                  backgroundColor: "#C2BEBE",
+                },
               }}
             >
               Cancelar
             </Button>
             <Button
-              onClick={handleClose}
+              onClick={handleCloseModalConfirmationDemand}
               sx={{
                 backgroundColor: "#0075B1",
                 color: "#fff",
                 "&:hover": {
-                  backgroundColor: "#0075B1"
-                }
+                  backgroundColor: "#0075B1",
+                },
               }}
             >
               Criar demanda
