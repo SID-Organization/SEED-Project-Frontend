@@ -13,6 +13,7 @@ interface UserMessageCardProps {
   time: string;
   unreadMessages: number | boolean;
   picture?: string;
+  isOnline: boolean;
 }
 
 export default function UserMessageCard(
@@ -29,35 +30,31 @@ export default function UserMessageCard(
         },
       }}
     >
-      <div
-        className={
-          props.unreadMessages
-            ? "flex gap-[1.4rem] font-roboto justify-center h-20"
-            : "flex gap-[1.3rem] font-roboto justify-center h-20"
-        }
-      >
-        <div className="flex items-center">
-          <Badge
-            badgeContent={""}
-            color="secondary"
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            sx={{
-              "& .MuiBadge-badge": {
-                backgroundColor: "#7EB61C",
-                right: ".3rem",
-                top: "1.5rem",
-                border: "2px solid currentColor",
-                padding: "0 4px",
-              },
-            }}
-          >
-            <img src={userImg} alt="user" className="w-[3.5rem] h-[3.5rem]" />
-          </Badge>
+      <div className="flex font-roboto justify-center h-20">
+        <div className="flex items-center w-[5rem]">
+          <Tooltip title={props.isOnline ? "On-line" : "Offline"}>
+            <Badge
+              badgeContent={""}
+              color="secondary"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              sx={{
+                "& .MuiBadge-badge": {
+                  backgroundColor: props.isOnline ? "#7EB61C" : "#a7a7a7",
+                  right: ".3rem",
+                  top: "1.5rem",
+                  border: "2px solid currentColor",
+                  padding: "0 4px",
+                },
+              }}
+            >
+              <img src={userImg} alt="user" className="w-[3.5rem] h-[3.5rem]" />
+            </Badge>
+          </Tooltip>
         </div>
-        <div className="grid items-center">
+        <div className="grid items-center w-[13rem]">
           <p className="font-bold text-base flex gap-2">
             <Tooltip title={props.name}>
               <p>
