@@ -183,6 +183,10 @@ export default function Chat() {
           {search === ""
             ? users
                 .sort((a, b) => {
+                  //user with unread messages first
+                  if (a.unreadMessages && !b.unreadMessages) return -1;
+                  if (!a.unreadMessages && b.unreadMessages) return 1;
+
                   const timeA = new Date(
                     a.time.split(":")[0] as any,
                     a.time.split(":")[1] as any
@@ -197,7 +201,6 @@ export default function Chat() {
                   if (timeA < timeB) {
                     return 1;
                   }
-
                   return 0;
                 })
                 .map((user) => (
