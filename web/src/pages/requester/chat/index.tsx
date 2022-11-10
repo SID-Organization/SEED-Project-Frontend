@@ -52,7 +52,7 @@ export default function Chat() {
       name: "Otavio Augusto do Santos",
       userDemand: "I need a tutor for my son",
       lastMessage: "Eai, como ta?",
-      time: "18:20",
+      time: "21:32",
       unreadMessages: false,
       isOnline: true,
     },
@@ -60,7 +60,7 @@ export default function Chat() {
       name: "Gustavo Rebelatto Zapella",
       userDemand: "I need a tutor for my son",
       lastMessage: "Hello, I'm interested in your demand",
-      time: "07:30",
+      time: "21:33",
       unreadMessages: 1,
       isOnline: true,
     },
@@ -183,12 +183,6 @@ export default function Chat() {
           {search === ""
             ? users
                 .sort((a, b) => {
-                  if (a.isOnline && !b.isOnline) {
-                    return -1;
-                  }
-                  if (!a.isOnline && b.isOnline) {
-                    return 1;
-                  }
                   const timeA = new Date(
                     a.time.split(":")[0] as any,
                     a.time.split(":")[1] as any
