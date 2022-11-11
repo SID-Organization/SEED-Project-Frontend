@@ -21,6 +21,7 @@ import Typography from "@mui/material/Typography";
 
 import Notication from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -87,7 +88,9 @@ export default function CreateDemand() {
 
   useEffect(() => {
     if (buttonNotication) {
-      <Notication message="Benefício adicionado com sucesso!" />;
+      const timer = setTimeout(() => {
+        setButtonNotication(false);
+      }, 3000);
     }
   }, [buttonNotication]);
 
@@ -205,6 +208,10 @@ export default function CreateDemand() {
     );
   };
 
+  useEffect(() => {
+    console.log(buttonNotication);
+  }, [buttonNotication]);
+
   const [realBenefits, setRealBenefits] = useState<JSX.Element[]>([
     <NewBenefitInsertion />,
   ]);
@@ -221,6 +228,11 @@ export default function CreateDemand() {
             Benefícios reais
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+          {buttonNotication ? (
+            <Notication message="Benefício adicionado com sucesso!" />
+          ) : (
+            <p>NOTIFICAÇÃO É PRA APARECER AQUI</p>
+          )}
           <Tooltip title="Adicionar mais benefícios reais">
             <IconButton onClick={addRealBenefit}>
               <AddBoxRoundedIcon
