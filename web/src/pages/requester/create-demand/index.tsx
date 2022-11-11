@@ -1,3 +1,4 @@
+import * as React from "react";
 import Box from "@mui/material/Box";
 import { Button, IconButton, InputAdornment, Tooltip } from "@mui/material";
 import MuiTextField from "@mui/material/TextField";
@@ -9,16 +10,16 @@ import Paper, { PaperProps } from "@mui/material/Paper";
 import Draggable from "react-draggable";
 import { SnackbarOrigin } from "@mui/material/Snackbar";
 import UploadIcon from "@mui/icons-material/Upload";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import { useState } from "react";
+import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
+import { useState, useEffect } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
 
+import Notication from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 
 function PaperComponent(props: PaperProps) {
@@ -66,6 +67,7 @@ export default function CreateDemand() {
   const [proposal, setProposal] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
+  const [buttonNotication, setButtonNotication] = React.useState(false);
 
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
@@ -77,6 +79,17 @@ export default function CreateDemand() {
   const handleCloseModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(false);
   };
+
+  function addRealBenefit() {
+    setRealBenefits([...realBenefits, <NewBenefitInsertion />]);
+    setButtonNotication(true);
+  }
+
+  useEffect(() => {
+    if (buttonNotication) {
+      <Notication message="Benefício adicionado com sucesso!" />;
+    }
+  }, [buttonNotication]);
 
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -209,15 +222,12 @@ export default function CreateDemand() {
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           <Tooltip title="Adicionar mais benefícios reais">
-            <IconButton>
+            <IconButton onClick={addRealBenefit}>
               <AddBoxRoundedIcon
                 sx={{
                   color: "#00579D",
                   fontSize: "2rem",
                   cursor: "pointer",
-                }}
-                onClick={() => {
-                  setRealBenefits([...realBenefits, <NewBenefitInsertion />]);
                 }}
               />
             </IconButton>
@@ -367,10 +377,22 @@ export default function CreateDemand() {
           open={openModalConfirmationDemand}
           onClose={handleCloseModalConfirmationDemand}
           PaperComponent={PaperComponent}
+          sx={{
+            "& .MuiDialog-paper": {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "23rem",
+              height: "15rem",
+              backgroundColor: "#fff",
+              boxShadow: 0,
+              borderRadius: 2,
+            },
+          }}
         >
           <div className="grid justify-center items-center">
             <div className="flex justify-center items-center">
-              <ReportProblemIcon
+              <WarningAmberRoundedIcon
                 sx={{
                   fontSize: "5rem",
                   color: "#0075B1",
@@ -383,31 +405,33 @@ export default function CreateDemand() {
             </DialogTitle>
           </div>
           <DialogActions>
-            <Button
-              autoFocus
-              onClick={handleCloseModalConfirmationDemand}
-              sx={{
-                backgroundColor: "#C2BEBE",
-                color: "#fff",
-                "&:hover": {
+            <div className="flex gap-5">
+              <Button
+                autoFocus
+                onClick={handleCloseModalConfirmationDemand}
+                sx={{
                   backgroundColor: "#C2BEBE",
-                },
-              }}
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={handleCloseModalConfirmationDemand}
-              sx={{
-                backgroundColor: "#0075B1",
-                color: "#fff",
-                "&:hover": {
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#C2BEBE",
+                  },
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleCloseModalConfirmationDemand}
+                sx={{
                   backgroundColor: "#0075B1",
-                },
-              }}
-            >
-              Criar demanda
-            </Button>
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#0075B1",
+                  },
+                }}
+              >
+                Criar demanda
+              </Button>
+            </div>
           </DialogActions>
         </Dialog>
       </div>

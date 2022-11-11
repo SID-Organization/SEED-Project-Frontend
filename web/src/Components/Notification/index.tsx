@@ -1,24 +1,35 @@
-import React from "react";
+import * as React from "react";
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 
-import toast, { Toaster } from "react-hot-toast";
-
-interface notificationMessageProps {
-  message: string;
-  type: "success" | "error" | "loading";
+export interface State extends SnackbarOrigin {
+  open: boolean;
 }
 
-const NotificationMessage: React.FC<notificationMessageProps> = ({
-  message,
-  type,
-}) => {
-  if (type === "success") {
-    toast.success(message);
-  } else if (type === "error") {
-    toast.error(message);
-  } else if (type === "loading") {
-    toast.loading(message);
-  }
-  return <Toaster />;
-};
+interface messageProps {
+  message: string;
+}
 
-export default NotificationMessage;
+export default function PositionedSnackbar(props: messageProps) {
+  const [state, setState] = React.useState<State>({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  return (
+    <>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message={props.message}
+        key={vertical + horizontal}
+      />
+    </>
+  );
+}
