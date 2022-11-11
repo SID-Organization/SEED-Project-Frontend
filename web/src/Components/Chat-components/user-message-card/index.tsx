@@ -24,10 +24,9 @@ export default function UserMessageCard(
       sx={{
         cursor: "pointer",
         transition: "0.2s",
-        borderBottom: "1px solid #63176c",
-        backgroundColor: "#00579D",
+        borderBottom: "1px solid #ababab57",
         "&:hover": {
-          backgroundColor: "#004b88",
+          backgroundColor: "#e2e2e2",
         },
       }}
     >
@@ -46,7 +45,7 @@ export default function UserMessageCard(
                   backgroundColor: props.isOnline ? "#7EB61C" : "#a7a7a7",
                   right: ".3rem",
                   top: "1.5rem",
-                  border: "2px solid #00579D",
+                  border: "2px solid currentColor",
                   padding: "0 4px",
                 },
               }}
@@ -56,35 +55,36 @@ export default function UserMessageCard(
           </Tooltip>
         </div>
         <div className="grid items-center w-[13rem]">
-          <p className="font-bold text-base flex gap-2">
-            <Tooltip title={props.name}>
-              <p className="text-white">
+          <Tooltip
+            title={props.name + " • Demanda - " + props.userDemand}
+            placement="top-start"
+          >
+            <p className="font-bold text-base flex gap-2">
+              <p>
                 {props.name.length > 10
                   ? props.name.slice(0, 10) + ""
                   : props.name}
-              </p>
-            </Tooltip>{" "}
-            <p className="text-white">-</p>{" "}
-            <Tooltip title={"Demanda: " + props.userDemand} placement="top">
-              <span className="font-normal text-[#d1d1d1] cursor-default">
+              </p>{" "}
+              -{" "}
+              <span className="font-normal text-[#9c9c9c] cursor-default">
                 {" "}
                 {props.userDemand.length > 9
                   ? props.userDemand.slice(0, 9) + "..."
                   : props.userDemand}
               </span>
-            </Tooltip>
-          </p>
-          <p className="text-white">
+            </p>
+          </Tooltip>
+          <p>
             {props.lastMessage.length > 20
               ? props.lastMessage.slice(0, 20) + "..."
               : props.lastMessage}
           </p>
         </div>
         <div className="grid items-center">
-          <p className="font-normal text-[#d1d1d1]">{props.time}</p>
+          <p className="font-normal text-[#9c9c9c]">{props.time}</p>
           <div className="flex justify-center items-center">
             {props.unreadMessages === false ? null : (
-              <div className="bg-white text-dark-blue-weg h-5 w-5 rounded-full flex justify-center items-center  text-xs font-bold">
+              <div className="bg-dark-blue-weg text-white h-5 w-5 rounded-full flex justify-center items-center  text-xs font-bold">
                 {props.unreadMessages}
               </div>
             )}

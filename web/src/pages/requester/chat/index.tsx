@@ -7,6 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 
 import UserMessageCard from "../../../Components/Chat-components/user-message-card";
+import ChatSubHeader from "../../../Components/Chat-components/Chat-sub-header";
 
 export default function Chat() {
   const [search, setSearch] = useState("");
@@ -149,7 +150,7 @@ export default function Chat() {
   return (
     <div className="flex max-h-screen h-[calc(100vh-10rem)]">
       <div>
-        <div className="w-[25rem] h-[5rem] flex justify-center items-center bg-blue-weg">
+        <div className="w-[25rem] h-[5rem] flex justify-center items-center shadow-md">
           {/* search user here */}
           <Paper
             component="form"
@@ -162,22 +163,18 @@ export default function Chat() {
               borderRadius: "50px",
               marginLeft: "1rem",
               marginRight: "1rem",
-              backgroundColor: "#5e80c1",
             }}
           >
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <SearchIcon
                 sx={{
-                  color: "#fff",
+                  color: "#9e9e9e",
                 }}
               />
             </IconButton>
-            <Divider
-              sx={{ height: "50%", m: 0.5, backgroundColor: "#fff" }}
-              orientation="vertical"
-            />
+            <Divider sx={{ height: "50%", m: 0.5 }} orientation="vertical" />
             <InputBase
-              sx={{ ml: 1, flex: 1, color: "#fff" }}
+              sx={{ ml: 1, flex: 1, color: "#020202" }}
               placeholder="Procure por um usuário ou demanda"
               inputProps={{ "aria-label": "search google maps" }}
               onChange={(e) => filterUser(e)}
@@ -189,7 +186,6 @@ export default function Chat() {
           {search === ""
             ? users
                 .sort((a, b) => {
-                  //user with unread messages first
                   if (a.unreadMessages && !b.unreadMessages) return -1;
                   if (!a.unreadMessages && b.unreadMessages) return 1;
 
@@ -242,11 +238,7 @@ export default function Chat() {
       </div>
       <div className="border-black border-2 w-full ">
         {/* this is the username subheader */}
-        <div className="shadow-md h-20 flex justify-start items-center bg-[#eeedef]">
-          <p className="ml-5 font-roboto text-blue-weg font-bold text-2xl">
-            Henrique Cole Fernandes
-          </p>
-        </div>
+        <ChatSubHeader />
         <div>{/* messages here */}</div>
         <div>{/* chat here */}</div>
       </div>
