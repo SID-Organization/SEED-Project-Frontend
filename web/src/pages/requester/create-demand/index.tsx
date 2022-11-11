@@ -137,11 +137,6 @@ export default function CreateDemand() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
         <TextField
           id="outlined-basic"
           label="Proposta"
