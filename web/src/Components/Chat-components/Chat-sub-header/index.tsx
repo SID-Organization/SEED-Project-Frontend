@@ -189,8 +189,8 @@ export default function ChatSubHeader() {
           }
         />
       </Snackbar>
-      <div className="shadow-user-message-subheader-shadow h-20 flex justify-between items-center bg-blue-weg rounded-br-sm rounded-bl-sm">
-        <p className="ml-5  text-white font-normal text-xl cursor-default">
+      <div className="shadow-md border-l-[#d9d9d9] border-l-2 h-20 flex justify-between items-center bg-blue-weg rounded-br-sm rounded-bl-sm">
+        <p className="ml-5 text-white font-normal text-xl cursor-default ">
           {userInformations.name}
         </p>
         <React.Fragment key={"right"}>

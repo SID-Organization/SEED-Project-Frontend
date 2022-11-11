@@ -21,7 +21,7 @@ import Notification from "../../../Components/Notification";
 
 import TextField from "@mui/material/TextField";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -44,6 +44,10 @@ export default function CreateDemand() {
   // const [proposal, setProposal] = useState("");
   // const [objective, setObjective] = useState("");
   // const [coin, setCoin] = useState("");
+
+  useEffect(() => {
+    console.log("title", title);
+  }, [title]);
 
   const [demandInfo, setDemandInfo] = useState({
     title: "",
@@ -121,9 +125,7 @@ export default function CreateDemand() {
           multiline
           maxRows={3}
           value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
+          onChange={(e) => setTitle(e.target.value as string)}
         />
         <TextField
           id="outlined-basic"
@@ -132,6 +134,13 @@ export default function CreateDemand() {
           type="text"
           multiline
           maxRows={3}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <TextField
           id="outlined-basic"

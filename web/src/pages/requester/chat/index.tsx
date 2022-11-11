@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { useState } from "react";
 
-import UserMessageCard from "../../../Components/Chat-components/user-message-card";
+import UserMessageCard from "../../../Components/Chat-components/User-message-card";
 import ChatSubHeader from "../../../Components/Chat-components/Chat-sub-header";
 
 export default function Chat() {
