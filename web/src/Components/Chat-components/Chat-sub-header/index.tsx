@@ -89,7 +89,7 @@ export default function ChatSubHeader() {
     >
       <div className="mt-3">
         <div className="flex justify-center items-center mb-5">
-          <h1 className="font-bold text-2xl text-[#22222]">Informações</h1>
+          <h1 className="font-bold text-2xl text-dark-blue-weg">Informações</h1>
         </div>
         <Divider />
         <div className="grid justify-center items-center gap-2 mt-5">
@@ -151,6 +151,15 @@ export default function ChatSubHeader() {
             variant="contained"
             color="primary"
             onClick={toggleDrawer(anchor, false)}
+            sx={{
+              width: "80%",
+              height: "50px",
+              borderRadius: "10px",
+              backgroundColor: "#0075B1",
+              "&:hover": {
+                backgroundColor: "#0075B1",
+              },
+            }}
           >
             Fechar
           </Button>
@@ -180,9 +189,9 @@ export default function ChatSubHeader() {
           }
         />
       </Snackbar>
-      <div className="shadow-page-title-shadow h-20 flex justify-between items-center bg-blue-weg rounded-br-sm rounded-bl-sm">
-        <p className="ml-5  text-white font-normal text-xl">
-          Henrique Cole Fernandes
+      <div className="shadow-user-message-subheader-shadow h-20 flex justify-between items-center bg-blue-weg rounded-br-sm rounded-bl-sm">
+        <p className="ml-5  text-white font-normal text-xl cursor-default">
+          {userInformations.name}
         </p>
         <React.Fragment key={"right"}>
           <Tooltip title="Informações do usuário">

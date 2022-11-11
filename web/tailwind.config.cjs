@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {
       fontSize: {
-        "usual": "14px",
-        "text": "12px",
-        "title": "16px"
+        usual: "14px",
+        text: "12px",
+        title: "16px",
       },
 
       fontFamily: {
@@ -23,6 +23,7 @@ module.exports = {
       boxShadow: {
         "breadcrumb-shadow": "0px -4px 10px 1px;",
         "page-title-shadow": "0 3px 9px -2px #b3b3b3;",
+        "user-message-subheader-shadow": "-3px 1px 6px 1px #959595;",
       },
     },
     backgroundImage: {

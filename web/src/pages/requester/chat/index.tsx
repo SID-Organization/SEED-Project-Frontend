@@ -236,7 +236,7 @@ export default function Chat() {
                 })}
         </div>
       </div>
-      <div className="border-black border-2 w-full ">
+      <div className=" w-full ">
         {/* this is the username subheader */}
         <ChatSubHeader />
         <div>{/* messages here */}</div>
