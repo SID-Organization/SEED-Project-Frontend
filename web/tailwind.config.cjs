@@ -35,5 +35,5 @@ module.exports = {
       "weg-shadow": "9px 6px 15px #000000b8",
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
 };

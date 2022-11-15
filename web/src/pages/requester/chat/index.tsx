@@ -181,7 +181,12 @@ export default function Chat() {
             />
           </Paper>
         </div>
-        <div className=" w-[25rem] overflow-y-scroll h-[calc(100vh-10rem)]">
+        <div
+          className=" w-[25rem] overflow-y-scroll h-[calc(100vh-10rem)]
+           scrollbar-thumb-[#C9c9c9] scrollbar-thumb-rounded-full 
+           hover:scrollbar-thumb-[#acacac] scrollbar-w-2 scrollbar-thin
+          "
+        >
           {/* recent messages and respective users here */}
           {search === ""
             ? users
