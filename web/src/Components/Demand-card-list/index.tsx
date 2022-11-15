@@ -310,8 +310,8 @@ const rows = [
 ];
 
 const Box = styled(MuiBox)(() => ({
-  height: "45rem",
-  width: "80%",
+  height: 480,
+  width: 890,
 }));
 
 export default function DataTable() {
