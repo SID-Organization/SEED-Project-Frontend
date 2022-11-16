@@ -169,7 +169,7 @@ export default function ChatSubHeader() {
   );
 
   return (
-    <div>
+    <div className="mb-9">
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}

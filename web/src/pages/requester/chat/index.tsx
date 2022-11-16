@@ -3,11 +3,18 @@ import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
+
+import "react-chat-elements/dist/main.css";
+import { MessageBox } from "react-chat-elements";
+import { SystemMessage } from "react-chat-elements";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 import { useState } from "react";
 
 import UserMessageCard from "../../../Components/Chat-components/User-message-card";
 import ChatSubHeader from "../../../Components/Chat-components/Chat-sub-header";
+import { Tooltip } from "@mui/material";
 
 export default function Chat() {
   const [search, setSearch] = useState("");
@@ -241,11 +248,232 @@ export default function Chat() {
                 })}
         </div>
       </div>
-      <div className=" w-full ">
+      <div className=" w-full bg-[#dddddd]">
         {/* this is the username subheader */}
         <ChatSubHeader />
-        <div>{/* messages here */}</div>
-        <div>{/* chat here */}</div>
+        <div
+          className="
+          bg-[#dddddd]
+          h-[calc(100vh-19.8rem)]
+          overflow-y-scroll
+          scrollbar-thumb-[#a5a5a5]
+          scrollbar-thumb-rounded-full
+          scrollbar-w-2
+          scrollbar-thin
+        "
+        >
+          {/* messages here */}
+          <div className="grid gap-5">
+            <SystemMessage text={"Hoje"} />
+            <MessageBox
+              position={"left"}
+              type={"text"}
+              title={"Leonardo Rafaelli"}
+              text="Bom dia, como está o processo da demanda?"
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              reply={{
+                title: "Henrique Cole",
+                titleColor: "#0075B1",
+                message: "Acho melhor conversarmos mais um pouco sobre isso...",
+              }}
+              position={"left"}
+              type={"text"}
+              title="Leonardo Rafaelli"
+              text={"Sim, concordo! Podemos marcar uma reunião?"}
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              reply={{
+                title: "Leonardo Rafaelli",
+                titleColor: "#0075B1",
+                message: "Bom dia, como está o processo da demanda?",
+              }}
+              position={"right"}
+              type={"text"}
+              title="Henrique Cole"
+              text={"Bom dia, está indo tudo bem!"}
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              reply={{
+                title: "Leonardo Rafaelli",
+                titleColor: "#0075B1",
+                message: "Sim, concordo! Podemos marcar uma reunião?",
+              }}
+              position={"right"}
+              type={"text"}
+              title="Henrique Cole"
+              text={"Podemos marcar para amanhã às 10:00?"}
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              reply={{
+                title: "Henrique Cole",
+                titleColor: "#0075B1",
+                message: "Podemos marcar para amanhã às 10:00?",
+              }}
+              position={"left"}
+              type={"text"}
+              title="Leonardo Rafaelli"
+              text={"Ok, tudo bem!"}
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              position={"left"}
+              type={"text"}
+              title={"Leonardo Rafaelli"}
+              text="Bom dia, como está o processo da demanda?"
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              reply={{
+                title: "Henrique Cole",
+                titleColor: "#0075B1",
+                message: "Acho melhor conversarmos mais um pouco sobre isso...",
+              }}
+              position={"left"}
+              type={"text"}
+              title="Leonardo Rafaelli"
+              text={"Sim, concordo! Podemos marcar uma reunião?"}
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              reply={{
+                title: "Leonardo Rafaelli",
+                titleColor: "#0075B1",
+                message: "Bom dia, como está o processo da demanda?",
+              }}
+              position={"right"}
+              type={"text"}
+              title="Henrique Cole"
+              text={"Bom dia, está indo tudo bem!"}
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              reply={{
+                title: "Leonardo Rafaelli",
+                titleColor: "#0075B1",
+                message: "Sim, concordo! Podemos marcar uma reunião?",
+              }}
+              position={"right"}
+              type={"text"}
+              title="Henrique Cole"
+              text={"Podemos marcar para amanhã às 10:00?"}
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+            <MessageBox
+              reply={{
+                title: "Henrique Cole",
+                titleColor: "#0075B1",
+                message: "Podemos marcar para amanhã às 10:00?",
+              }}
+              position={"left"}
+              type={"text"}
+              title="Leonardo Rafaelli"
+              text={"Ok, tudo bem!"}
+              date={"12:00"}
+              replyButton={true}
+              titleColor={"#000"}
+              status={"read"}
+            />
+          </div>
+        </div>
+        <div
+          className="
+          bg-[#ffffff]
+        h-[7.5rem]
+        flex
+        "
+        >
+          <Tooltip title="Adicionar anexo">
+            <IconButton
+              color="primary"
+              aria-label="upload picture"
+              component="label"
+              sx={{
+                ml: 2,
+                mt: 5,
+                mb: 1,
+                mr: 1,
+                color: "#0075B1",
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  color: "#000",
+                },
+                height: "2.5rem",
+                width: "2.5rem",
+              }}
+            >
+              <input hidden accept="image/*" type="file" />
+              <AttachFileIcon />
+            </IconButton>
+          </Tooltip>
+          <input
+            className="
+          w-[calc(100%-3.5rem)]
+          h-[6.5rem]
+          border-[1px]
+          border-[#c9c9c9]
+          rounded-[1.5rem]
+          px-5
+          focus:outline-none
+          mt-2
+          "
+            type="text"
+            placeholder="Digite uma mensagem"
+          />
+          <Tooltip title="Enviar mensagem">
+            <IconButton
+              color="primary"
+              aria-label="upload picture"
+              component="label"
+              sx={{
+                ml: 2,
+                mt: 5,
+                mb: 1,
+                mr: 1,
+                color: "#0075B1",
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  color: "#000",
+                },
+                height: "2.5rem",
+                width: "2.5rem",
+              }}
+            >
+              <SendRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
       </div>
     </div>
   );
