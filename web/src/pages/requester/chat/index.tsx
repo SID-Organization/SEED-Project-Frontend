@@ -19,8 +19,44 @@ import { Tooltip } from "@mui/material";
 export default function Chat() {
   const [search, setSearch] = useState("");
 
+  const [file, setFile] = useState([]);
+  const [preview, setPreview] = useState("");
+
+  const [message, setMessage] = useState("");
+
+  const [messages, setMessages] = useState([
+    {
+      position: "left",
+      type: "text",
+      text: "Hello World",
+      date: new Date(),
+      status: "received",
+    },
+    {
+      position: "right",
+      type: "text",
+      text: "Hello",
+      date: new Date(),
+      status: "received",
+    },
+  ]);
+
   function filterUser(e: any) {
     setSearch(e.target.value);
+  }
+
+  function sendMessage() {
+    setMessages([
+      ...messages,
+      {
+        position: "right",
+        type: "text",
+        text: message,
+        date: new Date(),
+        status: "received",
+      },
+    ]);
+    setMessage("");
   }
 
   const users = [
@@ -260,151 +296,24 @@ export default function Chat() {
           scrollbar-thumb-rounded-full
           scrollbar-w-2
           scrollbar-thin
+          flex flex-col-reverse
         "
         >
           {/* messages here */}
           <div className="grid gap-5">
             <SystemMessage text={"Hoje"} />
-            <MessageBox
-              position={"left"}
-              type={"text"}
-              title={"Leonardo Rafaelli"}
-              text="Bom dia, como está o processo da demanda?"
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              reply={{
-                title: "Henrique Cole",
-                titleColor: "#0075B1",
-                message: "Acho melhor conversarmos mais um pouco sobre isso...",
-              }}
-              position={"left"}
-              type={"text"}
-              title="Leonardo Rafaelli"
-              text={"Sim, concordo! Podemos marcar uma reunião?"}
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              reply={{
-                title: "Leonardo Rafaelli",
-                titleColor: "#0075B1",
-                message: "Bom dia, como está o processo da demanda?",
-              }}
-              position={"right"}
-              type={"text"}
-              title="Henrique Cole"
-              text={"Bom dia, está indo tudo bem!"}
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              reply={{
-                title: "Leonardo Rafaelli",
-                titleColor: "#0075B1",
-                message: "Sim, concordo! Podemos marcar uma reunião?",
-              }}
-              position={"right"}
-              type={"text"}
-              title="Henrique Cole"
-              text={"Podemos marcar para amanhã às 10:00?"}
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              reply={{
-                title: "Henrique Cole",
-                titleColor: "#0075B1",
-                message: "Podemos marcar para amanhã às 10:00?",
-              }}
-              position={"left"}
-              type={"text"}
-              title="Leonardo Rafaelli"
-              text={"Ok, tudo bem!"}
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              position={"left"}
-              type={"text"}
-              title={"Leonardo Rafaelli"}
-              text="Bom dia, como está o processo da demanda?"
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              reply={{
-                title: "Henrique Cole",
-                titleColor: "#0075B1",
-                message: "Acho melhor conversarmos mais um pouco sobre isso...",
-              }}
-              position={"left"}
-              type={"text"}
-              title="Leonardo Rafaelli"
-              text={"Sim, concordo! Podemos marcar uma reunião?"}
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              reply={{
-                title: "Leonardo Rafaelli",
-                titleColor: "#0075B1",
-                message: "Bom dia, como está o processo da demanda?",
-              }}
-              position={"right"}
-              type={"text"}
-              title="Henrique Cole"
-              text={"Bom dia, está indo tudo bem!"}
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              reply={{
-                title: "Leonardo Rafaelli",
-                titleColor: "#0075B1",
-                message: "Sim, concordo! Podemos marcar uma reunião?",
-              }}
-              position={"right"}
-              type={"text"}
-              title="Henrique Cole"
-              text={"Podemos marcar para amanhã às 10:00?"}
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
-            <MessageBox
-              reply={{
-                title: "Henrique Cole",
-                titleColor: "#0075B1",
-                message: "Podemos marcar para amanhã às 10:00?",
-              }}
-              position={"left"}
-              type={"text"}
-              title="Leonardo Rafaelli"
-              text={"Ok, tudo bem!"}
-              date={"12:00"}
-              replyButton={true}
-              titleColor={"#000"}
-              status={"read"}
-            />
+            {messages.map((message) => {
+              return (
+                <MessageBox
+                  position={message.position}
+                  text={message.text}
+                  type={message.type}
+                  date={message.date}
+                  status={message.status}
+                  className={message.position === "left" ? "mr-32" : "ml-32"}
+                />
+              );
+            })}
           </div>
         </div>
         <div
@@ -433,7 +342,24 @@ export default function Chat() {
                 width: "2.5rem",
               }}
             >
-              <input hidden accept="image/*" type="file" />
+              <input
+                hidden
+                accept="image/*"
+                type="file"
+                //get the file and set in the input
+
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setFile(file);
+                      setPreview(reader.result as string);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+              />
               <AttachFileIcon />
             </IconButton>
           </Tooltip>
@@ -450,9 +376,28 @@ export default function Chat() {
           "
             type="text"
             placeholder="Digite uma mensagem"
+            onChange={(e) => {
+              setMessage(e.target.value);
+            }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                if (message !== "") {
+                  sendMessage();
+                }
+              }
+            }}
+            value={message}
           />
           <Tooltip title="Enviar mensagem">
             <IconButton
+              onClick={
+                message !== ""
+                  ? () => {
+                      sendMessage();
+                      setMessage("");
+                    }
+                  : () => {}
+              }
               color="primary"
               aria-label="upload picture"
               component="label"
