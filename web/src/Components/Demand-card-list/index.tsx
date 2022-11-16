@@ -310,7 +310,7 @@ const rows = [
 ];
 
 const Box = styled(MuiBox)(() => ({
-  height: 480,
+  height: 750,
   width: 890,
 }));
 
