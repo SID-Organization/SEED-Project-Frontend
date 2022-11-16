@@ -22,6 +22,7 @@ import Typography from "@mui/material/Typography";
 import Notification from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 import { ConstructionOutlined } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -80,6 +81,7 @@ export default function CreateDemand() {
 
   const handleCloseModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(false);
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   function addRealBenefit() {
@@ -217,7 +219,6 @@ export default function CreateDemand() {
     );
   };
 
-
   const [realBenefits, setRealBenefits] = useState<JSX.Element[]>([
     <NewBenefitInsertion />,
   ]);
@@ -233,10 +234,14 @@ export default function CreateDemand() {
           <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
             Benefícios reais
           </h1>
-          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />   
+          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
 
-          {buttonNotification && (<Notification message="Benefício adicionado com sucesso!" />)}
-          {deleteNotification && (<Notification message="Benefício removido com sucesso!" />)}
+          {buttonNotification && (
+            <Notification message="Benefício adicionado com sucesso!" />
+          )}
+          {deleteNotification && (
+            <Notification message="Benefício removido com sucesso!" />
+          )}
 
           <Tooltip title="Adicionar mais benefícios reais">
             <IconButton onClick={addRealBenefit}>
@@ -437,18 +442,20 @@ export default function CreateDemand() {
               >
                 Cancelar
               </Button>
-              <Button
-                onClick={handleCloseModalConfirmationDemand}
-                sx={{
-                  backgroundColor: "#0075B1",
-                  color: "#fff",
-                  "&:hover": {
+              <Link to="/minhas-demandas">
+                <Button
+                  onClick={handleCloseModalConfirmationDemand}
+                  sx={{
                     backgroundColor: "#0075B1",
-                  },
-                }}
-              >
-                Criar demanda
-              </Button>
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#0075B1",
+                    },
+                  }}
+                >
+                  Criar demanda
+                </Button>
+              </Link>
             </div>
           </DialogActions>
         </Dialog>
