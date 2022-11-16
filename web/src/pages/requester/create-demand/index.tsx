@@ -19,7 +19,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 
-import Notication from "../../../Components/Notification";
+import Notification from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 import { ConstructionOutlined } from "@mui/icons-material";
 
@@ -68,7 +68,8 @@ export default function CreateDemand() {
   const [proposal, setProposal] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
-  const [buttonNotication, setButtonNotication] = React.useState(false);
+  const [buttonNotification, setButtonNotification] = React.useState(false);
+  const [deleteNotification, setDeleteNotification] = React.useState(false);
 
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
@@ -83,16 +84,24 @@ export default function CreateDemand() {
 
   function addRealBenefit() {
     setRealBenefits([...realBenefits, <NewBenefitInsertion />]);
-    setButtonNotication(true);
+    setButtonNotification(true);
   }
 
   useEffect(() => {
-    if (buttonNotication) {
+    if (buttonNotification) {
       const timer = setTimeout(() => {
-        setButtonNotication(false);
-      }, 3000);
+        setButtonNotification(false);
+      }, 1900);
     }
-  }, [buttonNotication]);
+  }, [buttonNotification]);
+
+  useEffect(() => {
+    if (deleteNotification) {
+      const timer = setTimeout(() => {
+        setDeleteNotification(false);
+      }, 1900);
+    }
+  }, [deleteNotification]);
 
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -208,9 +217,6 @@ export default function CreateDemand() {
     );
   };
 
-  useEffect(() => {
-    console.log(buttonNotication);
-  }, [buttonNotication]);
 
   const [realBenefits, setRealBenefits] = useState<JSX.Element[]>([
     <NewBenefitInsertion />,
@@ -227,12 +233,11 @@ export default function CreateDemand() {
           <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
             Benefícios reais
           </h1>
-          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
-          {buttonNotication ? (
-            <Notication message="Benefício adicionado com sucesso!" />
-          ) : (
-            <p>NOTIFICAÇÃO É PRA APARECER AQUI</p>
-          )}
+          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />   
+
+          {buttonNotification && (<Notification message="Benefício adicionado com sucesso!" />)}
+          {deleteNotification && (<Notification message="Benefício removido com sucesso!" />)}
+
           <Tooltip title="Adicionar mais benefícios reais">
             <IconButton onClick={addRealBenefit}>
               <AddBoxRoundedIcon
@@ -258,6 +263,7 @@ export default function CreateDemand() {
                     setRealBenefits(
                       realBenefits.filter((_, index) => index !== i)
                     );
+                    setDeleteNotification(true);
                   }}
                 >
                   <DeleteRoundedIcon
