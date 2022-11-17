@@ -210,7 +210,7 @@ export default function Chat() {
               }}
             />
           </div>
-          <p className="font-roboto tracking-wide font-semibold text-[#BDBDBD] cursor-default">
+          <p className="font-roboto tracking-wide text-[#BDBDBD] cursor-default">
             Nenhum usuário encontrado
           </p>
         </div>
