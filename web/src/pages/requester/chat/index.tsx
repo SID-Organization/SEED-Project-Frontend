@@ -4,6 +4,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
 
 import "react-chat-elements/dist/main.css";
 import { MessageBox } from "react-chat-elements";
@@ -190,6 +191,44 @@ export default function Chat() {
     },
   ];
 
+  function returnedUserSearch() {
+    const filteredUsers = users.filter((user) => {
+      return (
+        user.name.toLowerCase().includes(search.toLowerCase()) ||
+        user.userDemand.toLowerCase().includes(search.toLowerCase())
+      );
+    });
+
+    if (filteredUsers.length === 0) {
+      return (
+        <div className="grid justify-center items-center">
+          <div className="flex justify-center items-center mt-10">
+            <SearchOffIcon
+              sx={{
+                fontSize: 100,
+                color: "#BDBDBD",
+              }}
+            />
+          </div>
+          <p className="font-roboto tracking-wide font-semibold text-[#BDBDBD] cursor-default">
+            Nenhum usuário encontrado
+          </p>
+        </div>
+      );
+    } else {
+      return filteredUsers.map((user) => (
+        <UserMessageCard
+          name={user.name}
+          userDemand={user.userDemand}
+          lastMessage={user.lastMessage}
+          time={user.time}
+          unreadMessages={user.unreadMessages}
+          isOnline={user.isOnline}
+        />
+      ));
+    }
+  }
+
   return (
     <div className="flex max-h-screen h-[calc(100vh-10rem)]">
       <div>
@@ -263,25 +302,7 @@ export default function Chat() {
                     isOnline={user.isOnline}
                   />
                 ))
-            : users
-                .filter((user) => {
-                  return (
-                    user.name.toLowerCase().includes(search.toLowerCase()) ||
-                    user.userDemand.toLowerCase().includes(search.toLowerCase())
-                  );
-                })
-                .map((user) => {
-                  return (
-                    <UserMessageCard
-                      name={user.name}
-                      userDemand={user.userDemand}
-                      lastMessage={user.lastMessage}
-                      time={user.time}
-                      unreadMessages={user.unreadMessages}
-                      isOnline={user.isOnline}
-                    />
-                  );
-                })}
+            : returnedUserSearch()}
         </div>
       </div>
       <div className=" w-full bg-[#dddddd]">
