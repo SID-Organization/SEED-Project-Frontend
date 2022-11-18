@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -17,7 +14,6 @@ import DemandManager from "./pages/business-manager";
 import Pautas from "./pages/analista/pautas";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
-import { Navigate } from "react-router";
 
 function App() {
   return (
