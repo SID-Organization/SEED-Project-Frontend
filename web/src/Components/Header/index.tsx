@@ -16,10 +16,10 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiButton from "@mui/material/Button";
 
-import BrazilFlag from "../../assets/flag-countries/brazil.png";
-import UnitedStatesFlag from "../../assets/flag-countries/united-states.png";
-import SpainFlag from "../../assets/flag-countries/spain.png";
-import ChinaFlag from "../../assets/flag-countries/china.png";
+import BrazilFlag from "../../assets/countries-flags/brazil.png";
+import UnitedStatesFlag from "../../assets/countries-flags/united-states.png";
+import SpainFlag from "../../assets/countries-flags/spain.png";
+import ChinaFlag from "../../assets/countries-flags/china.png";
 
 import { Link } from "react-router-dom";
 
