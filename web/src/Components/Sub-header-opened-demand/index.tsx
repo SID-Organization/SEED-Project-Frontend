@@ -510,6 +510,7 @@ export default function subHeader({
                     backgroundColor: "#C2BEBE",
                   },
                 }}
+                onClick={handleCloseModal}
               >
                 Cancelar
               </Button>
