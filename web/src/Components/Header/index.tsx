@@ -9,7 +9,7 @@ import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import {
   Accordion,
   Button,
@@ -44,6 +44,7 @@ import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
 import UserMessageCard from "../Chat-components/User-message-card";
+import NotificationCard from "../Notification-card";
 
 const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -97,10 +98,14 @@ export default function PrimarySearchAppBar() {
   const [messagesAnchoeEl, setMessagesAnchoeEl] = useState<null | HTMLElement>(
     null
   );
+  const [notificationsAnchoeEl, setNotificationsAnchoeEl] =
+    useState<null | HTMLElement>(null);
+
   const [search, setSearch] = useState("");
 
   const isMenuOpen = Boolean(menuAnchoeEl);
   const isMessagesOpen = Boolean(messagesAnchoeEl);
+  const isNotificationsOpen = Boolean(notificationsAnchoeEl);
 
   const AccordionDetails = styled(MuiAccordionDetails)({
     padding: "0",
@@ -133,6 +138,12 @@ export default function PrimarySearchAppBar() {
     setMessagesAnchoeEl(event.currentTarget);
   };
 
+  const handleNotificationsMenuOpen = (
+    event: React.MouseEvent<HTMLElement>
+  ) => {
+    setNotificationsAnchoeEl(event.currentTarget);
+  };
+
   const handleMenuClose = () => {
     setmMenuAnchoeEl(null);
   };
@@ -141,7 +152,11 @@ export default function PrimarySearchAppBar() {
     setMessagesAnchoeEl(null);
   };
 
-  const users = [
+  const handleNotificationsMenuClose = () => {
+    setNotificationsAnchoeEl(null);
+  };
+
+  const usersMock = [
     {
       name: "John Doe",
       userDemand: "I need a tutor for my son",
@@ -269,6 +284,40 @@ export default function PrimarySearchAppBar() {
       time: "12:00",
       unreadMessages: 10,
       isOnline: false,
+    },
+  ];
+
+  const notificationsMock = [
+    {
+      name: "Henrique Cole Fernandes",
+      time: "10:00",
+      content:
+        "Sua demanda foi reprovadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!",
+      unreadNotification: true,
+    },
+    {
+      name: "Henrique Cole Fernandes",
+      time: "12:00",
+      content: "Sua demanda foi aprovada!",
+      unreadNotification: true,
+    },
+    {
+      name: "Henrique Cole Fernandes",
+      time: "15:00",
+      content: "Sua demanda foi recebida!",
+      unreadNotification: false,
+    },
+    {
+      name: "Henrique Cole Fernandes",
+      time: "18:00",
+      content: "Sua demanda foi aprovada!",
+      unreadNotification: true,
+    },
+    {
+      name: "Henrique Cole Fernandes",
+      time: "21:00",
+      content: "Sua demanda foi aprovada!",
+      unreadNotification: false,
     },
   ];
 
@@ -450,7 +499,7 @@ export default function PrimarySearchAppBar() {
       "
       >
         {search === ""
-          ? users
+          ? usersMock
               .sort((a, b) => {
                 if (a.unreadMessages && !b.unreadMessages) return -1;
                 if (!a.unreadMessages && b.unreadMessages) return 1;
@@ -486,8 +535,93 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+  const notificationsId = "primary-search-notifications-menu";
+  const renderNotifications = (
+    <Menu
+      sx={{ marginTop: "40px" }}
+      anchorEl={notificationsAnchoeEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={notificationsId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isNotificationsOpen}
+      onClose={handleNotificationsMenuClose}
+    >
+      <div className="flex justify-between items-center">
+        <p
+          className="
+        text-2xl
+        ml-3
+        mb-3
+        font-bold
+        text-blue-weg
+      "
+        >
+          Notificações
+        </p>
+        <Tooltip title="Marcar todas como lidas">
+          <IconButton>
+            {/* marcar todas as notificações  */}
+            <CheckRoundedIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
+      <Divider />
+      <div
+        className="
+        h-[calc(100vh-19.8rem)]
+        overflow-y-scroll
+        scrollbar-thumb-[#a5a5a5]
+        scrollbar-thumb-rounded-full
+        scrollbar-w-2
+        scrollbar-thin
+      "
+      >
+        {
+          //show the notifications by the most recent and unread first
+          notificationsMock
+            .sort((a, b) => {
+              if (a.unreadNotification && !b.unreadNotification) return -1;
+              if (!a.unreadNotification && b.unreadNotification) return 1;
+
+              const timeA = new Date(
+                a.time.split(":")[0] as any,
+                a.time.split(":")[1] as any
+              );
+              const timeB = new Date(
+                b.time.split(":")[0] as any,
+                b.time.split(":")[1] as any
+              );
+              if (timeA > timeB) {
+                return -1;
+              }
+              if (timeA < timeB) {
+                return 1;
+              }
+              return 0;
+            })
+
+            .map((notification) => (
+              <NotificationCard
+                name={notification.name}
+                content={notification.content}
+                time={notification.time}
+                unreadNotification={notification.unreadNotification}
+              />
+            ))
+        }
+      </div>
+    </Menu>
+  );
+
   function returnedUserSearch() {
-    const filteredUsers = users.filter((user) => {
+    const filteredUsers = usersMock.filter((user) => {
       return (
         user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.userDemand.toLowerCase().includes(search.toLowerCase())
@@ -590,6 +724,7 @@ export default function PrimarySearchAppBar() {
                   size="large"
                   aria-label="show 17 new notifications"
                   color="inherit"
+                  onClick={handleNotificationsMenuOpen}
                 >
                   <Badge badgeContent={17} color="error">
                     <NotificationsIcon />
@@ -601,6 +736,7 @@ export default function PrimarySearchAppBar() {
         </AppBar>
         {renderMenu}
         {renderMessages}
+        {renderNotifications}
       </Box>
     </div>
   );
