@@ -23,20 +23,22 @@ export default function NotificationCard(props: NotificationCardProps) {
           },
         }}
       >
-        <div className="flex font-roboto justify-center h-20">
+        <div className="flex font-roboto justify-center h-20 ml-5 mr-5">
           <div className="flex items-center w-[5rem]">
             <img src={userImg} alt="user" className="w-[3.5rem] h-[3.5rem]" />
           </div>
           <div className="grid items-center w-[13rem]">
             <p className="font-bold">
-              {props.name.length + props.content.length > 60
-                ? props.name.slice(0, 60) + "..."
+              {props.name.length + props.content.length > 80
+                ? props.name.slice(0, 70) + "..."
                 : props.name + " " + props.content}
+            </p>
+            <p className="text-xs text-light-blue-weg font-bold">
+              {props.time}
             </p>
           </div>
           <div className="grid items-center">
-            <p className="font-normal text-[#9c9c9c]">{props.time}</p>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center w-5">
               {props.unreadNotification === false ? null : (
                 <div className="bg-dark-blue-weg text-white h-3 w-3 rounded-full flex justify-center items-center  text-xs font-bold">
                   {props.unreadNotification}

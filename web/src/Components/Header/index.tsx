@@ -103,6 +103,9 @@ export default function PrimarySearchAppBar() {
 
   const [search, setSearch] = useState("");
 
+  const [filterUnreadNotifications, setFilterUnreadNotifications] =
+    useState(false);
+
   const isMenuOpen = Boolean(menuAnchoeEl);
   const isMessagesOpen = Boolean(messagesAnchoeEl);
   const isNotificationsOpen = Boolean(notificationsAnchoeEl);
@@ -290,33 +293,62 @@ export default function PrimarySearchAppBar() {
   const notificationsMock = [
     {
       name: "Henrique Cole Fernandes",
-      time: "10:00",
-      content:
-        "Sua demanda foi reprovadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!",
-      unreadNotification: true,
+      time: "21:00",
+      content: "Aprovou sua demanda!",
+      unreadNotification: false,
     },
     {
-      name: "Henrique Cole Fernandes",
+      name: "Leonardo Rafaelli",
       time: "12:00",
-      content: "Sua demanda foi aprovada!",
+      content: "Reprovou sua demanda!",
       unreadNotification: true,
     },
     {
-      name: "Henrique Cole Fernandes",
+      name: "Gustavo Rebelatto Zapella",
       time: "15:00",
-      content: "Sua demanda foi recebida!",
+      content: "Aprovou sua demanda!",
+      unreadNotification: true,
+    },
+    {
+      name: "Romario Horngurg",
+      time: "18:00",
+      content: "Reprovou sua demanda!",
+      unreadNotification: false,
+    },
+    {
+      name: "Otavio Augusto dos Santos",
+      time: "09:00",
+      content: "Reprovou sua demanda!",
       unreadNotification: false,
     },
     {
       name: "Henrique Cole Fernandes",
-      time: "18:00",
-      content: "Sua demanda foi aprovada!",
+      time: "22:00",
+      content: "Aprovou sua demanda!",
+      unreadNotification: false,
+    },
+    {
+      name: "Leonardo Rafaelli",
+      time: "16:00",
+      content: "Reprovou sua demanda!",
       unreadNotification: true,
     },
     {
-      name: "Henrique Cole Fernandes",
-      time: "21:00",
-      content: "Sua demanda foi aprovada!",
+      name: "Gustavo Rebelatto Zapella",
+      time: "20:00",
+      content: "Aprovou sua demanda!",
+      unreadNotification: true,
+    },
+    {
+      name: "Romario Horngurg",
+      time: "17:00",
+      content: "Reprovou sua demanda!",
+      unreadNotification: false,
+    },
+    {
+      name: "Otavio Augusto dos Santos",
+      time: "14:00",
+      content: "Reprovou sua demanda!",
       unreadNotification: false,
     },
   ];
@@ -538,7 +570,9 @@ export default function PrimarySearchAppBar() {
   const notificationsId = "primary-search-notifications-menu";
   const renderNotifications = (
     <Menu
-      sx={{ marginTop: "40px" }}
+      sx={{
+        marginTop: "40px",
+      }}
       anchorEl={notificationsAnchoeEl}
       anchorOrigin={{
         vertical: "top",
@@ -553,26 +587,105 @@ export default function PrimarySearchAppBar() {
       open={isNotificationsOpen}
       onClose={handleNotificationsMenuClose}
     >
-      <div className="flex justify-between items-center">
-        <p
-          className="
+      <div className="grid">
+        <div className="flex justify-between items-center">
+          <p
+            className="
         text-2xl
         ml-3
-        mb-3
         font-bold
         text-blue-weg
       "
-        >
-          Notificações
-        </p>
-        <Tooltip title="Marcar todas como lidas">
-          <IconButton>
-            {/* marcar todas as notificações  */}
-            <CheckRoundedIcon />
-          </IconButton>
-        </Tooltip>
+          >
+            Notificações
+          </p>
+          <Tooltip title="Marcar todas como lidas">
+            <IconButton
+              sx={{
+                marginRight: "1rem",
+              }}
+            >
+              {/* marcar todas as notificações  */}
+              <CheckRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+        <div className="flex items-center mb-1">
+          <button
+            onClick={() => {
+              setFilterUnreadNotifications(false);
+            }}
+            className={
+              filterUnreadNotifications
+                ? `
+                rounded-full
+              color-[#555555]
+              text-[0.8rem]
+              font-bold
+              w-[5rem]
+              h-[2rem]  
+              transition
+              hover:bg-[#f0f2f5]
+              px-2
+              py-1
+                `
+                : `
+                rounded-full
+                text-[#0075b1]
+                text-[0.8rem]
+                bg-[#f0f2f5]
+                font-bold
+                w-[5rem]
+                h-[2rem]  
+                transition
+                px-2
+                py-1
+                `
+            }
+          >
+            Tudo
+          </button>
+          <button
+            onClick={() => {
+              setFilterUnreadNotifications(true);
+            }}
+            className={
+              filterUnreadNotifications
+                ? `
+                rounded-full
+              text-[#0075b1]
+              text-[0.8rem]
+              bg-[#f0f2f5]
+              font-bold
+              w-[5rem]
+              h-[2rem]  
+              transition
+              px-2
+              py-1
+                `
+                : `
+            rounded-full
+          color-[#555555]
+          text-[0.8rem]
+          font-bold
+          w-[5rem]
+          h-[2rem]  
+          transition
+          hover:bg-[#f0f2f5]
+          px-2
+          py-1
+            `
+            }
+          >
+            Não lidas
+          </button>
+        </div>
       </div>
-      <Divider />
+      <Divider
+        sx={{
+          marginBottom: "1rem",
+        }}
+      />
       <div
         className="
         h-[calc(100vh-19.8rem)]
@@ -583,39 +696,38 @@ export default function PrimarySearchAppBar() {
         scrollbar-thin
       "
       >
-        {
-          //show the notifications by the most recent and unread first
-          notificationsMock
-            .sort((a, b) => {
+        {notificationsMock
+          .sort((a, b) => {
+            if (filterUnreadNotifications) {
               if (a.unreadNotification && !b.unreadNotification) return -1;
               if (!a.unreadNotification && b.unreadNotification) return 1;
+            }
 
-              const timeA = new Date(
-                a.time.split(":")[0] as any,
-                a.time.split(":")[1] as any
-              );
-              const timeB = new Date(
-                b.time.split(":")[0] as any,
-                b.time.split(":")[1] as any
-              );
-              if (timeA > timeB) {
-                return -1;
-              }
-              if (timeA < timeB) {
-                return 1;
-              }
-              return 0;
-            })
+            const timeA = new Date(
+              a.time.split(":")[0] as any,
+              a.time.split(":")[1] as any
+            );
+            const timeB = new Date(
+              b.time.split(":")[0] as any,
+              b.time.split(":")[1] as any
+            );
+            if (timeA > timeB) {
+              return -1;
+            }
+            if (timeA < timeB) {
+              return 1;
+            }
+            return 0;
+          })
 
-            .map((notification) => (
-              <NotificationCard
-                name={notification.name}
-                content={notification.content}
-                time={notification.time}
-                unreadNotification={notification.unreadNotification}
-              />
-            ))
-        }
+          .map((notification) => (
+            <NotificationCard
+              name={notification.name}
+              content={notification.content}
+              time={notification.time}
+              unreadNotification={notification.unreadNotification}
+            />
+          ))}
       </div>
     </Menu>
   );
