@@ -785,7 +785,7 @@ export default function PrimarySearchAppBar() {
         >
           <Toolbar>
             <Link to="/minhas-demandas" className="cursor-pointer">
-              <img className="h-10 w-16" src={WegLogo} alt="" />
+              <img className="h-full w-16" src={WegLogo} alt="" />
             </Link>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
