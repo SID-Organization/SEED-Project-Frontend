@@ -6,15 +6,9 @@ export default function drafts() {
     <div>
       <SubHeader>Rascunhos</SubHeader>
       <div className="flex flex-wrap justify-around">
-        <DemandCard status="Rascunho" />
-        <DemandCard status="Rascunho" />
-        <DemandCard status="Rascunho" />
-        <DemandCard status="Rascunho" />
-        <DemandCard status="Rascunho" />
-        <DemandCard status="Rascunho" />
-        <DemandCard status="Rascunho" />
-        <DemandCard status="Rascunho" />
-        <DemandCard status="Rascunho" />
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
+          <DemandCard status="Rascunho" />
+        ))}
       </div>
     </div>
   );

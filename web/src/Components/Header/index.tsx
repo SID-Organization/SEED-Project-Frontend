@@ -10,8 +10,14 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { MenuOutlined } from "@mui/icons-material";
-import { Accordion, Button } from "@mui/material";
+import {
+  Accordion,
+  Button,
+  Divider,
+  InputBase,
+  Paper,
+  Tooltip,
+} from "@mui/material";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiButton from "@mui/material/Button";
@@ -27,8 +33,8 @@ import { styled } from "@mui/material/styles";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch, { SwitchProps } from "@mui/material/Switch";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import SearchIcon from "@mui/icons-material/Search";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
 
 import { useState } from "react";
 
@@ -37,6 +43,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
+import UserMessageCard from "../Chat-components/User-message-card";
 
 const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -86,12 +93,14 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    useState<null | HTMLElement>(null);
+  const [menuAnchoeEl, setmMenuAnchoeEl] = useState<null | HTMLElement>(null);
+  const [messagesAnchoeEl, setMessagesAnchoeEl] = useState<null | HTMLElement>(
+    null
+  );
+  const [search, setSearch] = useState("");
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isMenuOpen = Boolean(menuAnchoeEl);
+  const isMessagesOpen = Boolean(messagesAnchoeEl);
 
   const AccordionDetails = styled(MuiAccordionDetails)({
     padding: "0",
@@ -117,27 +126,157 @@ export default function PrimarySearchAppBar() {
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    setmMenuAnchoeEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  const handleMessagesMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMessagesAnchoeEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
+    setmMenuAnchoeEl(null);
   };
 
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+  const handleMessagesMenuClose = () => {
+    setMessagesAnchoeEl(null);
   };
+
+  const users = [
+    {
+      name: "John Doe",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:00",
+      unreadMessages: false,
+      isOnline: false,
+    },
+    {
+      name: "Henrique",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "09:20",
+      unreadMessages: 4,
+      isOnline: true,
+    },
+    {
+      name: "Thiago",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "11:30",
+      unreadMessages: false,
+      isOnline: false,
+    },
+    {
+      name: "Leonardo de Souza Rafaelli",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Salve salve",
+      time: "13:54",
+      unreadMessages: 6,
+      isOnline: false,
+    },
+    {
+      name: "Otavio Augusto do Santos",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Eai, como ta?",
+      time: "21:32",
+      unreadMessages: false,
+      isOnline: true,
+    },
+    {
+      name: "Gustavo Rebelatto Zapella",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "21:33",
+      unreadMessages: 1,
+      isOnline: true,
+    },
+    {
+      name: "Gustavo Cole",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:03",
+      unreadMessages: false,
+      isOnline: true,
+    },
+    {
+      name: "Leonardo Rebelatto",
+      userDemand: "Software is slow",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:00",
+      unreadMessages: 10,
+      isOnline: false,
+    },
+    {
+      name: "John Doe",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:00",
+      unreadMessages: false,
+      isOnline: false,
+    },
+    {
+      name: "Henrique",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "09:20",
+      unreadMessages: 4,
+      isOnline: true,
+    },
+    {
+      name: "Thiago",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "11:30",
+      unreadMessages: false,
+      isOnline: false,
+    },
+    {
+      name: "Leonardo de Souza Rafaelli",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Salve salve",
+      time: "13:54",
+      unreadMessages: 6,
+      isOnline: false,
+    },
+    {
+      name: "Otavio Augusto do Santos",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Eai, como ta?",
+      time: "18:20",
+      unreadMessages: false,
+      isOnline: true,
+    },
+    {
+      name: "Gustavo Rebelatto Zapella",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "07:30",
+      unreadMessages: 1,
+      isOnline: true,
+    },
+    {
+      name: "Gustavo Cole",
+      userDemand: "I need a tutor for my son",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:03",
+      unreadMessages: false,
+      isOnline: true,
+    },
+    {
+      name: "Leonardo Rebelatto",
+      userDemand: "Software is slow",
+      lastMessage: "Hello, I'm interested in your demand",
+      time: "12:00",
+      unreadMessages: 10,
+      isOnline: false,
+    },
+  ];
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       sx={{ marginTop: "40px" }}
-      anchorEl={anchorEl}
+      anchorEl={menuAnchoeEl}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
@@ -239,69 +378,151 @@ export default function PrimarySearchAppBar() {
       >
         <FormGroup>
           <FormControlLabel
-            control={
-              <DarkModeSwitch
-                sx={{ m: 1, marginLeft: "2rem" }}
-                defaultChecked
-              />
-            }
+            sx={{ m: 1 }}
+            control={<DarkModeSwitch {...label} />}
+            label=""
           />
         </FormGroup>
       </MenuItem>
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
+  const messagesId = "primary-search-messages-menu";
+  const renderMessages = (
     <Menu
-      anchorEl={mobileMoreAnchorEl}
+      sx={{ marginTop: "40px" }}
+      anchorEl={messagesAnchoeEl}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
       }}
-      id={mobileMenuId}
+      id={messagesId}
       keepMounted
       transformOrigin={{
         vertical: "top",
         horizontal: "right",
       }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+      open={isMessagesOpen}
+      onClose={handleMessagesMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
+      <p
+        className="
+        text-2xl
+        ml-3
+        mb-3
+        font-bold
+        text-blue-weg
+      "
+      >
+        Mensagens
+      </p>
+      <Divider />
+      <Paper
+        component="form"
+        sx={{
+          p: "2px 4px",
+          display: "flex",
+          alignItems: "center",
+          width: 350,
+          borderRadius: "20rem",
+          margin: "1rem",
+          backgroundColor: "#f0f2f5",
+        }}
+      >
+        <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+          <SearchIcon />
         </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Procure por usuários ou demandas"
+          inputProps={{ "aria-label": "search google maps" }}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </Paper>
+      <div
+        className="
+        h-[calc(100vh-19.8rem)]
+        overflow-y-scroll
+        scrollbar-thumb-[#a5a5a5]
+        scrollbar-thumb-rounded-full
+        scrollbar-w-2
+        scrollbar-thin
+      "
+      >
+        {search === ""
+          ? users
+              .sort((a, b) => {
+                if (a.unreadMessages && !b.unreadMessages) return -1;
+                if (!a.unreadMessages && b.unreadMessages) return 1;
+
+                const timeA = new Date(
+                  a.time.split(":")[0] as any,
+                  a.time.split(":")[1] as any
+                );
+                const timeB = new Date(
+                  b.time.split(":")[0] as any,
+                  b.time.split(":")[1] as any
+                );
+                if (timeA > timeB) {
+                  return -1;
+                }
+                if (timeA < timeB) {
+                  return 1;
+                }
+                return 0;
+              })
+              .map((user) => (
+                <UserMessageCard
+                  name={user.name}
+                  userDemand={user.userDemand}
+                  lastMessage={user.lastMessage}
+                  time={user.time}
+                  unreadMessages={user.unreadMessages}
+                  isOnline={user.isOnline}
+                />
+              ))
+          : returnedUserSearch()}
+      </div>
     </Menu>
   );
+
+  function returnedUserSearch() {
+    const filteredUsers = users.filter((user) => {
+      return (
+        user.name.toLowerCase().includes(search.toLowerCase()) ||
+        user.userDemand.toLowerCase().includes(search.toLowerCase())
+      );
+    });
+
+    if (filteredUsers.length === 0) {
+      return (
+        <div className="grid justify-center items-center">
+          <div className="flex justify-center items-center mt-10">
+            <SearchOffIcon
+              sx={{
+                fontSize: 100,
+                color: "#BDBDBD",
+              }}
+            />
+          </div>
+          <p className="font-roboto tracking-wide text-[#BDBDBD] cursor-default">
+            Nenhum usuário encontrado
+          </p>
+        </div>
+      );
+    } else {
+      return filteredUsers.map((user) => (
+        <UserMessageCard
+          name={user.name}
+          userDemand={user.userDemand}
+          lastMessage={user.lastMessage}
+          time={user.time}
+          unreadMessages={user.unreadMessages}
+          isOnline={user.isOnline}
+        />
+      ));
+    }
+  }
 
   return (
     <div>
@@ -349,44 +570,37 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
               </Box>
 
-              <IconButton
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
-                sx={{
-                  marginLeft: "0.5rem",
-                }}
-              >
-                <Badge badgeContent={4} color="error">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={17} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </Box>
-            <Box sx={{ display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
+              <Tooltip title="Mensagens">
+                <IconButton
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                  sx={{
+                    marginLeft: "0.5rem",
+                  }}
+                  onClick={handleMessagesMenuOpen}
+                >
+                  <Badge badgeContent={4} color="error">
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Notificações">
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                >
+                  <Badge badgeContent={17} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
             </Box>
           </Toolbar>
         </AppBar>
-        {renderMobileMenu}
         {renderMenu}
+        {renderMessages}
       </Box>
     </div>
   );
