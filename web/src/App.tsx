@@ -14,7 +14,6 @@ import DemandManager from "./pages/business-manager";
 import Pautas from "./pages/analista/pautas";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
-import TextEditor from "./Components/Text-editor";
 
 function App() {
   return (
@@ -34,7 +33,6 @@ function App() {
             <Route path="pautas" element={<Pautas />} />
             <Route path="perfil" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
-            <Route path="editor" element={<TextEditor />} />
           </Route>
         </Routes>
       </BrowserRouter>
