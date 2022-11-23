@@ -19,7 +19,7 @@ export default function homeDemands() {
 
   function getDemandsGrid() {
     return (
-      <div className="flex flex-wrap justify-around">
+      <div className="flex flex-wrap justify-around gap-4">
         <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Aberto" />
         <DemandCard status="AprovadoPelaComissao" />

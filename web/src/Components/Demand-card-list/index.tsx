@@ -328,7 +328,6 @@ export default function DataTable() {
         components={{
           Toolbar: GridToolbar,
         }}
-        // checkboxSelection
         sx={{
           color: "#023A67",
           fontWeight: "bold",
