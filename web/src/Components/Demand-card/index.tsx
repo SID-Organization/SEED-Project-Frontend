@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import { styled } from "@mui/material/styles";
 
@@ -16,7 +17,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import { Divider, InputAdornment, Tooltip } from "@mui/material";
+import { Divider, IconButton, InputAdornment, Tooltip } from "@mui/material";
 
 interface DemandCardProps {
   status: string;
@@ -24,7 +25,6 @@ interface DemandCardProps {
 
 export default function DemandCard(props: DemandCardProps) {
   const [open, setOpen] = useState(false);
-  const handleReasonOpen = () => setOpen(!open);
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
@@ -491,21 +491,15 @@ export default function DemandCard(props: DemandCardProps) {
                     enterDelay={820}
                     leaveDelay={200}
                   >
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#C31700",
-                        color: "#FFF",
-                        fontSize: 12,
-                        width: 90,
-
-                        "&:hover": {
-                          backgroundColor: "#d31900",
-                        },
-                      }}
-                    >
-                      Deletar
-                    </Button>
+                    <IconButton>
+                      <DeleteRoundedIcon
+                        sx={
+                          {
+                            // color: "#C31700",
+                          }
+                        }
+                      />
+                    </IconButton>
                   </Tooltip>
                 </div>
               )}
