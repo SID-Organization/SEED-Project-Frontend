@@ -90,7 +90,7 @@ export default function DemandCard(props: DemandCardProps) {
   };
 
   const progressInputColor: any = {
-    Cancelado: "#707070",
+    Cancelado: "#C31700",
     AprovadoPelaComissao: "#7EB61C",
     AprovadoPeloAnalistaTi: "#7EB61C",
     Rascunho: "#d9d9d937",
@@ -105,6 +105,7 @@ export default function DemandCard(props: DemandCardProps) {
     const response = await fetch(
       "https://jsonplaceholder.typicode.com/todos/1"
     );
+    console.log("AAAA:", response);
     const data = await response.json();
     setData(data);
     setIsDemandLoading(false);
@@ -245,9 +246,16 @@ export default function DemandCard(props: DemandCardProps) {
                       onClick={handleOpenGenerateProposal}
                       variant="contained"
                       sx={{
-                        backgroundColor: "#0075B1",
+                        backgroundColor: "#FFF",
+                        color: "#0075B1",
+                        fontWeight: "bold",
+                        border: "#0075B1 solid 1px",
                         fontSize: 12,
                         width: 90,
+
+                        "&:hover": {
+                          backgroundColor: "#f3f3f3",
+                        },
                       }}
                     >
                       Proposta
@@ -381,11 +389,17 @@ export default function DemandCard(props: DemandCardProps) {
                     <Button
                       onClick={handleOpenReasonOfCancellation}
                       variant="contained"
-                      style={{
-                        backgroundColor: "#C2BEBE",
-                        color: "#707070",
+                      sx={{
+                        backgroundColor: "#FFF",
+                        color: "#0075B1",
+                        fontWeight: "bold",
+                        border: "#0075B1 solid 1px",
                         width: 85,
                         fontSize: 12,
+
+                        "&:hover": {
+                          backgroundColor: "#f3f3f3",
+                        },
                       }}
                     >
                       Motivo
