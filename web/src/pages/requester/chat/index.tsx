@@ -344,7 +344,7 @@ export default function Chat() {
         flex
         "
         >
-          <Tooltip title="Adicionar anexo">
+          <Tooltip title="Adicionar anexo" enterDelay={820} leaveDelay={200}>
             <IconButton
               color="primary"
               aria-label="upload picture"
@@ -409,7 +409,7 @@ export default function Chat() {
             }}
             value={message}
           />
-          <Tooltip title="Enviar mensagem">
+          <Tooltip title="Enviar mensagem" enterDelay={820} leaveDelay={200}>
             <IconButton
               onClick={
                 message !== ""

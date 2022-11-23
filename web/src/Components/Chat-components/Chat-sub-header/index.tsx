@@ -194,7 +194,11 @@ export default function ChatSubHeader() {
           {userInformations.name}
         </p>
         <React.Fragment key={"right"}>
-          <Tooltip title="Informações do usuário">
+          <Tooltip
+            title="Informações do usuário"
+            enterDelay={820}
+            leaveDelay={200}
+          >
             <IconButton
               onClick={toggleDrawer("right", true)}
               sx={{

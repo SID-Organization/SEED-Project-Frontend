@@ -29,11 +29,11 @@ export default function SidebarLink(props: SidebarItemProps) {
     paddingTop: "0.8rem",
     paddingBottom: "0.8rem",
     "&:hover": {
-      backgroundColor: "#f5f5f529"
+      backgroundColor: "#f5f5f529",
     },
     cursor: "pointer",
     paddingLeft: "0.5rem",
-    display: "flex"
+    display: "flex",
   }));
 
   const Divider = styled(MuiDivider)(() => ({
@@ -41,7 +41,7 @@ export default function SidebarLink(props: SidebarItemProps) {
     marginLeft: "auto",
     marginRight: "auto",
     borderStyle: "dashed",
-    borderColor: "#fff"
+    borderColor: "#fff",
   }));
 
   const icon = props.selected ? props.fullIcon : props.outlinedIcon;
@@ -49,7 +49,12 @@ export default function SidebarLink(props: SidebarItemProps) {
   return (
     <div>
       <div className={`mt-1 ${props.hasDivider ? "mb-1" : ""}`}>
-        <Tooltip title={props.title} placement="right">
+        <Tooltip
+          title={props.title}
+          placement="right"
+          enterDelay={820}
+          leaveDelay={200}
+        >
           <Link to={props.linkTo} style={{ width: "100%" }}>
             <Box
               onClick={() => {

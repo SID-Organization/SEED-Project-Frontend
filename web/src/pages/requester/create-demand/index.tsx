@@ -243,7 +243,11 @@ export default function CreateDemand() {
             <Notification message="Benefício removido com sucesso!" />
           )}
 
-          <Tooltip title="Adicionar mais benefícios reais">
+          <Tooltip
+            title="Adicionar mais benefícios reais"
+            enterDelay={820}
+            leaveDelay={200}
+          >
             <IconButton onClick={addRealBenefit}>
               <AddBoxRoundedIcon
                 sx={{
@@ -259,7 +263,11 @@ export default function CreateDemand() {
           <div className="flex items-center justify-center">
             {item}
             {i !== 0 ? (
-              <Tooltip title="Remover benefício real">
+              <Tooltip
+                title="Remover benefício real"
+                enterDelay={820}
+                leaveDelay={200}
+              >
                 <IconButton
                   sx={{
                     marginLeft: "1rem",
@@ -291,7 +299,11 @@ export default function CreateDemand() {
             Benefícios potenciais
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
-          <Tooltip title="Adicionar mais benefícios potenciais">
+          <Tooltip
+            title="Adicionar mais benefícios potenciais"
+            enterDelay={820}
+            leaveDelay={200}
+          >
             <IconButton>
               <AddBoxRoundedIcon
                 sx={{
@@ -313,7 +325,11 @@ export default function CreateDemand() {
           <div className="flex items-center justify-center">
             {item}
             {i !== 0 ? (
-              <Tooltip title="Remover benefício potencial">
+              <Tooltip
+                title="Remover benefício potencial"
+                enterDelay={820}
+                leaveDelay={200}
+              >
                 <IconButton
                   sx={{
                     marginLeft: "1rem",

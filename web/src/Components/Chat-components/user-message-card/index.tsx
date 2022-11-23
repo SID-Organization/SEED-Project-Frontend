@@ -32,7 +32,11 @@ export default function UserMessageCard(
     >
       <div className="flex font-roboto justify-center h-20">
         <div className="flex items-center w-[5rem]">
-          <Tooltip title={props.isOnline ? "On-line" : "Offline"}>
+          <Tooltip
+            title={props.isOnline ? "On-line" : "Offline"}
+            enterDelay={820}
+            leaveDelay={200}
+          >
             <Badge
               badgeContent={""}
               color="secondary"
@@ -58,6 +62,8 @@ export default function UserMessageCard(
           <Tooltip
             title={props.name + " • Demanda - " + props.userDemand}
             placement="top-start"
+            enterDelay={820}
+            leaveDelay={200}
           >
             <p className="font-bold text-base flex gap-2">
               <p>

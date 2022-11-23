@@ -101,7 +101,7 @@ export default function openedDemand() {
       </SubHeaderOpenedDemand>
       <div className="grid justify-center items-center">
         <div className="flex justify-around items-center mt-5">
-          <Tooltip title="Abrir workflow">
+          <Tooltip title="Abrir workflow" enterDelay={820} leaveDelay={200}>
             <Button
               onClick={handleOpen}
               variant="contained"
@@ -129,7 +129,7 @@ export default function openedDemand() {
           >
             <Box sx={style}>
               <div className="flex justify-end items-center mb-5">
-                <Tooltip title="Fechar">
+                <Tooltip title="Fechar" enterDelay={820} leaveDelay={200}>
                   <CloseIcon
                     onClick={handleClose}
                     sx={{
@@ -194,7 +194,7 @@ export default function openedDemand() {
                 </h1>
               </div>
               <div>
-                <Tooltip title="Abrir chat">
+                <Tooltip title="Abrir chat" enterDelay={820} leaveDelay={200}>
                   <MessageIcon
                     sx={{
                       color: "#00579D",
@@ -213,7 +213,11 @@ export default function openedDemand() {
             </div>
           </div>
           <div>
-            <Tooltip title="Abrir como documento">
+            <Tooltip
+              title="Abrir como documento"
+              enterDelay={820}
+              leaveDelay={200}
+            >
               <Button
                 variant="contained"
                 sx={{
@@ -368,7 +372,11 @@ export default function openedDemand() {
                         scope="row"
                         align="center"
                       >
-                        <Tooltip title="Baixar arquivo">
+                        <Tooltip
+                          title="Baixar arquivo"
+                          enterDelay={820}
+                          leaveDelay={200}
+                        >
                           <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
                         </Tooltip>
                         {row.name}
@@ -377,7 +385,11 @@ export default function openedDemand() {
                         <StyledTableCell align="center">
                           {row.size}
                         </StyledTableCell>
-                        <Tooltip title="Deletar arquivo">
+                        <Tooltip
+                          title="Deletar arquivo"
+                          enterDelay={820}
+                          leaveDelay={200}
+                        >
                           <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
                         </Tooltip>
                       </div>
@@ -386,7 +398,11 @@ export default function openedDemand() {
                 </TableBody>
               </Table>
               <div className="flex justify-center items-center mt-5 mb-5">
-                <Tooltip title="Adicionar arquivo">
+                <Tooltip
+                  title="Adicionar arquivo"
+                  enterDelay={820}
+                  leaveDelay={200}
+                >
                   <Button
                     variant="contained"
                     component="label"

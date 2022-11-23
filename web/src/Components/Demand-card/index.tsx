@@ -241,7 +241,11 @@ export default function DemandCard(props: DemandCardProps) {
             <div className="flex justify-center items-center gap-3 mr-4">
               {props.status === "Aberto" && (
                 <div>
-                  <Tooltip title="Gerar proposta">
+                  <Tooltip
+                    title="Gerar proposta"
+                    enterDelay={820}
+                    leaveDelay={200}
+                  >
                     <Button
                       onClick={handleOpenGenerateProposal}
                       variant="contained"
@@ -385,7 +389,11 @@ export default function DemandCard(props: DemandCardProps) {
 
               {props.status === "Cancelado" && (
                 <div>
-                  <Tooltip title="Motivo da reprovação">
+                  <Tooltip
+                    title="Motivo da reprovação"
+                    enterDelay={820}
+                    leaveDelay={200}
+                  >
                     <Button
                       onClick={handleOpenReasonOfCancellation}
                       variant="contained"
@@ -478,14 +486,22 @@ export default function DemandCard(props: DemandCardProps) {
               )}
               {props.status === "Rascunho" && (
                 <div>
-                  <Tooltip title="Deletar rascunho">
+                  <Tooltip
+                    title="Deletar rascunho"
+                    enterDelay={820}
+                    leaveDelay={200}
+                  >
                     <Button
                       variant="contained"
-                      style={{
-                        backgroundColor: "#C2BEBE",
-                        color: "#707070",
+                      sx={{
+                        backgroundColor: "#C31700",
+                        color: "#FFF",
                         fontSize: 12,
                         width: 90,
+
+                        "&:hover": {
+                          backgroundColor: "#d31900",
+                        },
                       }}
                     >
                       Deletar
@@ -494,7 +510,11 @@ export default function DemandCard(props: DemandCardProps) {
                 </div>
               )}
               {props.status === "Rascunho" && (
-                <Tooltip title="Continuar rascunho">
+                <Tooltip
+                  title="Continuar rascunho"
+                  enterDelay={820}
+                  leaveDelay={200}
+                >
                   <Button
                     variant="contained"
                     sx={{ backgroundColor: "#0075B1", fontSize: 12, width: 90 }}
@@ -505,7 +525,11 @@ export default function DemandCard(props: DemandCardProps) {
               )}
               {props.status !== "Rascunho" && (
                 <Link to="/demanda-aberta">
-                  <Tooltip title="Visualizar demanda">
+                  <Tooltip
+                    title="Visualizar demanda"
+                    enterDelay={820}
+                    leaveDelay={200}
+                  >
                     <Button
                       variant="contained"
                       sx={{

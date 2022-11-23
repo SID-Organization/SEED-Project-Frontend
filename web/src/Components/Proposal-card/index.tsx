@@ -107,7 +107,7 @@ export default function ProposalCard(props: ProposalCardProps) {
                 `}
               >
                 Demanda de referência:{" "}
-                <Tooltip title={demandTitle}>
+                <Tooltip title={demandTitle} enterDelay={820} leaveDelay={200}>
                   <span
                     className={`
                     ${
@@ -140,7 +140,7 @@ export default function ProposalCard(props: ProposalCardProps) {
               ${props.newPauta ? "mr-4" : "flex justify-end items-center"}
             `}
           >
-            <Tooltip title="Visualizar pauta">
+            <Tooltip title="Visualizar pauta" enterDelay={820} leaveDelay={200}>
               <IconButton>
                 <VisibilityRoundedIcon />
               </IconButton>

@@ -72,7 +72,11 @@ export default function Perfil() {
               <div className="flex justify-end">
                 <IconButton onClick={() => setIsEditOn(!isEditOn)}>
                   {isEditOn ? (
-                    <Tooltip title="Salvar alterações">
+                    <Tooltip
+                      title="Salvar alterações"
+                      enterDelay={820}
+                      leaveDelay={200}
+                    >
                       <CheckRoundedIcon
                         className="cursor-pointer"
                         sx={{
@@ -85,7 +89,11 @@ export default function Perfil() {
                       />
                     </Tooltip>
                   ) : (
-                    <Tooltip title="Editar telefone">
+                    <Tooltip
+                      title="Editar telefone"
+                      enterDelay={820}
+                      leaveDelay={200}
+                    >
                       <EditRoundedIcon
                         className="cursor-pointer"
                         sx={{
