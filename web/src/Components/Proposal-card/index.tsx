@@ -1,10 +1,15 @@
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 
-import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import MuiOpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
+import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
+import MuiAddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import { Tooltip } from "@mui/material";
 
-import { IconButton, Tooltip } from "@mui/material";
+import MuiIconButton from "@mui/material/IconButton";
+
+import { useState } from "react";
 
 interface ProposalCardProps {
   newPauta?: boolean | string;
@@ -15,16 +20,7 @@ interface ProposalCardProps {
 }
 
 export default function ProposalCard(props: ProposalCardProps) {
-  const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
-    color: "#707070",
-    cursor: "pointer",
-    transition: "0.2s",
-    fontSize: "1.8rem",
-
-    "&:hover": {
-      color: "#00A3FF",
-    },
-  });
+  const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 
   const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
     color: "#00A3FF",
@@ -41,6 +37,35 @@ export default function ProposalCard(props: ProposalCardProps) {
     border: "1px solid #E5E5E5",
     padding: "10px",
     backgroundColor: "#F0F0F0",
+  });
+
+  const IconButton = styled(MuiIconButton)({
+    backgroundColor: "#0075B1",
+    border: "1px solid #0075B1",
+    width: "2rem",
+    height: "2rem",
+
+    "&:hover": {
+      backgroundColor: "#008fd6",
+      border: "1px solid #008fd6",
+    },
+  });
+
+  const PlayCircleFilledWhiteRoundedIcon = styled(
+    MuiPlayCircleFilledWhiteRoundedIcon
+  )({
+    color: "#FFF",
+    fontSize: "2rem",
+  });
+
+  const AddCircleRoundedIcon = styled(MuiAddCircleRoundedIcon)({
+    color: "#FFF",
+    fontSize: "2rem",
+  });
+
+  const CheckCircleRoundedIcon = styled(MuiCheckCircleRoundedIcon)({
+    color: "#FFF",
+    fontSize: "2rem",
   });
 
   const demandTitle =
@@ -137,7 +162,35 @@ export default function ProposalCard(props: ProposalCardProps) {
               ${props.newPauta ? "mr-4" : "flex justify-end items-center"}
             `}
           >
-            {props.newPauta === "card" && <h1>hi</h1>}
+            {props.newPauta === "card" && (
+              <div className="flex gap-4">
+                <Tooltip
+                  title="Iniciar workflow"
+                  enterDelay={800}
+                  leaveDelay={100}
+                >
+                  <IconButton aria-label="delete">
+                    <PlayCircleFilledWhiteRoundedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip
+                  title="Adicionar a uma pauta"
+                  enterDelay={800}
+                  leaveDelay={100}
+                >
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => setIsButtonAddClicked(!isButtonAddClicked)}
+                  >
+                    {isButtonAddClicked ? (
+                      <CheckCircleRoundedIcon />
+                    ) : (
+                      <AddCircleRoundedIcon />
+                    )}
+                  </IconButton>
+                </Tooltip>
+              </div>
+            )}
           </div>
         </div>
       </Card>
