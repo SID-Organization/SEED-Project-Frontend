@@ -1,7 +1,4 @@
-import Box from "@mui/material/Box";
 import MuiCard from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
 import { styled } from "@mui/material/styles";
 
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
@@ -10,7 +7,7 @@ import MuiOpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import { IconButton, Tooltip } from "@mui/material";
 
 interface ProposalCardProps {
-  newPauta?: boolean;
+  newPauta?: boolean | string;
   title: string;
   executionTime: number;
   value: number;
@@ -140,11 +137,7 @@ export default function ProposalCard(props: ProposalCardProps) {
               ${props.newPauta ? "mr-4" : "flex justify-end items-center"}
             `}
           >
-            <Tooltip title="Visualizar pauta" enterDelay={820} leaveDelay={200}>
-              <IconButton>
-                <VisibilityRoundedIcon />
-              </IconButton>
-            </Tooltip>
+            {props.newPauta === "card" && <h1>hi</h1>}
           </div>
         </div>
       </Card>
