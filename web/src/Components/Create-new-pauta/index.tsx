@@ -161,7 +161,10 @@ export default function CreateNewPauta() {
               "
                 />
               </div>
-              <div className="grid gap-5 overflow-y-scroll max-h-[21rem]">
+              <div
+                className="grid gap-5 overflow-y-scroll max-h-[21rem] scrollbar-thumb-[#a5a5a5]
+                scrollbar-thumb-rounded-full scrollbar-w-2 scrollbar-thin"
+              >
                 {[1, 2, 3, 4, 5].map((item) => (
                   <NewPautaProposalCard />
                 ))}
