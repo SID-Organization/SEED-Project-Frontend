@@ -71,6 +71,7 @@ export default function CreateDemand() {
   const [title, setTitle] = useState("");
   const [currentProblem, setCurrentProblem] = useState("");
   const [proposal, setProposal] = useState("");
+  const [frequencyOfUse, setFrequencyOfUse] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
   const [buttonNotification, setButtonNotification] = React.useState(false);
@@ -245,6 +246,27 @@ export default function CreateDemand() {
             onChange={e => setProposal(e.target.value as string)}
             InputProps={{
               startAdornment: <InputAdornment position="start" />
+            }}
+          />
+        </div>
+        <div className="grid gap-1 mb-10">
+          <div className="flex justify-center items-center mb-5 gap-5">
+            <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+            <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
+              Frequência de uso
+            </h1>
+            <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+          </div>
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            type="text"
+            multiline
+            maxRows={3}
+            value={frequencyOfUse}
+            onChange={(e) => setFrequencyOfUse(e.target.value as string)}
+            InputProps={{
+              startAdornment: <InputAdornment position="start" />,
             }}
           />
         </div>
