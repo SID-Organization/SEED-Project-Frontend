@@ -21,8 +21,12 @@ import Typography from "@mui/material/Typography";
 
 import Notification from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
-import { ConstructionOutlined } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+
+interface INewBenefit {
+  coin: string;
+  value: number;
+  description: string;
+}
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -43,22 +47,22 @@ const TextField = styled(MuiTextField)({
   height: "3.5rem",
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      border: "1.5px solid #0075B1",
+      border: "1.5px solid #0075B1"
     },
     "&:hover fieldset": {
-      borderColor: "#0075B1",
+      borderColor: "#0075B1"
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#0075B1",
-    },
+      borderColor: "#0075B1"
+    }
   },
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "4px solid #0075B1",
+    borderLeft: "4px solid #0075B1"
   },
 
   "& .MuiOutlinedInput-input": {
-    padding: "5px 5px",
-  },
+    padding: "5px 5px"
+  }
 });
 
 const progressSteps = ["Dados gerais", "Benefícios", "Arquivos"];
@@ -72,8 +76,10 @@ export default function CreateDemand() {
   const [buttonNotification, setButtonNotification] = React.useState(false);
   const [deleteNotification, setDeleteNotification] = React.useState(false);
 
-  const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
-    useState(false);
+  const [
+    openModalConfirmationDemand,
+    setOpenModalConfirmationDemand
+  ] = useState(false);
 
   const handleClickOpenModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(true);
@@ -81,7 +87,28 @@ export default function CreateDemand() {
 
   const handleCloseModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(false);
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
+  };
+
+  const handleCreateDemand = () => {
+    const demandToBeSent = {
+      tituloDemanda: title,
+      propostaDemanda: proposal,
+      situacaoAtualDemanda: currentProblem,
+      frequenciaUsoDemanda: "Diária",
+      descricaoQualitativoDemanda: "Tecnologia e loucuras",
+      prazoElaboracaoDemanda: null,
+      codigoPPM: null,
+      solicitanteDemanda: { numeroCadastroUsuario: 72130 },
+      busBeneficiadas: [],
+      beneficiosDemanda: [
+        {
+          moedaBeneficio: "EURO",
+          memoriaCalculoBeneficio: 21.2,
+          descricaoBeneficio: "doidera"
+        }
+      ]
+    };
   };
 
   function addRealBenefit() {
@@ -89,21 +116,27 @@ export default function CreateDemand() {
     setButtonNotification(true);
   }
 
-  useEffect(() => {
-    if (buttonNotification) {
-      const timer = setTimeout(() => {
-        setButtonNotification(false);
-      }, 1900);
-    }
-  }, [buttonNotification]);
+  useEffect(
+    () => {
+      if (buttonNotification) {
+        const timer = setTimeout(() => {
+          setButtonNotification(false);
+        }, 1900);
+      }
+    },
+    [buttonNotification]
+  );
 
-  useEffect(() => {
-    if (deleteNotification) {
-      const timer = setTimeout(() => {
-        setDeleteNotification(false);
-      }, 1900);
-    }
-  }, [deleteNotification]);
+  useEffect(
+    () => {
+      if (deleteNotification) {
+        const timer = setTimeout(() => {
+          setDeleteNotification(false);
+        }, 1900);
+      }
+    },
+    [deleteNotification]
+  );
 
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -120,7 +153,7 @@ export default function CreateDemand() {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
     setSkipped(newSkipped);
 
     if (activeStep === 2) {
@@ -129,7 +162,7 @@ export default function CreateDemand() {
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
   const handleReset = () => {
     setActiveStep(0);
@@ -140,8 +173,8 @@ export default function CreateDemand() {
       throw new Error("You can't skip a step that isn't optional.");
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    setSkipped(prevSkipped => {
       const newSkipped = new Set(prevSkipped.values());
       newSkipped.add(activeStep);
       return newSkipped;
@@ -166,9 +199,9 @@ export default function CreateDemand() {
             multiline
             maxRows={3}
             value={title}
-            onChange={(e) => setTitle(e.target.value as string)}
+            onChange={e => setTitle(e.target.value as string)}
             InputProps={{
-              startAdornment: <InputAdornment position="start" />,
+              startAdornment: <InputAdornment position="start" />
             }}
           />
         </div>
@@ -187,9 +220,9 @@ export default function CreateDemand() {
             multiline
             maxRows={3}
             value={currentProblem}
-            onChange={(e) => setCurrentProblem(e.target.value as string)}
+            onChange={e => setCurrentProblem(e.target.value as string)}
             InputProps={{
-              startAdornment: <InputAdornment position="start" />,
+              startAdornment: <InputAdornment position="start" />
             }}
           />
         </div>
@@ -209,9 +242,9 @@ export default function CreateDemand() {
             maxRows={3}
             value={proposal}
             helperText="*Descreva sua proposta e o que ela irá melhorar."
-            onChange={(e) => setProposal(e.target.value as string)}
+            onChange={e => setProposal(e.target.value as string)}
             InputProps={{
-              startAdornment: <InputAdornment position="start" />,
+              startAdornment: <InputAdornment position="start" />
             }}
           />
         </div>
@@ -219,12 +252,19 @@ export default function CreateDemand() {
     );
   };
 
-  const [realBenefits, setRealBenefits] = useState<JSX.Element[]>([
-    <NewBenefitInsertion />,
-  ]);
-  const [potentialBenefits, setPotentialBenefits] = useState([
-    <NewBenefitInsertion />,
-  ]);
+  // const [realBenefits, setRealBenefits] = useState<JSX.Element[]>([
+  //   <NewBenefitInsertion />
+  // ]);
+
+  // const [potentialBenefits, setPotentialBenefits] = useState([
+  //   <NewBenefitInsertion />
+  // ]);
+
+  const [realBenefits, setRealBenefits] = useState<INewBenefit[]>([{
+    coin: "",
+    value: 0,
+    description: ""
+  }]);
 
   const secondStep = () => {
     return (
@@ -236,12 +276,10 @@ export default function CreateDemand() {
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
 
-          {buttonNotification && (
-            <Notification message="Benefício adicionado com sucesso!" />
-          )}
-          {deleteNotification && (
-            <Notification message="Benefício removido com sucesso!" />
-          )}
+          {buttonNotification &&
+            <Notification message="Benefício adicionado com sucesso!" />}
+          {deleteNotification &&
+            <Notification message="Benefício removido com sucesso!" />}
 
           <Tooltip
             title="Adicionar mais benefícios reais"
@@ -253,46 +291,44 @@ export default function CreateDemand() {
                 sx={{
                   color: "#00579D",
                   fontSize: "2rem",
-                  cursor: "pointer",
+                  cursor: "pointer"
                 }}
               />
             </IconButton>
           </Tooltip>
         </div>
-        {realBenefits.map((item, i) => (
+        {realBenefits.map((item, i) =>
           <div className="flex items-center justify-center">
             {item}
-            {i !== 0 ? (
-              <Tooltip
-                title="Remover benefício real"
-                enterDelay={820}
-                leaveDelay={200}
-              >
-                <IconButton
-                  sx={{
-                    marginLeft: "1rem",
-                  }}
-                  onClick={() => {
-                    setRealBenefits(
-                      realBenefits.filter((_, index) => index !== i)
-                    );
-                    setDeleteNotification(true);
-                  }}
+            {i !== 0
+              ? <Tooltip
+                  title="Remover benefício real"
+                  enterDelay={820}
+                  leaveDelay={200}
                 >
-                  <DeleteRoundedIcon
-                    style={{
-                      color: "#00579D",
-                      fontSize: "2rem",
-                      cursor: "pointer",
+                  <IconButton
+                    sx={{
+                      marginLeft: "1rem"
                     }}
-                  />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <div className="mr-16" />
-            )}
+                    onClick={() => {
+                      setRealBenefits(
+                        realBenefits.filter((_, index) => index !== i)
+                      );
+                      setDeleteNotification(true);
+                    }}
+                  >
+                    <DeleteRoundedIcon
+                      style={{
+                        color: "#00579D",
+                        fontSize: "2rem",
+                        cursor: "pointer"
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
+              : <div className="mr-16" />}
           </div>
-        ))}
+        )}
         <div className="flex justify-center items-center gap-10 mb-5 mt-10">
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
@@ -309,51 +345,49 @@ export default function CreateDemand() {
                 sx={{
                   color: "#00579D",
                   fontSize: "2rem",
-                  cursor: "pointer",
+                  cursor: "pointer"
                 }}
                 onClick={() => {
                   setPotentialBenefits([
                     ...potentialBenefits,
-                    <NewBenefitInsertion />,
+                    <NewBenefitInsertion />
                   ]);
                 }}
               />
             </IconButton>
           </Tooltip>
         </div>
-        {potentialBenefits.map((item, i) => (
+        {potentialBenefits.map((item, i) =>
           <div className="flex items-center justify-center">
             {item}
-            {i !== 0 ? (
-              <Tooltip
-                title="Remover benefício potencial"
-                enterDelay={820}
-                leaveDelay={200}
-              >
-                <IconButton
-                  sx={{
-                    marginLeft: "1rem",
-                  }}
-                  onClick={() => {
-                    setPotentialBenefits(
-                      potentialBenefits.filter((_, index) => index !== i)
-                    );
-                  }}
+            {i !== 0
+              ? <Tooltip
+                  title="Remover benefício potencial"
+                  enterDelay={820}
+                  leaveDelay={200}
                 >
-                  <DeleteRoundedIcon
-                    style={{
-                      color: "#00579D",
-                      fontSize: "2rem",
-                      cursor: "pointer",
+                  <IconButton
+                    sx={{
+                      marginLeft: "1rem"
                     }}
-                  />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <div className="mr-16" />
-            )}
+                    onClick={() => {
+                      setPotentialBenefits(
+                        potentialBenefits.filter((_, index) => index !== i)
+                      );
+                    }}
+                  >
+                    <DeleteRoundedIcon
+                      style={{
+                        color: "#00579D",
+                        fontSize: "2rem",
+                        cursor: "pointer"
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
+              : <div className="mr-16" />}
           </div>
-        ))}
+        )}
       </div>
     );
   };
@@ -370,7 +404,7 @@ export default function CreateDemand() {
               <UploadIcon
                 sx={{
                   fontSize: "5rem",
-                  color: "#0075B1",
+                  color: "#0075B1"
                 }}
               />
             </div>
@@ -381,25 +415,18 @@ export default function CreateDemand() {
             </div>
             <div className="flex justify-center items-center">
               <label htmlFor="upload-photo">
-                <input
-                  style={{ display: "none" }}
-                  id="upload-photo"
-                  name="upload-photo"
-                  type="file"
-                />
-
                 <Button
-                  component="span"
                   variant="contained"
                   sx={{
                     backgroundColor: "#0075B1",
-                    color: "#fff",
                     "&:hover": {
-                      backgroundColor: "#0075B1",
-                    },
+                      backgroundColor: "#0075B1"
+                    }
                   }}
+                  component="label"
                 >
                   Escolher arquivo
+                  <input type="file" id="upload-photo" hidden />
                 </Button>
               </label>
             </div>
@@ -425,8 +452,8 @@ export default function CreateDemand() {
               height: "15rem",
               backgroundColor: "#fff",
               boxShadow: 0,
-              borderRadius: 2,
-            },
+              borderRadius: 2
+            }
           }}
         >
           <div className="grid justify-center items-center">
@@ -434,7 +461,7 @@ export default function CreateDemand() {
               <WarningAmberRoundedIcon
                 sx={{
                   fontSize: "5rem",
-                  color: "#0075B1",
+                  color: "#0075B1"
                 }}
               />
             </div>
@@ -452,26 +479,26 @@ export default function CreateDemand() {
                   backgroundColor: "#C2BEBE",
                   color: "#fff",
                   "&:hover": {
-                    backgroundColor: "#C2BEBE",
-                  },
+                    backgroundColor: "#C2BEBE"
+                  }
                 }}
               >
                 Cancelar
               </Button>
-              <Link to="/minhas-demandas">
-                <Button
-                  onClick={handleCloseModalConfirmationDemand}
-                  sx={{
-                    backgroundColor: "#0075B1",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#0075B1",
-                    },
-                  }}
-                >
-                  Criar demanda
-                </Button>
-              </Link>
+              {/* <Link to="/minhas-demandas"> */}
+              <Button
+                onClick={handleCreateDemand}
+                sx={{
+                  backgroundColor: "#0075B1",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#0075B1"
+                  }
+                }}
+              >
+                Criar demanda
+              </Button>
+              {/* </Link> */}
             </div>
           </DialogActions>
         </Dialog>
@@ -500,49 +527,48 @@ export default function CreateDemand() {
               } = {};
               return (
                 <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
+                  <StepLabel {...labelProps}>
+                    {label}
+                  </StepLabel>
                 </Step>
               );
             })}
           </Stepper>
-          {activeStep === progressSteps.length ? (
-            <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                Todos os passos foram completados!
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleReset}>Resetar</Button>
-              </Box>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                Passo {activeStep + 1}
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Voltar
-                </Button>
-                <Box sx={{ flex: "1 1 auto" }} />
-                {isStepOptional(activeStep) && (
-                  <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                    Pular
+          {activeStep === progressSteps.length
+            ? <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>
+                  Todos os passos foram completados!
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button onClick={handleReset}>Resetar</Button>
+                </Box>
+              </React.Fragment>
+            : <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>
+                  Passo {activeStep + 1}
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Voltar
                   </Button>
-                )}
-                <Button onClick={handleNext}>
-                  {activeStep === progressSteps.length - 1
-                    ? "Finalizar"
-                    : "Próximo"}
-                </Button>
-              </Box>
-            </React.Fragment>
-          )}
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  {isStepOptional(activeStep) &&
+                    <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                      Pular
+                    </Button>}
+                  <Button onClick={handleNext}>
+                    {activeStep === progressSteps.length - 1
+                      ? "Finalizar"
+                      : "Próximo"}
+                  </Button>
+                </Box>
+              </React.Fragment>}
         </Box>
       </div>
       <div className="grid justify-center items-center gap-14">

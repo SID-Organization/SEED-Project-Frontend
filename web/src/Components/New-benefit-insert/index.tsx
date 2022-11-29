@@ -52,8 +52,18 @@ const TextFieldValue = styled(MuiTextField)({
   },
 });
 
-export default function NewBenefitInsertion() {
+interface INewBenefit {
+  coin: string;
+  value: number;
+  description: string;
+}
+
+
+export default function NewBenefitInsertion(props : INewBenefit) {
   const [coin, setCoin] = useState("");
+  const [value, setValue] = useState(0);
+  const [description, setDescription] = useState("");
+
 
   const handleChangeCoinIcon = (event: SelectChangeEvent) => {
     setCoin(event.target.value);
@@ -76,6 +86,8 @@ export default function NewBenefitInsertion() {
                 ),
               }}
               maxRows={1}
+              value={value}
+              onChange={(e) => setValue(Number(e.target.value))}
             />
             <Box sx={{ minWidth: 100 }}>
               <FormControl fullWidth>
@@ -108,6 +120,8 @@ export default function NewBenefitInsertion() {
               type="text"
               multiline
               maxRows={2}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
         </div>
