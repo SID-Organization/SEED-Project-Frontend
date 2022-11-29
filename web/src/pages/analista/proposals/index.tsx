@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@mui/material";
+import { Button, Checkbox, Tooltip } from "@mui/material";
 import MuiIconButton from "@mui/material/IconButton";
 import { useEffect, useState } from "react";
 import ProposalCard from "../../../Components/Proposal-card";
@@ -64,6 +64,8 @@ export default function Proposals() {
   const [isButtonSelectMoreClicked, setIsButtonSelectMoreClicked] =
     useState(false);
 
+  const [isCheckBoxChecked, setIsCheckBoxChecked] = useState(false);
+
   const ContentCopyOutlinedIcon = styled(MuiContentCopyOutlinedIcon)({
     color: "#0075B1",
     transition: "0.2s",
@@ -76,7 +78,7 @@ export default function Proposals() {
   return (
     <div>
       <SubHeaderProposals />
-      <div className="ml-[calc(100vw-99rem)] mt-5 mb-5">
+      <div className="ml-[calc(100vw-99rem)] mt-5 mb-5 flex items-center">
         <Tooltip title="Selecionar propostas" enterDelay={800} leaveDelay={200}>
           <button
             className={
@@ -102,6 +104,11 @@ export default function Proposals() {
             <ContentCopyOutlinedIcon />
           </button>
         </Tooltip>
+        {isButtonSelectMoreClicked && (
+          <h1 className="ml-10 text-roboto">
+            <span className="font-bold text-blue-weg">0</span> selecionados
+          </h1>
+        )}
       </div>
       <div
         className="
@@ -112,15 +119,28 @@ export default function Proposals() {
         gap-8
       "
       >
-        {proposalsMock.map((proposal) => (
-          <ProposalCard
-            newPauta={proposal.newPauta}
-            title={proposal.title}
-            executionTime={proposal.executionTime}
-            value={proposal.value}
-            referenceDemand={proposal.referenceDemand}
-          />
-        ))}
+        {proposalsMock.map((proposal) =>
+          isButtonSelectMoreClicked ? (
+            <div className="flex items-center justify-center">
+              <Checkbox
+                checked={isCheckBoxChecked}
+                onClick={() => setIsCheckBoxChecked(!isCheckBoxChecked)}
+                sx={{
+                  color: "#0075B1",
+                  marginRight: "1rem",
+                  "&.Mui-checked": {
+                    color: "#0075B1",
+                  },
+                }}
+              />
+              <ProposalCard proposal={proposal} />
+            </div>
+          ) : (
+            <div>
+              <ProposalCard proposal={proposal} />
+            </div>
+          )
+        )}
       </div>
     </div>
   );
