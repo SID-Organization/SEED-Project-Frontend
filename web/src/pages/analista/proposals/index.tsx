@@ -133,11 +133,23 @@ export default function Proposals() {
                   },
                 }}
               />
-              <ProposalCard proposal={proposal} />
+              <ProposalCard
+                newPauta={proposal.newPauta}
+                title={proposal.title}
+                executionTime={proposal.executionTime}
+                value={proposal.value}
+                referenceDemand={proposal.referenceDemand}
+              />
             </div>
           ) : (
             <div>
-              <ProposalCard proposal={proposal} />
+              <ProposalCard
+                newPauta={proposal.newPauta}
+                title={proposal.title}
+                executionTime={proposal.executionTime}
+                value={proposal.value}
+                referenceDemand={proposal.referenceDemand}
+              />
             </div>
           )
         )}
