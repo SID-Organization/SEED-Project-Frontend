@@ -78,38 +78,6 @@ export default function Proposals() {
   return (
     <div>
       <SubHeaderProposals />
-      <div className="ml-[calc(100vw-99rem)] mt-5 mb-5 flex items-center">
-        <Tooltip title="Selecionar propostas" enterDelay={800} leaveDelay={200}>
-          <button
-            className={
-              isButtonSelectMoreClicked
-                ? `
-            h-10
-            w-10
-            rounded-full
-            transition
-            bg-[#eeeeee]
-            `
-                : `
-            h-10
-            w-10
-            rounded-full
-            transition
-            `
-            }
-            onClick={() =>
-              setIsButtonSelectMoreClicked(!isButtonSelectMoreClicked)
-            }
-          >
-            <ContentCopyOutlinedIcon />
-          </button>
-        </Tooltip>
-        {isButtonSelectMoreClicked && (
-          <h1 className="ml-10 text-roboto">
-            <span className="font-bold text-blue-weg">0</span> selecionados
-          </h1>
-        )}
-      </div>
       <div
         className="
         flex
@@ -119,6 +87,54 @@ export default function Proposals() {
         gap-8
       "
       >
+        <div
+          className="
+        w-[calc(100vw-20rem)]
+        flex items-center"
+        >
+          <Tooltip
+            title="Selecionar propostas"
+            enterDelay={800}
+            leaveDelay={200}
+          >
+            <div className="flex items-center">
+              <button
+                className={
+                  isButtonSelectMoreClicked
+                    ? `
+            flex items-center justify-center
+            mt-3
+            h-10
+            w-10
+            rounded-full
+            transition
+            bg-[#eeeeee]
+            mb-3
+            `
+                    : `
+            flex items-center justify-center
+            mt-3
+            h-10
+            w-10
+            rounded-full
+            transition
+            mb-3
+            `
+                }
+                onClick={() =>
+                  setIsButtonSelectMoreClicked(!isButtonSelectMoreClicked)
+                }
+              >
+                <ContentCopyOutlinedIcon />
+              </button>
+            </div>
+          </Tooltip>
+          {isButtonSelectMoreClicked && (
+            <h1 className="ml-10 text-roboto">
+              <span className="font-bold text-blue-weg">0</span> selecionados
+            </h1>
+          )}
+        </div>
         {proposalsMock.map((proposal) =>
           isButtonSelectMoreClicked ? (
             <div className="flex items-center justify-center">
