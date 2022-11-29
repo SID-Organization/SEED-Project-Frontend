@@ -86,7 +86,10 @@ export default function CreateDemand() {
   };
 
   function addRealBenefit() {
-    setRealBenefits([...realBenefits, <NewBenefitInsertion />]);
+    setRealBenefits([
+      ...realBenefits,
+      <NewBenefitInsertion isQualitative={false} />,
+    ]);
     setButtonNotification(true);
   }
 
@@ -242,10 +245,13 @@ export default function CreateDemand() {
   };
 
   const [realBenefits, setRealBenefits] = useState<JSX.Element[]>([
-    <NewBenefitInsertion />,
+    <NewBenefitInsertion isQualitative={false} />,
   ]);
   const [potentialBenefits, setPotentialBenefits] = useState([
-    <NewBenefitInsertion />,
+    <NewBenefitInsertion isQualitative={false} />,
+  ]);
+  const [qualitativeBenefits, setQualitativeBenefits] = useState([
+    <NewBenefitInsertion isQualitative={true} />,
   ]);
 
   const secondStep = () => {
@@ -336,7 +342,7 @@ export default function CreateDemand() {
                 onClick={() => {
                   setPotentialBenefits([
                     ...potentialBenefits,
-                    <NewBenefitInsertion />,
+                    <NewBenefitInsertion isQualitative={false} />,
                   ]);
                 }}
               />
@@ -359,6 +365,68 @@ export default function CreateDemand() {
                   onClick={() => {
                     setPotentialBenefits(
                       potentialBenefits.filter((_, index) => index !== i)
+                    );
+                  }}
+                >
+                  <DeleteRoundedIcon
+                    style={{
+                      color: "#00579D",
+                      fontSize: "2rem",
+                      cursor: "pointer",
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <div className="mr-16" />
+            )}
+          </div>
+        ))}
+        {/* qualitative */}
+        <div className="flex justify-center items-center gap-10 mb-5 mt-10">
+          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+          <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
+            Benefícios qualitativos
+          </h1>
+          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+          <Tooltip
+            title="Adicionar mais benefícios qualitativos"
+            enterDelay={820}
+            leaveDelay={200}
+          >
+            <IconButton>
+              <AddBoxRoundedIcon
+                sx={{
+                  color: "#00579D",
+                  fontSize: "2rem",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  setQualitativeBenefits([
+                    ...qualitativeBenefits,
+                    <NewBenefitInsertion isQualitative={true} />,
+                  ]);
+                }}
+              />
+            </IconButton>
+          </Tooltip>
+        </div>
+        {qualitativeBenefits.map((item, i) => (
+          <div className="flex items-center justify-center">
+            {item}
+            {i !== 0 ? (
+              <Tooltip
+                title="Remover benefício potencial"
+                enterDelay={820}
+                leaveDelay={200}
+              >
+                <IconButton
+                  sx={{
+                    marginLeft: "1rem",
+                  }}
+                  onClick={() => {
+                    setQualitativeBenefits(
+                      qualitativeBenefits.filter((_, index) => index !== i)
                     );
                   }}
                 >

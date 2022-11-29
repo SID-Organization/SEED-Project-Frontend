@@ -52,7 +52,11 @@ const TextFieldValue = styled(MuiTextField)({
   },
 });
 
-export default function NewBenefitInsertion() {
+interface NewBenefitInsertionProps {
+  isQualitative: boolean;
+}
+
+export default function NewBenefitInsertion(props: NewBenefitInsertionProps) {
   const [coin, setCoin] = useState("");
 
   const handleChangeCoinIcon = (event: SelectChangeEvent) => {
@@ -63,42 +67,46 @@ export default function NewBenefitInsertion() {
     <div>
       <div className="grid mb-4">
         <div className="grid gap-10">
-          <div className="flex gap-4 mb-3 mt-5">
-            <TextFieldValue
-              id="outlined-textarea"
-              label="Valor mensal"
-              variant="outlined"
-              type="number"
-              multiline
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">{coin}</InputAdornment>
-                ),
-              }}
-              maxRows={1}
-            />
-            <Box sx={{ minWidth: 100 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Moeda</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={coin}
-                  label="Valor"
-                  onChange={handleChangeCoinIcon}
-                  style={{
-                    borderRadius: "0.5rem",
-                    fontSize: "1rem",
-                    height: "3.5rem",
-                  }}
-                >
-                  <MenuItem value={"R$"}>BRL</MenuItem>
-                  <MenuItem value={"$"}>USD</MenuItem>
-                  <MenuItem value={"€"}>EUR</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
+          {props.isQualitative === false ? (
+            <div className="flex gap-4 mb-3 mt-5">
+              <TextFieldValue
+                id="outlined-textarea"
+                label="Valor mensal"
+                variant="outlined"
+                type="number"
+                multiline
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">{coin}</InputAdornment>
+                  ),
+                }}
+                maxRows={1}
+              />
+              <Box sx={{ minWidth: 100 }}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Moeda</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={coin}
+                    label="Valor"
+                    onChange={handleChangeCoinIcon}
+                    style={{
+                      borderRadius: "0.5rem",
+                      fontSize: "1rem",
+                      height: "3.5rem",
+                    }}
+                  >
+                    <MenuItem value={"R$"}>BRL</MenuItem>
+                    <MenuItem value={"$"}>USD</MenuItem>
+                    <MenuItem value={"€"}>EUR</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </div>
+          ) : (
+            ""
+          )}
 
           <div className="flex items-center">
             <TextField
