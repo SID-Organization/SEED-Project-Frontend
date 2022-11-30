@@ -5,15 +5,71 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
+import { TextField } from "@mui/material";
+
 import "../../styles/index.css";
+import { useState } from "react";
+
+const usersMock = [
+  {
+    id: 1,
+    username: "admin",
+    password: "admin",
+    role: "admin"
+  },
+  {
+    id: 2,
+    username: "user",
+    password: "user",
+    role: "user"
+  },
+  {
+    id: 3,
+    username: "analista",
+    password: "analista",
+    role: "analista"
+  },
+  {
+    id: 4,
+    username: "gestor",
+    password: "gestor",
+    role: "gestor"
+  }
+];
 
 export default function Login() {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    const user = usersMock.find(
+      user => user.username === username && user.password === password
+    );
+    if (user) {
+      if (user.role === "admin") {
+        navigate("/admin/minhas-demandas");
+      }
+      if (user.role === "user") {
+        navigate("/user/minhas-demandas");
+      }
+      if (user.role === "analista") {
+        navigate("/analista/minhas-demandas");
+      }
+      if (user.role === "gestor") {
+        navigate("/gestor/minhas-demandas");
+      }
+    } else {
+      alert("Usuário e/ou senha inválidos");
+    }
+  };
+
   return (
     <div className="bg-loginWallpaper bg-cover w-full h-screen">
       <div className="flex">
@@ -42,7 +98,7 @@ export default function Login() {
             marginTop: "8%",
             display: "flex",
             justifyContent: "end",
-            alignItems: "center",
+            alignItems: "center"
           }}
         >
           <Box
@@ -50,7 +106,7 @@ export default function Login() {
               bgcolor: "#cfe8fc",
               height: "520px",
               width: "500px",
-              borderRadius: "10px",
+              borderRadius: "10px"
             }}
           >
             <div className="grid justify-center items-center">
@@ -63,18 +119,30 @@ export default function Login() {
                     <PersonOutlineOutlinedIcon
                       sx={{ fontSize: 35, color: "#00579D" }}
                     />
-                    <input
-                      className="w-96 h-14 outline-none text-base pl-4 rounded-lg border-2 border-slate-300"
-                      type="text"
-                      placeholder="Username"
+                    <TextField
+                      id="outlined-basic"
+                      label="Usuário"
+                      variant="filled"
+                      sx={{
+                        width: "24rem",
+                        input: { backgroundColor: "white", borderRadius: 1 }
+                      }}
+                      value={username}
+                      onChange={e => setUsername(e.target.value)}
                     />
                   </div>
                   <div className="flex justify-center items-center">
                     <LockOutlinedIcon sx={{ fontSize: 35, color: "#00579D" }} />
-                    <input
-                      className="w-96 h-14 outline-none text-base pl-4 rounded-lg border-2 border-slate-300"
-                      type="password"
-                      placeholder="Password"
+                    <TextField
+                      id="outlined-basic"
+                      label="Senha"
+                      variant="filled"
+                      sx={{
+                        width: "24rem",
+                        input: { backgroundColor: "white", borderRadius: 1 }
+                      }}
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
                     />
                   </div>
                 </div>
@@ -92,22 +160,21 @@ export default function Login() {
                   </div>
                 </div>
                 <div className="grid gap-4 justify-center items-center">
-                  <Link to="/minhas-demandas">
-                    <Button
-                      variant="contained"
-                      sx={{
-                        marginTop: "3rem",
-                        width: "140px",
-                        height: "45px",
-                        fontSize: "17px",
-                        fontWeight: "bold",
-                        textTransform: "none",
-                        backgroundColor: "#00579D",
-                      }}
-                    >
-                      Entrar
-                    </Button>
-                  </Link>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      marginTop: "3rem",
+                      width: "140px",
+                      height: "45px",
+                      fontSize: "17px",
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      backgroundColor: "#00579D"
+                    }}
+                    onClick={handleLogin}
+                  >
+                    Entrar
+                  </Button>
                 </div>
               </div>
             </div>

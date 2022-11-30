@@ -21,21 +21,24 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<Login />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
-            <Route path="minhas-demandas" element={<HomeDemands />} />
-            <Route path="rascunhos" element={<Drafts />} />
-            <Route path="list" element={<DemandCardList />} />
-            <Route path="nova-demanda" element={<CreateDemand />} />
-            <Route path="demanda-aberta" element={<OpenedDemand />} />
-            <Route path="subheader" element={<SubHeaderOpenedDemand />} />
-            <Route path="gerenciar-demandas" element={<DemandManager />} />
-            <Route path="pautas" element={<Pautas />} />
-            <Route path="propostas" element={<Proposals />} />
-            <Route path="perfil" element={<Profile />} />
-            <Route path="chat" element={<Chat />} />
+            <Route path="admin">
+              <Route path="minhas-demandas" element={<HomeDemands />} />
+              <Route path="rascunhos" element={<Drafts />} />
+              <Route path="list" element={<DemandCardList />} />
+              <Route path="nova-demanda" element={<CreateDemand />} />
+              <Route path="demanda-aberta" element={<OpenedDemand />} />
+              <Route path="subheader" element={<SubHeaderOpenedDemand />} />
+              <Route path="gerenciar-demandas" element={<DemandManager />} />
+              <Route path="pautas" element={<Pautas />} />
+              <Route path="propostas" element={<Proposals />} />
+              <Route path="perfil" element={<Profile />} />
+              <Route path="chat" element={<Chat />} />
+            </Route>
+            <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
           </Route>
+          
         </Routes>
       </BrowserRouter>
     </>

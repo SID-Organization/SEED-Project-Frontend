@@ -92,6 +92,25 @@ export default function CreateDemand() {
   };
 
   const handleCreateDemand = () => {
+
+    const benefitsToBeSent = realBenefits.map((benefit) => {
+      return {
+        moedaBeneficio: benefit.coin,
+        memoriaCalculoBeneficio: benefit.value,
+        descricaoBeneficio: benefit.description,
+        tipo: "REAL"
+    }});
+
+    for(let benefit of potentialBenefits) {
+      benefitsToBeSent.push({
+        moedaBeneficio: benefit.coin,
+        memoriaCalculoBeneficio: benefit.value,
+        descricaoBeneficio: benefit.description,
+        tipo: "POTENCIAL"
+      });
+    };
+
+
     const demandToBeSent = {
       tituloDemanda: title,
       propostaDemanda: proposal,
@@ -102,18 +121,12 @@ export default function CreateDemand() {
       codigoPPM: null,
       solicitanteDemanda: { numeroCadastroUsuario: 72130 },
       busBeneficiadas: [],
-      beneficiosDemanda: [
-        {
-          moedaBeneficio: "EURO",
-          memoriaCalculoBeneficio: 21.2,
-          descricaoBeneficio: "doidera"
-        }
-      ]
+      beneficiosDemanda: benefitsToBeSent
     };
   };
 
   function addRealBenefit() {
-    setRealBenefits([...realBenefits, <NewBenefitInsertion />]);
+    setRealBenefits([...realBenefits, { coin: "", value: 0, description: "" }]);
     setButtonNotification(true);
   }
 
@@ -274,19 +287,21 @@ export default function CreateDemand() {
     );
   };
 
-  // const [realBenefits, setRealBenefits] = useState<JSX.Element[]>([
-  //   <NewBenefitInsertion />
-  // ]);
-
-  // const [potentialBenefits, setPotentialBenefits] = useState([
-  //   <NewBenefitInsertion />
-  // ]);
-
   const [realBenefits, setRealBenefits] = useState<INewBenefit[]>([{
     coin: "",
     value: 0,
     description: ""
   }]);
+
+  const [potentialBenefits, setPotentialBenefits] = useState<INewBenefit[]>([{
+    coin: "",
+    value: 0,
+    description: ""
+  }]);
+
+  useEffect(() => {
+    console.log(realBenefits)
+  }, [realBenefits])
 
   const secondStep = () => {
     return (
@@ -321,34 +336,8 @@ export default function CreateDemand() {
         </div>
         {realBenefits.map((item, i) =>
           <div className="flex items-center justify-center">
-            {item}
-            {i !== 0
-              ? <Tooltip
-                  title="Remover benefício real"
-                  enterDelay={820}
-                  leaveDelay={200}
-                >
-                  <IconButton
-                    sx={{
-                      marginLeft: "1rem"
-                    }}
-                    onClick={() => {
-                      setRealBenefits(
-                        realBenefits.filter((_, index) => index !== i)
-                      );
-                      setDeleteNotification(true);
-                    }}
-                  >
-                    <DeleteRoundedIcon
-                      style={{
-                        color: "#00579D",
-                        fontSize: "2rem",
-                        cursor: "pointer"
-                      }}
-                    />
-                  </IconButton>
-                </Tooltip>
-              : <div className="mr-16" />}
+            <NewBenefitInsertion coin={item.coin} value={item.value} description={item.description} benefitStates={{realBenefits, setRealBenefits}} benefitIndex={i}/>
+            {(i < realBenefits.length - 1 || i === 0) && <div className="mr-16" />}
           </div>
         )}
         <div className="flex justify-center items-center gap-10 mb-5 mt-10">
@@ -372,7 +361,7 @@ export default function CreateDemand() {
                 onClick={() => {
                   setPotentialBenefits([
                     ...potentialBenefits,
-                    <NewBenefitInsertion />
+                    { coin: "", value: 0, description: "" }
                   ]);
                 }}
               />
@@ -381,33 +370,8 @@ export default function CreateDemand() {
         </div>
         {potentialBenefits.map((item, i) =>
           <div className="flex items-center justify-center">
-            {item}
-            {i !== 0
-              ? <Tooltip
-                  title="Remover benefício potencial"
-                  enterDelay={820}
-                  leaveDelay={200}
-                >
-                  <IconButton
-                    sx={{
-                      marginLeft: "1rem"
-                    }}
-                    onClick={() => {
-                      setPotentialBenefits(
-                        potentialBenefits.filter((_, index) => index !== i)
-                      );
-                    }}
-                  >
-                    <DeleteRoundedIcon
-                      style={{
-                        color: "#00579D",
-                        fontSize: "2rem",
-                        cursor: "pointer"
-                      }}
-                    />
-                  </IconButton>
-                </Tooltip>
-              : <div className="mr-16" />}
+            <NewBenefitInsertion coin={item.coin} description={item.description} value={item.value} benefitStates={{realBenefits: potentialBenefits, setRealBenefits: setPotentialBenefits}} benefitIndex={i}/>
+            {(i < potentialBenefits.length - 1 || i === 0) && <div className="mr-16" />}
           </div>
         )}
       </div>
