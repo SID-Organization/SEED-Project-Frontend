@@ -296,60 +296,70 @@ export default function PrimarySearchAppBar() {
       time: "21:00",
       content: "Aprovou sua demanda!",
       unreadNotification: false,
+      type: "approved",
     },
     {
       name: "Leonardo Rafaelli",
       time: "12:00",
       content: "Reprovou sua demanda!",
       unreadNotification: true,
+      type: "rejected",
     },
     {
       name: "Gustavo Rebelatto Zapella",
       time: "15:00",
-      content: "Aprovou sua demanda!",
+      content: "Reprovou sua demanda!",
       unreadNotification: true,
+      type: "returned",
     },
     {
       name: "Romario Horngurg",
       time: "18:00",
-      content: "Reprovou sua demanda!",
+      content: "Editou sua demanda!",
       unreadNotification: false,
+      type: "edited",
     },
     {
       name: "Otavio Augusto dos Santos",
       time: "09:00",
       content: "Reprovou sua demanda!",
       unreadNotification: false,
+      type: "rejected",
     },
     {
       name: "Henrique Cole Fernandes",
       time: "22:00",
       content: "Aprovou sua demanda!",
       unreadNotification: false,
+      type: "approved",
     },
     {
       name: "Leonardo Rafaelli",
       time: "16:00",
-      content: "Reprovou sua demanda!",
+      content: "Devolveu sua demanda!",
       unreadNotification: true,
+      type: "returned",
     },
     {
       name: "Gustavo Rebelatto Zapella",
       time: "20:00",
-      content: "Aprovou sua demanda!",
+      content: "Devolveu sua demanda!",
       unreadNotification: true,
+      type: "returned",
     },
     {
       name: "Romario Horngurg",
       time: "17:00",
       content: "Reprovou sua demanda!",
       unreadNotification: false,
+      type: "rejected",
     },
     {
       name: "Otavio Augusto dos Santos",
       time: "14:00",
-      content: "Reprovou sua demanda!",
+      content: "Editou sua demanda!",
       unreadNotification: false,
+      type: "edited",
     },
   ];
 
@@ -730,6 +740,7 @@ export default function PrimarySearchAppBar() {
               content={notification.content}
               time={notification.time}
               unreadNotification={notification.unreadNotification}
+              type={notification.type}
             />
           ))}
       </div>
