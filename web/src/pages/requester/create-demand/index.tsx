@@ -599,8 +599,14 @@ export default function CreateDemand() {
                             >
                               <DeleteIcon
                                 onClick={() => {
-                                  setSelectedFile(undefined);
-                                  setIsFilePicked(false);
+                                  //get the index of the file to be deleted
+                                  const index = selectedFile.findIndex(
+                                    (file) => file.name === row.name
+                                  );
+                                  //remove the file from the array
+                                  selectedFile.splice(index, 1);
+                                  //update the state
+                                  setSelectedFile([...selectedFile]);
                                 }}
                                 className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5"
                               />
