@@ -509,7 +509,8 @@ export default function CreateDemand() {
           <div className="w-[830px] h-[380px] shadow-2xl grid">
             <div className="flex justify-center items-center">
               {/* Files table */}
-              {selectedFile ? (
+
+              {selectedFile.length > 0 ? (
                 <TableContainer
                   component={Paper}
                   sx={{
@@ -599,13 +600,10 @@ export default function CreateDemand() {
                             >
                               <DeleteIcon
                                 onClick={() => {
-                                  //get the index of the file to be deleted
                                   const index = selectedFile.findIndex(
                                     (file) => file.name === row.name
                                   );
-                                  //remove the file from the array
                                   selectedFile.splice(index, 1);
-                                  //update the state
                                   setSelectedFile([...selectedFile]);
                                 }}
                                 className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5"
@@ -618,20 +616,6 @@ export default function CreateDemand() {
                   </Table>
                 </TableContainer>
               ) : (
-                // <div>
-                //   <p>Nome: {selectedFile.name}</p>
-                //   <p>Tipo do arquivo: {selectedFile.type}</p>
-                //   <p>
-                //     Tamanho:{" "}
-                //     {selectedFile.size / 1000 > 1000
-                //       ? selectedFile.size / 1000000 + " MB"
-                //       : selectedFile.size / 1000 + " KB"}
-                //   </p>
-                //   <p>
-                //     Última modificação:{" "}
-                //     {selectedFile.lastModifiedDate.toLocaleDateString()}
-                //   </p>
-                // </div>
                 <div>
                   <div className="flex justify-center items-center mb-10">
                     <UploadIcon
