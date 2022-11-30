@@ -1,12 +1,9 @@
-import { Button, Checkbox, Tooltip } from "@mui/material";
 import MuiIconButton from "@mui/material/IconButton";
 import { useEffect, useState } from "react";
 import ProposalCard from "../../../Components/Proposal-card";
 import SubHeaderProposals from "../../../Components/Sub-header-proposals";
 
 import { styled } from "@mui/material/styles";
-
-import MuiContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 
 const proposalsMock = [
   {
@@ -61,20 +58,6 @@ const proposalsMock = [
 ];
 
 export default function Proposals() {
-  const [isButtonSelectMoreClicked, setIsButtonSelectMoreClicked] =
-    useState(false);
-
-  const [isCheckBoxChecked, setIsCheckBoxChecked] = useState(false);
-
-  const ContentCopyOutlinedIcon = styled(MuiContentCopyOutlinedIcon)({
-    color: "#0075B1",
-    transition: "0.2s",
-
-    "&:hover": {
-      color: "#008fd6",
-    },
-  });
-
   return (
     <div>
       <SubHeaderProposals />
