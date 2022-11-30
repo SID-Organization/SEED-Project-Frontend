@@ -12,11 +12,13 @@ import MuiIconButton from "@mui/material/IconButton";
 import { useState } from "react";
 
 interface ProposalCardProps {
+  id: number;
   newPauta?: boolean | string;
   title: string;
   executionTime: number;
   value: number;
   referenceDemand: string;
+  setSelectProposals: (value: any) => void;
 }
 
 export default function ProposalCard(props: ProposalCardProps) {
@@ -39,7 +41,7 @@ export default function ProposalCard(props: ProposalCardProps) {
     backgroundColor: "#F0F0F0",
   });
 
-  const IconButton = styled(MuiIconButton)({
+  const IconButtonStart = styled(MuiIconButton)({
     backgroundColor: "#0075B1",
     border: "1px solid #0075B1",
     width: "2rem",
@@ -48,6 +50,30 @@ export default function ProposalCard(props: ProposalCardProps) {
     "&:hover": {
       backgroundColor: "#008fd6",
       border: "1px solid #008fd6",
+    },
+  });
+
+  const IconButtonDefault = styled(MuiIconButton)({
+    backgroundColor: "#0075B1",
+    border: "1px solid #0075B1",
+    width: "2rem",
+    height: "2rem",
+
+    "&:hover": {
+      backgroundColor: "#008fd6",
+      border: "1px solid #008fd6",
+    },
+  });
+
+  const IconButtonClicked = styled(MuiIconButton)({
+    backgroundColor: "#FFF",
+    border: "1px solid #FFF",
+    width: "2rem",
+    height: "2rem",
+
+    "&:hover": {
+      backgroundColor: "#FFF",
+      border: "1px solid #FFF",
     },
   });
 
@@ -64,12 +90,25 @@ export default function ProposalCard(props: ProposalCardProps) {
   });
 
   const CheckCircleRoundedIcon = styled(MuiCheckCircleRoundedIcon)({
-    color: "#FFF",
+    color: "#0075B1",
     fontSize: "2rem",
   });
 
   const demandTitle =
     "10000 - Automatização do processo de criação e desenvolvimento de demandas";
+
+  function handleSelectedProposals() {
+    if (!isButtonAddClicked) {
+      props.setSelectProposals((prevState: any) => {
+        return [...prevState, props.id];
+      });
+    } else {
+      props.setSelectProposals((prevState: any) => {
+        return prevState.filter((item: any) => item !== props.id);
+      });
+    }
+    setIsButtonAddClicked(!isButtonAddClicked);
+  }
 
   return (
     <div>
@@ -165,21 +204,26 @@ export default function ProposalCard(props: ProposalCardProps) {
             {props.newPauta === "card" && (
               <div className="flex gap-4">
                 <Tooltip title="Iniciar workflow">
-                  <IconButton aria-label="delete">
+                  <IconButtonStart aria-label="delete">
                     <PlayCircleFilledWhiteRoundedIcon />
-                  </IconButton>
+                  </IconButtonStart>
                 </Tooltip>
-                <Tooltip title="Selecionar proposta">
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => setIsButtonAddClicked(!isButtonAddClicked)}
-                  >
-                    {isButtonAddClicked ? (
+                <Tooltip
+                  title={
+                    isButtonAddClicked
+                      ? "Remover proposta"
+                      : "Selecionar proposta"
+                  }
+                >
+                  {isButtonAddClicked ? (
+                    <IconButtonClicked onClick={handleSelectedProposals}>
                       <CheckCircleRoundedIcon />
-                    ) : (
+                    </IconButtonClicked>
+                  ) : (
+                    <IconButtonDefault onClick={handleSelectedProposals}>
                       <AddCircleRoundedIcon />
-                    )}
-                  </IconButton>
+                    </IconButtonDefault>
+                  )}
                 </Tooltip>
               </div>
             )}
