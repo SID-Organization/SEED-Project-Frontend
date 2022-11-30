@@ -609,11 +609,7 @@ export default function PrimarySearchAppBar() {
           >
             Notificações
           </p>
-          <Tooltip
-            title="Marcar todas como lidas"
-            enterDelay={820}
-            leaveDelay={200}
-          >
+          <Tooltip title="Marcar todas como lidas">
             <IconButton
               sx={{
                 marginRight: "1rem",
@@ -831,7 +827,7 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
               </Box>
 
-              <Tooltip title="Mensagens" enterDelay={820} leaveDelay={200}>
+              <Tooltip title="Mensagens">
                 <IconButton
                   size="large"
                   aria-label="show 4 new mails"
@@ -846,7 +842,7 @@ export default function PrimarySearchAppBar() {
                   </Badge>
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Notificações" enterDelay={820} leaveDelay={200}>
+              <Tooltip title="Notificações">
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"

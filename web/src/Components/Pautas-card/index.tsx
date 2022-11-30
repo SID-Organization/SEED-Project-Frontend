@@ -162,11 +162,7 @@ export default function PautasCard(props: PautaCardProps) {
                 </h1>
               </div>
               <div className="flex justify-center items-center gap-5 mt-5">
-                <Tooltip
-                  title="Compartilhar pauta"
-                  enterDelay={820}
-                  leaveDelay={200}
-                >
+                <Tooltip title="Compartilhar pauta">
                   <h1
                     className="
                 cursor-pointer
@@ -181,17 +177,13 @@ export default function PautasCard(props: PautaCardProps) {
                     </div>
                   </h1>
                 </Tooltip>
-                <Tooltip
-                  title="Visualizar pauta"
-                  enterDelay={820}
-                  leaveDelay={200}
-                >
+                <Tooltip title="Visualizar pauta">
                   <VisibilityRoundedIcon />
                 </Tooltip>
-                <Tooltip title="Editar pauta" enterDelay={820} leaveDelay={200}>
+                <Tooltip title="Editar pauta">
                   <EditRoundedIcon />
                 </Tooltip>
-                <Tooltip title="Gerar ATA" enterDelay={820} leaveDelay={200}>
+                <Tooltip title="Gerar ATA">
                   <Button variant="contained">Gerar ATA</Button>
                 </Tooltip>
               </div>

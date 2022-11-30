@@ -303,11 +303,7 @@ export default function CreateDemand() {
             <Notification message="Benefício removido com sucesso!" />
           )}
 
-          <Tooltip
-            title="Adicionar mais benefícios reais"
-            enterDelay={820}
-            leaveDelay={200}
-          >
+          <Tooltip title="Adicionar mais benefícios reais">
             <IconButton onClick={addRealBenefit}>
               <AddBoxRoundedIcon
                 sx={{
@@ -323,11 +319,7 @@ export default function CreateDemand() {
           <div className="flex items-center justify-center">
             {item}
             {i !== 0 ? (
-              <Tooltip
-                title="Remover benefício real"
-                enterDelay={820}
-                leaveDelay={200}
-              >
+              <Tooltip title="Remover benefício real">
                 <IconButton
                   sx={{
                     marginLeft: "1rem",
@@ -359,11 +351,7 @@ export default function CreateDemand() {
             Benefícios potenciais
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
-          <Tooltip
-            title="Adicionar mais benefícios potenciais"
-            enterDelay={820}
-            leaveDelay={200}
-          >
+          <Tooltip title="Adicionar mais benefícios potenciais">
             <IconButton>
               <AddBoxRoundedIcon
                 sx={{
@@ -385,11 +373,7 @@ export default function CreateDemand() {
           <div className="flex items-center justify-center">
             {item}
             {i !== 0 ? (
-              <Tooltip
-                title="Remover benefício potencial"
-                enterDelay={820}
-                leaveDelay={200}
-              >
+              <Tooltip title="Remover benefício potencial">
                 <IconButton
                   sx={{
                     marginLeft: "1rem",
@@ -421,11 +405,7 @@ export default function CreateDemand() {
             Benefícios qualitativos
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
-          <Tooltip
-            title="Adicionar mais benefícios qualitativos"
-            enterDelay={820}
-            leaveDelay={200}
-          >
+          <Tooltip title="Adicionar mais benefícios qualitativos">
             <IconButton>
               <AddBoxRoundedIcon
                 sx={{
@@ -447,11 +427,7 @@ export default function CreateDemand() {
           <div className="flex items-center justify-center">
             {item}
             {i !== 0 ? (
-              <Tooltip
-                title="Remover benefício potencial"
-                enterDelay={820}
-                leaveDelay={200}
-              >
+              <Tooltip title="Remover benefício potencial">
                 <IconButton
                   sx={{
                     marginLeft: "1rem",
@@ -561,11 +537,7 @@ export default function CreateDemand() {
                             align="center"
                           >
                             <div className="flex justify-center items-center">
-                              <Tooltip
-                                title="Baixar arquivo"
-                                enterDelay={800}
-                                leaveDelay={200}
-                              >
+                              <Tooltip title="Baixar arquivo">
                                 <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
                               </Tooltip>
                               <h1
@@ -593,11 +565,7 @@ export default function CreateDemand() {
                                 {row.size}
                               </h1>
                             </StyledTableCell>
-                            <Tooltip
-                              title="Deletar arquivo"
-                              enterDelay={800}
-                              leaveDelay={200}
-                            >
+                            <Tooltip title="Deletar arquivo">
                               <DeleteIcon
                                 onClick={() => {
                                   const index = selectedFile.findIndex(

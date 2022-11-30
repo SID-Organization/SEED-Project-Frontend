@@ -92,11 +92,7 @@ export default function Proposals() {
         w-[calc(100vw-20rem)]
         flex items-center"
         >
-          <Tooltip
-            title="Selecionar propostas"
-            enterDelay={800}
-            leaveDelay={200}
-          >
+          <Tooltip title="Selecionar propostas">
             <div className="flex items-center">
               <button
                 className={

@@ -49,12 +49,7 @@ export default function SidebarLink(props: SidebarItemProps) {
   return (
     <div>
       <div className={`mt-1 ${props.hasDivider ? "mb-1" : ""}`}>
-        <Tooltip
-          title={props.title}
-          placement="right"
-          enterDelay={820}
-          leaveDelay={200}
-        >
+        <Tooltip title={props.title} placement="right">
           <Link to={props.linkTo} style={{ width: "100%" }}>
             <Box
               onClick={() => {

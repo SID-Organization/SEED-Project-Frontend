@@ -129,7 +129,7 @@ export default function ProposalCard(props: ProposalCardProps) {
                 `}
               >
                 Demanda de referência:{" "}
-                <Tooltip title={demandTitle} enterDelay={820} leaveDelay={200}>
+                <Tooltip title={demandTitle}>
                   <span
                     className={`
                     ${
@@ -164,20 +164,12 @@ export default function ProposalCard(props: ProposalCardProps) {
           >
             {props.newPauta === "card" && (
               <div className="flex gap-4">
-                <Tooltip
-                  title="Iniciar workflow"
-                  enterDelay={800}
-                  leaveDelay={100}
-                >
+                <Tooltip title="Iniciar workflow" leaveDelay={100}>
                   <IconButton aria-label="delete">
                     <PlayCircleFilledWhiteRoundedIcon />
                   </IconButton>
                 </Tooltip>
-                <Tooltip
-                  title="Adicionar a uma pauta"
-                  enterDelay={800}
-                  leaveDelay={100}
-                >
+                <Tooltip title="Adicionar a uma pauta" leaveDelay={100}>
                   <IconButton
                     aria-label="delete"
                     onClick={() => setIsButtonAddClicked(!isButtonAddClicked)}
