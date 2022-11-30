@@ -13,6 +13,7 @@ import SubHeaderOpenedDemand from "./Components/Sub-header-opened-demand";
 import DemandManager from "./pages/business-manager";
 import Pautas from "./pages/analista/pautas";
 import Proposals from "./pages/analista/proposals";
+import Atas from "./pages/analista/atas";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="gerenciar-demandas" element={<DemandManager />} />
             <Route path="pautas" element={<Pautas />} />
             <Route path="propostas" element={<Proposals />} />
+            <Route path="atas" element={<Atas />} />
             <Route path="perfil" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
           </Route>

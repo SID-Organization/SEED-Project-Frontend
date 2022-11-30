@@ -87,84 +87,15 @@ export default function Proposals() {
         gap-8
       "
       >
-        <div
-          className="
-        w-[calc(100vw-20rem)]
-        flex items-center"
-        >
-          <Tooltip title="Selecionar propostas">
-            <div className="flex items-center">
-              <button
-                className={
-                  isButtonSelectMoreClicked
-                    ? `
-            flex items-center justify-center
-            mt-3
-            h-10
-            w-10
-            rounded-full
-            transition
-            bg-[#eeeeee]
-            mb-3
-            `
-                    : `
-            flex items-center justify-center
-            mt-3
-            h-10
-            w-10
-            rounded-full
-            transition
-            mb-3
-            `
-                }
-                onClick={() =>
-                  setIsButtonSelectMoreClicked(!isButtonSelectMoreClicked)
-                }
-              >
-                <ContentCopyOutlinedIcon />
-              </button>
-            </div>
-          </Tooltip>
-          {isButtonSelectMoreClicked && (
-            <h1 className="ml-10 text-roboto">
-              <span className="font-bold text-blue-weg">0</span> selecionados
-            </h1>
-          )}
-        </div>
-        {proposalsMock.map((proposal) =>
-          isButtonSelectMoreClicked ? (
-            <div className="flex items-center justify-center">
-              <Checkbox
-                checked={isCheckBoxChecked}
-                onClick={() => setIsCheckBoxChecked(!isCheckBoxChecked)}
-                sx={{
-                  color: "#0075B1",
-                  marginRight: "1rem",
-                  "&.Mui-checked": {
-                    color: "#0075B1",
-                  },
-                }}
-              />
-              <ProposalCard
-                newPauta={proposal.newPauta}
-                title={proposal.title}
-                executionTime={proposal.executionTime}
-                value={proposal.value}
-                referenceDemand={proposal.referenceDemand}
-              />
-            </div>
-          ) : (
-            <div>
-              <ProposalCard
-                newPauta={proposal.newPauta}
-                title={proposal.title}
-                executionTime={proposal.executionTime}
-                value={proposal.value}
-                referenceDemand={proposal.referenceDemand}
-              />
-            </div>
-          )
-        )}
+        {proposalsMock.map((proposal) => (
+          <ProposalCard
+            newPauta={proposal.newPauta}
+            title={proposal.title}
+            executionTime={proposal.executionTime}
+            value={proposal.value}
+            referenceDemand={proposal.referenceDemand}
+          />
+        ))}
       </div>
     </div>
   );
