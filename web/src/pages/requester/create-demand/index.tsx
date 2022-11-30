@@ -480,46 +480,24 @@ export default function CreateDemand() {
     );
   };
 
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState([]);
   const [isFilePicked, setIsFilePicked] = useState(false);
 
   const changeHandler = (event: {
     target: { files: React.SetStateAction<undefined>[] };
   }) => {
-    setSelectedFile(event.target.files[0]);
+    setSelectedFile([...selectedFile, event.target.files[0]] as any);
     setIsFilePicked(true);
   };
 
-  function createData(name: string, size: string) {
-    return { name, size };
-  }
+  const rows = selectedFile.map((file) => createData(file?.name, file?.size));
 
-  const rows = [
-    createData(
-      selectedFile?.name,
-      selectedFile?.size / 1000 > 1000
-        ? selectedFile?.size / 1000000 + " MB"
-        : selectedFile?.size / 1000 + " KB"
-    ),
-    createData(
-      selectedFile?.name,
-      selectedFile?.size / 1000 > 1000
-        ? selectedFile?.size / 1000000 + " MB"
-        : selectedFile?.size / 1000 + " KB"
-    ),
-    createData(
-      selectedFile?.name,
-      selectedFile?.size / 1000 > 1000
-        ? selectedFile?.size / 1000000 + " MB"
-        : selectedFile?.size / 1000 + " KB"
-    ),
-    createData(
-      selectedFile?.name,
-      selectedFile?.size / 1000 > 1000
-        ? selectedFile?.size / 1000000 + " MB"
-        : selectedFile?.size / 1000 + " KB"
-    ),
-  ];
+  function createData(name: string, size: number) {
+    const fileSize =
+      size / 1000 > 1000 ? size / 1000000 + " MB" : size / 1000 + " KB";
+
+    return { name, size: fileSize };
+  }
 
   const thirdStep = () => {
     return (
