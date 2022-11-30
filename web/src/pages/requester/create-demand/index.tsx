@@ -1,6 +1,16 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Button, IconButton, InputAdornment, Tooltip } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from "@mui/material";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
@@ -18,11 +28,14 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 
 import Notification from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 import { ConstructionOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import DescriptionIcon from "@mui/icons-material/Description";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -60,6 +73,25 @@ const TextField = styled(MuiTextField)({
     padding: "5px 5px",
   },
 });
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 const progressSteps = ["Dados gerais", "Benefícios", "Arquivos"];
 
@@ -448,6 +480,47 @@ export default function CreateDemand() {
     );
   };
 
+  const [selectedFile, setSelectedFile] = useState();
+  const [isFilePicked, setIsFilePicked] = useState(false);
+
+  const changeHandler = (event: {
+    target: { files: React.SetStateAction<undefined>[] };
+  }) => {
+    setSelectedFile(event.target.files[0]);
+    setIsFilePicked(true);
+  };
+
+  function createData(name: string, size: string) {
+    return { name, size };
+  }
+
+  const rows = [
+    createData(
+      selectedFile?.name,
+      selectedFile?.size / 1000 > 1000
+        ? selectedFile?.size / 1000000 + " MB"
+        : selectedFile?.size / 1000 + " KB"
+    ),
+    createData(
+      selectedFile?.name,
+      selectedFile?.size / 1000 > 1000
+        ? selectedFile?.size / 1000000 + " MB"
+        : selectedFile?.size / 1000 + " KB"
+    ),
+    createData(
+      selectedFile?.name,
+      selectedFile?.size / 1000 > 1000
+        ? selectedFile?.size / 1000000 + " MB"
+        : selectedFile?.size / 1000 + " KB"
+    ),
+    createData(
+      selectedFile?.name,
+      selectedFile?.size / 1000 > 1000
+        ? selectedFile?.size / 1000000 + " MB"
+        : selectedFile?.size / 1000 + " KB"
+    ),
+  ];
+
   const thirdStep = () => {
     return (
       <div>
@@ -457,18 +530,142 @@ export default function CreateDemand() {
           </div>
           <div className="w-[830px] h-[380px] shadow-2xl grid">
             <div className="flex justify-center items-center">
-              <UploadIcon
-                sx={{
-                  fontSize: "5rem",
-                  color: "#0075B1",
-                }}
-              />
+              {/* Files table */}
+              {selectedFile ? (
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    "&:first-child": {
+                      backgroundColor: "#FFF",
+                    },
+                  }}
+                >
+                  <Table sx={{ minWidth: 500 }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell
+                          align="center"
+                          sx={{
+                            "&:first-child": {
+                              backgroundColor: "#FFF",
+                              color: "black",
+                              fontWeight: "bold",
+                              fontSize: "1.2rem",
+                              border: "#0075B1 solid 2px",
+                            },
+                          }}
+                        >
+                          Arquivo
+                        </StyledTableCell>
+                        <StyledTableCell
+                          align="center"
+                          sx={{
+                            fontSize: "1.2rem",
+                            border: "#0075B1 solid 2px",
+                            "&:last-child": {
+                              backgroundColor: "#FFF",
+                              color: "black",
+                              fontWeight: "bold",
+                            },
+                          }}
+                        >
+                          Tamanho
+                        </StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <StyledTableRow key={row.name}>
+                          <StyledTableCell
+                            component="th"
+                            scope="row"
+                            align="center"
+                          >
+                            <div className="flex justify-center items-center">
+                              <Tooltip
+                                title="Baixar arquivo"
+                                enterDelay={800}
+                                leaveDelay={200}
+                              >
+                                <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
+                              </Tooltip>
+                              <h1
+                                className="
+                            text-[#000]
+                            font-roboto
+                            text-[17px]
+                            
+                            "
+                              >
+                                {row.name}
+                              </h1>
+                            </div>
+                          </StyledTableCell>
+                          <div className="flex justify-center items-center">
+                            <StyledTableCell align="center">
+                              <h1
+                                className="
+                            text-[#000]
+                            font-roboto
+                            text-[17px]
+                            
+                            "
+                              >
+                                {row.size}
+                              </h1>
+                            </StyledTableCell>
+                            <Tooltip
+                              title="Deletar arquivo"
+                              enterDelay={800}
+                              leaveDelay={200}
+                            >
+                              <DeleteIcon
+                                onClick={() => {
+                                  setSelectedFile(undefined);
+                                  setIsFilePicked(false);
+                                }}
+                                className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5"
+                              />
+                            </Tooltip>
+                          </div>
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                // <div>
+                //   <p>Nome: {selectedFile.name}</p>
+                //   <p>Tipo do arquivo: {selectedFile.type}</p>
+                //   <p>
+                //     Tamanho:{" "}
+                //     {selectedFile.size / 1000 > 1000
+                //       ? selectedFile.size / 1000000 + " MB"
+                //       : selectedFile.size / 1000 + " KB"}
+                //   </p>
+                //   <p>
+                //     Última modificação:{" "}
+                //     {selectedFile.lastModifiedDate.toLocaleDateString()}
+                //   </p>
+                // </div>
+                <div>
+                  <div className="flex justify-center items-center mb-10">
+                    <UploadIcon
+                      sx={{
+                        fontSize: "5rem",
+                        color: "#0075B1",
+                      }}
+                    />
+                  </div>
+                  <div className="flex justify-center items-center">
+                    <h1 className="text-xl font-bold">
+                      Escolha um arquivo ou arraste aqui
+                    </h1>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="flex justify-center items-center">
-              <h1 className="text-xl font-bold">
-                Escolha um arquivo ou arraste aqui
-              </h1>
-            </div>
+
             <div className="flex justify-center items-center">
               <label htmlFor="upload-photo">
                 <input
@@ -476,6 +673,7 @@ export default function CreateDemand() {
                   id="upload-photo"
                   name="upload-photo"
                   type="file"
+                  onChange={changeHandler}
                 />
 
                 <Button
