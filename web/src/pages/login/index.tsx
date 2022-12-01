@@ -1,3 +1,5 @@
+import React from "react";
+
 import WegLogo from "../../assets/weg-logo.png";
 
 import Container from "@mui/material/Container";
@@ -11,8 +13,9 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { TextField } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import "../../styles/index.css";
 import { useState } from "react";
 
 const usersMock = [
@@ -43,12 +46,30 @@ const usersMock = [
 ];
 
 export default function Login() {
+  const [openNotification, setOpenNotification] = useState(false);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
+  const handleCloseNotification = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenNotification(false);
+  };
   const handleLogin = () => {
+    setOpenNotification(true);
     const user = usersMock.find(
       (user) => user.username === username && user.password === password
     );
@@ -67,13 +88,29 @@ export default function Login() {
       if (user.role === "gestor") {
         navigate("/gestor/minhas-demandas");
       }
-    } else {
-      alert("Usuário e/ou senha inválidos");
     }
   };
 
   return (
     <div className="bg-loginWallpaper bg-cover w-full h-screen">
+      {!password && !username ? null : (
+        <Snackbar
+          open={openNotification}
+          autoHideDuration={6000}
+          onClose={handleCloseNotification}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert
+            severity="error"
+            sx={{
+              backgroundColor: "#C31700",
+            }}
+          >
+            Usuário ou senha inválidos!
+          </Alert>
+        </Snackbar>
+      )}
+
       <div className="flex">
         <div className="w-2/6 h-60 gap-24 grid justify-center items-center">
           <img
