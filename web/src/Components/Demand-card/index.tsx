@@ -115,7 +115,6 @@ export default function DemandCard(props: DemandCardProps) {
     const response = await fetch(
       "https://jsonplaceholder.typicode.com/todos/1"
     );
-    console.log("AAAA:", response);
     const data = await response.json();
     setData(data);
     setIsDemandLoading(false);
@@ -541,9 +540,7 @@ export default function DemandCard(props: DemandCardProps) {
               )}
               {props.status !== "Rascunho" && (
                 <Link to="/admin/demanda-aberta">
-                  <Tooltip
-                    title="Visualizar demanda"
-                  >
+                  <Tooltip title="Visualizar demanda">
                     <Button
                       variant="contained"
                       sx={{

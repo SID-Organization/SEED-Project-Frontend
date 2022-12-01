@@ -27,6 +27,70 @@ export default function drafts() {
       id: 4,
       status: "Rascunho",
     },
+    {
+      id: 5,
+      status: "Rascunho",
+    },
+    {
+      id: 6,
+      status: "Rascunho",
+    },
+    {
+      id: 7,
+      status: "Rascunho",
+    },
+    {
+      id: 8,
+      status: "Rascunho",
+    },
+    {
+      id: 9,
+      status: "Rascunho",
+    },
+    {
+      id: 10,
+      status: "Rascunho",
+    },
+    {
+      id: 11,
+      status: "Rascunho",
+    },
+    {
+      id: 12,
+      status: "Rascunho",
+    },
+    {
+      id: 13,
+      status: "Rascunho",
+    },
+    {
+      id: 14,
+      status: "Rascunho",
+    },
+    {
+      id: 15,
+      status: "Rascunho",
+    },
+    {
+      id: 16,
+      status: "Rascunho",
+    },
+    {
+      id: 17,
+      status: "Rascunho",
+    },
+    {
+      id: 18,
+      status: "Rascunho",
+    },
+    {
+      id: 19,
+      status: "Rascunho",
+    },
+    {
+      id: 20,
+      status: "Rascunho",
+    },
   ];
 
   const ButtonAddSelected = styled(MuiButton)({
@@ -50,6 +114,9 @@ export default function drafts() {
           {selectDemands.length > 0 && (
             <div className="mb-10">
               <ButtonAddSelected
+                // onClick={() => {
+                //   deleteDrafts();
+                // }}
                 variant="contained"
                 color="primary"
                 size="large"
