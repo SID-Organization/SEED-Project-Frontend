@@ -247,7 +247,7 @@ export default function Proposals() {
                   onClick={handleOpenAddToAPautaModal}
                 >
                   Adicionar à pauta {"(" + selectProposals.length + ")"}{" "}
-                  propostas
+                  {selectProposals.length > 1 ? "propostas" : "proposta"}
                 </ButtonAddSelected>
               </div>
             )}
