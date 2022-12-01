@@ -481,11 +481,9 @@ export default function DemandCard(props: DemandCardProps) {
                   <Tooltip title="Deletar rascunho">
                     <IconButton>
                       <DeleteRoundedIcon
-                        sx={
-                          {
-                            // color: "#C31700",
-                          }
-                        }
+                        sx={{
+                          color: "#C31700",
+                        }}
                       />
                     </IconButton>
                   </Tooltip>
