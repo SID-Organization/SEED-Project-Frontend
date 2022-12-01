@@ -20,26 +20,26 @@ const usersMock = [
     id: 1,
     username: "admin",
     password: "admin",
-    role: "admin"
+    role: "admin",
   },
   {
     id: 2,
     username: "user",
     password: "user",
-    role: "user"
+    role: "user",
   },
   {
     id: 3,
     username: "analista",
     password: "analista",
-    role: "analista"
+    role: "analista",
   },
   {
     id: 4,
     username: "gestor",
     password: "gestor",
-    role: "gestor"
-  }
+    role: "gestor",
+  },
 ];
 
 export default function Login() {
@@ -50,7 +50,7 @@ export default function Login() {
 
   const handleLogin = () => {
     const user = usersMock.find(
-      user => user.username === username && user.password === password
+      (user) => user.username === username && user.password === password
     );
     console.log(user);
     if (user) {
@@ -72,7 +72,7 @@ export default function Login() {
     }
   };
 
-  return (  
+  return (
     <div className="bg-loginWallpaper bg-cover w-full h-screen">
       <div className="flex">
         <div className="w-2/6 h-60 gap-24 grid justify-center items-center">
@@ -100,7 +100,7 @@ export default function Login() {
             marginTop: "8%",
             display: "flex",
             justifyContent: "end",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Box
@@ -108,7 +108,7 @@ export default function Login() {
               bgcolor: "#cfe8fc",
               height: "520px",
               width: "500px",
-              borderRadius: "10px"
+              borderRadius: "10px",
             }}
           >
             <div className="grid justify-center items-center">
@@ -128,14 +128,16 @@ export default function Login() {
                         variant="filled"
                         sx={{
                           width: "24rem",
-                          input: { backgroundColor: "white", borderRadius: 1 }
+                          input: { backgroundColor: "white", borderRadius: 1 },
                         }}
                         value={username}
-                        onChange={e => setUsername(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value)}
                       />
                     </div>
                     <div className="flex justify-center items-center">
-                      <LockOutlinedIcon sx={{ fontSize: 35, color: "#00579D" }} />
+                      <LockOutlinedIcon
+                        sx={{ fontSize: 35, color: "#00579D" }}
+                      />
                       <TextField
                         id="outlined-basic"
                         label="Senha"
@@ -143,14 +145,14 @@ export default function Login() {
                         type={"password"}
                         sx={{
                           width: "24rem",
-                          input: { backgroundColor: "white", borderRadius: 1 }
+                          input: { backgroundColor: "white", borderRadius: 1 },
                         }}
                         value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center mt-3">
                     <div className="flex gap-1 justify-center items-center">
                       <Checkbox className="w-4 h-4" {...label} defaultChecked />
                       <h1 className="text-gray-600 text-sm font-semibold">
@@ -174,9 +176,9 @@ export default function Login() {
                           fontSize: "17px",
                           fontWeight: "bold",
                           textTransform: "none",
-                          backgroundColor: "#00579D"
+                          backgroundColor: "#00579D",
                         }}
-                        >
+                      >
                         Entrar
                       </Button>
                     </button>
