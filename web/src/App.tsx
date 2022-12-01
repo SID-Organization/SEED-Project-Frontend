@@ -23,11 +23,11 @@ function App() {
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") as any) || null);
 
-  if(user === null){
-    alert("Você não está logado");
-  } else {
-    alert("Você está logado");
-  }
+  // if(user === null){
+  //   alert("Você não está logado");
+  // } else {
+  //   alert("Você está logado");
+  // }
 
   useEffect(() => {
     console.log("App component", user);

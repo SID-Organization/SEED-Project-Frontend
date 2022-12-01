@@ -1,6 +1,12 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbarContainer,
+  GridToolbarExport
+} from "@mui/x-data-grid";
 import { Tooltip } from "@mui/material";
 import { useState } from "react";
 
@@ -70,7 +76,10 @@ const columns: GridColDef[] = [
   {
     field: "status",
     headerName: "Status",
-    renderCell: renderCellTooltip,
+    renderCell: params =>
+      <p className={`text-[11px] ${params.value === "Concluído" ? "text-green-700" : params.value === "Em andamento" ? "text-dark-blue-weg" : "text-red-700"}`}>
+        {params.value}
+      </p>,
     width: 90
   },
   {
@@ -88,7 +97,7 @@ const rows = [
     id: 1,
     recebimento: "01/01/2021 - 24:25",
     conclusao: "01/03/2021 - 17:17",
-    prazo: "01/01/2021 - 23:59",
+    prazo: "Indefinido",
     tarefa: "Classificar e aprovar demanda",
     responsavel: "Jeremias Nunes",
     acao: "Aprovar",
@@ -144,10 +153,10 @@ const rows = [
     recebimento: "01/03/2021 - 16:25",
     conclusao: "01/05/2021 - 17:22",
     prazo: "01/12/2021 - 18:59",
-    tarefa: "Classificar e aprovar demanda",
-    responsavel: "Jeremias Nunes",
+    tarefa: "Aprovação da demanda pelo gerente da área",
+    responsavel: "Douglas Dias",
     acao: "Aprovar",
-    status: "Concluído",
+    status: "Atrasado",
     versao: "0.1"
   },
   {
@@ -155,29 +164,35 @@ const rows = [
     recebimento: "01/03/2021 - 16:25",
     conclusao: "01/05/2021 - 17:22",
     prazo: "01/12/2021 - 18:59",
-    tarefa: "Classificar e aprovar demanda",
-    responsavel: "Jeremias Nunes",
+    tarefa: "Aprovação da demanda pelo gestor de TI",
+    responsavel: "Emanuel Kant",
     acao: "Aprovar",
-    status: "Concluído",
+    status: "Em andamento",
     versao: "0.1"
-  },
+  }
 ];
 
 export default function WorkflowTable() {
   const [pageSize, setPageSize] = useState<number>(5);
 
   return (
-    <Box sx={{ height: "20rem" }}>
+    <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
       <DataGrid
         rowsPerPageOptions={[5, 10, 20]}
         pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
         columns={columns}
         rows={rows}
         density="compact"
         components={{
           Toolbar: CustomToolbar
         }}
+        initialState= {{
+          sorting: {
+            sortModel: [{ field: "id", sort: "desc" }]
+          }
+        }}
+        disableSelectionOnClick
       />
     </Box>
   );
