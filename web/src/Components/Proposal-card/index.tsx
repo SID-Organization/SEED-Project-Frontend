@@ -5,11 +5,13 @@ import MuiOpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
 import MuiAddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { Tooltip } from "@mui/material";
 
 import MuiIconButton from "@mui/material/IconButton";
 
 import { useState } from "react";
+import { PropaneSharp } from "@mui/icons-material";
 
 interface ProposalCardProps {
   id: number;
@@ -92,6 +94,17 @@ export default function ProposalCard(props: ProposalCardProps) {
   const CheckCircleRoundedIcon = styled(MuiCheckCircleRoundedIcon)({
     color: "#0075B1",
     fontSize: "2rem",
+  });
+
+  const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
+    color: "#707070",
+    fontSize: "1.7rem",
+    cursor: "pointer",
+    transition: "0.2s",
+
+    "&:hover": {
+      color: "#979797",
+    },
   });
 
   const demandTitle =
@@ -201,6 +214,13 @@ export default function ProposalCard(props: ProposalCardProps) {
               ${props.newPauta ? "mr-4" : "flex justify-end items-center"}
             `}
           >
+            {props.newPauta ? (
+              ""
+            ) : (
+              <Tooltip title="Visualizar proposta">
+                <VisibilityRoundedIcon />
+              </Tooltip>
+            )}
             {props.newPauta === "card" && (
               <div className="flex gap-4">
                 <Tooltip title="Iniciar workflow">
