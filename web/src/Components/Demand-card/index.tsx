@@ -17,10 +17,20 @@ import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import { Divider, IconButton, InputAdornment, Tooltip } from "@mui/material";
+import {
+  Divider,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  Radio,
+  Tooltip,
+} from "@mui/material";
+import { CheckBox } from "@mui/icons-material";
 
 interface DemandCardProps {
+  id?: number;
   status: string;
+  setSelectDemands: (value: any) => void;
 }
 
 export default function DemandCard(props: DemandCardProps) {
@@ -29,8 +39,8 @@ export default function DemandCard(props: DemandCardProps) {
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
     useState(false);
-
   const [openGenerateProposal, setOpenGenerateProposal] = useState(false);
+  const [selectedDrafts, setSelectedDrafts] = useState(false);
 
   const handleOpenReasonOfCancellation = () =>
     setOpenReasonOfCancellation(true);
@@ -115,6 +125,19 @@ export default function DemandCard(props: DemandCardProps) {
     getData();
   }, []);
 
+  function handleSelectDrafts() {
+    if (!selectedDrafts) {
+      props.setSelectDemands((prevState: any) => {
+        return [...prevState, props.id];
+      });
+    } else {
+      props.setSelectDemands((prevState: any) => {
+        return prevState.filter((item: any) => item !== props.id);
+      });
+    }
+    setSelectedDrafts(!selectedDrafts);
+  }
+
   return (
     <div className="grid justify-center items-center mb-7">
       {isDemandLoading ? (
@@ -144,6 +167,7 @@ export default function DemandCard(props: DemandCardProps) {
               >
                 LOREM IPSUM
               </Typography>
+
               <Typography
                 sx={{ mt: 1 }}
                 color="#675E5E"
@@ -154,6 +178,22 @@ export default function DemandCard(props: DemandCardProps) {
                 <span className="font-medium text-black text-[0.95rem]">
                   {props.status}
                 </span>
+                {/* Select */}
+                {props.status === "Rascunho" && (
+                  <div className="flex justify-center items-center ml-5">
+                    <Radio
+                      checked={selectedDrafts}
+                      onClick={() => handleSelectDrafts()}
+                      sx={{
+                        color: "#0075B1",
+                        padding: 0,
+                        "&.Mui-checked": {
+                          color: "#0075B1",
+                        },
+                      }}
+                    />
+                  </div>
+                )}
               </Typography>
             </div>
             <div className="flex items-center justify-between">
