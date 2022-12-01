@@ -50,7 +50,7 @@ export default function NotificationCard(props: NotificationCardProps) {
                 />
               </Tooltip>
             ) : props.type === "returned" ? (
-              <Tooltip title="Revisão">
+              <Tooltip title="Devolução">
                 <ReplayRoundedIcon
                   sx={{
                     color: "#023A67",
