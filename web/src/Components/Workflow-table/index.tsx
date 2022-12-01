@@ -1,464 +1,199 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Paper from "@mui/material/Paper";
-import { visuallyHidden } from "@mui/utils";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbarContainer,
+  GridToolbarExport
+} from "@mui/x-data-grid";
+import { Tooltip } from "@mui/material";
 import { useState } from "react";
 
-interface Data {
-  recebimento: string;
-  conclusao: string;
-  prazo: string;
-  tarefa: string;
-  responsavel: string;
-  acao: string;
-  status: string;
-  versao: string;
-}
+const renderCellTooltip = (params: GridRenderCellParams) =>
+  <Tooltip title={params.value} enterDelay={820}>
+    <p className="text-[11px]">
+      {params.value}
+    </p>
+  </Tooltip>;
 
-function createData(
-  recebimento: string,
-  conclusao: string,
-  prazo: string,
-  tarefa: string,
-  responsavel: string,
-  acao: string,
-  status: string,
-  versao: string
-): Data {
-  return {
-    recebimento,
-    conclusao,
-    prazo,
-    tarefa,
-    responsavel,
-    acao,
-    status,
-    versao,
-  };
-}
-
-const rows = [
-  createData(
-    "01/01/2021 - 10:00",
-    "01/01/2021 - 10:00",
-    "20/01/2021 - 10:00",
-    "Elaboração de documento",
-    "João da Silva",
-    "Aprovar",
-    "Aprovado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-  createData(
-    "02/10/2022 - 11:00",
-    "03/04/2022 - 10:00",
-    "01/01/2021 - 10:00",
-    "Banco de dados",
-    "Maria da Silva",
-    "Deletar",
-    "Cancelado",
-    "1.0"
-  ),
-];
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-type Order = "asc" | "desc";
-
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort<T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number
-) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-  {
-    id: "recebimento",
-    numeric: false,
-    disablePadding: true,
-    label: "Recebimento",
-  },
-  {
-    id: "conclusao",
-    numeric: true,
-    disablePadding: false,
-    label: "Conclusão",
-  },
-  {
-    id: "prazo",
-    numeric: true,
-    disablePadding: false,
-    label: "Prazo",
-  },
-  {
-    id: "tarefa",
-    numeric: true,
-    disablePadding: false,
-    label: "Tarefa",
-  },
-  {
-    id: "responsavel",
-    numeric: true,
-    disablePadding: false,
-    label: "Responsável",
-  },
-  {
-    id: "acao",
-    numeric: true,
-    disablePadding: false,
-    label: "Ação",
-  },
-  {
-    id: "status",
-    numeric: true,
-    disablePadding: false,
-    label: "Status",
-  },
-  {
-    id: "versao",
-    numeric: true,
-    disablePadding: false,
-    label: "Versão",
-  },
-];
-
-interface EnhancedTableProps {
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data
-  ) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
-
+function CustomToolbar() {
   return (
-    <TableHead>
-      <TableRow
-        sx={{
-          backgroundColor: "#b9b9b952",
-        }}
-      >
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "center" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
-            sx={{
-              fontWeight: "bold",
-              border: "1px solid #2717171a",
-            }}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
+    <GridToolbarContainer>
+      <GridToolbarExport />
+    </GridToolbarContainer>
   );
 }
 
-export default function EnhancedTable() {
-  const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<keyof Data>("recebimento");
-  const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(4);
+const columns: GridColDef[] = [
+  {
+    field: "id",
+    headerName: "ID",
+    renderCell: renderCellTooltip,
+    align: "center",
+    headerAlign: "center",
+    width: 40
+  },
+  {
+    field: "recebimento",
+    headerName: "Recebimento",
+    type: "date",
+    renderCell: renderCellTooltip,
+    width: 130
+  },
+  {
+    field: "conclusao",
+    headerName: "Conclusão",
+    type: "date",
+    renderCell: renderCellTooltip,
+    width: 130
+  },
+  {
+    field: "prazo",
+    headerName: "Prazo",
+    type: "date",
+    renderCell: renderCellTooltip,
+    width: 140
+  },
+  {
+    field: "tarefa",
+    headerName: "Tarefa",
+    renderCell: renderCellTooltip,
+    minWidth: 220
+  },
+  {
+    field: "responsavel",
+    headerName: "Responsável",
+    renderCell: renderCellTooltip,
+    minWidth: 150
+  },
+  {
+    field: "acao",
+    headerName: "Ação",
+    renderCell: renderCellTooltip,
+    width: 90
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    renderCell: params =>
+      <p className={`text-[11px] ${params.value === "Concluído" ? "text-green-700" : params.value === "Em andamento" ? "text-dark-blue-weg" : "text-red-700"}`}>
+        {params.value}
+      </p>,
+    width: 90
+  },
+  {
+    field: "versao",
+    headerName: "Versão",
+    renderCell: renderCellTooltip,
+    align: "center",
+    headerAlign: "center",
+    width: 90
+  }
+];
 
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+const rows = [
+  {
+    id: 1,
+    recebimento: "01/01/2021 - 24:25",
+    conclusao: "01/03/2021 - 17:17",
+    prazo: "Indefinido",
+    tarefa: "Classificar e aprovar demanda",
+    responsavel: "Jeremias Nunes",
+    acao: "Aprovar",
+    status: "Concluído",
+    versao: "0.1"
+  },
+  {
+    id: 2,
+    recebimento: "02/01/2021 - 15:25",
+    conclusao: "04/04/2021 - 11:32",
+    prazo: "02/01/2021 - 16:59",
+    tarefa: "Classificar e aprovar demanda",
+    responsavel: "Jeremias Nunes",
+    acao: "Aprovar",
+    status: "Concluído",
+    versao: "0.1"
+  },
+  {
+    id: 3,
+    recebimento: "01/03/2021 - 16:25",
+    conclusao: "01/05/2021 - 17:22",
+    prazo: "01/12/2021 - 18:59",
+    tarefa: "Classificar e aprovar demanda",
+    responsavel: "Jeremias Nunes",
+    acao: "Aprovar",
+    status: "Concluído",
+    versao: "0.1"
+  },
+  {
+    id: 4,
+    recebimento: "01/03/2021 - 16:25",
+    conclusao: "01/05/2021 - 17:22",
+    prazo: "01/12/2021 - 18:59",
+    tarefa: "Classificar e aprovar demanda",
+    responsavel: "Jeremias Nunes",
+    acao: "Aprovar",
+    status: "Concluído",
+    versao: "0.1"
+  },
+  {
+    id: 5,
+    recebimento: "01/03/2021 - 16:25",
+    conclusao: "01/05/2021 - 17:22",
+    prazo: "01/12/2021 - 18:59",
+    tarefa: "Classificar e aprovar demanda",
+    responsavel: "Jeremias Nunes",
+    acao: "Aprovar",
+    status: "Concluído",
+    versao: "0.1"
+  },
+  {
+    id: 6,
+    recebimento: "01/03/2021 - 16:25",
+    conclusao: "01/05/2021 - 17:22",
+    prazo: "01/12/2021 - 18:59",
+    tarefa: "Aprovação da demanda pelo gerente da área",
+    responsavel: "Douglas Dias",
+    acao: "Aprovar",
+    status: "Atrasado",
+    versao: "0.1"
+  },
+  {
+    id: 7,
+    recebimento: "01/03/2021 - 16:25",
+    conclusao: "01/05/2021 - 17:22",
+    prazo: "01/12/2021 - 18:59",
+    tarefa: "Aprovação da demanda pelo gestor de TI",
+    responsavel: "Emanuel Kant",
+    acao: "Aprovar",
+    status: "Em andamento",
+    versao: "0.1"
+  }
+];
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+export default function WorkflowTable() {
+  const [pageSize, setPageSize] = useState<number>(5);
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "71rem", mb: 2 }}>
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-          >
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.recebimento}
-                      sx={{
-                        border: "1px solid #8585856c",
-                      }}
-                    >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.recebimento}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          border: "1px solid #8585856c",
-                        }}
-                      >
-                        {row.conclusao}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          border: "1px solid #8585856c",
-                        }}
-                      >
-                        {row.prazo}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          border: "1px solid #8585856c",
-                        }}
-                      >
-                        {row.tarefa}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          border: "1px solid #8585856c",
-                        }}
-                      >
-                        {row.responsavel}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          border: "1px solid #8585856c",
-                        }}
-                      >
-                        {row.acao}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          border: "1px solid #8585856c",
-                        }}
-                      >
-                        {row.status}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          border: "1px solid #8585856c",
-                        }}
-                      >
-                        {row.versao}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[4]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+    <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
+      <DataGrid
+        rowsPerPageOptions={[5, 10, 20]}
+        pageSize={pageSize}
+        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+        columns={columns}
+        rows={rows}
+        density="compact"
+        components={{
+          Toolbar: CustomToolbar
+        }}
+        initialState= {{
+          sorting: {
+            sortModel: [{ field: "id", sort: "desc" }]
+          }
+        }}
+        disableSelectionOnClick
+      />
     </Box>
   );
 }
