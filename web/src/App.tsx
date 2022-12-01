@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, json } from "react-router-dom";
 
 import "./App.css";
 
@@ -15,14 +15,30 @@ import Pautas from "./pages/analista/pautas";
 import Proposals from "./pages/analista/proposals";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
+import { useState, useEffect } from "react";
+
+import { Navigate } from "react-router-dom";
 
 function App() {
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") as any) || null);
+
+  if(user === null){
+    alert("Você não está logado");
+  } else {
+    alert("Você está logado");
+  }
+
+  useEffect(() => {
+    console.log("App component", user);
+  },[user])
+
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={user ? <Layout /> : <Navigate to={'/login'}/>}>
             <Route path="admin">
               <Route path="minhas-demandas" element={<HomeDemands />} />
               <Route path="rascunhos" element={<Drafts />} />

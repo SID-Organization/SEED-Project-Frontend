@@ -43,7 +43,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import WegLogo from "../../assets/weg-logo.png";
 
 import "../../styles/index.css";
-import UserMessageCard from "../Chat-components/User-message-card";
+import UserMessageCard from "../Chat-components/user-message-card";
 import NotificationCard from "../Notification-card";
 
 const DarkModeSwitch = styled(Switch)(({ theme }) => ({
@@ -371,7 +371,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to="/perfil">
+      <Link to="/admin/perfil">
         <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
       </Link>
       <Accordion
@@ -788,7 +788,7 @@ export default function PrimarySearchAppBar() {
           }}
         >
           <Toolbar>
-            <Link to="/minhas-demandas" className="cursor-pointer">
+            <Link to="/admin/minhas-demandas" className="cursor-pointer">
               <img className="h-full w-16" src={WegLogo} alt="" />
             </Link>
             <Box sx={{ flexGrow: 1 }} />

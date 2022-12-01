@@ -52,7 +52,9 @@ export default function Login() {
     const user = usersMock.find(
       user => user.username === username && user.password === password
     );
+    console.log(user);
     if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
       if (user.role === "admin") {
         navigate("/admin/minhas-demandas");
       }
@@ -70,7 +72,7 @@ export default function Login() {
     }
   };
 
-  return (
+  return (  
     <div className="bg-loginWallpaper bg-cover w-full h-screen">
       <div className="flex">
         <div className="w-2/6 h-60 gap-24 grid justify-center items-center">
@@ -114,68 +116,72 @@ export default function Login() {
                 <h1 className="font-bold flex justify-center items-center text-5xl m-12 text-blue-weg">
                   Login
                 </h1>
-                <div className="grid gap-4">
-                  <div className="flex justify-center items-center">
-                    <PersonOutlineOutlinedIcon
-                      sx={{ fontSize: 35, color: "#00579D" }}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      label="Usuário"
-                      variant="filled"
-                      sx={{
-                        width: "24rem",
-                        input: { backgroundColor: "white", borderRadius: 1 }
-                      }}
-                      value={username}
-                      onChange={e => setUsername(e.target.value)}
-                    />
+                <form action="">
+                  <div className="grid gap-4">
+                    <div className="flex justify-center items-center">
+                      <PersonOutlineOutlinedIcon
+                        sx={{ fontSize: 35, color: "#00579D" }}
+                      />
+                      <TextField
+                        id="outlined-basic"
+                        label="Usuário"
+                        variant="filled"
+                        sx={{
+                          width: "24rem",
+                          input: { backgroundColor: "white", borderRadius: 1 }
+                        }}
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex justify-center items-center">
+                      <LockOutlinedIcon sx={{ fontSize: 35, color: "#00579D" }} />
+                      <TextField
+                        id="outlined-basic"
+                        label="Senha"
+                        variant="filled"
+                        type={"password"}
+                        sx={{
+                          width: "24rem",
+                          input: { backgroundColor: "white", borderRadius: 1 }
+                        }}
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                      />
+                    </div>
                   </div>
-                  <div className="flex justify-center items-center">
-                    <LockOutlinedIcon sx={{ fontSize: 35, color: "#00579D" }} />
-                    <TextField
-                      id="outlined-basic"
-                      label="Senha"
-                      variant="filled"
-                      sx={{
-                        width: "24rem",
-                        input: { backgroundColor: "white", borderRadius: 1 }
-                      }}
-                      value={password}
-                      onChange={e => setPassword(e.target.value)}
-                    />
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-1 justify-center items-center">
+                      <Checkbox className="w-4 h-4" {...label} defaultChecked />
+                      <h1 className="text-gray-600 text-sm font-semibold">
+                        Lembrar de mim
+                      </h1>
+                    </div>
+                    <div>
+                      <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition text-sm">
+                        Esqueceu a senha?
+                      </h1>
+                    </div>
                   </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-1 justify-center items-center">
-                    <Checkbox className="w-4 h-4" {...label} defaultChecked />
-                    <h1 className="text-gray-600 text-sm font-semibold">
-                      Lembrar de mim
-                    </h1>
+                  <div className="grid gap-4 justify-center items-center">
+                    <button type="submit" onClick={handleLogin}>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          marginTop: "3rem",
+                          width: "140px",
+                          height: "45px",
+                          fontSize: "17px",
+                          fontWeight: "bold",
+                          textTransform: "none",
+                          backgroundColor: "#00579D"
+                        }}
+                        >
+                        Entrar
+                      </Button>
+                    </button>
                   </div>
-                  <div>
-                    <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition text-sm">
-                      Esqueceu a senha?
-                    </h1>
-                  </div>
-                </div>
-                <div className="grid gap-4 justify-center items-center">
-                  <Button
-                    variant="contained"
-                    sx={{
-                      marginTop: "3rem",
-                      width: "140px",
-                      height: "45px",
-                      fontSize: "17px",
-                      fontWeight: "bold",
-                      textTransform: "none",
-                      backgroundColor: "#00579D"
-                    }}
-                    onClick={handleLogin}
-                  >
-                    Entrar
-                  </Button>
-                </div>
+                </form>
               </div>
             </div>
           </Box>
