@@ -6,9 +6,11 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { styled } from "@mui/material/styles";
 
 import { useState } from "react";
+import Button from "@mui/material/Button";
 
 export default function drafts() {
   const [selectDemands, setSelectDemands] = useState([]);
+  const [isAllDemandsSelected, setIsAllDemandsSelected] = useState(false);
 
   const draftsMock = [
     {
@@ -110,13 +112,10 @@ export default function drafts() {
     <div>
       <SubHeader>Rascunhos</SubHeader>
       {
-        <div className="ml-5">
+        <div className="ml-5 flex items-center">
           {selectDemands.length > 0 && (
             <div className="mb-10">
               <ButtonAddSelected
-                // onClick={() => {
-                //   deleteDrafts();
-                // }}
                 variant="contained"
                 color="primary"
                 size="large"
@@ -131,6 +130,21 @@ export default function drafts() {
                 Deletar {"(" + selectDemands.length + ")"}{" "}
                 {selectDemands.length > 1 ? "rascunhos" : "rascunho"}
               </ButtonAddSelected>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#0075B1",
+                  color: "#FFF",
+                  fontSize: "0.89rem",
+                  width: 200,
+                  marginLeft: 2,
+                  "&:hover": {
+                    backgroundColor: "#0075B1",
+                  },
+                }}
+              >
+                Selecionar tudo
+              </Button>
             </div>
           )}
         </div>

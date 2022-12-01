@@ -17,15 +17,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import {
-  Divider,
-  FormControlLabel,
-  IconButton,
-  InputAdornment,
-  Radio,
-  Tooltip,
-} from "@mui/material";
-import { CheckBox } from "@mui/icons-material";
+import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
 interface DemandCardProps {
   id?: number;
@@ -34,7 +26,6 @@ interface DemandCardProps {
 }
 
 export default function DemandCard(props: DemandCardProps) {
-  const [open, setOpen] = useState(false);
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
