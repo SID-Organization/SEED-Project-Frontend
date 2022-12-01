@@ -29,6 +29,7 @@ interface PautaCardProps {
   MeetingDate: string;
   MeetingTime: string;
   ResponsibleAnalyst: string;
+  isInTheModalAddToAPauta?: boolean;
 }
 
 export default function PautasCard(props: PautaCardProps) {
@@ -105,16 +106,35 @@ export default function PautasCard(props: PautaCardProps) {
     },
   }));
 
+  const proposalsMock = [
+    {
+      newPauta: false,
+      title: "Automatização do processo",
+      executionTime: 10.0,
+      value: 10.0,
+      referenceDemand: "Demanda 2",
+      ResponsibleAnalyst: "Analista 1",
+    },
+    {
+      newPauta: false,
+      title: "Automatização do processo",
+      executionTime: 10.0,
+      value: 10.0,
+      referenceDemand: "Demanda 2",
+      ResponsibleAnalyst: "Analista 1",
+    },
+  ];
+
   return (
     <div className="mt-5">
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+      {props.isInTheModalAddToAPauta ? (
+        <div
+          className="w-[40rem] h-[7rem] bg-[#FFF] shadow-xl rounded-md border-light-blue-weg border-2
+          cursor-pointer hover:bg-[#F5F5F5] transition
+        "
         >
           <div className="grid font-roboto">
-            <div className="flex justify-center gap-28">
+            <div className="flex justify-around mt-2">
               <h1 className="font-bold">{props.PautaName}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
@@ -128,204 +148,224 @@ export default function PautasCard(props: PautaCardProps) {
                   {props.MeetingDate}
                 </span>
               </h1>
-              <h1 className="font-bold">
-                Horário:{" "}
-                <span className="font-normal text-[#707070]">
-                  {props.MeetingTime}
-                </span>
-              </h1>
             </div>
             <div className="flex justify-between">
-              <div className="flex justify-center items-center">
-                <h1 className="mt-5 font-bold">
+              <div className="flex justify-center items-center mt-12 ml-4">
+                <h1 className="font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
                     {props.ResponsibleAnalyst}
                   </span>
                 </h1>
               </div>
-              <div className="flex justify-center items-center gap-5 mt-5">
-                <Tooltip
-                  title="Compartilhar pauta"
-                  enterDelay={820}
-                  leaveDelay={200}
-                >
-                  <h1
-                    className="
+            </div>
+          </div>
+        </div>
+      ) : (
+        //ACABOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <div className="grid font-roboto">
+              <div className="flex justify-center gap-28">
+                <h1 className="font-bold">{props.PautaName}</h1>
+                <h1 className="font-bold">
+                  Qtd. Propostas:{" "}
+                  <span className="font-normal text-[#707070]">
+                    {props.QtyProposals}
+                  </span>
+                </h1>
+                <h1 className="font-bold">
+                  Data da reunião:{" "}
+                  <span className="font-normal text-[#707070]">
+                    {props.MeetingDate}
+                  </span>
+                </h1>
+                <h1 className="font-bold">
+                  Horário:{" "}
+                  <span className="font-normal text-[#707070]">
+                    {props.MeetingTime}
+                  </span>
+                </h1>
+              </div>
+              <div className="flex justify-between">
+                <div className="flex justify-center items-center">
+                  <h1 className="mt-5 font-bold">
+                    Analista responsável:{" "}
+                    <span className="font-normal text-[#707070]">
+                      {props.ResponsibleAnalyst}
+                    </span>
+                  </h1>
+                </div>
+                <div className="flex justify-center items-center gap-5 mt-5">
+                  <Tooltip title="Compartilhar pauta">
+                    <h1
+                      className="
                 cursor-pointer
                 text-light-blue-weg
                 hover:underline
                 "
-                    onClick={handleOpenShareModal}
-                  >
+                      onClick={handleOpenShareModal}
+                    >
+                      <div className="flex justify-center items-center">
+                        Compartilhar pauta
+                        <ReplyRoundedIcon />
+                      </div>
+                    </h1>
+                  </Tooltip>
+                  <Tooltip title="Visualizar pauta">
+                    <VisibilityRoundedIcon />
+                  </Tooltip>
+                  <Tooltip title="Editar pauta">
+                    <EditRoundedIcon />
+                  </Tooltip>
+                  <Tooltip title="Gerar ATA">
+                    <Button variant="contained">Gerar ATA</Button>
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+          </AccordionSummary>
+
+          <Modal
+            open={shareModal}
+            onClose={handleCloseShareModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={modalStyleShare}>
+              <div className="grid items-center text-[0.8rem]">
+                <div>
+                  <h1 className="text-xl">Compartilhar via...</h1>
+                </div>
+                <div className="mt-4 flex justify-center items-center gap-8">
+                  <div className="grid gap-2">
                     <div className="flex justify-center items-center">
-                      Compartilhar pauta
-                      <ReplyRoundedIcon />
+                      <div
+                        className="
+                      rounded-full
+                      w-14
+                      h-14
+                      bg-gray-200
+                      flex
+                      justify-center
+                      items-center
+                      cursor-pointer
+                      transition
+
+                      hover:bg-gray-300
+                    "
+                      >
+                        <IconButton>
+                          <MailOutlineRoundedIcon />
+                        </IconButton>
+                      </div>
                     </div>
-                  </h1>
-                </Tooltip>
-                <Tooltip
-                  title="Visualizar pauta"
-                  enterDelay={820}
-                  leaveDelay={200}
-                >
-                  <VisibilityRoundedIcon />
-                </Tooltip>
-                <Tooltip title="Editar pauta" enterDelay={820} leaveDelay={200}>
-                  <EditRoundedIcon />
-                </Tooltip>
-                <Tooltip title="Gerar ATA" enterDelay={820} leaveDelay={200}>
-                  <Button variant="contained">Gerar ATA</Button>
-                </Tooltip>
+                    <div className="flex justify-center items-center">
+                      <h1>E-mail</h1>
+                    </div>
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex justify-center items-center">
+                      <div
+                        className="
+                      rounded-full
+                      w-14
+                      h-14
+                      bg-gray-200
+                      flex
+                      justify-center
+                      items-center
+                      cursor-pointer
+                      transition
+
+                      hover:bg-gray-300
+                    "
+                      >
+                        <IconButton>
+                          <WhatsAppIcon />
+                        </IconButton>
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center">
+                      <h1>Whatsapp</h1>
+                    </div>
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex justify-center items-center">
+                      <div
+                        className="
+                      rounded-full
+                      w-14
+                      h-14
+                      bg-gray-200
+                      flex
+                      justify-center
+                      items-center
+                      cursor-pointer
+                      transition
+
+                      hover:bg-gray-300
+                    "
+                      >
+                        <IconButton>
+                          <LinkIcon />
+                        </IconButton>
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center">
+                      <h1>Copiar link</h1>
+                    </div>
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex justify-center items-center">
+                      <div
+                        className="
+                      rounded-full
+                      w-14
+                      h-14
+                      bg-gray-200
+                      flex
+                      justify-center
+                      items-center
+                      cursor-pointer
+                      transition
+
+                      hover:bg-gray-300
+                    "
+                      >
+                        <IconButton>
+                          <DownloadRoundedIcon />
+                        </IconButton>
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center">
+                      <h1>Baixar PDF</h1>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </Box>
+          </Modal>
+          <Divider />
+          <AccordionDetails>
+            <div className="grid gap-5">
+              {proposalsMock.map((proposal) => (
+                <ProposalCard
+                  newPauta={proposal.newPauta}
+                  title={proposal.title}
+                  executionTime={proposal.executionTime}
+                  value={proposal.value}
+                  referenceDemand={proposal.referenceDemand}
+                />
+              ))}
             </div>
-          </div>
-        </AccordionSummary>
-
-        <Modal
-          open={shareModal}
-          onClose={handleCloseShareModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={modalStyleShare}>
-            <div className="grid items-center text-[0.8rem]">
-              <div>
-                <h1 className="text-xl">Compartilhar via...</h1>
-              </div>
-              <div className="mt-4 flex justify-center items-center gap-8">
-                <div className="grid gap-2">
-                  <div className="flex justify-center items-center">
-                    <div
-                      className="
-                      rounded-full
-                      w-14
-                      h-14
-                      bg-gray-200
-                      flex
-                      justify-center
-                      items-center
-                      cursor-pointer
-                      transition
-
-                      hover:bg-gray-300
-                    "
-                    >
-                      <IconButton>
-                        <MailOutlineRoundedIcon />
-                      </IconButton>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center">
-                    <h1>E-mail</h1>
-                  </div>
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex justify-center items-center">
-                    <div
-                      className="
-                      rounded-full
-                      w-14
-                      h-14
-                      bg-gray-200
-                      flex
-                      justify-center
-                      items-center
-                      cursor-pointer
-                      transition
-
-                      hover:bg-gray-300
-                    "
-                    >
-                      <IconButton>
-                        <WhatsAppIcon />
-                      </IconButton>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center">
-                    <h1>Whatsapp</h1>
-                  </div>
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex justify-center items-center">
-                    <div
-                      className="
-                      rounded-full
-                      w-14
-                      h-14
-                      bg-gray-200
-                      flex
-                      justify-center
-                      items-center
-                      cursor-pointer
-                      transition
-
-                      hover:bg-gray-300
-                    "
-                    >
-                      <IconButton>
-                        <LinkIcon />
-                      </IconButton>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center">
-                    <h1>Copiar link</h1>
-                  </div>
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex justify-center items-center">
-                    <div
-                      className="
-                      rounded-full
-                      w-14
-                      h-14
-                      bg-gray-200
-                      flex
-                      justify-center
-                      items-center
-                      cursor-pointer
-                      transition
-
-                      hover:bg-gray-300
-                    "
-                    >
-                      <IconButton>
-                        <DownloadRoundedIcon />
-                      </IconButton>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center">
-                    <h1>Baixar PDF</h1>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Box>
-        </Modal>
-        <Divider />
-        <AccordionDetails>
-          <div className="grid gap-5">
-            <ProposalCard
-              title="Proposta 1"
-              executionTime={10}
-              value={1000}
-              referenceDemand="3123 - Automação de software"
-            />
-            <ProposalCard
-              title="Proposta 2"
-              executionTime={30}
-              value={2500}
-              referenceDemand="7659 - Fixar bugs"
-            />
-            <ProposalCard
-              title="Proposta 3"
-              executionTime={20}
-              value={3000}
-              referenceDemand="4122 - Construção de app"
-            />
-          </div>
-        </AccordionDetails>
-      </Accordion>
+          </AccordionDetails>
+        </Accordion>
+      )}
     </div>
   );
 }

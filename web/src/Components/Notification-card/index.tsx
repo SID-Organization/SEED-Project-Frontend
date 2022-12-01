@@ -1,6 +1,11 @@
 import { Badge, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
+import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+
 import userImg from "../../assets/profile-pic.png";
 
 interface NotificationCardProps {
@@ -8,6 +13,7 @@ interface NotificationCardProps {
   time: string;
   content: string;
   unreadNotification: boolean;
+  type: string;
 }
 
 export default function NotificationCard(props: NotificationCardProps) {
@@ -25,7 +31,43 @@ export default function NotificationCard(props: NotificationCardProps) {
       >
         <div className="flex font-roboto justify-center h-20 ml-5 mr-5">
           <div className="flex items-center w-[5rem]">
-            <img src={userImg} alt="user" className="w-[3.5rem] h-[3.5rem]" />
+            {props.type === "approved" ? (
+              <Tooltip title="Aprovação">
+                <CheckCircleOutlineRoundedIcon
+                  sx={{
+                    color: "#023A67",
+                    fontSize: "2.5rem",
+                  }}
+                />
+              </Tooltip>
+            ) : props.type === "rejected" ? (
+              <Tooltip title="Rejeição">
+                <HighlightOffRoundedIcon
+                  sx={{
+                    color: "#023A67",
+                    fontSize: "2.5rem",
+                  }}
+                />
+              </Tooltip>
+            ) : props.type === "returned" ? (
+              <Tooltip title="Devolução">
+                <ReplayRoundedIcon
+                  sx={{
+                    color: "#023A67",
+                    fontSize: "2.5rem",
+                  }}
+                />
+              </Tooltip>
+            ) : (
+              <Tooltip title="Edição">
+                <EditRoundedIcon
+                  sx={{
+                    color: "#023A67",
+                    fontSize: "2.5rem",
+                  }}
+                />
+              </Tooltip>
+            )}
           </div>
           <div className="grid items-center w-[13rem]">
             <p className="font-bold">

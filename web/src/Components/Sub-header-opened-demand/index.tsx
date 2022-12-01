@@ -464,11 +464,7 @@ export default function subHeader({
                           scope="row"
                           align="center"
                         >
-                          <Tooltip
-                            title="Baixar arquivo"
-                            enterDelay={820}
-                            leaveDelay={200}
-                          >
+                          <Tooltip title="Baixar arquivo">
                             <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
                           </Tooltip>
                           {row.name}
@@ -477,11 +473,7 @@ export default function subHeader({
                           <StyledTableCell align="center">
                             {row.size}
                           </StyledTableCell>
-                          <Tooltip
-                            title="Deletar arquivo"
-                            enterDelay={820}
-                            leaveDelay={200}
-                          >
+                          <Tooltip title="Deletar arquivo">
                             <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
                           </Tooltip>
                         </div>
@@ -490,11 +482,7 @@ export default function subHeader({
                   </TableBody>
                 </Table>
                 <div className="flex justify-center items-center mt-5 mb-5">
-                  <Tooltip
-                    title="Adicionar arquivo"
-                    enterDelay={820}
-                    leaveDelay={200}
-                  >
+                  <Tooltip title="Adicionar arquivo">
                     <Button
                       variant="contained"
                       component="label"
@@ -573,21 +561,17 @@ export default function subHeader({
             }}
           />
           {isEditEnabled ? (
-            <Tooltip title="Editar" enterDelay={820} leaveDelay={200}>
+            <Tooltip title="Editar">
               <ModeEditIcon />
             </Tooltip>
           ) : (
-            <Tooltip
-              title="Salvar alterações"
-              enterDelay={820}
-              leaveDelay={200}
-            >
+            <Tooltip title="Salvar alterações">
               <DoneIcon />
             </Tooltip>
           )}
         </Button>
 
-        <Tooltip title="Ações" enterDelay={820} leaveDelay={200}>
+        <Tooltip title="Ações">
           <ButtonGroup
             variant="contained"
             ref={anchorRef}

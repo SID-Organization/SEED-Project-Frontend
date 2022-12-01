@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
     headerName: "Status",
     width: 80,
     renderCell: (params) => (
-      <Tooltip title={params.value} enterDelay={820} leaveDelay={200}>
+      <Tooltip title={params.value}>
         <SquareRoundedIcon sx={{ color: getStatusColor(params.value) }} />
       </Tooltip>
     ),
@@ -32,7 +32,7 @@ const columns: GridColDef[] = [
     headerName: "Última atualização",
     width: 210,
     renderCell: (params) => (
-      <Tooltip title={params.value} enterDelay={820} leaveDelay={200}>
+      <Tooltip title={params.value}>
         <Typography variant="body2">{params.value}</Typography>
       </Tooltip>
     ),

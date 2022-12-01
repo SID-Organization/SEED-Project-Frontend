@@ -13,6 +13,7 @@ import SubHeaderOpenedDemand from "./Components/Sub-header-opened-demand";
 import DemandManager from "./pages/business-manager";
 import Pautas from "./pages/analista/pautas";
 import Proposals from "./pages/analista/proposals";
+import Atas from "./pages/analista/atas";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
 import { useState, useEffect } from "react";
@@ -52,8 +53,8 @@ function App() {
               <Route path="perfil" element={<Profile />} />
               <Route path="chat" element={<Chat />} />
             </Route>
-            <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
           </Route>
+          <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
           
         </Routes>
       </BrowserRouter>
