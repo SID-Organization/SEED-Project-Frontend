@@ -154,7 +154,7 @@ export default function CreateNewPauta() {
                 w-10 h-[1.5px] bg-light-blue-weg rounded-full
               "
                 />
-                <h1 className="text-xl">Propostas à apreciar</h1>
+                <h1 className="text-xl">Selecione as propostas</h1>
                 <div
                   className="
                 w-10 h-[1.5px] bg-light-blue-weg rounded-full
