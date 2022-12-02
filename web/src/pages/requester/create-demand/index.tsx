@@ -1,4 +1,6 @@
 import * as React from "react";
+import axios from "axios";
+
 import Box from "@mui/material/Box";
 import {
   Button,
@@ -38,8 +40,7 @@ interface INewBenefit {
   value: number;
   description: string;
 }
-import { ConstructionOutlined } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -125,31 +126,44 @@ export default function CreateDemand() {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleCreateDemand = () => {
+  const handleCreateDemand = async () => {
+
+    function getBenefitCoin(coin: string){
+      if(coin === "R$"){
+        return "REAL"
+      }else if(coin === "$"){
+        return "DOLAR"
+      }else if(coin === "€"){
+        return "EURO"
+      } else {
+        return "REAL"
+      }
+    }
 
     const benefitsToBeSent = realBenefits.map((benefit) => {
       return {
-        moedaBeneficio: benefit.coin,
+        moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: benefit.value,
         descricaoBeneficio: benefit.description,
-        tipo: "REAL"
+        tipoBeneficio: "REAL"
     }});
 
     for(let benefit of potentialBenefits) {
       benefitsToBeSent.push({
-        moedaBeneficio: benefit.coin,
+        moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: benefit.value,
         descricaoBeneficio: benefit.description,
-        tipo: "POTENCIAL"
+        tipoBeneficio: "POTENCIAL"
       });
     };
 
+    
 
     const demandToBeSent = {
       tituloDemanda: title,
       propostaDemanda: proposal,
       situacaoAtualDemanda: currentProblem,
-      frequenciaUsoDemanda: "Diária",
+      frequenciaUsoDemanda: frequencyOfUse,
       descricaoQualitativoDemanda: "Tecnologia e loucuras",
       prazoElaboracaoDemanda: null,
       codigoPPM: null,
@@ -157,7 +171,30 @@ export default function CreateDemand() {
       busBeneficiadas: [],
       beneficiosDemanda: benefitsToBeSent
     };
+
+    const formData = new FormData();
+
+    formData.append("demandaForm", JSON.stringify(demandToBeSent));
+
+    for(let i = 0; i < selectedFiles.length; i++) {
+      formData.append("arquivosDemanda", selectedFiles[i]);
+    }
+     
+    fetch("http://localhost:8080/sid/api/demanda", {
+      method: "POST",
+      body: formData,
+      }).then(res => {
+        console.log(res);
+      });
+
+    console.log(formData.get("arquivosDemanda"));
+
   };
+
+  function handleFileInput(event: any){
+    console.log(event.target.files);
+    setSelectedFiles([...selectedFiles, event.target.files[0]]);
+  }
 
   function addRealBenefit() {
     setRealBenefits([...realBenefits, { coin: "", value: 0, description: "" }]);
@@ -229,6 +266,7 @@ export default function CreateDemand() {
     });
   };
 
+  // Primeiro passo - Dados gerais da demanda (titulo, problema, etc)
   const firstStep = () => {
     return (
       <div className="grid justify-start items-center gap-20">
@@ -333,10 +371,7 @@ export default function CreateDemand() {
     description: ""
   }]);
 
-  useEffect(() => {
-    console.log(realBenefits)
-  }, [realBenefits])
-
+  // Segundo passo - Benefícios
   const secondStep = () => {
     return (
       <div className="grid gap-3">
@@ -403,30 +438,33 @@ export default function CreateDemand() {
       </div>
     );
   };
-
-  const [selectedFile, setSelectedFile] = useState([]);
-  const [isFilePicked, setIsFilePicked] = useState(false);
+  
+  
+  // Terceiro passo - Anexos
+  const [selectedFiles, setSelectedFiles] = useState<any>([]);
+  const [filesTableRows, setFilesTableRows] = useState<any>([]);
 
   useEffect(() => {
-    console.log(selectedFile)
-  }, [selectedFile]);
+    if (selectedFiles) {
+      setFilesTableRows(selectedFiles.map((file: any) => createFileRowData(file.name, file.size)));
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("e.target.files", event.target.files);
+    
+    }
+  }, [selectedFiles]);
 
-    setSelectedFile([...selectedFile, event.target.files[0]] as any);
-    setIsFilePicked(true);
-  };
 
-  const rows = selectedFile.map((file) => createData(file?.name, file?.size));
-
-  function createData(name: string, size: number) {
+  function createFileRowData(name: string, size: number) {
     const fileSize =
       size / 1000 > 1000 ? size / 1000000 + " MB" : size / 1000 + " KB";
 
     return { name, size: fileSize };
   }
 
+  useEffect(() => {
+    console.log(selectedFiles);
+  },[selectedFiles])
+
+  
   const thirdStep = () => {
     return (
       <div>
@@ -437,7 +475,7 @@ export default function CreateDemand() {
           <div className="w-[830px] h-[380px] shadow-2xl grid">
             <div className="flex justify-center items-center">
               
-              {selectedFile.length > 0 ? (
+              {selectedFiles?.length > 0 ? (
                 <TableContainer
                   component={Paper}
                   sx={{
@@ -480,7 +518,7 @@ export default function CreateDemand() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
+                      {filesTableRows.map((row: any) => (
                         <StyledTableRow key={row.name}>
                           <StyledTableCell
                             component="th"
@@ -519,11 +557,11 @@ export default function CreateDemand() {
                             <Tooltip title="Deletar arquivo">
                               <DeleteIcon
                                 onClick={() => {
-                                  const index = selectedFile.findIndex(
-                                    (file) => file?.name === row.name
+                                  const index = selectedFiles.findIndex(
+                                    (file: any) => file?.name === row.name
                                   );
-                                  selectedFile.splice(index, 1);
-                                  setSelectedFile([...selectedFile]);
+                                  selectedFiles.splice(index, 1);
+                                  setSelectedFiles([...selectedFiles]);
                                 }}
                                 className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5"
                               />
@@ -555,15 +593,6 @@ export default function CreateDemand() {
 
             <div className="flex justify-center items-center">
               <label htmlFor="upload-photo">
-                <input
-                  style={{ display: "none" }}
-                  id="upload-photo"
-                  name="upload-photo"
-                  type="file"
-
-                  onChange={(e) => changeHandler(e)}
-                />
-
                 <Button
                   variant="contained"
                   sx={{
@@ -575,7 +604,7 @@ export default function CreateDemand() {
                   component="label"
                 >
                   Escolher arquivo
-                  <input type="file" id="upload-photo" hidden onChange={(e) => changeHandler(e)} />
+                  <input type="file" id="upload-photo" hidden onChange={(e) => handleFileInput(e)} />
                 </Button>
               </label>
             </div>

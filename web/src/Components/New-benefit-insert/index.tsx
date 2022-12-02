@@ -81,8 +81,6 @@ export default function NewBenefitInsertion(props : INewBenefit) {
       })
   }, [coin, value, description]);
 
-  console.log(props.benefitIndex);
-
   const handleChangeCoinIcon = (event: SelectChangeEvent) => {
     setCoin(event.target.value);
   };
