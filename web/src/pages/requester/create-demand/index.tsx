@@ -1,5 +1,5 @@
 import * as React from "react";
-import axios from "axios";
+// import axios from "axios";
 
 import Box from "@mui/material/Box";
 import {
@@ -41,6 +41,10 @@ interface INewBenefit {
   description: string;
 }
 
+interface IQualitativeBenefit {
+  description: string;
+}
+
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -63,22 +67,22 @@ const TextField = styled(MuiTextField)({
   height: "3.5rem",
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      border: "1.5px solid #0075B1"
+      border: "1.5px solid #0075B1",
     },
     "&:hover fieldset": {
-      borderColor: "#0075B1"
+      borderColor: "#0075B1",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#0075B1"
-    }
+      borderColor: "#0075B1",
+    },
   },
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "4px solid #0075B1"
+    borderLeft: "4px solid #0075B1",
   },
 
   "& .MuiOutlinedInput-input": {
-    padding: "5px 5px"
-  }
+    padding: "5px 5px",
+  },
 });
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -112,10 +116,8 @@ export default function CreateDemand() {
   const [buttonNotification, setButtonNotification] = React.useState(false);
   const [deleteNotification, setDeleteNotification] = React.useState(false);
 
-  const [
-    openModalConfirmationDemand,
-    setOpenModalConfirmationDemand
-  ] = useState(false);
+  const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
+    useState(false);
 
   const handleClickOpenModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(true);
@@ -123,20 +125,19 @@ export default function CreateDemand() {
 
   const handleCloseModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(false);
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleCreateDemand = async () => {
-
-    function getBenefitCoin(coin: string){
-      if(coin === "R$"){
-        return "REAL"
-      }else if(coin === "$"){
-        return "DOLAR"
-      }else if(coin === "€"){
-        return "EURO"
+    function getBenefitCoin(coin: string) {
+      if (coin === "R$") {
+        return "REAL";
+      } else if (coin === "$") {
+        return "DOLAR";
+      } else if (coin === "€") {
+        return "EURO";
       } else {
-        return "REAL"
+        return "REAL";
       }
     }
 
@@ -145,15 +146,16 @@ export default function CreateDemand() {
         moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: benefit.value,
         descricaoBeneficio: benefit.description,
-        tipoBeneficio: "REAL"
-    }});
+        tipoBeneficio: "REAL",
+      };
+    });
 
-    for(let benefit of potentialBenefits) {
+    for (let benefit of potentialBenefits) {
       benefitsToBeSent.push({
         moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: benefit.value,
         descricaoBeneficio: benefit.description,
-        tipoBeneficio: "POTENCIAL"
+        tipoBeneficio: "POTENCIAL",
       });
     };
 
@@ -167,27 +169,27 @@ export default function CreateDemand() {
       codigoPPM: null,
       solicitanteDemanda: { numeroCadastroUsuario: 72130 },
       busBeneficiadas: [],
-      beneficiosDemanda: benefitsToBeSent
+      beneficiosDemanda: benefitsToBeSent,
     };
 
     const formData = new FormData();
 
     formData.append("demandaForm", JSON.stringify(demandToBeSent));
 
-    for(let i = 0; i < selectedFiles.length; i++) {
+    for (let i = 0; i < selectedFiles.length; i++) {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
-     
+
     fetch("http://localhost:8080/sid/api/demanda", {
       method: "POST",
       body: formData,
-      }).then(res => {
-        console.log(res);
-      });
+    }).then((res) => {
+      console.log(res);
+    });
 
   };
 
-  function handleFileInput(event: any){
+  function handleFileInput(event: any) {
     console.log(event.target.files);
     setSelectedFiles([...selectedFiles, event.target.files[0]]);
   }
@@ -197,27 +199,21 @@ export default function CreateDemand() {
     setButtonNotification(true);
   }
 
-  useEffect(
-    () => {
-      if (buttonNotification) {
-        const timer = setTimeout(() => {
-          setButtonNotification(false);
-        }, 1900);
-      }
-    },
-    [buttonNotification]
-  );
+  useEffect(() => {
+    if (buttonNotification) {
+      const timer = setTimeout(() => {
+        setButtonNotification(false);
+      }, 1900);
+    }
+  }, [buttonNotification]);
 
-  useEffect(
-    () => {
-      if (deleteNotification) {
-        const timer = setTimeout(() => {
-          setDeleteNotification(false);
-        }, 1900);
-      }
-    },
-    [deleteNotification]
-  );
+  useEffect(() => {
+    if (deleteNotification) {
+      const timer = setTimeout(() => {
+        setDeleteNotification(false);
+      }, 1900);
+    }
+  }, [deleteNotification]);
 
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -234,7 +230,7 @@ export default function CreateDemand() {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
 
     if (activeStep === 2) {
@@ -243,7 +239,7 @@ export default function CreateDemand() {
   };
 
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
   const handleReset = () => {
     setActiveStep(0);
@@ -254,8 +250,8 @@ export default function CreateDemand() {
       throw new Error("You can't skip a step that isn't optional.");
     }
 
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-    setSkipped(prevSkipped => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
       const newSkipped = new Set(prevSkipped.values());
       newSkipped.add(activeStep);
       return newSkipped;
@@ -281,9 +277,9 @@ export default function CreateDemand() {
             multiline
             maxRows={3}
             value={title}
-            onChange={e => setTitle(e.target.value as string)}
+            onChange={(e) => setTitle(e.target.value as string)}
             InputProps={{
-              startAdornment: <InputAdornment position="start" />
+              startAdornment: <InputAdornment position="start" />,
             }}
           />
         </div>
@@ -302,9 +298,9 @@ export default function CreateDemand() {
             multiline
             maxRows={3}
             value={currentProblem}
-            onChange={e => setCurrentProblem(e.target.value as string)}
+            onChange={(e) => setCurrentProblem(e.target.value as string)}
             InputProps={{
-              startAdornment: <InputAdornment position="start" />
+              startAdornment: <InputAdornment position="start" />,
             }}
           />
         </div>
@@ -324,9 +320,9 @@ export default function CreateDemand() {
             maxRows={3}
             value={proposal}
             helperText="*Descreva sua proposta e o que ela irá melhorar."
-            onChange={e => setProposal(e.target.value as string)}
+            onChange={(e) => setProposal(e.target.value as string)}
             InputProps={{
-              startAdornment: <InputAdornment position="start" />
+              startAdornment: <InputAdornment position="start" />,
             }}
           />
         </div>
@@ -355,17 +351,29 @@ export default function CreateDemand() {
     );
   };
 
-  const [realBenefits, setRealBenefits] = useState<INewBenefit[]>([{
-    coin: "",
-    value: 0,
-    description: ""
-  }]);
+  const [realBenefits, setRealBenefits] = useState<INewBenefit[]>([
+    {
+      coin: "",
+      value: 0,
+      description: "",
+    },
+  ]);
 
-  const [potentialBenefits, setPotentialBenefits] = useState<INewBenefit[]>([{
-    coin: "",
-    value: 0,
-    description: ""
-  }]);
+  const [potentialBenefits, setPotentialBenefits] = useState<INewBenefit[]>([
+    {
+      coin: "",
+      value: 0,
+      description: "",
+    },
+  ]);
+
+  const [qualitativeBenefits, setQualitativeBenefits] = useState<
+    IQualitativeBenefit[]
+  >([
+    {
+      description: "",
+    },
+  ]);
 
   // Segundo passo - Benefícios
   const secondStep = () => {
@@ -378,10 +386,12 @@ export default function CreateDemand() {
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
 
-          {buttonNotification &&
-            <Notification message="Benefício adicionado com sucesso!" />}
-          {deleteNotification &&
-            <Notification message="Benefício removido com sucesso!" />}
+          {buttonNotification && (
+            <Notification message="Benefício adicionado com sucesso!" />
+          )}
+          {deleteNotification && (
+            <Notification message="Benefício removido com sucesso!" />
+          )}
 
           <Tooltip title="Adicionar mais benefícios reais">
             <IconButton onClick={addRealBenefit}>
@@ -389,18 +399,26 @@ export default function CreateDemand() {
                 sx={{
                   color: "#00579D",
                   fontSize: "2rem",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               />
             </IconButton>
           </Tooltip>
         </div>
-        {realBenefits.map((item, i) =>
+        {realBenefits.map((item, i) => (
           <div className="flex items-center justify-center">
-            <NewBenefitInsertion coin={item.coin} value={item.value} description={item.description} benefitStates={{realBenefits, setRealBenefits}} benefitIndex={i}/>
-            {(i < realBenefits.length - 1 || i === 0) && <div className="mr-16" />}
+            <NewBenefitInsertion
+              coin={item.coin}
+              value={item.value}
+              description={item.description}
+              benefitStates={{ realBenefits, setRealBenefits }}
+              benefitIndex={i}
+            />
+            {(i < realBenefits.length - 1 || i === 0) && (
+              <div className="mr-16" />
+            )}
           </div>
-        )}
+        ))}
         <div className="flex justify-center items-center gap-10 mb-5 mt-10">
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
@@ -413,41 +431,85 @@ export default function CreateDemand() {
                 sx={{
                   color: "#00579D",
                   fontSize: "2rem",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
                 onClick={() => {
                   setPotentialBenefits([
                     ...potentialBenefits,
-                    { coin: "", value: 0, description: "" }
+                    { coin: "", value: 0, description: "" },
                   ]);
                 }}
               />
             </IconButton>
           </Tooltip>
         </div>
-        {potentialBenefits.map((item, i) =>
+        {potentialBenefits.map((item, i) => (
           <div className="flex items-center justify-center">
-            <NewBenefitInsertion coin={item.coin} description={item.description} value={item.value} benefitStates={{realBenefits: potentialBenefits, setRealBenefits: setPotentialBenefits}} benefitIndex={i}/>
-            {(i < potentialBenefits.length - 1 || i === 0) && <div className="mr-16" />}
+            <NewBenefitInsertion
+              coin={item.coin}
+              description={item.description}
+              value={item.value}
+              benefitStates={{
+                realBenefits: potentialBenefits,
+                setRealBenefits: setPotentialBenefits,
+              }}
+              benefitIndex={i}
+            />
+            {(i < potentialBenefits.length - 1 || i === 0) && (
+              <div className="mr-16" />
+            )}
           </div>
-        )}
+        ))}
+        {/* BENEFICIO QUALITATIVO */}
+        <div className="flex justify-center items-center gap-10 mb-5 mt-10">
+          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+          <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
+            Benefício qualitativo
+          </h1>
+          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+        </div>
+        {qualitativeBenefits.map((item, i) => (
+          <div className="flex items-center justify-center">
+            <TextField
+              sx={{
+                marginBottom: "10rem",
+              }}
+              id="ined-basic"
+              label="Descrição"
+              variant="outlined"
+              type="text"
+              multiline
+              maxRows={4}
+              value={item.description}
+              onChange={(e) => {
+                const newQualitativeBenefits = [...qualitativeBenefits];
+                newQualitativeBenefits[i].description = e.target.value;
+                setQualitativeBenefits(newQualitativeBenefits);
+              }}
+            />
+            {(i < qualitativeBenefits.length - 1 || i === 0) && (
+              <div className="mr-16" />
+            )}
+          </div>
+        ))}
+        {/* FIM BENEFICIO QUALITATIVO */}
       </div>
     );
   };
-  
-  
+
   // Terceiro passo - Anexos
   const [selectedFiles, setSelectedFiles] = useState<any>([]);
   const [filesTableRows, setFilesTableRows] = useState<any>([]);
 
   useEffect(() => {
     if (selectedFiles) {
-      setFilesTableRows(selectedFiles.map((file: any) => createFileRowData(file.name, file.size)));
-
-    
+      setFilesTableRows(
+        selectedFiles.map((file: any) =>
+          createFileRowData(file.name, file.size)
+        )
+      );
     }
   }, [selectedFiles]);
-
 
   function createFileRowData(name: string, size: number) {
     const fileSize =
@@ -458,9 +520,8 @@ export default function CreateDemand() {
 
   useEffect(() => {
     console.log(selectedFiles);
-  },[selectedFiles])
+  }, [selectedFiles]);
 
-  
   const thirdStep = () => {
     return (
       <div>
@@ -470,7 +531,6 @@ export default function CreateDemand() {
           </div>
           <div className="w-[830px] h-[380px] shadow-2xl grid">
             <div className="flex justify-center items-center">
-              
               {selectedFiles?.length > 0 ? (
                 <TableContainer
                   component={Paper}
@@ -594,13 +654,18 @@ export default function CreateDemand() {
                   sx={{
                     backgroundColor: "#0075B1",
                     "&:hover": {
-                      backgroundColor: "#0075B1"
-                    }
+                      backgroundColor: "#0075B1",
+                    },
                   }}
                   component="label"
                 >
                   Escolher arquivo
-                  <input type="file" id="upload-photo" hidden onChange={(e) => handleFileInput(e)} />
+                  <input
+                    type="file"
+                    id="upload-photo"
+                    hidden
+                    onChange={(e) => handleFileInput(e)}
+                  />
                 </Button>
               </label>
             </div>
@@ -626,8 +691,8 @@ export default function CreateDemand() {
               height: "15rem",
               backgroundColor: "#fff",
               boxShadow: 0,
-              borderRadius: 2
-            }
+              borderRadius: 2,
+            },
           }}
         >
           <div className="grid justify-center items-center">
@@ -635,7 +700,7 @@ export default function CreateDemand() {
               <WarningAmberRoundedIcon
                 sx={{
                   fontSize: "5rem",
-                  color: "#0075B1"
+                  color: "#0075B1",
                 }}
               />
             </div>
@@ -653,8 +718,8 @@ export default function CreateDemand() {
                   backgroundColor: "#C2BEBE",
                   color: "#fff",
                   "&:hover": {
-                    backgroundColor: "#C2BEBE"
-                  }
+                    backgroundColor: "#C2BEBE",
+                  },
                 }}
               >
                 Cancelar
@@ -666,8 +731,8 @@ export default function CreateDemand() {
                   backgroundColor: "#0075B1",
                   color: "#fff",
                   "&:hover": {
-                    backgroundColor: "#0075B1"
-                  }
+                    backgroundColor: "#0075B1",
+                  },
                 }}
               >
                 Criar demanda
@@ -701,48 +766,49 @@ export default function CreateDemand() {
               } = {};
               return (
                 <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>
-                    {label}
-                  </StepLabel>
+                  <StepLabel {...labelProps}>{label}</StepLabel>
                 </Step>
               );
             })}
           </Stepper>
-          {activeStep === progressSteps.length
-            ? <React.Fragment>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                  Todos os passos foram completados!
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button onClick={handleReset}>Resetar</Button>
-                </Box>
-              </React.Fragment>
-            : <React.Fragment>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                  Passo {activeStep + 1}
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    sx={{ mr: 1 }}
-                  >
-                    Voltar
+          {activeStep === progressSteps.length ? (
+            <React.Fragment>
+              <Typography sx={{ mt: 2, mb: 1 }}>
+                Todos os passos foram completados!
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "1 1 auto" }} />
+                <Button onClick={handleReset}>Resetar</Button>
+              </Box>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Typography sx={{ mt: 2, mb: 1 }}>
+                Passo {activeStep + 1}
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Button
+                  color="inherit"
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  Voltar
+                </Button>
+                <Box sx={{ flex: "1 1 auto" }} />
+                {isStepOptional(activeStep) && (
+                  <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                    Pular
                   </Button>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  {isStepOptional(activeStep) &&
-                    <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                      Pular
-                    </Button>}
-                  <Button onClick={handleNext}>
-                    {activeStep === progressSteps.length - 1
-                      ? "Finalizar"
-                      : "Próximo"}
-                  </Button>
-                </Box>
-              </React.Fragment>}
+                )}
+                <Button onClick={handleNext}>
+                  {activeStep === progressSteps.length - 1
+                    ? "Finalizar"
+                    : "Próximo"}
+                </Button>
+              </Box>
+            </React.Fragment>
+          )}
         </Box>
       </div>
       <div className="grid justify-center items-center gap-14">
