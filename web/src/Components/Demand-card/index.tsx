@@ -20,11 +20,16 @@ import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
 interface DemandCardProps {
-  demanda: {
+  demand: {
     id?: number;
     status: string;
-    setSelectDemands?: (value: any) => void;
-  }
+    title: string;
+    score: number;
+    value: number;
+    from: string;
+    until: string;
+    setSelectDemands: (value: any) => void;
+  };
 }
 
 export default function  DemandCard(props: DemandCardProps) {
@@ -118,14 +123,14 @@ export default function  DemandCard(props: DemandCardProps) {
   }, []);
 
   function handleSelectDrafts() {
-    if(props.setSelectDemands){
+    if(props.demand.setSelectDemands){
       if (!selectedDrafts) {
-        props.setSelectDemands((prevState: any) => {
-          return [...prevState, props.id];
+        props.demand.setSelectDemands((prevState: any) => {
+          return [...prevState, props.demand.id];
         });
       } else {
-        props.setSelectDemands((prevState: any) => {
-          return prevState.filter((item: any) => item !== props.id);
+        props.demand.setSelectDemands((prevState: any) => {
+          return prevState.filter((item: any) => item !== props.demand.id);
         });
       }
       setSelectedDrafts(!selectedDrafts);
@@ -146,7 +151,7 @@ export default function  DemandCard(props: DemandCardProps) {
           sx={{ width: 430, height: 180 }}
           style={{
             boxShadow: "1px 1px 5px 0px #808080db",
-            borderLeft: "7px solid " + statusColor[props.status],
+            borderLeft: "7px solid " + statusColor[props.demand.status],
           }}
         >
           <CardContent>
@@ -170,10 +175,10 @@ export default function  DemandCard(props: DemandCardProps) {
               >
                 <span className="mr-1 text-[0.95rem]">Status:</span>
                 <span className="font-medium text-black text-[0.95rem]">
-                  {props.status}
+                  {props.demand.status}
                 </span>
                 {/* Select */}
-                {props.status === "Rascunho" && (
+                {props.demand.status === "Rascunho" && (
                   <div className="flex justify-center items-center ml-5">
                     <Radio
                       checked={selectedDrafts}
@@ -233,12 +238,12 @@ export default function  DemandCard(props: DemandCardProps) {
                         getAriaValueText={valuetext}
                         disabled
                         style={{
-                          color: progressInputColor[props.status],
+                          color: progressInputColor[props.demand.status],
                         }}
                         sx={{
                           height: 16,
                           width: 120,
-                          color: progressInputColor[props.status],
+                          color: progressInputColor[props.demand.status],
                           "& .MuiSlider-thumb": {
                             display: "none",
                           },
@@ -273,7 +278,7 @@ export default function  DemandCard(props: DemandCardProps) {
               </div>
             </div>
             <div className="flex justify-center items-center gap-3 mr-4">
-              {props.status === "Aberto" && (
+              {props.demand.status === "Aberto" && (
                 <div>
                   <Tooltip title="Gerar proposta">
                     <Button
@@ -417,7 +422,7 @@ export default function  DemandCard(props: DemandCardProps) {
                 </div>
               )}
 
-              {props.status === "Cancelado" && (
+              {props.demand.status === "Cancelado" && (
                 <div>
                   <Tooltip title="Motivo da reprovação">
                     <Button
@@ -510,7 +515,7 @@ export default function  DemandCard(props: DemandCardProps) {
                   </Modal>
                 </div>
               )}
-              {props.status === "Rascunho" && (
+              {props.demand.status === "Rascunho" && (
                 <div>
                   <Tooltip title="Deletar rascunho">
                     <IconButton>
@@ -523,7 +528,7 @@ export default function  DemandCard(props: DemandCardProps) {
                   </Tooltip>
                 </div>
               )}
-              {props.status === "Rascunho" && (
+              {props.demand.status === "Rascunho" && (
                 <Tooltip title="Continuar rascunho">
                   <Button
                     variant="contained"
@@ -533,7 +538,7 @@ export default function  DemandCard(props: DemandCardProps) {
                   </Button>
                 </Tooltip>
               )}
-              {props.status !== "Rascunho" && (
+              {props.demand.status !== "Rascunho" && (
                 <Link to="/admin/demanda-aberta">
                   <Tooltip title="Visualizar demanda">
                     <Button
