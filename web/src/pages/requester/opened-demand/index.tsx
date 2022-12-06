@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 
+
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -29,8 +30,13 @@ import { useState } from "react";
 import BenefitsCard from "../../../Components/Benefits-card";
 import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 import { IconButton } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 export default function openedDemand() {
+  const params = useParams();
+
+  console.log(params.id);
+
   const [open, setOpen] = useState(false);
   const [isEditEnabled, setIsEditEnabled] = useState(true);
   const [description, setDescription] = useState(

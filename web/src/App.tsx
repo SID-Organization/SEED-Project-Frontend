@@ -45,7 +45,7 @@ function App() {
               <Route path="rascunhos" element={<Drafts />} />
               <Route path="list" element={<DemandCardList />} />
               <Route path="nova-demanda" element={<CreateDemand />} />
-              <Route path="demanda-aberta" element={<OpenedDemand />} />
+              <Route path="demanda/:id" element={<OpenedDemand />} />
               <Route path="subheader" element={<SubHeaderOpenedDemand />} />
               <Route path="gerenciar-demandas" element={<DemandManager />} />
               <Route path="pautas" element={<Pautas />} />

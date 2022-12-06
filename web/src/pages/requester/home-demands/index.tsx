@@ -38,8 +38,8 @@ export default function homeDemands() {
   function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4">
-        {demands?.map((demand) => {
-          return <DemandCard key={demand.id} demand={demand} />;
+        {demands?.map((demand,i) => {
+          return <DemandCard key={i} demand={demand} />;
         })}
         {/* <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Aberto" />

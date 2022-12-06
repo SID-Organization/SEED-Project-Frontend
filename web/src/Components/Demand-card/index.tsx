@@ -22,6 +22,7 @@ import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 interface DemandCardProps {
   demand: {
     id?: number;
+    idDemanda: number;
     status: string;
     title: string;
     score: number;
@@ -130,7 +131,7 @@ export default function  DemandCard(props: DemandCardProps) {
         });
       } else {
         props.demand.setSelectDemands((prevState: any) => {
-          return prevState.filter((item: any) => item !== props.demand.id);
+          return prevState.filter((item: any) => item !== props.demand.id)
         });
       }
       setSelectedDrafts(!selectedDrafts);
@@ -539,7 +540,7 @@ export default function  DemandCard(props: DemandCardProps) {
                 </Tooltip>
               )}
               {props.demand.status !== "Rascunho" && (
-                <Link to="/admin/demanda-aberta">
+                <Link to={`/admin/demanda/${props.demand.idDemanda}`}>
                   <Tooltip title="Visualizar demanda">
                     <Button
                       variant="contained"
