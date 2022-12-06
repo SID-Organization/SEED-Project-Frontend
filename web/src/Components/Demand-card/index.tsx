@@ -20,9 +20,16 @@ import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
 interface DemandCardProps {
-  id?: number;
-  status: string;
-  setSelectDemands: (value: any) => void;
+  demand: {
+    id?: number;
+    status: string;
+    title: string;
+    score: number;
+    value: number;
+    from: string;
+    until: string;
+    setSelectDemands: (value: any) => void;
+  };
 }
 
 export default function DemandCard(props: DemandCardProps) {
