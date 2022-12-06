@@ -20,12 +20,14 @@ import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
 interface DemandCardProps {
-  id?: number;
-  status: string;
-  setSelectDemands: (value: any) => void;
+  demanda: {
+    id?: number;
+    status: string;
+    setSelectDemands?: (value: any) => void;
+  }
 }
 
-export default function DemandCard(props: DemandCardProps) {
+export default function  DemandCard(props: DemandCardProps) {
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
@@ -116,16 +118,18 @@ export default function DemandCard(props: DemandCardProps) {
   }, []);
 
   function handleSelectDrafts() {
-    if (!selectedDrafts) {
-      props.setSelectDemands((prevState: any) => {
-        return [...prevState, props.id];
-      });
-    } else {
-      props.setSelectDemands((prevState: any) => {
-        return prevState.filter((item: any) => item !== props.id);
-      });
+    if(props.setSelectDemands){
+      if (!selectedDrafts) {
+        props.setSelectDemands((prevState: any) => {
+          return [...prevState, props.id];
+        });
+      } else {
+        props.setSelectDemands((prevState: any) => {
+          return prevState.filter((item: any) => item !== props.id);
+        });
+      }
+      setSelectedDrafts(!selectedDrafts);
     }
-    setSelectedDrafts(!selectedDrafts);
   }
 
   return (

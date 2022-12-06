@@ -157,8 +157,6 @@ export default function CreateDemand() {
       });
     };
 
-    
-
     const demandToBeSent = {
       tituloDemanda: title,
       propostaDemanda: proposal,
@@ -186,8 +184,6 @@ export default function CreateDemand() {
       }).then(res => {
         console.log(res);
       });
-
-    console.log(formData.get("arquivosDemanda"));
 
   };
 
