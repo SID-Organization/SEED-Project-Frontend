@@ -38,13 +38,13 @@ export default function homeDemands() {
   function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4">
-        {demands?.map((demand,i) => {
+        {/* {demands?.map((demand,i) => {
           return <DemandCard key={i} demand={demand} />;
-        })}
-        {/* <DemandCard status="AprovadoPelaComissao" />
+        })} */}
+
         <DemandCard status="Aberto" />
-        <DemandCard status="AprovadoPelaComissao" /> */}
-        {/* <DemandCard status="Aberto" />
+        <DemandCard status="AprovadoPelaComissao" />
+        <DemandCard status="Aberto" />
         <DemandCard status="Cancelado" />
         <DemandCard status="Aberto" />
         <DemandCard status="AprovadoPelaComissao" />
@@ -56,7 +56,8 @@ export default function homeDemands() {
         <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Cancelado" />
         <DemandCard status="Aberto" />
-        <DemandCard status="Cancelado" /> */}
+        <DemandCard status="Cancelado" />
+        <DemandCard status="AprovadoPelaComissao" />
       </div>
     );
   }
