@@ -6,8 +6,8 @@ import NoDemands from "../../../Components/No-demands";
 import "../../../styles/index.css";
 import { useEffect, useState } from "react";
 
-async function getDemandsFromDatabase(){
-  const response = await fetch('http://localhost:8080/sid/api/demanda');
+async function getDemandsFromDatabase() {
+  const response = await fetch("http://localhost:8080/sid/api/demanda");
   const demands = await response.json();
   return demands;
 }
@@ -15,7 +15,7 @@ async function getDemandsFromDatabase(){
 export default function homeDemands() {
   const [isListFormat, setIsListFormat] = useState(false);
 
-  const [demands , setDemands] = useState<any[]>()
+  const [demands, setDemands] = useState<any[]>();
 
   function getDemandsList() {
     return (
@@ -28,26 +28,19 @@ export default function homeDemands() {
   useEffect(() => {
     getDemandsFromDatabase().then((demands) => {
       setDemands(demands);
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
     console.log(demands);
-  }, [demands])
+  }, [demands]);
 
-   function getDemandsGrid() {
-
+  function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4">
         {demands?.map((demand) => {
-          return (
-            <DemandCard
-              key={demand.id}
-              status={demand.status}
-            />
-          );
-        })
-        }
+          return <DemandCard key={demand.id} demand={demand} />;
+        })}
         {/* <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Aberto" />
         <DemandCard status="AprovadoPelaComissao" /> */}
