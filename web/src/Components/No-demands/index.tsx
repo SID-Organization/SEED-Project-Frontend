@@ -8,11 +8,15 @@ import { Link } from "react-router-dom";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-export default function noDemands() {
+export default function noDemands({ children }: any) {
   return (
     <div>
       <Header />
-      <div className="w-full h-[20rem] flex justify-center items-center">
+      <div
+        className="
+        absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+      "
+      >
         <div className="grid justify-center items-center">
           <div className="grid items-center justify-center w-full">
             <div className="flex justify-center items-center">
@@ -24,7 +28,7 @@ export default function noDemands() {
               />
             </div>
             <h1 className="text-2xl text-[#0075B1] font-semibold flex justify-center items-center">
-              Sem demandas
+              {children}
             </h1>
           </div>
           <div className="mt-16">

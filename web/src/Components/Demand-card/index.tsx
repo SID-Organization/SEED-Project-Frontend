@@ -530,7 +530,7 @@ export default function DemandCard(props: DemandCardProps) {
                 </Tooltip>
               )}
               {props.status !== "Rascunho" && (
-                <Link to="/admin/demanda-aberta">
+                <Link to="/admin/demanda/:id">
                   <Tooltip title="Visualizar demanda">
                     <Button
                       variant="contained"
