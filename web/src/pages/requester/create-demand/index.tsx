@@ -164,10 +164,10 @@ export default function CreateDemand() {
       propostaDemanda: proposal,
       situacaoAtualDemanda: currentProblem,
       frequenciaUsoDemanda: frequencyOfUse,
-      descricaoQualitativoDemanda: "Tecnologia e loucuras",
+      descricaoQualitativoDemanda: qualitativeBenefit,
       prazoElaboracaoDemanda: null,
       codigoPPM: null,
-      solicitanteDemanda: { numeroCadastroUsuario: 72130 },
+      solicitanteDemanda: { numeroCadastroUsuario: 72132 },
       busBeneficiadas: [],
       beneficiosDemanda: benefitsToBeSent,
     };
@@ -367,13 +367,7 @@ export default function CreateDemand() {
     },
   ]);
 
-  const [qualitativeBenefits, setQualitativeBenefits] = useState<
-    IQualitativeBenefit[]
-  >([
-    {
-      description: "",
-    },
-  ]);
+  const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
   // Segundo passo - Benefícios
   const secondStep = () => {
@@ -468,7 +462,6 @@ export default function CreateDemand() {
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
         </div>
-        {qualitativeBenefits.map((item, i) => (
           <div className="flex items-center justify-center">
             <TextField
               sx={{
@@ -480,18 +473,11 @@ export default function CreateDemand() {
               type="text"
               multiline
               maxRows={4}
-              value={item.description}
-              onChange={(e) => {
-                const newQualitativeBenefits = [...qualitativeBenefits];
-                newQualitativeBenefits[i].description = e.target.value;
-                setQualitativeBenefits(newQualitativeBenefits);
-              }}
+              value={qualitativeBenefit}
+              onChange={(e) => setQualitativeBenefit(e.target.value)}
             />
-            {(i < qualitativeBenefits.length - 1 || i === 0) && (
-              <div className="mr-16" />
-            )}
+          <div className="mr-16" />
           </div>
-        ))}
         {/* FIM BENEFICIO QUALITATIVO */}
       </div>
     );
@@ -517,10 +503,6 @@ export default function CreateDemand() {
 
     return { name, size: fileSize };
   }
-
-  useEffect(() => {
-    console.log(selectedFiles);
-  }, [selectedFiles]);
 
   const thirdStep = () => {
     return (

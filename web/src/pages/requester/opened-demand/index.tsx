@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -26,31 +29,47 @@ import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import "../../../styles/index.css";
-import { useState } from "react";
 import BenefitsCard from "../../../Components/Benefits-card";
 import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 import { IconButton } from "@mui/material";
-import { useParams } from "react-router-dom";
+
+async function getDemandFromDatabase(id: string) {
+  const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
+  const demand = await response.json();
+  return demand;
+}
 
 export default function openedDemand() {
   const params = useParams();
 
-  console.log(params.id);
+  const [demand, setDemand] = useState();
+
+  useEffect(() => {
+    if(params.id){
+      getDemandFromDatabase(params.id)
+      .then((demand) => {
+        setDemand(demand);
+        console.log(demand);
+      });
+    }
+  }, []);
+  
 
   const [open, setOpen] = useState(false);
   const [isEditEnabled, setIsEditEnabled] = useState(true);
-  const [description, setDescription] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in imperdiet felis. Donec et porta elit. Sed nec est id diam placerat mattis. Fusce molestie lobortis erat, a laoreet turpis placerat in. Cras sollicitudin nulla at urna sodales, eu placerat leo aliquam. Cras imperdiet mauris in orci placerat, vitae efficitur dolor egestas. Donec ex libero, vehicula ut aliquam id, auctor in diam."
-  );
-  const [problemToBeSolved, setProblemToBeSolved] = useState(
-    "Sed ut iaculis felis. Phasellus eget pharetra tortor. Proin tempor risus purus. Suspendisse porttitor ultricies nibh facilisis interdum. In et nisi quis magna vulputate finibus ac in felis. Vivamus rhoncus tincidunt sapien. Nam ultrices arcu lectus, tincidunt auctor diam suscipit eu. Aenean nec diam et tortor laoreet viverra. Aliquam volutpat orci ut mauris pretium elementum vel eu turpis. In et tincidunt lectus, et blandit elit. Duis luctus eget arcu ornare pellentesque. Sed hendrerit quam ac ante luctus, et dictum ligula euismod. Nullam efficitur urna urna, vel varius erat suscipit ac. Donec dolor velit, luctus a ligula eu, auctor convallis turpis."
-  );
-  const [proposal, setProposal] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec facilisis velit sapien, nec dapibus velit tempor et. Vivamus fringilla venenatis nisi, malesuada efficitur quam elementum sed. Vivamus venenatis velit a turpis mollis finibus. Proin dignissim ante velit, vitae molestie turpis condimentum ac. Cras a elit condimentum, sodales dui sed, ullamcorper tellus. Sed vitae lacinia libero. Praesent ut lacus imperdiet, euismod libero vitae, sollicitudin augue. Duis ullamcorper magna et metus gravida, sed dictum ex fermentum. Suspendisse tellus erat, volutpat quis odio sed, accumsan vehicula metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc vestibulum a felis quis efficitur. In fermentum sit amet libero eleifend rutrum."
-  );
-  const [whatsGoingToHelp, setWhatsGoingToHelp] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec facilisis velit sapien, nec dapibus velit tempor et. Vivamus fringilla venenatis nisi, malesuada efficitur quam elementum sed. Vivamus venenatis velit a turpis mollis finibus. Proin dignissim ante velit, vitae molestie turpis condimentum ac. Cras a elit condimentum, sodales dui sed, ullamcorper tellus. Sed vitae lacinia libero. Praesent ut lacus imperdiet, euismod libero vitae, sollicitudin augue. Duis ullamcorper magna et metus gravida, sed dictum ex fermentum. Suspendisse tellus erat, volutpat quis odio sed, accumsan vehicula metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc vestibulum a felis quis efficitur. In fermentum sit amet libero eleifend rutrum."
-  );
+
+
+  function getBenefits(benefitType: string){
+    if(benefitType == "REAL"){
+      return demand?.beneficiosDemanda.filter((benefit: any) => benefit.tipoBeneficio == "REAL");
+    }
+    else 
+    if(benefitType == "POTENCIAL"){
+      return demand?.beneficiosDemanda.filter((benefit: any) => benefit.tipoBeneficio == "POTENCIAL");
+    }
+    return [];
+  }
+
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -87,15 +106,22 @@ export default function openedDemand() {
     },
   }));
 
-  function createData(name: string, size: string) {
-    return { name, size };
+  function createData(name: string, attachedIn: string) {
+    return { name, attachedIn };
   }
 
-  const rows = [
-    createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
-  ];
+  const [fileRows, setFileRows] = useState<any[]>();
+  const [isFileViewerOpen, setIsFileViewerOpen] = useState(false);
+
+  useEffect(() => {
+    if(demand){
+      setFileRows(demand.arquivosDemandas);
+    }
+  }, [demand]);
+
+  useEffect(() => {
+    console.log('arquivosDemandas', fileRows);
+  }, [fileRows])
 
   return (
     <>
@@ -103,7 +129,7 @@ export default function openedDemand() {
         isEditEnabled={isEditEnabled}
         setIsEditEnabled={setIsEditEnabled}
       >
-        Visualização Demanda 0012
+        Visualização Demanda {params.id}
       </SubHeaderOpenedDemand>
       <div className="grid justify-center items-center">
         <div className="flex justify-around items-center mt-5">
@@ -188,7 +214,7 @@ export default function openedDemand() {
                     Histórico
                   </h1>
                 </div>
-                <WorkflowTable />
+                <WorkflowTable demandId={params.id}/>
               </div>
             </Box>
           </Modal>
@@ -196,7 +222,7 @@ export default function openedDemand() {
             <div className="flex justify-center items-center">
               <div>
                 <h1 className="text-light-blue-weg font-bold text-xl font-roboto">
-                  Aumento da velocidade de consulta de dados
+                  {demand?.tituloDemanda}
                 </h1>
               </div>
               <div>
@@ -214,7 +240,7 @@ export default function openedDemand() {
             </div>
             <div className="flex justify-center items-center">
               <h1 className="font-semibold text-dark-blue-weg font-roboto">
-                Score: 2143
+                Score: {demand?.scoreDemanda}
               </h1>
             </div>
           </div>
@@ -238,9 +264,9 @@ export default function openedDemand() {
               Solicitante
             </h1>
             <h1 className="font-roboto font-semibold text-sm">
-              GUSTAVO SANTOS
+              {demand?.solicitanteDemanda.nomeUsuario.toUpperCase()}  
             </h1>
-            <h1 className="font-roboto text-xs">WEG DIGITAL SOLUTIONS</h1>
+            <h1 className="font-roboto text-xs">{demand?.solicitanteDemanda.departamentoUsuario.toUpperCase()}</h1>
           </div>
           <div className="flex justify-center items-center gap-5 text-sm">
             <h1 className="font-roboto font-bold">
@@ -254,7 +280,7 @@ export default function openedDemand() {
             <h1 className="text-dark-blue-weg font-bold font-roboto text-base">
               Centro de custo
             </h1>
-            <h1 className="font-roboto text-sm">Departamento 3</h1>
+            <h1 className="font-roboto text-sm">{demand?.centroCustoDemanda[0] ?? "Não indicado"}</h1>
           </div>
         </div>
         <div className="flex flex-wrap justify-center items-center mt-10">
@@ -268,7 +294,7 @@ export default function openedDemand() {
                 resize-none h-20 
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
-                value={description}
+                value={"Descrição qualitativo da demanda"}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
@@ -281,7 +307,7 @@ export default function openedDemand() {
                 resize-none h-20
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
-                value={problemToBeSolved}
+                value={demand?.situacaoAtualDemanda}
                 onChange={(e) => setProblemToBeSolved(e.target.value)}
               />
             </div>
@@ -294,7 +320,7 @@ export default function openedDemand() {
                 resize-none h-20
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
-                value={proposal}
+                value={demand?.propostaDemanda}
                 onChange={(e) => setProposal(e.target.value)}
               />
             </div>
@@ -307,16 +333,15 @@ export default function openedDemand() {
                 resize-none h-20
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
-                value={whatsGoingToHelp}
+                value={demand?.descricaoQualitativoDemanda}
                 onChange={(e) => setWhatsGoingToHelp(e.target.value)}
               />
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center gap-8 ml-[6.5rem] mr-[6.5rem]">
-          <BenefitsCard>Benefícios reais</BenefitsCard>
-          <BenefitsCard>Benefícios potenciais</BenefitsCard>
-          <BenefitsCard>Benefícios qualitativos</BenefitsCard>
+        <div className="flex justify-between items-center mt-12">
+          <BenefitsCard title="Benefícios reais" benefits={getBenefits("REAL")}/>
+          <BenefitsCard title="Benefícios potenciais" benefits={getBenefits("POTENCIAL")}/>
         </div>
         <div className="grid justify-center items-center mt-16">
           <div className="flex justify-center items-center">
@@ -367,21 +392,23 @@ export default function openedDemand() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.name}>
+                  {fileRows && fileRows?.map((fileRow, i) => (
+                    <StyledTableRow key={i}>
                       <StyledTableCell
                         component="th"
                         scope="row"
                         align="center"
                       >
-                        <Tooltip title="Baixar arquivo">
-                          <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
-                        </Tooltip>
-                        {row.name}
+                        <a href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`} download={fileRow.nomeArquivo.split('.')[0]}>
+                          <Tooltip title="Baixar arquivo" onClick={() => setIsFileViewerOpen(true)}>
+                              <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5"/>
+                          </Tooltip>  
+                        </a>
+                        {fileRow.nomeArquivo}
                       </StyledTableCell>
                       <div className="flex justify-center items-center">
                         <StyledTableCell align="center">
-                          {row.size}
+                          {new Date(fileRow.dataRegistroArquivo).toLocaleDateString()}
                         </StyledTableCell>
                         <Tooltip title="Deletar arquivo">
                           <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />

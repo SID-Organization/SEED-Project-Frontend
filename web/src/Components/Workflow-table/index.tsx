@@ -5,16 +5,17 @@ import {
   GridColDef,
   GridRenderCellParams,
   GridToolbarContainer,
-  GridToolbarExport,
+  GridToolbarExport
 } from "@mui/x-data-grid";
 import { Tooltip } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const renderCellTooltip = (params: GridRenderCellParams) => (
+const renderCellTooltip = (params: GridRenderCellParams) =>
   <Tooltip title={params.value} enterDelay={820}>
-    <p className="text-[11px]">{params.value}</p>
-  </Tooltip>
-);
+    <p className="text-[11px]">
+      {params.value}
+    </p>
+  </Tooltip>;
 
 function CustomToolbar() {
   return (
@@ -31,64 +32,61 @@ const columns: GridColDef[] = [
     renderCell: renderCellTooltip,
     align: "center",
     headerAlign: "center",
-    width: 40,
+    width: 40
   },
   {
     field: "recebimento",
     headerName: "Recebimento",
     type: "date",
     renderCell: renderCellTooltip,
-    width: 130,
+    width: 130
   },
   {
     field: "conclusao",
     headerName: "Conclusão",
     type: "date",
     renderCell: renderCellTooltip,
-    width: 130,
+    width: 130
   },
   {
     field: "prazo",
     headerName: "Prazo",
     type: "date",
     renderCell: renderCellTooltip,
-    width: 140,
+    width: 140
   },
   {
     field: "tarefa",
     headerName: "Tarefa",
     renderCell: renderCellTooltip,
-    minWidth: 220,
+    minWidth: 220
   },
   {
     field: "responsavel",
     headerName: "Responsável",
     renderCell: renderCellTooltip,
-    minWidth: 150,
+    minWidth: 150
   },
   {
     field: "acao",
     headerName: "Ação",
     renderCell: renderCellTooltip,
-    width: 90,
+    width: 90
   },
   {
     field: "status",
     headerName: "Status",
-    renderCell: (params) => (
+    renderCell: params =>
       <p
-        className={`text-[11px] ${
-          params.value === "Concluído"
-            ? "text-green-700"
-            : params.value === "Em andamento"
+        className={`text-[11px] ${params.value === "Concluído"
+          ? "text-green-700"
+          : params.value === "Em andamento"
             ? "text-dark-blue-weg"
-            : "text-red-700"
-        }`}
+            : "text-red-700"}`}
       >
         {params.value}
-      </p>
-    ),
-    width: 90,
+      </p>,
+    width: 90
   },
   {
     field: "versao",
@@ -96,8 +94,8 @@ const columns: GridColDef[] = [
     renderCell: renderCellTooltip,
     align: "center",
     headerAlign: "center",
-    width: 90,
-  },
+    width: 90
+  }
 ];
 
 const rows = [
@@ -110,7 +108,7 @@ const rows = [
     responsavel: "Jeremias Nunes",
     acao: "Aprovar",
     status: "Concluído",
-    versao: "0.1",
+    versao: "0.1"
   },
   {
     id: 2,
@@ -121,7 +119,7 @@ const rows = [
     responsavel: "Jeremias Nunes",
     acao: "Aprovar",
     status: "Concluído",
-    versao: "0.1",
+    versao: "0.1"
   },
   {
     id: 3,
@@ -132,7 +130,7 @@ const rows = [
     responsavel: "Jeremias Nunes",
     acao: "Aprovar",
     status: "Concluído",
-    versao: "0.1",
+    versao: "0.1"
   },
   {
     id: 4,
@@ -143,7 +141,7 @@ const rows = [
     responsavel: "Jeremias Nunes",
     acao: "Aprovar",
     status: "Concluído",
-    versao: "0.1",
+    versao: "0.1"
   },
   {
     id: 5,
@@ -154,7 +152,7 @@ const rows = [
     responsavel: "Jeremias Nunes",
     acao: "Aprovar",
     status: "Concluído",
-    versao: "0.1",
+    versao: "0.1"
   },
   {
     id: 6,
@@ -165,7 +163,7 @@ const rows = [
     responsavel: "Douglas Dias",
     acao: "Aprovar",
     status: "Atrasado",
-    versao: "0.1",
+    versao: "0.1"
   },
   {
     id: 7,
@@ -176,29 +174,35 @@ const rows = [
     responsavel: "Emanuel Kant",
     acao: "Aprovar",
     status: "Em andamento",
-    versao: "0.1",
-  },
+    versao: "0.1"
+  }
 ];
 
-export default function WorkflowTable() {
+export default function WorkflowTable({ demandId }: { demandId: string | undefined }) {
   const [pageSize, setPageSize] = useState<number>(5);
+
+  useEffect(() => {
+    if (demandId) {
+      console.log(demandId);
+    }
+  }, [demandId]);
 
   return (
     <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
       <DataGrid
         rowsPerPageOptions={[5, 10, 20]}
         pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
         columns={columns}
         rows={rows}
         density="compact"
         components={{
-          Toolbar: CustomToolbar,
+          Toolbar: CustomToolbar
         }}
         initialState={{
           sorting: {
-            sortModel: [{ field: "id", sort: "desc" }],
-          },
+            sortModel: [{ field: "id", sort: "desc" }]
+          }
         }}
         disableSelectionOnClick
       />

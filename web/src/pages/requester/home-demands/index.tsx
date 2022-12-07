@@ -28,6 +28,7 @@ export default function homeDemands() {
   useEffect(() => {
     getDemandsFromDatabase().then((demands) => {
       setDemands(demands);
+      console.log(demands);
     });
   }, []);
 
@@ -38,7 +39,7 @@ export default function homeDemands() {
   function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4">
-        {demands?.map((demand,i) => {
+        {demands && demands.map((demand,i) => {
           return <DemandCard key={i} demand={demand} />;
         })}
         {/* <DemandCard status="AprovadoPelaComissao" />
