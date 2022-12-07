@@ -14,6 +14,7 @@ import DemandManager from "./pages/business-manager";
 import Pautas from "./pages/analista/pautas";
 import Proposals from "./pages/analista/proposals";
 import Atas from "./pages/analista/atas";
+import GenerateAta from "./pages/analista/generate-ata";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
 import { useState, useEffect } from "react";
@@ -50,6 +51,7 @@ function App() {
               <Route path="list" element={<DemandCardList />} />
               <Route path="nova-demanda" element={<CreateDemand />} />
               <Route path="demanda/:id" element={<OpenedDemand />} />
+              <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
               <Route path="subheader" element={<SubHeaderOpenedDemand />} />
               <Route path="gerenciar-demandas" element={<DemandManager />} />
               <Route path="pautas" element={<Pautas />} />

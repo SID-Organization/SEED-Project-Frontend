@@ -22,6 +22,7 @@ import MuiMailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import MuiWhatsAppIcon from "@mui/icons-material/WhatsApp";
 import MuiLinkIcon from "@mui/icons-material/Link";
 import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
+import { Link } from "react-router-dom";
 
 interface PautaCardProps {
   PautaName: string;
@@ -223,7 +224,9 @@ export default function PautasCard(props: PautaCardProps) {
                     <EditRoundedIcon />
                   </Tooltip>
                   <Tooltip title="Gerar ATA">
-                    <Button variant="contained">Gerar ATA</Button>
+                    <Link to="gerar-ata/:id">
+                      <Button variant="contained">Gerar ATA</Button>
+                    </Link>
                   </Tooltip>
                 </div>
               </div>
