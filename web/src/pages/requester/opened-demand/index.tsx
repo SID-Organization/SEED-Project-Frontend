@@ -9,7 +9,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 
-
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -39,16 +38,16 @@ export default function openedDemand() {
 
   const [open, setOpen] = useState(false);
   const [isEditEnabled, setIsEditEnabled] = useState(true);
-  const [description, setDescription] = useState(
+  const [qualitativeBenefit, setQualitativeBenefit] = useState(
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in imperdiet felis. Donec et porta elit. Sed nec est id diam placerat mattis. Fusce molestie lobortis erat, a laoreet turpis placerat in. Cras sollicitudin nulla at urna sodales, eu placerat leo aliquam. Cras imperdiet mauris in orci placerat, vitae efficitur dolor egestas. Donec ex libero, vehicula ut aliquam id, auctor in diam."
   );
-  const [problemToBeSolved, setProblemToBeSolved] = useState(
+  const [currentSituation, setCurrentSituation] = useState(
     "Sed ut iaculis felis. Phasellus eget pharetra tortor. Proin tempor risus purus. Suspendisse porttitor ultricies nibh facilisis interdum. In et nisi quis magna vulputate finibus ac in felis. Vivamus rhoncus tincidunt sapien. Nam ultrices arcu lectus, tincidunt auctor diam suscipit eu. Aenean nec diam et tortor laoreet viverra. Aliquam volutpat orci ut mauris pretium elementum vel eu turpis. In et tincidunt lectus, et blandit elit. Duis luctus eget arcu ornare pellentesque. Sed hendrerit quam ac ante luctus, et dictum ligula euismod. Nullam efficitur urna urna, vel varius erat suscipit ac. Donec dolor velit, luctus a ligula eu, auctor convallis turpis."
   );
   const [proposal, setProposal] = useState(
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec facilisis velit sapien, nec dapibus velit tempor et. Vivamus fringilla venenatis nisi, malesuada efficitur quam elementum sed. Vivamus venenatis velit a turpis mollis finibus. Proin dignissim ante velit, vitae molestie turpis condimentum ac. Cras a elit condimentum, sodales dui sed, ullamcorper tellus. Sed vitae lacinia libero. Praesent ut lacus imperdiet, euismod libero vitae, sollicitudin augue. Duis ullamcorper magna et metus gravida, sed dictum ex fermentum. Suspendisse tellus erat, volutpat quis odio sed, accumsan vehicula metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc vestibulum a felis quis efficitur. In fermentum sit amet libero eleifend rutrum."
   );
-  const [whatsGoingToHelp, setWhatsGoingToHelp] = useState(
+  const [usageFrequency, setUsageFrequency] = useState(
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec facilisis velit sapien, nec dapibus velit tempor et. Vivamus fringilla venenatis nisi, malesuada efficitur quam elementum sed. Vivamus venenatis velit a turpis mollis finibus. Proin dignissim ante velit, vitae molestie turpis condimentum ac. Cras a elit condimentum, sodales dui sed, ullamcorper tellus. Sed vitae lacinia libero. Praesent ut lacus imperdiet, euismod libero vitae, sollicitudin augue. Duis ullamcorper magna et metus gravida, sed dictum ex fermentum. Suspendisse tellus erat, volutpat quis odio sed, accumsan vehicula metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc vestibulum a felis quis efficitur. In fermentum sit amet libero eleifend rutrum."
   );
 
@@ -261,33 +260,20 @@ export default function openedDemand() {
           <div className="grid justify-around items-center gap-5">
             <div className="grid justify-center items-center">
               <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
-                Descrição:
-              </h1>
-              <textarea
-                className="font-roboto text-justify font-medium w-[65rem]
-                resize-none h-20 
-              rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
-                disabled={isEditEnabled}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <div className="grid justify-center items-center">
-              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
-                Problema a ser resolvido:
+                Situação atual:
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[65rem]
                 resize-none h-20
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
-                value={problemToBeSolved}
-                onChange={(e) => setProblemToBeSolved(e.target.value)}
+                value={currentSituation}
+                onChange={(e) => setCurrentSituation(e.target.value)}
               />
             </div>
             <div className="grid justify-center items-center">
               <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
-                Proposta:
+                Proposta de melhoria:
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[65rem]
@@ -300,15 +286,28 @@ export default function openedDemand() {
             </div>
             <div className="grid justify-center items-center">
               <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
-                Em que irá ajudar:
+                Frequência de uso:
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[65rem]
                 resize-none h-20
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
-                value={whatsGoingToHelp}
-                onChange={(e) => setWhatsGoingToHelp(e.target.value)}
+                value={usageFrequency}
+                onChange={(e) => setUsageFrequency(e.target.value)}
+              />
+            </div>
+            <div className="grid justify-center items-center">
+              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
+                Benefício qualitativo:
+              </h1>
+              <textarea
+                className="font-roboto text-justify font-medium w-[65rem]
+                resize-none h-20 
+              rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
+                disabled={isEditEnabled}
+                value={qualitativeBenefit}
+                onChange={(e) => setQualitativeBenefit(e.target.value)}
               />
             </div>
           </div>
