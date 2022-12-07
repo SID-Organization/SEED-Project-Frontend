@@ -31,7 +31,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "../../../styles/index.css";
 import BenefitsCard from "../../../Components/Benefits-card";
 import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
-import { IconButton } from "@mui/material";
 
 async function getDemandFromDatabase(id: string) {
   const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
@@ -49,7 +48,6 @@ export default function openedDemand() {
       getDemandFromDatabase(params.id)
       .then((demand) => {
         setDemand(demand);
-        console.log(demand);
       });
     }
   }, []);
@@ -106,22 +104,15 @@ export default function openedDemand() {
     },
   }));
 
-  function createData(name: string, attachedIn: string) {
-    return { name, attachedIn };
-  }
-
   const [fileRows, setFileRows] = useState<any[]>();
-  const [isFileViewerOpen, setIsFileViewerOpen] = useState(false);
 
+  // Seta os arquivos da demanda no estado
   useEffect(() => {
     if(demand){
       setFileRows(demand.arquivosDemandas);
     }
   }, [demand]);
 
-  useEffect(() => {
-    console.log('arquivosDemandas', fileRows);
-  }, [fileRows])
 
   return (
     <>
@@ -339,7 +330,7 @@ export default function openedDemand() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between items-center mt-12">
+        <div className="flex justify-between items-start mt-12">
           <BenefitsCard title="Benefícios reais" benefits={getBenefits("REAL")}/>
           <BenefitsCard title="Benefícios potenciais" benefits={getBenefits("POTENCIAL")}/>
         </div>

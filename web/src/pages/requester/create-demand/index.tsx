@@ -420,18 +420,18 @@ export default function CreateDemand() {
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           <Tooltip title="Adicionar mais benefícios potenciais">
-            <IconButton>
+            <IconButton
+            onClick={() => {
+              setPotentialBenefits([
+                ...potentialBenefits,
+                { coin: "", value: 0, description: "" },
+              ]);
+            }}>
               <AddBoxRoundedIcon
                 sx={{
                   color: "#00579D",
                   fontSize: "2rem",
                   cursor: "pointer",
-                }}
-                onClick={() => {
-                  setPotentialBenefits([
-                    ...potentialBenefits,
-                    { coin: "", value: 0, description: "" },
-                  ]);
                 }}
               />
             </IconButton>

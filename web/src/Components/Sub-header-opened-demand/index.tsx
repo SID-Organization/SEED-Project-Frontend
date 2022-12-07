@@ -38,11 +38,61 @@ import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DescriptionIcon from "@mui/icons-material/Description";
 import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 
 import "../../styles/index.css";
 
-export default function subHeader({
+const TextField = styled(MuiTextField)({
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
+
+const FormControl = styled(MuiFormControl)({
+  width: 250,
+
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+const Autocomplete = styled(MuiAutocomplete)({
+  width: 250,
+});
+
+const getDemandFromDatabase = async (id: string | undefined) => {
+  const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
+  const data = await response.json();
+  return data;
+};
+
+const getBusinessUnits = async () => {
+  const response = await fetch("http://localhost:8080/sid/api/business-unity");
+  const data = await response.json();
+  return data;
+};
+
+export default function subHeader({ 
   children,
   isEditEnabled,
   setIsEditEnabled,
@@ -52,6 +102,34 @@ export default function subHeader({
   const [classifyDemandSize, setClassifyDemandSize] = useState("");
   const [responsableSection, setResponsableSection] = useState("");
   const [benefitedBu, setBenefitedBu] = useState<any>();
+  const [openActions, setOpenActions] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [fileRows, setFileRows] = useState<any>([]);
+
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+
+  
+    
+
+  const [demand, setDemand] = useState<any>();
+  const [businessUnits, setBusinessUnits] = useState<any>([]);
+
+  const params = useParams();
+
+  useEffect(() => {
+    getDemandFromDatabase(params.id)
+    .then((response) => {
+      setDemand(response);
+    })
+    getBusinessUnits()
+    .then((response) => {
+      // setBusinessUnits(response);
+      console.log("Business units", response);
+    })
+    console.info("Use effect subheader")
+  }, [])
+
+
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -195,9 +273,7 @@ export default function subHeader({
   const notifyEditEnabledOff = () =>
     toast.success("Alterações salvas com sucesso!");
 
-  const [openActions, setOpenActions] = useState(false);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -231,42 +307,7 @@ export default function subHeader({
     }
   }
 
-  const TextField = styled(MuiTextField)({
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderLeft: "3px solid #0075B1",
-    },
-  });
 
-  const FormControl = styled(MuiFormControl)({
-    width: 250,
-
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderLeft: "3px solid #0075B1",
-    },
-  });
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-
-  const Autocomplete = styled(MuiAutocomplete)({
-    width: 250,
-  });
 
   const handleChangeRequesterBu = (event: SelectChangeEvent) => {
     setRequesterBu(event.target.value as string);
@@ -276,15 +317,63 @@ export default function subHeader({
     setClassifyDemandSize(event.target.value as string);
   };
 
-  function createData(name: string, size: string) {
-    return { name, size };
+  useEffect(() => {
+    console.log("SubHeader demand: ", demand)
+    setFileRows(demand?.arquivosDemandas)
+  }, [demand])
+
+
+  const handleUpdateDemand = async () => {
+    // handleCloseModal();
+    const demandUpdated = {
+      ...demand,
+      busBeneficiadas: getBenefitBUs(),
+      buSolicitanteDemanda: requesterBUs.find((bu: any) => bu.key == requesterBu )?.text,
+      secaoTIResponsavel: responsableSection,
+      status: "CLASSIFICADO_PELO_ANALISTA",
+      tamanhoDemanda: getDemandSize(),
+    }
+
+    const form = new FormData();
+    form.append("demandaForm", JSON.stringify(demandUpdated));
+
+    fetch(`http://localhost:8080/sid/api/demanda/${demand.idDemanda}`, {
+      method: "PUT",
+      body: form,
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Fetch response:", data);
+    })
+
+    console.log(demandUpdated);
+  
+  };
+
+  const getBenefitBUs = () => {
+    const buS = benefitedBu.map((bu: any) => {
+      return requesterBUs.find((bu2: any) => bu2.text == bu)?.key;
+    });
+
+    return buS.map((buKey: any) => ({idBusinessUnity: buKey}));
   }
 
-  const tableFileRows = [
-    createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
-  ];
+  const getDemandSize = () => {
+    if(classifyDemandSize == "1") return "MUITO_GRANDE"
+    if(classifyDemandSize == "2") return "GRANDE"
+    if(classifyDemandSize == "3") return "MEDIA"
+    if(classifyDemandSize == "4") return "PEQUENA"
+    if(classifyDemandSize == "5") return "MUITO_PEQUENA"
+  };
+
+  useEffect(() => {
+    console.log("Seção responsável", responsableSection);
+    console.log("Tamanho da demanda", classifyDemandSize)
+  }, [responsableSection, classifyDemandSize]);
+
+  useEffect(() => {
+    console.log("Benefited bus", benefitedBu)
+  }, [benefitedBu])
 
   return (
     <div>
@@ -457,21 +546,23 @@ export default function subHeader({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {tableFileRows.map((row) => (
-                      <StyledTableRow key={row.name}>
+                    {fileRows && fileRows.map((fileRow: any, i: any) => (
+                      <StyledTableRow key={i}>
                         <StyledTableCell
                           component="th"
                           scope="row"
                           align="center"
                         >
-                          <Tooltip title="Baixar arquivo">
-                            <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
-                          </Tooltip>
-                          {row.name}
+                           <a href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`} download={fileRow.nomeArquivo.split('.')[0]}>
+                            <Tooltip title="Baixar arquivo">
+                              <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
+                            </Tooltip>
+                           </a>
+                          {fileRow.nomeArquivo}
                         </StyledTableCell>
                         <div className="flex justify-center items-center">
                           <StyledTableCell align="center">
-                            {row.size}
+                            {new Date(fileRow.dataRegistroArquivo).toLocaleDateString("pt-BR")}
                           </StyledTableCell>
                           <Tooltip title="Deletar arquivo">
                             <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
@@ -492,7 +583,7 @@ export default function subHeader({
                     >
                       <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
                       Anexar arquivo
-                      <input hidden accept="file/*" multiple type="file" />
+                      <input hidden accept="file/*" type="file" />
                     </Button>
                   </Tooltip>
                 </div>
@@ -525,6 +616,7 @@ export default function subHeader({
                     backgroundColor: "#0075B1",
                   },
                 }}
+                onClick={handleUpdateDemand}
               >
                 Enviar
               </Button>
