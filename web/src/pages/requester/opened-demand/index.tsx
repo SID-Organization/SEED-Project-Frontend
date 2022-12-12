@@ -12,7 +12,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 
-
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -68,6 +67,10 @@ export default function openedDemand() {
     return [];
   }
 
+  const [currentSituation, setCurrentSituation] = useState();
+  const [proposal, setProposal] = useState();
+  const [usageFrequency, setUsageFrequency] = useState();
+  const [qualitativeBenefit, setQualitativeBenefit] = useState();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -110,6 +113,10 @@ export default function openedDemand() {
   useEffect(() => {
     if(demand){
       setFileRows(demand.arquivosDemandas);
+      setCurrentSituation(demand.situacaoAtualDemanda);
+      setProposal(demand.propostaDemanda);
+      setUsageFrequency(demand.frequenciaUsoDemanda);
+      setQualitativeBenefit(demand.descricaoQualitativoDemanda);
     }
   }, [demand]);
 
@@ -278,54 +285,54 @@ export default function openedDemand() {
           <div className="grid justify-around items-center gap-5">
             <div className="grid justify-center items-center">
               <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
-                Descrição:
+                Situação atual:
+              </h1>
+              <textarea
+                className="font-roboto text-justify font-medium w-[65rem]
+                resize-none h-20
+              rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
+                disabled={isEditEnabled}
+                value={currentSituation}
+                onChange={(e) => setCurrentSituation(e.target.value as any)}
+              />
+            </div>
+            <div className="grid justify-center items-center">
+              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
+                Proposta de melhoria:
+              </h1>
+              <textarea
+                className="font-roboto text-justify font-medium w-[65rem]
+                resize-none h-20
+              rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
+                disabled={isEditEnabled}
+                value={proposal}
+                onChange={(e) => setProposal(e.target.value as any)}
+              />
+            </div>
+            <div className="grid justify-center items-center">
+              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
+                Frequência de uso:
+              </h1>
+              <textarea
+                className="font-roboto text-justify font-medium w-[65rem]
+                resize-none h-20
+              rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
+                disabled={isEditEnabled}
+                value={usageFrequency}
+                onChange={(e) => setUsageFrequency(e.target.value as any)}
+              />
+            </div>
+            <div className="grid justify-center items-center">
+              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
+                Benefício qualitativo:
               </h1>
               <textarea
                 className="font-roboto text-justify font-medium w-[65rem]
                 resize-none h-20 
               rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
                 disabled={isEditEnabled}
-                value={"Descrição qualitativo da demanda"}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <div className="grid justify-center items-center">
-              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
-                Problema a ser resolvido:
-              </h1>
-              <textarea
-                className="font-roboto text-justify font-medium w-[65rem]
-                resize-none h-20
-              rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
-                disabled={isEditEnabled}
-                value={demand?.situacaoAtualDemanda}
-                onChange={(e) => setProblemToBeSolved(e.target.value)}
-              />
-            </div>
-            <div className="grid justify-center items-center">
-              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
-                Proposta:
-              </h1>
-              <textarea
-                className="font-roboto text-justify font-medium w-[65rem]
-                resize-none h-20
-              rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
-                disabled={isEditEnabled}
-                value={demand?.propostaDemanda}
-                onChange={(e) => setProposal(e.target.value)}
-              />
-            </div>
-            <div className="grid justify-center items-center">
-              <h1 className="text-dark-blue-weg font-bold font-roboto text-lg">
-                Em que irá ajudar:
-              </h1>
-              <textarea
-                className="font-roboto text-justify font-medium w-[65rem]
-                resize-none h-20
-              rounded-[0.5rem] p-2 outline-dark-blue-weg text-black border-1"
-                disabled={isEditEnabled}
-                value={demand?.descricaoQualitativoDemanda}
-                onChange={(e) => setWhatsGoingToHelp(e.target.value)}
+                value={qualitativeBenefit}
+                onChange={(e) => setQualitativeBenefit(e.target.value as any)}
               />
             </div>
           </div>
@@ -391,7 +398,7 @@ export default function openedDemand() {
                         align="center"
                       >
                         <a href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`} download={fileRow.nomeArquivo.split('.')[0]}>
-                          <Tooltip title="Baixar arquivo" onClick={() => setIsFileViewerOpen(true)}>
+                          <Tooltip title="Baixar arquivo">
                               <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5"/>
                           </Tooltip>  
                         </a>

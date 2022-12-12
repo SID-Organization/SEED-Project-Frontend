@@ -126,7 +126,6 @@ export default function subHeader({
       // setBusinessUnits(response);
       console.log("Business units", response);
     })
-    console.info("Use effect subheader")
   }, [])
 
 

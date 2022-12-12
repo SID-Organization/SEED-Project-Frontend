@@ -42,20 +42,9 @@ export default function homeDemands() {
         {demands && demands.map((demand,i) => {
           return <DemandCard key={i} demand={demand} />;
         })}
-        {/* <DemandCard status="AprovadoPelaComissao" />
-        <DemandCard status="Aberto" />
-        <DemandCard status="AprovadoPelaComissao" /> */}
+
         {/* <DemandCard status="Aberto" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="Aberto" />
         <DemandCard status="AprovadoPelaComissao" />
-        <DemandCard status="Aberto" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="AprovadoPelaComissao" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="AprovadoPelaComissao" />
-        <DemandCard status="Cancelado" />
         <DemandCard status="Aberto" />
         <DemandCard status="Cancelado" /> */}
       </div>

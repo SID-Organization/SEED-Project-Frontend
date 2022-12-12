@@ -57,7 +57,7 @@ export default function Sidebar() {
       title: "Minhas demandas",
       outlinedIcon: <HomeOutlinedIcon sx={iconStyle} />,
       fullIcon: <HomeIcon sx={iconStyle} />,
-      linkTo: "/admin/minhas-demandas",
+      linkTo: "/admin/demandas",
     },
     {
       title: "Rascunhos",

@@ -21,19 +21,13 @@ import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
 interface DemandCardProps {
   demand: {
-    id?: number;
-    idDemanda: number;
+    idDemanda?: number;
     status: string;
-    title: string;
-    score: number;
-    value: number;
-    from: string;
-    until: string;
     setSelectDemands: (value: any) => void;
-  };
+  }
 }
 
-export default function  DemandCard(props: DemandCardProps) {
+export default function DemandCard(props: DemandCardProps) {
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
@@ -124,18 +118,16 @@ export default function  DemandCard(props: DemandCardProps) {
   }, []);
 
   function handleSelectDrafts() {
-    if(props.demand.setSelectDemands){
-      if (!selectedDrafts) {
-        props.demand.setSelectDemands((prevState: any) => {
-          return [...prevState, props.demand.id];
-        });
-      } else {
-        props.demand.setSelectDemands((prevState: any) => {
-          return prevState.filter((item: any) => item !== props.demand.id)
-        });
-      }
-      setSelectedDrafts(!selectedDrafts);
+    if (!selectedDrafts) {
+      props.demand.setSelectDemands((prevState: any) => {
+        return [...prevState, props.demand.idDemanda];
+      });
+    } else {
+      props.demand.setSelectDemands((prevState: any) => {
+        return prevState.filter((item: any) => item !== props.demand.idDemanda);
+      });
     }
+    setSelectedDrafts(!selectedDrafts);
   }
 
   return (
@@ -540,7 +532,7 @@ export default function  DemandCard(props: DemandCardProps) {
                 </Tooltip>
               )}
               {props.demand.status !== "Rascunho" && (
-                <Link to={`/admin/demanda/${props.demand.idDemanda}`}>
+                <Link to={`/admin/demandas/${props.demand.idDemanda}`}>
                   <Tooltip title="Visualizar demanda">
                     <Button
                       variant="contained"
