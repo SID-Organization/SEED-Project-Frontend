@@ -18,11 +18,13 @@ import { PropaneSharp } from "@mui/icons-material";
 interface ProposalCardProps {
   id: number;
   newPauta?: boolean | string;
+  atasCard?: boolean;
   title: string;
   executionTime: number;
   value: number;
   referenceDemand: string;
   published?: boolean;
+  parecerComissao?: string;
   setSelectProposals: (value: any) => void;
 }
 
@@ -142,7 +144,7 @@ export default function ProposalCard(props: ProposalCardProps) {
             >
               <div
                 className={`
-                ${props.newPauta ? "none" : "mr-60 gap-3 flex"}
+                ${props.newPauta ? "none" : "gap-1 flex"}
                 `}
               >
                 <Tooltip title={props.title}>
@@ -151,27 +153,31 @@ export default function ProposalCard(props: ProposalCardProps) {
                       props.newPauta ? "text-base font-bold" : "font-bold"
                     }`}
                   >
-                    {props.title.length > 29
-                      ? props.title.substring(0, 29) + "..."
+                    {props.title.length > 25
+                      ? props.title.substring(0, 25) + "..."
                       : props.title}
                   </h1>
                 </Tooltip>
-                {props.newPauta === false && props.published === true ? (
-                  <Tooltip title="Proposta publicada">
-                    <PublicIcon
-                      sx={{
-                        color: "#0075B1",
-                      }}
-                    />
-                  </Tooltip>
-                ) : (
-                  <Tooltip title="Proposta não publicada">
-                    <PublicOffIcon
-                      sx={{
-                        color: "#0075B1",
-                      }}
-                    />
-                  </Tooltip>
+                {props.atasCard && (
+                  <div className="mr-9 flex items-center">
+                    {props.atasCard === true ? (
+                      <Tooltip title="Proposta publicada">
+                        <PublicIcon
+                          sx={{
+                            color: "#0075B1",
+                          }}
+                        />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="Proposta não publicada">
+                        <PublicOffIcon
+                          sx={{
+                            color: "#0075B1",
+                          }}
+                        />
+                      </Tooltip>
+                    )}
+                  </div>
                 )}
               </div>
               <div className="flex justify-center items-center gap-5">
@@ -196,6 +202,19 @@ export default function ProposalCard(props: ProposalCardProps) {
                     R$ {props.value}
                   </span>
                 </h1>
+                {props.atasCard && (
+                  <h1
+                    className={`
+                  ${props.newPauta ? "text-sm font-bold" : "font-bold"}
+                `}
+                  >
+                    Parecer da comissão:{" "}
+                    <span className="font-normal text-gray-500">
+                      {" "}
+                      {props.parecerComissao}
+                    </span>
+                  </h1>
+                )}
               </div>
             </div>
             <div className="flex items-center">

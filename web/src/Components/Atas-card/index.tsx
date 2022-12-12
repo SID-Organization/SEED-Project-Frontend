@@ -30,12 +30,14 @@ export default function PautasCard(props: AtaCardProps) {
   const proposalsMock = [
     {
       newPauta: false,
-      title: "Automatização do processo",
+      title: "Automatização do processoaaaaa",
       executionTime: 10.0,
       value: 10.0,
       referenceDemand: "Demanda 2",
       ResponsibleAnalyst: "Analista 1",
       published: true,
+      atasCard: true,
+      parecerComissao: "Aprovado",
     },
     {
       newPauta: false,
@@ -45,6 +47,8 @@ export default function PautasCard(props: AtaCardProps) {
       referenceDemand: "Demanda 2",
       ResponsibleAnalyst: "Analista 1",
       published: false,
+      atasCard: true,
+      parecerComissao: "Reprovado",
     },
   ];
 
@@ -126,12 +130,14 @@ export default function PautasCard(props: AtaCardProps) {
           <div className="grid gap-5">
             {proposalsMock.map((proposal) => (
               <ProposalCard
+                atasCard={proposal.atasCard}
                 newPauta={proposal.newPauta}
                 title={proposal.title}
                 executionTime={proposal.executionTime}
                 value={proposal.value}
                 referenceDemand={proposal.referenceDemand}
                 published={proposal.published}
+                parecerComissao={proposal.parecerComissao}
               />
             ))}
           </div>
