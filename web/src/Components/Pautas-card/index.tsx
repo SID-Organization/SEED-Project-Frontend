@@ -163,6 +163,7 @@ export default function PautasCard(props: PautaCardProps) {
           </div>
         </div>
       ) : (
+        //ACABOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
