@@ -49,15 +49,6 @@ export default function GenerateAtaProposal() {
     border: "1px solid #000",
   });
 
-  //create a custom color for the button
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#000",
-      },
-    },
-  });
-
   return (
     <div>
       <div className="grid justify-center">

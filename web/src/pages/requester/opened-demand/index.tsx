@@ -92,8 +92,8 @@ export default function openedDemand() {
 
   const rows = [
     createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
+    createData("Aula.docx", "17/08/2022"),
+    createData("Financeiro.docx", "17/08/2022"),
   ];
 
   return (
@@ -143,7 +143,7 @@ export default function openedDemand() {
                   />
                 </Tooltip>
               </div>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
+              <div>
                 <div className="flex justify-between items-center text-lg">
                   <div className="flex mt-[-5rem]">
                     <h1 className="font-bold">Número de demanda:</h1>{" "}
@@ -160,8 +160,8 @@ export default function openedDemand() {
                     </div>
                   </div>
                 </div>
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              </div>
+              <div className="mt-4">
                 <div className="flex justify-start items-center gap-[7rem]">
                   <div className="grid items-center justify-center">
                     <h1 className="font-bold font-roboto">Solicitante</h1>
@@ -180,7 +180,7 @@ export default function openedDemand() {
                     </h1>
                   </div>
                 </div>
-              </Typography>
+              </div>
               <div className="grid items-center">
                 <div className="flex justify-start items-center">
                   <h1 className="font-roboto font-bold mt-5 text-lg">

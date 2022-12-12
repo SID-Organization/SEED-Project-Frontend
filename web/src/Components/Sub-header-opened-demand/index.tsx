@@ -25,6 +25,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
 import MuiAutocomplete from "@mui/material/Autocomplete";
@@ -52,7 +53,10 @@ export default function subHeader({
   const [classifyDemandSize, setClassifyDemandSize] = useState("");
   const [responsableSection, setResponsableSection] = useState("");
   const [benefitedBu, setBenefitedBu] = useState<any>();
+  const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
 
+  const handleOpenReasonOfDevolution = () => setOpenReasonOfDevolution(true);
+  const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
@@ -191,6 +195,20 @@ export default function subHeader({
     boxShadow: 24,
   };
 
+  const styleModalReasonOfDevolution = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 580,
+    height: 405,
+    bgcolor: "background.paper",
+    borderTop: "8px solid #0075B1",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+  };
+
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
   const notifyEditEnabledOff = () =>
     toast.success("Alterações salvas com sucesso!");
@@ -245,25 +263,6 @@ export default function subHeader({
     },
   });
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-
   const Autocomplete = styled(MuiAutocomplete)({
     width: 250,
   });
@@ -276,18 +275,76 @@ export default function subHeader({
     setClassifyDemandSize(event.target.value as string);
   };
 
-  function createData(name: string, size: string) {
-    return { name, size };
-  }
-
-  const tableFileRows = [
-    createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
-    createData("Resumo.docx", "17/08/2022"),
-  ];
-
   return (
     <div>
+      {/* Modal para inserir o motivo da reprovação */}
+      <Modal
+        open={openReasonOfDevolution}
+        onClose={handleCloseReasonOfDevolution}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleModalReasonOfDevolution}>
+          <h1
+            className="
+              text-[#0075B1]
+              font-bold
+              text-2xl
+              flex
+              justify-center
+              items-center
+              font-roboto
+            "
+          >
+            Motivo da devolução da demanda
+          </h1>
+          <p
+            className="
+              mt-5
+              font-bold
+              text-[#000000]
+              font-roboto
+              flex
+              text-lg
+              gap-1
+            "
+          >
+            Insira o motivo
+            <span style={{ color: "#AD0D0D", fontWeight: 500 }}>*</span>
+          </p>
+          <TextField
+            id="outlined-multiline-static"
+            multiline
+            rows={4}
+            variant="outlined"
+            sx={{
+              width: 500,
+              height: 100,
+              mt: 2,
+              mb: 5,
+              borderRadius: 5,
+              borderColor: "#0075B1",
+            }}
+          />
+          <span className="flex justify-center items-center gap-4">
+            <Button
+              onClick={handleCloseReasonOfDevolution}
+              variant="contained"
+              style={{
+                backgroundColor: "#0075B1",
+                color: "#FFFFFF",
+                width: 100,
+                marginTop: 20,
+              }}
+            >
+              Enviar
+            </Button>
+          </span>
+        </Box>
+      </Modal>
+      {/* Fim modal para inserir motivo da reprovação */}
+
+      {/* Modal para inserir as informações da demanda */}
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -413,91 +470,6 @@ export default function subHeader({
                 </FormControl>
               </div>
             </div>
-            <div className="flex justify-center items-center">
-              <TableContainer
-                component={Paper}
-                sx={{
-                  width: "35rem",
-                  "&:first-child": {
-                    backgroundColor: "#e5e5e5",
-                  },
-                }}
-              >
-                <Table sx={{ minWidth: 500 }} aria-label="customized table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          "&:first-child": {
-                            backgroundColor: "#e5e5e5",
-                            color: "black",
-                            fontWeight: "bold",
-                            fontSize: "1.2rem",
-                            border: "#d4d4d4 solid 2px",
-                          },
-                        }}
-                      >
-                        Arquivo
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          fontSize: "1.2rem",
-                          border: "#d4d4d4 solid 2px",
-                          "&:last-child": {
-                            backgroundColor: "#e5e5e5",
-                            color: "black",
-                            fontWeight: "bold",
-                          },
-                        }}
-                      >
-                        Anexado em
-                      </StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {tableFileRows.map((row) => (
-                      <StyledTableRow key={row.name}>
-                        <StyledTableCell
-                          component="th"
-                          scope="row"
-                          align="center"
-                        >
-                          <Tooltip title="Baixar arquivo">
-                            <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
-                          </Tooltip>
-                          {row.name}
-                        </StyledTableCell>
-                        <div className="flex justify-center items-center">
-                          <StyledTableCell align="center">
-                            {row.size}
-                          </StyledTableCell>
-                          <Tooltip title="Deletar arquivo">
-                            <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
-                          </Tooltip>
-                        </div>
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                <div className="flex justify-center items-center mt-5 mb-5">
-                  <Tooltip title="Adicionar arquivo">
-                    <Button
-                      variant="contained"
-                      component="label"
-                      sx={{
-                        backgroundColor: "#0075B1",
-                      }}
-                    >
-                      <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
-                      Anexar arquivo
-                      <input hidden accept="file/*" multiple type="file" />
-                    </Button>
-                  </Tooltip>
-                </div>
-              </TableContainer>
-            </div>
             <div className="flex justify-evenly items-center mt-10 mb-5">
               <Button
                 variant="contained"
@@ -513,6 +485,21 @@ export default function subHeader({
                 onClick={handleCloseModal}
               >
                 Cancelar
+              </Button>
+              <Button
+                onClick={handleOpenReasonOfDevolution}
+                variant="outlined"
+                sx={{
+                  backgroundColor: "#fff",
+                  color: "#0075B1",
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#fff",
+                  },
+                }}
+              >
+                Devolver
               </Button>
               <Button
                 variant="contained"
@@ -532,6 +519,7 @@ export default function subHeader({
           </div>
         </Box>
       </Modal>
+      {/* Fim modal para inserir informações */}
       <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
         <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
           {children}
