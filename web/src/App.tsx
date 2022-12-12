@@ -55,6 +55,7 @@ function App() {
               <Route path="subheader" element={<SubHeaderOpenedDemand />} />
               <Route path="gerenciar-demandas" element={<DemandManager />} />
               <Route path="pautas" element={<Pautas />} />
+              <Route path="atas" element={<Atas />} />
               <Route path="propostas" element={<Proposals />} />
               <Route path="perfil" element={<Profile />} />
               <Route path="chat" element={<Chat />} />
