@@ -1,6 +1,7 @@
 import {
   Badge,
   Box,
+  createTheme,
   Divider,
   FormControl,
   InputLabel,
@@ -11,8 +12,10 @@ import { useState } from "react";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
+import PublicIcon from "@mui/icons-material/Public";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
+
 import ProposalCard from "../Proposal-card";
-import { BadgeOutlined } from "@mui/icons-material";
 
 export default function GenerateAtaProposal() {
   const [parecerComissao, setParecerComissao] = useState("");
@@ -44,6 +47,15 @@ export default function GenerateAtaProposal() {
     height: 50,
     width: 150,
     border: "1px solid #000",
+  });
+
+  //create a custom color for the button
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#000",
+      },
+    },
   });
 
   return (
@@ -124,13 +136,27 @@ export default function GenerateAtaProposal() {
               Assunto registrado em ata
             </p>
             <div className="flex gap-2 mb-10">
+              {/* use the custom color in a button */}
               <Button
+                sx={{
+                  height: 40,
+                  width: 150,
+                  border: publicada ? "1px solid #023A67" : "1px solid #000",
+                  color: publicada ? "#fff" : "#000",
+                  backgroundColor: publicada ? "#0075B1" : "#fff",
+
+                  "&:hover": {
+                    backgroundColor: publicada ? "#0075B1" : "#fff",
+                  },
+                }}
                 onClick={() => {
                   setPublicada(!publicada);
                   setNaoPublicada(false);
                 }}
-                color={publicada ? "primary" : "secondary"}
                 variant={publicada ? "contained" : "outlined"}
+                startIcon={
+                  <PublicIcon sx={{ color: publicada ? "#fff" : "#000" }} />
+                }
               >
                 Publicada
               </Button>
@@ -139,8 +165,23 @@ export default function GenerateAtaProposal() {
                   setNaoPublicada(!naoPublicada);
                   setPublicada(false);
                 }}
-                color={naoPublicada ? "primary" : "secondary"}
+                sx={{
+                  height: 40,
+                  width: 180,
+                  border: publicada ? "1px solid #023A67" : "1px solid #000",
+                  color: naoPublicada ? "#fff" : "#000",
+                  backgroundColor: naoPublicada ? "#0075B1" : "#fff",
+
+                  "&:hover": {
+                    backgroundColor: naoPublicada ? "#0075B1" : "#fff",
+                  },
+                }}
                 variant={naoPublicada ? "contained" : "outlined"}
+                startIcon={
+                  <PublicOffIcon
+                    sx={{ color: naoPublicada ? "#fff" : "#000" }}
+                  />
+                }
               >
                 Não publicada
               </Button>
