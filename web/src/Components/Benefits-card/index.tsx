@@ -1,6 +1,6 @@
 
 
-export default function BenefitsCard(props: {title: string, benefits: any[]}) {
+export default function BenefitsCard(props: {title: string, benefits: any[] | undefined}) {
 
 
   function getCurrency(moeda: string) {

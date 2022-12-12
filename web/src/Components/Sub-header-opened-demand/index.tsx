@@ -104,7 +104,6 @@ export default function subHeader({
   const [benefitedBu, setBenefitedBu] = useState<any>();
   const [openActions, setOpenActions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(1);
-  const [fileRows, setFileRows] = useState<any>([]);
 
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
@@ -131,7 +130,9 @@ export default function subHeader({
 
 
   const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  };
 
   const actionOptions = [
     {
@@ -316,46 +317,30 @@ export default function subHeader({
     setClassifyDemandSize(event.target.value as string);
   };
 
-  useEffect(() => {
-    console.log("SubHeader demand: ", demand)
-    setFileRows(demand?.arquivosDemandas)
-  }, [demand])
-
 
   const handleUpdateDemand = async () => {
     // handleCloseModal();
-    const demandUpdated = {
-      ...demand,
-      busBeneficiadas: getBenefitBUs(),
-      buSolicitanteDemanda: requesterBUs.find((bu: any) => bu.key == requesterBu )?.text,
+    const updatedDemand = {
+      busBeneficiadasDemanda: benefitedBu[0],
+      buSolicitante: requesterBUs.find((bu: any) => bu.key == requesterBu )?.text,
       secaoTIResponsavel: responsableSection,
       status: "CLASSIFICADO_PELO_ANALISTA",
       tamanhoDemanda: getDemandSize(),
     }
 
-    const form = new FormData();
-    form.append("demandaForm", JSON.stringify(demandUpdated));
 
-    fetch(`http://localhost:8080/sid/api/demanda/${demand.idDemanda}`, {
+    fetch(`http://localhost:8080/sid/api/demanda/atualiza-bus-beneficiadas/${demand.idDemanda}`, {
       method: "PUT",
-      body: form,
+      body: JSON.stringify(updatedDemand)
     })
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetch response:", data);
     })
 
-    console.log(demandUpdated);
+    console.log(updatedDemand);
   
   };
-
-  const getBenefitBUs = () => {
-    const buS = benefitedBu.map((bu: any) => {
-      return requesterBUs.find((bu2: any) => bu2.text == bu)?.key;
-    });
-
-    return buS.map((buKey: any) => ({idBusinessUnity: buKey}));
-  }
 
   const getDemandSize = () => {
     if(classifyDemandSize == "1") return "MUITO_GRANDE"
@@ -501,93 +486,7 @@ export default function subHeader({
                 </FormControl>
               </div>
             </div>
-            <div className="flex justify-center items-center">
-              <TableContainer
-                component={Paper}
-                sx={{
-                  width: "35rem",
-                  "&:first-child": {
-                    backgroundColor: "#e5e5e5",
-                  },
-                }}
-              >
-                <Table sx={{ minWidth: 500 }} aria-label="customized table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          "&:first-child": {
-                            backgroundColor: "#e5e5e5",
-                            color: "black",
-                            fontWeight: "bold",
-                            fontSize: "1.2rem",
-                            border: "#d4d4d4 solid 2px",
-                          },
-                        }}
-                      >
-                        Arquivo
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="center"
-                        sx={{
-                          fontSize: "1.2rem",
-                          border: "#d4d4d4 solid 2px",
-                          "&:last-child": {
-                            backgroundColor: "#e5e5e5",
-                            color: "black",
-                            fontWeight: "bold",
-                          },
-                        }}
-                      >
-                        Anexado em
-                      </StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {fileRows && fileRows.map((fileRow: any, i: any) => (
-                      <StyledTableRow key={i}>
-                        <StyledTableCell
-                          component="th"
-                          scope="row"
-                          align="center"
-                        >
-                           <a href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`} download={fileRow.nomeArquivo.split('.')[0]}>
-                            <Tooltip title="Baixar arquivo">
-                              <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
-                            </Tooltip>
-                           </a>
-                          {fileRow.nomeArquivo}
-                        </StyledTableCell>
-                        <div className="flex justify-center items-center">
-                          <StyledTableCell align="center">
-                            {new Date(fileRow.dataRegistroArquivo).toLocaleDateString("pt-BR")}
-                          </StyledTableCell>
-                          <Tooltip title="Deletar arquivo">
-                            <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
-                          </Tooltip>
-                        </div>
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                <div className="flex justify-center items-center mt-5 mb-5">
-                  <Tooltip title="Adicionar arquivo">
-                    <Button
-                      variant="contained"
-                      component="label"
-                      sx={{
-                        backgroundColor: "#0075B1",
-                      }}
-                    >
-                      <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
-                      Anexar arquivo
-                      <input hidden accept="file/*" type="file" />
-                    </Button>
-                  </Tooltip>
-                </div>
-              </TableContainer>
-            </div>
+            
             <div className="flex justify-evenly items-center mt-10 mb-5">
               <Button
                 variant="contained"

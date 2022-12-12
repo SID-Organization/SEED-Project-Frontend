@@ -19,21 +19,41 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
+
 interface DemandCardProps {
   demand: {
-    idDemanda?: number;
-    status: string;
-    setSelectDemands: (value: any) => void;
+    idDemanda: string;
+    statusDemanda: string;
+    descricaoDemanda: string;
+    situacaoAtualDemanda: string;
+    propostaDemanda: string;
+    frequenciaUsoDemanda: string;
+    descricaoQualitativoDemanda: string;
+    arquivosDemandas: any[];
+    beneficiosDemanda: any[];
+    tituloDemanda: string;
+    scoreDemanda: number;
+    solicitanteDemanda: {
+      nomeUsuario: string;
+      departamentoUsuario: string;
+    }
+    centroCustoDemanda: any[]
   }
+  setSelectedDrafts?: (value: any) => void;
 }
 
 export default function DemandCard(props: DemandCardProps) {
+  console.log(props.demand);
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
     useState(false);
   const [openGenerateProposal, setOpenGenerateProposal] = useState(false);
-  const [selectedDrafts, setSelectedDrafts] = useState(false);
+  const [isDraftSelected, setIsDraftSelected] = useState(false);
+
+  useEffect(() => {
+    console.info("Selected Drafts: ", isDraftSelected);
+  }, [isDraftSelected])
 
   const handleOpenReasonOfCancellation = () =>
     setOpenReasonOfCancellation(true);
@@ -79,11 +99,6 @@ export default function DemandCard(props: DemandCardProps) {
     boxShadow: 24,
   };
 
-  const reasonOfCancellation = {
-    message:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec consequat sollicitudin erat. Phasellus nec eleifend metus. Nulla sed semper leo. Fusce non enim nunc. In cursus purus eget aliquet consectetur. In pellentesque venenatis elit, eu ultrices arcu sodales.",
-  };
-
   const statusColor: any = {
     Cancelado: "#C31700",
     AprovadoPelaComissao: "#7EB61C",
@@ -93,15 +108,13 @@ export default function DemandCard(props: DemandCardProps) {
   };
 
   const progressInputColor: any = {
-    Cancelado: "#C31700",
-    AprovadoPelaComissao: "#7EB61C",
-    AprovadoPeloAnalistaTi: "#7EB61C",
-    Rascunho: "#d9d9d937",
-    Aberto: "#00579D",
+    CANCELADA: "#C31700",
+    APROVADA_PELA_COMISSAO: "#7EB61C",
+    CLASSIFICADO_PELO_ANALISTA: "#7EB61C",
+    RASCUNHO: "#d9d9d937",
+    ABERTA: "#00579D",
   };
 
-  const score = 2143;
-  const value = "R$ 10.000,00";
 
   const getData = async () => {
     setIsDemandLoading(true);
@@ -118,16 +131,14 @@ export default function DemandCard(props: DemandCardProps) {
   }, []);
 
   function handleSelectDrafts() {
-    if (!selectedDrafts) {
-      props.demand.setSelectDemands((prevState: any) => {
-        return [...prevState, props.demand.idDemanda];
-      });
-    } else {
-      props.demand.setSelectDemands((prevState: any) => {
-        return prevState.filter((item: any) => item !== props.demand.idDemanda);
-      });
+    if(props.setSelectedDrafts){
+      setIsDraftSelected(!isDraftSelected);
+      if (!isDraftSelected) {
+        props.setSelectedDrafts((prevState: any) => ([...prevState, props.demand.idDemanda]) );
+      } else {
+        props.setSelectedDrafts((prevState: any) => (prevState.filter((item: any) => item !== props.demand.idDemanda)) );
+      }
     }
-    setSelectedDrafts(!selectedDrafts);
   }
 
   return (
@@ -144,21 +155,24 @@ export default function DemandCard(props: DemandCardProps) {
           sx={{ width: 430, height: 180 }}
           style={{
             boxShadow: "1px 1px 5px 0px #808080db",
-            borderLeft: "7px solid " + statusColor[props.demand.status],
+            borderLeft: "7px solid " + statusColor[props.demand.statusDemanda],
           }}
         >
           <CardContent>
             <div className="flex justify-between items-center">
-              <Typography
-                variant="h5"
-                sx={{
-                  color: "#023A67",
-                  fontWeight: "bold",
-                  fontSize: "1rem",
-                }}
-              >
-                LOREM IPSUM
-              </Typography>
+              <Tooltip title={props.demand.tituloDemanda}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: "#023A67",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                  }}
+                >
+
+                  {props.demand.tituloDemanda.length > 25 ? props.demand.tituloDemanda.slice(0, 25) + "..." : props.demand.tituloDemanda}
+                </Typography>
+              </Tooltip>
 
               <Typography
                 sx={{ mt: 1 }}
@@ -168,14 +182,14 @@ export default function DemandCard(props: DemandCardProps) {
               >
                 <span className="mr-1 text-[0.95rem]">Status:</span>
                 <span className="font-medium text-black text-[0.95rem]">
-                  {props.demand.status}
+                  {props.demand.statusDemanda[0].toLocaleUpperCase() + props.demand.statusDemanda.split('_').join(' ').toLocaleLowerCase().slice(1)}
                 </span>
                 {/* Select */}
-                {props.demand.status === "Rascunho" && (
+                {props.demand.statusDemanda === "RASCUNHO" && (
                   <div className="flex justify-center items-center ml-5">
                     <Radio
-                      checked={selectedDrafts}
-                      onClick={() => handleSelectDrafts()}
+                      checked={isDraftSelected}
+                      onClick={handleSelectDrafts}
                       sx={{
                         color: "#0075B1",
                         padding: 0,
@@ -198,7 +212,7 @@ export default function DemandCard(props: DemandCardProps) {
                 >
                   <span className="mr-1 text-[0.95rem]">Score:</span>
                   <span className="font-medium text-black text-[0.95rem]">
-                    {score}
+                    {props.demand.scoreDemanda}
                   </span>
                 </Typography>
                 <Typography
@@ -209,7 +223,7 @@ export default function DemandCard(props: DemandCardProps) {
                 >
                   <span className="mr-1 text-[0.95rem]">Valor:</span>
                   <span className="font-medium text-black text-[0.95rem]">
-                    {value}
+                    {"R$10" }
                   </span>
                 </Typography>
               </div>
@@ -231,12 +245,12 @@ export default function DemandCard(props: DemandCardProps) {
                         getAriaValueText={valuetext}
                         disabled
                         style={{
-                          color: progressInputColor[props.demand.status],
+                          color: progressInputColor[props.demand.statusDemanda],
                         }}
                         sx={{
                           height: 16,
                           width: 120,
-                          color: progressInputColor[props.demand.status],
+                          color: progressInputColor[props.demand.statusDemanda],
                           "& .MuiSlider-thumb": {
                             display: "none",
                           },
@@ -271,7 +285,7 @@ export default function DemandCard(props: DemandCardProps) {
               </div>
             </div>
             <div className="flex justify-center items-center gap-3 mr-4">
-              {props.demand.status === "Aberto" && (
+              {props.demand.statusDemanda === "ABERTA" && (
                 <div>
                   <Tooltip title="Gerar proposta">
                     <Button
@@ -415,7 +429,7 @@ export default function DemandCard(props: DemandCardProps) {
                 </div>
               )}
 
-              {props.demand.status === "Cancelado" && (
+              {props.demand.statusDemanda === "CANCELADA" && (
                 <div>
                   <Tooltip title="Motivo da reprovação">
                     <Button
@@ -480,7 +494,7 @@ export default function DemandCard(props: DemandCardProps) {
                         disabled
                         multiline
                         rows={4}
-                        value={reasonOfCancellation.message}
+                        value={"Motivo da reprovação da demanda"}
                         variant="outlined"
                         sx={{
                           width: 500,
@@ -508,7 +522,7 @@ export default function DemandCard(props: DemandCardProps) {
                   </Modal>
                 </div>
               )}
-              {props.demand.status === "Rascunho" && (
+              {props.demand.statusDemanda === "RASCUNHO" && (
                 <div>
                   <Tooltip title="Deletar rascunho">
                     <IconButton>
@@ -521,7 +535,7 @@ export default function DemandCard(props: DemandCardProps) {
                   </Tooltip>
                 </div>
               )}
-              {props.demand.status === "Rascunho" && (
+              {props.demand.statusDemanda === "RASCUNHO" && (
                 <Tooltip title="Continuar rascunho">
                   <Button
                     variant="contained"
@@ -531,7 +545,7 @@ export default function DemandCard(props: DemandCardProps) {
                   </Button>
                 </Tooltip>
               )}
-              {props.demand.status !== "Rascunho" && (
+              {props.demand.statusDemanda !== "RASCUNHO" && (
                 <Link to={`/admin/demandas/${props.demand.idDemanda}`}>
                   <Tooltip title="Visualizar demanda">
                     <Button

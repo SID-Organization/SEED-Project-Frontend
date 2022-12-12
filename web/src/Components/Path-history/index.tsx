@@ -5,6 +5,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import { useLocation } from 'react-router-dom';
 
+// Navegação por histórico de rotas
 export default function PathHistory() {
   const location = useLocation();
   const [pathHist, setPathHist] = useState<string[]>([]);
@@ -30,7 +31,11 @@ export default function PathHistory() {
               <>
                 {index == 0 ?
                   <div className="ml-3">
-                    <Link underline="hover" color="inherit" href={buscarLink(index)}>{buscarPathName(item)}</Link>
+                    {pathHist.length == 1 ?
+                      <Typography color="text.primary">{buscarPathName(item)}</Typography>
+                      :
+                      <Link underline="hover" color="inherit" href={buscarLink(index)}>{buscarPathName(item)}</Link>
+                    }
                   </div>
                   :
                   index == pathHist.length - 1 ?

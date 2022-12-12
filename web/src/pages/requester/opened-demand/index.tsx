@@ -31,6 +31,27 @@ import "../../../styles/index.css";
 import BenefitsCard from "../../../Components/Benefits-card";
 import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 
+interface DemandInterface {
+  idDemanda: string;
+  nomeDemanda: string;
+  descricaoDemanda: string;
+  situacaoAtualDemanda: string;
+  propostaDemanda: string;
+  frequenciaUsoDemanda: string;
+  descricaoQualitativoDemanda: string;
+  arquivosDemandas: any[];
+  beneficiosDemanda: any[];
+  tituloDemanda: string;
+  scoreDemanda: number;
+  solicitanteDemanda: {
+    nomeUsuario: string;
+    departamentoUsuario: string;
+  }
+  centroCustoDemanda: any[]
+}
+
+  
+
 async function getDemandFromDatabase(id: string) {
   const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
   const demand = await response.json();
@@ -40,7 +61,7 @@ async function getDemandFromDatabase(id: string) {
 export default function openedDemand() {
   const params = useParams();
 
-  const [demand, setDemand] = useState();
+  const [demand, setDemand] = useState<DemandInterface>();
 
   useEffect(() => {
     if(params.id){
@@ -113,10 +134,10 @@ export default function openedDemand() {
   useEffect(() => {
     if(demand){
       setFileRows(demand.arquivosDemandas);
-      setCurrentSituation(demand.situacaoAtualDemanda);
-      setProposal(demand.propostaDemanda);
-      setUsageFrequency(demand.frequenciaUsoDemanda);
-      setQualitativeBenefit(demand.descricaoQualitativoDemanda);
+      setCurrentSituation(demand.situacaoAtualDemanda as any);
+      setProposal(demand.propostaDemanda as any);
+      setUsageFrequency(demand.frequenciaUsoDemanda as any);
+      setQualitativeBenefit(demand.descricaoQualitativoDemanda as any);
     }
   }, [demand]);
 
@@ -451,3 +472,5 @@ export default function openedDemand() {
     </>
   );
 }
+
+

@@ -39,8 +39,8 @@ export default function homeDemands() {
   function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4">
-        {demands && demands.map((demand,i) => {
-          return <DemandCard key={i} demand={demand} />;
+        {demands && demands.filter(item => item.statusDemanda != "RASCUNHO").map((demand, i) => {
+            return <DemandCard key={i} demand={demand} />;
         })}
 
         {/* <DemandCard status="Aberto" />
