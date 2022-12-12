@@ -6,6 +6,8 @@ import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleF
 import MuiAddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import PublicIcon from "@mui/icons-material/Public";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
 import { Tooltip } from "@mui/material";
 
 import MuiIconButton from "@mui/material/IconButton";
@@ -20,6 +22,7 @@ interface ProposalCardProps {
   executionTime: number;
   value: number;
   referenceDemand: string;
+  published?: boolean;
   setSelectProposals: (value: any) => void;
 }
 
@@ -133,22 +136,43 @@ export default function ProposalCard(props: ProposalCardProps) {
                 ${
                   props.newPauta
                     ? "flex items-center justify-between ml-4"
-                    : "flex items-center justify-around"
+                    : "flex items-center justify-around "
                 }
               `}
             >
               <div
                 className={`
-                ${props.newPauta ? "none" : "mr-80"}
+                ${props.newPauta ? "none" : "mr-60 gap-3 flex"}
                 `}
               >
-                <h1
-                  className={`${
-                    props.newPauta ? "text-base font-bold" : "font-bold"
-                  }`}
-                >
-                  {props.title}
-                </h1>
+                <Tooltip title={props.title}>
+                  <h1
+                    className={`${
+                      props.newPauta ? "text-base font-bold" : "font-bold"
+                    }`}
+                  >
+                    {props.title.length > 29
+                      ? props.title.substring(0, 29) + "..."
+                      : props.title}
+                  </h1>
+                </Tooltip>
+                {props.newPauta === false && props.published === true ? (
+                  <Tooltip title="Proposta publicada">
+                    <PublicIcon
+                      sx={{
+                        color: "#0075B1",
+                      }}
+                    />
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Proposta não publicada">
+                    <PublicOffIcon
+                      sx={{
+                        color: "#0075B1",
+                      }}
+                    />
+                  </Tooltip>
+                )}
               </div>
               <div className="flex justify-center items-center gap-5">
                 <h1
