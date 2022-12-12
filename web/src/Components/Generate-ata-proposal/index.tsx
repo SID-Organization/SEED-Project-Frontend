@@ -12,6 +12,7 @@ import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
 import ProposalCard from "../Proposal-card";
+import { BadgeOutlined } from "@mui/icons-material";
 
 export default function GenerateAtaProposal() {
   const [parecerComissao, setParecerComissao] = useState("");
@@ -84,7 +85,24 @@ export default function GenerateAtaProposal() {
                   onChange={handleChangeParecerComissao}
                 >
                   {actionsParecerComissao.map((action) => (
-                    <MenuItem value={action.action}>{action.action}</MenuItem>
+                    <MenuItem value={action.action}>
+                      {action.action}
+                      <Badge
+                        color={
+                          action.action === "Aprovado"
+                            ? "success"
+                            : action.action === "Reprovado"
+                            ? "error"
+                            : action.action === "Mais informações"
+                            ? "warning"
+                            : "info"
+                        }
+                        variant="dot"
+                        sx={{
+                          ml: 1.5,
+                        }}
+                      />
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
