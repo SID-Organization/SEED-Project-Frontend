@@ -51,6 +51,7 @@ const addToAPautaModalStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 750,
+  height: 650,
   bgcolor: "background.paper",
   borderRadius: "10px",
   boxShadow: 24,
@@ -212,7 +213,7 @@ export default function Proposals() {
             grid justify-center
             mt-5
             overflow-y-scroll
-            max-h-[40rem]
+            max-h-[31rem]
             overflow-x-hidden
             scrollbar-thumb-[#a5a5a5]
               scrollbar-thumb-rounded-full scrollbar-w-2 scrollbar-thin

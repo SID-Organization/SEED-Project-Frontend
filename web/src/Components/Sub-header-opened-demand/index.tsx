@@ -15,15 +15,11 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
-import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
   Badge,
   InputLabel,
-  Table,
-  TableContainer,
-  TableHead,
   TableRow,
 } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
@@ -35,50 +31,10 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DescriptionIcon from "@mui/icons-material/Description";
-import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 
 import "../../styles/index.css";
-
-const TextField = styled(MuiTextField)({
-  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "3px solid #0075B1",
-  },
-});
-
-const FormControl = styled(MuiFormControl)({
-  width: 250,
-
-  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "3px solid #0075B1",
-  },
-});
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-const Autocomplete = styled(MuiAutocomplete)({
-  width: 250,
-});
 
 const getDemandFromDatabase = async (id: string | undefined) => {
   const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
@@ -107,28 +63,21 @@ export default function subHeader({
 
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
-  
-    
-
   const [demand, setDemand] = useState<any>();
-  const [businessUnits, setBusinessUnits] = useState<any>([]);
 
   const params = useParams();
 
+  const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
+  
   useEffect(() => {
     getDemandFromDatabase(params.id)
     .then((response) => {
       setDemand(response);
     })
-    getBusinessUnits()
-    .then((response) => {
-      // setBusinessUnits(response);
-      console.log("Business units", response);
-    })
   }, [])
 
-
-
+  const handleOpenReasonOfDevolution = () => setOpenReasonOfDevolution(true);
+  const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false)
@@ -269,10 +218,23 @@ export default function subHeader({
     boxShadow: 24,
   };
 
+  const styleModalReasonOfDevolution = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 580,
+    height: 405,
+    bgcolor: "background.paper",
+    borderTop: "8px solid #0075B1",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+  };
+
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
   const notifyEditEnabledOff = () =>
     toast.success("Alterações salvas com sucesso!");
-
 
 
   const handleMenuItemClick = (
@@ -308,6 +270,23 @@ export default function subHeader({
   }
 
 
+  const TextField = styled(MuiTextField)({
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderLeft: "3px solid #0075B1",
+    },
+  });
+
+  const FormControl = styled(MuiFormControl)({
+    width: 250,
+
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderLeft: "3px solid #0075B1",
+    },
+  });
+
+  const Autocomplete = styled(MuiAutocomplete)({
+    width: 250,
+  });
 
   const handleChangeRequesterBu = (event: SelectChangeEvent) => {
     setRequesterBu(event.target.value as string);
@@ -324,13 +303,15 @@ export default function subHeader({
       busBeneficiadasDemanda: benefitedBu[0],
       buSolicitante: requesterBUs.find((bu: any) => bu.key == requesterBu )?.text,
       secaoTIResponsavel: responsableSection,
-      status: "CLASSIFICADO_PELO_ANALISTA",
       tamanhoDemanda: getDemandSize(),
     }
-
+    
 
     fetch(`http://localhost:8080/sid/api/demanda/atualiza-bus-beneficiadas/${demand.idDemanda}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(updatedDemand)
     })
     .then((response) => response.json())
@@ -361,6 +342,74 @@ export default function subHeader({
 
   return (
     <div>
+      {/* Modal para inserir o motivo da reprovação */}
+      <Modal
+        open={openReasonOfDevolution}
+        onClose={handleCloseReasonOfDevolution}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleModalReasonOfDevolution}>
+          <h1
+            className="
+              text-[#0075B1]
+              font-bold
+              text-2xl
+              flex
+              justify-center
+              items-center
+              font-roboto
+            "
+          >
+            Motivo da devolução da demanda
+          </h1>
+          <p
+            className="
+              mt-5
+              font-bold
+              text-[#000000]
+              font-roboto
+              flex
+              text-lg
+              gap-1
+            "
+          >
+            Insira o motivo
+            <span style={{ color: "#AD0D0D", fontWeight: 500 }}>*</span>
+          </p>
+          <TextField
+            id="outlined-multiline-static"
+            multiline
+            rows={4}
+            variant="outlined"
+            sx={{
+              width: 500,
+              height: 100,
+              mt: 2,
+              mb: 5,
+              borderRadius: 5,
+              borderColor: "#0075B1",
+            }}
+          />
+          <span className="flex justify-center items-center gap-4">
+            <Button
+              onClick={handleCloseReasonOfDevolution}
+              variant="contained"
+              style={{
+                backgroundColor: "#0075B1",
+                color: "#FFFFFF",
+                width: 100,
+                marginTop: 20,
+              }}
+            >
+              Enviar
+            </Button>
+          </span>
+        </Box>
+      </Modal>
+      {/* Fim modal para inserir motivo da reprovação */}
+
+      {/* Modal para inserir as informações da demanda */}
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -504,6 +553,21 @@ export default function subHeader({
                 Cancelar
               </Button>
               <Button
+                onClick={handleOpenReasonOfDevolution}
+                variant="outlined"
+                sx={{
+                  backgroundColor: "#fff",
+                  color: "#0075B1",
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#fff",
+                  },
+                }}
+              >
+                Devolver
+              </Button>
+              <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "#0075B1",
@@ -522,6 +586,7 @@ export default function subHeader({
           </div>
         </Box>
       </Modal>
+      {/* Fim modal para inserir informações */}
       <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
         <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
           {children}

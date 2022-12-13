@@ -38,7 +38,7 @@ export default function homeDemands() {
 
   function getDemandsGrid() {
     return (
-      <div className="flex flex-wrap justify-around gap-4">
+      <div className="flex flex-wrap justify-around gap-4 w-full">
         {demands && demands.filter(item => item.statusDemanda != "RASCUNHO").map((demand, i) => {
             return <DemandCard key={i} demand={demand} />;
         })}
@@ -61,7 +61,7 @@ export default function homeDemands() {
           Minhas demandas
         </SubHeader>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center w-full">
         {isListFormat ? getDemandsList() : getDemandsGrid()}
       </div>
     </div>

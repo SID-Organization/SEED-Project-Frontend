@@ -26,12 +26,6 @@ function App() {
     JSON.parse(localStorage.getItem("user") as any) || null
   );
 
-  // if(user === null){
-  //   alert("Você não está logado");
-  // } else {
-  //   alert("Você está logado");
-  // }
-
   useEffect(() => {
     console.log("App component", user);
   }, [user]);
@@ -45,7 +39,6 @@ function App() {
             path="/"
             element={user ? <Layout /> : <Navigate to={"/login"} />}
           >
-            <Route path="admin">
               <Route path="demandas" element={<HomeDemands />} />
               <Route path="demandas/:id" element={<OpenedDemand />} />
               <Route path="rascunhos" element={<Drafts />} />
@@ -55,10 +48,11 @@ function App() {
               <Route path="subheader" element={<SubHeaderOpenedDemand />} />
               <Route path="gerenciar-demandas" element={<DemandManager />} />
               <Route path="pautas" element={<Pautas />} />
+              <Route path="atas" element={<Atas />} />
               <Route path="propostas" element={<Proposals />} />
               <Route path="perfil" element={<Profile />} />
               <Route path="chat" element={<Chat />} />
-            </Route>
+
           </Route>
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>

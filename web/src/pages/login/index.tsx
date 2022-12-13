@@ -16,42 +16,24 @@ import { TextField } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const usersMock = [
-  {
-    id: 1,
-    username: "admin",
-    password: "admin",
-    role: "admin",
-  },
-  {
-    id: 2,
-    username: "user",
-    password: "user",
-    role: "user",
-  },
-  {
-    id: 3,
-    username: "analista",
-    password: "analista",
-    role: "analista",
-  },
-  {
-    id: 4,
-    username: "gestor",
-    password: "gestor",
-    role: "gestor",
-  },
-];
+
 
 export default function Login() {
   const [openNotification, setOpenNotification] = useState(false);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-  const [username, setUsername] = useState("");
+  const [userID, setUserID] = useState<number>();
   const [password, setPassword] = useState("");
 
-  const [users, setUsers] = useState();
+  const [user, setUser] = useState<{
+    numeroCadastroUsuario: number;
+    businessUnity: string;
+    cargoUsuario: string;
+    departamentoUsuario: string;
+    emailUsuario: string;
+    fotoUsuario: string;
+  }>();
 
   const navigate = useNavigate();
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -72,31 +54,41 @@ export default function Login() {
     setOpenNotification(false);
   };
   const handleLogin = () => {
-    setOpenNotification(true);
-    const user = usersMock.find(
-      (user) => user.username === username && user.password === password
-    );
-    console.log(user);
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      if (user.role === "admin") {
-        navigate("/admin/minhas-demandas");
-      }
-      if (user.role === "user") {
-        navigate("/user/minhas-demandas");
-      }
-      if (user.role === "analista") {
-        navigate("/analista/minhas-demandas");
-      }
-      if (user.role === "gestor") {
-        navigate("/gestor/minhas-demandas");
-      }
-    }
+    const user = {
+      numeroCadastroUsuario: userID,
+      senhaUsuario: password
+    }; 
+
+    fetch('http://localhost:8080/sid/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    }).then(response => response.json())
+      .then(data => {
+        setUser(data);
+      })
   };
+
+  useEffect(() => {
+    if(user) {
+      localStorage.setItem("user", JSON.stringify({
+        numeroCadastroUsuario: user.numeroCadastroUsuario,
+        businessUnity: user.businessUnity,
+        cargoUsuario: user.cargoUsuario,
+        departamentoUsuario: user.departamentoUsuario,
+        emailUsuario: user.emailUsuario,
+        fotoUsuario: user.fotoUsuario,
+      }));
+        navigate("/demandas")
+      }
+  }, [user])
+
 
   return (
     <div className="bg-loginWallpaper bg-cover w-full h-screen">
-      {!password && !username ? null : (
+      {!password && !userID ? null : (
         <Snackbar
           open={openNotification}
           autoHideDuration={6000}
@@ -170,8 +162,12 @@ export default function Login() {
                           width: "24rem",
                           input: { backgroundColor: "white", borderRadius: 1 },
                         }}
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={userID}
+                        onChange={(e) => {
+                          if(e.target.value.match(/^[0-9]*$/)){
+                            setUserID(parseInt(e.target.value))
+                          }
+                        }}
                       />
                     </div>
                     <div className="flex justify-center items-center">
