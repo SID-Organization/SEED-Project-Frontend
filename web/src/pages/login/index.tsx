@@ -190,12 +190,6 @@ export default function Login() {
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-3">
-                    <div className="flex gap-1 justify-center items-center">
-                      <Checkbox className="w-4 h-4" {...label} defaultChecked />
-                      <h1 className="text-gray-600 text-sm font-semibold">
-                        Lembrar de mim
-                      </h1>
-                    </div>
                     <div>
                       <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition text-sm">
                         Esqueceu a senha?
