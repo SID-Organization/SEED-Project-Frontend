@@ -546,7 +546,7 @@ export default function DemandCard(props: DemandCardProps) {
                 </Tooltip>
               )}
               {props.demand.statusDemanda !== "RASCUNHO" && (
-                <Link to={`/admin/demandas/${props.demand.idDemanda}`}>
+                <Link to={`/demandas/${props.demand.idDemanda}`}>
                   <Tooltip title="Visualizar demanda">
                     <Button
                       variant="contained"

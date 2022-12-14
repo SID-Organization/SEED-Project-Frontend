@@ -25,7 +25,6 @@ import UploadIcon from "@mui/icons-material/Upload";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { useState, useEffect } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -41,12 +40,12 @@ interface INewBenefit {
   description: string;
 }
 
-interface IQualitativeBenefit {
-  description: string;
-}
 
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+// Import de interfaces
+import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -111,10 +110,11 @@ export default function CreateDemand() {
   const [currentProblem, setCurrentProblem] = useState("");
   const [proposal, setProposal] = useState("");
   const [frequencyOfUse, setFrequencyOfUse] = useState("");
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set<number>());
-  const [buttonNotification, setButtonNotification] = React.useState(false);
-  const [deleteNotification, setDeleteNotification] = React.useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set<number>());
+  const [buttonNotification, setButtonNotification] = useState(false);
+  const [deleteNotification, setDeleteNotification] = useState(false);
+  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!));
 
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
@@ -167,7 +167,7 @@ export default function CreateDemand() {
       descricaoQualitativoDemanda: qualitativeBenefit,
       prazoElaboracaoDemanda: null,
       codigoPPM: null,
-      solicitanteDemanda: { numeroCadastroUsuario: 72132 },
+      solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
       busBeneficiadas: [],
       beneficiosDemanda: benefitsToBeSent,
     };

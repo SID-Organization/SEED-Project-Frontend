@@ -11,43 +11,23 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
-
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-
-import SubHeaderOpenedDemand from "../../../Components/Sub-header-opened-demand";
-import WorkflowTable from "../../../Components/Workflow-table";
-
 import Button from "@mui/material/Button";
-
 import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from "@mui/icons-material/Description";
 import MessageIcon from "@mui/icons-material/Message";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-import "../../../styles/index.css";
-import BenefitsCard from "../../../Components/Benefits-card";
 import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
 
-interface DemandInterface {
-  idDemanda: string;
-  nomeDemanda: string;
-  descricaoDemanda: string;
-  situacaoAtualDemanda: string;
-  propostaDemanda: string;
-  frequenciaUsoDemanda: string;
-  descricaoQualitativoDemanda: string;
-  arquivosDemandas: any[];
-  beneficiosDemanda: any[];
-  tituloDemanda: string;
-  scoreDemanda: number;
-  solicitanteDemanda: {
-    nomeUsuario: string;
-    departamentoUsuario: string;
-  }
-  centroCustoDemanda: any[]
-}
+import SubHeaderOpenedDemand from "../../../Components/Sub-header-opened-demand";
+import WorkflowTable from "../../../Components/Workflow-table";
+import BenefitsCard from "../../../Components/Benefits-card";
+
+import "../../../styles/index.css";
+
+import DemandInterface from "../../../Interfaces/demand/DemandInterface";
 
   
 

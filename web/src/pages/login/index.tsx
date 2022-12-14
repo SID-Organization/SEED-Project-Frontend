@@ -18,6 +18,8 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { useState, useEffect } from "react";
 
+// Interfaces
+import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 
 
 export default function Login() {
@@ -25,17 +27,18 @@ export default function Login() {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const [userID, setUserID] = useState<number>();
   const [password, setPassword] = useState("");
-
-  const [user, setUser] = useState<{
-    numeroCadastroUsuario: number;
-    businessUnity: string;
-    cargoUsuario: string;
-    departamentoUsuario: string;
-    emailUsuario: string;
-    fotoUsuario: string;
-  }>();
-
   const navigate = useNavigate();
+
+  // Usuário 'logado'. 
+  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user") as any));
+  //Se houver, será redirecionado para a página inicial
+  useEffect(() => {
+    if (user) {
+      navigate("/demandas");
+    }
+  }, []);
+
+
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -54,25 +57,35 @@ export default function Login() {
     setOpenNotification(false);
   };
   const handleLogin = () => {
-    const user = {
-      numeroCadastroUsuario: userID,
-      senhaUsuario: password
-    }; 
+    // Validação de campos
+    if (!userID || !password) {
+      setOpenNotification(true);
+      return;
+    }
 
     fetch('http://localhost:8080/sid/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(user)
-    }).then(response => response.json())
+      body: JSON.stringify({
+        numeroCadastroUsuario: userID,
+        senhaUsuario: password
+      })
+    }).then(response => {
+      if(response.status === 404) {
+        setOpenNotification(true);
+        return;
+      }
+      return response.json()
+    })
       .then(data => {
         setUser(data);
       })
   };
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       localStorage.setItem("user", JSON.stringify({
         numeroCadastroUsuario: user.numeroCadastroUsuario,
         businessUnity: user.businessUnity,
@@ -80,9 +93,10 @@ export default function Login() {
         departamentoUsuario: user.departamentoUsuario,
         emailUsuario: user.emailUsuario,
         fotoUsuario: user.fotoUsuario,
+        nomeUsuario: user.nomeUsuario,
       }));
-        navigate("/demandas")
-      }
+      navigate("/demandas");
+    }
   }, [user])
 
 
@@ -148,7 +162,6 @@ export default function Login() {
                 <h1 className="font-bold flex justify-center items-center text-5xl m-12 text-blue-weg">
                   Login
                 </h1>
-                <form action="">
                   <div className="grid gap-4">
                     <div className="flex justify-center items-center">
                       <PersonOutlineOutlinedIcon
@@ -202,24 +215,22 @@ export default function Login() {
                     </div>
                   </div>
                   <div className="grid gap-4 justify-center items-center">
-                    <button type="submit" onClick={handleLogin}>
-                      <Button
-                        variant="contained"
-                        sx={{
-                          marginTop: "3rem",
-                          width: "140px",
-                          height: "45px",
-                          fontSize: "17px",
-                          fontWeight: "bold",
-                          textTransform: "none",
-                          backgroundColor: "#00579D",
-                        }}
-                      >
-                        Entrar
-                      </Button>
-                    </button>
+                        <Button
+                          onClick={handleLogin}
+                          variant="contained"
+                          sx={{
+                            marginTop: "3rem",
+                            width: "140px",
+                            height: "45px",
+                            fontSize: "17px",
+                            fontWeight: "bold",
+                            textTransform: "none",
+                            backgroundColor: "#00579D",
+                          }}
+                          >
+                          Entrar
+                        </Button>
                   </div>
-                </form>
               </div>
             </div>
           </Box>
