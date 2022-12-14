@@ -161,7 +161,7 @@ export default function CreateDemand() {
 
     const demandToBeSent = {
       tituloDemanda: title,
-      propostaDemanda: proposal,
+      propostaMelhoriaDemanda: proposal,
       situacaoAtualDemanda: currentProblem,
       frequenciaUsoDemanda: frequencyOfUse,
       descricaoQualitativoDemanda: qualitativeBenefit,
