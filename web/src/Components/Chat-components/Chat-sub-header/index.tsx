@@ -15,7 +15,11 @@ type Anchor = "right";
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
-export default function ChatSubHeader() {
+
+interface IuserName {
+  userName: string;
+}
+export default function ChatSubHeader(props: IuserName) {
   const [drawerState, setDrawerState] = useState({
     right: false,
   });
@@ -183,7 +187,7 @@ export default function ChatSubHeader() {
       </Snackbar>
       <div className="shadow-md border-l-[#d9d9d9] border-l-2 h-20 flex justify-between items-center bg-blue-weg rounded-br-sm rounded-bl-sm">
         <p className="ml-5 text-white font-normal text-xl cursor-default ">
-          {userInformations.name}
+          {props.userName}
         </p>
         <React.Fragment key={"right"}>
           <Tooltip title="Informações do usuário">
