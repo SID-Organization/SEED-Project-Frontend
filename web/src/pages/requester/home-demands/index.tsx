@@ -8,14 +8,18 @@ import { useEffect, useState } from "react";
 import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 
 async function getDemandsFromDatabase(userId: number) {
-  const response = await fetch("http://localhost:8080/sid/api/demanda/solicitante/" + userId);
+  const response = await fetch(
+    "http://localhost:8080/sid/api/demanda/solicitante/" + userId
+  );
   const demands = await response.json();
   return demands;
 }
 
 export default function homeDemands() {
   const [isListFormat, setIsListFormat] = useState(false);
-  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!));
+  const [user, setUser] = useState<LoggedUserInterface>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
   const [demands, setDemands] = useState<any[]>();
 
   function getDemandsList() {
@@ -40,9 +44,12 @@ export default function homeDemands() {
   function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4 w-full">
-        {demands && demands.filter(item => item.statusDemanda != "RASCUNHO").map((demand, i) => {
-            return <DemandCard key={i} demand={demand} />;
-        })}
+        {demands &&
+          demands
+            .filter((item) => item.statusDemanda != "RASCUNHO")
+            .map((demand, i) => {
+              return <DemandCard key={i} demand={demand} />;
+            })}
 
         {/* <DemandCard status="Aberto" />
         <DemandCard status="AprovadoPelaComissao" />
@@ -63,7 +70,15 @@ export default function homeDemands() {
         </SubHeader>
       </div>
       <div className="flex justify-center w-full">
-        {demands ? isListFormat ? getDemandsList() : getDemandsGrid() : <NoDemands />}
+        {demands ? (
+          isListFormat ? (
+            getDemandsList()
+          ) : (
+            getDemandsGrid()
+          )
+        ) : (
+          <NoDemands>Sem demandas</NoDemands>
+        )}
       </div>
     </div>
   );

@@ -50,7 +50,15 @@ export default function UserMessageCard(
                 },
               }}
             >
-              <img src={userImg} alt="user" className="w-[3.5rem] h-[3.5rem]" />
+              <img
+                src={
+                  props.picture
+                    ? "data:image/png;base64," + props.picture
+                    : userImg
+                }
+                alt="user"
+                className="w-[3.5rem] h-[3.5rem] rounded-full"
+              />
             </Badge>
           </Tooltip>
         </div>

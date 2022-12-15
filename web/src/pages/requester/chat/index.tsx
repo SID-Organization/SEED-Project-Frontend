@@ -11,14 +11,23 @@ import { MessageBox } from "react-chat-elements";
 import { SystemMessage } from "react-chat-elements";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import UserMessageCard from "../../../Components/Chat-components/User-message-card";
+import UserMessageCard from "../../../Components/Chat-components/user-message-card";
 import ChatSubHeader from "../../../Components/Chat-components/Chat-sub-header";
 import { Tooltip } from "@mui/material";
 
+async function getUsersFromDatabase() {
+  const response = await fetch(
+    "http://localhost:8080/sid/api/chat/usuario/72130"
+  );
+  const users = await response.json();
+  return users;
+}
+
 export default function Chat() {
   const [search, setSearch] = useState("");
+  const [chatUsers, setChatUsers] = useState<any[]>([]);
 
   const [file, setFile] = useState([]);
   const [preview, setPreview] = useState("");
@@ -42,6 +51,17 @@ export default function Chat() {
     },
   ]);
 
+  useEffect(() => {
+    getUsersFromDatabase().then((users) => {
+      setChatUsers(users);
+      console.log(users);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("USERS: ", chatUsers);
+  }, [chatUsers]);
+
   function filterUser(e: any) {
     setSearch(e.target.value);
   }
@@ -60,136 +80,33 @@ export default function Chat() {
     setMessage("");
   }
 
-  const users = [
-    {
-      name: "John Doe",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:00",
-      unreadMessages: false,
-      isOnline: false,
-    },
-    {
-      name: "Henrique",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "09:20",
-      unreadMessages: 4,
-      isOnline: true,
-    },
-    {
-      name: "Thiago",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "11:30",
-      unreadMessages: false,
-      isOnline: false,
-    },
-    {
-      name: "Leonardo de Souza Rafaelli",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Salve salve",
-      time: "13:54",
-      unreadMessages: 6,
-      isOnline: false,
-    },
-    {
-      name: "Otavio Augusto do Santos",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Eai, como ta?",
-      time: "21:32",
-      unreadMessages: false,
-      isOnline: true,
-    },
-    {
-      name: "Gustavo Rebelatto Zapella",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "21:33",
-      unreadMessages: 1,
-      isOnline: true,
-    },
-    {
-      name: "Gustavo Cole",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:03",
-      unreadMessages: false,
-      isOnline: true,
-    },
-    {
-      name: "Leonardo Rebelatto",
-      userDemand: "Software is slow",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:00",
-      unreadMessages: 10,
-      isOnline: false,
-    },
-    {
-      name: "John Doe",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:00",
-      unreadMessages: false,
-      isOnline: false,
-    },
-    {
-      name: "Henrique",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "09:20",
-      unreadMessages: 4,
-      isOnline: true,
-    },
-    {
-      name: "Thiago",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "11:30",
-      unreadMessages: false,
-      isOnline: false,
-    },
-    {
-      name: "Leonardo de Souza Rafaelli",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Salve salve",
-      time: "13:54",
-      unreadMessages: 6,
-      isOnline: false,
-    },
-    {
-      name: "Otavio Augusto do Santos",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Eai, como ta?",
-      time: "18:20",
-      unreadMessages: false,
-      isOnline: true,
-    },
-    {
-      name: "Gustavo Rebelatto Zapella",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "07:30",
-      unreadMessages: 1,
-      isOnline: true,
-    },
-    {
-      name: "Gustavo Cole",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:03",
-      unreadMessages: false,
-      isOnline: true,
-    },
-    {
-      name: "Leonardo Rebelatto",
-      userDemand: "Software is slow",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:00",
-      unreadMessages: 10,
-      isOnline: false,
-    },
-  ];
+  const [userCard, setUserCard] = useState<any>();
+  const [users, setUsers] = useState<any>([]);
+
+  useEffect(() => {
+    setUsers(
+      chatUsers.map((user) => ({
+        picture: user.fotoAnalista,
+        name: user.nomeAnalista,
+        userDemand: user.tituloDemanda,
+        lastMessage: user.ultimaMensagem,
+        time: user.dataUltimaMensagem,
+        unreadMessages: "1",
+        isOnline: true,
+      }))
+    );
+  }, [chatUsers]);
+
+  // const users = [
+  //   {
+  //     name: "John Doe",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "12:00",
+  //     unreadMessages: false,
+  //     isOnline: false,
+  //   },
+  // ];
 
   function returnedUserSearch() {
     const filteredUsers = users.filter((user) => {
@@ -233,7 +150,7 @@ export default function Chat() {
     <div className="flex max-h-screen h-[calc(100vh-10rem)]">
       <div>
         <div className="w-[25rem] h-[5rem] flex justify-center items-center shadow-md">
-          {/* search user here */}
+          {/* Search user here */}
           <Paper
             component="form"
             sx={{
@@ -269,7 +186,7 @@ export default function Chat() {
            hover:scrollbar-thumb-[#acacac] scrollbar-w-2 scrollbar-thin
           "
         >
-          {/* recent messages and respective users here */}
+          {/* USERS HERE */}
           {search === ""
             ? users
                 .sort((a, b) => {
@@ -292,8 +209,9 @@ export default function Chat() {
                   }
                   return 0;
                 })
-                .map((user) => (
+                .map((user: any) => (
                   <UserMessageCard
+                    picture={user.picture}
                     name={user.name}
                     userDemand={user.userDemand}
                     lastMessage={user.lastMessage}
