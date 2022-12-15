@@ -25,8 +25,10 @@ async function getUsersFromDatabase() {
   return users;
 }
 
-async function getMessagesFromDatabase() {
-  const response = await fetch("http://localhost:8080/sid/api/chat/mensagem/1");
+async function getMessagesFromDatabase(chatId: number) {
+  const response = await fetch(
+    "http://localhost:8080/sid/api/chat/mensagem/" + chatId
+  );
   const messages = await response.json();
   return messages;
 }
@@ -46,6 +48,9 @@ export default function Chat() {
   //States para armazenar qual o nome do usuário e sua respectiva demanda
   const [userNameCard, setUserNameCard] = useState<string>("");
   const [userDemandCard, setUserDemandCard] = useState<string>("");
+
+  //State para armazenar o id do chat que o usuário está conversando
+  const [chatId, setChatId] = useState<number>(1);
 
   //State para armazenar a mensagem que o usuário quer enviar
   const [message, setMessage] = useState("");
@@ -70,11 +75,11 @@ export default function Chat() {
 
   //UseEffect para buscar todas as mensagens do banco de dados
   useEffect(() => {
-    getMessagesFromDatabase().then((messages) => {
+    getMessagesFromDatabase(chatId).then((messages) => {
       setChatMessages(messages);
       console.log("MESSAGES: ", messages);
     });
-  }, []);
+  }, [chatId]);
 
   //UseEffect para setar no card de usuário o nome e a demanda do usuário
   useEffect(() => {
@@ -86,6 +91,7 @@ export default function Chat() {
         lastMessage: user.ultimaMensagem,
         time: user.dataUltimaMensagem,
         unreadMessages: "1",
+        idChat: user.idChat,
         isOnline: true,
       }))
     );
@@ -231,8 +237,11 @@ export default function Chat() {
                       const userDemand = user.userDemand;
                       setUserNameCard(userName);
                       setUserDemandCard(userDemand);
-                      console.log("USERNAME: ", userNameCard);
-                      console.log("USERDEMAND: ", userDemandCard);
+                      console.log("USER: ", user);
+                      // console.log("USERNAME: ", userNameCard);
+                      // console.log("USERDEMAND: ", userDemandCard);
+                      setChatId(user.idChat);
+                      console.log("CHATID: ", chatId);
                     }}
                   >
                     <UserMessageCard
