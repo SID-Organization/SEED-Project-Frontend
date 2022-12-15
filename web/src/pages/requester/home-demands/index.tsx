@@ -5,16 +5,21 @@ import NoDemands from "../../../Components/No-demands";
 
 import "../../../styles/index.css";
 import { useEffect, useState } from "react";
+import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 
-async function getDemandsFromDatabase() {
-  const response = await fetch("http://localhost:8080/sid/api/demanda");
+async function getDemandsFromDatabase(userId: number) {
+  const response = await fetch(
+    "http://localhost:8080/sid/api/demanda/solicitante/" + userId
+  );
   const demands = await response.json();
   return demands;
 }
 
 export default function homeDemands() {
   const [isListFormat, setIsListFormat] = useState(false);
-
+  const [user, setUser] = useState<LoggedUserInterface>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
   const [demands, setDemands] = useState<any[]>();
 
   function getDemandsList() {
@@ -26,8 +31,9 @@ export default function homeDemands() {
   }
 
   useEffect(() => {
-    getDemandsFromDatabase().then((demands) => {
+    getDemandsFromDatabase(user.numeroCadastroUsuario).then((demands) => {
       setDemands(demands);
+      console.log(demands);
     });
   }, []);
 
@@ -37,27 +43,18 @@ export default function homeDemands() {
 
   function getDemandsGrid() {
     return (
-      <div className="flex flex-wrap justify-around gap-4">
-        {/* {demands?.map((demand,i) => {
-          return <DemandCard key={i} demand={demand} />;
-        })} */}
+      <div className="flex flex-wrap justify-around gap-4 w-full">
+        {demands &&
+          demands
+            .filter((item) => item.statusDemanda != "RASCUNHO")
+            .map((demand, i) => {
+              return <DemandCard key={i} demand={demand} />;
+            })}
 
-        <DemandCard status="Aberto" />
+        {/* <DemandCard status="Aberto" />
         <DemandCard status="AprovadoPelaComissao" />
         <DemandCard status="Aberto" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="Aberto" />
-        <DemandCard status="AprovadoPelaComissao" />
-        <DemandCard status="Aberto" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="AprovadoPelaComissao" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="AprovadoPelaComissao" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="Aberto" />
-        <DemandCard status="Cancelado" />
-        <DemandCard status="AprovadoPelaComissao" />
+        <DemandCard status="Cancelado" /> */}
       </div>
     );
   }
@@ -72,8 +69,16 @@ export default function homeDemands() {
           Minhas demandas
         </SubHeader>
       </div>
-      <div className="flex justify-center">
-        {isListFormat ? getDemandsList() : getDemandsGrid()}
+      <div className="flex justify-center w-full">
+        {demands ? (
+          isListFormat ? (
+            getDemandsList()
+          ) : (
+            getDemandsGrid()
+          )
+        ) : (
+          <NoDemands>Sem demandas</NoDemands>
+        )}
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 import { useState } from "react";
 
-import UserMessageCard from "../../../Components/Chat-components/User-message-card";
+import UserMessageCard from "../../../Components/Chat-components/user-message-card";
 import ChatSubHeader from "../../../Components/Chat-components/Chat-sub-header";
 import { Tooltip } from "@mui/material";
 
