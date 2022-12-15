@@ -19,7 +19,7 @@ import { Tooltip } from "@mui/material";
 
 async function getUsersFromDatabase() {
   const response = await fetch(
-    "http://localhost:8080/sid/api/chat/usuario/7329"
+    "http://localhost:8080/sid/api/chat/usuario/72130"
   );
   const users = await response.json();
   return users;
@@ -80,7 +80,9 @@ export default function Chat() {
     setMessage("");
   }
 
-  const [userCard, setUserCard] = useState<any>();
+  const [userNameCard, setUserNameCard] = useState<string>("");
+  const [userDemandCard, setUserDemandCard] = useState<string>("");
+
   const [users, setUsers] = useState<any>([]);
 
   useEffect(() => {
@@ -96,17 +98,6 @@ export default function Chat() {
       }))
     );
   }, [chatUsers]);
-
-  // const users = [
-  //   {
-  //     name: "John Doe",
-  //     userDemand: "I need a tutor for my son",
-  //     lastMessage: "Hello, I'm interested in your demand",
-  //     time: "12:00",
-  //     unreadMessages: false,
-  //     isOnline: false,
-  //   },
-  // ];
 
   function returnedUserSearch() {
     const filteredUsers = users.filter((user) => {
@@ -133,7 +124,7 @@ export default function Chat() {
         </div>
       );
     } else {
-      return filteredUsers.map((user) => (
+      return filteredUsers.map((user: any) => (
         <UserMessageCard
           name={user.name}
           userDemand={user.userDemand}
@@ -213,22 +204,33 @@ export default function Chat() {
                   return 0;
                 })
                 .map((user: any) => (
-                  <UserMessageCard
-                    picture={user.picture}
-                    name={user.name}
-                    userDemand={user.userDemand}
-                    lastMessage={user.lastMessage}
-                    time={user.time}
-                    unreadMessages={user.unreadMessages}
-                    isOnline={user.isOnline}
-                  />
+                  <div
+                    onClick={() => {
+                      const userName = user.name;
+                      const userDemand = user.userDemand;
+                      setUserNameCard(userName);
+                      setUserDemandCard(userDemand);
+                      console.log("USERNAME: ", userNameCard);
+                      console.log("USERDEMAND: ", userDemandCard);
+                    }}
+                  >
+                    <UserMessageCard
+                      picture={user.picture}
+                      name={user.name}
+                      userDemand={user.userDemand}
+                      lastMessage={user.lastMessage}
+                      time={user.time}
+                      unreadMessages={user.unreadMessages}
+                      isOnline={user.isOnline}
+                    />
+                  </div>
                 ))
             : returnedUserSearch()}
         </div>
       </div>
       <div className=" w-full bg-[#dddddd]">
-        {/* this is the username subheader */}
-        <ChatSubHeader />
+        {/* Nome do usuário no subheader */}
+        <ChatSubHeader userName={userNameCard} userDemand={userDemandCard} />
         <div
           className="
           bg-[#dddddd]

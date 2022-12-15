@@ -15,7 +15,12 @@ type Anchor = "right";
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
-export default function ChatSubHeader() {
+
+interface IUserName {
+  userName: string;
+  userDemand: string;
+}
+export default function ChatSubHeader(props: IUserName) {
   const [drawerState, setDrawerState] = useState({
     right: false,
   });
@@ -89,14 +94,16 @@ export default function ChatSubHeader() {
             <img className="h-40 w-40" src={UserIMG} alt="" />
           </div>
           <p className="flex justify-center items-center text-lg">
-            {userInformations.name}
+            {props.userName}
           </p>
         </div>
         <div className="grid justify-start items-center font-roboto gap-3 ml-3 mt-5">
           <p className="text-lg font-bold text-justify mr-3">
             Demanda:{" "}
             <span className="font-normal text-[#222222] ">
-              {userInformations.userDemand}
+              {props.userDemand.length > 35
+                ? props.userDemand.slice(0, 35) + "..."
+                : props.userDemand}
             </span>
           </p>
           <p className="text-lg font-bold text-justify mr-3">
@@ -183,7 +190,7 @@ export default function ChatSubHeader() {
       </Snackbar>
       <div className="shadow-md border-l-[#d9d9d9] border-l-2 h-20 flex justify-between items-center bg-blue-weg rounded-br-sm rounded-bl-sm">
         <p className="ml-5 text-white font-normal text-xl cursor-default ">
-          {userInformations.name}
+          {props.userName}
         </p>
         <React.Fragment key={"right"}>
           <Tooltip title="Informações do usuário">
