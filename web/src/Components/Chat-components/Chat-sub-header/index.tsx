@@ -18,6 +18,7 @@ export interface State extends SnackbarOrigin {
 
 interface IuserName {
   userName: string;
+  userDemand: string;
 }
 export default function ChatSubHeader(props: IuserName) {
   const [drawerState, setDrawerState] = useState({
@@ -93,14 +94,16 @@ export default function ChatSubHeader(props: IuserName) {
             <img className="h-40 w-40" src={UserIMG} alt="" />
           </div>
           <p className="flex justify-center items-center text-lg">
-            {userInformations.name}
+            {props.userName}
           </p>
         </div>
         <div className="grid justify-start items-center font-roboto gap-3 ml-3 mt-5">
           <p className="text-lg font-bold text-justify mr-3">
             Demanda:{" "}
             <span className="font-normal text-[#222222] ">
-              {userInformations.userDemand}
+              {props.userDemand.length > 35
+                ? props.userDemand.slice(0, 35) + "..."
+                : props.userDemand}
             </span>
           </p>
           <p className="text-lg font-bold text-justify mr-3">

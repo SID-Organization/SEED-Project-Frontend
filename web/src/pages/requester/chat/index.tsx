@@ -80,7 +80,9 @@ export default function Chat() {
     setMessage("");
   }
 
-  const [userCard, setUserCard] = useState<string>("");
+  const [userNameCard, setUserNameCard] = useState<string>("");
+  const [userDemandCard, setUserDemandCard] = useState<string>("");
+
   const [users, setUsers] = useState<any>([]);
 
   useEffect(() => {
@@ -205,8 +207,11 @@ export default function Chat() {
                   <div
                     onClick={() => {
                       const userName = user.name;
-                      setUserCard(userName);
-                      console.log("USERNAME: ", userCard);
+                      const userDemand = user.userDemand;
+                      setUserNameCard(userName);
+                      setUserDemandCard(userDemand);
+                      console.log("USERNAME: ", userNameCard);
+                      console.log("USERDEMAND: ", userDemandCard);
                     }}
                   >
                     <UserMessageCard
@@ -225,7 +230,7 @@ export default function Chat() {
       </div>
       <div className=" w-full bg-[#dddddd]">
         {/* Nome do usuário no subheader */}
-        <ChatSubHeader userName={userCard} />
+        <ChatSubHeader userName={userNameCard} userDemand={userDemandCard} />
         <div
           className="
           bg-[#dddddd]
