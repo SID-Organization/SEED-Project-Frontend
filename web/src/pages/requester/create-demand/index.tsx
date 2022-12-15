@@ -25,7 +25,6 @@ import UploadIcon from "@mui/icons-material/Upload";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { useState, useEffect } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -41,12 +40,12 @@ interface INewBenefit {
   description: string;
 }
 
-interface IQualitativeBenefit {
-  description: string;
-}
 
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+// Import de interfaces
+import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -111,10 +110,11 @@ export default function CreateDemand() {
   const [currentProblem, setCurrentProblem] = useState("");
   const [proposal, setProposal] = useState("");
   const [frequencyOfUse, setFrequencyOfUse] = useState("");
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set<number>());
-  const [buttonNotification, setButtonNotification] = React.useState(false);
-  const [deleteNotification, setDeleteNotification] = React.useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set<number>());
+  const [buttonNotification, setButtonNotification] = useState(false);
+  const [deleteNotification, setDeleteNotification] = useState(false);
+  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!));
 
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
@@ -161,14 +161,12 @@ export default function CreateDemand() {
 
     const demandToBeSent = {
       tituloDemanda: title,
-      propostaDemanda: proposal,
+      propostaMelhoriaDemanda: proposal,
       situacaoAtualDemanda: currentProblem,
       frequenciaUsoDemanda: frequencyOfUse,
-      descricaoQualitativoDemanda: "Tecnologia e loucuras",
-      prazoElaboracaoDemanda: null,
-      codigoPPM: null,
-      solicitanteDemanda: { numeroCadastroUsuario: 72130 },
-      busBeneficiadas: [],
+      descricaoQualitativoDemanda: qualitativeBenefit,
+      solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
+      analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
       beneficiosDemanda: benefitsToBeSent,
     };
 
@@ -367,13 +365,7 @@ export default function CreateDemand() {
     },
   ]);
 
-  const [qualitativeBenefits, setQualitativeBenefits] = useState<
-    IQualitativeBenefit[]
-  >([
-    {
-      description: "",
-    },
-  ]);
+  const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
   // Segundo passo - Benefícios
   const secondStep = () => {
@@ -426,18 +418,18 @@ export default function CreateDemand() {
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           <Tooltip title="Adicionar mais benefícios potenciais">
-            <IconButton>
+            <IconButton
+            onClick={() => {
+              setPotentialBenefits([
+                ...potentialBenefits,
+                { coin: "", value: 0, description: "" },
+              ]);
+            }}>
               <AddBoxRoundedIcon
                 sx={{
                   color: "#00579D",
                   fontSize: "2rem",
                   cursor: "pointer",
-                }}
-                onClick={() => {
-                  setPotentialBenefits([
-                    ...potentialBenefits,
-                    { coin: "", value: 0, description: "" },
-                  ]);
                 }}
               />
             </IconButton>
@@ -468,7 +460,6 @@ export default function CreateDemand() {
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
         </div>
-        {qualitativeBenefits.map((item, i) => (
           <div className="flex items-center justify-center">
             <TextField
               sx={{
@@ -480,18 +471,11 @@ export default function CreateDemand() {
               type="text"
               multiline
               maxRows={4}
-              value={item.description}
-              onChange={(e) => {
-                const newQualitativeBenefits = [...qualitativeBenefits];
-                newQualitativeBenefits[i].description = e.target.value;
-                setQualitativeBenefits(newQualitativeBenefits);
-              }}
+              value={qualitativeBenefit}
+              onChange={(e) => setQualitativeBenefit(e.target.value)}
             />
-            {(i < qualitativeBenefits.length - 1 || i === 0) && (
-              <div className="mr-16" />
-            )}
+          <div className="mr-16" />
           </div>
-        ))}
         {/* FIM BENEFICIO QUALITATIVO */}
       </div>
     );
@@ -517,10 +501,6 @@ export default function CreateDemand() {
 
     return { name, size: fileSize };
   }
-
-  useEffect(() => {
-    console.log(selectedFiles);
-  }, [selectedFiles]);
 
   const thirdStep = () => {
     return (

@@ -81,27 +81,22 @@ export default function Login() {
         return response.json();
       })
       .then((data) => {
-        setUser(data);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            numeroCadastroUsuario: data.numeroCadastroUsuario,
+            businessUnity: data.businessUnity,
+            cargoUsuario: data.cargoUsuario,
+            departamentoUsuario: data.departamentoUsuario,
+            emailUsuario: data.emailUsuario,
+            fotoUsuario: data.fotoUsuario,
+            nomeUsuario: data.nomeUsuario,
+          })
+        );
+        navigate("/demandas");
       });
   };
 
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          numeroCadastroUsuario: user.numeroCadastroUsuario,
-          businessUnity: user.businessUnity,
-          cargoUsuario: user.cargoUsuario,
-          departamentoUsuario: user.departamentoUsuario,
-          emailUsuario: user.emailUsuario,
-          fotoUsuario: user.fotoUsuario,
-          nomeUsuario: user.nomeUsuario,
-        })
-      );
-      navigate("/demandas");
-    }
-  }, [user]);
 
   return (
     <div className="bg-loginWallpaper bg-cover w-full h-screen">

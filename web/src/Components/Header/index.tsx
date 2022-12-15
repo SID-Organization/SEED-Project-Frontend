@@ -1,4 +1,15 @@
 import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+
+// MUI
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Switch from "@mui/material/Switch";
+import SearchIcon from "@mui/icons-material/Search";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
+import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -6,13 +17,12 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import {
   Accordion,
-  Button,
+  Avatar,
   Divider,
   InputBase,
   Paper,
@@ -21,30 +31,25 @@ import {
 import AccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiButton from "@mui/material/Button";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+// Assets
 import BrazilFlag from "../../assets/countries-flags/brazil.png";
 import UnitedStatesFlag from "../../assets/countries-flags/united-states.png";
 import SpainFlag from "../../assets/countries-flags/spain.png";
 import ChinaFlag from "../../assets/countries-flags/china.png";
-
-import { Link } from "react-router-dom";
-
-import { styled } from "@mui/material/styles";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch, { SwitchProps } from "@mui/material/Switch";
-import SearchIcon from "@mui/icons-material/Search";
-import SearchOffIcon from "@mui/icons-material/SearchOff";
-
-import { useState } from "react";
-
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import WegLogo from "../../assets/weg-logo.png";
 
-import "../../styles/index.css";
+
+// Components
 import UserMessageCard from "../Chat-components/user-message-card";
 import NotificationCard from "../Notification-card";
+
+import "../../styles/index.css";
+
+// Import de interfaces
+import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
+import { blue, deepOrange } from "@mui/material/colors";
 
 const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -94,6 +99,22 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  
+  // Usa react router para navegar entre as páginas dentro de funções.
+  const navigate = useNavigate();
+  
+  // Estado que armazena o usuário logado.
+  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!))
+
+  // Função que retorna o avatar do usuário (Imagem ou letras).
+  const userAvatar = () => {
+    if (user.fotoUsuario) {
+      return ({foto: true, src: user.fotoUsuario});
+    } else {
+      return ({foto: false, src: user.nomeUsuario.split(' ').map((nome) => nome[0]).join('')});
+    }
+  }
+
   const [menuAnchoeEl, setmMenuAnchoeEl] = useState<null | HTMLElement>(null);
   const [messagesAnchoeEl, setMessagesAnchoeEl] = useState<null | HTMLElement>(
     null
@@ -103,8 +124,8 @@ export default function PrimarySearchAppBar() {
 
   const [search, setSearch] = useState("");
 
-  const [filterUnreadNotifications, setFilterUnreadNotifications] =
-    useState(false);
+  const [filterUnreadNotifications, setFilterUnreadNotifications] = useState(false);
+
 
   const isMenuOpen = Boolean(menuAnchoeEl);
   const isMessagesOpen = Boolean(messagesAnchoeEl);
@@ -147,7 +168,7 @@ export default function PrimarySearchAppBar() {
     setNotificationsAnchoeEl(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
+  const handleCloseMenu = () => {
     setmMenuAnchoeEl(null);
   };
 
@@ -158,6 +179,11 @@ export default function PrimarySearchAppBar() {
   const handleNotificationsMenuClose = () => {
     setNotificationsAnchoeEl(null);
   };
+
+  const handleSystemExit = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  }
 
   const usersMock = [
     {
@@ -379,10 +405,10 @@ export default function PrimarySearchAppBar() {
         horizontal: "right",
       }}
       open={isMenuOpen}
-      onClose={handleMenuClose}
+      onClose={handleCloseMenu}
     >
-      <Link to="/admin/perfil">
-        <MenuItem onClick={handleMenuClose}>Seu perfil</MenuItem>
+      <Link to="/perfil">
+        <MenuItem onClick={handleCloseMenu}>Seu perfil</MenuItem>
       </Link>
       <Accordion
         sx={{
@@ -459,7 +485,7 @@ export default function PrimarySearchAppBar() {
           </Button>
         </AccordionDetails>
       </Accordion>
-      <MenuItem onClick={handleMenuClose}>Sair</MenuItem>
+      <MenuItem onClick={handleSystemExit}>Sair</MenuItem>
       <MenuItem
         sx={{
           display: "flex",
@@ -781,6 +807,8 @@ export default function PrimarySearchAppBar() {
     }
   }
 
+  
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -795,7 +823,7 @@ export default function PrimarySearchAppBar() {
           }}
         >
           <Toolbar>
-            <Link to="/admin/minhas-demandas" className="cursor-pointer">
+            <Link to="/demandas" className="cursor-pointer">
               <img className="h-full w-16" src={WegLogo} alt="" />
             </Link>
             <Box sx={{ flexGrow: 1 }} />
@@ -821,12 +849,21 @@ export default function PrimarySearchAppBar() {
                   }}
                 >
                   <h1 className="text-usual flex justify-center items-center">
-                    Henrique Cole
+                    {user.nomeUsuario}
                   </h1>
-                  <AccountCircle />
+                  {userAvatar().foto ? (
+                    <Avatar
+                      src={'data:image/png;base64,' + userAvatar().src}
+                      sx={{
+                        width: 30,
+                        height: 30,
+                      }}
+                    />
+                  ) : (
+                    <Avatar sx={{bgcolor: "#023A67", width: 30, height: 30, fontSize: 14}}>{userAvatar().src}</Avatar>
+                  )}
                 </IconButton>
               </Box>
-
               <Tooltip title="Mensagens">
                 <IconButton
                   size="large"
