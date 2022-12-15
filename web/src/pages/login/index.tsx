@@ -21,7 +21,6 @@ import { useState, useEffect } from "react";
 // Interfaces
 import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 
-
 export default function Login() {
   const [openNotification, setOpenNotification] = useState(false);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -29,15 +28,16 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // Usuário 'logado'. 
-  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user") as any));
+  // Usuário 'logado'.
+  const [user, setUser] = useState<LoggedUserInterface>(
+    JSON.parse(localStorage.getItem("user") as any)
+  );
   //Se houver, será redirecionado para a página inicial
   useEffect(() => {
     if (user) {
       navigate("/demandas");
     }
   }, []);
-
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -63,43 +63,45 @@ export default function Login() {
       return;
     }
 
-    fetch('http://localhost:8080/sid/api/login', {
-      method: 'POST',
+    fetch("http://localhost:8080/sid/api/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         numeroCadastroUsuario: userID,
-        senhaUsuario: password
-      })
-    }).then(response => {
-      if(response.status === 404) {
-        setOpenNotification(true);
-        return;
-      }
-      return response.json()
+        senhaUsuario: password,
+      }),
     })
-      .then(data => {
-        setUser(data);
+      .then((response) => {
+        if (response.status === 404) {
+          setOpenNotification(true);
+          return;
+        }
+        return response.json();
       })
+      .then((data) => {
+        setUser(data);
+      });
   };
 
   useEffect(() => {
     if (user) {
-      console.log('USER: ', user)
-      localStorage.setItem("user", JSON.stringify({
-        numeroCadastroUsuario: user.numeroCadastroUsuario,
-        businessUnity: user.businessUnity,
-        cargoUsuario: user.cargoUsuario,
-        departamentoUsuario: user.departamentoUsuario,
-        emailUsuario: user.emailUsuario,
-        fotoUsuario: user.fotoUsuario,
-        nomeUsuario: user.nomeUsuario,
-      }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          numeroCadastroUsuario: user.numeroCadastroUsuario,
+          businessUnity: user.businessUnity,
+          cargoUsuario: user.cargoUsuario,
+          departamentoUsuario: user.departamentoUsuario,
+          emailUsuario: user.emailUsuario,
+          fotoUsuario: user.fotoUsuario,
+          nomeUsuario: user.nomeUsuario,
+        })
+      );
       navigate("/demandas");
     }
-  }, [user])
-
+  }, [user]);
 
   return (
     <div className="bg-loginWallpaper bg-cover w-full h-screen">
@@ -163,69 +165,67 @@ export default function Login() {
                 <h1 className="font-bold flex justify-center items-center text-5xl m-12 text-blue-weg">
                   Login
                 </h1>
-                  <div className="grid gap-4">
-                    <div className="flex justify-center items-center">
-                      <PersonOutlineOutlinedIcon
-                        sx={{ fontSize: 35, color: "#00579D" }}
-                      />
-                      <TextField
-                        id="outlined-basic"
-                        label="Usuário"
-                        variant="filled"
-                        sx={{
-                          width: "24rem",
-                          input: { backgroundColor: "white", borderRadius: 1 },
-                        }}
-                        value={userID}
-                        onChange={(e) => {
-                          if(e.target.value.match(/^[0-9]*$/)){
-                            setUserID(parseInt(e.target.value))
-                          }
-                        }}
-                      />
-                    </div>
-                    <div className="flex justify-center items-center">
-                      <LockOutlinedIcon
-                        sx={{ fontSize: 35, color: "#00579D" }}
-                      />
-                      <TextField
-                        id="outlined-basic"
-                        label="Senha"
-                        variant="filled"
-                        type={"password"}
-                        sx={{
-                          width: "24rem",
-                          input: { backgroundColor: "white", borderRadius: 1 },
-                        }}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </div>
+                <div className="grid gap-4">
+                  <div className="flex justify-center items-center">
+                    <PersonOutlineOutlinedIcon
+                      sx={{ fontSize: 35, color: "#00579D" }}
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      label="Usuário"
+                      variant="filled"
+                      sx={{
+                        width: "24rem",
+                        input: { backgroundColor: "white", borderRadius: 1 },
+                      }}
+                      value={userID}
+                      onChange={(e) => {
+                        if (e.target.value.match(/^[0-9]*$/)) {
+                          setUserID(parseInt(e.target.value));
+                        }
+                      }}
+                    />
                   </div>
-                  <div className="flex justify-between items-center mt-3">
-                    <div>
-                      <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition text-sm">
-                        Esqueceu a senha?
-                      </h1>
-                    </div>
+                  <div className="flex justify-center items-center">
+                    <LockOutlinedIcon sx={{ fontSize: 35, color: "#00579D" }} />
+                    <TextField
+                      id="outlined-basic"
+                      label="Senha"
+                      variant="filled"
+                      type={"password"}
+                      sx={{
+                        width: "24rem",
+                        input: { backgroundColor: "white", borderRadius: 1 },
+                      }}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
-                  <div className="grid gap-4 justify-center items-center">
-                        <Button
-                          onClick={handleLogin}
-                          variant="contained"
-                          sx={{
-                            marginTop: "3rem",
-                            width: "140px",
-                            height: "45px",
-                            fontSize: "17px",
-                            fontWeight: "bold",
-                            textTransform: "none",
-                            backgroundColor: "#00579D",
-                          }}
-                          >
-                          Entrar
-                        </Button>
+                </div>
+                <div className="flex justify-between items-center mt-3">
+                  <div>
+                    <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition text-sm">
+                      Esqueceu a senha?
+                    </h1>
                   </div>
+                </div>
+                <div className="grid gap-4 justify-center items-center">
+                  <Button
+                    onClick={handleLogin}
+                    variant="contained"
+                    sx={{
+                      marginTop: "3rem",
+                      width: "140px",
+                      height: "45px",
+                      fontSize: "17px",
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      backgroundColor: "#00579D",
+                    }}
+                  >
+                    Entrar
+                  </Button>
+                </div>
               </div>
             </div>
           </Box>
