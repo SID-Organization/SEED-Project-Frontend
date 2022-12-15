@@ -18,38 +18,18 @@ import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
+import DemandCardProps from "../../Interfaces/demand/DemandCardPropsInterface";
 
-
-interface DemandCardProps {
-  demand: {
-    idDemanda: string;
-    statusDemanda: string;
-    descricaoDemanda: string;
-    situacaoAtualDemanda: string;
-    propostaDemanda: string;
-    frequenciaUsoDemanda: string;
-    descricaoQualitativoDemanda: string;
-    arquivosDemandas: any[];
-    beneficiosDemanda: any[];
-    tituloDemanda: string;
-    scoreDemanda: number;
-    solicitanteDemanda: {
-      nomeUsuario: string;
-      departamentoUsuario: string;
-    }
-    centroCustoDemanda: any[]
-  }
-  setSelectedDrafts?: (value: any) => void;
-}
 
 export default function DemandCard(props: DemandCardProps) {
-  console.log(props.demand);
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
     useState(false);
   const [openGenerateProposal, setOpenGenerateProposal] = useState(false);
   const [isDraftSelected, setIsDraftSelected] = useState(false);
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")!));
 
   useEffect(() => {
     console.info("Selected Drafts: ", isDraftSelected);
@@ -116,6 +96,18 @@ export default function DemandCard(props: DemandCardProps) {
   };
 
 
+  function formatDemandStatus(type: number){
+    const status = props.demand.statusDemanda[0].toLocaleUpperCase() + props.demand.statusDemanda.split('_').join(' ').toLocaleLowerCase().slice(1);
+
+    if(type === 1){
+      if(status.length > 15){
+        return status.slice(0, 15) + '...';
+      }
+    }
+    return status;
+  
+  }
+
   const getData = async () => {
     setIsDemandLoading(true);
     const response = await fetch(
@@ -181,9 +173,11 @@ export default function DemandCard(props: DemandCardProps) {
                 className="flex"
               >
                 <span className="mr-1 text-[0.95rem]">Status:</span>
-                <span className="font-medium text-black text-[0.95rem]">
-                  {props.demand.statusDemanda[0].toLocaleUpperCase() + props.demand.statusDemanda.split('_').join(' ').toLocaleLowerCase().slice(1)}
-                </span>
+                <Tooltip title={formatDemandStatus(2)}>
+                  <span className="font-medium text-black text-[0.95rem]">
+                    {formatDemandStatus(1)}
+                  </span>
+                </Tooltip>
                 {/* Select */}
                 {props.demand.statusDemanda === "RASCUNHO" && (
                   <div className="flex justify-center items-center ml-5">
@@ -285,7 +279,7 @@ export default function DemandCard(props: DemandCardProps) {
               </div>
             </div>
             <div className="flex justify-center items-center gap-3 mr-4">
-              {props.demand.statusDemanda === "ABERTA" && (
+              {props.demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA" && (
                 <div>
                   <Tooltip title="Gerar proposta">
                     <Button

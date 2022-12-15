@@ -43,11 +43,6 @@ export default function homeDemands() {
         {demands && demands.filter(item => item.statusDemanda != "RASCUNHO").map((demand, i) => {
             return <DemandCard key={i} demand={demand} />;
         })}
-
-        {/* <DemandCard status="Aberto" />
-        <DemandCard status="AprovadoPelaComissao" />
-        <DemandCard status="Aberto" />
-        <DemandCard status="Cancelado" /> */}
       </div>
     );
   }

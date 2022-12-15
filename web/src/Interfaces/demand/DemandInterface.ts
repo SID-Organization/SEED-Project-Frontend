@@ -3,7 +3,7 @@ export default interface DemandInterface {
     nomeDemanda: string;
     descricaoDemanda: string;
     situacaoAtualDemanda: string;
-    propostaDemanda: string;
+    propostaMelhoriaDemanda: string;
     frequenciaUsoDemanda: string;
     descricaoQualitativoDemanda: string;
     arquivosDemandas: any[];

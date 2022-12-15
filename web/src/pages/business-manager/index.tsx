@@ -9,6 +9,7 @@ import SubHeader from "../../Components/Sub-header";
 
 // Interfaces
 import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
+import DemandCard from "../../Components/Demand-card";
 
 export default function DemandManager() {
 
@@ -19,9 +20,12 @@ export default function DemandManager() {
   const [demandsToManage, setDemandsToManage] = useState<any[]>([])
 
   useEffect(() => {
-    fetch("http://localhost:8080/sid/api/demanda/gerente/" + user.numeroCadastroUsuario)
+    console.log("user ID", user.numeroCadastroUsuario)
+    fetch("http://localhost:8080/sid/api/demanda/analista/" + user.numeroCadastroUsuario)
       .then(response => response.json())
-      .then(data => setDemandsToManage(data))
+      .then(data => {
+        setDemandsToManage(data);
+      })
   }, [])
 
 
@@ -34,6 +38,9 @@ export default function DemandManager() {
         <DemandCardList />
       ) : (
         <div className="flex flex-wrap justify-around">
+          {demandsToManage && demandsToManage.filter(item => item.statusDemanda != "RASCUNHO").map((demand, i) => {
+            return <DemandCard key={i} demand={demand} />;
+        })}
         </div>
       )}
     </div>

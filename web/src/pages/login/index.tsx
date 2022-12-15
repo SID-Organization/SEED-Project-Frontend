@@ -86,6 +86,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
+      console.log('USER: ', user)
       localStorage.setItem("user", JSON.stringify({
         numeroCadastroUsuario: user.numeroCadastroUsuario,
         businessUnity: user.businessUnity,

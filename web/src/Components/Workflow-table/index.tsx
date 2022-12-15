@@ -10,12 +10,40 @@ import {
 import { Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
 
+// Renderizador de células normais
 const renderCellTooltip = (params: GridRenderCellParams) =>
   <Tooltip title={params.value} enterDelay={820}>
     <p className="text-[11px]">
       {params.value}
     </p>
   </Tooltip>;
+
+// Renderizador de células de data
+const renderDateCell = (params: GridRenderCellParams) => {
+  const date = params.value ? getTableDate(params.value) : "Indefinido";
+  return (
+    <Tooltip title={date} enterDelay={820}>
+      <p className="text-[11px]">
+        {date}
+      </p>
+    </Tooltip>
+  )
+}
+
+// Função para formatar a data
+function getTableDate(date: string) {
+  const dateObject = new Date(date);
+  const dateString = dateObject.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }) + " - " + dateObject.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return dateString;
+}
+
 
 function CustomToolbar() {
   return (
@@ -24,6 +52,7 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
+
 
 const columns: GridColDef[] = [
   {
@@ -38,21 +67,21 @@ const columns: GridColDef[] = [
     field: "recebimento",
     headerName: "Recebimento",
     type: "date",
-    renderCell: renderCellTooltip,
+    renderCell: renderDateCell,
     width: 130
   },
   {
     field: "conclusao",
     headerName: "Conclusão",
     type: "date",
-    renderCell: renderCellTooltip,
+    renderCell: renderDateCell,
     width: 130
   },
   {
     field: "prazo",
     headerName: "Prazo",
     type: "date",
-    renderCell: renderCellTooltip,
+    renderCell: renderDateCell,
     width: 140
   },
   {
@@ -98,94 +127,47 @@ const columns: GridColDef[] = [
   }
 ];
 
-const rows = [
-  {
-    id: 1,
-    recebimento: "01/01/2021 - 24:25",
-    conclusao: "01/03/2021 - 17:17",
-    prazo: "Indefinido",
-    tarefa: "Classificar e aprovar demanda",
-    responsavel: "Jeremias Nunes",
-    acao: "Aprovar",
-    status: "Concluído",
-    versao: "0.1"
-  },
-  {
-    id: 2,
-    recebimento: "02/01/2021 - 15:25",
-    conclusao: "04/04/2021 - 11:32",
-    prazo: "02/01/2021 - 16:59",
-    tarefa: "Classificar e aprovar demanda",
-    responsavel: "Jeremias Nunes",
-    acao: "Aprovar",
-    status: "Concluído",
-    versao: "0.1"
-  },
-  {
-    id: 3,
-    recebimento: "01/03/2021 - 16:25",
-    conclusao: "01/05/2021 - 17:22",
-    prazo: "01/12/2021 - 18:59",
-    tarefa: "Classificar e aprovar demanda",
-    responsavel: "Jeremias Nunes",
-    acao: "Aprovar",
-    status: "Concluído",
-    versao: "0.1"
-  },
-  {
-    id: 4,
-    recebimento: "01/03/2021 - 16:25",
-    conclusao: "01/05/2021 - 17:22",
-    prazo: "01/12/2021 - 18:59",
-    tarefa: "Classificar e aprovar demanda",
-    responsavel: "Jeremias Nunes",
-    acao: "Aprovar",
-    status: "Concluído",
-    versao: "0.1"
-  },
-  {
-    id: 5,
-    recebimento: "01/03/2021 - 16:25",
-    conclusao: "01/05/2021 - 17:22",
-    prazo: "01/12/2021 - 18:59",
-    tarefa: "Classificar e aprovar demanda",
-    responsavel: "Jeremias Nunes",
-    acao: "Aprovar",
-    status: "Concluído",
-    versao: "0.1"
-  },
-  {
-    id: 6,
-    recebimento: "01/03/2021 - 16:25",
-    conclusao: "01/05/2021 - 17:22",
-    prazo: "01/12/2021 - 18:59",
-    tarefa: "Aprovação da demanda pelo gerente da área",
-    responsavel: "Douglas Dias",
-    acao: "Aprovar",
-    status: "Atrasado",
-    versao: "0.1"
-  },
-  {
-    id: 7,
-    recebimento: "01/03/2021 - 16:25",
-    conclusao: "01/05/2021 - 17:22",
-    prazo: "01/12/2021 - 18:59",
-    tarefa: "Aprovação da demanda pelo gestor de TI",
-    responsavel: "Emanuel Kant",
-    acao: "Aprovar",
-    status: "Em andamento",
-    versao: "0.1"
-  }
-];
+export default function WorkflowTable({ demandId }: { demandId: string | undefined; }) {
 
-export default function WorkflowTable({ demandId }: { demandId: string | undefined }) {
   const [pageSize, setPageSize] = useState<number>(5);
+  const [workFlowData, setWorkFlowData] = useState<any[]>();
+  const [workFlowRows, setWorkFlowRows] = useState<any[]>([]);
 
+  // Busca os dados do workflow da demanda
   useEffect(() => {
-    if (demandId) {
-      console.log(demandId);
-    }
-  }, [demandId]);
+    fetch(
+      `http://localhost:8080/sid/api/historico-workflow/demanda/${demandId}`
+    )
+      .then(response => response.json())
+      .then(data => {
+        setWorkFlowData(data);
+      });
+  }, []);
+
+  // Seta as linhas da tabela de workflow
+  useEffect(
+    () => {
+      console.log(workFlowData)
+      if(!workFlowData) return;
+      setWorkFlowRows(
+        workFlowData!.map((wfdata, index) => {
+          return {
+            id: index+1,
+            recebimento: wfdata.recebimentoHistorico,
+            conclusao: wfdata.conclusaoHistorico,
+            prazo: wfdata.prazoHistorico,
+            tarefa: wfdata.tarefaHistoricoWorkflow,
+            responsavel: wfdata.nomeResponsavel,
+            acao: wfdata.acaoFeitaHistorico,
+            status: wfdata.statusWorkflow,
+            versao: wfdata.versaoHistorico
+          };
+        })
+      );
+    },
+    [workFlowData]
+  );
+
 
   return (
     <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
@@ -194,7 +176,7 @@ export default function WorkflowTable({ demandId }: { demandId: string | undefin
         pageSize={pageSize}
         onPageSizeChange={newPageSize => setPageSize(newPageSize)}
         columns={columns}
-        rows={rows}
+        rows={workFlowRows}
         density="compact"
         components={{
           Toolbar: CustomToolbar

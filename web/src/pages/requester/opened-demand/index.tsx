@@ -114,7 +114,7 @@ export default function openedDemand() {
     if(demand){
       setFileRows(demand.arquivosDemandas);
       setCurrentSituation(demand.situacaoAtualDemanda as any);
-      setProposal(demand.propostaDemanda as any);
+      setProposal(demand.propostaMelhoriaDemanda as any);
       setUsageFrequency(demand.frequenciaUsoDemanda as any);
       setQualitativeBenefit(demand.descricaoQualitativoDemanda as any);
     }
