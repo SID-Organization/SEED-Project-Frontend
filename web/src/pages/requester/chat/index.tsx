@@ -25,66 +25,58 @@ async function getUsersFromDatabase() {
   return users;
 }
 
+async function getMessagesFromDatabase() {
+  const response = await fetch("http://localhost:8080/sid/api/chat/mensagem/1");
+  const messages = await response.json();
+  return messages;
+}
+
+function getLoggedUserId() {
+  return JSON.parse(localStorage.getItem("user")!).numeroCadastroUsuario;
+}
+
 export default function Chat() {
+  //State para filtrar os usuários que serão exibidos na lista de usuários
   const [search, setSearch] = useState("");
+
+  //States para armazenar os usuários de um chat e suas respectivas mensagens
   const [chatUsers, setChatUsers] = useState<any[]>([]);
+  const [chatMessages, setChatMessages] = useState<any[]>([]);
 
-  const [file, setFile] = useState([]);
-  const [preview, setPreview] = useState("");
-
-  const [message, setMessage] = useState("");
-
-  const [messages, setMessages] = useState([
-    {
-      position: "left",
-      type: "text",
-      text: "Hello World",
-      date: new Date(),
-      status: "received",
-    },
-    {
-      position: "right",
-      type: "text",
-      text: "Hello",
-      date: new Date(),
-      status: "received",
-    },
-  ]);
-
-  useEffect(() => {
-    getUsersFromDatabase().then((users) => {
-      setChatUsers(users);
-      console.log(users);
-    });
-  }, []);
-
-  useEffect(() => {
-    console.log("USERS: ", chatUsers);
-  }, [chatUsers]);
-
-  function filterUser(e: any) {
-    setSearch(e.target.value);
-  }
-
-  function sendMessage() {
-    setMessages([
-      ...messages,
-      {
-        position: "right",
-        type: "text",
-        text: message,
-        date: new Date(),
-        status: "received",
-      },
-    ]);
-    setMessage("");
-  }
-
+  //States para armazenar qual o nome do usuário e sua respectiva demanda
   const [userNameCard, setUserNameCard] = useState<string>("");
   const [userDemandCard, setUserDemandCard] = useState<string>("");
 
+  //State para armazenar a mensagem que o usuário quer enviar
+  const [message, setMessage] = useState("");
+
+  //State para armazenar as mensagens buscadas no banco de dados
+  const [messages, setMessages] = useState<any[]>([]);
+
+  //State para armazenar os usuários buscados no banco de dados
   const [users, setUsers] = useState<any>([]);
 
+  //States para armazenar arquivos enviados
+  const [file, setFile] = useState([]);
+  const [preview, setPreview] = useState("");
+
+  //UseEffect para buscar todos os usuários do banco de dados
+  useEffect(() => {
+    getUsersFromDatabase().then((users) => {
+      setChatUsers(users);
+      console.log("USERS: ", users);
+    });
+  }, []);
+
+  //UseEffect para buscar todas as mensagens do banco de dados
+  useEffect(() => {
+    getMessagesFromDatabase().then((messages) => {
+      setChatMessages(messages);
+      console.log("MESSAGES: ", messages);
+    });
+  }, []);
+
+  //UseEffect para setar no card de usuário o nome e a demanda do usuário
   useEffect(() => {
     setUsers(
       chatUsers.map((user) => ({
@@ -99,8 +91,37 @@ export default function Chat() {
     );
   }, [chatUsers]);
 
+  //UseEffect para setar as mensagens no chat
+  useEffect(() => {
+    setMessages(
+      chatMessages.map((message) => ({
+        position: message.idUsuario === getLoggedUserId() ? "right" : "left",
+        type: "text",
+        text: message.textoMensagem,
+        date: message.dataMensagem,
+        status: "received ",
+      }))
+    );
+  }, [chatMessages]);
+
+  //Função para enviar uma mensagem
+  function sendMessage() {
+    setMessages([
+      ...messages,
+      {
+        position: "right",
+        type: "text",
+        text: message,
+        date: new Date(),
+        status: "received",
+      },
+    ]);
+    setMessage("");
+  }
+
+  //Função para filtrar os usuários que serão exibidos na lista de usuários
   function returnedUserSearch() {
-    const filteredUsers = users.filter((user) => {
+    const filteredUsers = users.filter((user: any) => {
       return (
         user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.userDemand.toLowerCase().includes(search.toLowerCase())
@@ -167,7 +188,7 @@ export default function Chat() {
               sx={{ ml: 1, flex: 1, color: "#020202" }}
               placeholder="Procure por um usuário ou demanda"
               inputProps={{ "aria-label": "search google maps" }}
-              onChange={(e) => filterUser(e)}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </Paper>
         </div>
