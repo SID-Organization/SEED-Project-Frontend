@@ -16,11 +16,11 @@ export interface State extends SnackbarOrigin {
   open: boolean;
 }
 
-interface IuserName {
+interface IUserName {
   userName: string;
   userDemand: string;
 }
-export default function ChatSubHeader(props: IuserName) {
+export default function ChatSubHeader(props: IUserName) {
   const [drawerState, setDrawerState] = useState({
     right: false,
   });
