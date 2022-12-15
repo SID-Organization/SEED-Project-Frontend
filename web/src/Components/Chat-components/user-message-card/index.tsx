@@ -75,13 +75,23 @@ export default function UserMessageCard(
             </p>
           </Tooltip>
           <p>
-            {props.lastMessage.length > 20
-              ? props.lastMessage.slice(0, 20) + "..."
-              : props.lastMessage}
+            {props.lastMessage ? (
+              props.lastMessage.length > 20 ? (
+                props.lastMessage.slice(0, 20) + "..."
+              ) : (
+                props.lastMessage
+              )
+            ) : (
+              <div>
+                <p className="font-bold italic">Chat iniciado!</p>
+              </div>
+            )}
           </p>
         </div>
         <div className="grid items-center">
-          <p className="font-normal text-[#9c9c9c]">{props.time}</p>
+          <p className="font-normal text-[#9c9c9c]">
+            {props.time ? props.time : <div className="m-5"></div>}
+          </p>
           <div className="flex justify-center items-center">
             {props.unreadMessages === false ? null : (
               <div className="bg-dark-blue-weg text-white h-5 w-5 rounded-full flex justify-center items-center  text-xs font-bold">

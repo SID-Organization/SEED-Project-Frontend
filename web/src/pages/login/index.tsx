@@ -16,41 +16,29 @@ import { TextField } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const usersMock = [
-  {
-    id: 1,
-    username: "admin",
-    password: "admin",
-    role: "admin",
-  },
-  {
-    id: 2,
-    username: "user",
-    password: "user",
-    role: "user",
-  },
-  {
-    id: 3,
-    username: "analista",
-    password: "analista",
-    role: "analista",
-  },
-  {
-    id: 4,
-    username: "gestor",
-    password: "gestor",
-    role: "gestor",
-  },
-];
+// Interfaces
+import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 
 export default function Login() {
   const [openNotification, setOpenNotification] = useState(false);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-  const [username, setUsername] = useState("");
+  const [userID, setUserID] = useState<number>();
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  // Usuário 'logado'.
+  const [user, setUser] = useState<LoggedUserInterface>(
+    JSON.parse(localStorage.getItem("user") as any)
+  );
+  //Se houver, será redirecionado para a página inicial
+  useEffect(() => {
+    if (user) {
+      navigate("/demandas");
+    }
+  }, []);
+
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -69,31 +57,55 @@ export default function Login() {
     setOpenNotification(false);
   };
   const handleLogin = () => {
-    setOpenNotification(true);
-    const user = usersMock.find(
-      (user) => user.username === username && user.password === password
-    );
-    console.log(user);
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      if (user.role === "admin") {
-        navigate("/admin/minhas-demandas");
-      }
-      if (user.role === "user") {
-        navigate("/user/minhas-demandas");
-      }
-      if (user.role === "analista") {
-        navigate("/analista/minhas-demandas");
-      }
-      if (user.role === "gestor") {
-        navigate("/gestor/minhas-demandas");
-      }
+    // Validação de campos
+    if (!userID || !password) {
+      setOpenNotification(true);
+      return;
     }
+
+    fetch("http://localhost:8080/sid/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        numeroCadastroUsuario: userID,
+        senhaUsuario: password,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 404) {
+          setOpenNotification(true);
+          return;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUser(data);
+      });
   };
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          numeroCadastroUsuario: user.numeroCadastroUsuario,
+          businessUnity: user.businessUnity,
+          cargoUsuario: user.cargoUsuario,
+          departamentoUsuario: user.departamentoUsuario,
+          emailUsuario: user.emailUsuario,
+          fotoUsuario: user.fotoUsuario,
+          nomeUsuario: user.nomeUsuario,
+        })
+      );
+      navigate("/demandas");
+    }
+  }, [user]);
 
   return (
     <div className="bg-loginWallpaper bg-cover w-full h-screen">
-      {!password && !username ? null : (
+      {!password && !userID ? null : (
         <Snackbar
           open={openNotification}
           autoHideDuration={6000}
@@ -153,68 +165,67 @@ export default function Login() {
                 <h1 className="font-bold flex justify-center items-center text-5xl m-12 text-blue-weg">
                   Login
                 </h1>
-                <form action="">
-                  <div className="grid gap-4">
-                    <div className="flex justify-center items-center">
-                      <PersonOutlineOutlinedIcon
-                        sx={{ fontSize: 35, color: "#00579D" }}
-                      />
-                      <TextField
-                        id="outlined-basic"
-                        label="Usuário"
-                        variant="filled"
-                        sx={{
-                          width: "24rem",
-                          input: { backgroundColor: "white", borderRadius: 1 },
-                        }}
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                      />
-                    </div>
-                    <div className="flex justify-center items-center">
-                      <LockOutlinedIcon
-                        sx={{ fontSize: 35, color: "#00579D" }}
-                      />
-                      <TextField
-                        id="outlined-basic"
-                        label="Senha"
-                        variant="filled"
-                        type={"password"}
-                        sx={{
-                          width: "24rem",
-                          input: { backgroundColor: "white", borderRadius: 1 },
-                        }}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </div>
+                <div className="grid gap-4">
+                  <div className="flex justify-center items-center">
+                    <PersonOutlineOutlinedIcon
+                      sx={{ fontSize: 35, color: "#00579D" }}
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      label="Usuário"
+                      variant="filled"
+                      sx={{
+                        width: "24rem",
+                        input: { backgroundColor: "white", borderRadius: 1 },
+                      }}
+                      value={userID}
+                      onChange={(e) => {
+                        if (e.target.value.match(/^[0-9]*$/)) {
+                          setUserID(parseInt(e.target.value));
+                        }
+                      }}
+                    />
                   </div>
-                  <div className="flex justify-between items-center mt-3">
-                    <div>
-                      <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition text-sm">
-                        Esqueceu a senha?
-                      </h1>
-                    </div>
+                  <div className="flex justify-center items-center">
+                    <LockOutlinedIcon sx={{ fontSize: 35, color: "#00579D" }} />
+                    <TextField
+                      id="outlined-basic"
+                      label="Senha"
+                      variant="filled"
+                      type={"password"}
+                      sx={{
+                        width: "24rem",
+                        input: { backgroundColor: "white", borderRadius: 1 },
+                      }}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
-                  <div className="grid gap-4 justify-center items-center">
-                    <button type="submit" onClick={handleLogin}>
-                      <Button
-                        variant="contained"
-                        sx={{
-                          marginTop: "3rem",
-                          width: "140px",
-                          height: "45px",
-                          fontSize: "17px",
-                          fontWeight: "bold",
-                          textTransform: "none",
-                          backgroundColor: "#00579D",
-                        }}
-                      >
-                        Entrar
-                      </Button>
-                    </button>
+                </div>
+                <div className="flex justify-between items-center mt-3">
+                  <div>
+                    <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition text-sm">
+                      Esqueceu a senha?
+                    </h1>
                   </div>
-                </form>
+                </div>
+                <div className="grid gap-4 justify-center items-center">
+                  <Button
+                    onClick={handleLogin}
+                    variant="contained"
+                    sx={{
+                      marginTop: "3rem",
+                      width: "140px",
+                      height: "45px",
+                      fontSize: "17px",
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      backgroundColor: "#00579D",
+                    }}
+                  >
+                    Entrar
+                  </Button>
+                </div>
               </div>
             </div>
           </Box>

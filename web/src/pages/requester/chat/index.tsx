@@ -19,7 +19,7 @@ import { Tooltip } from "@mui/material";
 
 async function getUsersFromDatabase() {
   const response = await fetch(
-    "http://localhost:8080/sid/api/chat/usuario/72130"
+    "http://localhost:8080/sid/api/chat/usuario/7329"
   );
   const users = await response.json();
   return users;
@@ -193,20 +193,23 @@ export default function Chat() {
                   if (a.unreadMessages && !b.unreadMessages) return -1;
                   if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                  const timeA = new Date(
-                    a.time.split(":")[0] as any,
-                    a.time.split(":")[1] as any
-                  );
-                  const timeB = new Date(
-                    b.time.split(":")[0] as any,
-                    b.time.split(":")[1] as any
-                  );
-                  if (timeA > timeB) {
-                    return -1;
-                  }
-                  if (timeA < timeB) {
-                    return 1;
-                  }
+                  // const timeA = new Date(
+                  //   a.time.split(":")[0] as any,
+                  //   a.time.split(":")[1] as any
+                  // );
+
+                  // const timeB = new Date(
+                  //   b.time.split(":")[0] as any,
+                  //   b.time.split(":")[1] as any
+                  // );
+
+                  // if (timeA > timeB) {
+                  //   return -1;
+                  // }
+                  // if (timeA < timeB) {
+                  //   return 1;
+                  // }
+
                   return 0;
                 })
                 .map((user: any) => (
