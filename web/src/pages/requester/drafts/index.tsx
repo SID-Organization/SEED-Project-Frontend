@@ -10,48 +10,35 @@ import NoDemands from "../../../Components/No-demands";
 
 import { styled } from "@mui/material/styles";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
 import Draggable from "react-draggable";
+// Import de interfaces
+import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
+
+async function getDemandsFromDatabase(userId: number) {
+  const response = await fetch("http://localhost:8080/sid/api/demanda/solicitante/" + userId);
+  const demands = await response.json();
+  return demands.filter((item: any) => item.statusDemanda == "RASCUNHO");
+}
 
 export default function drafts() {
-  const [selectDemands, setSelectDemands] = useState([]);
-  const [isAllDemandsSelected, setIsAllDemandsSelected] = useState(false);
-  const [draftsMock, setDraftsMock] = useState([
-    {
-      id: 1,
-      status: "Rascunho",
-    },
-    {
-      id: 2,
-      status: "Rascunho",
-    },
-    {
-      id: 3,
-      status: "Rascunho",
-    },
-    {
-      id: 4,
-      status: "Rascunho",
-    },
-    {
-      id: 5,
-      status: "Rascunho",
-    },
-    {
-      id: 6,
-      status: "Rascunho",
-    },
-    {
-      id: 7,
-      status: "Rascunho",
-    },
-    {
-      id: 8,
-      status: "Rascunho",
-    },
-  ]);
+  const [selectedDrafts, setSelectedDrafts] = useState([]);
+  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!));
+  const [demands, setDemands] = useState<any[]>([]);
+
+  useEffect(() => {
+    getDemandsFromDatabase(user.numeroCadastroUsuario).then((demands) => {
+      console.log("Demandas draft: ", demands);
+      setDemands(demands);
+    });
+  } ,[]);
+
+  useEffect(() => {
+    console.log("DRAFT selected demands: ", selectedDrafts);
+  }, [selectedDrafts]);
+
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
 
@@ -146,15 +133,8 @@ export default function drafts() {
                 </Button>
                 <Button
                   onClick={() => {
-                    draftsMock.map((draft) => {
-                      if (selectDemands.includes(draft.id as never)) {
-                        setDraftsMock(
-                          draftsMock.filter((draft) => draft.id !== draft.id)
-                        );
-                      }
-                    });
-                    setDraftsMock([]);
-                    setSelectDemands([]);
+                    setDemands([]);
+                    setSelectedDrafts([]);
                     setOpenModalConfirmationDemand(false);
                   }}
                   sx={{
@@ -171,7 +151,7 @@ export default function drafts() {
             </DialogActions>
           </Dialog>
           {/* FIM MODAL DELETAR TODOS OS RASCUNHOS */}
-          {selectDemands.length > 0 && (
+          {selectedDrafts.length > 0 && (
             <div className="mb-10">
               <ButtonAddSelected
                 variant="contained"
@@ -185,8 +165,8 @@ export default function drafts() {
                   />
                 }
               >
-                Deletar {"(" + selectDemands.length + ")"}{" "}
-                {selectDemands.length > 1 ? "rascunhos" : "rascunho"}
+                Deletar {"(" + selectedDrafts.length + ")"}{" "}
+                {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
               </ButtonAddSelected>
               <Button
                 onClick={handleClickOpenModalConfirmationDemand}
@@ -209,13 +189,12 @@ export default function drafts() {
         </div>
       }
       <div className="flex flex-wrap justify-around">
-        {draftsMock.length > 0 ? (
-          draftsMock.map((draft) => (
+        {demands.length > 0 ? (
+          demands.map((demand) => (
             <DemandCard
-              key={draft.id}
-              id={draft.id}
-              status={draft.status}
-              setSelectDemands={setSelectDemands}
+              key={demand.idDemanda}
+              demand={demand}
+              setSelectedDrafts={setSelectedDrafts}
             />
           ))
         ) : (

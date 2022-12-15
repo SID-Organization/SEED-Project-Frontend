@@ -15,17 +15,12 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
-import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
   Badge,
   InputLabel,
-  Table,
-  TableContainer,
-  TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
 import MuiAutocomplete from "@mui/material/Autocomplete";
@@ -36,14 +31,24 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DescriptionIcon from "@mui/icons-material/Description";
-import InsertDriveFileOutlined from "@mui/icons-material/InsertDriveFileOutlined";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 
 import "../../styles/index.css";
 
-export default function subHeader({
+const getDemandFromDatabase = async (id: string | undefined) => {
+  const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
+  const data = await response.json();
+  return data;
+};
+
+const getBusinessUnits = async () => {
+  const response = await fetch("http://localhost:8080/sid/api/business-unity");
+  const data = await response.json();
+  return data;
+};
+
+export default function subHeader({ 
   children,
   isEditEnabled,
   setIsEditEnabled,
@@ -52,13 +57,32 @@ export default function subHeader({
   const [requesterBu, setRequesterBu] = useState("");
   const [classifyDemandSize, setClassifyDemandSize] = useState("");
   const [responsableSection, setResponsableSection] = useState("");
-  const [benefitedBu, setBenefitedBu] = useState<any>();
+  const [benefitedBus, setBenefitedBus] = useState<any>();
+  const [openActions, setOpenActions] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+
+  const [demand, setDemand] = useState<any>();
+
+  const params = useParams();
+
   const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
+  const [BusinessUnits, setBusinessUnits] = useState<any>();
+
+  useEffect(() => {
+    getDemandFromDatabase(params.id)
+    .then((response) => {
+      setDemand(response);
+    })
+  }, [])
 
   const handleOpenReasonOfDevolution = () => setOpenReasonOfDevolution(true);
   const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false);
   const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  };
 
   const actionOptions = [
     {
@@ -98,60 +122,6 @@ export default function subHeader({
     },
     {
       text: "Vendas",
-      key: 6,
-    },
-  ];
-
-  const requesterBUs = [
-    {
-      text: "WEG Digital Solutions",
-      key: 1,
-    },
-    {
-      text: "WEG Industrial Solutions",
-      key: 2,
-    },
-    {
-      text: "WEG Energy Solutions",
-      key: 3,
-    },
-    {
-      text: "WEG Automation Solutions",
-      key: 4,
-    },
-    {
-      text: "WEG Motors",
-      key: 5,
-    },
-    {
-      text: "WEG Services",
-      key: 6,
-    },
-  ];
-
-  const beneficiaryBUs = [
-    {
-      text: "WEG Digital Solutions",
-      key: 1,
-    },
-    {
-      text: "WEG Industrial Solutions",
-      key: 2,
-    },
-    {
-      text: "WEG Energy Solutions",
-      key: 3,
-    },
-    {
-      text: "WEG Automation Solutions",
-      key: 4,
-    },
-    {
-      text: "WEG Motors",
-      key: 5,
-    },
-    {
-      text: "WEG Services",
       key: 6,
     },
   ];
@@ -209,13 +179,17 @@ export default function subHeader({
     p: 4,
   };
 
+  useEffect(() => {
+    getBusinessUnits()
+    .then(data => {
+      setBusinessUnits(data.map((item: any) => ({text: item.nomeBusinessUnity, key: item.idBusinessUnity })))
+    });
+  }, []);
+
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
   const notifyEditEnabledOff = () =>
     toast.success("Alterações salvas com sucesso!");
 
-  const [openActions, setOpenActions] = useState(false);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -249,6 +223,7 @@ export default function subHeader({
     }
   }
 
+
   const TextField = styled(MuiTextField)({
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       borderLeft: "3px solid #0075B1",
@@ -274,6 +249,68 @@ export default function subHeader({
   const handleChangeClassifyDemandSize = (event: SelectChangeEvent) => {
     setClassifyDemandSize(event.target.value as string);
   };
+
+
+  const handleUpdateDemand = async () => {
+    // handleCloseModal();
+    const updatedDemand = {
+      busBeneficiadasDemanda: benefitedBus.map((item: any) => ({idBusinessUnity: item.key})),
+      buSolicitante: BusinessUnits.find((item: any) => item.key == requesterBu)?.text,
+      secaoTIResponsavel: responsableSection,
+      tamanhoDemanda: getDemandSize(),
+    }
+    
+
+
+    fetch(`http://localhost:8080/sid/api/demanda/atualiza-bus-beneficiadas/${demand.idDemanda}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedDemand)
+    })
+    .then((response) => {
+      if(response.ok){
+        fetch("http://localhost:8080/sid/api/historico-workflow", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
+            demandaHistorico: {idDemanda: demand.idDemanda},
+            acaoFeitaHistorico: "Enviar",
+            idResponsavel: {numeroCadastroUsuario: 72133}
+        })
+        })
+      }
+      return response.json()
+    })
+    .then((data) => {
+      console.log("Fetch response:", data);
+
+    })
+
+    console.log(updatedDemand);
+  
+  };
+
+  const getDemandSize = () => {
+    if(classifyDemandSize == "1") return "MUITO_GRANDE"
+    if(classifyDemandSize == "2") return "GRANDE"
+    if(classifyDemandSize == "3") return "MEDIA"
+    if(classifyDemandSize == "4") return "PEQUENA"
+    if(classifyDemandSize == "5") return "MUITO_PEQUENA"
+  };
+
+  useEffect(() => {
+    console.log("Seção responsável", responsableSection);
+    console.log("Tamanho da demanda", classifyDemandSize)
+  }, [responsableSection, classifyDemandSize]);
+
+  useEffect(() => {
+    console.log("Benefited bus", benefitedBus)
+  }, [benefitedBus])
 
   return (
     <div>
@@ -391,7 +428,7 @@ export default function subHeader({
                     label="BU"
                     onChange={handleChangeRequesterBu}
                   >
-                    {requesterBUs.map((item) => (
+                    {BusinessUnits && BusinessUnits.map((item: {key: string, text: string}) => (
                       <MenuItem value={item.key}>{item.text}</MenuItem>
                     ))}
                   </Select>
@@ -407,11 +444,11 @@ export default function subHeader({
                     size="small"
                     multiple
                     id="tags-outlined"
-                    options={beneficiaryBUs.map((item) => item.text)}
-                    getOptionLabel={(option) => option as string}
-                    value={benefitedBu}
+                    options={BusinessUnits ? BusinessUnits : []}
+                    getOptionLabel={(option: any) => option.text as string}
+                    value={benefitedBus}
                     onChange={(event, newValues) => {
-                      setBenefitedBu(newValues);
+                      setBenefitedBus(newValues);
                     }}
                     isOptionEqualToValue={(option, value) => option === value}
                     filterSelectedOptions
@@ -470,6 +507,7 @@ export default function subHeader({
                 </FormControl>
               </div>
             </div>
+            
             <div className="flex justify-evenly items-center mt-10 mb-5">
               <Button
                 variant="contained"
@@ -512,6 +550,7 @@ export default function subHeader({
                     backgroundColor: "#0075B1",
                   },
                 }}
+                onClick={handleUpdateDemand}
               >
                 Enviar
               </Button>

@@ -1,13 +1,33 @@
-import DemandCard from "../../Components/Demand-card";
+import { useState, useEffect } from "react";
+
+// Styles
+import "../../styles/index.css";
+
+// Components
 import DemandCardList from "../../Components/Demand-card-list";
 import SubHeader from "../../Components/Sub-header";
 
-import { useState } from "react";
-
-import "../../styles/index.css";
+// Interfaces
+import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
+import DemandCard from "../../Components/Demand-card";
 
 export default function DemandManager() {
+
+  // State to set the format of the demands
   const [isListFormat, setIsListFormat] = useState(false);
+
+  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!))
+  const [demandsToManage, setDemandsToManage] = useState<any[]>([])
+
+  useEffect(() => {
+    console.log("user ID", user.numeroCadastroUsuario)
+    fetch("http://localhost:8080/sid/api/demanda/analista/" + user.numeroCadastroUsuario)
+      .then(response => response.json())
+      .then(data => {
+        setDemandsToManage(data);
+      })
+  }, [])
+
 
   return (
     <div>
@@ -18,22 +38,9 @@ export default function DemandManager() {
         <DemandCardList />
       ) : (
         <div className="flex flex-wrap justify-around">
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
-          <DemandCard status="Aberto" />
+          {demandsToManage && demandsToManage.filter(item => item.statusDemanda != "RASCUNHO").map((demand, i) => {
+            return <DemandCard key={i} demand={demand} />;
+        })}
         </div>
       )}
     </div>

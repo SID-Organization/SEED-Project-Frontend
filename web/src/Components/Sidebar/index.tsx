@@ -35,12 +35,17 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 import SidebarLink from "./SidebarItem";
+import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 
 const openDrawerWidth = 230;
 
 export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarFixed, setIsSidebarFixed] = useState(false);
+  // Usuário logado
+  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!));
+
+  const isRequester = user.cargoUsuario === "SOLICITANTE";
 
   const iconStyle = { color: "#fff", fontSize: "1.9rem", marginLeft: 1.1 };
   const openSidebarIconStyle = { color: "#fff", fontSize: "1.4rem" };
@@ -50,75 +55,88 @@ export default function Sidebar() {
       title: "Nova demanda",
       outlinedIcon: <AddBoxOutlinedIcon sx={iconStyle} />,
       fullIcon: <AddBoxIcon sx={iconStyle} />,
-      linkTo: "/admin/nova-demanda",
+      linkTo: "/nova-demanda",
       hasDivider: true,
+      isActiveToUser: true,
     },
     {
       title: "Minhas demandas",
       outlinedIcon: <HomeOutlinedIcon sx={iconStyle} />,
       fullIcon: <HomeIcon sx={iconStyle} />,
-      linkTo: "/admin/minhas-demandas",
+      linkTo: "/demandas",
+      isActiveToUser: true,
     },
     {
       title: "Rascunhos",
       outlinedIcon: <NoteAltOutlinedIcon sx={iconStyle} />,
       fullIcon: <NoteAltIcon sx={iconStyle} />,
-      linkTo: "/admin/rascunhos",
+      linkTo: "/rascunhos",
       hasDivider: true,
+      isActiveToUser: true,
     },
     {
       title: "Gerenciar demandas",
       outlinedIcon: <ManageAccountsOutlinedIcon sx={iconStyle} />,
       fullIcon: <ManageAccountsIcon sx={iconStyle} />,
       hasDivider: true,
-      linkTo: "/admin/gerenciar-demandas",
+      linkTo: "/gerenciar-demandas",
+      isActiveToUser: !isRequester,
     },
     {
       title: "Pautas",
       outlinedIcon: <CalendarMonthOutlinedIcon sx={iconStyle} />,
       fullIcon: <CalendarMonthIcon sx={iconStyle} />,
-      linkTo: "/admin/pautas",
+      linkTo: "/pautas",
+      isActiveToUser: !isRequester,
     },
     {
       title: "Atas",
       outlinedIcon: <ClassOutlinedIcon sx={iconStyle} />,
       fullIcon: <ClassIcon sx={iconStyle} />,
-      linkTo: "/admin/atas",
+      linkTo: "/atas",
       hasDivider: true,
+      isActiveToUser: !isRequester,
     },
     {
       title: "Propostas",
       outlinedIcon: <DescriptionOutlinedIcon sx={iconStyle} />,
       fullIcon: <DescriptionIcon sx={iconStyle} />,
-      linkTo: "/admin/propostas",
+      linkTo: "/propostas",
       hasDivider: true,
+      isActiveToUser: !isRequester,
     },
     {
       title: "Chat",
       outlinedIcon: <MessageOutlinedIcon sx={iconStyle} />,
       fullIcon: <MessageIcon sx={iconStyle} />,
-      linkTo: "/admin/chat",
+      linkTo: "/chat",
+      isActiveToUser: true,
     },
     {
       title: "Sair",
       outlinedIcon: <LogoutRoundedIcon sx={iconStyle} />,
       fullIcon: <LogoutRoundedIcon sx={iconStyle} />,
       linkTo: "/login",
+      isActiveToUser: true,
     },
   ];
 
   const getSideBarItems = () => {
     return adminSidebarItems.map((item, index) => {
-      return (
-        <SidebarLink
-          key={index}
-          title={item.title}
-          outlinedIcon={item.outlinedIcon}
-          fullIcon={item.fullIcon}
-          linkTo={item.linkTo}
-          hasDivider={item.hasDivider}
-        />
-      );
+      if(item.isActiveToUser){
+        return (
+          <SidebarLink
+            key={index}
+            title={item.title}
+            outlinedIcon={item.outlinedIcon}
+            fullIcon={item.fullIcon}
+            linkTo={item.linkTo}
+            hasDivider={item.hasDivider}
+          />
+        );
+      } else {
+        return null;
+      }
     });
   };
 
