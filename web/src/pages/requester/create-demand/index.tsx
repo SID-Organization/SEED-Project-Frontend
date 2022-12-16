@@ -34,6 +34,8 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import Notification from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 
+import {useNavigate} from 'react-router-dom';
+
 interface INewBenefit {
   coin: string;
   value: number;
@@ -114,7 +116,12 @@ export default function CreateDemand() {
   const [skipped, setSkipped] = useState(new Set<number>());
   const [buttonNotification, setButtonNotification] = useState(false);
   const [deleteNotification, setDeleteNotification] = useState(false);
+
+  // Usuário logado
   const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!));
+
+  // Navegador de página pela função
+  const navigate = useNavigate();
 
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
@@ -182,7 +189,8 @@ export default function CreateDemand() {
       method: "POST",
       body: formData,
     }).then((res) => {
-      console.log(res);
+      navigate("/demandas");
+      // console.log(res);
     });
 
   };

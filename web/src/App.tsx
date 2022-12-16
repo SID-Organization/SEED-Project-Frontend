@@ -24,7 +24,7 @@ import { Navigate } from "react-router-dom";
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") as any));
 
-
+  console.log(user);
 
   return (
     <>
@@ -34,7 +34,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route
             path="/"
-            element={user != undefined ? <Layout /> : <Navigate to={"/login"} />}
+            element={user ? <Layout /> : <Navigate to={"/login"} />}
           >
               <Route path="demandas" element={<HomeDemands />} />
               <Route path="demandas/:id" element={<OpenedDemand />} />

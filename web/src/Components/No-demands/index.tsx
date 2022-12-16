@@ -33,7 +33,7 @@ export default function noDemands({ children }: any) {
           </div>
           <div className="mt-16">
             <Stack direction="row" spacing={2}>
-              <Link to="/admin/nova-demanda">
+              <Link to="/nova-demanda">
                 <Button
                   sx={{ color: "#0075B1", fontWeight: "bold" }}
                   variant="outlined"

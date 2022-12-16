@@ -35,40 +35,109 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 
 import "../../styles/index.css";
+import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 
+// Busca a demanda do banco de dados
 const getDemandFromDatabase = async (id: string | undefined) => {
   const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
   const data = await response.json();
   return data;
 };
 
+// Busca as BUs do banco de dados
 const getBusinessUnits = async () => {
   const response = await fetch("http://localhost:8080/sid/api/business-unity");
   const data = await response.json();
   return data;
 };
 
+// Componentes estilizados
+const styleModal = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 1150,
+  bgcolor: "background.paper",
+  borderRadius: "0.125rem",
+  boxShadow: 24,
+};
+
+const styleModalReasonOfDevolution = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 580,
+  height: 405,
+  bgcolor: "background.paper",
+  borderTop: "8px solid #0075B1",
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 4,
+};
+
+const TextField = styled(MuiTextField)({
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
+
+const FormControl = styled(MuiFormControl)({
+  width: 250,
+
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
+
+const Autocomplete = styled(MuiAutocomplete)({
+  width: 250,
+});
+
+
+/**
+ * Classe com utilidades para Analistas e Gerentes decidirem caminhos para as demandas.
+ * 
+ * Parâmetros de controle para edição dos campos
+ * @param isEditEnabled
+ * @param setIsEditEnabled
+ */
+
 export default function subHeader({ 
   children,
   isEditEnabled,
   setIsEditEnabled,
 }: any) {
+
+  // Controle de modal
   const [openModal, setOpenModal] = useState(false);
-  const [requesterBu, setRequesterBu] = useState("");
-  const [classifyDemandSize, setClassifyDemandSize] = useState("");
-  const [responsableSection, setResponsableSection] = useState("");
-  const [benefitedBus, setBenefitedBus] = useState<any>();
+
+  // Controle do botão de ações
   const [openActions, setOpenActions] = useState(false);
+  // Controle do botão selecionado
   const [selectedIndex, setSelectedIndex] = useState(1);
-
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-
+  
+  // Demanda buscada do banco de dados
   const [demand, setDemand] = useState<any>();
 
-  const params = useParams();
+  // Dados classificados da demanda
+  const [benefitedBus, setBenefitedBus] = useState<any>();
+  const [responsableSection, setResponsableSection] = useState("");
+  const [classifyDemandSize, setClassifyDemandSize] = useState("");
+  const [requesterBu, setRequesterBu] = useState("");
+  const [businessUnits, setBusinessUnits] = useState<any>();
 
+  // Motivo da devolução
   const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
-  const [BusinessUnits, setBusinessUnits] = useState<any>();
+  
+  // Usuário logado
+  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem('user')!));
+
+  console.log("USER SUBHEADER", user);
+
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const params = useParams();
 
   useEffect(() => {
     getDemandFromDatabase(params.id)
@@ -154,30 +223,6 @@ export default function subHeader({
     },
   ];
 
-  const styleModal = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 1150,
-    bgcolor: "background.paper",
-    borderRadius: "0.125rem",
-    boxShadow: 24,
-  };
-
-  const styleModalReasonOfDevolution = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 580,
-    height: 405,
-    bgcolor: "background.paper",
-    borderTop: "8px solid #0075B1",
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 4,
-  };
 
   useEffect(() => {
     getBusinessUnits()
@@ -224,23 +269,7 @@ export default function subHeader({
   }
 
 
-  const TextField = styled(MuiTextField)({
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderLeft: "3px solid #0075B1",
-    },
-  });
 
-  const FormControl = styled(MuiFormControl)({
-    width: 250,
-
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderLeft: "3px solid #0075B1",
-    },
-  });
-
-  const Autocomplete = styled(MuiAutocomplete)({
-    width: 250,
-  });
 
   const handleChangeRequesterBu = (event: SelectChangeEvent) => {
     setRequesterBu(event.target.value as string);
@@ -255,7 +284,7 @@ export default function subHeader({
     // handleCloseModal();
     const updatedDemand = {
       busBeneficiadasDemanda: benefitedBus.map((item: any) => ({idBusinessUnity: item.key})),
-      buSolicitante: BusinessUnits.find((item: any) => item.key == requesterBu)?.text,
+      buSolicitante: businessUnits.find((item: any) => item.key == requesterBu)?.text,
       secaoTIResponsavel: responsableSection,
       tamanhoDemanda: getDemandSize(),
     }
@@ -280,7 +309,7 @@ export default function subHeader({
             tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
             demandaHistorico: {idDemanda: demand.idDemanda},
             acaoFeitaHistorico: "Enviar",
-            idResponsavel: {numeroCadastroUsuario: 72133}
+            idResponsavel: {numeroCadastroUsuario: 72132}
         })
         })
       }
@@ -428,7 +457,7 @@ export default function subHeader({
                     label="BU"
                     onChange={handleChangeRequesterBu}
                   >
-                    {BusinessUnits && BusinessUnits.map((item: {key: string, text: string}) => (
+                    {businessUnits && businessUnits.map((item: {key: string, text: string}) => (
                       <MenuItem value={item.key}>{item.text}</MenuItem>
                     ))}
                   </Select>
@@ -444,7 +473,7 @@ export default function subHeader({
                     size="small"
                     multiple
                     id="tags-outlined"
-                    options={BusinessUnits ? BusinessUnits : []}
+                    options={businessUnits ? businessUnits : []}
                     getOptionLabel={(option: any) => option.text as string}
                     value={benefitedBus}
                     onChange={(event, newValues) => {
@@ -598,6 +627,7 @@ export default function subHeader({
           )}
         </Button>
 
+        {user.cargoUsuario != "SOLICITANTE" &&
         <Tooltip title="Ações">
           <ButtonGroup
             variant="contained"
@@ -623,6 +653,7 @@ export default function subHeader({
             </Button>
           </ButtonGroup>
         </Tooltip>
+        }
         <Popper
           sx={{
             zIndex: 1,
