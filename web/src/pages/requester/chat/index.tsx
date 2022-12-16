@@ -49,6 +49,7 @@ interface IMessage {
 
 export default function Chat() {
   const [temporaryMessages, setTemporaryMessages] = useState<IMessage[]>([]);
+  const [messagesReceivedByWS, setMessagesReceivedByWS] = useState<any>([]);
   const [chatUserId, setChatUserId] = useState<number>();
 
   const [stompClient, setStompClient] = useState<any>(null);
@@ -59,14 +60,14 @@ export default function Chat() {
     console.log("CHAMOU A FUNCAO CONNECT");
     let Sock = new SockJs("http://localhost:8080/ws");
     setStompClient(over(Sock));
-   
+
   };
 
   useEffect(() => {
-    if(stompClient){
+    if (stompClient) {
       stompClient.connect({}, onConnected, onError);
     }
-  }, [stompClient])
+  }, [stompClient]);
 
   const [userData, setUserData] = useState<any>({});
 
@@ -90,14 +91,13 @@ export default function Chat() {
 
   const onPrivateMessage = (payload: any) => {
     var payLoadData = JSON.parse(payload.body);
+    var equals = false;
     console.log("RECEBEU A MENSAGEM", payLoadData);
     // setMessages((prevState) => [...prevState, playLoadData]);
-    setTemporaryMessages((prevState) => [...prevState, {
-      position: 'left',
-      textoMensagem: payLoadData.textoMensagem,
-      idUsuario: payLoadData!,
-      dataMensagem: new Date().toLocaleTimeString(),
-    },]);
+    if (payLoadData.idUsuario.numeroCadastroUsuario == getLoggedUserId()) {
+      console.log("ENTROU NO IF");
+      setMessagesReceivedByWS((prevState: any) => [...prevState, payLoadData]);
+    }
   };
 
   const sendPrivateValue = () => {
@@ -178,6 +178,10 @@ export default function Chat() {
   useEffect(() => {
     setTemporaryMessages([]);
   }, [chatUserId]);
+
+  useEffect(() => {
+    console.log("MENSAGENS RECEBIDAS: ", messagesReceivedByWS);
+  }, [messagesReceivedByWS]);
 
   //UseEffect para setar no card de usuário o nome e a demanda do usuário
   useEffect(() => {
@@ -300,62 +304,62 @@ export default function Chat() {
           {/* USERS HERE */}
           {search === ""
             ? users
-                .sort((a: any, b: any) => {
-                  if (a.unreadMessages && !b.unreadMessages) return -1;
-                  if (!a.unreadMessages && b.unreadMessages) return 1;
+              .sort((a: any, b: any) => {
+                if (a.unreadMessages && !b.unreadMessages) return -1;
+                if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                  // const timeA = new Date(
-                  //   a.time.split(":")[0] as any,
-                  //   a.time.split(":")[1] as any
-                  // );
+                // const timeA = new Date(
+                //   a.time.split(":")[0] as any,
+                //   a.time.split(":")[1] as any
+                // );
 
-                  // const timeB = new Date(
-                  //   b.time.split(":")[0] as any,
-                  //   b.time.split(":")[1] as any
-                  // );
+                // const timeB = new Date(
+                //   b.time.split(":")[0] as any,
+                //   b.time.split(":")[1] as any
+                // );
 
-                  // if (timeA > timeB) {
-                  //   return -1;
-                  // }
-                  // if (timeA < timeB) {
-                  //   return 1;
-                  // }
+                // if (timeA > timeB) {
+                //   return -1;
+                // }
+                // if (timeA < timeB) {
+                //   return 1;
+                // }
 
-                  return 0;
-                })
+                return 0;
+              })
 
-                .map((user: any) => (
-                  <div
-                    onClick={() => {
-                      const userName = user.name;
-                      const userDemand = user.userDemand;
-                      setChatUserId(user.idUsuario);
-                      setUserNameCard(userName);
-                      setUserDemandCard(userDemand);
-                      setChatId(user.idChat);
-                      setUserData({
-                        idUsuario: {
-                          numeroCadastroUsuario: user.idUsuario,
-                        },
-                        idChat: { idChat: user.idChat },
-                        idDemanda: { idDemanda: user.idDemanda },
-                        connected: false,
-                        message: "",
-                      });
-                      connect();
-                    }}
-                  >
-                    <UserMessageCard
-                      picture={user.picture}
-                      name={user.name}
-                      userDemand={user.userDemand}
-                      lastMessage={user.lastMessage}
-                      time={user.time}
-                      unreadMessages={user.unreadMessages}
-                      isOnline={user.isOnline}
-                    />
-                  </div>
-                ))
+              .map((user: any) => (
+                <div
+                  onClick={() => {
+                    const userName = user.name;
+                    const userDemand = user.userDemand;
+                    setChatUserId(user.idUsuario);
+                    setUserNameCard(userName);
+                    setUserDemandCard(userDemand);
+                    setChatId(user.idChat);
+                    setUserData({
+                      idUsuario: {
+                        numeroCadastroUsuario: user.idUsuario,
+                      },
+                      idChat: { idChat: user.idChat },
+                      idDemanda: { idDemanda: user.idDemanda },
+                      connected: false,
+                      message: "",
+                    });
+                    connect();
+                  }}
+                >
+                  <UserMessageCard
+                    picture={user.picture}
+                    name={user.name}
+                    userDemand={user.userDemand}
+                    lastMessage={user.lastMessage}
+                    time={user.time}
+                    unreadMessages={user.unreadMessages}
+                    isOnline={user.isOnline}
+                  />
+                </div>
+              ))
             : returnedUserSearch()}
         </div>
       </div>
@@ -389,6 +393,17 @@ export default function Chat() {
                 />
               );
             })}
+            {messagesReceivedByWS.map((message: { textoMensagem: any; dataMensagem: any; }) => {
+              return (
+                <MessageBox
+                  position="left"
+                  text={message.textoMensagem}
+                  type="text"
+                  date={message.dataMensagem}
+                />
+              );
+            })
+            }
             {temporaryMessages.map((message) => {
               console.log("Temporary messages: ", message);
               return (
@@ -482,10 +497,10 @@ export default function Chat() {
               onClick={
                 userData.message !== ""
                   ? () => {
-                      sendPrivateValue();
-                      setMessage("");
-                    }
-                  : () => {}
+                    sendPrivateValue();
+                    setMessage("");
+                  }
+                  : () => { }
               }
               color="primary"
               aria-label="upload picture"
