@@ -17,6 +17,10 @@ import UserMessageCard from "../../../Components/Chat-components/user-message-ca
 import ChatSubHeader from "../../../Components/Chat-components/Chat-sub-header";
 import { Tooltip } from "@mui/material";
 
+//WebSocket Imports
+import { over } from "stompjs";
+import SockJs from "sockjs-client/dist/sockjs";
+
 async function getUsersFromDatabase() {
   const response = await fetch(
     "http://localhost:8080/sid/api/chat/usuario/72130"
@@ -38,6 +42,114 @@ function getLoggedUserId() {
 }
 
 export default function Chat() {
+  var stompClient: any = null;
+
+  const [privateChats, setPrivateChats] = useState<Map<number, any>>(new Map());
+
+  const connect = () => {
+    let Sock = new SockJs("http://localhost:8080/ws");
+    stompClient = over(Sock);
+    stompClient.connect({}, onConnected, onError);
+  };
+
+  const [userDataInfos, setUserDataInfos] = useState<any[]>([]);
+
+  const [userData, setUserData] = useState<any>({});
+
+  const onConnected = () => {
+    setUserData({ ...userData, connected: true });
+    stompClient.subscribe(
+      "/demanda/" + userData.idDemanda.idDemanda + "/" + userData.idChat.idChat,
+      onPrivateMessage
+    );
+    userJoin();
+  };
+
+  const onError = (error: any) => {
+    console.log(error);
+  };
+
+  const userJoin = () => {
+    var chatMessage = {
+      idUsuario: userData.idUsuario.numeroCadastroUsuario,
+      status: "JOIN",
+    };
+    stompClient.send("/app/message/", {}, JSON.stringify(chatMessage));
+  };
+
+  const onPrivateMessage = (payload: any) => {
+    var playLoadData = JSON.parse(payload.body);
+    setMessages((prevState) => [...prevState, playLoadData]);
+  };
+
+  const handleMessage = (event: any) => {
+    const { value } = event.target;
+    setUserData({ ...userData, message: value });
+  };
+
+  const sendValue = () => {
+    if (stompClient) {
+      var chatMessage = {
+        idUsuario: userData.idUsuario.numeroCadastroUsuario,
+        mensagem: userData.message,
+        status: "MESSAGE",
+      };
+      stompClient.send("/sid/api/mensagem", {}, JSON.stringify(chatMessage));
+      setUserData({ ...userData, message: "" });
+    }
+  };
+
+  const sendPrivateValue = () => {
+    if (stompClient) {
+      const date = new Date();
+
+      var chatMessage = {
+        textoMensagem: userData.message,
+        arquivoMensagem: null,
+        dataMensagem: date.toISOString(),
+        idUsuario: {
+          numeroCadastroUsuario: userData.idUsuario.numeroCadastroUsuario,
+        },
+        idChat: { idChat: userData.idChat.idChat },
+      };
+
+      console.log("Console 2: ", chatMessage);
+
+      if (userData.idChat.idChat !== userData.idChat.idChat) {
+        console.log("usuario", userData);
+        privateChats.get(userData.idChat.idChat).push(chatMessage);
+        setPrivateChats(new Map(privateChats));
+      }
+      stompClient.send(
+        "/app/sid/api/mensagem",
+        {},
+        JSON.stringify(chatMessage)
+      );
+      console.log(JSON.stringify(chatMessage));
+      console.log("Mandou");
+      setUserData({ ...userData, message: "" });
+    }
+  };
+
+  const handleIdUsuario = (event: any) => {
+    const { value } = event.target;
+    setUserData({ ...userData, idUsuario: { numeroCadastroUsuario: value } });
+  };
+
+  const handleIdChat = (event: any) => {
+    const { value } = event.target;
+    setUserData({ ...userData, idChat: { idChat: value } });
+  };
+
+  const handleIdDemanda = (event: any) => {
+    const { value } = event.target;
+    setUserData({ ...userData, idDemanda: { idDemanda: value } });
+  };
+
+  const registerUser = () => {
+    connect();
+  };
+
   //State para filtrar os usuários que serão exibidos na lista de usuários
   const [search, setSearch] = useState("");
 
@@ -230,6 +342,17 @@ export default function Chat() {
 
                   return 0;
                 })
+
+                // setMessages(
+                //   chatMessages.map((message) => ({
+                //     position: message.idUsuario === getLoggedUserId() ? "right" : "left",
+                //     type: "text",
+                //     text: message.textoMensagem,
+                //     date: message.dataMensagem,
+                //     status: "received ",
+                //   }))
+                // );
+
                 .map((user: any) => (
                   <div
                     onClick={() => {
@@ -238,10 +361,20 @@ export default function Chat() {
                       setUserNameCard(userName);
                       setUserDemandCard(userDemand);
                       console.log("USER: ", user);
-                      // console.log("USERNAME: ", userNameCard);
-                      // console.log("USERDEMAND: ", userDemandCard);
+                      console.log("IDDEMANDA: ", user.idDemanda);
                       setChatId(user.idChat);
-                      console.log("CHATID: ", chatId);
+                      setUserData(
+                        userDataInfos.map((userDataInfo) => ({
+                          idUsuario: {
+                            numeroCadastrousuario: user.numeroCadastroUsuario,
+                          },
+                          idChat: { idChat: user.idChat },
+                          idDemanda: { idDemanda: user.idDemanda },
+                          connected: false,
+                          message: "",
+                        }))
+                      );
+                      connect();
                     }}
                   >
                     <UserMessageCard
@@ -350,9 +483,6 @@ export default function Chat() {
           "
             type="text"
             placeholder="Digite uma mensagem"
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 if (message !== "") {
@@ -360,7 +490,8 @@ export default function Chat() {
                 }
               }
             }}
-            value={message}
+            onChange={handleMessage}
+            value={userData.message}
           />
           <Tooltip title="Enviar mensagem">
             <IconButton
