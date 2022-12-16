@@ -23,7 +23,7 @@ import SockJs from "sockjs-client/dist/sockjs";
 
 async function getUsersFromDatabase() {
   const response = await fetch(
-    "http://localhost:8080/sid/api/chat/usuario/72130"
+    "http://localhost:8080/sid/api/chat/usuario/" + getLoggedUserId()
   );
   const users = await response.json();
   return users;
@@ -41,23 +41,31 @@ function getLoggedUserId() {
   return JSON.parse(localStorage.getItem("user")!).numeroCadastroUsuario;
 }
 
+interface IMessage {
+  idUsuario: number;
+  textoMensagem: string;
+  dataMensagem: string;
+}
+
 export default function Chat() {
-  var stompClient: any = null;
+  const [temporaryMessages, setTemporaryMessages] = useState<IMessage[]>([]);
+  const [chatUserId, setChatUserId] = useState<number>();
+
+  const [stompClient, setStompClient] = useState<any>(null);
 
   const [privateChats, setPrivateChats] = useState<Map<number, any>>(new Map());
 
   const connect = () => {
+    console.log("CHAMOU A FUNCAO CONNECT");
     let Sock = new SockJs("http://localhost:8080/ws");
-    stompClient = over(Sock);
+    setStompClient(over(Sock));
     stompClient.connect({}, onConnected, onError);
   };
-
-  const [userDataInfos, setUserDataInfos] = useState<any[]>([]);
 
   const [userData, setUserData] = useState<any>({});
 
   const onConnected = () => {
-    setUserData({ ...userData, connected: true });
+    setUserData((prvState: any) => ({ ...prvState, connected: true }));
     stompClient.subscribe(
       "/demanda/" + userData.idDemanda.idDemanda + "/" + userData.idChat.idChat,
       onPrivateMessage
@@ -79,75 +87,42 @@ export default function Chat() {
 
   const onPrivateMessage = (payload: any) => {
     var playLoadData = JSON.parse(payload.body);
-    setMessages((prevState) => [...prevState, playLoadData]);
-  };
-
-  const handleMessage = (event: any) => {
-    const { value } = event.target;
-    setUserData({ ...userData, message: value });
-  };
-
-  const sendValue = () => {
-    if (stompClient) {
-      var chatMessage = {
-        idUsuario: userData.idUsuario.numeroCadastroUsuario,
-        mensagem: userData.message,
-        status: "MESSAGE",
-      };
-      stompClient.send("/sid/api/mensagem", {}, JSON.stringify(chatMessage));
-      setUserData({ ...userData, message: "" });
-    }
+    console.log("RECEBEU A MENSAGEM", playLoadData);
+    // setMessages((prevState) => [...prevState, playLoadData]);
+    setTemporaryMessages((prevState) => [...prevState, playLoadData]);
   };
 
   const sendPrivateValue = () => {
-    if (stompClient) {
-      const date = new Date();
+    const date = new Date();
 
-      var chatMessage = {
-        textoMensagem: userData.message,
-        arquivoMensagem: null,
-        dataMensagem: date.toISOString(),
-        idUsuario: {
-          numeroCadastroUsuario: userData.idUsuario.numeroCadastroUsuario,
-        },
-        idChat: { idChat: userData.idChat.idChat },
-      };
+    var chatMessage = {
+      textoMensagem: userData.message,
+      arquivoMensagem: null,
+      dataMensagem: date.toISOString(),
+      idUsuario: userData.idUsuario,
+      idChat: { idChat: userData.idChat.idChat },
+    };
 
-      console.log("Console 2: ", chatMessage);
+    // console.log("Console 2: ", chatMessage);
 
-      if (userData.idChat.idChat !== userData.idChat.idChat) {
-        console.log("usuario", userData);
-        privateChats.get(userData.idChat.idChat).push(chatMessage);
-        setPrivateChats(new Map(privateChats));
-      }
-      stompClient.send(
-        "/app/sid/api/mensagem",
-        {},
-        JSON.stringify(chatMessage)
-      );
-      console.log(JSON.stringify(chatMessage));
-      console.log("Mandou");
-      setUserData({ ...userData, message: "" });
+    if (userData.idChat.idChat !== userData.idChat.idChat) {
+      privateChats.get(userData.idChat.idChat).push(chatMessage);
+      setPrivateChats(new Map(privateChats));
     }
-  };
+    stompClient.send("/app/sid/api/mensagem", {}, JSON.stringify(chatMessage));
+    // console.log(JSON.stringify(chatMessage));
+    // console.log("Mandou");
 
-  const handleIdUsuario = (event: any) => {
-    const { value } = event.target;
-    setUserData({ ...userData, idUsuario: { numeroCadastroUsuario: value } });
-  };
+    setTemporaryMessages([
+      ...temporaryMessages,
+      {
+        textoMensagem: userData.message,
+        idUsuario: chatUserId!,
+        dataMensagem: new Date().toLocaleTimeString(),
+      },
+    ]);
 
-  const handleIdChat = (event: any) => {
-    const { value } = event.target;
-    setUserData({ ...userData, idChat: { idChat: value } });
-  };
-
-  const handleIdDemanda = (event: any) => {
-    const { value } = event.target;
-    setUserData({ ...userData, idDemanda: { idDemanda: value } });
-  };
-
-  const registerUser = () => {
-    connect();
+    setUserData({ ...userData, message: "" });
   };
 
   //State para filtrar os usuários que serão exibidos na lista de usuários
@@ -181,7 +156,6 @@ export default function Chat() {
   useEffect(() => {
     getUsersFromDatabase().then((users) => {
       setChatUsers(users);
-      console.log("USERS: ", users);
     });
   }, []);
 
@@ -189,9 +163,13 @@ export default function Chat() {
   useEffect(() => {
     getMessagesFromDatabase(chatId).then((messages) => {
       setChatMessages(messages);
-      console.log("MESSAGES: ", messages);
+      console.log("Mensagens: ", messages);
     });
   }, [chatId]);
+
+  useEffect(() => {
+    setTemporaryMessages([]);
+  }, [chatUserId]);
 
   //UseEffect para setar no card de usuário o nome e a demanda do usuário
   useEffect(() => {
@@ -202,8 +180,10 @@ export default function Chat() {
         userDemand: user.tituloDemanda,
         lastMessage: user.ultimaMensagem,
         time: user.dataUltimaMensagem,
+        idUsuario: user.idUsuario,
         unreadMessages: "1",
         idChat: user.idChat,
+        idDemanda: user.idDemanda,
         isOnline: true,
       }))
     );
@@ -212,30 +192,18 @@ export default function Chat() {
   //UseEffect para setar as mensagens no chat
   useEffect(() => {
     setMessages(
-      chatMessages.map((message) => ({
-        position: message.idUsuario === getLoggedUserId() ? "right" : "left",
-        type: "text",
-        text: message.textoMensagem,
-        date: message.dataMensagem,
-        status: "received ",
-      }))
+      chatMessages.map((message) => {
+        // console.log("MESSAGE: ", message);
+        return {
+          position: message.idUsuario !== getLoggedUserId() ? "right" : "left",
+          type: "text",
+          text: message.textoMensagem,
+          date: message.dataMensagem,
+          status: "received ",
+        };
+      })
     );
   }, [chatMessages]);
-
-  //Função para enviar uma mensagem
-  function sendMessage() {
-    setMessages([
-      ...messages,
-      {
-        position: "right",
-        type: "text",
-        text: message,
-        date: new Date(),
-        status: "received",
-      },
-    ]);
-    setMessage("");
-  }
 
   //Função para filtrar os usuários que serão exibidos na lista de usuários
   function returnedUserSearch() {
@@ -275,6 +243,11 @@ export default function Chat() {
       ));
     }
   }
+
+  useEffect(() => {
+    console.log("USERDATA EFFECT: ", userData);
+    console.log("STOMPCLIENT EFFECT: ", stompClient);
+  }, [userData]);
 
   return (
     <div className="flex max-h-screen h-[calc(100vh-10rem)]">
@@ -343,37 +316,24 @@ export default function Chat() {
                   return 0;
                 })
 
-                // setMessages(
-                //   chatMessages.map((message) => ({
-                //     position: message.idUsuario === getLoggedUserId() ? "right" : "left",
-                //     type: "text",
-                //     text: message.textoMensagem,
-                //     date: message.dataMensagem,
-                //     status: "received ",
-                //   }))
-                // );
-
                 .map((user: any) => (
                   <div
                     onClick={() => {
                       const userName = user.name;
                       const userDemand = user.userDemand;
+                      setChatUserId(user.idUsuario);
                       setUserNameCard(userName);
                       setUserDemandCard(userDemand);
-                      console.log("USER: ", user);
-                      console.log("IDDEMANDA: ", user.idDemanda);
                       setChatId(user.idChat);
-                      setUserData(
-                        userDataInfos.map((userDataInfo) => ({
-                          idUsuario: {
-                            numeroCadastrousuario: user.numeroCadastroUsuario,
-                          },
-                          idChat: { idChat: user.idChat },
-                          idDemanda: { idDemanda: user.idDemanda },
-                          connected: false,
-                          message: "",
-                        }))
-                      );
+                      setUserData({
+                        idUsuario: {
+                          numeroCadastroUsuario: user.idUsuario,
+                        },
+                        idChat: { idChat: user.idChat },
+                        idDemanda: { idDemanda: user.idDemanda },
+                        connected: false,
+                        message: "",
+                      });
                       connect();
                     }}
                   >
@@ -418,6 +378,17 @@ export default function Chat() {
                   date={message.date}
                   status={message.status}
                   className={message.position === "left" ? "mr-32" : "ml-32"}
+                />
+              );
+            })}
+            {temporaryMessages.map((message) => {
+              console.log("Temporary messages: ", message);
+              return (
+                <MessageBox
+                  position="right"
+                  text={message.textoMensagem}
+                  type="text"
+                  date={message.dataMensagem}
                 />
               );
             })}
@@ -485,20 +456,25 @@ export default function Chat() {
             placeholder="Digite uma mensagem"
             onKeyPress={(e) => {
               if (e.key === "Enter") {
-                if (message !== "") {
-                  sendMessage();
+                if (userData.message !== "") {
+                  sendPrivateValue();
                 }
               }
             }}
-            onChange={handleMessage}
+            onChange={(e) => {
+              setUserData({
+                ...userData,
+                message: e.target.value,
+              });
+            }}
             value={userData.message}
           />
           <Tooltip title="Enviar mensagem">
             <IconButton
               onClick={
-                message !== ""
+                userData.message !== ""
                   ? () => {
-                      sendMessage();
+                      sendPrivateValue();
                       setMessage("");
                     }
                   : () => {}
