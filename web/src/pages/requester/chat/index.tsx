@@ -59,17 +59,20 @@ export default function Chat() {
     console.log("CHAMOU A FUNCAO CONNECT");
     let Sock = new SockJs("http://localhost:8080/ws");
     setStompClient(over(Sock));
-    stompClient.connect({}, onConnected, onError);
+   
   };
+
+  useEffect(() => {
+    if(stompClient){
+      stompClient.connect({}, onConnected, onError);
+    }
+  }, [stompClient])
 
   const [userData, setUserData] = useState<any>({});
 
   const onConnected = () => {
     setUserData((prvState: any) => ({ ...prvState, connected: true }));
-    stompClient.subscribe(
-      "/demanda/" + userData.idDemanda.idDemanda + "/" + userData.idChat.idChat,
-      onPrivateMessage
-    );
+    stompClient.subscribe('/demanda/' + userData.idDemanda.idDemanda + '/' + userData.idChat.idChat, onPrivateMessage);
     userJoin();
   };
 
@@ -86,10 +89,15 @@ export default function Chat() {
   };
 
   const onPrivateMessage = (payload: any) => {
-    var playLoadData = JSON.parse(payload.body);
-    console.log("RECEBEU A MENSAGEM", playLoadData);
+    var payLoadData = JSON.parse(payload.body);
+    console.log("RECEBEU A MENSAGEM", payLoadData);
     // setMessages((prevState) => [...prevState, playLoadData]);
-    setTemporaryMessages((prevState) => [...prevState, playLoadData]);
+    setTemporaryMessages((prevState) => [...prevState, {
+      position: 'left',
+      textoMensagem: payLoadData.textoMensagem,
+      idUsuario: payLoadData!,
+      dataMensagem: new Date().toLocaleTimeString(),
+    },]);
   };
 
   const sendPrivateValue = () => {
