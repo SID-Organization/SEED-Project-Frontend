@@ -2,7 +2,6 @@ import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-
 // MUI
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
@@ -39,7 +38,6 @@ import UnitedStatesFlag from "../../assets/countries-flags/united-states.png";
 import SpainFlag from "../../assets/countries-flags/spain.png";
 import ChinaFlag from "../../assets/countries-flags/china.png";
 import WegLogo from "../../assets/weg-logo.png";
-
 
 // Components
 import UserMessageCard from "../Chat-components/user-message-card";
@@ -99,21 +97,28 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  
   // Usa react router para navegar entre as páginas dentro de funções.
   const navigate = useNavigate();
-  
+
   // Estado que armazena o usuário logado.
-  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!))
+  const [user, setUser] = useState<LoggedUserInterface>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
 
   // Função que retorna o avatar do usuário (Imagem ou letras).
   const userAvatar = () => {
     if (user.fotoUsuario) {
-      return ({foto: true, src: user.fotoUsuario});
+      return { foto: true, src: user.fotoUsuario };
     } else {
-      return ({foto: false, src: user.nomeUsuario.split(' ').map((nome) => nome[0]).join('')});
+      const names = user.nomeUsuario.split(" ");
+      const userLetterAvatar =
+        names[0][0].toUpperCase() + names[names.length - 1][0].toUpperCase();
+      return {
+        foto: false,
+        src: userLetterAvatar,
+      };
     }
-  }
+  };
 
   const [menuAnchoeEl, setmMenuAnchoeEl] = useState<null | HTMLElement>(null);
   const [messagesAnchoeEl, setMessagesAnchoeEl] = useState<null | HTMLElement>(
@@ -124,8 +129,8 @@ export default function PrimarySearchAppBar() {
 
   const [search, setSearch] = useState("");
 
-  const [filterUnreadNotifications, setFilterUnreadNotifications] = useState(false);
-
+  const [filterUnreadNotifications, setFilterUnreadNotifications] =
+    useState(false);
 
   const isMenuOpen = Boolean(menuAnchoeEl);
   const isMessagesOpen = Boolean(messagesAnchoeEl);
@@ -183,7 +188,7 @@ export default function PrimarySearchAppBar() {
   const handleSystemExit = () => {
     localStorage.removeItem("user");
     navigate("/login");
-  }
+  };
 
   const usersMock = [
     {
@@ -807,8 +812,6 @@ export default function PrimarySearchAppBar() {
     }
   }
 
-  
-
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -853,14 +856,23 @@ export default function PrimarySearchAppBar() {
                   </h1>
                   {userAvatar().foto ? (
                     <Avatar
-                      src={'data:image/png;base64,' + userAvatar().src}
+                      src={"data:image/png;base64," + userAvatar().src}
                       sx={{
                         width: 30,
                         height: 30,
                       }}
                     />
                   ) : (
-                    <Avatar sx={{bgcolor: "#023A67", width: 30, height: 30, fontSize: 14}}>{userAvatar().src}</Avatar>
+                    <Avatar
+                      sx={{
+                        bgcolor: "#023A67",
+                        width: 30,
+                        height: 30,
+                        fontSize: 14,
+                      }}
+                    >
+                      {userAvatar().src}
+                    </Avatar>
                   )}
                 </IconButton>
               </Box>
