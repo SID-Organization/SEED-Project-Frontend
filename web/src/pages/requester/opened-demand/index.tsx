@@ -28,6 +28,11 @@ import BenefitsCard from "../../../Components/Benefits-card";
 import "../../../styles/index.css";
 
 import DemandInterface from "../../../Interfaces/demand/DemandInterface";
+import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
+
+function getLoggedUser() {
+  return JSON.parse(localStorage.getItem("user")!);
+}
 
 async function getDemandFromDatabase(id: string) {
   const response = await fetch(
@@ -40,6 +45,7 @@ async function getDemandFromDatabase(id: string) {
 export default function openedDemand() {
   const params = useParams();
 
+  const [user, setUser] = useState<LoggedUserInterface>(getLoggedUser());
   const [demand, setDemand] = useState<DemandInterface>();
 
   useEffect(() => {
@@ -49,6 +55,12 @@ export default function openedDemand() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (demand) {
+      console.log(demand);
+    }
+  }, [demand]);
 
   const [open, setOpen] = useState(false);
   const [isEditEnabled, setIsEditEnabled] = useState(true);
@@ -127,10 +139,13 @@ export default function openedDemand() {
       },
       body: JSON.stringify({
         ativoChat: 2,
-        idDemanda: { idDemanda: 3 },
+        idDemanda: { idDemanda: demand?.idDemanda },
         usuarios: [
-          { numeroCadastroUsuario: 7329 },
-          { numeroCadastroUsuario: 72130 },
+          {
+            numeroCadastroUsuario:
+              demand?.solicitanteDemanda.numeroCadastroUsuario,
+          },
+          { numeroCadastroUsuario: user.numeroCadastroUsuario },
         ],
       }),
     });
@@ -238,18 +253,20 @@ export default function openedDemand() {
                   {demand?.tituloDemanda}
                 </h1>
               </div>
-              <div onClick={handleEnableChat()}>
-                <Tooltip title="Abrir chat">
-                  <MessageIcon
-                    sx={{
-                      color: "#00579D",
-                      fontSize: 25,
-                      marginLeft: 2,
-                      cursor: "pointer",
-                    }}
-                  />
-                </Tooltip>
-              </div>
+              {user.cargoUsuario === "ANALISTA" && (
+                <div onClick={handleEnableChat}>
+                  <Tooltip title="Abrir chat">
+                    <MessageIcon
+                      sx={{
+                        color: "#00579D",
+                        fontSize: 25,
+                        marginLeft: 2,
+                        cursor: "pointer",
+                      }}
+                    />
+                  </Tooltip>
+                </div>
+              )}
             </div>
             <div className="flex justify-center items-center">
               <h1 className="font-semibold text-dark-blue-weg font-roboto">
