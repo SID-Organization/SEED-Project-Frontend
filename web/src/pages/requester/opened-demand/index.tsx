@@ -29,10 +29,10 @@ import "../../../styles/index.css";
 
 import DemandInterface from "../../../Interfaces/demand/DemandInterface";
 
-  
-
 async function getDemandFromDatabase(id: string) {
-  const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
+  const response = await fetch(
+    "http://localhost:8080/sid/api/demanda/id/" + id
+  );
   const demand = await response.json();
   return demand;
 }
@@ -43,26 +43,25 @@ export default function openedDemand() {
   const [demand, setDemand] = useState<DemandInterface>();
 
   useEffect(() => {
-    if(params.id){
-      getDemandFromDatabase(params.id)
-      .then((demand) => {
+    if (params.id) {
+      getDemandFromDatabase(params.id).then((demand) => {
         setDemand(demand);
       });
     }
   }, []);
-  
 
   const [open, setOpen] = useState(false);
   const [isEditEnabled, setIsEditEnabled] = useState(true);
 
-
-  function getBenefits(benefitType: string){
-    if(benefitType == "REAL"){
-      return demand?.beneficiosDemanda.filter((benefit: any) => benefit.tipoBeneficio == "REAL");
-    }
-    else 
-    if(benefitType == "POTENCIAL"){
-      return demand?.beneficiosDemanda.filter((benefit: any) => benefit.tipoBeneficio == "POTENCIAL");
+  function getBenefits(benefitType: string) {
+    if (benefitType == "REAL") {
+      return demand?.beneficiosDemanda.filter(
+        (benefit: any) => benefit.tipoBeneficio == "REAL"
+      );
+    } else if (benefitType == "POTENCIAL") {
+      return demand?.beneficiosDemanda.filter(
+        (benefit: any) => benefit.tipoBeneficio == "POTENCIAL"
+      );
     }
     return [];
   }
@@ -111,7 +110,7 @@ export default function openedDemand() {
 
   // Seta os arquivos da demanda no estado
   useEffect(() => {
-    if(demand){
+    if (demand) {
       setFileRows(demand.arquivosDemandas);
       setCurrentSituation(demand.situacaoAtualDemanda as any);
       setProposal(demand.propostaMelhoriaDemanda as any);
@@ -120,6 +119,22 @@ export default function openedDemand() {
     }
   }, [demand]);
 
+  function handleEnableChat() {
+    fetch("http://localhost:8080/sid/api/chat/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ativoChat: 2,
+        idDemanda: { idDemanda: 3 },
+        usuarios: [
+          { numeroCadastroUsuario: 7329 },
+          { numeroCadastroUsuario: 72130 },
+        ],
+      }),
+    });
+  }
 
   return (
     <>
@@ -212,7 +227,7 @@ export default function openedDemand() {
                     Histórico
                   </h1>
                 </div>
-                <WorkflowTable demandId={params.id}/>
+                <WorkflowTable demandId={params.id} />
               </div>
             </Box>
           </Modal>
@@ -223,7 +238,7 @@ export default function openedDemand() {
                   {demand?.tituloDemanda}
                 </h1>
               </div>
-              <div>
+              <div onClick={handleEnableChat()}>
                 <Tooltip title="Abrir chat">
                   <MessageIcon
                     sx={{
@@ -262,9 +277,11 @@ export default function openedDemand() {
               Solicitante
             </h1>
             <h1 className="font-roboto font-semibold text-sm">
-              {demand?.solicitanteDemanda.nomeUsuario.toUpperCase()}  
+              {demand?.solicitanteDemanda.nomeUsuario.toUpperCase()}
             </h1>
-            <h1 className="font-roboto text-xs">{demand?.solicitanteDemanda.departamentoUsuario.toUpperCase()}</h1>
+            <h1 className="font-roboto text-xs">
+              {demand?.solicitanteDemanda.departamentoUsuario.toUpperCase()}
+            </h1>
           </div>
           <div className="flex justify-center items-center gap-5 text-sm">
             <h1 className="font-roboto font-bold">
@@ -278,7 +295,9 @@ export default function openedDemand() {
             <h1 className="text-dark-blue-weg font-bold font-roboto text-base">
               Centro de custo
             </h1>
-            <h1 className="font-roboto text-sm">{demand?.centroCustoDemanda[0] ?? "Não indicado"}</h1>
+            <h1 className="font-roboto text-sm">
+              {demand?.centroCustoDemanda[0] ?? "Não indicado"}
+            </h1>
           </div>
         </div>
         <div className="flex flex-wrap justify-center items-center mt-10">
@@ -338,8 +357,14 @@ export default function openedDemand() {
           </div>
         </div>
         <div className="flex justify-between items-start mt-12">
-          <BenefitsCard title="Benefícios reais" benefits={getBenefits("REAL")}/>
-          <BenefitsCard title="Benefícios potenciais" benefits={getBenefits("POTENCIAL")}/>
+          <BenefitsCard
+            title="Benefícios reais"
+            benefits={getBenefits("REAL")}
+          />
+          <BenefitsCard
+            title="Benefícios potenciais"
+            benefits={getBenefits("POTENCIAL")}
+          />
         </div>
         <div className="grid justify-center items-center mt-16">
           <div className="flex justify-center items-center">
@@ -390,30 +415,36 @@ export default function openedDemand() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {fileRows && fileRows?.map((fileRow, i) => (
-                    <StyledTableRow key={i}>
-                      <StyledTableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                      >
-                        <a href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`} download={fileRow.nomeArquivo.split('.')[0]}>
-                          <Tooltip title="Baixar arquivo">
-                              <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5"/>
-                          </Tooltip>  
-                        </a>
-                        {fileRow.nomeArquivo}
-                      </StyledTableCell>
-                      <div className="flex justify-center items-center">
-                        <StyledTableCell align="center">
-                          {new Date(fileRow.dataRegistroArquivo).toLocaleDateString()}
+                  {fileRows &&
+                    fileRows?.map((fileRow, i) => (
+                      <StyledTableRow key={i}>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          <a
+                            href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`}
+                            download={fileRow.nomeArquivo.split(".")[0]}
+                          >
+                            <Tooltip title="Baixar arquivo">
+                              <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
+                            </Tooltip>
+                          </a>
+                          {fileRow.nomeArquivo}
                         </StyledTableCell>
-                        <Tooltip title="Deletar arquivo">
-                          <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
-                        </Tooltip>
-                      </div>
-                    </StyledTableRow>
-                  ))}
+                        <div className="flex justify-center items-center">
+                          <StyledTableCell align="center">
+                            {new Date(
+                              fileRow.dataRegistroArquivo
+                            ).toLocaleDateString()}
+                          </StyledTableCell>
+                          <Tooltip title="Deletar arquivo">
+                            <DeleteIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
+                          </Tooltip>
+                        </div>
+                      </StyledTableRow>
+                    ))}
                 </TableBody>
               </Table>
               <div className="flex justify-center items-center mt-5 mb-5">
@@ -451,5 +482,3 @@ export default function openedDemand() {
     </>
   );
 }
-
-
