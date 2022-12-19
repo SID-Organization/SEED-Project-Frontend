@@ -57,10 +57,8 @@ export default function Chat() {
   const [privateChats, setPrivateChats] = useState<Map<number, any>>(new Map());
 
   const connect = () => {
-    console.log("CHAMOU A FUNCAO CONNECT");
     let Sock = new SockJs("http://localhost:8080/ws");
     setStompClient(over(Sock));
-
   };
 
   useEffect(() => {
@@ -73,7 +71,10 @@ export default function Chat() {
 
   const onConnected = () => {
     setUserData((prvState: any) => ({ ...prvState, connected: true }));
-    stompClient.subscribe('/demanda/' + userData.idDemanda.idDemanda + '/' + userData.idChat.idChat, onPrivateMessage);
+    stompClient.subscribe(
+      "/demanda/" + userData.idDemanda.idDemanda + "/" + userData.idChat.idChat,
+      onPrivateMessage
+    );
     userJoin();
   };
 
@@ -92,10 +93,8 @@ export default function Chat() {
   const onPrivateMessage = (payload: any) => {
     var payLoadData = JSON.parse(payload.body);
     var equals = false;
-    console.log("RECEBEU A MENSAGEM", payLoadData);
     // setMessages((prevState) => [...prevState, playLoadData]);
     if (payLoadData.idUsuario.numeroCadastroUsuario == getLoggedUserId()) {
-      console.log("ENTROU NO IF");
       setMessagesReceivedByWS((prevState: any) => [...prevState, payLoadData]);
     }
   };
@@ -111,15 +110,11 @@ export default function Chat() {
       idChat: { idChat: userData.idChat.idChat },
     };
 
-    // console.log("Console 2: ", chatMessage);
-
     if (userData.idChat.idChat !== userData.idChat.idChat) {
       privateChats.get(userData.idChat.idChat).push(chatMessage);
       setPrivateChats(new Map(privateChats));
     }
     stompClient.send("/app/sid/api/mensagem", {}, JSON.stringify(chatMessage));
-    // console.log(JSON.stringify(chatMessage));
-    // console.log("Mandou");
 
     setTemporaryMessages([
       ...temporaryMessages,
@@ -171,17 +166,12 @@ export default function Chat() {
   useEffect(() => {
     getMessagesFromDatabase(chatId).then((messages) => {
       setChatMessages(messages);
-      console.log("Mensagens: ", messages);
     });
   }, [chatId]);
 
   useEffect(() => {
     setTemporaryMessages([]);
   }, [chatUserId]);
-
-  useEffect(() => {
-    console.log("MENSAGENS RECEBIDAS: ", messagesReceivedByWS);
-  }, [messagesReceivedByWS]);
 
   //UseEffect para setar no card de usuário o nome e a demanda do usuário
   useEffect(() => {
@@ -205,7 +195,6 @@ export default function Chat() {
   useEffect(() => {
     setMessages(
       chatMessages.map((message) => {
-        // console.log("MESSAGE: ", message);
         return {
           position: message.idUsuario !== getLoggedUserId() ? "right" : "left",
           type: "text",
@@ -256,11 +245,6 @@ export default function Chat() {
     }
   }
 
-  useEffect(() => {
-    console.log("USERDATA EFFECT: ", userData);
-    console.log("STOMPCLIENT EFFECT: ", stompClient);
-  }, [userData]);
-
   return (
     <div className="flex max-h-screen h-[calc(100vh-10rem)]">
       <div>
@@ -304,62 +288,64 @@ export default function Chat() {
           {/* USERS HERE */}
           {search === ""
             ? users
-              .sort((a: any, b: any) => {
-                if (a.unreadMessages && !b.unreadMessages) return -1;
-                if (!a.unreadMessages && b.unreadMessages) return 1;
+                .sort((a: any, b: any) => {
+                  if (a.unreadMessages && !b.unreadMessages) return -1;
+                  if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                // const timeA = new Date(
-                //   a.time.split(":")[0] as any,
-                //   a.time.split(":")[1] as any
-                // );
+                  // const timeA = new Date(
+                  //   a.time.split(":")[0] as any,
+                  //   a.time.split(":")[1] as any
+                  // );
 
-                // const timeB = new Date(
-                //   b.time.split(":")[0] as any,
-                //   b.time.split(":")[1] as any
-                // );
+                  // const timeB = new Date(
+                  //   b.time.split(":")[0] as any,
+                  //   b.time.split(":")[1] as any
+                  // );
 
-                // if (timeA > timeB) {
-                //   return -1;
-                // }
-                // if (timeA < timeB) {
-                //   return 1;
-                // }
+                  // if (timeA > timeB) {
+                  //   return -1;
+                  // }
+                  // if (timeA < timeB) {
+                  //   return 1;
+                  // }
 
-                return 0;
-              })
+                  return 0;
+                })
 
-              .map((user: any) => (
-                <div
-                  onClick={() => {
-                    const userName = user.name;
-                    const userDemand = user.userDemand;
-                    setChatUserId(user.idUsuario);
-                    setUserNameCard(userName);
-                    setUserDemandCard(userDemand);
-                    setChatId(user.idChat);
-                    setUserData({
-                      idUsuario: {
-                        numeroCadastroUsuario: user.idUsuario,
-                      },
-                      idChat: { idChat: user.idChat },
-                      idDemanda: { idDemanda: user.idDemanda },
-                      connected: false,
-                      message: "",
-                    });
-                    connect();
-                  }}
-                >
-                  <UserMessageCard
-                    picture={user.picture}
-                    name={user.name}
-                    userDemand={user.userDemand}
-                    lastMessage={user.lastMessage}
-                    time={user.time}
-                    unreadMessages={user.unreadMessages}
-                    isOnline={user.isOnline}
-                  />
-                </div>
-              ))
+                .map((user: any) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        const userName = user.name;
+                        const userDemand = user.userDemand;
+                        setChatUserId(user.idUsuario);
+                        setUserNameCard(userName);
+                        setUserDemandCard(userDemand);
+                        setChatId(user.idChat);
+                        setUserData({
+                          idUsuario: {
+                            numeroCadastroUsuario: user.idUsuario,
+                          },
+                          idChat: { idChat: user.idChat },
+                          idDemanda: { idDemanda: user.idDemanda },
+                          connected: false,
+                          message: "",
+                        });
+                        connect();
+                      }}
+                    >
+                      <UserMessageCard
+                        picture={user.picture}
+                        name={user.name}
+                        userDemand={user.userDemand}
+                        lastMessage={user.lastMessage}
+                        time={user.time}
+                        unreadMessages={user.unreadMessages}
+                        isOnline={user.isOnline}
+                      />
+                    </div>
+                  );
+                })
             : returnedUserSearch()}
         </div>
       </div>
@@ -393,19 +379,19 @@ export default function Chat() {
                 />
               );
             })}
-            {messagesReceivedByWS.map((message: { textoMensagem: any; dataMensagem: any; }) => {
-              return (
-                <MessageBox
-                  position="left"
-                  text={message.textoMensagem}
-                  type="text"
-                  date={message.dataMensagem}
-                />
-              );
-            })
-            }
+            {messagesReceivedByWS.map(
+              (message: { textoMensagem: any; dataMensagem: any }) => {
+                return (
+                  <MessageBox
+                    position="left"
+                    text={message.textoMensagem}
+                    type="text"
+                    date={message.dataMensagem}
+                  />
+                );
+              }
+            )}
             {temporaryMessages.map((message) => {
-              console.log("Temporary messages: ", message);
               return (
                 <MessageBox
                   position="right"
@@ -497,10 +483,10 @@ export default function Chat() {
               onClick={
                 userData.message !== ""
                   ? () => {
-                    sendPrivateValue();
-                    setMessage("");
-                  }
-                  : () => { }
+                      sendPrivateValue();
+                      setMessage("");
+                    }
+                  : () => {}
               }
               color="primary"
               aria-label="upload picture"

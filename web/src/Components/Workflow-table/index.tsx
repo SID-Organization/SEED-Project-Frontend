@@ -5,45 +5,44 @@ import {
   GridColDef,
   GridRenderCellParams,
   GridToolbarContainer,
-  GridToolbarExport
+  GridToolbarExport,
 } from "@mui/x-data-grid";
 import { Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
 
 // Renderizador de células normais
-const renderCellTooltip = (params: GridRenderCellParams) =>
+const renderCellTooltip = (params: GridRenderCellParams) => (
   <Tooltip title={params.value} enterDelay={820}>
-    <p className="text-[11px]">
-      {params.value}
-    </p>
-  </Tooltip>;
+    <p className="text-[11px]">{params.value}</p>
+  </Tooltip>
+);
 
 // Renderizador de células de data
 const renderDateCell = (params: GridRenderCellParams) => {
   const date = params.value ? getTableDate(params.value) : "Indefinido";
   return (
     <Tooltip title={date} enterDelay={820}>
-      <p className="text-[11px]">
-        {date}
-      </p>
+      <p className="text-[11px]">{date}</p>
     </Tooltip>
-  )
-}
+  );
+};
 
 // Função para formatar a data
 function getTableDate(date: string) {
   const dateObject = new Date(date);
-  const dateString = dateObject.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }) + " - " + dateObject.toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const dateString =
+    dateObject.toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }) +
+    " - " +
+    dateObject.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   return dateString;
 }
-
 
 function CustomToolbar() {
   return (
@@ -53,7 +52,6 @@ function CustomToolbar() {
   );
 }
 
-
 const columns: GridColDef[] = [
   {
     field: "id",
@@ -61,61 +59,64 @@ const columns: GridColDef[] = [
     renderCell: renderCellTooltip,
     align: "center",
     headerAlign: "center",
-    width: 40
+    width: 40,
   },
   {
     field: "recebimento",
     headerName: "Recebimento",
     type: "date",
     renderCell: renderDateCell,
-    width: 130
+    width: 130,
   },
   {
     field: "conclusao",
     headerName: "Conclusão",
     type: "date",
     renderCell: renderDateCell,
-    width: 130
+    width: 130,
   },
   {
     field: "prazo",
     headerName: "Prazo",
     type: "date",
     renderCell: renderDateCell,
-    width: 140
+    width: 140,
   },
   {
     field: "tarefa",
     headerName: "Tarefa",
     renderCell: renderCellTooltip,
-    minWidth: 220
+    minWidth: 220,
   },
   {
     field: "responsavel",
     headerName: "Responsável",
     renderCell: renderCellTooltip,
-    minWidth: 150
+    minWidth: 150,
   },
   {
     field: "acao",
     headerName: "Ação",
     renderCell: renderCellTooltip,
-    width: 90
+    width: 90,
   },
   {
     field: "status",
     headerName: "Status",
-    renderCell: params =>
+    renderCell: (params) => (
       <p
-        className={`text-[11px] ${params.value === "Concluído"
-          ? "text-green-700"
-          : params.value === "Em andamento"
+        className={`text-[11px] ${
+          params.value === "Concluído"
+            ? "text-green-700"
+            : params.value === "Em andamento"
             ? "text-dark-blue-weg"
-            : "text-red-700"}`}
+            : "text-red-700"
+        }`}
       >
         {params.value}
-      </p>,
-    width: 90
+      </p>
+    ),
+    width: 90,
   },
   {
     field: "versao",
@@ -123,12 +124,15 @@ const columns: GridColDef[] = [
     renderCell: renderCellTooltip,
     align: "center",
     headerAlign: "center",
-    width: 90
-  }
+    width: 90,
+  },
 ];
 
-export default function WorkflowTable({ demandId }: { demandId: string | undefined; }) {
-
+export default function WorkflowTable({
+  demandId,
+}: {
+  demandId: string | undefined;
+}) {
   const [pageSize, setPageSize] = useState<number>(5);
   const [workFlowData, setWorkFlowData] = useState<any[]>();
   const [workFlowRows, setWorkFlowRows] = useState<any[]>([]);
@@ -138,53 +142,48 @@ export default function WorkflowTable({ demandId }: { demandId: string | undefin
     fetch(
       `http://localhost:8080/sid/api/historico-workflow/demanda/${demandId}`
     )
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setWorkFlowData(data);
       });
   }, []);
 
   // Seta as linhas da tabela de workflow
-  useEffect(
-    () => {
-      console.log(workFlowData)
-      if(!workFlowData) return;
-      setWorkFlowRows(
-        workFlowData!.map((wfdata, index) => {
-          return {
-            id: index+1,
-            recebimento: wfdata.recebimentoHistorico,
-            conclusao: wfdata.conclusaoHistorico,
-            prazo: wfdata.prazoHistorico,
-            tarefa: wfdata.tarefaHistoricoWorkflow,
-            responsavel: wfdata.nomeResponsavel,
-            acao: wfdata.acaoFeitaHistorico,
-            status: wfdata.statusWorkflow,
-            versao: wfdata.versaoHistorico
-          };
-        })
-      );
-    },
-    [workFlowData]
-  );
-
+  useEffect(() => {
+    if (!workFlowData) return;
+    setWorkFlowRows(
+      workFlowData!.map((wfdata, index) => {
+        return {
+          id: index + 1,
+          recebimento: wfdata.recebimentoHistorico,
+          conclusao: wfdata.conclusaoHistorico,
+          prazo: wfdata.prazoHistorico,
+          tarefa: wfdata.tarefaHistoricoWorkflow,
+          responsavel: wfdata.nomeResponsavel,
+          acao: wfdata.acaoFeitaHistorico,
+          status: wfdata.statusWorkflow,
+          versao: wfdata.versaoHistorico,
+        };
+      })
+    );
+  }, [workFlowData]);
 
   return (
     <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
       <DataGrid
         rowsPerPageOptions={[5, 10, 20]}
         pageSize={pageSize}
-        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         columns={columns}
         rows={workFlowRows}
         density="compact"
         components={{
-          Toolbar: CustomToolbar
+          Toolbar: CustomToolbar,
         }}
         initialState={{
           sorting: {
-            sortModel: [{ field: "id", sort: "desc" }]
-          }
+            sortModel: [{ field: "id", sort: "desc" }],
+          },
         }}
         disableSelectionOnClick
       />

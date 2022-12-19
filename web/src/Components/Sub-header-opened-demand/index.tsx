@@ -17,11 +17,7 @@ import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import {
-  Badge,
-  InputLabel,
-  TableRow,
-} from "@mui/material";
+import { Badge, InputLabel, TableRow } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
 import MuiAutocomplete from "@mui/material/Autocomplete";
 import toast, { Toaster } from "react-hot-toast";
@@ -39,7 +35,9 @@ import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 
 // Busca a demanda do banco de dados
 const getDemandFromDatabase = async (id: string | undefined) => {
-  const response = await fetch("http://localhost:8080/sid/api/demanda/id/" + id);
+  const response = await fetch(
+    "http://localhost:8080/sid/api/demanda/id/" + id
+  );
   const data = await response.json();
   return data;
 };
@@ -95,21 +93,19 @@ const Autocomplete = styled(MuiAutocomplete)({
   width: 250,
 });
 
-
 /**
  * Classe com utilidades para Analistas e Gerentes decidirem caminhos para as demandas.
- * 
+ *
  * Parâmetros de controle para edição dos campos
  * @param isEditEnabled
  * @param setIsEditEnabled
  */
 
-export default function subHeader({ 
+export default function subHeader({
   children,
   isEditEnabled,
   setIsEditEnabled,
 }: any) {
-
   // Controle de modal
   const [openModal, setOpenModal] = useState(false);
 
@@ -117,7 +113,7 @@ export default function subHeader({
   const [openActions, setOpenActions] = useState(false);
   // Controle do botão selecionado
   const [selectedIndex, setSelectedIndex] = useState(1);
-  
+
   // Demanda buscada do banco de dados
   const [demand, setDemand] = useState<any>();
 
@@ -130,27 +126,26 @@ export default function subHeader({
 
   // Motivo da devolução
   const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
-  
-  // Usuário logado
-  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem('user')!));
 
-  console.log("USER SUBHEADER", user);
+  // Usuário logado
+  const [user, setUser] = useState<LoggedUserInterface>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
 
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const params = useParams();
 
   useEffect(() => {
-    getDemandFromDatabase(params.id)
-    .then((response) => {
+    getDemandFromDatabase(params.id).then((response) => {
       setDemand(response);
-    })
-  }, [])
+    });
+  }, []);
 
   const handleOpenReasonOfDevolution = () => setOpenReasonOfDevolution(true);
   const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
-    setOpenModal(false)
+    setOpenModal(false);
   };
 
   const actionOptions = [
@@ -223,18 +218,20 @@ export default function subHeader({
     },
   ];
 
-
   useEffect(() => {
-    getBusinessUnits()
-    .then(data => {
-      setBusinessUnits(data.map((item: any) => ({text: item.nomeBusinessUnity, key: item.idBusinessUnity })))
+    getBusinessUnits().then((data) => {
+      setBusinessUnits(
+        data.map((item: any) => ({
+          text: item.nomeBusinessUnity,
+          key: item.idBusinessUnity,
+        }))
+      );
     });
   }, []);
 
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
   const notifyEditEnabledOff = () =>
     toast.success("Alterações salvas com sucesso!");
-
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -268,9 +265,6 @@ export default function subHeader({
     }
   }
 
-
-
-
   const handleChangeRequesterBu = (event: SelectChangeEvent) => {
     setRequesterBu(event.target.value as string);
   };
@@ -279,67 +273,57 @@ export default function subHeader({
     setClassifyDemandSize(event.target.value as string);
   };
 
-
   const handleUpdateDemand = async () => {
     // handleCloseModal();
     const updatedDemand = {
-      busBeneficiadasDemanda: benefitedBus.map((item: any) => ({idBusinessUnity: item.key})),
-      buSolicitante: businessUnits.find((item: any) => item.key == requesterBu)?.text,
+      busBeneficiadasDemanda: benefitedBus.map((item: any) => ({
+        idBusinessUnity: item.key,
+      })),
+      buSolicitante: businessUnits.find((item: any) => item.key == requesterBu)
+        ?.text,
       secaoTIResponsavel: responsableSection,
       tamanhoDemanda: getDemandSize(),
-    }
-    
+    };
 
-
-    fetch(`http://localhost:8080/sid/api/demanda/atualiza-bus-beneficiadas/${demand.idDemanda}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedDemand)
-    })
-    .then((response) => {
-      if(response.ok){
-        fetch("http://localhost:8080/sid/api/historico-workflow", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
-            demandaHistorico: {idDemanda: demand.idDemanda},
-            acaoFeitaHistorico: "Enviar",
-            idResponsavel: {numeroCadastroUsuario: 72132}
-        })
-        })
+    fetch(
+      `http://localhost:8080/sid/api/demanda/atualiza-bus-beneficiadas/${demand.idDemanda}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedDemand),
       }
-      return response.json()
-    })
-    .then((data) => {
-      console.log("Fetch response:", data);
-
-    })
-
-    console.log(updatedDemand);
-  
+    )
+      .then((response) => {
+        if (response.ok) {
+          fetch("http://localhost:8080/sid/api/historico-workflow", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
+              demandaHistorico: { idDemanda: demand.idDemanda },
+              acaoFeitaHistorico: "Enviar",
+              idResponsavel: { numeroCadastroUsuario: 72132 },
+            }),
+          });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   const getDemandSize = () => {
-    if(classifyDemandSize == "1") return "MUITO_GRANDE"
-    if(classifyDemandSize == "2") return "GRANDE"
-    if(classifyDemandSize == "3") return "MEDIA"
-    if(classifyDemandSize == "4") return "PEQUENA"
-    if(classifyDemandSize == "5") return "MUITO_PEQUENA"
+    if (classifyDemandSize == "1") return "MUITO_GRANDE";
+    if (classifyDemandSize == "2") return "GRANDE";
+    if (classifyDemandSize == "3") return "MEDIA";
+    if (classifyDemandSize == "4") return "PEQUENA";
+    if (classifyDemandSize == "5") return "MUITO_PEQUENA";
   };
-
-  useEffect(() => {
-    console.log("Seção responsável", responsableSection);
-    console.log("Tamanho da demanda", classifyDemandSize)
-  }, [responsableSection, classifyDemandSize]);
-
-  useEffect(() => {
-    console.log("Benefited bus", benefitedBus)
-  }, [benefitedBus])
 
   return (
     <div>
@@ -457,9 +441,12 @@ export default function subHeader({
                     label="BU"
                     onChange={handleChangeRequesterBu}
                   >
-                    {businessUnits && businessUnits.map((item: {key: string, text: string}) => (
-                      <MenuItem value={item.key}>{item.text}</MenuItem>
-                    ))}
+                    {businessUnits &&
+                      businessUnits.map(
+                        (item: { key: string; text: string }) => (
+                          <MenuItem value={item.key}>{item.text}</MenuItem>
+                        )
+                      )}
                   </Select>
                 </FormControl>
               </div>
@@ -536,7 +523,7 @@ export default function subHeader({
                 </FormControl>
               </div>
             </div>
-            
+
             <div className="flex justify-evenly items-center mt-10 mb-5">
               <Button
                 variant="contained"
@@ -627,33 +614,33 @@ export default function subHeader({
           )}
         </Button>
 
-        {user.cargoUsuario != "SOLICITANTE" &&
-        <Tooltip title="Ações">
-          <ButtonGroup
-            variant="contained"
-            ref={anchorRef}
-            aria-label="split button"
-          >
-            <Button
-              size="small"
-              aria-controls={openActions ? "split-button-menu" : undefined}
-              aria-expanded={openActions ? "true" : undefined}
-              aria-label="select merge strategy"
-              aria-haspopup="menu"
-              sx={{
-                backgroundColor: "#00579D",
-                width: 100,
-                height: 40,
-                fontSize: 14,
-              }}
-              onClick={handleToggleActions}
+        {user.cargoUsuario != "SOLICITANTE" && (
+          <Tooltip title="Ações">
+            <ButtonGroup
+              variant="contained"
+              ref={anchorRef}
+              aria-label="split button"
             >
-              Ações
-              {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-            </Button>
-          </ButtonGroup>
-        </Tooltip>
-        }
+              <Button
+                size="small"
+                aria-controls={openActions ? "split-button-menu" : undefined}
+                aria-expanded={openActions ? "true" : undefined}
+                aria-label="select merge strategy"
+                aria-haspopup="menu"
+                sx={{
+                  backgroundColor: "#00579D",
+                  width: 100,
+                  height: 40,
+                  fontSize: 14,
+                }}
+                onClick={handleToggleActions}
+              >
+                Ações
+                {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+              </Button>
+            </ButtonGroup>
+          </Tooltip>
+        )}
         <Popper
           sx={{
             zIndex: 1,

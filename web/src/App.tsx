@@ -22,13 +22,12 @@ import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
 function App() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") as any));
-
-  console.log(user);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user") as any)
+  );
 
   return (
     <>
-
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -36,20 +35,19 @@ function App() {
             path="/"
             element={user ? <Layout /> : <Navigate to={"/login"} />}
           >
-              <Route path="demandas" element={<HomeDemands />} />
-              <Route path="demandas/:id" element={<OpenedDemand />} />
-              <Route path="rascunhos" element={<Drafts />} />
-              <Route path="list" element={<DemandCardList />} />
-              <Route path="nova-demanda" element={<CreateDemand />} />
-              <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
-              <Route path="subheader" element={<SubHeaderOpenedDemand />} />
-              <Route path="gerenciar-demandas" element={<DemandManager />} />
-              <Route path="pautas" element={<Pautas />} />
-              <Route path="atas" element={<Atas />} />
-              <Route path="propostas" element={<Proposals />} />
-              <Route path="perfil" element={<Profile />} />
-              <Route path="chat" element={<Chat />} />
-
+            <Route path="demandas" element={<HomeDemands />} />
+            <Route path="demandas/:id" element={<OpenedDemand />} />
+            <Route path="rascunhos" element={<Drafts />} />
+            <Route path="list" element={<DemandCardList />} />
+            <Route path="nova-demanda" element={<CreateDemand />} />
+            <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
+            <Route path="subheader" element={<SubHeaderOpenedDemand />} />
+            <Route path="gerenciar-demandas" element={<DemandManager />} />
+            <Route path="pautas" element={<Pautas />} />
+            <Route path="atas" element={<Atas />} />
+            <Route path="propostas" element={<Proposals />} />
+            <Route path="perfil" element={<Profile />} />
+            <Route path="chat" element={<Chat />} />
           </Route>
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>

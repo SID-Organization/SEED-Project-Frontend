@@ -34,14 +34,13 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import Notification from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 interface INewBenefit {
   coin: string;
   value: number;
   description: string;
 }
-
 
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -118,7 +117,9 @@ export default function CreateDemand() {
   const [deleteNotification, setDeleteNotification] = useState(false);
 
   // Usuário logado
-  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!));
+  const [user, setUser] = useState<LoggedUserInterface>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
 
   // Navegador de página pela função
   const navigate = useNavigate();
@@ -164,7 +165,7 @@ export default function CreateDemand() {
         descricaoBeneficio: benefit.description,
         tipoBeneficio: "POTENCIAL",
       });
-    };
+    }
 
     const demandToBeSent = {
       tituloDemanda: title,
@@ -190,13 +191,10 @@ export default function CreateDemand() {
       body: formData,
     }).then((res) => {
       navigate("/demandas");
-      // console.log(res);
     });
-
   };
 
   function handleFileInput(event: any) {
-    console.log(event.target.files);
     setSelectedFiles([...selectedFiles, event.target.files[0]]);
   }
 
@@ -427,12 +425,13 @@ export default function CreateDemand() {
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           <Tooltip title="Adicionar mais benefícios potenciais">
             <IconButton
-            onClick={() => {
-              setPotentialBenefits([
-                ...potentialBenefits,
-                { coin: "", value: 0, description: "" },
-              ]);
-            }}>
+              onClick={() => {
+                setPotentialBenefits([
+                  ...potentialBenefits,
+                  { coin: "", value: 0, description: "" },
+                ]);
+              }}
+            >
               <AddBoxRoundedIcon
                 sx={{
                   color: "#00579D",
@@ -468,22 +467,22 @@ export default function CreateDemand() {
           </h1>
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
         </div>
-          <div className="flex items-center justify-center">
-            <TextField
-              sx={{
-                marginBottom: "10rem",
-              }}
-              id="ined-basic"
-              label="Descrição"
-              variant="outlined"
-              type="text"
-              multiline
-              maxRows={4}
-              value={qualitativeBenefit}
-              onChange={(e) => setQualitativeBenefit(e.target.value)}
-            />
+        <div className="flex items-center justify-center">
+          <TextField
+            sx={{
+              marginBottom: "10rem",
+            }}
+            id="ined-basic"
+            label="Descrição"
+            variant="outlined"
+            type="text"
+            multiline
+            maxRows={4}
+            value={qualitativeBenefit}
+            onChange={(e) => setQualitativeBenefit(e.target.value)}
+          />
           <div className="mr-16" />
-          </div>
+        </div>
         {/* FIM BENEFICIO QUALITATIVO */}
       </div>
     );

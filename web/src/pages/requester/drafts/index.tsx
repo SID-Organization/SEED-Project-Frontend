@@ -18,26 +18,25 @@ import Draggable from "react-draggable";
 import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 
 async function getDemandsFromDatabase(userId: number) {
-  const response = await fetch("http://localhost:8080/sid/api/demanda/solicitante/" + userId);
+  const response = await fetch(
+    "http://localhost:8080/sid/api/demanda/solicitante/" + userId
+  );
   const demands = await response.json();
   return demands.filter((item: any) => item.statusDemanda == "RASCUNHO");
 }
 
 export default function drafts() {
   const [selectedDrafts, setSelectedDrafts] = useState([]);
-  const [user, setUser] = useState<LoggedUserInterface>(JSON.parse(localStorage.getItem("user")!));
+  const [user, setUser] = useState<LoggedUserInterface>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
   const [demands, setDemands] = useState<any[]>([]);
 
   useEffect(() => {
     getDemandsFromDatabase(user.numeroCadastroUsuario).then((demands) => {
-      console.log("Demandas draft: ", demands);
       setDemands(demands);
     });
-  } ,[]);
-
-  useEffect(() => {
-    console.log("DRAFT selected demands: ", selectedDrafts);
-  }, [selectedDrafts]);
+  }, []);
 
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);

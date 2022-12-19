@@ -7,7 +7,6 @@ import GenerateAtaProposal from "../../../Components/Generate-ata-proposal";
 
 export default function GenerateAta() {
   const { id } = useParams();
-  console.log("ID: ", id);
 
   return (
     <div className="grid items-center">
