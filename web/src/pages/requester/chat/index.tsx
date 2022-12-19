@@ -45,6 +45,7 @@ interface IMessage {
   idUsuario: number;
   textoMensagem: string;
   dataMensagem: string;
+  idChat: number;
 }
 
 export default function Chat() {
@@ -92,12 +93,40 @@ export default function Chat() {
 
   const onPrivateMessage = (payload: any) => {
     var payLoadData = JSON.parse(payload.body);
-    var equals = false;
-    // setMessages((prevState) => [...prevState, playLoadData]);
+    console.log("PAYLOAD: ", payLoadData);
     if (payLoadData.idUsuario.numeroCadastroUsuario == getLoggedUserId()) {
       setMessagesReceivedByWS((prevState: any) => [...prevState, payLoadData]);
     }
   };
+
+  // Atualiza a ultima mensagem do chat
+  useEffect(() => {
+    const lastMessage = messagesReceivedByWS[messagesReceivedByWS.length - 1];
+    setUsers(
+      users.map((user: any) => {
+        if (user.idChat === lastMessage.idChat.idChat) {
+          return { ...user, lastMessage: lastMessage.textoMensagem };
+        } else {
+          return user;
+        }
+      })
+    );
+  }, [messagesReceivedByWS]);
+
+  useEffect(() => {
+    if (temporaryMessages.length > 0) {
+      const lastMessage = temporaryMessages[temporaryMessages.length - 1];
+      setUsers(
+        users.map((user: any) => {
+          if (user.idChat === lastMessage.idChat) {
+            return { ...user, lastMessage: lastMessage.textoMensagem };
+          } else {
+            return user;
+          }
+        })
+      );
+    }
+  }, [temporaryMessages]);
 
   const sendPrivateValue = () => {
     const date = new Date();
@@ -122,6 +151,7 @@ export default function Chat() {
         textoMensagem: userData.message,
         idUsuario: chatUserId!,
         dataMensagem: new Date().toLocaleTimeString(),
+        idChat: userData.idChat.idChat,
       },
     ]);
 
@@ -313,6 +343,7 @@ export default function Chat() {
                 })
 
                 .map((user: any) => {
+                  console.log("USER: ", user);
                   return (
                     <div
                       onClick={() => {
