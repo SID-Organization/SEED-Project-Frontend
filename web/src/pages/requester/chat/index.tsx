@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
+import Diversity3RoundedIcon from "@mui/icons-material/Diversity3Rounded";
 
 import "react-chat-elements/dist/main.css";
 import { MessageBox } from "react-chat-elements";
@@ -46,6 +47,7 @@ interface IMessage {
   textoMensagem: string;
   dataMensagem: string;
   idChat: number;
+  position: string;
 }
 
 export default function Chat() {
@@ -56,6 +58,33 @@ export default function Chat() {
   const [stompClient, setStompClient] = useState<any>(null);
 
   const [privateChats, setPrivateChats] = useState<Map<number, any>>(new Map());
+
+  //State para filtrar os usuários que serão exibidos na lista de usuários
+  const [search, setSearch] = useState("");
+
+  //States para armazenar os usuários de um chat e suas respectivas mensagens
+  const [chatUsers, setChatUsers] = useState<any[]>([]);
+  const [chatMessages, setChatMessages] = useState<any[]>([]);
+
+  //States para armazenar qual o nome do usuário e sua respectiva demanda
+  const [userNameCard, setUserNameCard] = useState<string>("");
+  const [userDemandCard, setUserDemandCard] = useState<string>("");
+
+  //State para armazenar o id do chat que o usuário está conversando
+  const [chatId, setChatId] = useState<number>(0);
+
+  //State para armazenar a mensagem que o usuário quer enviar
+  const [message, setMessage] = useState("");
+
+  //State para armazenar as mensagens buscadas no banco de dados
+  const [messages, setMessages] = useState<any[]>([]);
+
+  //State para armazenar os usuários buscados no banco de dados
+  const [users, setUsers] = useState<any>([]);
+
+  //States para armazenar arquivos enviados
+  const [file, setFile] = useState([]);
+  const [preview, setPreview] = useState("");
 
   const connect = () => {
     let Sock = new SockJs("http://localhost:8080/ws");
@@ -96,6 +125,16 @@ export default function Chat() {
     console.log("PAYLOAD: ", payLoadData);
     if (payLoadData.idUsuario.numeroCadastroUsuario == getLoggedUserId()) {
       setMessagesReceivedByWS((prevState: any) => [...prevState, payLoadData]);
+      setTemporaryMessages((prevState: any) => [
+        ...prevState,
+        {
+          textoMensagem: payLoadData.textoMensagem,
+          idUsuario: payLoadData.idUsuario.numeroCadastroUsuario,
+          dataMensagem: new Date().toLocaleTimeString(),
+          idChat: payLoadData.idChat.idChat,
+          position: "left",
+        },
+      ]);
     }
   };
 
@@ -128,6 +167,10 @@ export default function Chat() {
     }
   }, [temporaryMessages]);
 
+  useEffect(() => {
+    console.log("CHAT ID: ", chatId);
+  }, [chatId]);
+
   const sendPrivateValue = () => {
     const date = new Date();
 
@@ -152,38 +195,12 @@ export default function Chat() {
         idUsuario: chatUserId!,
         dataMensagem: new Date().toLocaleTimeString(),
         idChat: userData.idChat.idChat,
+        position: "right",
       },
     ]);
 
     setUserData({ ...userData, message: "" });
   };
-
-  //State para filtrar os usuários que serão exibidos na lista de usuários
-  const [search, setSearch] = useState("");
-
-  //States para armazenar os usuários de um chat e suas respectivas mensagens
-  const [chatUsers, setChatUsers] = useState<any[]>([]);
-  const [chatMessages, setChatMessages] = useState<any[]>([]);
-
-  //States para armazenar qual o nome do usuário e sua respectiva demanda
-  const [userNameCard, setUserNameCard] = useState<string>("");
-  const [userDemandCard, setUserDemandCard] = useState<string>("");
-
-  //State para armazenar o id do chat que o usuário está conversando
-  const [chatId, setChatId] = useState<number>(1);
-
-  //State para armazenar a mensagem que o usuário quer enviar
-  const [message, setMessage] = useState("");
-
-  //State para armazenar as mensagens buscadas no banco de dados
-  const [messages, setMessages] = useState<any[]>([]);
-
-  //State para armazenar os usuários buscados no banco de dados
-  const [users, setUsers] = useState<any>([]);
-
-  //States para armazenar arquivos enviados
-  const [file, setFile] = useState([]);
-  const [preview, setPreview] = useState("");
 
   //UseEffect para buscar todos os usuários do banco de dados
   useEffect(() => {
@@ -223,17 +240,20 @@ export default function Chat() {
 
   //UseEffect para setar as mensagens no chat
   useEffect(() => {
-    setMessages(
-      chatMessages.map((message) => {
-        return {
-          position: message.idUsuario !== getLoggedUserId() ? "right" : "left",
-          type: "text",
-          text: message.textoMensagem,
-          date: message.dataMensagem,
-          status: "received ",
-        };
-      })
-    );
+    if (chatId != 0) {
+      setMessages(
+        chatMessages.map((message) => {
+          return {
+            position:
+              message.idUsuario !== getLoggedUserId() ? "right" : "left",
+            type: "text",
+            text: message.textoMensagem,
+            date: message.dataMensagem,
+            status: "received ",
+          };
+        })
+      );
+    }
   }, [chatMessages]);
 
   //Função para filtrar os usuários que serão exibidos na lista de usuários
@@ -380,167 +400,173 @@ export default function Chat() {
             : returnedUserSearch()}
         </div>
       </div>
-      <div className=" w-full bg-[#dddddd]">
-        {/* Nome do usuário no subheader */}
-        <ChatSubHeader userName={userNameCard} userDemand={userDemandCard} />
-        <div
-          className="
-          bg-[#dddddd]
-          h-[calc(100vh-19.8rem)]
-          overflow-y-scroll
-          scrollbar-thumb-[#a5a5a5]
-          scrollbar-thumb-rounded-full
-          scrollbar-w-2
-          scrollbar-thin
-          flex flex-col-reverse
-        "
-        >
-          {/* messages here */}
-          <div className="grid gap-5">
-            <SystemMessage text={"Hoje"} />
-            {messages.map((message) => {
-              return (
-                <MessageBox
-                  position={message.position}
-                  text={message.text}
-                  type={message.type}
-                  date={message.date}
-                  status={message.status}
-                  className={message.position === "left" ? "mr-32" : "ml-32"}
-                />
-              );
-            })}
-            {messagesReceivedByWS.map(
-              (message: { textoMensagem: any; dataMensagem: any }) => {
+      {chatId === 0 ? (
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="grid items-center justify-center">
+            <div className="flex justify-center">
+              <Diversity3RoundedIcon
+                sx={{
+                  fontSize: 200,
+                  color: "#0075B1",
+                }}
+              />
+            </div>
+            <p className="font-roboto tracking-wide text-blue-weg font-bold text-2xl cursor-default">
+              Selecione um usuário para iniciar uma conversa
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className=" w-full bg-[#dddddd]">
+          {/* Nome do usuário no subheader */}
+          <ChatSubHeader userName={userNameCard} userDemand={userDemandCard} />
+          <div
+            className="
+              bg-[#dddddd]
+              h-[calc(100vh-19.8rem)]
+              overflow-y-scroll
+              scrollbar-thumb-[#a5a5a5]
+              scrollbar-thumb-rounded-full
+              scrollbar-w-2
+              scrollbar-thin
+              flex flex-col-reverse
+            "
+          >
+            {/* messages here */}
+            <div className="grid gap-5">
+              <SystemMessage text={"Hoje"} />
+              {messages.map((message) => {
                 return (
                   <MessageBox
-                    position="left"
+                    position={message.position}
+                    text={message.text}
+                    type={message.type}
+                    date={message.date}
+                    status={message.status}
+                    className={message.position === "left" ? "mr-32" : "ml-32"}
+                  />
+                );
+              })}
+              {temporaryMessages.map((message) => {
+                return (
+                  <MessageBox
+                    position={message.position}
                     text={message.textoMensagem}
                     type="text"
                     date={message.dataMensagem}
                   />
                 );
-              }
-            )}
-            {temporaryMessages.map((message) => {
-              return (
-                <MessageBox
-                  position="right"
-                  text={message.textoMensagem}
-                  type="text"
-                  date={message.dataMensagem}
+              })}
+            </div>
+          </div>
+          <div
+            className="
+              bg-[#ffffff]
+            h-[7.5rem]
+            flex
+            "
+          >
+            <Tooltip title="Adicionar anexo">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="label"
+                sx={{
+                  ml: 2,
+                  mt: 5,
+                  mb: 1,
+                  mr: 1,
+                  color: "#0075B1",
+                  transition: "all 0.2s ease-in-out",
+                  "&:hover": {
+                    color: "#000",
+                  },
+                  height: "2.5rem",
+                  width: "2.5rem",
+                }}
+              >
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  //get the file and set in the input
+
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setFile(file as any);
+                        setPreview(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
                 />
-              );
-            })}
+                <AttachFileIcon />
+              </IconButton>
+            </Tooltip>
+            <input
+              className="
+              w-[calc(100%-3.5rem)]
+              h-[6.5rem]
+              border-[1px]
+              border-[#c9c9c9]
+              rounded-[1.5rem]
+              px-5
+              focus:outline-none
+              mt-2
+              "
+              type="text"
+              placeholder="Digite uma mensagem"
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  if (userData.message !== "") {
+                    sendPrivateValue();
+                  }
+                }
+              }}
+              onChange={(e) => {
+                setUserData({
+                  ...userData,
+                  message: e.target.value,
+                });
+              }}
+              value={userData.message}
+            />
+            <Tooltip title="Enviar mensagem">
+              <IconButton
+                onClick={
+                  userData.message !== ""
+                    ? () => {
+                        sendPrivateValue();
+                        setMessage("");
+                      }
+                    : () => {}
+                }
+                color="primary"
+                aria-label="upload picture"
+                component="label"
+                sx={{
+                  ml: 2,
+                  mt: 5,
+                  mb: 1,
+                  mr: 1,
+                  color: "#0075B1",
+                  transition: "all 0.2s ease-in-out",
+                  "&:hover": {
+                    color: "#000",
+                  },
+                  height: "2.5rem",
+                  width: "2.5rem",
+                }}
+              >
+                <SendRoundedIcon />
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
-        <div
-          className="
-          bg-[#ffffff]
-        h-[7.5rem]
-        flex
-        "
-        >
-          <Tooltip title="Adicionar anexo">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="label"
-              sx={{
-                ml: 2,
-                mt: 5,
-                mb: 1,
-                mr: 1,
-                color: "#0075B1",
-                transition: "all 0.2s ease-in-out",
-                "&:hover": {
-                  color: "#000",
-                },
-                height: "2.5rem",
-                width: "2.5rem",
-              }}
-            >
-              <input
-                hidden
-                accept="image/*"
-                type="file"
-                //get the file and set in the input
-
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setFile(file as any);
-                      setPreview(reader.result as string);
-                    };
-                    reader.readAsDataURL(file);
-                  }
-                }}
-              />
-              <AttachFileIcon />
-            </IconButton>
-          </Tooltip>
-          <input
-            className="
-          w-[calc(100%-3.5rem)]
-          h-[6.5rem]
-          border-[1px]
-          border-[#c9c9c9]
-          rounded-[1.5rem]
-          px-5
-          focus:outline-none
-          mt-2
-          "
-            type="text"
-            placeholder="Digite uma mensagem"
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                if (userData.message !== "") {
-                  sendPrivateValue();
-                }
-              }
-            }}
-            onChange={(e) => {
-              setUserData({
-                ...userData,
-                message: e.target.value,
-              });
-            }}
-            value={userData.message}
-          />
-          <Tooltip title="Enviar mensagem">
-            <IconButton
-              onClick={
-                userData.message !== ""
-                  ? () => {
-                      sendPrivateValue();
-                      setMessage("");
-                    }
-                  : () => {}
-              }
-              color="primary"
-              aria-label="upload picture"
-              component="label"
-              sx={{
-                ml: 2,
-                mt: 5,
-                mb: 1,
-                mr: 1,
-                color: "#0075B1",
-                transition: "all 0.2s ease-in-out",
-                "&:hover": {
-                  color: "#000",
-                },
-                height: "2.5rem",
-                width: "2.5rem",
-              }}
-            >
-              <SendRoundedIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
