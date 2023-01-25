@@ -99,6 +99,21 @@ export default function Chat() {
 
   const [userData, setUserData] = useState<any>({});
 
+  useEffect(() => {
+    getUsersFromDatabase().then((users) => {
+      setChatUsers(users);
+      console.log(users);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("USERS: ", chatUsers);
+  }, [chatUsers]);
+
+  function filterUser(e: any) {
+    setSearch(e.target.value);
+  }
+
   const onConnected = () => {
     setUserData((prvState: any) => ({ ...prvState, connected: true }));
     stompClient.subscribe(
@@ -221,6 +236,8 @@ export default function Chat() {
   }, [chatUserId]);
 
   //UseEffect para setar no card de usuário o nome e a demanda do usuário
+  const [userCard, setUserCard] = useState<any>();
+
   useEffect(() => {
     setUsers(
       chatUsers.map((user) => ({

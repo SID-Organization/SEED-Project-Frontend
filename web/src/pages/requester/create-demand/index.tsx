@@ -174,9 +174,10 @@ export default function CreateDemand() {
       frequenciaUsoDemanda: frequencyOfUse,
       descricaoQualitativoDemanda: qualitativeBenefit,
       solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
-      analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
       beneficiosDemanda: benefitsToBeSent,
     };
+
+    console.log("Sending demand: ", demandToBeSent);
 
     const formData = new FormData();
 
