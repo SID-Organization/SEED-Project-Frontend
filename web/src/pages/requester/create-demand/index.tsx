@@ -165,12 +165,11 @@ export default function CreateDemand() {
       situacaoAtualDemanda: currentProblem,
       frequenciaUsoDemanda: frequencyOfUse,
       descricaoQualitativoDemanda: qualitativeBenefit,
-      prazoElaboracaoDemanda: null,
-      codigoPPM: null,
       solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
-      busBeneficiadas: [],
       beneficiosDemanda: benefitsToBeSent,
     };
+
+    console.log("Sending demand: ", demandToBeSent);
 
     const formData = new FormData();
 
