@@ -67,7 +67,7 @@ export default function homeDemands() {
             getDemandsGrid()
           )
         ) : (
-          <NoDemands />
+          <NoDemands>Sem demandas!</NoDemands>
         )}
       </div>
     </div>
