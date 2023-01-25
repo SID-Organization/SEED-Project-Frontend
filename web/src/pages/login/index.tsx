@@ -93,6 +93,8 @@ export default function Login() {
             nomeUsuario: data.nomeUsuario,
           })
         );
+      })
+      .then(() => {
         navigate("/demandas");
       });
   };
