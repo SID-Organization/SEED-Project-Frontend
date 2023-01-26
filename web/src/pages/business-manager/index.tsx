@@ -10,10 +10,15 @@ import SubHeader from "../../Components/Sub-header";
 // Interfaces
 import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 import DemandCard from "../../Components/Demand-card";
+import { getMenuItemUnstyledUtilityClass } from "@mui/base";
 
 export default function DemandManager() {
   // State to set the format of the demands
   const [isListFormat, setIsListFormat] = useState(false);
+
+  // Search for demands to manage
+  const [search, setSearch] = useState<string>("");
+
 
   const [user, setUser] = useState<LoggedUserInterface>(
     JSON.parse(localStorage.getItem("user")!)
@@ -31,9 +36,13 @@ export default function DemandManager() {
       });
   }, []);
 
+  useEffect(() => {
+    console.log("Search input", search)
+  }, [search])
+
   return (
     <div>
-      <SubHeader setIsListFormat={setIsListFormat} isListFormat={isListFormat}>
+      <SubHeader search={search} setSearch={setSearch} setIsListFormat={setIsListFormat} isListFormat={isListFormat}>
         Gerenciar demandas
       </SubHeader>
       {isListFormat ? (
@@ -43,9 +52,14 @@ export default function DemandManager() {
           {demandsToManage &&
             demandsToManage
               .filter((item) => item.statusDemanda != "RASCUNHO")
+              .filter((item) => {
+                if(search === "") return item;
+                else if(item.tituloDemanda.toLowerCase().includes(search.toLowerCase())) return item;
+              })
               .map((demand, i) => {
                 return <DemandCard key={i} demand={demand} />;
-              })}
+              })
+              }
         </div>
       )}
     </div>

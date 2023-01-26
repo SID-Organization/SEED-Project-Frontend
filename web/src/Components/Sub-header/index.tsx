@@ -6,27 +6,31 @@ import GridOnIcon from "@mui/icons-material/GridOn";
 
 import "../../styles/index.css";
 
-export default function subHeader({
-  children,
-  isListFormat,
-  setIsListFormat,
-}: any) {
+interface ISubHeaderProps {
+  children: string;
+  isListFormat: boolean;
+  setIsListFormat: (isListFormat: boolean) => void;
+  search: string;
+  setSearch: (search: string) => void;
+}
+
+export default function subHeader(props: ISubHeaderProps) {
   return (
     <div className="mb-10">
       <div className="flex items-center shadow-page-title-shadow h-[5rem]">
         <div className="flex-[2] text-center">
           <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
-            {children}
+            {props.children}
           </h1>
         </div>
         <div className="flex-[4] flex justify-evenly">
           <Filter />
-          <Search />
+          <Search search={props.search} setSearch={props.setSearch}/>
           <div
             className="cursor-pointer"
-            onClick={() => setIsListFormat(!isListFormat)}
+            onClick={() => props.setIsListFormat(!props.isListFormat)}
           >
-            {isListFormat ? (
+            {props.isListFormat ? (
               <GridOnIcon
                 sx={{
                   fontSize: "30px",
