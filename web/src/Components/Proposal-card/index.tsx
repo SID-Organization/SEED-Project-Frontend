@@ -281,9 +281,13 @@ export default function ProposalCard(props: ProposalCardProps) {
               ""
             ) : (
               <Tooltip title="Visualizar proposta">
-                <IconButton onClick={openPdf}>
+                {props.newPauta === "card" ? (
                   <VisibilityRoundedIcon />
-                </IconButton>
+                ) : (
+                  <IconButton onClick={openPdf}>
+                    <VisibilityRoundedIcon />
+                  </IconButton>
+                )}
               </Tooltip>
             )}
             {props.newPauta === "card" && (
