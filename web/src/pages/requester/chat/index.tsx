@@ -239,20 +239,22 @@ export default function Chat() {
   const [userCard, setUserCard] = useState<any>();
 
   useEffect(() => {
-    setUsers(
-      chatUsers.map((user) => ({
-        picture: user.fotoAnalista,
-        name: user.nomeAnalista,
-        userDemand: user.tituloDemanda,
-        lastMessage: user.ultimaMensagem,
-        time: user.dataUltimaMensagem,
-        idUsuario: user.idUsuario,
-        unreadMessages: "1",
-        idChat: user.idChat,
-        idDemanda: user.idDemanda,
-        isOnline: true,
-      }))
-    );
+    if(chatUsers.length > 0) {
+      setUsers(
+        chatUsers.map((user) => ({
+          picture: user.fotoAnalista,
+          name: user.nomeAnalista,
+          userDemand: user.tituloDemanda,
+          lastMessage: user.ultimaMensagem,
+          time: user.dataUltimaMensagem,
+          idUsuario: user.idUsuario,
+          unreadMessages: "1",
+          idChat: user.idChat,
+          idDemanda: user.idDemanda,
+          isOnline: true,
+        }))
+      )
+  }
   }, [chatUsers]);
 
   //UseEffect para setar as mensagens no chat

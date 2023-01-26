@@ -5,7 +5,20 @@ import IconButton from "@mui/material/IconButton";
 
 import SearchIcon from "@mui/icons-material/Search";
 
-export default function Search() {
+import { useState, useEffect } from "react";
+
+interface ISearchInputProps {
+  search: string;
+  setSearch: (search: string) => void;
+}
+
+export default function Search(props: ISearchInputProps) {
+
+
+  useEffect(() => {
+    console.log("Search input", props.search)
+  }, [props.search])
+
   return (
     <div>
       <Paper
@@ -33,6 +46,8 @@ export default function Search() {
           sx={{ ml: 1, flex: 1, fontSize: "13px" }}
           placeholder="Procure aqui"
           inputProps={{ "aria-label": "Procure aqui" }}
+          onChange={(e) => props.setSearch(e.target.value as string)}
+          value={props.search}
         />
       </Paper>
     </div>
