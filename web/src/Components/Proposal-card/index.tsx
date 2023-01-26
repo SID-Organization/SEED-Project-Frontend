@@ -8,7 +8,7 @@ import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import PublicIcon from "@mui/icons-material/Public";
 import PublicOffIcon from "@mui/icons-material/PublicOff";
-import { Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 
 import MuiIconButton from "@mui/material/IconButton";
 
@@ -127,6 +127,26 @@ export default function ProposalCard(props: ProposalCardProps) {
     }
     setIsButtonAddClicked(!isButtonAddClicked);
   }
+
+  function openPdf() {
+    window.open("http://www.africau.edu/images/default/sample.pdf", "_blank");
+  }
+
+  //   function openPdf() {
+  //     fetch("https://example.com/pdf/123")
+  //     .then(response => {
+  //         if (response.ok) {
+  //             return response.blob();
+  //         }
+  //     })
+  //     .then(blob => {
+  //         let url = window.URL.createObjectURL(blob);
+  //         window.open(url, "_blank");
+  //     })
+  //     .catch(err => {
+  //         console.error(err);
+  //     });
+  // }
 
   return (
     <div>
@@ -261,7 +281,9 @@ export default function ProposalCard(props: ProposalCardProps) {
               ""
             ) : (
               <Tooltip title="Visualizar proposta">
-                <VisibilityRoundedIcon />
+                <IconButton onClick={openPdf}>
+                  <VisibilityRoundedIcon />
+                </IconButton>
               </Tooltip>
             )}
             {props.newPauta === "card" && (
