@@ -352,6 +352,7 @@ export default function Chat() {
           className=" w-[25rem] overflow-y-scroll h-[calc(100vh-10rem)]
            scrollbar-thumb-[#C9c9c9] scrollbar-thumb-rounded-full 
            hover:scrollbar-thumb-[#acacac] scrollbar-w-2 scrollbar-thin
+           bg-[#F5F5F5]
           "
         >
           {/* USERS HERE */}
