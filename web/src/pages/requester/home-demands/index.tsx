@@ -82,6 +82,7 @@ export default function homeDemands() {
       <div className="flex flex-wrap justify-around gap-4 w-full">
         {demands &&
           demands
+            .filter((demand, i, arr) => (demand.statusDemanda != "RASCUNHO"))
             .map((demand, i) => {
               return <DemandCard key={i} demand={demand} />;
             })}
