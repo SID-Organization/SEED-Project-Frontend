@@ -1,10 +1,13 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import MuiButton from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+
+import { styled } from "@mui/material/styles";
 
 import UserIMG from "../../../assets/profile-pic.png";
 
@@ -77,6 +80,31 @@ export default function ChatSubHeader(props: IUserName) {
     handleClick({ vertical: "top", horizontal: "center" })();
     setNotificationTypeMessage(false);
   }
+
+  const [requesterButtonActive, setRequesterButtonActive] = useState(true);
+  const [analystButtonActive, setAnalystButtonActive] = useState(false);
+
+  const FilterChatRequesterButton = styled(MuiButton)(({ theme }) => ({
+    width: "7rem",
+    height: "30px",
+    borderRadius: "5px",
+    backgroundColor: requesterButtonActive ? "#0075B1" : "#F2F2F2",
+    color: requesterButtonActive ? "#FFFFFF" : "#023A67",
+    "&:hover": {
+      backgroundColor: requesterButtonActive ? "#0075B1" : "#F2F2F2",
+    },
+  }));
+
+  const FilterChatAnalystButton = styled(MuiButton)(({ theme }) => ({
+    width: "7rem",
+    height: "30px",
+    borderRadius: "5px",
+    backgroundColor: analystButtonActive ? "#0075B1" : "#F2F2F2",
+    color: analystButtonActive ? "#FFFFFF" : "#023A67",
+    "&:hover": {
+      backgroundColor: analystButtonActive ? "#0075B1" : "#F2F2F2",
+    },
+  }));
 
   const list = (anchor: Anchor) => (
     <Box
@@ -192,6 +220,32 @@ export default function ChatSubHeader(props: IUserName) {
         <p className="ml-5 text-white font-normal text-xl cursor-default ">
           {props.userName}
         </p>
+        <div className="flex gap-5">
+          <Tooltip title="Conversar com o solicitante">
+            <FilterChatRequesterButton
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setRequesterButtonActive(true);
+                setAnalystButtonActive(false);
+              }}
+            >
+              Solicitante
+            </FilterChatRequesterButton>
+          </Tooltip>
+          <Tooltip title="Conversar com os analistas">
+            <FilterChatAnalystButton
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setAnalystButtonActive(true);
+                setRequesterButtonActive(false);
+              }}
+            >
+              Analistas
+            </FilterChatAnalystButton>
+          </Tooltip>
+        </div>
         <React.Fragment key={"right"}>
           <Tooltip title="Informações do usuário">
             <IconButton
