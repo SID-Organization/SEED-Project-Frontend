@@ -19,18 +19,20 @@ import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
 import { useState, useEffect } from "react";
 
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 function App() {
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user") as any)
   );
+
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login user={user} setUser={setUser} />} />
           <Route
             path="/"
             element={user ? <Layout /> : <Navigate to={"/login"} />}

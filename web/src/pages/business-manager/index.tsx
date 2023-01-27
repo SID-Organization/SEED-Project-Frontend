@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import "../../styles/index.css";
 
 // Components
-import DemandCardList from "../../Components/Demand-card-list";
+import DemandList from "../../Components/Demand-card-list";
 import SubHeader from "../../Components/Sub-header";
 
 // Interfaces
@@ -16,8 +16,9 @@ export default function DemandManager() {
   // State to set the format of the demands
   const [isListFormat, setIsListFormat] = useState(false);
 
-  // Search for demands to manage
+  // Filter search for demands to manage
   const [search, setSearch] = useState<string>("");
+  const [filterType, setFilterType] = useState<number>(0);
 
 
   const [user, setUser] = useState<LoggedUserInterface>(
@@ -42,18 +43,26 @@ export default function DemandManager() {
 
   return (
     <div>
-      <SubHeader search={search} setSearch={setSearch} setIsListFormat={setIsListFormat} isListFormat={isListFormat}>
+      <SubHeader
+        search={search}
+        setSearch={setSearch}
+        setIsListFormat={setIsListFormat}
+        isListFormat={isListFormat}
+        setFilterType={setFilterType}
+        >
         Gerenciar demandas
       </SubHeader>
       {isListFormat ? (
-        <DemandCardList />
+        <div className="flex justify-center items-center h-full">
+          <DemandList />
+        </div>
       ) : (
         <div className="flex flex-wrap justify-around">
           {demandsToManage &&
             demandsToManage
               .filter((item) => item.statusDemanda != "RASCUNHO")
               .filter((item) => {
-                if(search === "") return item;
+                if(search.length < 3) return item;
                 else if(item.tituloDemanda.toLowerCase().includes(search.toLowerCase())) return item;
               })
               .map((demand, i) => {

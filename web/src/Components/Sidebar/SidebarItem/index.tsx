@@ -9,7 +9,7 @@ import { styled } from "@mui/material/styles";
 
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, To } from "react-router-dom";
 
 interface SidebarItemProps {
   title: string;
@@ -50,7 +50,12 @@ export default function SidebarLink(props: SidebarItemProps) {
     <div>
       <div className={`mt-1 ${props.hasDivider ? "mb-1" : ""}`}>
         <Tooltip title={props.title} placement="right">
-          <Link to={props.linkTo} style={{ width: "100%" }}>
+          <Link to={props.linkTo} onClick={() => {
+            if(props.title === "Sair") {
+              localStorage.clear();
+              // window.location.reload();
+            }
+          }} style={{ width: "100%" }}>
             <Box
               onClick={() => {
                 setIsSectionSelected(true);

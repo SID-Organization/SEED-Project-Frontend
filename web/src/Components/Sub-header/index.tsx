@@ -12,6 +12,8 @@ interface ISubHeaderProps {
   setIsListFormat: (isListFormat: boolean) => void;
   search: string;
   setSearch: (search: string) => void;
+  filterType: string;
+  setFilterType: (filterType: string) => void;
 }
 
 export default function subHeader(props: ISubHeaderProps) {
@@ -24,8 +26,14 @@ export default function subHeader(props: ISubHeaderProps) {
           </h1>
         </div>
         <div className="flex-[4] flex justify-evenly">
-          <Filter />
-          <Search search={props.search} setSearch={props.setSearch}/>
+          <Filter
+            filterType={props.filterType}
+            setFilterType={props.setFilterType}
+          />
+          {
+            props.filterType === 0 &&
+            <Search search={props.search} setSearch={props.setSearch}/>
+          }
           <div
             className="cursor-pointer"
             onClick={() => props.setIsListFormat(!props.isListFormat)}

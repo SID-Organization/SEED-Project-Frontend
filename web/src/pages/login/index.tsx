@@ -5,9 +5,8 @@ import WegLogo from "../../assets/weg-logo.png";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -21,23 +20,23 @@ import { useState, useEffect } from "react";
 // Interfaces
 import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 
-export default function Login() {
+interface ILoginUser {
+  user: LoggedUserInterface;
+  setUser: (user: LoggedUserInterface) => void;
+}
+
+export default function Login(props: ILoginUser) {
   const [openNotification, setOpenNotification] = useState(false);
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const [userID, setUserID] = useState<number>();
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // Usuário 'logado'.
-  const [user, setUser] = useState<LoggedUserInterface>(
-    JSON.parse(localStorage.getItem("user") as any)
-  );
-  //Se houver, será redirecionado para a página inicial
+  // Se o usuário for atualizado, será redirecionado para a página de demandas
   useEffect(() => {
-    if (user) {
+    if (props.user) {
       navigate("/demandas");
     }
-  }, []);
+  }, [props.user]);
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -81,22 +80,21 @@ export default function Login() {
         return response.json();
       })
       .then((data) => {
+        const loggedUser = {
+          numeroCadastroUsuario: data.numeroCadastroUsuario,
+          businessUnity: data.businessUnity,
+          cargoUsuario: data.cargoUsuario,
+          departamentoUsuario: data.departamentoUsuario,
+          emailUsuario: data.emailUsuario,
+          fotoUsuario: data.fotoUsuario,
+          nomeUsuario: data.nomeUsuario,
+        }
         localStorage.setItem(
           "user",
-          JSON.stringify({
-            numeroCadastroUsuario: data.numeroCadastroUsuario,
-            businessUnity: data.businessUnity,
-            cargoUsuario: data.cargoUsuario,
-            departamentoUsuario: data.departamentoUsuario,
-            emailUsuario: data.emailUsuario,
-            fotoUsuario: data.fotoUsuario,
-            nomeUsuario: data.nomeUsuario,
-          })
+          JSON.stringify(loggedUser)
         );
+        props.setUser(loggedUser);
       })
-      .then(() => {
-        navigate("/demandas");
-      });
   };
 
 

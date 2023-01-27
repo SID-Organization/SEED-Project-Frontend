@@ -317,7 +317,6 @@ const Box = styled(MuiBox)(() => ({
   height: 750,
   width: 890,
 }));
-
 export default function DataTable() {
   const [pageSize, setPageSize] = useState(5);
 

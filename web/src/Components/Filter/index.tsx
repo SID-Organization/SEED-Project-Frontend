@@ -11,16 +11,22 @@ import Paper from "@mui/material/Paper";
 
 import { useState } from "react";
 
-export default function Filter() {
+interface IFilterProps {
+  filterType: string;
+  setFilterType: (filter: string) => void;
+}
+
+export default function Filter(props: IFilterProps) {
   const options = [
-    "Solicitante",
-    "Analista",
-    "Status",
-    "Data de criação",
-    "Data de atualização",
-    "Score",
-    "Valor",
-    "Versão"
+    {value: "Data de criação", id: 0, type: 'date'},
+    {value: "Data de atualização", id: 1, type: 'date'},
+    {value: "Valor", id: 2, type: 'number'},
+    {value: "Score", id: 3, type: 'number'},
+    {value: "Versão", id: 4, type: 'number'},
+    {value: "Titulo", id: 5, type: 'string'},
+    {value: "Solicitante", id: 6, type: 'string'},
+    {value: "Analista", id: 7, type: 'string'},
+    {value: "Status", id: 8, type: 'string'},
   ];
 
   const [open, setOpen] = useState(false);
@@ -76,7 +82,7 @@ export default function Filter() {
             }}
             onClick={handleClick}
           >
-            {options[selectedIndex]}
+            {options[selectedIndex].value}
           </Button>
           <Button
             sx={{
@@ -118,11 +124,11 @@ export default function Filter() {
                   <MenuList id="split-button-menu" autoFocusItem>
                     {options.map((option, index) => (
                       <MenuItem
-                        key={option}
+                        key={option.id}
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
                       >
-                        {option}
+                        {option.value}
                       </MenuItem>
                     ))}
                   </MenuList>

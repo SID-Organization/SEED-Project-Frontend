@@ -6,6 +6,8 @@ import NoDemands from "../../../Components/No-demands";
 import "../../../styles/index.css";
 import { useEffect, useState } from "react";
 import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
+import DemandCardProps from "../../../Interfaces/demand/DemandCardPropsInterface";
+import DemandInterface from "../../../Interfaces/demand/DemandInterface";
 
 async function getDemandsFromDatabase(userId: number) {
   const response = await fetch(
@@ -21,6 +23,8 @@ export default function homeDemands() {
     JSON.parse(localStorage.getItem("user")!)
   );
   const [demands, setDemands] = useState<any[]>();
+  const [filterType, setFilterType] = useState<{filterId: number, filterType: string}>({filterId: 0, filterType: "text"});
+  const [search, setSearch] = useState<string>("");
 
   function getDemandsList() {
     return (
@@ -36,12 +40,48 @@ export default function homeDemands() {
     });
   }, []);
 
+  /*
+    demand: {
+      idDemanda: string;
+      statusDemanda: string;
+      descricaoDemanda: string;
+      situacaoAtualDemanda: string;
+      propostaDemanda: string;
+      frequenciaUsoDemanda: string;
+      descricaoQualitativoDemanda: string;
+      arquivosDemandas: any[];
+      beneficiosDemanda: any[];
+      tituloDemanda: string;
+      scoreDemanda: number;
+      solicitanteDemanda: {
+        nomeUsuario: string;
+        departamentoUsuario: string;
+      }
+      centroCustoDemanda: any[]
+    }
+  */
+
+  const updateDemandFilter = async () => {
+    if(demands)
+      if(filterType.filterId === 0){
+        const filteredDemands = demands.filter((demand: DemandInterface, i, arr) => {
+
+        });
+      }
+    
+  }
+
+  useEffect(() => {
+    if(demands){
+      updateDemandFilter();
+    }
+  }, [search, filterType])
+
   function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4 w-full">
         {demands &&
           demands
-            .filter((item) => item.statusDemanda != "RASCUNHO")
             .map((demand, i) => {
               return <DemandCard key={i} demand={demand} />;
             })}
@@ -55,7 +95,10 @@ export default function homeDemands() {
         <SubHeader
           setIsListFormat={setIsListFormat}
           isListFormat={isListFormat}
-          
+          search={search}
+          setSearch={setSearch}
+          filterType={filterType}
+          setFilterType={setFilterType}
         >
           Minhas demandas
         </SubHeader>

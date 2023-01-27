@@ -48,6 +48,11 @@ export default function Search(props: ISearchInputProps) {
           inputProps={{ "aria-label": "Procure aqui" }}
           onChange={(e) => props.setSearch(e.target.value as string)}
           value={props.search}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+            }
+          }}
         />
       </Paper>
     </div>
