@@ -9,11 +9,11 @@ import Button from "@mui/material/Button";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Paper from "@mui/material/Paper";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface IFilterProps {
-  filterType: string;
-  setFilterType: (filter: string) => void;
+  filter: {filterId: number, filterType: string};
+  setFilter: (filterType: {filterId: number, filterType: string}) => void;
 }
 
 export default function Filter(props: IFilterProps) {
@@ -23,10 +23,10 @@ export default function Filter(props: IFilterProps) {
     {value: "Valor", id: 2, type: 'number'},
     {value: "Score", id: 3, type: 'number'},
     {value: "Versão", id: 4, type: 'number'},
-    {value: "Titulo", id: 5, type: 'string'},
-    {value: "Solicitante", id: 6, type: 'string'},
-    {value: "Analista", id: 7, type: 'string'},
-    {value: "Status", id: 8, type: 'string'},
+    {value: "Titulo", id: 5, type: 'text'},
+    {value: "Solicitante", id: 6, type: 'text'},
+    {value: "Analista", id: 7, type: 'text'},
+    {value: "Status", id: 8, type: 'text'},
   ];
 
   const [open, setOpen] = useState(false);
@@ -42,12 +42,13 @@ export default function Filter(props: IFilterProps) {
     index: number
   ) => {
     setSelectedIndex(index);
+    props.setFilter({filterId: index, filterType: options[index].type});
     setOpen(false);
   };
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
+  useEffect(() => {
+    console.log("Filter: ", props.filter)
+  }, [props.filter])
 
   const handleClose = (event: Event) => {
     if (
@@ -96,7 +97,7 @@ export default function Filter(props: IFilterProps) {
             aria-expanded={open ? "true" : undefined}
             aria-label="select merge strategy"
             aria-haspopup="menu"
-            onClick={handleToggle}
+            onClick={() => setOpen((prevOpen) => !prevOpen)}
           >
             <FilterListIcon />
           </Button>

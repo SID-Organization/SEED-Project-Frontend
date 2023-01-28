@@ -14,6 +14,7 @@ import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { InputAdornment } from "@mui/material";
 import NewPautaProposalCard from "../New-pauta-proposal-card";
+import DatePicker from "../Date-picker";
 
 export default function CreateNewPauta() {
   const [openedModal, setOpenedModal] = useState(false);
@@ -93,16 +94,7 @@ export default function CreateNewPauta() {
             <div className="flex justify-between items-center gap-12">
               <div className="flex items-center gap-5">
                 <h1 className="font-bold">Data da reunião: </h1>
-                <TextField
-                  id="outlined-basic"
-                  variant="outlined"
-                  placeholder="dd/mm/aaaa"
-                  type="date"
-                  label="Data da reunião"
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start" />,
-                  }}
-                />
+                <DatePicker/>
               </div>
 
               <div className="flex items-center gap-5">

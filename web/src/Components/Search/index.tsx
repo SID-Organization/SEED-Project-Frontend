@@ -8,8 +8,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 
 interface ISearchInputProps {
-  search: string;
-  setSearch: (search: string) => void;
+  search: string | Date | number;
+  setSearch: (search: string | Date | number) => void;
 }
 
 export default function Search(props: ISearchInputProps) {

@@ -10,7 +10,6 @@ import SubHeader from "../../Components/Sub-header";
 // Interfaces
 import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 import DemandCard from "../../Components/Demand-card";
-import { getMenuItemUnstyledUtilityClass } from "@mui/base";
 
 export default function DemandManager() {
   // State to set the format of the demands
@@ -48,7 +47,7 @@ export default function DemandManager() {
         setSearch={setSearch}
         setIsListFormat={setIsListFormat}
         isListFormat={isListFormat}
-        setFilterType={setFilterType}
+        setFilter={setFilterType}
         >
         Gerenciar demandas
       </SubHeader>

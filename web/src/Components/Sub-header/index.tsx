@@ -5,18 +5,39 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import GridOnIcon from "@mui/icons-material/GridOn";
 
 import "../../styles/index.css";
+import DatePicker from "../Date-picker";
 
 interface ISubHeaderProps {
   children: string;
   isListFormat: boolean;
   setIsListFormat: (isListFormat: boolean) => void;
-  search: string;
-  setSearch: (search: string) => void;
-  filterType: string;
-  setFilterType: (filterType: string) => void;
+  search: string | Date | number;
+  setSearch: (search: string | Date | number) => void;
+  filter: {filterId: number, filterType: string};
+  setFilter: (filterType: {filterId: number, filterType: string}) => void;
 }
 
 export default function subHeader(props: ISubHeaderProps) {
+
+
+  const getSearchInput = () => {
+    const filterType = props.filter.filterType;
+    if (filterType === "text") {
+      return (
+        <Search
+          search={props.search}
+          setSearch={props.setSearch}
+        />
+      );
+    } else if(filterType === "date"){
+      return (
+        <DatePicker />
+      )
+    }
+  }
+
+  
+
   return (
     <div className="mb-10">
       <div className="flex items-center shadow-page-title-shadow h-[5rem]">
@@ -27,12 +48,11 @@ export default function subHeader(props: ISubHeaderProps) {
         </div>
         <div className="flex-[4] flex justify-evenly">
           <Filter
-            filterType={props.filterType}
-            setFilterType={props.setFilterType}
+            filter={props.filter}
+            setFilter={props.setFilter}
           />
           {
-            props.filterType === 0 &&
-            <Search search={props.search} setSearch={props.setSearch}/>
+            getSearchInput()
           }
           <div
             className="cursor-pointer"
