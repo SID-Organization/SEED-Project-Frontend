@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 interface ISearchInputProps {
   search: string | Date | number;
   setSearch: (search: string | Date | number) => void;
+  type?: string;
 }
 
 export default function Search(props: ISearchInputProps) {
@@ -43,6 +44,7 @@ export default function Search(props: ISearchInputProps) {
         </IconButton>
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
         <InputBase
+          type={props.type}
           sx={{ ml: 1, flex: 1, fontSize: "13px" }}
           placeholder="Procure aqui"
           inputProps={{ "aria-label": "Procure aqui" }}

@@ -10,7 +10,9 @@ const DateField = styled(TextField)({
 });
 
 interface IDatePicker {
-    searchValue: Date;
+    searchValue: Date | string | number;
+    serSearchValue: (searchValue: string) => void;
+    label: string;
 }
 
 export default function DatePicker(props: IDatePicker ) {
@@ -20,7 +22,9 @@ export default function DatePicker(props: IDatePicker ) {
             variant="outlined"
             placeholder="dd/mm/aaaa"
             type="date"
-            label="Data da reunião"
+            label={props.label}
+            value={props.searchValue}
+            onChange={(e) => props.serSearchValue(e.target.value)}
             InputProps={{
             startAdornment: <InputAdornment position="start" />,
             }}

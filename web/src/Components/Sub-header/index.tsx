@@ -25,14 +25,23 @@ export default function subHeader(props: ISubHeaderProps) {
     if (filterType === "text") {
       return (
         <Search
+          type="text"
           search={props.search}
           setSearch={props.setSearch}
         />
       );
     } else if(filterType === "date"){
       return (
-        <DatePicker />
+        <DatePicker label="Data" searchValue={props.search} serSearchValue={props.setSearch}  />
       )
+    } else if(filterType === "number"){
+      return (
+        <Search
+          type="number"
+          search={props.search}
+          setSearch={props.setSearch}
+        />
+      );
     }
   }
 
@@ -47,32 +56,38 @@ export default function subHeader(props: ISubHeaderProps) {
           </h1>
         </div>
         <div className="flex-[4] flex justify-evenly">
-          <Filter
-            filter={props.filter}
-            setFilter={props.setFilter}
-          />
-          {
-            getSearchInput()
-          }
-          <div
-            className="cursor-pointer"
-            onClick={() => props.setIsListFormat(!props.isListFormat)}
-          >
-            {props.isListFormat ? (
-              <GridOnIcon
-                sx={{
-                  fontSize: "30px",
-                  color: "#0075B1",
-                }}
-              />
-            ) : (
-              <ListAltIcon
-                sx={{
-                  fontSize: "30px",
-                  color: "#0075B1",
-                }}
-              />
-            )}
+          <div className="flex-1 flex items-center justify-end">
+            <Filter
+              filter={props.filter}
+              setFilter={props.setFilter}
+            />
+          </div>
+          <div className="flex-1 flex items-center justify-end">
+            {
+              getSearchInput()
+            }
+          </div>
+          <div className="flex-1 flex items-center justify-center">
+            <div
+              className="cursor-pointer"
+              onClick={() => props.setIsListFormat(!props.isListFormat)}
+            >
+              {props.isListFormat ? (
+                <GridOnIcon
+                  sx={{
+                    fontSize: "30px",
+                    color: "#0075B1",
+                  }}
+                />
+              ) : (
+                <ListAltIcon
+                  sx={{
+                    fontSize: "30px",
+                    color: "#0075B1",
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
