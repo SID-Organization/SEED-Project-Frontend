@@ -15,6 +15,7 @@ import Pautas from "./pages/analista/pautas";
 import Proposals from "./pages/analista/proposals";
 import Atas from "./pages/analista/atas";
 import GenerateAta from "./pages/analista/generate-ata";
+import GenerateProposal from "./pages/analista/generate-proposal";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
 import { useState, useEffect } from "react";
@@ -22,17 +23,18 @@ import { useState, useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 function App() {
-
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user") as any)
   );
-
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login user={user} setUser={setUser} />} />
+          <Route
+            path="/login"
+            element={<Login user={user} setUser={setUser} />}
+          />
           <Route
             path="/"
             element={user ? <Layout /> : <Navigate to={"/login"} />}
@@ -43,6 +45,7 @@ function App() {
             <Route path="list" element={<DemandCardList />} />
             <Route path="nova-demanda" element={<CreateDemand />} />
             <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
+            <Route path="gerar-proposta/:id" element={<GenerateProposal />} />
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
             <Route path="gerenciar-demandas" element={<DemandManager />} />
             <Route path="pautas" element={<Pautas />} />

@@ -4,6 +4,7 @@ import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { Link } from "react-router-dom";
 
 export default function SubHeaderPautas() {
   const Button = styled(MuiButton)({
@@ -26,10 +27,12 @@ export default function SubHeaderPautas() {
           Propostas
         </h1>
         <div className="flex mr-10 gap-16">
-          <Button variant="contained">
-            <AddRoundedIcon />
-            Criar nova proposta
-          </Button>
+          <Link to="/gerar-proposta/1">
+            <Button variant="contained">
+              <AddRoundedIcon />
+              Criar nova proposta
+            </Button>
+          </Link>
 
           <Search />
         </div>
