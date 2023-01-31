@@ -19,9 +19,9 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 import DemandCardProps from "../../Interfaces/demand/DemandCardPropsInterface";
+import DemandInterface from "../../Interfaces/demand/DemandInterface";
 
-
-export default function DemandCard(props: DemandCardProps) {
+export default function DemandCard(props: DemandCardProps | DemandInterface) {
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
@@ -33,7 +33,7 @@ export default function DemandCard(props: DemandCardProps) {
 
   useEffect(() => {
     console.info("Selected Drafts: ", isDraftSelected);
-  }, [isDraftSelected])
+  }, [isDraftSelected]);
 
   const handleOpenReasonOfCancellation = () =>
     setOpenReasonOfCancellation(true);
@@ -95,17 +95,21 @@ export default function DemandCard(props: DemandCardProps) {
     ABERTA: "#00579D",
   };
 
+  function formatDemandStatus(type: number) {
+    const status =
+      props.demand.statusDemanda[0].toLocaleUpperCase() +
+      props.demand.statusDemanda
+        .split("_")
+        .join(" ")
+        .toLocaleLowerCase()
+        .slice(1);
 
-  function formatDemandStatus(type: number){
-    const status = props.demand.statusDemanda[0].toLocaleUpperCase() + props.demand.statusDemanda.split('_').join(' ').toLocaleLowerCase().slice(1);
-
-    if(type === 1){
-      if(status.length > 15){
-        return status.slice(0, 15) + '...';
+    if (type === 1) {
+      if (status.length > 15) {
+        return status.slice(0, 15) + "...";
       }
     }
     return status;
-  
   }
 
   const getData = async () => {
@@ -123,12 +127,17 @@ export default function DemandCard(props: DemandCardProps) {
   }, []);
 
   function handleSelectDrafts() {
-    if(props.setSelectedDrafts){
+    if (props.setSelectedDrafts) {
       setIsDraftSelected(!isDraftSelected);
       if (!isDraftSelected) {
-        props.setSelectedDrafts((prevState: any) => ([...prevState, props.demand.idDemanda]) );
+        props.setSelectedDrafts((prevState: any) => [
+          ...prevState,
+          props.demand.idDemanda,
+        ]);
       } else {
-        props.setSelectedDrafts((prevState: any) => (prevState.filter((item: any) => item !== props.demand.idDemanda)) );
+        props.setSelectedDrafts((prevState: any) =>
+          prevState.filter((item: any) => item !== props.demand.idDemanda)
+        );
       }
     }
   }
@@ -161,8 +170,9 @@ export default function DemandCard(props: DemandCardProps) {
                     fontSize: "1rem",
                   }}
                 >
-
-                  {props.demand.tituloDemanda.length > 25 ? props.demand.tituloDemanda.slice(0, 25) + "..." : props.demand.tituloDemanda}
+                  {props.demand.tituloDemanda.length > 25
+                    ? props.demand.tituloDemanda.slice(0, 25) + "..."
+                    : props.demand.tituloDemanda}
                 </Typography>
               </Tooltip>
 
@@ -217,7 +227,7 @@ export default function DemandCard(props: DemandCardProps) {
                 >
                   <span className="mr-1 text-[0.95rem]">Valor:</span>
                   <span className="font-medium text-black text-[0.95rem]">
-                    {"R$10" }
+                    {"R$10"}
                   </span>
                 </Typography>
               </div>
@@ -279,7 +289,8 @@ export default function DemandCard(props: DemandCardProps) {
               </div>
             </div>
             <div className="flex justify-center items-center gap-3 mr-4">
-              {props.demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA" && (
+              {props.demand.statusDemanda ===
+                "APROVADO_PELO_GERENTE_DA_AREA" && (
                 <div>
                   <Tooltip title="Gerar proposta">
                     <Button
