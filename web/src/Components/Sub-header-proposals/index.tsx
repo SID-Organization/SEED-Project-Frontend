@@ -47,7 +47,6 @@ export default function SubHeaderPautas() {
       "http://localhost:8080/sid/api/demanda/titulos-id-demanda/"
     );
     const demands = await response.json();
-    console.log("AAAAAAA:", demands);
     return demands;
   }
 
