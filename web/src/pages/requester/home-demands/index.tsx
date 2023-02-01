@@ -12,10 +12,13 @@ import DemandInterface from "../../../Interfaces/demand/DemandInterface";
 async function getDemandsFromDatabase(userId: number) {
   const response = await fetch(
     "http://localhost:8080/sid/api/demanda/solicitante/" + userId
-  );
-  const demands = await response.json();
-  return demands;
+  )
+  .then((response) => response.json())
+
+
+  return response;
 }
+
 
 export default function homeDemands() {
   const [isListFormat, setIsListFormat] = useState(false);
@@ -23,7 +26,8 @@ export default function homeDemands() {
     JSON.parse(localStorage.getItem("user")!)
   );
   const [demands, setDemands] = useState<any[]>();
-  const [filter, setFilter] = useState<{filterId: number, filterType: string}>({filterId: 0, filterType: "text"});
+  const [dbDemands, setDbDemands] = useState<any[]>();
+  const [filter, setFilter] = useState<{filterId: number, filterType: string}>({filterId: 0, filterType: "date"});
   const [search, setSearch] = useState<string | Date | number>("");
 
   function getDemandsList() {
@@ -36,38 +40,53 @@ export default function homeDemands() {
 
   useEffect(() => {
     getDemandsFromDatabase(user.numeroCadastroUsuario).then((demands) => {
-      setDemands(demands);
+      setDbDemands(demands);
     });
   }, []);
 
-  /*
-    demand: {
-      idDemanda: string;
-      statusDemanda: string;
-      descricaoDemanda: string;
-      situacaoAtualDemanda: string;
-      propostaDemanda: string;
-      frequenciaUsoDemanda: string;
-      descricaoQualitativoDemanda: string;
-      arquivosDemandas: any[];
-      beneficiosDemanda: any[];
-      tituloDemanda: string;
-      scoreDemanda: number;
-      solicitanteDemanda: {
-        nomeUsuario: string;
-        departamentoUsuario: string;
-      }
-      centroCustoDemanda: any[]
+0
+  //useEffect to show demands
+
+  const getDemandsHistoric = async () => {
+    let demandsHistoric = dbDemands!.map(async (demand: DemandInterface) => {
+      let demandHistoric = await fetch("http://localhost:8080/sid/api/historico-workflow/demanda/" + demand.idDemanda)
+        .then((response) => response.json())
+        .then((data) => {
+          return data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+      return ({
+        ...demand,
+        historico: await demandHistoric
+      });
+    })
+
+    setDemands(await Promise.all(demandsHistoric));
+  }
+
+
+
+  useEffect(() => {
+    if(dbDemands){
+      getDemandsHistoric();
     }
-  */
+  }, [dbDemands])
+
+
 
   const updateDemandFilter = async () => {
     if(demands) {
       let filteredDemands;
       if(filter.filterId === 0){
-        filteredDemands = demands.filter((demand: DemandInterface, i, arr) => {
+        filteredDemands = demands.filter((demand: any, i, arr) => {
+          let selectedDate = search.toString().split('-').reverse().join("/");
 
+          return null;
         });
+        console.log(filteredDemands)
       }
     }
     
@@ -78,6 +97,12 @@ export default function homeDemands() {
       updateDemandFilter();
     }
   }, [search, filter])
+
+  useEffect(() => {
+    if(demands){
+      console.log(demands)
+    }
+  }, demands)
 
   function getDemandsGrid() {
     return (

@@ -80,6 +80,7 @@ export default function Filter(props: IFilterProps) {
             style={{
               backgroundColor: "transparent",
               borderColor: "#7070706f",
+              width: "13rem",
             }}
             onClick={handleClick}
           >

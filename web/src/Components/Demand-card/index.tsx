@@ -21,7 +21,7 @@ import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 import DemandCardProps from "../../Interfaces/demand/DemandCardPropsInterface";
 import DemandInterface from "../../Interfaces/demand/DemandInterface";
 
-export default function DemandCard(props: DemandCardProps | DemandInterface) {
+export default function DemandCard(props: DemandCardProps) {
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =

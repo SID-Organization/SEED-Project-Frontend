@@ -13,14 +13,17 @@ interface ISubHeaderProps {
   setIsListFormat: (isListFormat: boolean) => void;
   search: string | Date | number;
   setSearch: (search: string | Date | number) => void;
-  filter: {filterId: number, filterType: string};
-  setFilter: (filterType: {filterId: number, filterType: string}) => void;
+  filter?: {filterId: number, filterType: string};
+  setFilter?: (filterType: {filterId: number, filterType: string}) => void;
 }
 
+// Subheader de todo o sistema
 export default function subHeader(props: ISubHeaderProps) {
 
-
+  // Verifica o tipo de input pedido e retorna o mesmo
   const getSearchInput = () => {
+    if(!props.filter) return (<></>);
+    
     const filterType = props.filter.filterType;
     if (filterType === "text") {
       return (
@@ -57,10 +60,13 @@ export default function subHeader(props: ISubHeaderProps) {
         </div>
         <div className="flex-[4] flex justify-evenly">
           <div className="flex-1 flex items-center justify-end">
-            <Filter
-              filter={props.filter}
-              setFilter={props.setFilter}
-            />
+            {
+              props.filter && props.setFilter &&
+              <Filter
+                filter={props.filter}
+                setFilter={props.setFilter}
+              />
+            }
           </div>
           <div className="flex-1 flex items-center justify-end">
             {
