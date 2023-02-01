@@ -178,9 +178,9 @@ export default function DemandCard(props: DemandCardProps) {
                     fontSize: "1rem",
                   }}
                 >
-                  {/* {props.demand.tituloDemanda.length > 25
+                  {props.demand.tituloDemanda.length > 25
                     ? props.demand.tituloDemanda.slice(0, 25) + "..."
-                    : props.demand.tituloDemanda} */}
+                    : props.demand.tituloDemanda}
                 </Typography>
               </Tooltip>
 
