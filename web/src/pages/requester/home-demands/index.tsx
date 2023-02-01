@@ -28,7 +28,7 @@ export default function homeDemands() {
   const [demands, setDemands] = useState<any[]>();
   const [dbDemands, setDbDemands] = useState<any[]>();
   const [filter, setFilter] = useState<{filterId: number, filterType: string}>({filterId: 0, filterType: "date"});
-  const [search, setSearch] = useState<string | Date | number>("");
+  const [search, setSearch] = useState<string>("");
 
   function getDemandsList() {
     return (
@@ -40,7 +40,7 @@ export default function homeDemands() {
 
   useEffect(() => {
     getDemandsFromDatabase(user.numeroCadastroUsuario).then((demands) => {
-      setDbDemands(demands);
+      setDbDemands(demands.filter((d: any) => d.statusDemanda != "RASCUNHO"));
     });
   }, []);
 
@@ -81,12 +81,17 @@ export default function homeDemands() {
     if(demands) {
       let filteredDemands;
       if(filter.filterId === 0){
-        filteredDemands = demands.filter((demand: any, i, arr) => {
-          let selectedDate = search.toString().split('-').reverse().join("/");
-
-          return null;
-        });
-        console.log(filteredDemands)
+        if(search === ""){
+          filteredDemands = demands.sort((a: any, b: any) => {
+            let dateA = new Date(a.historico[0].recebimentoHistorico);
+            let dateB = new Date(b.historico[0].recebimentoHistorico);
+            if(dateA > dateB) return 1;
+            if(dateA < dateB) return -1;
+            return 0
+          })
+        } else {
+          filteredDemands = demands.filter((demand: any) => demand.historico[0].recebimentoHistorico.toLowerCase().includes(search.toLowerCase()))
+        }
       }
     }
     

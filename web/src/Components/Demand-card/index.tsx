@@ -21,6 +21,54 @@ import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 import DemandCardProps from "../../Interfaces/demand/DemandCardPropsInterface";
 import DemandInterface from "../../Interfaces/demand/DemandInterface";
 
+const TextField = styled(MuiTextField)({
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
+
+const styleModalReasonOfCancellation = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 580,
+  height: 405,
+  bgcolor: "background.paper",
+  borderTop: "8px solid #0075B1",
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 4,
+};
+
+const styleModalGenerateProposal = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 580,
+  height: 405,
+  bgcolor: "background.paper",
+  borderRadius: 2,
+  boxShadow: 24,
+};
+
+const statusColor: any = {
+  Cancelado: "#C31700",
+  AprovadoPelaComissao: "#7EB61C",
+  AprovadoPeloAnalistaTi: "#64C3D5",
+  Aberto: "#00579D",
+  Rascunho: "#D9D9D9",
+};
+
+const progressInputColor: any = {
+  CANCELADA: "#C31700",
+  APROVADA_PELA_COMISSAO: "#7EB61C",
+  CLASSIFICADO_PELO_ANALISTA: "#7EB61C",
+  RASCUNHO: "#d9d9d937",
+  ABERTA: "#00579D",
+};
+
 export default function DemandCard(props: DemandCardProps) {
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
@@ -29,15 +77,27 @@ export default function DemandCard(props: DemandCardProps) {
   const [openGenerateProposal, setOpenGenerateProposal] = useState(false);
   const [isDraftSelected, setIsDraftSelected] = useState(false);
 
+  // Busca o usuário logado
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")!));
 
-  useEffect(() => {
-    console.info("Selected Drafts: ", isDraftSelected);
-  }, [isDraftSelected]);
+  // Busca o primeiro registro da demanda
+  const [firstLog, setFirstLog] = useState<any>();
+
+  const getFirstLog = async () => {
+    const response = await fetch(
+      `http://localhost:8080/sid/api/historico-workflow/demanda/${props.demand.idDemanda}`
+    );
+    const data = await response.json();
+    let firstLog = new Date(data[0].recebimentoHistorico).toLocaleDateString();
+    
+    setFirstLog(firstLog);
+  }
 
   useEffect(() => {
-    console.log("props.demand: ", props.demand);
-  }, []);
+    getFirstLog();
+  }, [])
+
+
 
   const handleOpenReasonOfCancellation = () =>
     setOpenReasonOfCancellation(true);
@@ -51,53 +111,8 @@ export default function DemandCard(props: DemandCardProps) {
     return `${value}°C`;
   }
 
-  const TextField = styled(MuiTextField)({
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderLeft: "3px solid #0075B1",
-    },
-  });
 
-  const styleModalReasonOfCancellation = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 580,
-    height: 405,
-    bgcolor: "background.paper",
-    borderTop: "8px solid #0075B1",
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 4,
-  };
 
-  const styleModalGenerateProposal = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 580,
-    height: 405,
-    bgcolor: "background.paper",
-    borderRadius: 2,
-    boxShadow: 24,
-  };
-
-  const statusColor: any = {
-    Cancelado: "#C31700",
-    AprovadoPelaComissao: "#7EB61C",
-    AprovadoPeloAnalistaTi: "#64C3D5",
-    Aberto: "#00579D",
-    Rascunho: "#D9D9D9",
-  };
-
-  const progressInputColor: any = {
-    CANCELADA: "#C31700",
-    APROVADA_PELA_COMISSAO: "#7EB61C",
-    CLASSIFICADO_PELO_ANALISTA: "#7EB61C",
-    RASCUNHO: "#d9d9d937",
-    ABERTA: "#00579D",
-  };
 
   function formatDemandStatus(type: number) {
     const status =
@@ -284,7 +299,7 @@ export default function DemandCard(props: DemandCardProps) {
                   <span className="text-[0.85rem]">De: </span>
                 </Typography>
                 <Typography color="black" fontWeight="bold" className="flex">
-                  <span className="text-[0.85rem]">10/05/2022</span>
+                  <span className="text-[0.85rem] ml-2">{firstLog && firstLog}</span>
                 </Typography>
               </div>
               <div className="flex">
@@ -292,7 +307,7 @@ export default function DemandCard(props: DemandCardProps) {
                   <span className="text-[0.85rem]">Até: </span>
                 </Typography>
                 <Typography color="black" fontWeight="bold" className="flex">
-                  <span className="text-[0.85rem]">14/05/2022</span>
+                  <span className="text-[0.85rem] ml-2">- - - -</span>
                 </Typography>
               </div>
             </div>

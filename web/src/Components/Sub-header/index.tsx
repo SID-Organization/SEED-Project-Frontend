@@ -11,8 +11,8 @@ interface ISubHeaderProps {
   children: string;
   isListFormat: boolean;
   setIsListFormat: (isListFormat: boolean) => void;
-  search: string | Date | number;
-  setSearch: (search: string | Date | number) => void;
+  search: string;
+  setSearch: (search: string) => void;
   filter?: {filterId: number, filterType: string};
   setFilter?: (filterType: {filterId: number, filterType: string}) => void;
 }
@@ -25,26 +25,18 @@ export default function subHeader(props: ISubHeaderProps) {
     if(!props.filter) return (<></>);
     
     const filterType = props.filter.filterType;
-    if (filterType === "text") {
-      return (
-        <Search
-          type="text"
-          search={props.search}
-          setSearch={props.setSearch}
-        />
-      );
-    } else if(filterType === "date"){
+    if(filterType === "date"){
       return (
         <DatePicker label="Data" searchValue={props.search} serSearchValue={props.setSearch}  />
       )
-    } else if(filterType === "number"){
+    } else {
       return (
-        <Search
-          type="number"
-          search={props.search}
-          setSearch={props.setSearch}
-        />
-      );
+            <Search
+              type={filterType}
+              search={props.search}
+              setSearch={props.setSearch}
+            />
+      )
     }
   }
 

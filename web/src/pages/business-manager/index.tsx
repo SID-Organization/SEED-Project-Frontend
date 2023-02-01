@@ -16,8 +16,8 @@ export default function DemandManager() {
   const [isListFormat, setIsListFormat] = useState(false);
 
   // Filter search for demands to manage
+  const [filter, setFilter] = useState<{filterId: number, filterType: string}>({filterId: 0, filterType: "date"});
   const [search, setSearch] = useState<string>("");
-  const [filterType, setFilterType] = useState<number>(0);
 
 
   const [user, setUser] = useState<LoggedUserInterface>(
@@ -47,7 +47,7 @@ export default function DemandManager() {
         setSearch={setSearch}
         setIsListFormat={setIsListFormat}
         isListFormat={isListFormat}
-        setFilter={setFilterType}
+        setFilter={setFilter}
         >
         Gerenciar demandas
       </SubHeader>
