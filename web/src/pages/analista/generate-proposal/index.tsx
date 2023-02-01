@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 
 import DemandCard from "../../../Components/Demand-card";
 import { useParams } from "react-router";
+import DemandCardProps from "../../../Interfaces/demand/DemandCardPropsInterface";
 
 export default function GenerateProposal() {
-  const [demand, setDemand] = useState<any>([]);
+  const [demand, setDemand] = useState<any>();
 
   let demandId = useParams().id;
 
@@ -30,7 +31,27 @@ export default function GenerateProposal() {
 
   return (
     <div>
-      <div>{/* <DemandCard demand={demand} /> */}</div>
+      <div className="grid justify-center items-center gap-5">
+        <h1
+          className="
+          flex items-center justify-center
+          text-2xl font-roboto mt-5 font-bold text-blue-weg
+        "
+        >
+          Gerando proposta da demanda:{" "}
+        </h1>
+        {demand && <DemandCard demand={demand} />}
+      </div>
+      <div>
+        <h1
+          className="
+          flex items-center justify-start
+          text-xl font-roboto mt-5 font-bold p-5
+        "
+        >
+          Escopo do projeto
+        </h1>
+      </div>
     </div>
   );
 }
