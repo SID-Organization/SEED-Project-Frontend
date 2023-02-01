@@ -45,7 +45,10 @@ function App() {
             <Route path="list" element={<DemandCardList />} />
             <Route path="nova-demanda" element={<CreateDemand />} />
             <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
-            <Route path="gerar-proposta/:id" element={<GenerateProposal />} />
+            <Route
+              path="/proposta/gerar-proposta/:id"
+              element={<GenerateProposal />}
+            />
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
             <Route path="gerenciar-demandas" element={<DemandManager />} />
             <Route path="pautas" element={<Pautas />} />

@@ -3,9 +3,20 @@ import react from "react";
 import { useState, useEffect } from "react";
 
 import DemandCard from "../../../Components/Demand-card";
+import { useParams } from "react-router";
 
 export default function GenerateProposal() {
   const [demand, setDemand] = useState<any>([]);
+
+  let demandId = useParams().id;
+
+  async function getDemandFromDatabase() {
+    const response = await fetch(
+      `http://localhost:8080/sid/api/demanda/id/${demandId}`
+    );
+    const data = await response.json();
+    return data;
+  }
 
   useEffect(() => {
     getDemandFromDatabase().then((demand) => {
@@ -13,16 +24,13 @@ export default function GenerateProposal() {
     });
   }, []);
 
-  async function getDemandFromDatabase() {
-    const response = await fetch("http://localhost:8080/sid/api/demanda/id/1");
-    const demand = await response.json();
-    console.log("AAAAAAA:", demand);
-    return demand;
-  }
+  useEffect(() => {
+    console.log("demand ", demand);
+  }, [demand]);
 
   return (
     <div>
-      <div>working gp</div>
+      <div>{/* <DemandCard demand={demand} /> */}</div>
     </div>
   );
 }

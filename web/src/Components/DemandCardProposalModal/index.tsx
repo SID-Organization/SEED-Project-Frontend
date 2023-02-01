@@ -1,4 +1,6 @@
 import { Button } from "@mui/material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface DemandCardProposalModalProps {
   title: string;
@@ -8,6 +10,8 @@ interface DemandCardProposalModalProps {
 export default function DemandCardProposalModal(
   props: DemandCardProposalModalProps
 ) {
+  const [demandId, setDemandId] = useState<number>(props.id);
+
   return (
     <div
       className="
@@ -24,18 +28,21 @@ export default function DemandCardProposalModal(
         {props.id} - {props.title}
       </h1>
 
-      <Button
-        variant="contained"
-        sx={{
-          backgroundColor: "#0075B1",
-          color: "#fff",
-          "&:hover": {
+      <Link to={`/proposta/gerar-proposta/${demandId}`}>
+        <Button
+          onClick={() => console.log("clicou ", demandId)}
+          variant="contained"
+          sx={{
             backgroundColor: "#0075B1",
-          },
-        }}
-      >
-        Selecionar
-      </Button>
+            color: "#fff",
+            "&:hover": {
+              backgroundColor: "#0075B1",
+            },
+          }}
+        >
+          Selecionar
+        </Button>
+      </Link>
     </div>
   );
 }

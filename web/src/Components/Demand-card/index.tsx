@@ -21,7 +21,7 @@ import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 import DemandCardProps from "../../Interfaces/demand/DemandCardPropsInterface";
 import DemandInterface from "../../Interfaces/demand/DemandInterface";
 
-export default function DemandCard(props: DemandCardProps | DemandInterface) {
+export default function DemandCard(props: DemandCardProps) {
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
@@ -34,6 +34,10 @@ export default function DemandCard(props: DemandCardProps | DemandInterface) {
   useEffect(() => {
     console.info("Selected Drafts: ", isDraftSelected);
   }, [isDraftSelected]);
+
+  useEffect(() => {
+    console.log("props.demand: ", props.demand);
+  }, []);
 
   const handleOpenReasonOfCancellation = () =>
     setOpenReasonOfCancellation(true);
@@ -142,6 +146,10 @@ export default function DemandCard(props: DemandCardProps | DemandInterface) {
     }
   }
 
+  useEffect(() => {
+    console.warn("props.demand: ", props.demand);
+  }, []);
+
   return (
     <div className="grid justify-center items-center mb-7">
       {isDemandLoading ? (
@@ -170,9 +178,9 @@ export default function DemandCard(props: DemandCardProps | DemandInterface) {
                     fontSize: "1rem",
                   }}
                 >
-                  {props.demand.tituloDemanda.length > 25
+                  {/* {props.demand.tituloDemanda.length > 25
                     ? props.demand.tituloDemanda.slice(0, 25) + "..."
-                    : props.demand.tituloDemanda}
+                    : props.demand.tituloDemanda} */}
                 </Typography>
               </Tooltip>
 
