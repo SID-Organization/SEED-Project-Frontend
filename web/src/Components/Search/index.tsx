@@ -48,7 +48,7 @@ export default function Search(props: ISearchInputProps) {
           sx={{ ml: 1, flex: 1, fontSize: "13px" }}
           placeholder="Procure aqui"
           inputProps={{ "aria-label": "Procure aqui" }}
-          onChange={(e) => props.setSearch(e.target.value as string)}
+          onChange={(e) => props.setSearch(e.target.value)}
           value={props.search}
           onKeyDown={(e) => {
             if (e.key === "Enter") {

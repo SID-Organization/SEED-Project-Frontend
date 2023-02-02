@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 import DemandCardProps from "../../../Interfaces/demand/DemandCardPropsInterface";
 import DemandInterface from "../../../Interfaces/demand/DemandInterface";
+import Search from "../../../Components/Search";
 
 async function getDemandsFromDatabase(userId: number) {
   const response = await fetch(
@@ -25,8 +26,19 @@ export default function homeDemands() {
   const [user, setUser] = useState<LoggedUserInterface>(
     JSON.parse(localStorage.getItem("user")!)
   );
+  
+  /*
+    Estão sendo utilizadas 3 variáveis para armazenar as demandas:
+    - dbDemands: armazena as demandas que foram buscadas no banco de dados
+    - demands: armazena as demandas com o histórico de workflow
+    - showingDemands: armazena as demandas que serão mostradas na tela (Já filtradas ou ordenadas)
+  */
+  
   const [demands, setDemands] = useState<any[]>();
   const [dbDemands, setDbDemands] = useState<any[]>();
+  const [showingDemands, setShowingDemands] = useState<any[]>([]);
+
+
   const [filter, setFilter] = useState<{filterId: number, filterType: string}>({filterId: 0, filterType: "date"});
   const [search, setSearch] = useState<string>("");
 
@@ -44,8 +56,7 @@ export default function homeDemands() {
     });
   }, []);
 
-0
-  //useEffect to show demands
+
 
   const getDemandsHistoric = async () => {
     let demandsHistoric = dbDemands!.map(async (demand: DemandInterface) => {
@@ -75,45 +86,41 @@ export default function homeDemands() {
     }
   }, [dbDemands])
 
-
+  useEffect(() => {
+    if(demands && search != ""){
+      console.log("--------------------")
+      // console.log(search.split("-").reverse().join("/"))
+      // console.log(new Date(demands[0].historico[0].recebimentoHistorico).toLocaleDateString())
+    }
+  }, [search])
 
   const updateDemandFilter = async () => {
     if(demands) {
       let filteredDemands;
+      console.log("FILTER: ", filter)
       if(filter.filterId === 0){
-        if(search === ""){
-          filteredDemands = demands.sort((a: any, b: any) => {
-            let dateA = new Date(a.historico[0].recebimentoHistorico);
-            let dateB = new Date(b.historico[0].recebimentoHistorico);
-            if(dateA > dateB) return 1;
-            if(dateA < dateB) return -1;
-            return 0
-          })
-        } else {
-          filteredDemands = demands.filter((demand: any) => demand.historico[0].recebimentoHistorico.toLowerCase().includes(search.toLowerCase()))
-        }
+        filteredDemands = demands.sort((a: any, b: any) => {
+          let dateA = new Date(a.historico[0].recebimentoHistorico);
+          let dateB = new Date(b.historico[0].recebimentoHistorico);
+          if(dateA > dateB) return -1;
+          if(dateA < dateB) return 1;
+          return 0
+        })
+        console.log("Filtered demands: ", filteredDemands)
+        setShowingDemands(filteredDemands);
       }
     }
-    
   }
 
   useEffect(() => {
-    if(demands){
       updateDemandFilter();
-    }
-  }, [search, filter])
-
-  useEffect(() => {
-    if(demands){
-      console.log(demands)
-    }
-  }, demands)
+  }, [search, filter, demands])
 
   function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4 w-full">
-        {demands &&
-          demands
+        {showingDemands &&
+          showingDemands
             .filter(demand => (demand.statusDemanda != "RASCUNHO"))
             .map((demand, i) => {
               return <DemandCard key={i} demand={demand} />;

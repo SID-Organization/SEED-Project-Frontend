@@ -46,9 +46,6 @@ export default function Filter(props: IFilterProps) {
     setOpen(false);
   };
 
-  useEffect(() => {
-    console.log("Filter: ", props.filter)
-  }, [props.filter])
 
   const handleClose = (event: Event) => {
     if (
