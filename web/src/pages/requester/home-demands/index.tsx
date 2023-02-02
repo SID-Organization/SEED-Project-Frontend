@@ -34,8 +34,9 @@ export default function homeDemands() {
     - showingDemands: armazena as demandas que serão mostradas na tela (Já filtradas ou ordenadas)
   */
   
-  const [demands, setDemands] = useState<any[]>();
+  const [demandsWLogs, setDemandsWLogs] = useState<any[]>();
   const [dbDemands, setDbDemands] = useState<any[]>();
+  const [sortedDemands, setSortedDemands] = useState<any[]>([]);
   const [showingDemands, setShowingDemands] = useState<any[]>([]);
 
 
@@ -58,7 +59,7 @@ export default function homeDemands() {
 
 
 
-  const getDemandsHistoric = async () => {
+  const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands!.map(async (demand: DemandInterface) => {
       let demandHistoric = await fetch("http://localhost:8080/sid/api/historico-workflow/demanda/" + demand.idDemanda)
         .then((response) => response.json())
@@ -75,53 +76,69 @@ export default function homeDemands() {
       });
     })
 
-    setDemands(await Promise.all(demandsHistoric));
+    setDemandsWLogs(await Promise.all(demandsHistoric));
   }
 
 
-
-  useEffect(() => {
-    if(dbDemands){
-      getDemandsHistoric();
-    }
-  }, [dbDemands])
-
-  useEffect(() => {
-    if(demands && search != ""){
-      console.log("--------------------")
-      // console.log(search.split("-").reverse().join("/"))
-      // console.log(new Date(demands[0].historico[0].recebimentoHistorico).toLocaleDateString())
-    }
-  }, [search])
-
-  const updateDemandFilter = async () => {
-    if(demands) {
-      let filteredDemands;
+  const updateDemandSort = (search: string) => {
+    if(demandsWLogs) {
+      let sortedDemands;
       console.log("FILTER: ", filter)
+      console.log("SEARCH: ", search)
+
       if(filter.filterId === 0){
-        filteredDemands = demands.sort((a: any, b: any) => {
+        // Ordenar por data de criação
+        sortedDemands = demandsWLogs.sort((a: any, b: any) => {
           let dateA = new Date(a.historico[0].recebimentoHistorico);
           let dateB = new Date(b.historico[0].recebimentoHistorico);
           if(dateA > dateB) return -1;
           if(dateA < dateB) return 1;
           return 0
         })
-        console.log("Filtered demands: ", filteredDemands)
-        setShowingDemands(filteredDemands);
+      } else if(filter.filterId === 1){
+        // Ordenar por data de atualização (ultima atualização)
+        sortedDemands = demandsWLogs.sort((a: any, b: any) => {
+          let dateA = new Date(a.historico[a.historico.length - 1].recebimentoHistorico);
+          let dateB = new Date(b.historico[b.historico.length - 1].recebimentoHistorico);
+          if(dateA > dateB) return -1;
+          if(dateA < dateB) return 1;
+          return 0
+        })
+
+      } else {
+        sortedDemands = demandsWLogs;
       }
+      
+      console.log("sorted demands: ", sortedDemands)
+
+      setSortedDemands(sortedDemands);
     }
   }
 
   useEffect(() => {
-      updateDemandFilter();
-  }, [search, filter, demands])
+    if(dbDemands){
+      getDemandsLogs();
+    }
+  }, [dbDemands])
+
+
+  useEffect(() => {
+    if(demandsWLogs) {
+      updateDemandSort(search);
+
+      if(sortedDemands) {
+        setShowingDemands(sortedDemands);
+      }
+    }
+  }, [filter, demandsWLogs])
+
+
 
   function getDemandsGrid() {
     return (
       <div className="flex flex-wrap justify-around gap-4 w-full">
         {showingDemands &&
           showingDemands
-            .filter(demand => (demand.statusDemanda != "RASCUNHO"))
             .map((demand, i) => {
               return <DemandCard key={i} demand={demand} />;
             })}
@@ -144,7 +161,7 @@ export default function homeDemands() {
         </SubHeader>
       </div>
       <div className="flex justify-center w-full">
-        {demands ? (
+        {showingDemands ? (
           isListFormat ? (
             getDemandsList()
           ) : (
