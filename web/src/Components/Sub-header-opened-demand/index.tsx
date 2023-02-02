@@ -279,11 +279,12 @@ export default function subHeader({
       busBeneficiadasDemanda: benefitedBus.map((item: any) => ({
         idBusinessUnity: item.key,
       })),
-      buSolicitante: businessUnits.find((item: any) => item.key == requesterBu)
+      buSolicitanteDemanda: businessUnits.find((item: any) => item.key == requesterBu)
         ?.text,
-      secaoTIResponsavel: responsableSection,
+      secaoTIResponsavelDemanda: responsableSection,
       tamanhoDemanda: getDemandSize(),
     };
+    console.log("updatedDemand", updatedDemand);
 
     fetch(
       `http://localhost:8080/sid/api/demanda/atualiza-bus-beneficiadas/${demand.idDemanda}`,

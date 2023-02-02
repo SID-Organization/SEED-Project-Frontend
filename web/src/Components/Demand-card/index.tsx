@@ -93,9 +93,7 @@ export default function DemandCard(props: DemandCardProps) {
     setFirstLog(firstLog);
   }
 
-  useEffect(() => {
-    getFirstLog();
-  }, [])
+  getFirstLog();
 
 
 
