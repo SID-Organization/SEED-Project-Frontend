@@ -11,7 +11,9 @@ import { styled } from "@mui/material/styles";
 
 import { useState, useEffect } from "react";
 
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+
 import { Link } from "react-router-dom";
 
 import DemandCardProposalModal from "../DemandCardProposalModal";
@@ -106,12 +108,31 @@ export default function SubHeaderPautas() {
                 p-4
                   "
                   >
-                    {demandTitle.map((demand) => (
-                      <DemandCardProposalModal
-                        title={demand.tituloDemanda}
-                        id={demand.idDemanda}
-                      />
-                    ))}
+                    {
+                      //check if theres any demand
+                      demandTitle.length > 0 ? (
+                        demandTitle.map((demand) => (
+                          <DemandCardProposalModal
+                            title={demand.tituloDemanda}
+                            id={demand.idDemanda}
+                          />
+                        ))
+                      ) : (
+                        <div className="grid justify-center items-center mt-5">
+                          <div className="flex justify-center items-center">
+                            <ErrorOutlineIcon
+                              sx={{
+                                fontSize: "2.7rem",
+                                color: "#b3b3b3",
+                              }}
+                            />
+                          </div>
+                          <p className="font-roboto font-bold mt-2 text-[#b3b3b3]">
+                            Nenhuma demanda cadastrada!
+                          </p>
+                        </div>
+                      )
+                    }
                   </div>
                 </div>
               </div>
