@@ -22,13 +22,17 @@ import { useState, useEffect } from "react";
 
 import { Navigate, useLocation } from "react-router-dom";
 
+import {AuthProvider, AuthContext} from './AuthProvider'
+
+
 function App() {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user") as any)
   );
 
+
   return (
-    <>
+    <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route
@@ -60,7 +64,7 @@ function App() {
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>
       </BrowserRouter>
-    </>
+    </AuthProvider>
   );
 }
 

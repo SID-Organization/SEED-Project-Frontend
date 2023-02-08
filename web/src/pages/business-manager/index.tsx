@@ -36,10 +36,7 @@ export default function DemandManager() {
       });
   }, []);
 
-  useEffect(() => {
-    console.log("Search input", search)
-  }, [search])
-
+  
   return (
     <div>
       <SubHeader
@@ -59,7 +56,7 @@ export default function DemandManager() {
         <div className="flex flex-wrap justify-around">
           {demandsToManage &&
             demandsToManage
-              .filter((item) => item.statusDemanda != "RASCUNHO")
+              .filter((item) => item.statusDemanda != "RASCUNHO" && item.solicitanteDemanda.numeroCadastroUsuario !== user.numeroCadastroUsuario)
               .filter((item) => {
                 if(search.length < 3) return item;
                 else if(item.tituloDemanda.toLowerCase().includes(search.toLowerCase())) return item;

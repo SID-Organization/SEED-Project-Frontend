@@ -2,20 +2,20 @@ import React from "react";
 
 import WegLogo from "../../assets/weg-logo.png";
 
+// MUI
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-
-import { useNavigate } from "react-router-dom";
-
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-
 import { TextField } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../AuthProvider";
+
 
 // Interfaces
 import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
@@ -26,6 +26,11 @@ interface ILoginUser {
 }
 
 export default function Login(props: ILoginUser) {
+
+  const [user, setUser] = useContext(AuthContext)
+
+  console.log("user", user)
+
   const [openNotification, setOpenNotification] = useState(false);
   const [userID, setUserID] = useState<number>();
   const [password, setPassword] = useState("");
