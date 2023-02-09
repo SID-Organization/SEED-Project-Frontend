@@ -8,10 +8,48 @@ import MuiTextField from "@mui/material/TextField";
 
 import { styled } from "@mui/material/styles";
 
+const EqualInput = styled(MuiTextField)({
+  width: "700px",
+  height: "3.5rem",
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "1.5px solid #0075B1",
+    },
+    "&:hover fieldset": {
+      borderColor: "#0075B1",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#0075B1",
+    },
+  },
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "4px solid #0075B1",
+  },
+
+  "& .MuiOutlinedInput-input": {
+    padding: "5px 5px",
+  },
+});
+
+const NameAreaInput = styled(MuiTextField)({
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
+
+const DateInput = styled(MuiTextField)({
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
+
 export default function GenerateProposal() {
   const [demand, setDemand] = useState<any>();
-  const [numRows, setNumRows] = useState(0);
-  const [numColumns, setNumColumns] = useState(0);
+  const [payback, setPayback] = useState<any>("");
+  const [startDate, setStartDate] = useState<any>("");
+  const [endDate, setEndDate] = useState<any>("");
+  const [nameBusinessResponsible, setNameBusinessResponsible] =
+    useState<any>("");
 
   let demandId = useParams().id;
 
@@ -28,40 +66,6 @@ export default function GenerateProposal() {
       setDemand(demand);
     });
   }, []);
-
-  const EqualInput = styled(MuiTextField)({
-    width: "700px",
-    height: "3.5rem",
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        border: "1.5px solid #0075B1",
-      },
-      "&:hover fieldset": {
-        borderColor: "#0075B1",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#0075B1",
-      },
-    },
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderLeft: "4px solid #0075B1",
-    },
-
-    "& .MuiOutlinedInput-input": {
-      padding: "5px 5px",
-    },
-  });
-  const NameAreaInput = styled(MuiTextField)({
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderLeft: "3px solid #0075B1",
-    },
-  });
-
-  const DateInput = styled(MuiTextField)({
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderLeft: "3px solid #0075B1",
-    },
-  });
 
   return (
     <div>
@@ -181,8 +185,8 @@ export default function GenerateProposal() {
             type="text"
             multiline
             maxRows={3}
-            // value={title}
-            // onChange={(e) => setTitle(e.target.value as string)}
+            value={payback}
+            onChange={(e) => setPayback(e.target.value as string)}
             InputProps={{
               startAdornment: <InputAdornment position="start" />,
             }}
@@ -201,6 +205,8 @@ export default function GenerateProposal() {
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value as string)}
             />
             <DateInput
               id="outlined-basic"
@@ -212,6 +218,8 @@ export default function GenerateProposal() {
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value as string)}
             />
           </div>
         </div>
@@ -227,8 +235,10 @@ export default function GenerateProposal() {
               multiline
               placeholder="Nome"
               maxRows={3}
-              // value={title}
-              // onChange={(e) => setTitle(e.target.value as string)}
+              value={nameBusinessResponsible}
+              onChange={(e) =>
+                setNameBusinessResponsible(e.target.value as string)
+              }
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
