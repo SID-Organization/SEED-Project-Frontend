@@ -3,9 +3,73 @@ import { useParams } from "react-router-dom";
 import DemandCard from "../../../Components/Demand-card";
 import { IconButton, Tooltip } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Button,
+  Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
 
 export default function GenerateProposal() {
   const [demand, setDemand] = useState<any>();
+  const [numRows, setNumRows] = useState(0);
+  const [numColumns, setNumColumns] = useState(0);
+  const [tables, setTables] = useState<any>([]);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const createTable = () => {
+    setTables([
+      ...tables,
+      Array.from({ length: numRows }, () =>
+        Array.from({ length: numColumns }, () => "")
+      ),
+    ]);
+  };
+
+  const handleCreateTable = () => {
+    const data = Array.from({ length: numRows }, () =>
+      Array.from({ length: numColumns }, () => "")
+    );
+    setTables([...tables, data]);
+  };
+
+  const handleCellChange = (rowIndex: any, cellIndex: any, value: string) => {
+    const newTables = tables.map((table: any[], tableIndex: number) => {
+      if (tableIndex === tables.length - 1) {
+        return table.map((row, rowI) => {
+          if (rowI === rowIndex) {
+            return row.map((cell: any, cellI: any) => {
+              if (cellI === cellIndex) {
+                return value;
+              }
+              return cell;
+            });
+          }
+          return row;
+        });
+      }
+      return table;
+    });
+    setTables(newTables);
+  };
 
   let demandId = useParams().id;
 
@@ -45,16 +109,103 @@ export default function GenerateProposal() {
         </h1>
         <div className="flex justify-center items-center">
           <Tooltip title="Adicionar tabela">
-            <IconButton>
-              <AddRoundedIcon
-                sx={{
-                  color: "#0075B1",
-                  fontSize: "2rem",
-                }}
-              />
+            <IconButton onClick={handleClickOpen}>
+              <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
             </IconButton>
           </Tooltip>
         </div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Nova tabela</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="columns"
+              label="Colunas"
+              type="number"
+              value={numColumns}
+              onChange={(e) => setNumColumns(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="rows"
+              label="Linhas"
+              type="number"
+              value={numRows}
+              onChange={(e) => setNumRows(e.target.value)}
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={createTable} color="primary">
+              Criar tabela
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {tables.map((data: any[], index: React.Key | null | undefined) => (
+          <TableContainer key={index}>
+            <Table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <TableHead>
+                <TableRow style={{ backgroundColor: "#f2f2f2" }}>
+                  {Array.from({ length: numColumns }, (_, i) => (
+                    <TableCell key={i} style={{ border: "1px solid #d3d3d3" }}>
+                      Coluna {i + 1}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((row, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {row.map(
+                      (
+                        cell: unknown,
+                        cellIndex: React.Key | null | undefined
+                      ) => (
+                        <TableCell
+                          key={cellIndex}
+                          style={{
+                            border: "1px solid #d3d3d3",
+                            backgroundColor:
+                              rowIndex % 2 === 0 ? "#fafafa" : "",
+                          }}
+                        >
+                          <TextField
+                            value={cell}
+                            onChange={(e) =>
+                              handleCellChange(
+                                rowIndex,
+                                cellIndex,
+                                e.target.value
+                              )
+                            }
+                            fullWidth
+                            InputProps={{
+                              disableUnderline: true,
+                              style: {
+                                backgroundColor: "transparent",
+                                border: "none",
+                                padding: 0,
+                              },
+                            }}
+                          />
+                        </TableCell>
+                      )
+                    )}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ))}
       </div>
     </div>
   );
