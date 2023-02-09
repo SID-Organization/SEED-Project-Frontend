@@ -50,6 +50,8 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState<any>("");
   const [nameBusinessResponsible, setNameBusinessResponsible] =
     useState<any>("");
+  const [areaBusinessResponsible, setAreaBusinessResponsible] =
+    useState<any>("");
 
   let demandId = useParams().id;
 
@@ -250,14 +252,21 @@ export default function GenerateProposal() {
               multiline
               placeholder="Área"
               maxRows={3}
-              // value={title}
-              // onChange={(e) => setTitle(e.target.value as string)}
+              value={areaBusinessResponsible}
+              onChange={(e) =>
+                setAreaBusinessResponsible(e.target.value as string)
+              }
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
             />
           </div>
         </div>
+      </div>
+      <div>
+        <h1 className="flex items-center justify-center text-2xl font-roboto mt-5 font-bold text-dark-blue-weg">
+          UPLOAD DE ARQUIVOS
+        </h1>
       </div>
     </div>
   );
