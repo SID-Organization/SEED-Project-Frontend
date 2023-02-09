@@ -188,6 +188,7 @@ export default function PrimarySearchAppBar() {
   const handleSystemExit = () => {
     localStorage.removeItem("user");
     navigate("/login");
+    location.reload();
   };
 
   const usersMock = [

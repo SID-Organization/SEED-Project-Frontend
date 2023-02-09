@@ -28,7 +28,7 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 
 import "../../styles/index.css";
 import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
@@ -142,7 +142,10 @@ export default function subHeader({
   }, []);
 
   const handleOpenReasonOfDevolution = () => setOpenReasonOfDevolution(true);
-  const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false);
+
+  const navigate = useNavigate();
+
+  const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false)
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -316,6 +319,8 @@ export default function subHeader({
       .then((data) => {
         console.log(data);
       });
+
+      navigate("/demandas")
   };
 
   const getDemandSize = () => {

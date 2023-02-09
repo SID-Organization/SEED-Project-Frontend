@@ -16,7 +16,6 @@ async function getDemandsFromDatabase(userId: number) {
   )
   .then((response) => response.json())
 
-
   return response;
 }
 

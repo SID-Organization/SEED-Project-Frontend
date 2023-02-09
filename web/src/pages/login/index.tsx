@@ -14,7 +14,6 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../AuthProvider";
 
 
 // Interfaces
@@ -26,10 +25,6 @@ interface ILoginUser {
 }
 
 export default function Login(props: ILoginUser) {
-
-  const [user, setUser] = useContext(AuthContext)
-
-  console.log("user", user)
 
   const [openNotification, setOpenNotification] = useState(false);
   const [userID, setUserID] = useState<number>();

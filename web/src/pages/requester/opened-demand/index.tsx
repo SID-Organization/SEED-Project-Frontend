@@ -42,28 +42,41 @@ async function getDemandFromDatabase(id: string) {
   return demand;
 }
 
+async function getHistoricFromDatabase(id: string) {
+  const response = await fetch(
+    `http://localhost:8080/sid/api/historico-workflow/demanda/${id}`
+  );
+  const historic = await response.json();
+  return historic;
+} 
+
 export default function openedDemand() {
   const params = useParams();
 
   const [user, setUser] = useState<LoggedUserInterface>(getLoggedUser());
   const [demand, setDemand] = useState<DemandInterface>();
+  const [historic, setHistoric] = useState<any[]>();
+
+
+  const [open, setOpen] = useState(false);
+  const [isEditEnabled, setIsEditEnabled] = useState(true);
+
+  const [currentSituation, setCurrentSituation] = useState();
+  const [proposal, setProposal] = useState();
+  const [usageFrequency, setUsageFrequency] = useState();
+  const [qualitativeBenefit, setQualitativeBenefit] = useState();
 
   useEffect(() => {
     if (params.id) {
       getDemandFromDatabase(params.id).then((demand) => {
         setDemand(demand);
       });
+      getHistoricFromDatabase(params.id).then((historic) => {
+        setHistoric(historic);
+      })
     }
   }, []);
 
-  useEffect(() => {
-    if (demand) {
-      console.log(demand);
-    }
-  }, [demand]);
-
-  const [open, setOpen] = useState(false);
-  const [isEditEnabled, setIsEditEnabled] = useState(true);
 
   function getBenefits(benefitType: string) {
     if (benefitType == "REAL") {
@@ -78,10 +91,6 @@ export default function openedDemand() {
     return [];
   }
 
-  const [currentSituation, setCurrentSituation] = useState();
-  const [proposal, setProposal] = useState();
-  const [usageFrequency, setUsageFrequency] = useState();
-  const [qualitativeBenefit, setQualitativeBenefit] = useState();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -201,17 +210,17 @@ export default function openedDemand() {
               <div>
                 <div className="flex justify-between items-center text-lg">
                   <div className="flex mt-[-5rem]">
-                    <h1 className="font-bold">Número de demanda:</h1>{" "}
+                    <h1 className="font-bold mr-2">Número de demanda:</h1>
                     <span className="font-normal">1000018</span>
                   </div>
                   <div className="grid items-center justify-center">
                     <div className="flex">
-                      <h1 className="font-bold">Iniciada em:</h1>{" "}
-                      <span className="font-normal">10/05/2022 - 15:25</span>
+                      <h1 className="font-bold mr-2">Iniciada em:</h1>
+                      <span className="font-normal">{historic ? new Date(historic[0].recebimentoHistorico).toLocaleDateString() : "Indefinido"}</span>
                     </div>
                     <div className="flex">
-                      <h1 className="font-bold">Concluída em:</h1>{" "}
-                      <span className="font-normal">10/05/2022 - 15:25</span>
+                      <h1 className="font-bold mr-2">Concluída em:</h1>
+                      <span className="font-normal">Indefinido</span>
                     </div>
                   </div>
                 </div>
@@ -220,18 +229,18 @@ export default function openedDemand() {
                 <div className="flex justify-start items-center gap-[7rem]">
                   <div className="grid items-center justify-center">
                     <h1 className="font-bold font-roboto">Solicitante</h1>
-                    <h1 className="font-roboto font-medium">Gustavo Santos</h1>
+                    <h1 className="font-roboto font-medium">{demand?.solicitanteDemanda.nomeUsuario}</h1>
                     <h1 className="text-[#5B5B5B] text-sm">
-                      WEG Digital Solutions
+                      {demand?.solicitanteDemanda.departamentoUsuario}
                     </h1>
                   </div>
                   <div className="grid items-center justify-center">
                     <h1 className="font-bold font-roboto">
                       Analista responsável
                     </h1>
-                    <h1 className="font-roboto font-medium">Otavio Zapella</h1>
+                    <h1 className="font-roboto font-medium">{demand?.analistaResponsavelDemanda.nomeUsuario}</h1>
                     <h1 className="text-[#5B5B5B] text-sm">
-                      WEG Digital Solutions
+                      {demand?.analistaResponsavelDemanda.departamentoUsuario}
                     </h1>
                   </div>
                 </div>

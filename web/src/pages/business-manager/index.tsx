@@ -32,7 +32,11 @@ export default function DemandManager() {
     )
       .then((response) => response.json())
       .then((data) => {
-        setDemandsToManage(data);
+        setDemandsToManage(
+          data.filter(
+            (item:any) => item.statusDemanda != "RASCUNHO" && item.solicitanteDemanda.numeroCadastroUsuario !== user.numeroCadastroUsuario
+          )
+        );
       });
   }, []);
 
@@ -45,18 +49,19 @@ export default function DemandManager() {
         setIsListFormat={setIsListFormat}
         isListFormat={isListFormat}
         setFilter={setFilter}
+        filter={filter}
         >
         Gerenciar demandas
       </SubHeader>
       {isListFormat ? (
         <div className="flex justify-center items-center h-full">
-          <DemandList />
+          <DemandList demands={demandsToManage}/>
         </div>
       ) : (
         <div className="flex flex-wrap justify-around">
           {demandsToManage &&
             demandsToManage
-              .filter((item) => item.statusDemanda != "RASCUNHO" && item.solicitanteDemanda.numeroCadastroUsuario !== user.numeroCadastroUsuario)
+              
               .filter((item) => {
                 if(search.length < 3) return item;
                 else if(item.tituloDemanda.toLowerCase().includes(search.toLowerCase())) return item;

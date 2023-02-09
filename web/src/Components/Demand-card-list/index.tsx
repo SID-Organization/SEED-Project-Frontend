@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
-import type {} from '@mui/x-data-grid/themeAugmentation';
 
 import MuiBox from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -10,6 +9,8 @@ import Tooltip from "@mui/material/Tooltip";
 
 import styled from "@emotion/styled";
 
+import { useEffect } from "react";
+import DemandInterface from "../../Interfaces/demand/DemandInterface";
 
 
 const columns: GridColDef[] = [
@@ -82,10 +83,10 @@ const getStatusColor = (rowStatusParam: string) => {
   let bgColor = "#fff";
 
   switch (rowStatus) {
-    case "Aberta":
+    case "ABERTA":
       bgColor = "#C2BEBE";
       break;
-    case "Classificado pelo analista de TI":
+    case "CLASSIFICADO_PELO_ANALISTA":
       bgColor = "#64C3D5";
       break;
     case "Aprovado pelo gerente da área":
@@ -316,8 +317,38 @@ const rows = [
 const Box = styled(MuiBox)(() => ({
   height: 750,
   width: 890,
-}));
-export default function DataTable() {
+}))
+
+
+export default function DataTable(props: {demands: any[]}) {
+
+
+  /**
+   * {
+    id: 1,
+    status: demandStatusType[0],
+    solicitante: "Henrique Cole",
+    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
+    score: 324,
+    valor: "R$ 100.000,00",
+    versao: 4.2,
+  },
+   */
+
+  useEffect(() => {
+    console.log("Demands", props.demands[0]);
+    if(props.demands) {
+      props.demands.forEach((demand) => {
+        console.log("Demand", 
+        {
+          id: demand.idDemanda,
+          status: demand.statusDemanda,
+        }
+        );
+      })
+    }
+  }, []);
+
   const [pageSize, setPageSize] = useState(5);
 
   return (
