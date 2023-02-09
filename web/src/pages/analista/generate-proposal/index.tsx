@@ -1,75 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import DemandCard from "../../../Components/Demand-card";
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Button,
-  Paper,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from "@mui/material";
+
+import MuiTextField from "@mui/material/TextField";
+
+import { styled } from "@mui/material/styles";
 
 export default function GenerateProposal() {
   const [demand, setDemand] = useState<any>();
   const [numRows, setNumRows] = useState(0);
   const [numColumns, setNumColumns] = useState(0);
-  const [tables, setTables] = useState<any>([]);
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const createTable = () => {
-    setTables([
-      ...tables,
-      Array.from({ length: numRows }, () =>
-        Array.from({ length: numColumns }, () => "")
-      ),
-    ]);
-  };
-
-  const handleCreateTable = () => {
-    const data = Array.from({ length: numRows }, () =>
-      Array.from({ length: numColumns }, () => "")
-    );
-    setTables([...tables, data]);
-  };
-
-  const handleCellChange = (rowIndex: any, cellIndex: any, value: string) => {
-    const newTables = tables.map((table: any[], tableIndex: number) => {
-      if (tableIndex === tables.length - 1) {
-        return table.map((row, rowI) => {
-          if (rowI === rowIndex) {
-            return row.map((cell: any, cellI: any) => {
-              if (cellI === cellIndex) {
-                return value;
-              }
-              return cell;
-            });
-          }
-          return row;
-        });
-      }
-      return table;
-    });
-    setTables(newTables);
-  };
 
   let demandId = useParams().id;
 
@@ -86,6 +28,40 @@ export default function GenerateProposal() {
       setDemand(demand);
     });
   }, []);
+
+  const EqualInput = styled(MuiTextField)({
+    width: "700px",
+    height: "3.5rem",
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        border: "1.5px solid #0075B1",
+      },
+      "&:hover fieldset": {
+        borderColor: "#0075B1",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#0075B1",
+      },
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderLeft: "4px solid #0075B1",
+    },
+
+    "& .MuiOutlinedInput-input": {
+      padding: "5px 5px",
+    },
+  });
+  const NameAreaInput = styled(MuiTextField)({
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderLeft: "3px solid #0075B1",
+    },
+  });
+
+  const DateInput = styled(MuiTextField)({
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderLeft: "3px solid #0075B1",
+    },
+  });
 
   return (
     <div>
@@ -109,103 +85,169 @@ export default function GenerateProposal() {
         </h1>
         <div className="flex justify-center items-center">
           <Tooltip title="Adicionar tabela">
-            <IconButton onClick={handleClickOpen}>
+            <IconButton>
               <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
             </IconButton>
           </Tooltip>
         </div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
+        <p className="flex justify-center items-center">
+          ** TABELA DE CUSTOS AQUI **
+        </p>
+      </div>
+      <div className="grid justify-center items-center">
+        <div
+          className="
+          w-[40rem] h-[5rem]
+          border-2 border-dashed border-blue-weg
+          border-b-0
+        "
         >
-          <DialogTitle id="form-dialog-title">Nova tabela</DialogTitle>
-          <DialogContent>
+          <div className="flex items-center justify-start h-full">
+            <p
+              className="
+              text-xl font-roboto font-bold ml-5 mr-8
+            "
+            >
+              Custos totais do projeto
+            </p>
             <TextField
-              autoFocus
-              margin="dense"
-              id="columns"
-              label="Colunas"
-              type="number"
-              value={numColumns}
-              onChange={(e) => setNumColumns(e.target.value)}
-              fullWidth
+              id="outlined-basic"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">R$</InputAdornment>
+                ),
+              }}
             />
-            <TextField
-              margin="dense"
-              id="rows"
-              label="Linhas"
-              type="number"
-              value={numRows}
-              onChange={(e) => setNumRows(e.target.value)}
-              fullWidth
+          </div>
+        </div>
+        <div
+          className="
+          w-[40rem] h-[10rem]
+          border-2 border-dashed border-blue-weg
+        "
+        >
+          <div className="grid justify-start items-center h-full">
+            <div className="flex items-center justify-start h-full">
+              <p
+                className="
+          text-xl font-roboto ml-5 mr-[5.6rem]
+        "
+              >
+                Total de despesas (desembolso)
+              </p>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                size="small"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">R$</InputAdornment>
+                  ),
+                }}
+                sx={{ width: "9rem" }}
+              />
+            </div>
+            <div className="flex items-center justify-start h-full">
+              <p
+                className="
+          text-xl font-roboto ml-5 mr-8
+        "
+              >
+                Total de despesas com custos internos
+              </p>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                size="small"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">R$</InputAdornment>
+                  ),
+                }}
+                sx={{ width: "9rem" }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="grid justify-center items-center gap-10 mt-10">
+        <div>
+          <p className="text-lg font-bold font-roboto">Payback</p>
+          <EqualInput
+            id="outlined-textarea"
+            variant="outlined"
+            type="text"
+            multiline
+            maxRows={3}
+            // value={title}
+            // onChange={(e) => setTitle(e.target.value as string)}
+            InputProps={{
+              startAdornment: <InputAdornment position="start" />,
+            }}
+          />
+        </div>
+        <div>
+          <p className="text-lg font-bold font-roboto">Período de execução</p>
+          <div className="flex gap-10 mt-2">
+            <DateInput
+              id="outlined-basic"
+              variant="outlined"
+              placeholder="dd/mm/aaaa"
+              type="date"
+              label="Início:"
+              size="small"
+              InputProps={{
+                startAdornment: <InputAdornment position="start" />,
+              }}
             />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancelar
-            </Button>
-            <Button onClick={createTable} color="primary">
-              Criar tabela
-            </Button>
-          </DialogActions>
-        </Dialog>
-        {tables.map((data: any[], index: React.Key | null | undefined) => (
-          <TableContainer key={index}>
-            <Table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <TableHead>
-                <TableRow style={{ backgroundColor: "#f2f2f2" }}>
-                  {Array.from({ length: numColumns }, (_, i) => (
-                    <TableCell key={i} style={{ border: "1px solid #d3d3d3" }}>
-                      Coluna {i + 1}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map((row, rowIndex) => (
-                  <TableRow key={rowIndex}>
-                    {row.map(
-                      (
-                        cell: unknown,
-                        cellIndex: React.Key | null | undefined
-                      ) => (
-                        <TableCell
-                          key={cellIndex}
-                          style={{
-                            border: "1px solid #d3d3d3",
-                            backgroundColor:
-                              rowIndex % 2 === 0 ? "#fafafa" : "",
-                          }}
-                        >
-                          <TextField
-                            value={cell}
-                            onChange={(e) =>
-                              handleCellChange(
-                                rowIndex,
-                                cellIndex,
-                                e.target.value
-                              )
-                            }
-                            fullWidth
-                            InputProps={{
-                              disableUnderline: true,
-                              style: {
-                                backgroundColor: "transparent",
-                                border: "none",
-                                padding: 0,
-                              },
-                            }}
-                          />
-                        </TableCell>
-                      )
-                    )}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ))}
+            <DateInput
+              id="outlined-basic"
+              variant="outlined"
+              placeholder="dd/mm/aaaa"
+              type="date"
+              label="Término:"
+              size="small"
+              InputProps={{
+                startAdornment: <InputAdornment position="start" />,
+              }}
+            />
+          </div>
+        </div>
+        <div>
+          <p className="text-lg font-bold font-roboto">
+            Responsável pelo negócio
+          </p>
+          <div className="flex gap-10 mt-2">
+            <NameAreaInput
+              id="outlined-textarea"
+              variant="outlined"
+              type="text"
+              multiline
+              placeholder="Nome"
+              maxRows={3}
+              // value={title}
+              // onChange={(e) => setTitle(e.target.value as string)}
+              InputProps={{
+                startAdornment: <InputAdornment position="start" />,
+              }}
+            />
+            <NameAreaInput
+              id="outlined-textarea"
+              variant="outlined"
+              type="text"
+              multiline
+              placeholder="Área"
+              maxRows={3}
+              // value={title}
+              // onChange={(e) => setTitle(e.target.value as string)}
+              InputProps={{
+                startAdornment: <InputAdornment position="start" />,
+              }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
