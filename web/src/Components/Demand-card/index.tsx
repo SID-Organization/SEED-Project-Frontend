@@ -54,19 +54,19 @@ const styleModalGenerateProposal = {
 };
 
 const statusColor: any = {
-  Cancelado: "#C31700",
-  AprovadoPelaComissao: "#7EB61C",
-  AprovadoPeloAnalistaTi: "#64C3D5",
-  Aberto: "#00579D",
-  Rascunho: "#D9D9D9",
+  CANCELADO: "#C31700",
+  APROVADO_PELA_COMISSAO: "#7EB61C",
+  CLASSIFICADO_PELO_ANALISTA: "#64C3D5",
+  ABERTA: "#00579D",
+  RASCUNHO: "#D9D9D9",
 };
 
 const progressInputColor: any = {
-  CANCELADA: "#C31700",
-  APROVADA_PELA_COMISSAO: "#7EB61C",
-  CLASSIFICADO_PELO_ANALISTA: "#7EB61C",
-  RASCUNHO: "#d9d9d937",
+  CANCELADO: "#C31700",
+  APROVADO_PELA_COMISSAO: "#7EB61C",
+  CLASSIFICADO_PELO_ANALISTA: "#64C3D5",
   ABERTA: "#00579D",
+  RASCUNHO: "#D9D9D9",
 };
 
 export default function DemandCard(props: DemandCardProps) {

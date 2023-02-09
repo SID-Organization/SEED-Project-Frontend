@@ -114,6 +114,7 @@ export default function subHeader({
   // Controle do botão selecionado
   const [selectedIndex, setSelectedIndex] = useState(1);
 
+
   // Demanda buscada do banco de dados
   const [demand, setDemand] = useState<any>();
 
@@ -151,19 +152,44 @@ export default function subHeader({
     setOpenModal(false);
   };
 
+  const handleApproveDemand = () => {
+    if(confirm("Deseja aprovar a demanda?")){
+      toast.success("Demanda aprovada com sucesso!");
+      handleManagerApproveDemand();
+      const timeout = setTimeout(() => {
+        navigate("/demandas");
+      }, 3000)
+      return () => clearTimeout(timeout);
+    }
+  }
+
   const actionOptions = [
     {
       text: "Classificar demanda",
+      role: ["ANALISTA"],
+      function: handleOpenModal,
       key: 1,
     },
     {
-      text: "Devolver",
+      text: "Aprovar",
+      role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+      function: handleApproveDemand,
       key: 2,
     },
     {
-      text: "Recusar",
+      text: "Devolver",
+      role: ["ANALISTA", "GERENTE"],
+      function: handleOpenReasonOfDevolution,
       key: 3,
     },
+
+    {
+      text: "Recusar",
+      role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+      function: handleOpenReasonOfDevolution,
+      key: 4,
+    },
+
   ];
 
   const sections = [
@@ -236,14 +262,6 @@ export default function subHeader({
   const notifyEditEnabledOff = () =>
     toast.success("Alterações salvas com sucesso!");
 
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index);
-    setOpenActions(false);
-  };
-
   const handleToggleActions = () => {
     setOpenActions((prevOpen) => !prevOpen);
   };
@@ -276,7 +294,7 @@ export default function subHeader({
     setClassifyDemandSize(event.target.value as string);
   };
 
-  const handleUpdateDemand = async () => {
+  const handleAnalystClassifyDemand = async () => {
     // handleCloseModal();
     const updatedDemand = {
       busBeneficiadasDemanda: benefitedBus.map((item: any) => ({
@@ -309,7 +327,7 @@ export default function subHeader({
             body: JSON.stringify({
               tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
               demandaHistorico: { idDemanda: demand.idDemanda },
-              acaoFeitaHistorico: "Enviar",
+              acaoFeitaHistorico: "Aprovar",
               idResponsavel: { numeroCadastroUsuario: 72132 },
             }),
           });
@@ -321,6 +339,39 @@ export default function subHeader({
       });
 
       navigate("/demandas")
+  };
+
+  const handleManagerApproveDemand = async () => {
+
+    console.log("Approving...")
+
+    // fetch("http://localhost:8080/sid/api/historico-workflow", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
+    //     demandaHistorico: { idDemanda: demand.idDemanda },
+    //     acaoFeitaHistorico: "Enviar",
+    //     idResponsavel: { numeroCadastroUsuario: 72131 },
+    //   }),
+    // })
+    // .then(response => {
+    //   if(response.ok){
+        fetch(`http://localhost:8080/sid/api/demanda/status/${demand.idDemanda}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            statusDemanda: "APROVADO_PELO_GERENTE_DA_AREA"
+          })
+        })
+    //   }
+    // })
+    
+    ;
   };
 
   const getDemandSize = () => {
@@ -352,7 +403,7 @@ export default function subHeader({
               font-roboto
             "
           >
-            Motivo da devolução da demanda
+            Motivo da {selectedIndex == 2 ? "devolução" : "recusação"} da demanda
           </h1>
           <p
             className="
@@ -572,7 +623,7 @@ export default function subHeader({
                     backgroundColor: "#0075B1",
                   },
                 }}
-                onClick={handleUpdateDemand}
+                onClick={handleAnalystClassifyDemand}
               >
                 Enviar
               </Button>
@@ -668,19 +719,25 @@ export default function subHeader({
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseActions}>
                   <MenuList id="split-button-menu" autoFocusItem>
-                    {actionOptions.map((option, index) => (
-                      <MenuItem
-                        onClick={
-                          option.key === 1
-                            ? handleOpenModal
-                            : (event) => handleMenuItemClick(event, index)
-                        }
-                        key={option.key}
-                        selected={index === selectedIndex}
-                      >
-                        {option.text}
-                      </MenuItem>
-                    ))}
+                    {actionOptions.map((option, index) => {
+                      if(option.role.includes(user.cargoUsuario)) {
+                        return (
+                          <MenuItem
+                            onClick={() => {
+                                option.function()
+                                setSelectedIndex(index)
+                              }
+                            }
+                            key={option.key}
+                            selected={index === selectedIndex}
+                          >
+                            {option.text}
+                          </MenuItem>
+                        )
+                      } else {
+                        return null
+                      }
+                      })}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

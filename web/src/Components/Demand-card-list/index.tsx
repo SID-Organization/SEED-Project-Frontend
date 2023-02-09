@@ -12,31 +12,53 @@ import styled from "@emotion/styled";
 import { useEffect } from "react";
 import DemandInterface from "../../Interfaces/demand/DemandInterface";
 
-
 const columns: GridColDef[] = [
   {
     field: "status",
     headerName: "Status",
     width: 80,
-    renderCell: (params) => (
+    renderCell: params =>
       <Tooltip title={params.value}>
         <SquareRoundedIcon sx={{ color: getStatusColor(params.value) }} />
-      </Tooltip>
-    ),
+      </Tooltip>,
     maxWidth: 80,
     align: "center",
-    headerAlign: "center",
+    headerAlign: "center"
   },
-  { field: "solicitante", headerName: "Solicitante", width: 210 },
+  {
+    field: "titulo",
+    headerName: "Título",
+    headerAlign: "left",
+    type: "string",
+    width: 200,
+    renderCell: params =>
+      <Tooltip title={params.value}>
+        <Typography variant="body2">
+          {params.value.length > 27 ? params.value.substring(0, 27) + "..." : params.value}
+        </Typography>
+      </Tooltip>
+  },
+  {
+    field: "solicitante",
+    headerName: "Solicitante",
+    width: 180,
+    renderCell: params =>
+      <Tooltip title={params.value}>
+        <Typography variant="body2">
+          {params.value}
+        </Typography>
+      </Tooltip>
+  },
   {
     field: "ultimaAtualizacao",
     headerName: "Última atualização",
     width: 210,
-    renderCell: (params) => (
+    renderCell: params =>
       <Tooltip title={params.value}>
-        <Typography variant="body2">{params.value}</Typography>
+        <Typography variant="body2">
+          {params.value}
+        </Typography>
       </Tooltip>
-    ),
   },
   {
     field: "score",
@@ -44,14 +66,7 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     type: "number",
-    width: 120,
-  },
-  {
-    field: "valor",
-    headerName: "Valor",
-    headerAlign: "center",
-    type: "string",
-    width: 120,
+    width: 120
   },
   {
     field: "versao",
@@ -60,10 +75,11 @@ const columns: GridColDef[] = [
     headerAlign: "center",
     type: "number",
     width: 120,
-    renderCell: (params) => (
-      <Typography variant="body2">{params.value}</Typography>
-    ),
-  },
+    renderCell: params =>
+      <Typography variant="body2">
+        {params.value}
+      </Typography>
+  }
 ];
 
 /**
@@ -111,241 +127,48 @@ const getStatusColor = (rowStatusParam: string) => {
   return bgColor;
 };
 
-const demandStatusType = [
-  "Aberta",
-  "Classificado pelo analista de TI",
-  "Aprovado pelo gerente da área",
-  "Aprovado pela comissão",
-  "Proposta em execução",
-  "Suporte",
-  "Concluída",
-  "Cancelada",
-];
-
-const rows = [
-  {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 100.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 2,
-    status: demandStatusType[2],
-    solicitante: "Leonardo Rafaelli",
-    ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
-    score: 543,
-    valor: "R$ 1.000,00",
-    versao: 1.2,
-  },
-  {
-    id: 3,
-    status: demandStatusType[4],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 4,
-    status: demandStatusType[2],
-    solicitante: "Leonardo Rafaelli",
-    ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
-    score: 543,
-    valor: "R$ 1.000,00",
-    versao: 1.2,
-  },
-  {
-    id: 5,
-    status: demandStatusType[1],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 6,
-    status: demandStatusType[2],
-    solicitante: "Leonardo Rafaelli",
-    ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
-    score: 543,
-    valor: "R$ 1.000,00",
-    versao: 1.2,
-  },
-  {
-    id: 7,
-    status: demandStatusType[3],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 8,
-    status: demandStatusType[2],
-    solicitante: "Leonardo Rafaelli",
-    ultimaAtualizacao: "3 de mar. de 2021 Henrique Cole",
-    score: 543,
-    valor: "R$ 1.000,00",
-    versao: 1.2,
-  },
-  {
-    id: 9,
-    status: demandStatusType[3],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 10,
-    status: demandStatusType[6],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 11,
-    status: demandStatusType[5],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 12,
-    status: demandStatusType[7],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 13,
-    status: demandStatusType[7],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 14,
-    status: demandStatusType[4],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 15,
-    status: demandStatusType[3],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 16,
-    status: demandStatusType[6],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 17,
-    status: demandStatusType[5],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 18,
-    status: demandStatusType[1],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 19,
-    status: demandStatusType[2],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 20,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-  {
-    id: 21,
-    status: demandStatusType[1],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 1.000,00",
-    versao: 4.2,
-  },
-];
-
 const Box = styled(MuiBox)(() => ({
   height: 750,
-  width: 890,
-}))
+  width: 890
+}));
 
+const getDemandHistoric = async (id: number) => {
+  const response = await fetch(
+    `http://localhost:8080/sid/api/historico-workflow/demanda/${id}`
+  );
+  const historic = await response.json();
+  return {
+    version: historic[historic.length - 1].versaoHistorico,
+    lastUpdate: new Date(
+      historic[historic.length - 2].recebimentoHistorico
+    ).toLocaleDateString(),
+    responsable: historic[historic.length - 1].nomeResponsavel
+  };
+};
 
-export default function DataTable(props: {demands: any[]}) {
+export default function DataTable(props: { demands: any[] }) {
+  const [rows, setRows] = useState<any[]>([]);
 
+  const getRows = async (demands: any[]) => {
+    const tableRows = demands.map(async demand => {
+      const historic = await getDemandHistoric(demand.idDemanda);
+      return {
+        id: demand.idDemanda,
+        status: demand.statusDemanda,
+        solicitante: demand.solicitanteDemanda.nomeUsuario,
+        score: demand.scoreDemanda,
+        titulo: demand.tituloDemanda,
+        versao: historic.version,
+        ultimaAtualizacao: historic.lastUpdate + " - " + historic.responsable
+      };
+    });
 
-  /**
-   * {
-    id: 1,
-    status: demandStatusType[0],
-    solicitante: "Henrique Cole",
-    ultimaAtualizacao: "2 de mar. de 2022 Gustavo Santos",
-    score: 324,
-    valor: "R$ 100.000,00",
-    versao: 4.2,
-  },
-   */
+    setRows(await Promise.all(tableRows));
+  };
 
   useEffect(() => {
-    console.log("Demands", props.demands[0]);
-    if(props.demands) {
-      props.demands.forEach((demand) => {
-        console.log("Demand", 
-        {
-          id: demand.idDemanda,
-          status: demand.statusDemanda,
-        }
-        );
-      })
+    if (props.demands) {
+      getRows(props.demands);
     }
   }, []);
 
@@ -358,14 +181,14 @@ export default function DataTable(props: {demands: any[]}) {
         columns={columns}
         rowsPerPageOptions={[5, 10, 25]}
         pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
         components={{
-          Toolbar: GridToolbar,
+          Toolbar: GridToolbar
         }}
         sx={{
           color: "#023A67",
           fontWeight: "bold",
-          border: "none",
+          border: "none"
         }}
       />
     </Box>

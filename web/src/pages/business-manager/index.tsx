@@ -26,17 +26,25 @@ export default function DemandManager() {
   const [demandsToManage, setDemandsToManage] = useState<any[]>([]);
 
   useEffect(() => {
+
+    const getUserRoleToURL = () => {
+      if(user.cargoUsuario === "ANALISTA") return "analista";
+      if(user.cargoUsuario === "GERENTE") return "gerente-da-area";
+      if(user.cargoUsuario === "GESTOR_TI") return "gestor-ti";
+    }
+
     fetch(
-      "http://localhost:8080/sid/api/demanda/analista/" +
-        user.numeroCadastroUsuario
+      `http://localhost:8080/sid/api/demanda/${getUserRoleToURL()}/${user.numeroCadastroUsuario}`
     )
       .then((response) => response.json())
       .then((data) => {
-        setDemandsToManage(
-          data.filter(
-            (item:any) => item.statusDemanda != "RASCUNHO" && item.solicitanteDemanda.numeroCadastroUsuario !== user.numeroCadastroUsuario
-          )
-        );
+        let demandsToManage = data.filter(
+          (item:any) => item.statusDemanda != "RASCUNHO" && item.solicitanteDemanda.numeroCadastroUsuario !== user.numeroCadastroUsuario
+        )
+        if(user.cargoUsuario === "GERENTE") {
+          demandsToManage = demandsToManage.filter((item:any) => item.statusDemanda === "CLASSIFICADO_PELO_ANALISTA");
+        }
+        setDemandsToManage(demandsToManage);
       });
   }, []);
 

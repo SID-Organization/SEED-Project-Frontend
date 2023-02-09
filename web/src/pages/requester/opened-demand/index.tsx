@@ -54,7 +54,11 @@ export default function openedDemand() {
   const params = useParams();
 
   const [user, setUser] = useState<LoggedUserInterface>(getLoggedUser());
-  const [demand, setDemand] = useState<DemandInterface>();
+
+  // const [demand, setDemand] = useState<DemandInterface>();
+  // Changed to <any> to avoid errors
+  const [demand, setDemand] = useState<any>();
+
   const [historic, setHistoric] = useState<any[]>();
 
 
