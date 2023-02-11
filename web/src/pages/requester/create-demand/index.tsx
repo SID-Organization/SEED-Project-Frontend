@@ -174,7 +174,9 @@ export default function CreateDemand() {
       frequenciaUsoDemanda: frequencyOfUse,
       descricaoQualitativoDemanda: qualitativeBenefit,
       solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
-      analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
+      analistaResponsavelDemanda: { numeroCadastroUsuario: 72130 },
+      gerenteDaAreaDemanda: { numeroCadastroUsuario: 72131 },
+      gestorResponsavelDemanda: { numeroCadastroUsuario: 72132 },
       beneficiosDemanda: benefitsToBeSent,
     };
 
