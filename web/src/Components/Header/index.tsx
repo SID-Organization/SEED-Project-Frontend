@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // MUI
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -49,6 +49,10 @@ import "../../styles/index.css";
 import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
 import { blue, deepOrange } from "@mui/material/colors";
 
+//WebSocket Imports
+import { over } from "stompjs";
+import SockJs from "sockjs-client/dist/sockjs";
+
 const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -95,6 +99,14 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
     borderRadius: 20 / 2,
   },
 }));
+
+interface IMessage {
+  idUsuario: number;
+  textoMensagem: string;
+  dataMensagem: string;
+  idChat: number;
+  position: string;
+}
 
 export default function PrimarySearchAppBar() {
   // Usa react router para navegar entre as páginas dentro de funções.
@@ -190,136 +202,136 @@ export default function PrimarySearchAppBar() {
     navigate("/login");
   };
 
-  const usersMock = [
-    {
-      name: "John Doe",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:00",
-      unreadMessages: false,
-      isOnline: false,
-    },
-    {
-      name: "Henrique",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "09:20",
-      unreadMessages: 4,
-      isOnline: true,
-    },
-    {
-      name: "Thiago",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "11:30",
-      unreadMessages: false,
-      isOnline: false,
-    },
-    {
-      name: "Leonardo de Souza Rafaelli",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Salve salve",
-      time: "13:54",
-      unreadMessages: 6,
-      isOnline: false,
-    },
-    {
-      name: "Otavio Augusto do Santos",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Eai, como ta?",
-      time: "21:32",
-      unreadMessages: false,
-      isOnline: true,
-    },
-    {
-      name: "Gustavo Rebelatto Zapella",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "21:33",
-      unreadMessages: 1,
-      isOnline: true,
-    },
-    {
-      name: "Gustavo Cole",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:03",
-      unreadMessages: false,
-      isOnline: true,
-    },
-    {
-      name: "Leonardo Rebelatto",
-      userDemand: "Software is slow",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:00",
-      unreadMessages: 10,
-      isOnline: false,
-    },
-    {
-      name: "John Doe",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:00",
-      unreadMessages: false,
-      isOnline: false,
-    },
-    {
-      name: "Henrique",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "09:20",
-      unreadMessages: 4,
-      isOnline: true,
-    },
-    {
-      name: "Thiago",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "11:30",
-      unreadMessages: false,
-      isOnline: false,
-    },
-    {
-      name: "Leonardo de Souza Rafaelli",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Salve salve",
-      time: "13:54",
-      unreadMessages: 6,
-      isOnline: false,
-    },
-    {
-      name: "Otavio Augusto do Santos",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Eai, como ta?",
-      time: "18:20",
-      unreadMessages: false,
-      isOnline: true,
-    },
-    {
-      name: "Gustavo Rebelatto Zapella",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "07:30",
-      unreadMessages: 1,
-      isOnline: true,
-    },
-    {
-      name: "Gustavo Cole",
-      userDemand: "I need a tutor for my son",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:03",
-      unreadMessages: false,
-      isOnline: true,
-    },
-    {
-      name: "Leonardo Rebelatto",
-      userDemand: "Software is slow",
-      lastMessage: "Hello, I'm interested in your demand",
-      time: "12:00",
-      unreadMessages: 10,
-      isOnline: false,
-    },
-  ];
+  // const usersMock = [
+  //   {
+  //     name: "John Doe",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "12:00",
+  //     unreadMessages: false,
+  //     isOnline: false,
+  //   },
+  //   {
+  //     name: "Henrique",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "09:20",
+  //     unreadMessages: 4,
+  //     isOnline: true,
+  //   },
+  //   {
+  //     name: "Thiago",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "11:30",
+  //     unreadMessages: false,
+  //     isOnline: false,
+  //   },
+  //   {
+  //     name: "Leonardo de Souza Rafaelli",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Salve salve",
+  //     time: "13:54",
+  //     unreadMessages: 6,
+  //     isOnline: false,
+  //   },
+  //   {
+  //     name: "Otavio Augusto do Santos",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Eai, como ta?",
+  //     time: "21:32",
+  //     unreadMessages: false,
+  //     isOnline: true,
+  //   },
+  //   {
+  //     name: "Gustavo Rebelatto Zapella",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "21:33",
+  //     unreadMessages: 1,
+  //     isOnline: true,
+  //   },
+  //   {
+  //     name: "Gustavo Cole",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "12:03",
+  //     unreadMessages: false,
+  //     isOnline: true,
+  //   },
+  //   {
+  //     name: "Leonardo Rebelatto",
+  //     userDemand: "Software is slow",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "12:00",
+  //     unreadMessages: 10,
+  //     isOnline: false,
+  //   },
+  //   {
+  //     name: "John Doe",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "12:00",
+  //     unreadMessages: false,
+  //     isOnline: false,
+  //   },
+  //   {
+  //     name: "Henrique",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "09:20",
+  //     unreadMessages: 4,
+  //     isOnline: true,
+  //   },
+  //   {
+  //     name: "Thiago",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "11:30",
+  //     unreadMessages: false,
+  //     isOnline: false,
+  //   },
+  //   {
+  //     name: "Leonardo de Souza Rafaelli",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Salve salve",
+  //     time: "13:54",
+  //     unreadMessages: 6,
+  //     isOnline: false,
+  //   },
+  //   {
+  //     name: "Otavio Augusto do Santos",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Eai, como ta?",
+  //     time: "18:20",
+  //     unreadMessages: false,
+  //     isOnline: true,
+  //   },
+  //   {
+  //     name: "Gustavo Rebelatto Zapella",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "07:30",
+  //     unreadMessages: 1,
+  //     isOnline: true,
+  //   },
+  //   {
+  //     name: "Gustavo Cole",
+  //     userDemand: "I need a tutor for my son",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "12:03",
+  //     unreadMessages: false,
+  //     isOnline: true,
+  //   },
+  //   {
+  //     name: "Leonardo Rebelatto",
+  //     userDemand: "Software is slow",
+  //     lastMessage: "Hello, I'm interested in your demand",
+  //     time: "12:00",
+  //     unreadMessages: 10,
+  //     isOnline: false,
+  //   },
+  // ];
 
   const notificationsMock = [
     {
@@ -509,6 +521,146 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+  function getLoggedUserId() {
+    return JSON.parse(localStorage.getItem("user")!).numeroCadastroUsuario;
+  }
+
+  async function getUsersFromDatabase() {
+    const response = await fetch(
+      "http://localhost:8080/sid/api/chat/usuario/" + getLoggedUserId()
+    );
+    const users = await response.json();
+    console.log("Usuários chat: ", users);
+    return users;
+  }
+
+  const [chatUsers, setChatUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<any>([]);
+
+  const [messagesReceivedByWS, setMessagesReceivedByWS] = useState<any>([]);
+  const [temporaryMessages, setTemporaryMessages] = useState<IMessage[]>([]);
+
+  const userJoin = () => {
+    var chatMessage = {
+      idUsuario: userData.idUsuario.numeroCadastroUsuario,
+      status: "JOIN",
+    };
+    stompClient.send("/app/message/", {}, JSON.stringify(chatMessage));
+  };
+
+  const onConnected = () => {
+    setUserData((prvState: any) => ({ ...prvState, connected: true }));
+    stompClient.subscribe(
+      "/demanda/" + userData.idDemanda.idDemanda + "/" + userData.idChat.idChat,
+      onPrivateMessage
+    );
+    userJoin();
+  };
+
+  const onPrivateMessage = (payload: any) => {
+    var payLoadData = JSON.parse(payload.body);
+    console.log("PAYLOAD: ", payLoadData);
+    if (payLoadData.idUsuario.numeroCadastroUsuario == getLoggedUserId()) {
+      setMessagesReceivedByWS((prevState: any) => [...prevState, payLoadData]);
+      setTemporaryMessages((prevState: any) => [
+        ...prevState,
+        {
+          textoMensagem: payLoadData.textoMensagem,
+          idUsuario: payLoadData.idUsuario.numeroCadastroUsuario,
+          dataMensagem: new Date().toLocaleTimeString(),
+          idChat: payLoadData.idChat.idChat,
+          position: "left",
+        },
+      ]);
+    }
+  };
+
+  // Atualiza a ultima mensagem do chat
+  useEffect(() => {
+    const lastMessage = messagesReceivedByWS[messagesReceivedByWS.length - 1];
+    setUsers(
+      users.map((user: any) => {
+        if (user.idChat === lastMessage.idChat.idChat) {
+          return { ...user, lastMessage: lastMessage.textoMensagem };
+        } else {
+          return user;
+        }
+      })
+    );
+  }, [messagesReceivedByWS]);
+
+  useEffect(() => {
+    if (temporaryMessages.length > 0) {
+      const lastMessage = temporaryMessages[temporaryMessages.length - 1];
+      setUsers(
+        users.map((user: any) => {
+          if (user.idChat === lastMessage.idChat) {
+            return { ...user, lastMessage: lastMessage.textoMensagem };
+          } else {
+            return user;
+          }
+        })
+      );
+    }
+  }, [temporaryMessages]);
+
+  useEffect(() => {
+    if (chatUsers.length > 0) {
+      setUsers(
+        chatUsers.map((user) => ({
+          picture: user.fotoAnalista,
+          name: user.nomeAnalista,
+          userDemand: user.tituloDemanda,
+          lastMessage: user.ultimaMensagem,
+          time: user.dataUltimaMensagem,
+          idUsuario: user.idUsuario,
+          unreadMessages: "1",
+          idChat: user.idChat,
+          idDemanda: user.idDemanda,
+          isOnline: true,
+        }))
+      );
+    }
+  }, [chatUsers]);
+
+  //UseEffect para buscar todos os usuários do banco de dados
+  useEffect(() => {
+    getUsersFromDatabase().then((users) => {
+      setChatUsers(users);
+    });
+  }, []);
+
+  const [stompClient, setStompClient] = useState<any>(null);
+
+  const [privateChats, setPrivateChats] = useState<Map<number, any>>(new Map());
+
+  const [chatUserId, setChatUserId] = useState<number>();
+
+  //States para armazenar qual o nome do usuário e sua respectiva demanda
+  const [userNameCard, setUserNameCard] = useState<string>("");
+  const [userDemandCard, setUserDemandCard] = useState<string>("");
+
+  //State para armazenar o id do chat que o usuário está conversando
+  const [chatId, setChatId] = useState<number>(0);
+
+  const [userData, setUserData] = useState<any>({});
+
+  const connect = () => {
+    let Sock = new SockJs("http://localhost:8080/ws");
+    setStompClient(over(Sock));
+  };
+
+  const onError = (error: any) => {
+    console.log(error);
+  };
+
+  useEffect(() => {
+    if (stompClient) {
+      stompClient.connect({}, onConnected, onError);
+    }
+  }, [stompClient]);
+
+  //Componente dos chats que o usuário possui
   const messagesId = "primary-search-messages-menu";
   const renderMessages = (
     <Menu
@@ -572,37 +724,61 @@ export default function PrimarySearchAppBar() {
       "
       >
         {search === ""
-          ? usersMock
-              .sort((a, b) => {
+          ? users
+              .sort((a: any, b: any) => {
                 if (a.unreadMessages && !b.unreadMessages) return -1;
                 if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                const timeA = new Date(
-                  a.time.split(":")[0] as any,
-                  a.time.split(":")[1] as any
-                );
-                const timeB = new Date(
-                  b.time.split(":")[0] as any,
-                  b.time.split(":")[1] as any
-                );
-                if (timeA > timeB) {
-                  return -1;
-                }
-                if (timeA < timeB) {
-                  return 1;
-                }
+                // const timeA = new Date(
+                //   a.time.split(":")[0] as any,
+                //   a.time.split(":")[1] as any
+                // );
+                // const timeB = new Date(
+                //   b.time.split(":")[0] as any,
+                //   b.time.split(":")[1] as any
+                // );
+                // if (timeA > timeB) {
+                //   return -1;
+                // }
+                // if (timeA < timeB) {
+                //   return 1;
+                // }
                 return 0;
               })
-              .map((user) => (
-                <UserMessageCard
-                  name={user.name}
-                  userDemand={user.userDemand}
-                  lastMessage={user.lastMessage}
-                  time={user.time}
-                  unreadMessages={user.unreadMessages}
-                  isOnline={user.isOnline}
-                />
-              ))
+              .map((user: any) => {
+                return (
+                  <div
+                    onClick={() => {
+                      const userName = user.name;
+                      const userDemand = user.userDemand;
+                      setChatUserId(user.idUsuario);
+                      setUserNameCard(userName);
+                      setUserDemandCard(userDemand);
+                      setChatId(user.idChat);
+                      setUserData({
+                        idUsuario: {
+                          numeroCadastroUsuario: user.idUsuario,
+                        },
+                        idChat: { idChat: user.idChat },
+                        idDemanda: { idDemanda: user.idDemanda },
+                        connected: false,
+                        message: "",
+                      });
+                      connect();
+                    }}
+                  >
+                    <UserMessageCard
+                      picture={user.picture}
+                      name={user.name}
+                      userDemand={user.userDemand}
+                      lastMessage={user.lastMessage}
+                      time={user.time}
+                      unreadMessages={user.unreadMessages}
+                      isOnline={user.isOnline}
+                    />
+                  </div>
+                );
+              })
           : returnedUserSearch()}
       </div>
     </Menu>

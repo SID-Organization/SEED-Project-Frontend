@@ -239,7 +239,7 @@ export default function Chat() {
   const [userCard, setUserCard] = useState<any>();
 
   useEffect(() => {
-    if(chatUsers.length > 0) {
+    if (chatUsers.length > 0) {
       setUsers(
         chatUsers.map((user) => ({
           picture: user.fotoAnalista,
@@ -253,8 +253,8 @@ export default function Chat() {
           idDemanda: user.idDemanda,
           isOnline: true,
         }))
-      )
-  }
+      );
+    }
   }, [chatUsers]);
 
   //UseEffect para setar as mensagens no chat
@@ -383,7 +383,6 @@ export default function Chat() {
                 })
 
                 .map((user: any) => {
-                  console.log("USER: ", user);
                   return (
                     <div
                       onClick={() => {

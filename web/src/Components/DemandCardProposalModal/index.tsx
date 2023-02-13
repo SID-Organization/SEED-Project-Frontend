@@ -28,7 +28,7 @@ export default function DemandCardProposalModal(
         {props.id} - {props.title}
       </h1>
 
-      <Link to={`/proposta/gerar-proposta/${demandId}`}>
+      <Link to={`/propostas/gerar-proposta/${demandId}`}>
         <Button
           onClick={() => console.log("clicou ", demandId)}
           variant="contained"

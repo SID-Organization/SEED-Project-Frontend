@@ -46,7 +46,7 @@ function App() {
             <Route path="nova-demanda" element={<CreateDemand />} />
             <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
             <Route
-              path="/proposta/gerar-proposta/:id"
+              path="/propostas/gerar-proposta/:id"
               element={<GenerateProposal />}
             />
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
