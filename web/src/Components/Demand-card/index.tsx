@@ -54,19 +54,15 @@ const styleModalGenerateProposal = {
 };
 
 const statusColor: any = {
-  CANCELADO: "#C31700",
+  CANCELADA: "#C31700",
   APROVADO_PELA_COMISSAO: "#7EB61C",
   CLASSIFICADO_PELO_ANALISTA: "#64C3D5",
-  ABERTA: "#00579D",
+  ABERTA: "#C2BEBE",
   RASCUNHO: "#D9D9D9",
-};
-
-const progressInputColor: any = {
-  CANCELADO: "#C31700",
-  APROVADO_PELA_COMISSAO: "#7EB61C",
-  CLASSIFICADO_PELO_ANALISTA: "#64C3D5",
-  ABERTA: "#00579D",
-  RASCUNHO: "#D9D9D9",
+  APROVADO_PELO_GERENTE_DA_AREA: "#00579D",
+  PROPOSTA_EM_EXECUCAO: "#EF8300",
+  PROPOSTA_EM_SUPORTE: "FFD600",
+  PROPOSTA_FINALIZADA: "00612E",
 };
 
 export default function DemandCard(props: DemandCardProps) {
@@ -270,12 +266,12 @@ export default function DemandCard(props: DemandCardProps) {
                         getAriaValueText={valuetext}
                         disabled
                         style={{
-                          color: progressInputColor[props.demand.statusDemanda],
+                          color: statusColor[props.demand.statusDemanda],
                         }}
                         sx={{
                           height: 16,
                           width: 120,
-                          color: progressInputColor[props.demand.statusDemanda],
+                          color: statusColor[props.demand.statusDemanda],
                           "& .MuiSlider-thumb": {
                             display: "none",
                           },

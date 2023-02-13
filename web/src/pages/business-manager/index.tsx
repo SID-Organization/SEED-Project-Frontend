@@ -26,6 +26,12 @@ export default function DemandManager() {
   const [demandsToManage, setDemandsToManage] = useState<any[]>([]);
 
   useEffect(() => {
+    if(demandsToManage) {
+      console.log(demandsToManage)
+    }
+  }, [demandsToManage])
+
+  useEffect(() => {
 
     const getUserRoleToURL = () => {
       if(user.cargoUsuario === "ANALISTA") return "analista";
@@ -69,7 +75,6 @@ export default function DemandManager() {
         <div className="flex flex-wrap justify-around">
           {demandsToManage &&
             demandsToManage
-              
               .filter((item) => {
                 if(search.length < 3) return item;
                 else if(item.tituloDemanda.toLowerCase().includes(search.toLowerCase())) return item;

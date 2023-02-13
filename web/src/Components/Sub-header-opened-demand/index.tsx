@@ -172,13 +172,13 @@ export default function subHeader({
     },
     {
       text: "Aprovar",
-      role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+      role: ["GERENTE", "GESTOR_TI"],
       function: handleApproveDemand,
       key: 2,
     },
     {
       text: "Devolver",
-      role: ["ANALISTA", "GERENTE"],
+      role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       function: handleOpenReasonOfDevolution,
       key: 3,
     },
@@ -345,20 +345,20 @@ export default function subHeader({
 
     console.log("Approving...")
 
-    // fetch("http://localhost:8080/sid/api/historico-workflow", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
-    //     demandaHistorico: { idDemanda: demand.idDemanda },
-    //     acaoFeitaHistorico: "Enviar",
-    //     idResponsavel: { numeroCadastroUsuario: 72131 },
-    //   }),
-    // })
-    // .then(response => {
-    //   if(response.ok){
+    fetch("http://localhost:8080/sid/api/historico-workflow", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
+        demandaHistorico: { idDemanda: demand.idDemanda },
+        acaoFeitaHistorico: "Enviar",
+        idResponsavel: { numeroCadastroUsuario: 72131 },
+      }),
+    })
+    .then(response => {
+      if(response.ok){
         fetch(`http://localhost:8080/sid/api/demanda/status/${demand.idDemanda}`, {
           method: "PUT",
           headers: {
@@ -368,10 +368,9 @@ export default function subHeader({
             statusDemanda: "APROVADO_PELO_GERENTE_DA_AREA"
           })
         })
-    //   }
-    // })
+      }
+    })
     
-    ;
   };
 
   const getDemandSize = () => {

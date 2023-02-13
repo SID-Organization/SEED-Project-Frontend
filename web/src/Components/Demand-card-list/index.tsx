@@ -19,7 +19,7 @@ const columns: GridColDef[] = [
     width: 80,
     renderCell: params =>
       <Tooltip title={params.value}>
-        <SquareRoundedIcon sx={{ color: getStatusColor(params.value) }} />
+        <SquareRoundedIcon sx={{ color: statusColor[params.value] }} />
       </Tooltip>,
     maxWidth: 80,
     align: "center",
@@ -94,37 +94,16 @@ const columns: GridColDef[] = [
  * 8 - Cancelada - Vermelho - #C31700
  */
 
-const getStatusColor = (rowStatusParam: string) => {
-  let rowStatus = rowStatusParam;
-  let bgColor = "#fff";
-
-  switch (rowStatus) {
-    case "ABERTA":
-      bgColor = "#C2BEBE";
-      break;
-    case "CLASSIFICADO_PELO_ANALISTA":
-      bgColor = "#64C3D5";
-      break;
-    case "Aprovado pelo gerente da área":
-      bgColor = "#00579D";
-      break;
-    case "Aprovado pela comissão":
-      bgColor = "#7EB61C";
-      break;
-    case "Proposta em execução":
-      bgColor = "#EF8300";
-      break;
-    case "Suporte":
-      bgColor = "#FFD600";
-      break;
-    case "Concluída":
-      bgColor = "#00612E";
-      break;
-    case "Cancelada":
-      bgColor = "#C31700";
-      break;
-  }
-  return bgColor;
+const statusColor: any = {
+  CANCELADA: "#C31700",
+  APROVADO_PELA_COMISSAO: "#7EB61C",
+  CLASSIFICADO_PELO_ANALISTA: "#64C3D5",
+  ABERTA: "#C2BEBE",
+  RASCUNHO: "#D9D9D9",
+  APROVADO_PELO_GERENTE_DA_AREA: "#00579D",
+  PROPOSTA_EM_EXECUCAO: "#EF8300",
+  PROPOSTA_EM_SUPORTE: "FFD600",
+  PROPOSTA_FINALIZADA: "00612E",
 };
 
 const Box = styled(MuiBox)(() => ({
@@ -142,7 +121,7 @@ const getDemandHistoric = async (id: number) => {
     lastUpdate: new Date(
       historic[historic.length - 2].recebimentoHistorico
     ).toLocaleDateString(),
-    responsable: historic[historic.length - 1].nomeResponsavel
+    responsable: historic[historic.length - 2].nomeResponsavel
   };
 };
 
