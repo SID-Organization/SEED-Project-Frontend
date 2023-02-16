@@ -58,6 +58,7 @@ const statusColor = {
   ABERTA: "#C2BEBE",
   RASCUNHO: "#D9D9D9",
   APROVADO_PELO_GERENTE_DA_AREA: "#00579D",
+  PROPOSTA_EM_ELABORACAO: "#FFA500",
   PROPOSTA_EM_EXECUCAO: "#EF8300",
   PROPOSTA_EM_SUPORTE: "FFD600",
   PROPOSTA_FINALIZADA: "00612E",
@@ -76,19 +77,21 @@ export default function DemandCard(props) {
 
   // Busca o primeiro registro da demanda
   const [firstLog, setFirstLog] = useState();
+  const [demandLogs, setDemandLogs] = useState([]);
 
   const getFirstLog = async () => {
     const response = await fetch(
       `http://localhost:8080/sid/api/historico-workflow/demanda/${props.demand.idDemanda}`
     );
     const data = await response.json();
+    setDemandLogs(data);
     let firstLog = new Date(data[0].recebimentoHistorico).toLocaleDateString();
-
     setFirstLog(firstLog);
   }
 
-  getFirstLog();
-
+  useEffect(() => {
+    getFirstLog();
+  }, [])
 
 
   const handleOpenReasonOfCancellation = () =>
@@ -99,11 +102,61 @@ export default function DemandCard(props) {
   const handleOpenGenerateProposal = () => setOpenGenerateProposal(true);
   const handleCloseGenerateProposal = () => setOpenGenerateProposal(false);
 
+  const [ppmCode, setPpmCode] = useState(0);
+  const [startDevDate, setStartDevDate] = useState("");
+  const [deadLineDate, setDeadLineDate] = useState("");
+  const [jiraLink, setJiraLink] = useState("");
+
+
+  useEffect(() => {
+    console.log("Start", startDevDate)
+    console.log("Dead", deadLineDate)
+  }, [startDevDate, deadLineDate])
+
+  
+  const handleCreateProposal = async () => {
+    const data = {
+      codigoPPMProposta: ppmCode,
+      periodoExecucaoInicioProposta: "2023-11-12",
+      periodoExecucaoFimProposta: "2024-11-30",
+      linkJiraProposta: "https://jira.com/sid",
+      responsaveisNegocio: demandLogs.filter((logs, index) => {
+        return index === demandLogs.findIndex(obj => obj.numeroCadastroResponsavel === logs.numeroCadastroResponsavel)
+      }).map((log) => (
+        {
+          numeroCadastroUsuario: log.numeroCadastroResponsavel
+        }
+      )),
+      demandaProposta: { idDemanda: props.demand.idDemanda},
+    };
+
+    console.log("Data", data);
+
+    await fetch("http://localhost:8080/sid/api/proposta", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+    .then((response) => {
+      if(response.ok){
+        fetch(`http://localhost:8080/sid/api/demanda/status/${props.demand.idDemanda}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            statusDemanda: "PROPOSTA_EM_ELABORACAO"
+          })
+        })
+      }
+    })
+  }
+
   function valuetext(value) {
     return `${value}°C`;
   }
-
-
 
 
   function formatDemandStatus(type) {
@@ -353,6 +406,8 @@ export default function DemandCard(props) {
                                   type="date"
                                   label="De:"
                                   size="small"
+                                  value={startDevDate}
+                                  onChange={e => setStartDevDate(e.target.value)}
                                   InputProps={{
                                     startAdornment: (
                                       <InputAdornment position="start" />
@@ -366,6 +421,8 @@ export default function DemandCard(props) {
                                   type="date"
                                   label="Até:"
                                   size="small"
+                                  value={deadLineDate}
+                                  onChange={e => setDeadLineDate(e.target.value)}
                                   InputProps={{
                                     startAdornment: (
                                       <InputAdornment position="start" />
@@ -384,6 +441,8 @@ export default function DemandCard(props) {
                                   type="text"
                                   label="Link"
                                   size="small"
+                                  value={jiraLink}
+                                  onChange={e => setJiraLink(e.target.value)}
                                 />
                               </div>
                             </div>
@@ -404,6 +463,8 @@ export default function DemandCard(props) {
                                     type="text"
                                     label="PPM"
                                     size="small"
+                                    value={ppmCode}
+                                    onChange={e => setPpmCode(e.target.value)}
                                   />
                                 </div>
                               </div>
@@ -425,7 +486,7 @@ export default function DemandCard(props) {
                                   Cancelar
                                 </Button>
                                 <Button
-                                  onClick={handleCloseGenerateProposal}
+                                  onClick={handleCreateProposal}
                                   variant="contained"
                                   sx={{
                                     backgroundColor: "#0075B1",
