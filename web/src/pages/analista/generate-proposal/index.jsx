@@ -6,6 +6,8 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 import MuiTextField from "@mui/material/TextField";
 
+import FilesTable from "../../../Components/FilesTable";
+
 import { styled } from "@mui/material/styles";
 
 const EqualInput = styled(MuiTextField)({
@@ -48,10 +50,8 @@ export default function GenerateProposal() {
   const [payback, setPayback] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [nameBusinessResponsible, setNameBusinessResponsible] =
-    useState("");
-  const [areaBusinessResponsible, setAreaBusinessResponsible] =
-    useState("");
+  const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
+  const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
 
   let demandId = useParams().id;
 
@@ -238,9 +238,7 @@ export default function GenerateProposal() {
               placeholder="Nome"
               maxRows={3}
               value={nameBusinessResponsible}
-              onChange={(e) =>
-                setNameBusinessResponsible(e.target.value)
-              }
+              onChange={(e) => setNameBusinessResponsible(e.target.value)}
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
@@ -253,9 +251,7 @@ export default function GenerateProposal() {
               placeholder="Área"
               maxRows={3}
               value={areaBusinessResponsible}
-              onChange={(e) =>
-                setAreaBusinessResponsible(e.target.value)
-              }
+              onChange={(e) => setAreaBusinessResponsible(e.target.value)}
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
@@ -264,9 +260,7 @@ export default function GenerateProposal() {
         </div>
       </div>
       <div>
-        <h1 className="flex items-center justify-center text-2xl font-roboto mt-5 font-bold text-dark-blue-weg">
-          UPLOAD DE ARQUIVOS
-        </h1>
+        <FilesTable />
       </div>
     </div>
   );
