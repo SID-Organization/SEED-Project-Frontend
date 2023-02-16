@@ -27,7 +27,7 @@ import { useState, useEffect } from "react";
 export default function Login(props) {
 
   const [openNotification, setOpenNotification] = useState(false);
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -68,7 +68,7 @@ export default function Login(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        numeroCadastroUsuario: userID,
+        numeroCadastroUsuario: parseInt(userID),
         senhaUsuario: password,
       }),
     })
@@ -176,7 +176,7 @@ export default function Login(props) {
                       value={userID}
                       onChange={(e) => {
                         if (e.target.value.match(/^[0-9]*$/)) {
-                          setUserID(parseInt(e.target.value));
+                          setUserID(e.target.value);
                         }
                       }}
                     />
