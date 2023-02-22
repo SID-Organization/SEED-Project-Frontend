@@ -52,6 +52,38 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
+  const [tables, setTables] = useState([]);
+
+  function addTable() {
+    const rows = parseInt(prompt("Number of rows:"));
+    const cols = parseInt(prompt("Number of columns:"));
+
+    const table = [];
+    for (let i = 0; i < rows; i++) {
+      const row = [];
+      for (let j = 0; j < cols; j++) {
+        row.push("");
+      }
+      table.push(row);
+    }
+
+    setTables([...tables, table]);
+  }
+
+  function addRow() {
+    const newTables = tables.map((table) => {
+      const newRow = new Array(table[0].length).fill("");
+      return [...table, newRow];
+    });
+    setTables(newTables);
+  }
+
+  function removeRow(rowIndex) {
+    const newTables = tables.map((table) => {
+      return table.filter((_, index) => index !== rowIndex);
+    });
+    setTables(newTables);
+  }
 
   let demandId = useParams().id;
 
@@ -91,14 +123,95 @@ export default function GenerateProposal() {
         </h1>
         <div className="flex justify-center items-center">
           <Tooltip title="Adicionar tabela">
-            <IconButton>
+            <IconButton onClick={addTable}>
               <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
             </IconButton>
           </Tooltip>
         </div>
-        <p className="flex justify-center items-center">
-          ** TABELA DE CUSTOS AQUI **
-        </p>
+        <div className="grid justify-center items-center gap-10 mb-16">
+          {tables.map((table, tableIndex) => (
+            <div key={tableIndex}>
+              <table>
+                <thead>
+                  <tr>
+                    {table[0].map((_, colIndex) => (
+                      <th
+                        key={colIndex}
+                        className="
+                    border-2 border-black rounded-xl 
+                  "
+                      >
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          multiline
+                          value={table[0][colIndex]}
+                          onChange={(event) => {
+                            const newTable = [...tables];
+                            newTable[index][0][colIndex] = event.target.value;
+                            setTables(newTable);
+                          }}
+                          maxRows={4}
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            "& .MuiOutlinedInput-root": {
+                              "& fieldset": {
+                                border: "none",
+                              },
+                              "&:hover fieldset": {
+                                border: "none",
+                              },
+                              "&.Mui-focused fieldset": {
+                                border: "none",
+                              },
+                            },
+                          }}
+                        />
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {table.slice(1).map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {row.map((cell, cellIndex) => (
+                        <td key={cellIndex}>
+                          <input
+                            type="text"
+                            value={cell}
+                            onChange={(event) => {
+                              const newTable = [...tables];
+                              newTable[tableIndex][rowIndex + 1][cellIndex] =
+                                event.target.value;
+                              setTables(newTable);
+                            }}
+                          />
+                        </td>
+                      ))}
+                      <td>
+                        <button onClick={() => removeRow(rowIndex + 1)}>
+                          Remove Row
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    {table[0].map((_, colIndex) => (
+                      <td key={colIndex}>
+                        <input type="text" value="" onChange={() => {}} />
+                      </td>
+                    ))}
+                    <td>
+                      <button onClick={addRow}>Add Row</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="grid justify-center items-center">
         <div
