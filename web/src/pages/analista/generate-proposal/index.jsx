@@ -70,6 +70,21 @@ export default function GenerateProposal() {
     setTables([...tables, table]);
   }
 
+  function addRow() {
+    const newTables = tables.map((table) => {
+      const newRow = new Array(table[0].length).fill("");
+      return [...table, newRow];
+    });
+    setTables(newTables);
+  }
+
+  function removeRow(rowIndex) {
+    const newTables = tables.map((table) => {
+      return table.filter((_, index) => index !== rowIndex);
+    });
+    setTables(newTables);
+  }
+
   let demandId = useParams().id;
 
   async function getDemandFromDatabase() {
@@ -114,72 +129,25 @@ export default function GenerateProposal() {
           </Tooltip>
         </div>
         <div className="grid justify-center items-center gap-10 mb-16">
-          {tables.map((table, index) => (
-            <table
-              key={index}
-              className="
-          border-2 border-black 
-          "
-            >
-              <thead>
-                <tr>
-                  {table[0].map((_, colIndex) => (
-                    <th
-                      key={colIndex}
-                      className="
+          {tables.map((table, tableIndex) => (
+            <div key={tableIndex}>
+              <table>
+                <thead>
+                  <tr>
+                    {table[0].map((_, colIndex) => (
+                      <th
+                        key={colIndex}
+                        className="
                     border-2 border-black rounded-xl 
                   "
-                    >
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        multiline
-                        value={table[0][colIndex]}
-                        onChange={(event) => {
-                          const newTable = [...tables];
-                          newTable[index][0][colIndex] = event.target.value;
-                          setTables(newTable);
-                        }}
-                        maxRows={4}
-                        sx={{
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          textAlign: "center",
-                          "& .MuiOutlinedInput-root": {
-                            "& fieldset": {
-                              border: "none",
-                            },
-                            "&:hover fieldset": {
-                              border: "none",
-                            },
-                            "&.Mui-focused fieldset": {
-                              border: "none",
-                            },
-                          },
-                        }}
-                      />
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {table.slice(1).map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                      <td
-                        key={cellIndex}
-                        className="
-                    border-2 border-black border-r-black 
-                    "
                       >
                         <TextField
                           id="outlined-multiline-flexible"
                           multiline
-                          value={cell}
+                          value={table[0][colIndex]}
                           onChange={(event) => {
                             const newTable = [...tables];
-                            newTable[index][rowIndex + 1][cellIndex] =
-                              event.target.value;
+                            newTable[index][0][colIndex] = event.target.value;
                             setTables(newTable);
                           }}
                           maxRows={4}
@@ -201,12 +169,47 @@ export default function GenerateProposal() {
                             },
                           }}
                         />
-                      </td>
+                      </th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {table.slice(1).map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {row.map((cell, cellIndex) => (
+                        <td key={cellIndex}>
+                          <input
+                            type="text"
+                            value={cell}
+                            onChange={(event) => {
+                              const newTable = [...tables];
+                              newTable[tableIndex][rowIndex + 1][cellIndex] =
+                                event.target.value;
+                              setTables(newTable);
+                            }}
+                          />
+                        </td>
+                      ))}
+                      <td>
+                        <button onClick={() => removeRow(rowIndex + 1)}>
+                          Remove Row
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    {table[0].map((_, colIndex) => (
+                      <td key={colIndex}>
+                        <input type="text" value="" onChange={() => {}} />
+                      </td>
+                    ))}
+                    <td>
+                      <button onClick={addRow}>Add Row</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           ))}
         </div>
       </div>
