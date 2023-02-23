@@ -125,7 +125,7 @@ const getDemandHistoric = async (id) => {
 };
 
 export default function DataTable(props) {
-  const [rows, setRows] = useState();
+  const [rows, setRows] = useState([]);
 
   const getRows = async (demands) => {
     const tableRows = demands.map(async demand => {
