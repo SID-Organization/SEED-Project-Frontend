@@ -11,6 +11,11 @@ import Paper from "@mui/material/Paper";
 
 import { useState } from "react";
 
+
+// Requested filters
+// solicitante, gerente
+// responsável, forum de aprovação, departamento, tamanho da demanda, codigo PPM, numero da
+// solicitação.
 export default function Filter(props) {
   const options = [
     {value: "Data de criação", id: 0, type: 'date'},

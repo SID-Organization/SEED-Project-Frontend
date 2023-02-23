@@ -194,6 +194,11 @@ export default function Login(props) {
                       }}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      onKeyDown={e => {
+                        if (e.key === "Enter") {
+                          handleLogin();
+                        }
+                      }}
                     />
                   </div>
                 </div>

@@ -195,6 +195,8 @@ export default function CreateDemand() {
   };
 
   function handleFileInput(event) {
+    if(event.target.files.length === 0) return;
+    if(event.target.files[0] === undefined) return;
     setSelectedFiles([...selectedFiles, event.target.files[0]]);
   }
 
