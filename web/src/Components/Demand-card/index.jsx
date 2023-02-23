@@ -357,8 +357,8 @@ export default function DemandCard(props) {
               </div>
             </div>
             <div className="flex justify-center items-center gap-3 mr-4">
-              {props.demand.statusDemanda ===
-                "APROVADO_PELO_GERENTE_DA_AREA" && (
+              {(props.demand.statusDemanda ===
+                "APROVADO_PELO_GERENTE_DA_AREA" && user.cargoUsuario != "SOLICITANTE") && (
                   <div>
                     <Tooltip title="Gerar proposta">
                       <Button

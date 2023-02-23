@@ -633,8 +633,6 @@ export default function PrimarySearchAppBar() {
 
   const [stompClient, setStompClient] = useState(null);
 
-  const [privateChats, setPrivateChats] = useState(new Map());
-
   const [chatUserId, setChatUserId] = useState();
 
   //States para armazenar qual o nome do usuário e sua respectiva demanda
@@ -1064,7 +1062,7 @@ export default function PrimarySearchAppBar() {
                   }}
                   onClick={handleMessagesMenuOpen}
                 >
-                  <Badge badgeContent={4} color="error">
+                  <Badge badgeContent={users.length} color="error">
                     <MailIcon />
                   </Badge>
                 </IconButton>

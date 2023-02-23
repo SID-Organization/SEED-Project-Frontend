@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Tooltip from "@mui/material/Tooltip";
 import Modal from "@mui/material/Modal";
@@ -39,8 +39,22 @@ async function getHistoricFromDatabase(id) {
   return historic;
 } 
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 1200,
+  height: 700,
+  bgcolor: "background.paper",
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function openedDemand() {
   const params = useParams();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(getLoggedUser());
 
@@ -88,18 +102,7 @@ export default function openedDemand() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 1200,
-    height: 700,
-    bgcolor: "background.paper",
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 4,
-  };
+
 
   const [fileRows, setFileRows] = useState();
 
@@ -131,6 +134,9 @@ export default function openedDemand() {
           { numeroCadastroUsuario: user.numeroCadastroUsuario },
         ],
       }),
+    })
+    .then(() => {
+      navigate("/chat")
     });
   }
 

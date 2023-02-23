@@ -292,11 +292,11 @@ export default function ProposalCard(props) {
             )}
             {props.newPauta === "card" && (
               <div className="flex gap-4">
-                <Tooltip title="Iniciar workflow">
+                {/* <Tooltip title="Iniciar workflow">
                   <IconButtonStart aria-label="delete">
                     <PlayCircleFilledWhiteRoundedIcon />
                   </IconButtonStart>
-                </Tooltip>
+                </Tooltip> */}
                 <Tooltip
                   title={
                     isButtonAddClicked

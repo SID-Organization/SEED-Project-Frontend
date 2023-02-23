@@ -49,6 +49,7 @@ export default function SubHeaderPautas() {
       "http://localhost:8080/sid/api/demanda/titulos-id-demanda/"
     );
     const demands = await response.json();
+    // demands = demands.filter((demand) => demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA");
     return demands;
   }
 

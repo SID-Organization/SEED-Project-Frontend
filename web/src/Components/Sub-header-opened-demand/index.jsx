@@ -165,27 +165,37 @@ export default function subHeader({
     {
       text: "Classificar demanda",
       role: ["ANALISTA"],
+      demandStatus: ["ABERTA"],
       function: handleOpenModal,
       key: 1,
     },
     {
       text: "Aprovar",
       role: ["GERENTE", "GESTOR_TI"],
+      demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
       function: handleApproveDemand,
       key: 2,
     },
     {
+      text: "Ver proposta",
+      role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
+      demandStatus: ["PROPOSTA_PRONTA","APROVADO_PELO_GERENTE_DA_AREA", "PROPOSTA_EM_EXECUCAO", "PROPOSTA_FINALIZADA", "PROPOSTA_EM_SUPORTE", "BUSINESS_CASE"],
+      key: 3,
+    },
+    {
       text: "Devolver",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+      demandStatus: ["TODAS"],
       function: handleOpenReasonOfDevolution,
-      key: 3,
+      key: 4,
     },
 
     {
       text: "Recusar",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+      demandStatus: ["TODAS"],
       function: handleOpenReasonOfDevolution,
-      key: 4,
+      key: 5,
     },
 
   ];
@@ -717,7 +727,7 @@ export default function subHeader({
                 <ClickAwayListener onClickAway={handleCloseActions}>
                   <MenuList id="split-button-menu" autoFocusItem>
                     {actionOptions.map((option, index) => {
-                      if(option.role.includes(user.cargoUsuario)) {
+                      if(option.role.includes(user.cargoUsuario) && (option.demandStatus.includes(demand.statusDemanda) || option.demandStatus.includes("TODAS"))) {
                         return (
                           <MenuItem
                             onClick={() => {
