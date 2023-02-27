@@ -9,6 +9,7 @@ import PublicOffIcon from "@mui/icons-material/PublicOff";
 
 import ProposalCard from "../Proposal-card";
 import ReactQuill from "react-quill";
+import ReactTextQuill from "../ReactTextQuill";
 
 export default function GenerateAtaProposal() {
   const [parecerComissao, setParecerComissao] = useState("");
@@ -106,15 +107,7 @@ export default function GenerateAtaProposal() {
           </div>
           <div className="grid">
             <p className="font-roboto font-bold">Considerações</p>
-            {/* <textarea
-              className="w-[30rem] h-[4rem] border-2 border-[#000] rounded-md p-2 outline-blue-weg
-              min-h-[4rem]
-              "
-              placeholder="Digite aqui"
-              value={considerations}
-              onChange={(e) => setConsiderations(e.target.value)}
-            /> */}
-            <ReactQuill theme="snow" value={value} onChange={setValue} />;
+            <ReactTextQuill value={value} onChange={setValue} />
           </div>
           <div className="grid">
             <p className="font-roboto font-bold mb-2">

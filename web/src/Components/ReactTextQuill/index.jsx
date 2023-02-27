@@ -1,7 +1,6 @@
-import React from 'react'
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
+import React from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 /**
  * @param {
@@ -9,34 +8,32 @@ import 'react-quill/dist/quill.snow.css';
  * setValue: void function(string),
  * style: object,
  * placeholder: string
- * } props 
+ * } props
  */
 
 export default function ReactTextQuill(props) {
+  const quillModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      [{ font: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["image", "link"],
+    ],
+  };
 
-    const quillModules = {
-        toolbar: [
-            [{ header: [1, 2, 3, false] }],
-            [{ 'font': [] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'align': [] }],
-            ['image', 'link'],
-        ]
-    }
+  const style =
+    props.style === "criarDemanda" ? {} : { height: 100, width: 500 };
 
-    const style = props.style === "criarDemanda" ?
-    {} :
-    { height: 100, width: 500 } 
-
-    return (
-        <ReactQuill
-            value={props.value}
-            onChange={props.setValue}
-            modules={quillModules}
-            style={style}
-            placeholder={props.placeholder}
-        />
-    )
+  return (
+    <ReactQuill
+      value={props.value}
+      onChange={props.setValue}
+      modules={quillModules}
+      style={style}
+      placeholder={props.placeholder}
+    />
+  );
 }
