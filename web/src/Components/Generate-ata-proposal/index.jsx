@@ -1,10 +1,4 @@
-import {
-  Badge,
-  Box,
-  Divider,
-  FormControl,
-  MenuItem,
-} from "@mui/material";
+import { Badge, Box, Divider, FormControl, MenuItem } from "@mui/material";
 import Select from "@mui/material/Select";
 import { useState } from "react";
 import MuiButton from "@mui/material/Button";
@@ -14,11 +8,12 @@ import PublicIcon from "@mui/icons-material/Public";
 import PublicOffIcon from "@mui/icons-material/PublicOff";
 
 import ProposalCard from "../Proposal-card";
+import ReactQuill from "react-quill";
 
 export default function GenerateAtaProposal() {
   const [parecerComissao, setParecerComissao] = useState("");
   const [considerations, setConsiderations] = useState("");
-
+  const [value, setValue] = useState("");
   const handleChangeParecerComissao = (event) => {
     setParecerComissao(event.target.value);
   };
@@ -111,14 +106,15 @@ export default function GenerateAtaProposal() {
           </div>
           <div className="grid">
             <p className="font-roboto font-bold">Considerações</p>
-            <textarea
+            {/* <textarea
               className="w-[30rem] h-[4rem] border-2 border-[#000] rounded-md p-2 outline-blue-weg
               min-h-[4rem]
               "
               placeholder="Digite aqui"
               value={considerations}
               onChange={(e) => setConsiderations(e.target.value)}
-            />
+            /> */}
+            <ReactQuill theme="snow" value={value} onChange={setValue} />;
           </div>
           <div className="grid">
             <p className="font-roboto font-bold mb-2">
