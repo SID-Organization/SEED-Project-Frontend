@@ -19,6 +19,20 @@ export default function GenerateAtaProposal() {
     setParecerComissao(event.target.value);
   };
 
+  const quillModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      [{ font: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["image", "link"],
+    ],
+  };
+
+  const style = { height: 100, width: 500 };
+
   const actionsParecerComissao = [
     {
       action: "Aprovado",
@@ -107,14 +121,18 @@ export default function GenerateAtaProposal() {
           </div>
           <div className="grid">
             <p className="font-roboto font-bold">Considerações</p>
-            <ReactTextQuill value={value} onChange={setValue} />
+            <ReactQuill
+              value={value}
+              onChange={setValue}
+              modules={quillModules}
+              style={style}
+            />
           </div>
           <div className="grid">
             <p className="font-roboto font-bold mb-2">
               Assunto registrado em ata
             </p>
             <div className="flex gap-2 mb-10">
-              {/* use the custom color in a button */}
               <Button
                 sx={{
                   height: 40,
