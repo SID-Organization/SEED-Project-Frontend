@@ -1,5 +1,5 @@
-import * as React from "react";
-// import axios from "axios";
+import React from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Box from "@mui/material/Box";
 import {
@@ -22,7 +22,6 @@ import Paper from "@mui/material/Paper";
 import Draggable from "react-draggable";
 import UploadIcon from "@mui/icons-material/Upload";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import { useState, useEffect } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -38,6 +37,8 @@ import { useNavigate } from "react-router-dom";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReactTextQuill from "../../../Components/ReactTextQuill";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 // Import de interfaces
 // import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
@@ -106,16 +107,38 @@ const progressSteps = ["Dados gerais", "Benefícios", "Arquivos"];
 
 export default function CreateDemand() {
   const [title, setTitle] = useState("");
+
+  const currentProblemRef = useRef(null);
   const [currentProblem, setCurrentProblem] = useState("");
+
+  const proposalRef = useRef(null);
   const [proposal, setProposal] = useState("");
+
+  const frequencyOfUseRef = useRef(null);
   const [frequencyOfUse, setFrequencyOfUse] = useState("");
+
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
   const [buttonNotification, setButtonNotification] = useState(false);
   const [deleteNotification, setDeleteNotification] = useState(false);
 
+  const quillModules = {
+    toolbar: [
+        [{ header: [1, 2, 3, false] }],
+        [{ 'font': [] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'align': [] }],
+        ['image', 'link'],
+    ]
+}
 
-
+  useEffect(() => {
+      if(currentProblemRef.current)
+      console.log("CurrentProblemDelta ->", currentProblemRef.current?.getEditor().getContents())
+      console.log("CurrentProblemText ->", currentProblemRef.current?.getEditor().getText())
+  }, [currentProblem])
 
   // Usuário logado
   const [user, setUser] = useState(
@@ -298,14 +321,15 @@ export default function CreateDemand() {
             <div className="w-40 h-[5px] rounded-full bg-blue-weg mr-3" />
             <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
               Situação atual
-            </h1>
+            </h1> 
             <div className="w-40 h-[5px] rounded-full bg-blue-weg ml-3" />
           </div>
-          <ReactTextQuill 
+          <ReactQuill
             value={currentProblem}
-            onChange={setCurrentProblem}
-            style="criarDemanda"
+            onChange={(e) => setCurrentProblem(e)}
             placeholder="Descreva a situação atual da demanda."
+            modules={quillModules}
+            ref={currentProblemRef}
           />
         </div>
         <div className="grid gap-1">
@@ -316,21 +340,15 @@ export default function CreateDemand() {
             </h1>
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           </div>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            type="text"
-            multiline
-            maxRows={3}
+          <ReactQuill
             value={proposal}
-            helperText="*Descreva sua proposta e o que ela irá melhorar."
-            onChange={(e) => setProposal(e.target.value)}
-            InputProps={{
-              startAdornment: <InputAdornment position="start" />,
-            }}
+            onChange={(e) => setProposal(e)}
+            placeholder="Descreva a proposta de melhoria da demanda."
+            modules={quillModules}
+            ref={proposalRef}
           />
         </div>
-        <div className="grid gap-1 mb-10">
+        <div className="grid gap-1 mb-20">
           <div className="flex justify-center items-center mb-5 gap-5">
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
             <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
@@ -338,23 +356,19 @@ export default function CreateDemand() {
             </h1>
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           </div>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            type="text"
-            multiline
-            maxRows={3}
+          <ReactQuill
             value={frequencyOfUse}
-            onChange={(e) => setFrequencyOfUse(e.target.value)}
-            InputProps={{
-              startAdornment: <InputAdornment position="start" />,
-            }}
+            onChange={(e) => setFrequencyOfUse(e)}
+            placeholder="Descreva a frequência de uso da demanda."
+            modules={quillModules}
+            ref={frequencyOfUseRef}
           />
         </div>
       </div>
     );
   };
 
+  const realBenefitsRef = useRef(null);
   const [realBenefits, setRealBenefits] = useState([
     {
       coin: "",
@@ -363,6 +377,7 @@ export default function CreateDemand() {
     },
   ]);
 
+  const potentialBenefitsRef = useRef(null);
   const [potentialBenefits, setPotentialBenefits] = useState([
     {
       coin: "",

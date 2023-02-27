@@ -8,7 +8,8 @@ import 'react-quill/dist/quill.snow.css';
  * value: string,
  * setValue: void function(string),
  * style: object,
- * placeholder: string
+ * placeholder: string,
+ * ref: object
  * } props 
  */
 
@@ -33,10 +34,11 @@ export default function ReactTextQuill(props) {
     return (
         <ReactQuill
             value={props.value}
-            onChange={props.setValue}
+            onChange={(e) => props.setValue(e)}
             modules={quillModules}
             style={style}
             placeholder={props.placeholder}
+            ref={props.ref}
         />
     )
 }
