@@ -35,17 +35,19 @@ import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 
 import { useNavigate } from "react-router-dom";
 
+import DescriptionIcon from "@mui/icons-material/Description";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ReactTextQuill from "../../../Components/ReactTextQuill";
+
+// Import de interfaces
+// import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
+
 // interface INewBenefit {
 //   coin: string;
 //   value: number;
 //   description: string;
 // }
 
-import DescriptionIcon from "@mui/icons-material/Description";
-import DeleteIcon from "@mui/icons-material/Delete";
-
-// Import de interfaces
-// import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 
 function PaperComponent(props) {
   return (
@@ -112,6 +114,9 @@ export default function CreateDemand() {
   const [buttonNotification, setButtonNotification] = useState(false);
   const [deleteNotification, setDeleteNotification] = useState(false);
 
+
+
+
   // Usuário logado
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user"))
@@ -176,7 +181,6 @@ export default function CreateDemand() {
       beneficiosDemanda: benefitsToBeSent,
     };
 
-    console.log("Sending demand: ", demandToBeSent);
 
     const formData = new FormData();
 
@@ -297,17 +301,11 @@ export default function CreateDemand() {
             </h1>
             <div className="w-40 h-[5px] rounded-full bg-blue-weg ml-3" />
           </div>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            type="text"
-            multiline
-            maxRows={3}
+          <ReactTextQuill 
             value={currentProblem}
-            onChange={(e) => setCurrentProblem(e.target.value)}
-            InputProps={{
-              startAdornment: <InputAdornment position="start" />,
-            }}
+            onChange={setCurrentProblem}
+            style="criarDemanda"
+            placeholder="Descreva a situação atual da demanda."
           />
         </div>
         <div className="grid gap-1">
