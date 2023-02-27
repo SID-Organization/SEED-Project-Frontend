@@ -9,7 +9,6 @@ import MuiTextField from "@mui/material/TextField";
 import FilesTable from "../../../Components/FilesTable";
 
 import { styled } from "@mui/material/styles";
-import TableProposal from "../../../Components/Table-proposal";
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -113,11 +112,6 @@ export default function GenerateProposal() {
               <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
             </IconButton>
           </Tooltip>
-        </div>
-        <div className="grid justify-center items-center gap-10 mb-16">
-          {tables.map((table, tableIndex) => (
-            <TableProposal table={table} />
-          ))}
         </div>
       </div>
       <div className="grid justify-center items-center">
