@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import { useState, useEffect, useRef } from "react";
 
 import Box from "@mui/material/Box";
@@ -134,12 +134,6 @@ export default function CreateDemand() {
     ]
 }
 
-  useEffect(() => {
-      if(currentProblemRef.current)
-      console.log("CurrentProblemDelta ->", currentProblemRef.current?.getEditor().getContents())
-      console.log("CurrentProblemText ->", currentProblemRef.current?.getEditor().getText())
-  }, [currentProblem])
-
   // Usuário logado
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user"))
@@ -228,7 +222,12 @@ export default function CreateDemand() {
   }
 
   function addRealBenefit() {
-    setRealBenefits([...realBenefits, { coin: "", value: 0, description: "" }]);
+    setRealBenefits([...realBenefits, { coin: "", value: 0, description: "", ref: createRef() }]);
+    setButtonNotification(true);
+  }
+
+  function addPotentialBenefit() {
+    setPotentialBenefits([...potentialBenefits, { coin: "", value: 0, description: "", ref: createRef() }]);
     setButtonNotification(true);
   }
 
@@ -368,25 +367,29 @@ export default function CreateDemand() {
     );
   };
 
-  const realBenefitsRef = useRef(null);
   const [realBenefits, setRealBenefits] = useState([
     {
       coin: "",
       value: 0,
       description: "",
+      ref: useRef(null),
     },
   ]);
 
-  const potentialBenefitsRef = useRef(null);
   const [potentialBenefits, setPotentialBenefits] = useState([
     {
       coin: "",
       value: 0,
       description: "",
+      ref: useRef(null),
     },
   ]);
 
   const [qualitativeBenefit, setQualitativeBenefit] = useState("");
+
+  useEffect(() => {
+    console.log("realBenefits", realBenefits);
+  }, [realBenefits])
 
   // Segundo passo - Benefícios
   const secondStep = () => {
@@ -426,7 +429,19 @@ export default function CreateDemand() {
               description={item.description}
               benefitStates={{ realBenefits, setRealBenefits }}
               benefitIndex={i}
-            />
+            >
+              <ReactQuill
+                value={item.description}
+                onChange={(e) => {
+                  const newRealBenefits = [...realBenefits];
+                  newRealBenefits[i].description = e.target.editor.getContents();
+                  setRealBenefits(newRealBenefits);
+                }}
+                placeholder="Descreva o benefício."
+                modules={quillModules}
+                ref={item.ref}
+              />
+            </NewBenefitInsertion>
             {(i < realBenefits.length - 1 || i === 0) && (
               <div className="mr-16" />
             )}
@@ -440,12 +455,7 @@ export default function CreateDemand() {
           <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           <Tooltip title="Adicionar mais benefícios potenciais">
             <IconButton
-              onClick={() => {
-                setPotentialBenefits([
-                  ...potentialBenefits,
-                  { coin: "", value: 0, description: "" },
-                ]);
-              }}
+              onClick={addPotentialBenefit}
             >
               <AddBoxRoundedIcon
                 sx={{
@@ -461,14 +471,27 @@ export default function CreateDemand() {
           <div className="flex items-center justify-center">
             <NewBenefitInsertion
               coin={item.coin}
-              description={item.description}
               value={item.value}
+              description={item.description}
               benefitStates={{
                 realBenefits: potentialBenefits,
                 setRealBenefits: setPotentialBenefits,
               }}
               benefitIndex={i}
-            />
+            >
+              <ReactQuill
+                theme="snow"
+                modules={quillModules}
+                value={item.description}
+                onChange={(e) => {
+                  const newPotentialBenefits = [...potentialBenefits];
+                  newPotentialBenefits[i].description = e.target.editor.getText();
+                  setPotentialBenefits(newPotentialBenefits);
+                }}
+                ref={item.ref}
+                placeholder="Descreva o benefício."
+              />
+            </NewBenefitInsertion>
             {(i < potentialBenefits.length - 1 || i === 0) && (
               <div className="mr-16" />
             )}

@@ -33,7 +33,6 @@ export default function ReactTextQuill(props) {
   const style =
     props.style === "criarDemanda" ? {} : { height: 100, width: 500 };
 
-<<<<<<< HEAD
     return (
         <ReactQuill
             value={props.value}
@@ -44,15 +43,4 @@ export default function ReactTextQuill(props) {
             ref={props.ref}
         />
     )
-=======
-  return (
-    <ReactQuill
-      value={props.value}
-      onChange={props.setValue}
-      modules={quillModules}
-      style={style}
-      placeholder={props.placeholder}
-    />
-  );
->>>>>>> 75c7627d84c7090cbacf1056e53077e460298847
 }

@@ -68,22 +68,22 @@ const TextFieldValue = styled(MuiTextField)({
 //   coin: string;
 //   value: number;
 //   description: string;
+//   descriptionRef: React.RefObject<HTMLDivElement>;
 // }
 
 export default function NewBenefitInsertion(props) {
   const [coin, setCoin] = useState(props.coin);
   const [value, setValue] = useState(props.value);
-  const [description, setDescription] = useState(props.description);
 
   useEffect(() => {
     props.benefitStates.setRealBenefits(() => {
       const newState = props.benefitStates.realBenefits.filter(
         (item, index) => index !== props.benefitIndex
       );
-      newState.splice(props.benefitIndex, 0, { coin, value, description });
+      newState.splice(props.benefitIndex, 0, {...props.benefitStates.realBenefits[props.benefitIndex], coin, value});
       return newState;
     });
-  }, [coin, value, description]);
+  }, [coin, value]);
 
   const handleChangeCoinIcon = (event) => {
     setCoin(event.target.value);
@@ -134,16 +134,7 @@ export default function NewBenefitInsertion(props) {
             </div>
 
             <div className="flex items-center">
-              <TextField
-                id="ined-basic"
-                label="Descrição"
-                variant="outlined"
-                type="text"
-                multiline
-                maxRows={2}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
+              {props.children}
             </div>
           </div>
         </div>
@@ -151,7 +142,7 @@ export default function NewBenefitInsertion(props) {
       {props.benefitIndex === props.benefitStates.realBenefits.length - 1 &&
         props.benefitIndex !== 0 && (
           <Tooltip
-            title="Remover benefício real"
+            title="Remover benefício"
             enterDelay={820}
             leaveDelay={200}
           >
