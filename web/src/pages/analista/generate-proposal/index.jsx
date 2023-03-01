@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import DemandCard from "../../../Components/Demand-card";
 import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
@@ -9,6 +9,9 @@ import MuiTextField from "@mui/material/TextField";
 import FilesTable from "../../../Components/FilesTable";
 
 import { styled } from "@mui/material/styles";
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -52,23 +55,6 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
-  const [tables, setTables] = useState([]);
-
-  function addTable() {
-    const rows = parseInt(prompt("Quantidade de linhas:"));
-    const cols = parseInt(prompt("Quantidade de colunas:"));
-
-    const table = [];
-    for (let i = 0; i < rows; i++) {
-      const row = [];
-      for (let j = 0; j < cols; j++) {
-        row.push("");
-      }
-      table.push(row);
-    }
-
-    setTables([...tables, table]);
-  }
 
   let demandId = useParams().id;
 
@@ -86,6 +72,48 @@ export default function GenerateProposal() {
     });
   }, []);
 
+  const quillModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      [{ font: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["image", "link"],
+    ],
+  };
+
+  const [quillValue, setQuillValue] = useState("");
+  const quillValueRef = useRef(null);
+
+  const [totalCostList, setTotalCostList] = useState([
+    {
+      expenseType: "",
+      expenseProfile: "",
+      monthTimeExecution: "",
+      necessaryHours: "",
+      costHour: "",
+      totalExpenseCost: "",
+      costCenterPayers: "",
+    },
+  ]);
+
+  function addTotalCoasts() {
+    setTotalCostList([
+      ...totalCostList,
+      {
+        expenseType: "",
+        expenseProfile: "",
+        monthTimeExecution: "",
+        necessaryHours: "",
+        costHour: "",
+        totalExpenseCost: "",
+        costCenterPayers: "",
+      },
+    ]);
+  }
+
   return (
     <div>
       <div className="grid justify-center items-center gap-5">
@@ -95,25 +123,250 @@ export default function GenerateProposal() {
         {demand && <DemandCard demand={demand} />}
       </div>
       <div>
-        <h1 className="flex items-center justify-start text-xl font-roboto mt-5 font-bold p-5">
+        <h1 className="flex items-center justify-center text-xl font-roboto mt-5 font-bold p-5">
           Escopo do projeto
         </h1>
         <h1 className="flex justify-center items-center">
-          ** EDITOR DE TEXTO AQUI **
+          <ReactQuill
+            value={quillValue}
+            onChange={(e) => setQuillValue(e)}
+            modules={quillModules}
+            ref={quillValueRef}
+            style={{ width: "50rem", height: "10rem" }}
+          />
         </h1>
       </div>
-      <div>
+      <div className="mt-20">
         <h1 className="flex items-center justify-center text-2xl font-roboto mt-5 font-bold text-blue-weg">
           Tabela de custos:{" "}
         </h1>
         <div className="flex justify-center items-center">
-          <Tooltip title="Adicionar tabela">
-            <IconButton onClick={addTable}>
+          <Tooltip title="Adicionar tabela de custos">
+            <IconButton onClick={addTotalCoasts}>
               <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
             </IconButton>
           </Tooltip>
         </div>
       </div>
+      {totalCostList.map((totalCost, index) => {
+        return (
+          <div key={index} className="mb-20">
+            <div className="grid justify-center items-center">
+              <div
+                className="
+                  w-[40rem] h-[5rem]
+                  border-2 border-dashed border-blue-weg
+                  border-b-0
+                "
+              >
+                <div className="flex items-center justify-start h-full">
+                  <p
+                    className="
+                      text-xl font-roboto font-bold ml-5 mr-8
+                    "
+                  >
+                    Tipo de despesa
+                  </p>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) =>
+                      setTotalCostList((prev) => {
+                        const newTotalCostList = [...prev];
+                        newTotalCostList[index].expenseType = e.target.value;
+                        return newTotalCostList;
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div
+                className="
+                  w-[40rem] h-[5rem]
+                  border-2 border-dashed border-blue-weg
+                  border-b-0
+                "
+              >
+                <div className="flex items-center justify-start h-full">
+                  <p
+                    className="
+                      text-xl font-roboto font-bold ml-5 mr-8
+                    "
+                  >
+                    Perfil de despesa
+                  </p>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) =>
+                      setTotalCostList((prev) => {
+                        const newTotalCostList = [...prev];
+                        newTotalCostList[index].expenseProfile = e.target.value;
+                        return newTotalCostList;
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              {/*  */}
+              <div
+                className="
+                  w-[40rem] h-[5rem]
+                  border-2 border-dashed border-blue-weg
+                  border-b-0
+                "
+              >
+                <div className="flex items-center justify-start h-full">
+                  <p
+                    className="
+                      text-xl font-roboto font-bold ml-5 mr-8
+                    "
+                  >
+                    Perido de execução em meses
+                  </p>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) =>
+                      setTotalCostList((prev) => {
+                        const newTotalCostList = [...prev];
+                        newTotalCostList[index].monthTimeExecution =
+                          e.target.value;
+                        return newTotalCostList;
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              {/*  */}
+              <div
+                className="
+                  w-[40rem] h-[5rem]
+                  border-2 border-dashed border-blue-weg
+                  border-b-0
+                "
+              >
+                <div className="flex items-center justify-start h-full">
+                  <p
+                    className="
+                      text-xl font-roboto font-bold ml-5 mr-8
+                    "
+                  >
+                    Quantidade de horas necessárias
+                  </p>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) =>
+                      setTotalCostList((prev) => {
+                        const newTotalCostList = [...prev];
+                        newTotalCostList[index].necessaryHours = e.target.value;
+                        return newTotalCostList;
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              {/*  */}
+              <div
+                className="
+                  w-[40rem] h-[5rem]
+                  border-2 border-dashed border-blue-weg
+                  border-b-0
+                "
+              >
+                <div className="flex items-center justify-start h-full">
+                  <p
+                    className="
+                      text-xl font-roboto font-bold ml-5 mr-8
+                    "
+                  >
+                    Valor de hora
+                  </p>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) =>
+                      setTotalCostList((prev) => {
+                        const newTotalCostList = [...prev];
+                        newTotalCostList[index].hourValue = e.target.value;
+                        return newTotalCostList;
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              {/*  */}
+              <div
+                className="
+                  w-[40rem] h-[5rem]
+                  border-2 border-dashed border-blue-weg
+                  border-b-0
+                "
+              >
+                <div className="flex items-center justify-start h-full">
+                  <p
+                    className="
+                      text-xl font-roboto font-bold ml-5 mr-8
+                    "
+                  >
+                    Valor total da despesa
+                  </p>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) =>
+                      setTotalCostList((prev) => {
+                        const newTotalCostList = [...prev];
+                        newTotalCostList[index].totalExpenseValue =
+                          e.target.value;
+                        return newTotalCostList;
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              {/*  */}
+              <div
+                className="
+                  w-[40rem] h-[5rem]
+                  border-2 border-dashed border-blue-weg
+                  border-b-0
+                "
+              >
+                <div className="flex items-center justify-start h-full">
+                  <p
+                    className="
+                      text-xl font-roboto font-bold ml-5 mr-8
+                    "
+                  >
+                    Centros de custos pagantes
+                  </p>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) =>
+                      setTotalCostList((prev) => {
+                        const newTotalCostList = [...prev];
+                        newTotalCostList[index].costCenterPayers =
+                          e.target.value;
+                        return newTotalCostList;
+                      })
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
       <div className="grid justify-center items-center">
         <div
           className="

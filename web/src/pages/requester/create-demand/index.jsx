@@ -36,9 +36,8 @@ import { useNavigate } from "react-router-dom";
 
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ReactTextQuill from "../../../Components/ReactTextQuill";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 // Import de interfaces
 // import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
@@ -48,7 +47,6 @@ import 'react-quill/dist/quill.snow.css';
 //   value: number;
 //   description: string;
 // }
-
 
 function PaperComponent(props) {
   return (
@@ -124,26 +122,30 @@ export default function CreateDemand() {
 
   const quillModules = {
     toolbar: [
-        [{ header: [1, 2, 3, false] }],
-        [{ 'font': [] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'align': [] }],
-        ['image', 'link'],
-    ]
-}
+      [{ header: [1, 2, 3, false] }],
+      [{ font: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["image", "link"],
+    ],
+  };
 
   useEffect(() => {
-      if(currentProblemRef.current)
-      console.log("CurrentProblemDelta ->", currentProblemRef.current?.getEditor().getContents())
-      console.log("CurrentProblemText ->", currentProblemRef.current?.getEditor().getText())
-  }, [currentProblem])
+    if (currentProblemRef.current)
+      console.log(
+        "CurrentProblemDelta ->",
+        currentProblemRef.current?.getEditor().getContents()
+      );
+    console.log(
+      "CurrentProblemText ->",
+      currentProblemRef.current?.getEditor().getText()
+    );
+  }, [currentProblem]);
 
   // Usuário logado
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   // Navegador de página pela função
   const navigate = useNavigate();
@@ -199,11 +201,10 @@ export default function CreateDemand() {
       descricaoQualitativoDemanda: qualitativeBenefit,
       solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
       analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
-      gerenteDaAreaDemanda: {numeroCadastroUsuario: 72132},
-      gestorResponsavelDemanda: {numeroCadastroUsuario: 72133},
+      gerenteDaAreaDemanda: { numeroCadastroUsuario: 72132 },
+      gestorResponsavelDemanda: { numeroCadastroUsuario: 72133 },
       beneficiosDemanda: benefitsToBeSent,
     };
-
 
     const formData = new FormData();
 
@@ -222,8 +223,8 @@ export default function CreateDemand() {
   };
 
   function handleFileInput(event) {
-    if(event.target.files.length === 0) return;
-    if(event.target.files[0] === undefined) return;
+    if (event.target.files.length === 0) return;
+    if (event.target.files[0] === undefined) return;
     setSelectedFiles([...selectedFiles, event.target.files[0]]);
   }
 
@@ -321,7 +322,7 @@ export default function CreateDemand() {
             <div className="w-40 h-[5px] rounded-full bg-blue-weg mr-3" />
             <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
               Situação atual
-            </h1> 
+            </h1>
             <div className="w-40 h-[5px] rounded-full bg-blue-weg ml-3" />
           </div>
           <ReactQuill
@@ -510,9 +511,7 @@ export default function CreateDemand() {
   useEffect(() => {
     if (selectedFiles) {
       setFilesTableRows(
-        selectedFiles.map((file) =>
-          createFileRowData(file.name, file.size)
-        )
+        selectedFiles.map((file) => createFileRowData(file.name, file.size))
       );
     }
   }, [selectedFiles]);

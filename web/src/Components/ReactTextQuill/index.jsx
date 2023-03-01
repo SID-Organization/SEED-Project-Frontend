@@ -7,14 +7,11 @@ import "react-quill/dist/quill.snow.css";
  * value: string,
  * setValue: void function(string),
  * style: object,
-<<<<<<< HEAD
  * placeholder: string,
  * ref: object
- * } props 
-=======
+ * } props
  * placeholder: string
  * } props
->>>>>>> 75c7627d84c7090cbacf1056e53077e460298847
  */
 
 export default function ReactTextQuill(props) {
@@ -33,26 +30,14 @@ export default function ReactTextQuill(props) {
   const style =
     props.style === "criarDemanda" ? {} : { height: 100, width: 500 };
 
-<<<<<<< HEAD
-    return (
-        <ReactQuill
-            value={props.value}
-            onChange={(e) => props.setValue(e)}
-            modules={quillModules}
-            style={style}
-            placeholder={props.placeholder}
-            ref={props.ref}
-        />
-    )
-=======
   return (
     <ReactQuill
       value={props.value}
-      onChange={props.setValue}
+      onChange={(e) => props.setValue(e)}
       modules={quillModules}
       style={style}
       placeholder={props.placeholder}
+      ref={props.ref}
     />
   );
->>>>>>> 75c7627d84c7090cbacf1056e53077e460298847
 }
