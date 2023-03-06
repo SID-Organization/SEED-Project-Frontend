@@ -124,26 +124,32 @@ export default function CreateDemand() {
 
   const quillModules = {
     toolbar: [
-        [{ header: [1, 2, 3, false] }],
-        [{ 'font': [] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'align': [] }],
-        ['image', 'link'],
+      [{ header: [1, 2, 3, false] }],
+      [{ 'font': [] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'align': [] }],
+      ['image', 'link'],
     ]
-}
+  }
 
+  const quillStyle = { maxWidth: "43rem" }
   // Usuário logado
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
 
+  useEffect(() => {
+    if(currentProblemRef.current) {
+      console.log("CurrentProblemREF", currentProblemRef.current.getEditor().getContents());
+    }
+  }, [currentProblem])
+
   // Navegador de página pela função
   const navigate = useNavigate();
 
-  const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
-    useState(false);
+  const [openModalConfirmationDemand, setOpenModalConfirmationDemand] = useState(false);
 
   const handleClickOpenModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(true);
@@ -193,8 +199,8 @@ export default function CreateDemand() {
       descricaoQualitativoDemanda: qualitativeBenefit,
       solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
       analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
-      gerenteDaAreaDemanda: {numeroCadastroUsuario: 72132},
-      gestorResponsavelDemanda: {numeroCadastroUsuario: 72133},
+      gerenteDaAreaDemanda: { numeroCadastroUsuario: 72132 },
+      gestorResponsavelDemanda: { numeroCadastroUsuario: 72133 },
       beneficiosDemanda: benefitsToBeSent,
     };
 
@@ -216,8 +222,8 @@ export default function CreateDemand() {
   };
 
   function handleFileInput(event) {
-    if(event.target.files.length === 0) return;
-    if(event.target.files[0] === undefined) return;
+    if (event.target.files.length === 0) return;
+    if (event.target.files[0] === undefined) return;
     setSelectedFiles([...selectedFiles, event.target.files[0]]);
   }
 
@@ -273,6 +279,7 @@ export default function CreateDemand() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
   const handleReset = () => {
     setActiveStep(0);
   };
@@ -320,7 +327,7 @@ export default function CreateDemand() {
             <div className="w-40 h-[5px] rounded-full bg-blue-weg mr-3" />
             <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
               Situação atual
-            </h1> 
+            </h1>
             <div className="w-40 h-[5px] rounded-full bg-blue-weg ml-3" />
           </div>
           <ReactQuill
@@ -329,6 +336,7 @@ export default function CreateDemand() {
             placeholder="Descreva a situação atual da demanda."
             modules={quillModules}
             ref={currentProblemRef}
+            style={quillStyle}
           />
         </div>
         <div className="grid gap-1">
@@ -345,6 +353,7 @@ export default function CreateDemand() {
             placeholder="Descreva a proposta de melhoria da demanda."
             modules={quillModules}
             ref={proposalRef}
+            style={quillStyle}
           />
         </div>
         <div className="grid gap-1 mb-20">
@@ -361,6 +370,7 @@ export default function CreateDemand() {
             placeholder="Descreva a frequência de uso da demanda."
             modules={quillModules}
             ref={frequencyOfUseRef}
+            style={quillStyle}
           />
         </div>
       </div>

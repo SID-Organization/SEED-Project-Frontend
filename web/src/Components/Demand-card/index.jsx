@@ -14,7 +14,7 @@ import { styled } from "@mui/material/styles";
 
 import Skeleton from "@mui/material/Skeleton";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
@@ -62,6 +62,15 @@ const statusColor = {
   PROPOSTA_EM_EXECUCAO: "#EF8300",
   PROPOSTA_EM_SUPORTE: "FFD600",
   PROPOSTA_FINALIZADA: "00612E",
+
+  BACKLOG: "#C2BEBE",
+  ASSESMENT: "#00579D",
+  BUSINESS_CASE: "#8862A2",
+  TO_DO: "#7EB61C",
+  DESIGN_AND_BUILD: "#EF8300",
+  SUPPORT: "#FFD600",
+  CANCELLED: "#C31700",
+  DONE: "#00612E",
 };
 
 export default function DemandCard(props) {
@@ -71,6 +80,8 @@ export default function DemandCard(props) {
     useState(false);
   const [openGenerateProposal, setOpenGenerateProposal] = useState(false);
   const [isDraftSelected, setIsDraftSelected] = useState(false);
+
+  const navigate = useNavigate();
 
   // Busca o usuário logado
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -113,7 +124,7 @@ export default function DemandCard(props) {
     console.log("Dead", deadLineDate)
   }, [startDevDate, deadLineDate])
 
-  
+
   const handleCreateProposal = async () => {
     const data = {
       codigoPPMProposta: ppmCode,
@@ -127,7 +138,7 @@ export default function DemandCard(props) {
           numeroCadastroUsuario: log.numeroCadastroResponsavel
         }
       )),
-      demandaProposta: { idDemanda: props.demand.idDemanda},
+      demandaProposta: { idDemanda: props.demand.idDemanda },
     };
 
     console.log("Data", data);
@@ -139,20 +150,24 @@ export default function DemandCard(props) {
       },
       body: JSON.stringify(data),
     })
-    .then((response) => {
-      if(response.ok){
-        fetch(`http://localhost:8080/sid/api/demanda/status/${props.demand.idDemanda}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            statusDemanda: "PROPOSTA_EM_ELABORACAO"
+      .then((response) => {
+        if (response.ok) {
+          fetch(`http://localhost:8080/sid/api/demanda/status/${props.demand.idDemanda}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              statusDemanda: "PROPOSTA_EM_ELABORACAO"
+            })
           })
-        })
-      }
-    })
+        }
+      })
   }
+
+  const handleAccessProposal = () => {
+    navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`)
+  };
 
   function valuetext(value) {
     return `${value}°C`;
@@ -207,7 +222,7 @@ export default function DemandCard(props) {
   }
 
   useEffect(() => {
-    console.warn("props.demand: ", props.demand);
+    console.log("props.demand: ", props.demand);
   }, []);
 
   return (
@@ -357,158 +372,159 @@ export default function DemandCard(props) {
               </div>
             </div>
             <div className="flex justify-center items-center gap-3 mr-4">
-              {(props.demand.statusDemanda ===
-                "APROVADO_PELO_GERENTE_DA_AREA" && user.cargoUsuario != "SOLICITANTE") && (
-                  <div>
-                    <Tooltip title="Gerar proposta">
-                      <Button
-                        onClick={handleOpenGenerateProposal}
-                        variant="contained"
-                        sx={{
-                          backgroundColor: "#FFF",
-                          color: "#0075B1",
-                          fontWeight: "bold",
-                          border: "#0075B1 solid 1px",
-                          fontSize: 12,
-                          width: 90,
+              {(props.demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA"
+                || props.demand.statusDemanda === "PROPOSTA_EM_ELABORACAO"
+                && user.cargoUsuario != "SOLICITANTE") && (
+                <div>
+                  <Tooltip title={props.demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA" ? "Gerar proposta" : "Acessar proposta"}>
+                    <Button
+                      onClick={props.demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA" ? handleOpenGenerateProposal : handleAccessProposal}
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#FFF",
+                        color: "#0075B1",
+                        fontWeight: "bold",
+                        border: "#0075B1 solid 1px",
+                        fontSize: 12,
+                        width: 90,
 
-                          "&:hover": {
-                            backgroundColor: "#f3f3f3",
-                          },
-                        }}
-                      >
-                        Proposta
-                      </Button>
-                    </Tooltip>
-                    <Modal
-                      open={openGenerateProposal}
-                      onClose={handleCloseGenerateProposal}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
+                        "&:hover": {
+                          backgroundColor: "#f3f3f3",
+                        },
+                      }}
                     >
-                      <Box sx={styleModalGenerateProposal}>
-                        <div className="mb-5 h-14 w-full bg-dark-blue-weg flex justify-center items-center rounded-t-lg">
-                          <p className="font-roboto text-[#FFF] font-bold text-xl">
-                            Insira as seguintes informações
-                          </p>
-                        </div>
-                        <div className="flex justify-center items-center font-roboto">
-                          <div className="flex gap-14">
-                            <div className="grid justify-center items-center gap-1">
+                      Proposta
+                    </Button>
+                  </Tooltip>
+                  <Modal
+                    open={openGenerateProposal}
+                    onClose={handleCloseGenerateProposal}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={styleModalGenerateProposal}>
+                      <div className="mb-5 h-14 w-full bg-dark-blue-weg flex justify-center items-center rounded-t-lg">
+                        <p className="font-roboto text-[#FFF] font-bold text-xl">
+                          Insira as seguintes informações
+                        </p>
+                      </div>
+                      <div className="flex justify-center items-center font-roboto">
+                        <div className="flex gap-14">
+                          <div className="grid justify-center items-center gap-1">
+                            <p className="font-bold text-dark-blue-weg">
+                              Prazo para a elaboração da proposta
+                            </p>
+                            <div className="grid justify-center items-center gap-10">
+                              <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                placeholder="dd/mm/aaaa"
+                                type="date"
+                                label="De:"
+                                size="small"
+                                value={startDevDate}
+                                onChange={e => setStartDevDate(e.target.value)}
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start" />
+                                  ),
+                                }}
+                              />
+                              <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                placeholder="dd/mm/aaaa"
+                                type="date"
+                                label="Até:"
+                                size="small"
+                                value={deadLineDate}
+                                onChange={e => setDeadLineDate(e.target.value)}
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start" />
+                                  ),
+                                }}
+                              />
+                            </div>
+                            <div className="grid justify-center items-center gap-4">
                               <p className="font-bold text-dark-blue-weg">
-                                Prazo para a elaboração da proposta
+                                Link para EPIC do projeto no Jira
                               </p>
-                              <div className="grid justify-center items-center gap-10">
-                                <TextField
-                                  id="outlined-basic"
-                                  variant="outlined"
-                                  placeholder="dd/mm/aaaa"
-                                  type="date"
-                                  label="De:"
-                                  size="small"
-                                  value={startDevDate}
-                                  onChange={e => setStartDevDate(e.target.value)}
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment position="start" />
-                                    ),
-                                  }}
-                                />
-                                <TextField
-                                  id="outlined-basic"
-                                  variant="outlined"
-                                  placeholder="dd/mm/aaaa"
-                                  type="date"
-                                  label="Até:"
-                                  size="small"
-                                  value={deadLineDate}
-                                  onChange={e => setDeadLineDate(e.target.value)}
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment position="start" />
-                                    ),
-                                  }}
-                                />
-                              </div>
-                              <div className="grid justify-center items-center gap-4">
+                              <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                placeholder="https://jira.weg.net/browse/EPIC-123"
+                                type="text"
+                                label="Link"
+                                size="small"
+                                value={jiraLink}
+                                onChange={e => setJiraLink(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          <div className="h-[19rem] w-0.5 bg-dark-blue-weg" />
+                          <div>
+                            <div className="h-[16rem]">
+                              <div className="grid gap-4 ml-4">
                                 <p className="font-bold text-dark-blue-weg">
-                                  Link para EPIC do projeto no Jira
+                                  Código PPM
                                 </p>
                                 <TextField
+                                  sx={{
+                                    width: 100,
+                                  }}
                                   id="outlined-basic"
                                   variant="outlined"
-                                  placeholder="https://jira.weg.net/browse/EPIC-123"
+                                  placeholder="123"
                                   type="text"
-                                  label="Link"
+                                  label="PPM"
                                   size="small"
-                                  value={jiraLink}
-                                  onChange={e => setJiraLink(e.target.value)}
+                                  value={ppmCode}
+                                  onChange={e => setPpmCode(e.target.value)}
                                 />
                               </div>
                             </div>
-                            <div className="h-[19rem] w-0.5 bg-dark-blue-weg" />
-                            <div>
-                              <div className="h-[16rem]">
-                                <div className="grid gap-4 ml-4">
-                                  <p className="font-bold text-dark-blue-weg">
-                                    Código PPM
-                                  </p>
-                                  <TextField
-                                    sx={{
-                                      width: 100,
-                                    }}
-                                    id="outlined-basic"
-                                    variant="outlined"
-                                    placeholder="123"
-                                    type="text"
-                                    label="PPM"
-                                    size="small"
-                                    value={ppmCode}
-                                    onChange={e => setPpmCode(e.target.value)}
-                                  />
-                                </div>
-                              </div>
-                              <div className="flex justify-between items-end gap-1">
-                                <Button
-                                  onClick={handleCloseGenerateProposal}
-                                  variant="contained"
-                                  sx={{
+                            <div className="flex justify-between items-end gap-1">
+                              <Button
+                                onClick={handleCloseGenerateProposal}
+                                variant="contained"
+                                sx={{
+                                  backgroundColor: "#C2BEBE",
+                                  color: "#505050",
+                                  fontSize: 11.5,
+                                  width: 80,
+
+                                  "&:hover": {
                                     backgroundColor: "#C2BEBE",
-                                    color: "#505050",
-                                    fontSize: 11.5,
-                                    width: 80,
+                                  },
+                                }}
+                              >
+                                Cancelar
+                              </Button>
+                              <Button
+                                onClick={handleCreateProposal}
+                                variant="contained"
+                                sx={{
+                                  backgroundColor: "#0075B1",
+                                  fontSize: 11.5,
+                                  width: 80,
+                                  marginTop: 2,
 
-                                    "&:hover": {
-                                      backgroundColor: "#C2BEBE",
-                                    },
-                                  }}
-                                >
-                                  Cancelar
-                                </Button>
-                                <Button
-                                  onClick={handleCreateProposal}
-                                  variant="contained"
-                                  sx={{
+                                  "&:hover": {
                                     backgroundColor: "#0075B1",
-                                    fontSize: 11.5,
-                                    width: 80,
-                                    marginTop: 2,
-
-                                    "&:hover": {
-                                      backgroundColor: "#0075B1",
-                                    },
-                                  }}
-                                >
-                                  Enviar
-                                </Button>
-                              </div>
+                                  },
+                                }}
+                              >
+                                Enviar
+                              </Button>
                             </div>
                           </div>
                         </div>
-                      </Box>
-                    </Modal>
-                  </div>
-                )}
+                      </div>
+                    </Box>
+                  </Modal>
+                </div>
+              )}
 
               {props.demand.statusDemanda === "CANCELADA" && (
                 <div>
