@@ -4,7 +4,6 @@ import DemandCard from "../../../Components/Demand-card";
 import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import MuiTextField from "@mui/material/TextField";
 
@@ -14,6 +13,7 @@ import { styled } from "@mui/material/styles";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import CostTableRow from "../../../Components/Cost-table-rows";
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -47,21 +47,6 @@ const NameAreaInput = styled(MuiTextField)({
 const DateInput = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
     borderLeft: "3px solid #0075B1",
-  },
-});
-
-const TableInput = styled(MuiTextField)({
-  width: "100%",
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      border: "none",
-    },
-    "&:hover fieldset": {
-      border: "none",
-    },
-    "&.Mui-focused fieldset": {
-      border: "none",
-    },
   },
 });
 
@@ -104,18 +89,6 @@ export default function GenerateProposal() {
   const [quillValue, setQuillValue] = useState("");
   const quillValueRef = useRef(null);
 
-  const [totalCostList, setTotalCostList] = useState([
-    {
-      expenseType: "",
-      expenseProfile: "",
-      monthTimeExecution: "",
-      necessaryHours: "",
-      costHour: "",
-      totalExpenseCost: "",
-      costCenterPayers: "",
-    },
-  ]);
-
   function addTotalCoasts() {
     setTotalCostList([
       ...totalCostList,
@@ -130,6 +103,22 @@ export default function GenerateProposal() {
       },
     ]);
   }
+
+  const [totalCostList, setTotalCostList] = useState([
+    {
+      expenseType: "",
+      expenseProfile: "",
+      monthTimeExecution: "",
+      necessaryHours: "",
+      costHour: "",
+      totalExpenseCost: "",
+      costCenterPayers: "",
+    },
+  ]);
+
+  useEffect(() => {
+    console.log("Total cost list", totalCostList);
+  }, [totalCostList]);
 
   return (
     <div>
@@ -208,143 +197,15 @@ export default function GenerateProposal() {
             </tr>
           </thead>
           <tbody>
-            {totalCostList.map((totalCost, index) => {
-              return (
-                <tr>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <TableInput
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      value={totalCost.expenseType}
-                      onChange={(e) => {
-                        const newTotalCostList = [...totalCostList];
-                        newTotalCostList[index].expenseType = e.target.value;
-                        setTotalCostList(newTotalCostList);
-                      }}
-                      multiline
-                    />
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <TableInput
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      value={totalCost.expenseProfile}
-                      onChange={(e) => {
-                        const newTotalCostList = [...totalCostList];
-                        newTotalCostList[index].expenseProfile = e.target.value;
-                        setTotalCostList(newTotalCostList);
-                      }}
-                    />
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <TableInput
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      value={totalCost.monthTimeExecution}
-                      onChange={(e) => {
-                        const newTotalCostList = [...totalCostList];
-                        newTotalCostList[index].monthTimeExecution =
-                          e.target.value;
-
-                        setTotalCostList(newTotalCostList);
-                      }}
-                    />
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <div className="flex justify-center items-center">
-                      <TableInput
-                        id="outlined-basic"
-                        variant="outlined"
-                        size="small"
-                        value={totalCost.hoursNeeded}
-                        onChange={(e) => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList[index].hoursNeeded = e.target.value;
-                          setTotalCostList(newTotalCostList);
-                        }}
-                      />
-                    </div>
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <div className="flex justify-center items-center">
-                      <TableInput
-                        id="outlined-basic"
-                        variant="outlined"
-                        size="small"
-                        value={totalCost.hourCost}
-                        onChange={(e) => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList[index].hourCost = e.target.value;
-                          setTotalCostList(newTotalCostList);
-                        }}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">R$</InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <div className="flex justify-center items-center">
-                      <TableInput
-                        id="outlined-basic"
-                        variant="outlined"
-                        size="small"
-                        value={totalCost.totalExpenseCost}
-                        onChange={(e) => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList[index].totalExpenseCost =
-                            e.target.value;
-                          setTotalCostList(newTotalCostList);
-                        }}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">R$</InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <div className="flex justify-center items-center">
-                      <TableInput
-                        id="outlined-basic"
-                        variant="outlined"
-                        size="small"
-                        value={totalCost.costCenterPayers}
-                        onChange={(e) => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList[index].costCenterPayers =
-                            e.target.value;
-                          setTotalCostList(newTotalCostList);
-                        }}
-                      />
-                    </div>
-                  </td>
-                  <div>
-                    <Tooltip title="Deletar linha">
-                      <IconButton
-                        onClick={() => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList.splice(index, 1);
-                          setTotalCostList(newTotalCostList);
-                        }}
-                      >
-                        <DeleteRoundedIcon
-                          sx={{
-                            color: "#0175b2",
-                          }}
-                        />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                </tr>
-              );
-            })}
+            {totalCostList.map((totalCost, index) => (
+              <CostTableRow
+                key={index}
+                index={index}
+                totalCost={totalCost}
+                setCostList={setTotalCostList}
+                costList={totalCostList}
+              />
+            ))}
           </tbody>
         </table>
       </div>
