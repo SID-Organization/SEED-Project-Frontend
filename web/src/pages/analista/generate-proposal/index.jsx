@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import DemandCard from "../../../Components/Demand-card";
 import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import MuiTextField from "@mui/material/TextField";
 
@@ -150,219 +152,239 @@ export default function GenerateProposal() {
       </div>
       {totalCostList.map((totalCost, index) => {
         return (
-          <div key={index} className="mb-20">
-            <div className="grid justify-center items-center">
-              <div
-                className="
+          <div className="flex justify-center items-start gap-2">
+            <div key={index} className="mb-20">
+              <div className="grid justify-center items-center">
+                <div
+                  className="
                   w-[40rem] h-[5rem]
-                  border-2 border-dashed border-blue-weg
+                  border-2 border-blue-weg
                   border-b-0
                 "
-              >
-                <div className="flex items-center justify-start h-full">
-                  <p
-                    className="
+                >
+                  <div className="flex items-center justify-start h-full">
+                    <p
+                      className="
                       text-xl font-roboto font-bold ml-5 mr-8
                     "
-                  >
-                    Tipo de despesa
-                  </p>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) =>
-                      setTotalCostList((prev) => {
-                        const newTotalCostList = [...prev];
-                        newTotalCostList[index].expenseType = e.target.value;
-                        return newTotalCostList;
-                      })
-                    }
-                  />
+                    >
+                      Tipo de despesa
+                    </p>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) =>
+                        setTotalCostList((prev) => {
+                          const newTotalCostList = [...prev];
+                          newTotalCostList[index].expenseType = e.target.value;
+                          return newTotalCostList;
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-              <div
-                className="
+                <div
+                  className="
                   w-[40rem] h-[5rem]
-                  border-2 border-dashed border-blue-weg
+                  border-2 border-blue-weg
                   border-b-0
                 "
-              >
-                <div className="flex items-center justify-start h-full">
-                  <p
-                    className="
+                >
+                  <div className="flex items-center justify-start h-full">
+                    <p
+                      className="
                       text-xl font-roboto font-bold ml-5 mr-8
                     "
-                  >
-                    Perfil de despesa
-                  </p>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) =>
-                      setTotalCostList((prev) => {
-                        const newTotalCostList = [...prev];
-                        newTotalCostList[index].expenseProfile = e.target.value;
-                        return newTotalCostList;
-                      })
-                    }
-                  />
+                    >
+                      Perfil da despesa
+                    </p>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) =>
+                        setTotalCostList((prev) => {
+                          const newTotalCostList = [...prev];
+                          newTotalCostList[index].expenseProfile =
+                            e.target.value;
+                          return newTotalCostList;
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-              {/*  */}
-              <div
-                className="
+                {/*  */}
+                <div
+                  className="
                   w-[40rem] h-[5rem]
-                  border-2 border-dashed border-blue-weg
+                  border-2 border-blue-weg
                   border-b-0
                 "
-              >
-                <div className="flex items-center justify-start h-full">
-                  <p
-                    className="
+                >
+                  <div className="flex items-center justify-start h-full">
+                    <p
+                      className="
                       text-xl font-roboto font-bold ml-5 mr-8
                     "
-                  >
-                    Perido de execução em meses
-                  </p>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) =>
-                      setTotalCostList((prev) => {
-                        const newTotalCostList = [...prev];
-                        newTotalCostList[index].monthTimeExecution =
-                          e.target.value;
-                        return newTotalCostList;
-                      })
-                    }
-                  />
+                    >
+                      Perido de execução em meses
+                    </p>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) =>
+                        setTotalCostList((prev) => {
+                          const newTotalCostList = [...prev];
+                          newTotalCostList[index].monthTimeExecution =
+                            e.target.value;
+                          return newTotalCostList;
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-              {/*  */}
-              <div
-                className="
+                {/*  */}
+                <div
+                  className="
                   w-[40rem] h-[5rem]
-                  border-2 border-dashed border-blue-weg
+                  border-2 border-blue-weg
                   border-b-0
                 "
-              >
-                <div className="flex items-center justify-start h-full">
-                  <p
-                    className="
+                >
+                  <div className="flex items-center justify-start h-full">
+                    <p
+                      className="
                       text-xl font-roboto font-bold ml-5 mr-8
                     "
-                  >
-                    Quantidade de horas necessárias
-                  </p>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) =>
-                      setTotalCostList((prev) => {
-                        const newTotalCostList = [...prev];
-                        newTotalCostList[index].necessaryHours = e.target.value;
-                        return newTotalCostList;
-                      })
-                    }
-                  />
+                    >
+                      Quantidade de horas necessárias
+                    </p>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) =>
+                        setTotalCostList((prev) => {
+                          const newTotalCostList = [...prev];
+                          newTotalCostList[index].necessaryHours =
+                            e.target.value;
+                          return newTotalCostList;
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-              {/*  */}
-              <div
-                className="
+                {/*  */}
+                <div
+                  className="
                   w-[40rem] h-[5rem]
-                  border-2 border-dashed border-blue-weg
+                  border-2 border-blue-weg
                   border-b-0
                 "
-              >
-                <div className="flex items-center justify-start h-full">
-                  <p
-                    className="
+                >
+                  <div className="flex items-center justify-start h-full">
+                    <p
+                      className="
                       text-xl font-roboto font-bold ml-5 mr-8
                     "
-                  >
-                    Valor de hora
-                  </p>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) =>
-                      setTotalCostList((prev) => {
-                        const newTotalCostList = [...prev];
-                        newTotalCostList[index].hourValue = e.target.value;
-                        return newTotalCostList;
-                      })
-                    }
-                  />
+                    >
+                      Valor de hora
+                    </p>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) =>
+                        setTotalCostList((prev) => {
+                          const newTotalCostList = [...prev];
+                          newTotalCostList[index].hourValue = e.target.value;
+                          return newTotalCostList;
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-              {/*  */}
-              <div
-                className="
+                {/*  */}
+                <div
+                  className="
                   w-[40rem] h-[5rem]
-                  border-2 border-dashed border-blue-weg
+                  border-2 border-blue-weg
                   border-b-0
                 "
-              >
-                <div className="flex items-center justify-start h-full">
-                  <p
-                    className="
+                >
+                  <div className="flex items-center justify-start h-full">
+                    <p
+                      className="
                       text-xl font-roboto font-bold ml-5 mr-8
                     "
-                  >
-                    Valor total da despesa
-                  </p>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) =>
-                      setTotalCostList((prev) => {
-                        const newTotalCostList = [...prev];
-                        newTotalCostList[index].totalExpenseValue =
-                          e.target.value;
-                        return newTotalCostList;
-                      })
-                    }
-                  />
+                    >
+                      Valor total da despesa
+                    </p>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) =>
+                        setTotalCostList((prev) => {
+                          const newTotalCostList = [...prev];
+                          newTotalCostList[index].totalExpenseValue =
+                            e.target.value;
+                          return newTotalCostList;
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-              {/*  */}
-              <div
-                className="
+                {/*  */}
+                <div
+                  className="
                   w-[40rem] h-[5rem]
-                  border-2 border-dashed border-blue-weg
-                  border-b-0
+                  border-2  border-blue-weg
+                  border-b-2
                 "
-              >
-                <div className="flex items-center justify-start h-full">
-                  <p
-                    className="
+                >
+                  <div className="flex items-center justify-start h-full">
+                    <p
+                      className="
                       text-xl font-roboto font-bold ml-5 mr-8
                     "
-                  >
-                    Centros de custos pagantes
-                  </p>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) =>
-                      setTotalCostList((prev) => {
-                        const newTotalCostList = [...prev];
-                        newTotalCostList[index].costCenterPayers =
-                          e.target.value;
-                        return newTotalCostList;
-                      })
-                    }
-                  />
+                    >
+                      Centros de custos pagantes
+                    </p>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      onChange={(e) =>
+                        setTotalCostList((prev) => {
+                          const newTotalCostList = [...prev];
+                          newTotalCostList[index].costCenterPayers =
+                            e.target.value;
+                          return newTotalCostList;
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </div>
+            </div>
+            <div>
+              <Tooltip title="Remover tabela de custo">
+                <IconButton>
+                  <DeleteRoundedIcon
+                    sx={{ color: "#0075B1", fontSize: "2rem" }}
+                    onClick={() => {
+                      setTotalCostList((prev) => {
+                        const newTotalCostList = [...prev];
+                        newTotalCostList.splice(index, 1);
+                        return newTotalCostList;
+                      });
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
         );
