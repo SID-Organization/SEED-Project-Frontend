@@ -36,9 +36,8 @@ import { useNavigate } from "react-router-dom";
 
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ReactTextQuill from "../../../Components/ReactTextQuill";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 // Import de interfaces
 // import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
@@ -48,7 +47,6 @@ import 'react-quill/dist/quill.snow.css';
 //   value: number;
 //   description: string;
 // }
-
 
 function PaperComponent(props) {
   return (
@@ -125,20 +123,30 @@ export default function CreateDemand() {
   const quillModules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
-      [{ 'font': [] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'color': [] }, { 'background': [] }],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'align': [] }],
-      ['image', 'link'],
-    ]
-  }
+      [{ font: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["image", "link"],
+    ],
+  };
+
+  useEffect(() => {
+    if (currentProblemRef.current)
+      console.log(
+        "CurrentProblemDelta ->",
+        currentProblemRef.current?.getEditor().getContents()
+      );
+    console.log(
+      "CurrentProblemText ->",
+      currentProblemRef.current?.getEditor().getText()
+    );
+  }, [currentProblem]);
 
   const quillStyle = { maxWidth: "43rem" }
   // Usuário logado
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
     if(currentProblemRef.current) {
@@ -203,7 +211,6 @@ export default function CreateDemand() {
       gestorResponsavelDemanda: { numeroCadastroUsuario: 72133 },
       beneficiosDemanda: benefitsToBeSent,
     };
-
 
     const formData = new FormData();
 
@@ -543,9 +550,7 @@ export default function CreateDemand() {
   useEffect(() => {
     if (selectedFiles) {
       setFilesTableRows(
-        selectedFiles.map((file) =>
-          createFileRowData(file.name, file.size)
-        )
+        selectedFiles.map((file) => createFileRowData(file.name, file.size))
       );
     }
   }, [selectedFiles]);

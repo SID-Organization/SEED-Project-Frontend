@@ -7,14 +7,11 @@ import "react-quill/dist/quill.snow.css";
  * value: string,
  * setValue: void function(string),
  * style: object,
-<<<<<<< HEAD
  * placeholder: string,
  * ref: object
- * } props 
-=======
+ * } props
  * placeholder: string
  * } props
->>>>>>> 75c7627d84c7090cbacf1056e53077e460298847
  */
 
 export default function ReactTextQuill(props) {

@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import DemandCard from "../../../Components/Demand-card";
 import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import MuiTextField from "@mui/material/TextField";
 
 import FilesTable from "../../../Components/FilesTable";
 
 import { styled } from "@mui/material/styles";
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -45,6 +50,21 @@ const DateInput = styled(MuiTextField)({
   },
 });
 
+const TableInput = styled(MuiTextField)({
+  width: "100%",
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "none",
+    },
+    "&:hover fieldset": {
+      border: "none",
+    },
+    "&.Mui-focused fieldset": {
+      border: "none",
+    },
+  },
+});
+
 export default function GenerateProposal() {
   const [demand, setDemand] = useState();
   const [payback, setPayback] = useState("");
@@ -52,23 +72,6 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
-  const [tables, setTables] = useState([]);
-
-  function addTable() {
-    const rows = parseInt(prompt("Quantidade de linhas:"));
-    const cols = parseInt(prompt("Quantidade de colunas:"));
-
-    const table = [];
-    for (let i = 0; i < rows; i++) {
-      const row = [];
-      for (let j = 0; j < cols; j++) {
-        row.push("");
-      }
-      table.push(row);
-    }
-
-    setTables([...tables, table]);
-  }
 
   let demandId = useParams().id;
 
@@ -86,6 +89,48 @@ export default function GenerateProposal() {
     });
   }, []);
 
+  const quillModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      [{ font: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["image", "link"],
+    ],
+  };
+
+  const [quillValue, setQuillValue] = useState("");
+  const quillValueRef = useRef(null);
+
+  const [totalCostList, setTotalCostList] = useState([
+    {
+      expenseType: "",
+      expenseProfile: "",
+      monthTimeExecution: "",
+      necessaryHours: "",
+      costHour: "",
+      totalExpenseCost: "",
+      costCenterPayers: "",
+    },
+  ]);
+
+  function addTotalCoasts() {
+    setTotalCostList([
+      ...totalCostList,
+      {
+        expenseType: "",
+        expenseProfile: "",
+        monthTimeExecution: "",
+        necessaryHours: "",
+        costHour: "",
+        totalExpenseCost: "",
+        costCenterPayers: "",
+      },
+    ]);
+  }
+
   return (
     <div>
       <div className="grid justify-center items-center gap-5">
@@ -95,26 +140,197 @@ export default function GenerateProposal() {
         {demand && <DemandCard demand={demand} />}
       </div>
       <div>
-        <h1 className="flex items-center justify-start text-xl font-roboto mt-5 font-bold p-5">
+        <h1 className="flex items-center justify-center text-xl font-roboto mt-5 font-bold p-5">
           Escopo do projeto
         </h1>
         <h1 className="flex justify-center items-center">
-          ** EDITOR DE TEXTO AQUI **
+          <ReactQuill
+            value={quillValue}
+            onChange={(e) => setQuillValue(e)}
+            modules={quillModules}
+            ref={quillValueRef}
+            style={{ width: "50rem", height: "10rem" }}
+          />
         </h1>
       </div>
-      <div>
+      <div className="mt-20">
         <h1 className="flex items-center justify-center text-2xl font-roboto mt-5 font-bold text-blue-weg">
           Tabela de custos:{" "}
         </h1>
         <div className="flex justify-center items-center">
-          <Tooltip title="Adicionar tabela">
-            <IconButton onClick={addTable}>
+          <Tooltip title="Adicionar tabela de custos">
+            <IconButton onClick={addTotalCoasts}>
               <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
             </IconButton>
           </Tooltip>
         </div>
       </div>
+      {/* Columns table */}
       <div className="grid justify-center items-center">
+        <tr>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Tipo de despesa
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Perfil de despesa
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Mês de execução
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Horas necessárias
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Custo por hora
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Custo total da despesa
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Centro de custo pagadores
+            </p>
+          </th>
+        </tr>
+        {totalCostList.map((totalCost, index) => {
+          return (
+            <div className="flex justify-center items-start gap-2">
+              <table className="w-full">
+                <tr>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <TableInput
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      value={totalCost.expenseType}
+                      onChange={(e) => {
+                        const newTotalCostList = [...totalCostList];
+                        newTotalCostList[index].expenseType = e.target.value;
+                        setTotalCostList(newTotalCostList);
+                      }}
+                      multiline
+                    />
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <TableInput
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      value={totalCost.expenseProfile}
+                      onChange={(e) => {
+                        const newTotalCostList = [...totalCostList];
+                        newTotalCostList[index].expenseProfile = e.target.value;
+                        setTotalCostList(newTotalCostList);
+                      }}
+                    />
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <TableInput
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      value={totalCost.monthTimeExecution}
+                      onChange={(e) => {
+                        const newTotalCostList = [...totalCostList];
+                        newTotalCostList[index].monthTimeExecution =
+                          e.target.value;
+
+                        setTotalCostList(newTotalCostList);
+                      }}
+                    />
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <div className="flex justify-center items-center">
+                      <TableInput
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        value={totalCost.hoursNeeded}
+                        onChange={(e) => {
+                          const newTotalCostList = [...totalCostList];
+                          newTotalCostList[index].hoursNeeded = e.target.value;
+                          setTotalCostList(newTotalCostList);
+                        }}
+                      />
+                    </div>
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <div className="flex justify-center items-center">
+                      <TableInput
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        value={totalCost.hourCost}
+                        onChange={(e) => {
+                          const newTotalCostList = [...totalCostList];
+                          newTotalCostList[index].hourCost = e.target.value;
+                          setTotalCostList(newTotalCostList);
+                        }}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">R$</InputAdornment>
+                          ),
+                        }}
+                      />
+                    </div>
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <div className="flex justify-center items-center">
+                      <TableInput
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        value={totalCost.totalExpenseCost}
+                        onChange={(e) => {
+                          const newTotalCostList = [...totalCostList];
+                          newTotalCostList[index].totalExpenseCost =
+                            e.target.value;
+                          setTotalCostList(newTotalCostList);
+                        }}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">R$</InputAdornment>
+                          ),
+                        }}
+                      />
+                    </div>
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <div className="flex justify-center items-center">
+                      <TableInput
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        value={totalCost.costCenterPayers}
+                        onChange={(e) => {
+                          const newTotalCostList = [...totalCostList];
+                          newTotalCostList[index].costCenterPayers =
+                            e.target.value;
+                          setTotalCostList(newTotalCostList);
+                        }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="grid justify-center items-center mt-10">
         <div
           className="
           w-[40rem] h-[5rem]
