@@ -116,10 +116,6 @@ export default function GenerateProposal() {
     },
   ]);
 
-  useEffect(() => {
-    console.log("Total cost list", totalCostList);
-  }, [totalCostList]);
-
   return (
     <div>
       <div className="grid justify-center items-center gap-5">

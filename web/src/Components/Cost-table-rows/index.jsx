@@ -69,10 +69,6 @@ export default function CostTableRow(props) {
     props.setCostList(props.costList.filter((_, i) => i !== props.index));
   };
 
-  useEffect(() => {
-    console.log("props", props.totalCost);
-  }, [props.totalCost]);
-
   return (
     <>
       <tr>
