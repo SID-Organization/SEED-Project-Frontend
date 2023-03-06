@@ -50,6 +50,21 @@ const DateInput = styled(MuiTextField)({
   },
 });
 
+const TableInput = styled(MuiTextField)({
+  width: "100%",
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "none",
+    },
+    "&:hover fieldset": {
+      border: "none",
+    },
+    "&.Mui-focused fieldset": {
+      border: "none",
+    },
+  },
+});
+
 export default function GenerateProposal() {
   const [demand, setDemand] = useState();
   const [payback, setPayback] = useState("");
@@ -150,246 +165,172 @@ export default function GenerateProposal() {
           </Tooltip>
         </div>
       </div>
-      {totalCostList.map((totalCost, index) => {
-        return (
-          <div className="flex justify-center items-start gap-2">
-            <div key={index} className="mb-20">
-              <div className="grid justify-center items-center">
-                <div
-                  className="
-                  w-[40rem] h-[5rem]
-                  border-2 border-blue-weg
-                  border-b-0
-                "
-                >
-                  <div className="flex items-center justify-start h-full">
-                    <p
-                      className="
-                      text-xl font-roboto font-bold ml-5 mr-8
-                    "
-                    >
-                      Tipo de despesa
-                    </p>
-                    <TextField
+      {/* Columns table */}
+      <div className="grid justify-center items-center">
+        <tr>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Tipo de despesa
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Perfil de despesa
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Mês de execução
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Horas necessárias
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Custo por hora
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2 border-r-0">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Custo total da despesa
+            </p>
+          </th>
+          <th className="border-2 border-blue-weg border-b-2">
+            <p className="text-xl font-roboto font-bold ml-5 mr-8">
+              Centro de custo pagadores
+            </p>
+          </th>
+        </tr>
+        {totalCostList.map((totalCost, index) => {
+          return (
+            <div className="flex justify-center items-start gap-2">
+              <table className="w-full">
+                <tr>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <TableInput
                       id="outlined-basic"
                       variant="outlined"
                       size="small"
-                      onChange={(e) =>
-                        setTotalCostList((prev) => {
-                          const newTotalCostList = [...prev];
-                          newTotalCostList[index].expenseType = e.target.value;
-                          return newTotalCostList;
-                        })
-                      }
+                      value={totalCost.expenseType}
+                      onChange={(e) => {
+                        const newTotalCostList = [...totalCostList];
+                        newTotalCostList[index].expenseType = e.target.value;
+                        setTotalCostList(newTotalCostList);
+                      }}
+                      multiline
                     />
-                  </div>
-                </div>
-                <div
-                  className="
-                  w-[40rem] h-[5rem]
-                  border-2 border-blue-weg
-                  border-b-0
-                "
-                >
-                  <div className="flex items-center justify-start h-full">
-                    <p
-                      className="
-                      text-xl font-roboto font-bold ml-5 mr-8
-                    "
-                    >
-                      Perfil da despesa
-                    </p>
-                    <TextField
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <TableInput
                       id="outlined-basic"
                       variant="outlined"
                       size="small"
-                      onChange={(e) =>
-                        setTotalCostList((prev) => {
-                          const newTotalCostList = [...prev];
-                          newTotalCostList[index].expenseProfile =
+                      value={totalCost.expenseProfile}
+                      onChange={(e) => {
+                        const newTotalCostList = [...totalCostList];
+                        newTotalCostList[index].expenseProfile = e.target.value;
+                        setTotalCostList(newTotalCostList);
+                      }}
+                    />
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <TableInput
+                      id="outlined-basic"
+                      variant="outlined"
+                      size="small"
+                      value={totalCost.monthTimeExecution}
+                      onChange={(e) => {
+                        const newTotalCostList = [...totalCostList];
+                        newTotalCostList[index].monthTimeExecution =
+                          e.target.value;
+
+                        setTotalCostList(newTotalCostList);
+                      }}
+                    />
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <div className="flex justify-center items-center">
+                      <TableInput
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        value={totalCost.hoursNeeded}
+                        onChange={(e) => {
+                          const newTotalCostList = [...totalCostList];
+                          newTotalCostList[index].hoursNeeded = e.target.value;
+                          setTotalCostList(newTotalCostList);
+                        }}
+                      />
+                    </div>
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <div className="flex justify-center items-center">
+                      <TableInput
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        value={totalCost.hourCost}
+                        onChange={(e) => {
+                          const newTotalCostList = [...totalCostList];
+                          newTotalCostList[index].hourCost = e.target.value;
+                          setTotalCostList(newTotalCostList);
+                        }}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">R$</InputAdornment>
+                          ),
+                        }}
+                      />
+                    </div>
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <div className="flex justify-center items-center">
+                      <TableInput
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        value={totalCost.totalExpenseCost}
+                        onChange={(e) => {
+                          const newTotalCostList = [...totalCostList];
+                          newTotalCostList[index].totalExpenseCost =
                             e.target.value;
-                          return newTotalCostList;
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                {/*  */}
-                <div
-                  className="
-                  w-[40rem] h-[5rem]
-                  border-2 border-blue-weg
-                  border-b-0
-                "
-                >
-                  <div className="flex items-center justify-start h-full">
-                    <p
-                      className="
-                      text-xl font-roboto font-bold ml-5 mr-8
-                    "
-                    >
-                      Perido de execução em meses
-                    </p>
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      onChange={(e) =>
-                        setTotalCostList((prev) => {
-                          const newTotalCostList = [...prev];
-                          newTotalCostList[index].monthTimeExecution =
-                            e.target.value;
-                          return newTotalCostList;
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                {/*  */}
-                <div
-                  className="
-                  w-[40rem] h-[5rem]
-                  border-2 border-blue-weg
-                  border-b-0
-                "
-                >
-                  <div className="flex items-center justify-start h-full">
-                    <p
-                      className="
-                      text-xl font-roboto font-bold ml-5 mr-8
-                    "
-                    >
-                      Quantidade de horas necessárias
-                    </p>
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      onChange={(e) =>
-                        setTotalCostList((prev) => {
-                          const newTotalCostList = [...prev];
-                          newTotalCostList[index].necessaryHours =
-                            e.target.value;
-                          return newTotalCostList;
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                {/*  */}
-                <div
-                  className="
-                  w-[40rem] h-[5rem]
-                  border-2 border-blue-weg
-                  border-b-0
-                "
-                >
-                  <div className="flex items-center justify-start h-full">
-                    <p
-                      className="
-                      text-xl font-roboto font-bold ml-5 mr-8
-                    "
-                    >
-                      Valor de hora
-                    </p>
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      onChange={(e) =>
-                        setTotalCostList((prev) => {
-                          const newTotalCostList = [...prev];
-                          newTotalCostList[index].hourValue = e.target.value;
-                          return newTotalCostList;
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                {/*  */}
-                <div
-                  className="
-                  w-[40rem] h-[5rem]
-                  border-2 border-blue-weg
-                  border-b-0
-                "
-                >
-                  <div className="flex items-center justify-start h-full">
-                    <p
-                      className="
-                      text-xl font-roboto font-bold ml-5 mr-8
-                    "
-                    >
-                      Valor total da despesa
-                    </p>
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      onChange={(e) =>
-                        setTotalCostList((prev) => {
-                          const newTotalCostList = [...prev];
-                          newTotalCostList[index].totalExpenseValue =
-                            e.target.value;
-                          return newTotalCostList;
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                {/*  */}
-                <div
-                  className="
-                  w-[40rem] h-[5rem]
-                  border-2  border-blue-weg
-                  border-b-2
-                "
-                >
-                  <div className="flex items-center justify-start h-full">
-                    <p
-                      className="
-                      text-xl font-roboto font-bold ml-5 mr-8
-                    "
-                    >
-                      Centros de custos pagantes
-                    </p>
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      onChange={(e) =>
-                        setTotalCostList((prev) => {
-                          const newTotalCostList = [...prev];
+                          setTotalCostList(newTotalCostList);
+                        }}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">R$</InputAdornment>
+                          ),
+                        }}
+                      />
+                    </div>
+                  </td>
+                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
+                    <div className="flex justify-center items-center">
+                      <TableInput
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        value={totalCost.costCenterPayers}
+                        onChange={(e) => {
+                          const newTotalCostList = [...totalCostList];
                           newTotalCostList[index].costCenterPayers =
                             e.target.value;
-                          return newTotalCostList;
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
+                          setTotalCostList(newTotalCostList);
+                        }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
-            <div>
-              <Tooltip title="Remover tabela de custo">
-                <IconButton>
-                  <DeleteRoundedIcon
-                    sx={{ color: "#0075B1", fontSize: "2rem" }}
-                    onClick={() => {
-                      setTotalCostList((prev) => {
-                        const newTotalCostList = [...prev];
-                        newTotalCostList.splice(index, 1);
-                        return newTotalCostList;
-                      });
-                    }}
-                  />
-                </IconButton>
-              </Tooltip>
-            </div>
-          </div>
-        );
-      })}
-      <div className="grid justify-center items-center">
+          );
+        })}
+      </div>
+
+      <div className="grid justify-center items-center mt-10">
         <div
           className="
           w-[40rem] h-[5rem]
