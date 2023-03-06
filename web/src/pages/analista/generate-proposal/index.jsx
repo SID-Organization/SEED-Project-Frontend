@@ -166,48 +166,50 @@ export default function GenerateProposal() {
         </div>
       </div>
       {/* Columns table */}
-      <div className="grid justify-center items-center">
-        <tr>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Tipo de despesa
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Perfil de despesa
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Mês de execução
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Horas necessárias
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Custo por hora
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Custo total da despesa
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Centro de custo pagadores
-            </p>
-          </th>
-        </tr>
-        {totalCostList.map((totalCost, index) => {
-          return (
-            <div className="flex justify-center items-start gap-2">
-              <table className="w-full">
+      <div className="flex justify-center items-center">
+        <table>
+          <thead>
+            <tr>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Tipo de despesa
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Perfil de despesa
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Mês de execução
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Horas necessárias
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Custo por hora
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Custo total da despesa
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2">
+                <p className="text-base font-roboto font-bold ">
+                  Centro de custo pagadores
+                </p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {totalCostList.map((totalCost, index) => {
+              return (
                 <tr>
                   <td className="border-2 border-blue-weg border-b-2 border-t-0">
                     <TableInput
@@ -323,11 +325,28 @@ export default function GenerateProposal() {
                       />
                     </div>
                   </td>
+                  <div>
+                    <Tooltip title="Deletar linha">
+                      <IconButton
+                        onClick={() => {
+                          const newTotalCostList = [...totalCostList];
+                          newTotalCostList.splice(index, 1);
+                          setTotalCostList(newTotalCostList);
+                        }}
+                      >
+                        <DeleteRoundedIcon
+                          sx={{
+                            color: "#0175b2",
+                          }}
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
                 </tr>
-              </table>
-            </div>
-          );
-        })}
+              );
+            })}
+          </tbody>
+        </table>
       </div>
 
       <div className="grid justify-center items-center mt-10">
