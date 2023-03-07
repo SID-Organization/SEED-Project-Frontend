@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import DemandCard from "../../../Components/Demand-card";
-import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
@@ -367,6 +373,33 @@ export default function GenerateProposal() {
       </div>
       <div>
         <FilesTable />
+      </div>
+      <div className="flex justify-end items-center m-10">
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            backgroundColor: "#727272c7",
+            color: "#FFFFFF",
+
+            "&:hover": {
+              backgroundColor: "#727272",
+            },
+          }}
+        >
+          Salvar
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            backgroundColor: "#0071AB",
+            color: "#FFFFFF",
+            ml: 2,
+          }}
+        >
+          Concluir proposta
+        </Button>
       </div>
     </div>
   );
