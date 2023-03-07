@@ -38,8 +38,18 @@ export default function CreateNewPauta() {
 
   const hangleCreatePauta = () => {
     const pautaJson = {
-      
-    }
+      dataReuniaoPauta: "2021-10-10",
+      forumPauta: {
+          idForum: 1
+      },
+      propostasPauta: [
+          {
+              idProposta: 12
+          }
+      ],
+      horarioInicioPauta: "12:02",
+      horarioTerminoPauta: "14:02"
+  }
   }
 
   const TextField = styled(MuiTextField)({
