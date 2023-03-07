@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import DemandCard from "../../../Components/Demand-card";
-import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Tooltip,
+} from "@mui/material";
+
+import DoneIcon from "@mui/icons-material/Done";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import MuiTextField from "@mui/material/TextField";
 
@@ -14,6 +22,7 @@ import { styled } from "@mui/material/styles";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import CostTableRow from "../../../Components/Cost-table-rows";
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -50,21 +59,6 @@ const DateInput = styled(MuiTextField)({
   },
 });
 
-const TableInput = styled(MuiTextField)({
-  width: "100%",
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      border: "none",
-    },
-    "&:hover fieldset": {
-      border: "none",
-    },
-    "&.Mui-focused fieldset": {
-      border: "none",
-    },
-  },
-});
-
 export default function GenerateProposal() {
   const [demand, setDemand] = useState();
   const [payback, setPayback] = useState("");
@@ -72,6 +66,8 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
+
+  const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
   let demandId = useParams().id;
 
@@ -104,18 +100,6 @@ export default function GenerateProposal() {
   const [quillValue, setQuillValue] = useState("");
   const quillValueRef = useRef(null);
 
-  const [totalCostList, setTotalCostList] = useState([
-    {
-      expenseType: "",
-      expenseProfile: "",
-      monthTimeExecution: "",
-      necessaryHours: "",
-      costHour: "",
-      totalExpenseCost: "",
-      costCenterPayers: "",
-    },
-  ]);
-
   function addTotalCoasts() {
     setTotalCostList([
       ...totalCostList,
@@ -130,6 +114,18 @@ export default function GenerateProposal() {
       },
     ]);
   }
+
+  const [totalCostList, setTotalCostList] = useState([
+    {
+      expenseType: "",
+      expenseProfile: "",
+      monthTimeExecution: "",
+      necessaryHours: "",
+      costHour: "",
+      totalExpenseCost: "",
+      costCenterPayers: "",
+    },
+  ]);
 
   return (
     <div>
@@ -166,168 +162,59 @@ export default function GenerateProposal() {
         </div>
       </div>
       {/* Columns table */}
-      <div className="grid justify-center items-center">
-        <tr>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Tipo de despesa
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Perfil de despesa
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Mês de execução
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Horas necessárias
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Custo por hora
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2 border-r-0">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Custo total da despesa
-            </p>
-          </th>
-          <th className="border-2 border-blue-weg border-b-2">
-            <p className="text-xl font-roboto font-bold ml-5 mr-8">
-              Centro de custo pagadores
-            </p>
-          </th>
-        </tr>
-        {totalCostList.map((totalCost, index) => {
-          return (
-            <div className="flex justify-center items-start gap-2">
-              <table className="w-full">
-                <tr>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <TableInput
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      value={totalCost.expenseType}
-                      onChange={(e) => {
-                        const newTotalCostList = [...totalCostList];
-                        newTotalCostList[index].expenseType = e.target.value;
-                        setTotalCostList(newTotalCostList);
-                      }}
-                      multiline
-                    />
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <TableInput
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      value={totalCost.expenseProfile}
-                      onChange={(e) => {
-                        const newTotalCostList = [...totalCostList];
-                        newTotalCostList[index].expenseProfile = e.target.value;
-                        setTotalCostList(newTotalCostList);
-                      }}
-                    />
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <TableInput
-                      id="outlined-basic"
-                      variant="outlined"
-                      size="small"
-                      value={totalCost.monthTimeExecution}
-                      onChange={(e) => {
-                        const newTotalCostList = [...totalCostList];
-                        newTotalCostList[index].monthTimeExecution =
-                          e.target.value;
-
-                        setTotalCostList(newTotalCostList);
-                      }}
-                    />
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <div className="flex justify-center items-center">
-                      <TableInput
-                        id="outlined-basic"
-                        variant="outlined"
-                        size="small"
-                        value={totalCost.hoursNeeded}
-                        onChange={(e) => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList[index].hoursNeeded = e.target.value;
-                          setTotalCostList(newTotalCostList);
-                        }}
-                      />
-                    </div>
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <div className="flex justify-center items-center">
-                      <TableInput
-                        id="outlined-basic"
-                        variant="outlined"
-                        size="small"
-                        value={totalCost.hourCost}
-                        onChange={(e) => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList[index].hourCost = e.target.value;
-                          setTotalCostList(newTotalCostList);
-                        }}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">R$</InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <div className="flex justify-center items-center">
-                      <TableInput
-                        id="outlined-basic"
-                        variant="outlined"
-                        size="small"
-                        value={totalCost.totalExpenseCost}
-                        onChange={(e) => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList[index].totalExpenseCost =
-                            e.target.value;
-                          setTotalCostList(newTotalCostList);
-                        }}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">R$</InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
-                  </td>
-                  <td className="border-2 border-blue-weg border-b-2 border-t-0">
-                    <div className="flex justify-center items-center">
-                      <TableInput
-                        id="outlined-basic"
-                        variant="outlined"
-                        size="small"
-                        value={totalCost.costCenterPayers}
-                        onChange={(e) => {
-                          const newTotalCostList = [...totalCostList];
-                          newTotalCostList[index].costCenterPayers =
-                            e.target.value;
-                          setTotalCostList(newTotalCostList);
-                        }}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          );
-        })}
+      <div className="flex justify-center items-center">
+        <table>
+          <thead>
+            <tr>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Tipo de despesa
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Perfil de despesa
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Mês de execução
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Horas necessárias
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Custo por hora
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2 border-r-0">
+                <p className="text-base font-roboto font-bold ">
+                  Custo total da despesa
+                </p>
+              </th>
+              <th className="border-2 border-blue-weg border-b-2">
+                <p className="text-base font-roboto font-bold ">
+                  Centro de custo pagadores
+                </p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {totalCostList.map((totalCost, index) => (
+              <CostTableRow
+                key={index}
+                index={index}
+                totalCost={totalCost}
+                setCostList={setTotalCostList}
+                costList={totalCostList}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <div className="grid justify-center items-center mt-10">
@@ -491,6 +378,45 @@ export default function GenerateProposal() {
       </div>
       <div>
         <FilesTable />
+      </div>
+      <div className="flex justify-end items-center m-10">
+        <Button
+          onClick={() => {
+            setButtonSavedClicked(true);
+            setTimeout(() => {
+              setButtonSavedClicked(false);
+            }, 1500);
+          }}
+          variant="contained"
+          color="primary"
+          sx={{
+            backgroundColor: "#727272c7",
+            color: "#FFFFFF",
+
+            "&:hover": {
+              backgroundColor: "#727272",
+            },
+          }}
+        >
+          {(buttonSavedClicked && (
+            <div className="flex items-center gap-2">
+              <CircularProgress size={20} sx={{ color: "#FFFFFF" }} />
+              <p>Salvando...</p>
+            </div>
+          )) ||
+            "Salvar"}
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            backgroundColor: "#0071AB",
+            color: "#FFFFFF",
+            ml: 2,
+          }}
+        >
+          Concluir proposta
+        </Button>
       </div>
     </div>
   );
