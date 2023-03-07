@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -34,98 +34,108 @@ import { Link } from "react-router-dom";
 // }
 
 
+
+const EditRoundedIcon = styled(MuiEditRoundedIcon)({
+  color: "#707070",
+  cursor: "pointer",
+  transition: "0.2s",
+
+  "&:hover": {
+    color: "#00A3FF",
+  },
+});
+
+const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
+  color: "#707070",
+  cursor: "pointer",
+  transition: "0.2s",
+
+  "&:hover": {
+    color: "#00A3FF",
+  },
+});
+
+const DownloadRoundedIcon = styled(MuiDownloadRoundedIcon)({
+  color: "#000",
+});
+
+const LinkIcon = styled(MuiLinkIcon)({
+  color: "#000",
+});
+
+const WhatsAppIcon = styled(MuiWhatsAppIcon)({
+  color: "#000",
+});
+
+const MailOutlineRoundedIcon = styled(MuiMailOutlineRoundedIcon)({
+  color: "#000",
+});
+
+const modalStyleShare = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "10px",
+  fontFamily: "Roboto",
+};
+
+const Accordion = styled(MuiAccordion)(() => ({
+  width: "62.5rem",
+  border: "2px solid #E5E5E5",
+  borderBottom: "none",
+}));
+
+
+
+const proposalsMock = [
+  {
+    newPauta: false,
+    title: "Automatização do processo",
+    executionTime: 10.0,
+    value: 10.0,
+    referenceDemand: "Demanda 2",
+    ResponsibleAnalyst: "Analista 1",
+  },
+  {
+    newPauta: false,
+    title: "Automatização do processo",
+    executionTime: 10.0,
+    value: 10.0,
+    referenceDemand: "Demanda 2",
+    ResponsibleAnalyst: "Analista 1",
+  },
+];
+
+
 export default function PautasCard(props) {
   const [shareModal, setShareModal] = useState(false);
   const handleOpenShareModal = () => setShareModal(true);
   const handleCloseShareModal = () => setShareModal(false);
 
-  const IconButton = styled(MuiIconButton)(({ theme }) => ({
+  const IconButton = styled(MuiIconButton)(() => ({
     width: "100%",
     height: "100%",
-  }));
-
-  const EditRoundedIcon = styled(MuiEditRoundedIcon)({
-    color: "#707070",
-    cursor: "pointer",
-    transition: "0.2s",
-
-    "&:hover": {
-      color: "#00A3FF",
-    },
-  });
-
-  const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
-    color: "#707070",
-    cursor: "pointer",
-    transition: "0.2s",
-
-    "&:hover": {
-      color: "#00A3FF",
-    },
-  });
-
-  const DownloadRoundedIcon = styled(MuiDownloadRoundedIcon)({
-    color: "#000",
-  });
-
-  const LinkIcon = styled(MuiLinkIcon)({
-    color: "#000",
-  });
-
-  const WhatsAppIcon = styled(MuiWhatsAppIcon)({
-    color: "#000",
-  });
-
-  const MailOutlineRoundedIcon = styled(MuiMailOutlineRoundedIcon)({
-    color: "#000",
-  });
-
-  const modalStyleShare = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: "10px",
-    fontFamily: "Roboto",
-  };
-
-  const Accordion = styled(MuiAccordion)(() => ({
-    width: "62.5rem",
-    border: "2px solid #E5E5E5",
-    borderBottom: "none",
   }));
 
   const Button = styled(MuiButton)(() => ({
     backgroundColor: "#0075B1",
     height: "2rem",
-
+  
     "&:hover": {
       backgroundColor: "#0075B1",
     },
   }));
+  
+  const [proposals, setProposals] = useState([]);
 
-  const proposalsMock = [
-    {
-      newPauta: false,
-      title: "Automatização do processo",
-      executionTime: 10.0,
-      value: 10.0,
-      referenceDemand: "Demanda 2",
-      ResponsibleAnalyst: "Analista 1",
-    },
-    {
-      newPauta: false,
-      title: "Automatização do processo",
-      executionTime: 10.0,
-      value: 10.0,
-      referenceDemand: "Demanda 2",
-      ResponsibleAnalyst: "Analista 1",
-    },
-  ];
+  useEffect(() => {
+    
+  }, [])
 
   return (
     <div className="mt-5">
@@ -135,8 +145,8 @@ export default function PautasCard(props) {
           cursor-pointer hover:bg-[#F5F5F5] transition
         "
         >
-          <div className="grid font-roboto">
-            <div className="flex justify-around mt-2">
+          <div className="grid font-roboto h-max">
+            <div className="flex justify-between mt-2 pr-6 pl-6">
               <h1 className="font-bold">{props.PautaName}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
@@ -152,7 +162,7 @@ export default function PautasCard(props) {
               </h1>
             </div>
             <div className="flex justify-between">
-              <div className="flex justify-center items-center mt-12 ml-4">
+              <div className="flex justify-center items-center mt-11 pl-6">
                 <h1 className="font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
@@ -353,6 +363,7 @@ export default function PautasCard(props) {
               </div>
             </Box>
           </Modal>
+
           <Divider />
           <AccordionDetails>
             <div className="grid gap-5">

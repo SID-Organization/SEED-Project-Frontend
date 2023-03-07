@@ -43,9 +43,7 @@ export default function DemandManager() {
     )
       .then((response) => response.json())
       .then((data) => {
-        let demandsToManage = data.filter(
-          (item) => item.statusDemanda != "RASCUNHO" && item.solicitanteDemanda.numeroCadastroUsuario !== user.numeroCadastroUsuario
-        )
+        let demandsToManage = data;
         if(user.cargoUsuario === "GERENTE") {
           demandsToManage = demandsToManage.filter((item) => item.statusDemanda === "CLASSIFICADO_PELO_ANALISTA");
         }

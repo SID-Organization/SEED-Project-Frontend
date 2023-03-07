@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import Autocomplete from "@mui/material/Autocomplete";
 
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import MuiTextField from "@mui/material/TextField";
 
@@ -16,15 +16,31 @@ import DatePicker from "../Date-picker";
 
 export default function CreateNewPauta() {
   const [openedModal, setOpenedModal] = useState(false);
+  const [foruns, setForuns] = useState([]);
+  const [comissoes, setComissoes] = useState([]);
 
   const handleOpenModal = () => setOpenedModal(true);
   const handleCloseModal = () => setOpenedModal(false);
 
-  const Comissions = [
-    { label: "Comissão de Educação" },
-    { label: "Comissão de Saúde" },
-    { label: "Comissão de Segurança" },
-  ];
+  useEffect(() => {
+    fetch("http://localhost:8080/sid/api/forum")
+      .then((response) => response.json())
+      .then((data) => setForuns(data));
+    
+
+  }, [])
+
+  useEffect(() => {
+    if (foruns.length > 0) {
+      setComissoes(foruns.map((forum) => ({ label: forum.nomeForum, id: forum.idForum })))
+    }
+  }, [foruns])
+
+  const hangleCreatePauta = () => {
+    const pautaJson = {
+      
+    }
+  }
 
   const TextField = styled(MuiTextField)({
     width: "14rem",
@@ -38,7 +54,7 @@ export default function CreateNewPauta() {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 1250,
-    height: 600,
+    height: 650,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -51,7 +67,6 @@ export default function CreateNewPauta() {
     alignItems: "center",
     justifyContent: "center",
     columnGap: "10px",
-    marginRight: "2rem",
 
     "&:hover": {
       backgroundColor: "#0075B1",
@@ -80,24 +95,23 @@ export default function CreateNewPauta() {
         <Box sx={modalStyled}>
           <div className="font-roboto grid gap-10 w-full">
             <div className="flex justify-between items-center">
-              <h1 className="text-xl font-bold">Pauta 001</h1>
+              <div className="flex items-center gap-5">
+                <h1 className="font-bold">Data da reunião: </h1>
+                <DatePicker />
+              </div>
               <Button
                 disabled={false}
                 variant="contained"
                 endIcon={<CheckRoundedIcon />}
+                onClick={hangleCreatePauta}
               >
                 Criar pauta
               </Button>
             </div>
             <div className="flex justify-between items-center gap-12">
-              <div className="flex items-center gap-5">
-                <h1 className="font-bold">Data da reunião: </h1>
-                <DatePicker/>
-              </div>
-
-              <div className="flex items-center gap-5">
-                <h1 className="font-bold">Horário:</h1>
+              <div className="flex items-center gap-20">
                 <div className="flex items-center gap-5">
+                  <h1 className="font-bold">Horário:</h1>
                   <TextField
                     id="outlined-basic"
                     label="Início"
@@ -125,32 +139,29 @@ export default function CreateNewPauta() {
                     }}
                   />
                 </div>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={comissoes}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Comissão" />
+                  )}
+                />
               </div>
-                    <div></div>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={Comissions}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Comissão" />
-                )}
-              />
-              
+              <TextField
+                id="outlined-basic"
+                label="Procurar por título"
+                variant="outlined"
+                />
             </div>
             <div className="grid gap-2">
               <div className="flex justify-center items-center gap-5">
-                <div
-                  className="
-                w-10 h-[1.5px] bg-light-blue-weg rounded-full
-              "
-                />
-                <h1 className="text-xl">Selecione as propostas</h1>
-                <div
-                  className="
-                w-10 h-[1.5px] bg-light-blue-weg rounded-full
-              "
-                />
+                <div className="flex justify-center items-center gap-5">
+                  <div className="w-10 h-[1.5px] bg-light-blue-weg rounded-full" />
+                  <h1 className="text-xl">Selecione as propostas</h1>
+                  <div className="w-10 h-[1.5px] bg-light-blue-weg rounded-full" />
+                </div>
               </div>
               <div
                 className="grid gap-5 overflow-y-scroll max-h-[21rem] scrollbar-thumb-[#a5a5a5]

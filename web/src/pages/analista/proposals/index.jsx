@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProposalCard from "../../../Components/Proposal-card";
 import PautasCard from "../../../Components/Pautas-card";
 
@@ -9,6 +9,7 @@ import Modal from "@mui/material/Modal";
 import { styled } from "@mui/material/styles";
 import MuiButton from "@mui/material/Button";
 import { Box } from "@mui/material";
+import CreateNewPauta from "../../../Components/Create-new-pauta";
 
 const proposalsMock = [
   {
@@ -58,38 +59,43 @@ const addToAPautaModalStyle = {
   p: 4,
 };
 
+const ButtonAddSelected = styled(MuiButton)({
+  backgroundColor: "#FFF",
+  color: "#0075B1",
+  fontWeight: "bold",
+  border: "#0075B1 solid 1px",
+  fontSize: "0.89rem",
+  width: 350,
+
+  "&:hover": {
+    backgroundColor: "#f3f3f3",
+  },
+});
+
 export default function Proposals() {
   const [selectProposals, setSelectProposals] = useState([]);
+  const [pautas, setPautas] = useState([]);
   const [openAddToAPautaModal, setOpenAddToAPautaModal] = useState(false);
 
   const handleOpenAddToAPautaModal = () => setOpenAddToAPautaModal(true);
   const handleCloseAddToAPautaModal = () => setOpenAddToAPautaModal(false);
 
-  const ButtonAddSelected = styled(MuiButton)({
-    backgroundColor: "#FFF",
-    color: "#0075B1",
-    fontWeight: "bold",
-    border: "#0075B1 solid 1px",
-    fontSize: "0.89rem",
-    width: 350,
+  useEffect(() => {
+    fetch("http://localhost:8080/sid/api/pauta")
+      .then((response) => response.json())
+      .then((data) => {
+        let pautas = data.map(pauta => (
+          {
+            ...pauta,
+            dataReuniaoPauta: pauta.dataReuniaoPauta.split("T")[0].split("-").reverse().join("/"),
+          }
 
-    "&:hover": {
-      backgroundColor: "#f3f3f3",
-    },
-  });
+        ))
+        setPautas(pautas);
+      });
+  }, [])
 
-  const Button = styled(MuiButton)({
-    backgroundColor: "#023A67",
-    color: "#FFF",
-    fontWeight: "bold",
-    fontSize: "0.89rem",
-    borderRadius: "50px",
-    width: 200,
 
-    "&:hover": {
-      backgroundColor: "#023A67",
-    },
-  });
 
   const pautasMock = [
     {
@@ -136,52 +142,7 @@ export default function Proposals() {
       MeetingTime: "10:00",
       ResponsibleAnalyst: "Analista 1",
       isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 6,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 7,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 8,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 9,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 10,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
+    }
   ];
 
   return (
@@ -206,7 +167,7 @@ export default function Proposals() {
             Adicionar à uma pauta
           </h1>
           <div className="flex justify-center items-center">
-            <Button variant="contained">Criar nova pauta</Button>
+            <CreateNewPauta />
           </div>
           <div
             className="
@@ -219,15 +180,15 @@ export default function Proposals() {
               scrollbar-thumb-rounded-full scrollbar-w-2 scrollbar-thin
           "
           >
-            {pautasMock.map((pauta) => (
+            {pautas.map((pauta) => (
               <PautasCard
-                key={pauta.id}
-                PautaName={pauta.PautaName}
-                QtyProposals={pauta.QtyProposals}
-                MeetingDate={pauta.MeetingDate}
-                MeetingTime={pauta.MeetingTime}
-                ResponsibleAnalyst={pauta.ResponsibleAnalyst}
-                isInTheModalAddToAPauta={pauta.isInTheModalAddToAPauta}
+                id={pauta.idPauta}
+                PautaName={"ID da pauta " + pauta.idPauta}
+                QtyProposals={pauta.propostasPauta.length}
+                MeetingDate={pauta.dataReuniaoPauta}
+                MeetingTime={pauta.horarioInicioPauta}
+                ResponsibleAnalyst={pauta.forumPauta.analistaResponsavelForum.nomeUsuario}
+                isInTheModalAddToAPauta={true}
               />
             ))}
           </div>

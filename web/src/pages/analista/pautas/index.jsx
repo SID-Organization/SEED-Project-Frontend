@@ -13,7 +13,7 @@ const pautasMock = [
   {
     PautaName: "Pauta 2",
     QtyProposals: 2,
-    MeetingDate: "10/06/2021",
+    MeetingDate: "12/12/2021",
     MeetingTime: "10:00",
     ResponsibleAnalyst: "Henrique Cole Fernandes",
   },
@@ -27,7 +27,7 @@ const pautasMock = [
   {
     PautaName: "Pauta 5",
     QtyProposals: 2,
-    MeetingDate: "10/11/2021",
+    MeetingDate: "10/11/2022",
     MeetingTime: "10:00",
     ResponsibleAnalyst: "João da Silva",
   },
@@ -48,23 +48,58 @@ const pautasMock = [
 ];
 
 export default function Pautas() {
-  const [pautas, setPautas] = useState(pautasMock);
+  const [pautas, setPautas] = useState([]);
 
-  const [pautasMonths, setPautasMonths] = useState(() =>
-    pautas
-      .map((pauta) => pauta.MeetingDate.split("/")[1])
-      .sort()
-      .filter((value, index, self) => self.indexOf(value) === index)
-  );
+  const [pautasMonths, setPautasMonths] = useState([]);
 
-  const [pautasYears, setPautasYears] = useState(() =>
-    pautas
-      .map((pauta) => pauta.MeetingDate.split("/")[2])
-      .sort()
-      .filter((value, index, self) => self.indexOf(value) === index)
-  );
+  const [pautasYear, setPautasYear] = useState([]);
 
-  useEffect(() => {}, [pautas]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/sid/api/pauta")
+      .then((response) => response.json())
+      .then((data) => {
+        let pautas = data.map(pauta => ({...pauta, dataReuniaoPauta: pauta.dataReuniaoPauta.split("T")[0].split("-").reverse().join("/")}))
+        console.log("pautas", pautas)
+        setPautas(pautas);
+      });
+  }, [])
+
+  useEffect(() => {
+    if(pautas.length === 0) return;
+    setPautasMonths(() =>
+      pautas
+        .map((pauta) => pauta.dataReuniaoPauta.split("/")[1])
+        .sort()
+        .filter((value, index, self) => self.indexOf(value) === index)
+    );
+    setPautasYear(() =>
+      pautas
+        .map((pauta) => pauta.dataReuniaoPauta.split("/")[2])
+        .sort().reverse()
+        .filter((value, index, self) => self.indexOf(value) === index)
+    );
+  }, [pautas]);
+
+
+  const getPautasInMonth = (month, year) => {
+    return pautas.filter((pauta) => pauta.dataReuniaoPauta.split("/")[1] === month && pauta.dataReuniaoPauta.split("/")[2] === year)
+  }
+
+  const months = {
+    "01": "Janeiro",
+    "02": "Fevereiro",
+    "03": "Março",
+    "04": "Abril",
+    "05": "Maio",
+    "06": "Junho",
+    "07": "Julho",
+    "08": "Agosto",
+    "09": "Setembro",
+    "10": "Outubro",
+    "11": "Novembro",
+    "12": "Dezembro",
+  }
 
   return (
     <div>
@@ -75,48 +110,37 @@ export default function Pautas() {
         justify-center
         items-center
         flex-col
-        gap-4
-        mt-8
+        gap-10
+        mt-12
+        mb-20
       "
       >
-        {pautasMonths.map((month) => (
-          <div>
-            <h1
-              className="
-      text-xl
-      font-bold
-      text-dark-blue-weg
-      "
-            >
-              {{
-                "01": "Janeiro",
-                "02": "Fevereiro",
-                "03": "Março",
-                "04": "Abril",
-                "05": "Maio",
-                "06": "Junho",
-                "07": "Julho",
-                "08": "Agosto",
-                "09": "Setembro",
-                "10": "Outubro",
-                "11": "Novembro",
-                "12": "Dezembro",
-              }[month] +
-                " - " +
-                pautasYears[0]}
-            </h1>
-            {pautas
-              .filter((pauta) => pauta.MeetingDate.split("/")[1] === month)
-              .map((pauta) => (
-                <PautasCard
-                  PautaName={pauta.PautaName}
-                  QtyProposals={pauta.QtyProposals}
-                  MeetingDate={pauta.MeetingDate}
-                  MeetingTime={pauta.MeetingTime}
-                  ResponsibleAnalyst={pauta.ResponsibleAnalyst}
-                />
-              ))}
-          </div>
+        {pautasYear.map((year) => (
+          <>
+            {pautasMonths.map((month) => (
+              <>
+                {
+                  getPautasInMonth(month, year).length > 0 &&
+                  <div>
+                    <h1 className=" text-xl font-bold text-dark-blue-weg " >
+                      {months[month] +
+                        " - " + year}
+                    </h1>
+                    {getPautasInMonth(month, year)
+                      .map((pauta) => (
+                        <PautasCard
+                          PautaName={"ID da pauta " + pauta.idPauta}
+                          QtyProposals={pauta.propostasPauta.length}
+                          MeetingDate={pauta.dataReuniaoPauta}
+                          MeetingTime={pauta.horarioInicioPauta}
+                          ResponsibleAnalyst={pauta.forumPauta.analistaResponsavelForum.nomeUsuario}
+                        />
+                      ))}
+                  </div>
+                }
+              </>
+            ))}
+          </>
         ))}
       </div>
     </div>

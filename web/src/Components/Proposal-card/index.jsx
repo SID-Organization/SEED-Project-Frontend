@@ -132,33 +132,17 @@ export default function ProposalCard(props) {
     window.open("http://www.africau.edu/images/default/sample.pdf", "_blank");
   }
 
-  //   function openPdf() {
-  //     fetch("https://example.com/pdf/123")
-  //     .then(response => {
-  //         if (response.ok) {
-  //             return response.blob();
-  //         }
-  //     })
-  //     .then(blob => {
-  //         let url = window.URL.createObjectURL(blob);
-  //         window.open(url, "_blank");
-  //     })
-  //     .catch(err => {
-  //         console.error(err);
-  //     });
-  // }
-
   return (
     <div>
       <Card>
-        <div className="flex justify-center items-center gap-16">
+        <div className="flex justify-around items-center gap-16">
           <div className="grid font-roboto gap-7 ">
             <div
               className={`
                 ${
                   props.newPauta
                     ? "flex items-center justify-between ml-4"
-                    : "flex items-center justify-around "
+                    : "flex items-center justify-between "
                 }
               `}
             >
