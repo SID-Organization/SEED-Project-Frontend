@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import DemandCard from "../../../Components/Demand-card";
 import {
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   TextField,
   Tooltip,
 } from "@mui/material";
+
+import DoneIcon from "@mui/icons-material/Done";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
@@ -63,6 +66,8 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
+
+  const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
   let demandId = useParams().id;
 
@@ -376,6 +381,12 @@ export default function GenerateProposal() {
       </div>
       <div className="flex justify-end items-center m-10">
         <Button
+          onClick={() => {
+            setButtonSavedClicked(true);
+            setTimeout(() => {
+              setButtonSavedClicked(false);
+            }, 1500);
+          }}
           variant="contained"
           color="primary"
           sx={{
@@ -387,7 +398,13 @@ export default function GenerateProposal() {
             },
           }}
         >
-          Salvar
+          {(buttonSavedClicked && (
+            <div className="flex items-center gap-2">
+              <CircularProgress size={20} sx={{ color: "#FFFFFF" }} />
+              <p>Salvando...</p>
+            </div>
+          )) ||
+            "Salvar"}
         </Button>
         <Button
           variant="contained"
