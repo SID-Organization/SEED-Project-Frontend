@@ -56,6 +56,7 @@ export default function homeDemands() {
 
   const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands.map(async (demand) => {
+      console.log("Demand: ", demand)
       let demandHistoric = await fetch("http://localhost:8080/sid/api/historico-workflow/demanda/" + demand.idDemanda)
         .then((response) => response.json())
         .then((data) => {
@@ -76,31 +77,32 @@ export default function homeDemands() {
 
 
   const updateDemandSort = (search) => {
+    let sortedDemands;
     if(demandsWLogs) {
-      let sortedDemands;
+      console.log("DemandsWLogs: ", demandsWLogs)
       console.log("FILTER: ", filter)
       console.log("SEARCH: ", search)
 
-      if(filter.filterId === 0){
-        // Ordenar por data de criação
-        sortedDemands = demandsWLogs.sort((a, b) => {
-          let dateA = new Date(a.historico[0].recebimentoHistorico);
-          let dateB = new Date(b.historico[0].recebimentoHistorico);
-          if(dateA > dateB) return -1;
-          if(dateA < dateB) return 1;
-          return 0
-        })
-      } else if(filter.filterId === 1){
-        // Ordenar por data de atualização (ultima atualização)
-        sortedDemands = demandsWLogs.sort((a, b) => {
-          let dateA = new Date(a.historico[a.historico.length - 1].recebimentoHistorico);
-          let dateB = new Date(b.historico[b.historico.length - 1].recebimentoHistorico);
-          if(dateA > dateB) return -1;
-          if(dateA < dateB) return 1;
-          return 0
-        })
+      // if(filter.filterId === 0){
+      //   // Ordenar por data de criação
+      //   sortedDemands = demandsWLogs.sort((a, b) => {
+      //     let dateA = new Date(a.historico[0].recebimentoHistorico);
+      //     let dateB = new Date(b.historico[0].recebimentoHistorico);
+      //     if(dateA > dateB) return -1;
+      //     if(dateA < dateB) return 1;
+      //     return 0
+      //   })
+      // } else if(filter.filterId === 1){
+      //   // Ordenar por data de atualização (ultima atualização)
+      //   sortedDemands = demandsWLogs.sort((a, b) => {
+      //     let dateA = new Date(a.historico[a.historico.length - 1].recebimentoHistorico);
+      //     let dateB = new Date(b.historico[b.historico.length - 1].recebimentoHistorico);
+      //     if(dateA > dateB) return -1;
+      //     if(dateA < dateB) return 1;
+      //     return 0
+        // })
 
-      } else {
+      // } else {
         sortedDemands = demandsWLogs;
       }
       
@@ -108,7 +110,7 @@ export default function homeDemands() {
 
       setSortedDemands(sortedDemands);
     }
-  }
+  
 
   useEffect(() => {
     if(dbDemands){

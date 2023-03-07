@@ -126,7 +126,7 @@ export default function CreateNewPauta() {
                   />
                 </div>
               </div>
-
+                    <div></div>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
@@ -136,6 +136,7 @@ export default function CreateNewPauta() {
                   <TextField {...params} label="Comissão" />
                 )}
               />
+              
             </div>
             <div className="grid gap-2">
               <div className="flex justify-center items-center gap-5">
