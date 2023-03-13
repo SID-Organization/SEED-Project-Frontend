@@ -451,7 +451,7 @@ export default function CreateDemand() {
                 value={item.description}
                 onChange={(e) => {
                   const newRealBenefits = [...realBenefits];
-                  newRealBenefits[i].description = e.target.editor.getContents();
+                  newRealBenefits[i].description = e;
                   setRealBenefits(newRealBenefits);
                 }}
                 placeholder="Descreva o benefício."
@@ -502,7 +502,7 @@ export default function CreateDemand() {
                 value={item.description}
                 onChange={(e) => {
                   const newPotentialBenefits = [...potentialBenefits];
-                  newPotentialBenefits[i].description = e.target.editor.getText();
+                  newPotentialBenefits[i].description = e;
                   setPotentialBenefits(newPotentialBenefits);
                 }}
                 ref={item.ref}

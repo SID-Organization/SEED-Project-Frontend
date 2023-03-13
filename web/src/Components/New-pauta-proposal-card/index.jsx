@@ -32,7 +32,7 @@ export default function NewPautaProposalCard() {
           title="Proposta 0001"
           executionTime={10}
           value={4000}
-          referenceDemand="10000 - Automatização do processo de criação e desenvolvimento de demandas"
+          referenceDemand="10000 - Auttização do processo de criação e desenvolvimento de demandas"
         />
       </div>
     </div>

@@ -125,16 +125,16 @@ export default function PautasCard(props) {
   const Button = styled(MuiButton)(() => ({
     backgroundColor: "#0075B1",
     height: "2rem",
-  
+
     "&:hover": {
       backgroundColor: "#0075B1",
     },
   }));
-  
+
   const [proposals, setProposals] = useState([]);
 
   useEffect(() => {
-    
+
   }, [])
 
   return (

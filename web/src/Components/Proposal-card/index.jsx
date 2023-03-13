@@ -136,7 +136,7 @@ export default function ProposalCard(props) {
     <div>
       <Card>
         <div className="flex justify-around items-center gap-16">
-          <div className="grid font-roboto gap-7 ">
+          <div className={`grid font-roboto gap-7 ${!props.newPauta && "w-[48rem]"}`}>
             <div
               className={`
                 ${
@@ -238,8 +238,8 @@ export default function ProposalCard(props) {
                     }
                     `}
                   >
-                    {demandTitle.length > 80
-                      ? demandTitle.substring(0, 80) + "..."
+                    {demandTitle.length > 70
+                      ? demandTitle.substring(0, 70) + "..."
                       : demandTitle}
                   </span>
                 </Tooltip>

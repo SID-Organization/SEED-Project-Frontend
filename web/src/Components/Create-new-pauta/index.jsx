@@ -18,6 +18,8 @@ export default function CreateNewPauta() {
   const [openedModal, setOpenedModal] = useState(false);
   const [foruns, setForuns] = useState([]);
   const [comissoes, setComissoes] = useState([]);
+  const [readyProposals, setReadyProposals] = useState([]);
+
 
   const handleOpenModal = () => setOpenedModal(true);
   const handleCloseModal = () => setOpenedModal(false);
@@ -27,6 +29,14 @@ export default function CreateNewPauta() {
       .then((response) => response.json())
       .then((data) => setForuns(data));
     
+    
+    fetch("http://localhost:8080/sid/api/proposta/proposta-finalizada")
+      .then((response) => response.json())
+      .then((data) => 
+        {
+          console.log("data ReadyProposals", data)
+        }
+      );
 
   }, [])
 
