@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+import {
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  Select,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import { styled } from "@mui/material/styles";
@@ -61,29 +68,58 @@ export default function CostTableRow(props) {
       totalExpenseCost,
       costCenterPayers,
     };
-    props.setCostList(costList);
+    props.setCostList([...costList]);
   };
 
   const deleteRow = () => {
-    cleanStates();
     props.setCostList(props.costList.filter((_, i) => i !== props.index));
   };
+
+  const setStatesAgain = () => {
+    setExpenseType(props.totalCost.expenseType);
+    setExpenseProfile(props.totalCost.expenseProfile);
+    setMonthTimeExecution(props.totalCost.monthTimeExecution);
+    setNecessaryHours(props.totalCost.necessaryHours);
+    setCostHour(props.totalCost.costHour);
+    setTotalExpenseCost(props.totalCost.totalExpenseCost);
+    setCostCenterPayers(props.totalCost.costCenterPayers);
+  };
+
+  useEffect(() => {
+    setStatesAgain();
+    console.log("ISAJDIJASIDJASI");
+  }, [props.costList]);
 
   return (
     <>
       <tr>
         <td className="border-2 border-blue-weg border-b-2 border-t-0">
-          <TableInput
-            id="outlined-basic"
-            variant="outlined"
-            size="small"
-            value={expenseType}
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
             onChange={(e) => {
               setExpenseType(e.target.value);
             }}
-            multiline
             onBlur={updateTable}
-          />
+            sx={{
+              width: "100%",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "none",
+                },
+                "&:hover fieldset": {
+                  border: "none",
+                },
+                "&.Mui-focused fieldset": {
+                  border: "none",
+                },
+              },
+              borderRadius: 0,
+            }}
+          >
+            <MenuItem value={"Externo"}>Externo</MenuItem>
+            <MenuItem value={"Interno"}>Interno</MenuItem>
+          </Select>
         </td>
         <td className="border-2 border-blue-weg border-b-2 border-t-0">
           <TableInput
