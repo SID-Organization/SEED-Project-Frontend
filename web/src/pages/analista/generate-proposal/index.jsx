@@ -127,6 +127,40 @@ export default function GenerateProposal() {
     },
   ]);
 
+  useEffect(() => {
+    console.log("List", totalCostList);
+  }, [totalCostList]);
+
+  function sumInternalCosts() {
+    let sum = 0;
+    totalCostList.forEach((cost) => {
+      if (cost.expenseType === "Interno") {
+        if (cost.totalExpenseCost !== "") {
+          sum += parseFloat(cost.totalExpenseCost);
+        }
+      }
+    });
+    return sum;
+  }
+
+  function sumExternalCosts() {
+    let sum = 0;
+    totalCostList.forEach((cost) => {
+      if (cost.expenseType === "Externo") {
+        if (cost.totalExpenseCost !== "") {
+          sum += parseFloat(cost.totalExpenseCost);
+        }
+      }
+    });
+    return sum;
+  }
+
+  useEffect(() => {
+    console.log("Sum Internal Costs", sumInternalCosts());
+
+    console.log("Sum External Costs", sumExternalCosts());
+  }, [totalCostList]);
+
   return (
     <div>
       <div className="grid justify-center items-center gap-5">
@@ -237,6 +271,8 @@ export default function GenerateProposal() {
               id="outlined-basic"
               variant="outlined"
               size="small"
+              disabled
+              value={sumInternalCosts() + sumExternalCosts()}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">R$</InputAdornment>
@@ -264,6 +300,8 @@ export default function GenerateProposal() {
                 id="outlined-basic"
                 variant="outlined"
                 size="small"
+                disabled
+                value={sumExternalCosts()}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">R$</InputAdornment>
@@ -283,6 +321,8 @@ export default function GenerateProposal() {
               <TextField
                 id="outlined-basic"
                 variant="outlined"
+                disabled
+                value={sumInternalCosts()}
                 size="small"
                 InputProps={{
                   startAdornment: (
