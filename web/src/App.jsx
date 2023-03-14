@@ -18,19 +18,25 @@ import GenerateAta from "./pages/analista/generate-ata";
 import GenerateProposal from "./pages/analista/generate-proposal";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
 
+
+
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route
+            path=""
+            element={<Navigate to={"/login"} />}
+          />
           <Route
             path="/login"
             element={<Login user={user} setUser={setUser} />}

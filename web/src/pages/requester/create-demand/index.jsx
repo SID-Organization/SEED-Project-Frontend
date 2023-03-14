@@ -132,27 +132,9 @@ export default function CreateDemand() {
     ],
   };
 
-  useEffect(() => {
-    if (currentProblemRef.current)
-      console.log(
-        "CurrentProblemDelta ->",
-        currentProblemRef.current?.getEditor().getContents()
-      );
-    console.log(
-      "CurrentProblemText ->",
-      currentProblemRef.current?.getEditor().getText()
-    );
-  }, [currentProblem]);
-
   const quillStyle = { maxWidth: "43rem" }
   // Usuário logado
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-
-  useEffect(() => {
-    if(currentProblemRef.current) {
-      console.log("CurrentProblemREF", currentProblemRef.current.getEditor().getContents());
-    }
-  }, [currentProblem])
 
   // Navegador de página pela função
   const navigate = useNavigate();
@@ -185,19 +167,23 @@ export default function CreateDemand() {
       return {
         moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: benefit.value,
+        descricaoBeneficioHTML: benefit.descriptionHTML,
         descricaoBeneficio: benefit.description,
         tipoBeneficio: "REAL",
       };
     });
 
-    for (let benefit of potentialBenefits) {
-      benefitsToBeSent.push({
-        moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: benefit.value,
-        descricaoBeneficio: benefit.description,
-        tipoBeneficio: "POTENCIAL",
-      });
-    }
+    // for (let benefit of potentialBenefits) {
+    //   benefitsToBeSent.push({
+    //     moedaBeneficio: getBenefitCoin(benefit.coin),
+    //     memoriaCalculoBeneficio: benefit.value,
+    //     descricaoBeneficio: benefit.description,
+    //     tipoBeneficio: "POTENCIAL",
+    //   });
+    // }
+
+    console.log("benefitsToBeSent ->", benefitsToBeSent);
+
 
     const demandToBeSent = {
       tituloDemanda: title,
@@ -212,6 +198,7 @@ export default function CreateDemand() {
       beneficiosDemanda: benefitsToBeSent,
     };
 
+
     const formData = new FormData();
 
     formData.append("demandaForm", JSON.stringify(demandToBeSent));
@@ -220,12 +207,12 @@ export default function CreateDemand() {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
 
-    fetch("http://localhost:8080/sid/api/demanda", {
-      method: "POST",
-      body: formData,
-    }).then((res) => {
-      navigate("/demandas");
-    });
+    // fetch("http://localhost:8080/sid/api/demanda", {
+    //   method: "POST",
+    //   body: formData,
+    // }).then((res) => {
+    //   navigate("/demandas");
+    // });
   };
 
   function handleFileInput(event) {
@@ -235,7 +222,7 @@ export default function CreateDemand() {
   }
 
   function addRealBenefit() {
-    setRealBenefits([...realBenefits, { coin: "", value: 0, description: "", ref: createRef() }]);
+    setRealBenefits([...realBenefits, { coin: "", value: 0, descriptionHTML: "", ref: createRef() }]);
     setButtonNotification(true);
   }
 
@@ -388,6 +375,7 @@ export default function CreateDemand() {
     {
       coin: "",
       value: 0,
+      descriptionHTML: "",
       description: "",
       ref: useRef(null),
     },
@@ -397,6 +385,7 @@ export default function CreateDemand() {
     {
       coin: "",
       value: 0,
+      descriptionHTML: "",
       description: "",
       ref: useRef(null),
     },
@@ -404,9 +393,6 @@ export default function CreateDemand() {
 
   const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
-  useEffect(() => {
-    console.log("realBenefits", realBenefits);
-  }, [realBenefits])
 
   // Segundo passo - Benefícios
   const secondStep = () => {
@@ -439,19 +425,23 @@ export default function CreateDemand() {
           </Tooltip>
         </div>
         {realBenefits.map((item, i) => (
-          <div className="flex items-center justify-center">
+          <div
+            className="flex items-center justify-center"
+            key={i}
+          >
             <NewBenefitInsertion
               coin={item.coin}
               value={item.value}
-              description={item.description}
+              description={item.descriptionHTML}
               benefitStates={{ realBenefits, setRealBenefits }}
               benefitIndex={i}
             >
               <ReactQuill
-                value={item.description}
+                value={item.descriptionHTML}
                 onChange={(e) => {
                   const newRealBenefits = [...realBenefits];
-                  newRealBenefits[i].description = e;
+                  newRealBenefits[i].descriptionHTML = e;
+                  newRealBenefits[i].description = item.ref.current?.getEditor().getText();
                   setRealBenefits(newRealBenefits);
                 }}
                 placeholder="Descreva o benefício."
@@ -485,11 +475,14 @@ export default function CreateDemand() {
           </Tooltip>
         </div>
         {potentialBenefits.map((item, i) => (
-          <div className="flex items-center justify-center">
+          <div
+            className="flex items-center justify-center"
+            key={i}
+          >
             <NewBenefitInsertion
               coin={item.coin}
               value={item.value}
-              description={item.description}
+              description={item.descriptionHTML}
               benefitStates={{
                 realBenefits: potentialBenefits,
                 setRealBenefits: setPotentialBenefits,
@@ -499,10 +492,11 @@ export default function CreateDemand() {
               <ReactQuill
                 theme="snow"
                 modules={quillModules}
-                value={item.description}
+                value={item.descriptionHTML}
                 onChange={(e) => {
                   const newPotentialBenefits = [...potentialBenefits];
-                  newPotentialBenefits[i].description = e;
+                  newPotentialBenefits[i].descriptionHTML = e;
+                  newPotentialBenefits[i].description = item.ref.current?.getEditor().getText();
                   setPotentialBenefits(newPotentialBenefits);
                 }}
                 ref={item.ref}
