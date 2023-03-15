@@ -161,6 +161,40 @@ export default function GenerateProposal() {
     console.log("Sum External Costs", sumExternalCosts());
   }, [totalCostList]);
 
+  const handlePutProposal = async () => {
+    const proposalToBeSent = {
+      demandId: demandId,
+      escopoProposta: "n tem ainda",
+      paybackProposta: payback,
+      aprovadoWorkflowProposta: 1,
+      startDate: startDate,
+      endDate: endDate,
+      periodoExecucaoDemanda: "20/04/2022",
+      naoFazParteDoEscopoProposta: "n tem ainda",
+      alternativasAvaliadasProposta: "n tem ainda",
+      planoMitigacaoProposta: "n tem ainda",
+      nameBusinessResponsible: nameBusinessResponsible,
+      areaBusinessResponsible: areaBusinessResponsible,
+      internalCosts: sumInternalCosts(),
+      externalCosts: sumExternalCosts(),
+      totalCosts: sumInternalCosts() + sumExternalCosts(),
+      custosTotaisDoProjeto: totalCostList,
+    };
+
+    const formData = new FormData();
+    formData.append("updatePropostaForm", JSON.stringify(proposalToBeSent));
+
+    fetch(`http://localhost:8080/sid/api/proposta/update/${demandId}`, {
+      method: "PUT",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((res) => {
+      console.log("Res", res);
+    });
+  };
+
   return (
     <div>
       <div className="grid justify-center items-center gap-5">
@@ -447,6 +481,7 @@ export default function GenerateProposal() {
             "Salvar"}
         </Button>
         <Button
+          onClick={handlePutProposal}
           variant="contained"
           color="primary"
           sx={{
