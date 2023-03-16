@@ -107,16 +107,20 @@ export default function CreateDemand() {
   const [title, setTitle] = useState("");
 
   const currentProblemRef = useRef(null);
+  const [currentProblemHTML, setCurrentProblemHTML] = useState("");
   const [currentProblem, setCurrentProblem] = useState("");
 
   const proposalRef = useRef(null);
+  const [proposalHTML, setProposalHTML] = useState("");
   const [proposal, setProposal] = useState("");
 
   const frequencyOfUseRef = useRef(null);
+  const [frequencyOfUseHTML, setFrequencyOfUseHTML] = useState("");
   const [frequencyOfUse, setFrequencyOfUse] = useState("");
 
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
+
   const [buttonNotification, setButtonNotification] = useState(false);
   const [deleteNotification, setDeleteNotification] = useState(false);
 
@@ -163,56 +167,80 @@ export default function CreateDemand() {
       }
     }
 
-    const benefitsToBeSent = realBenefits.map((benefit) => {
+    const benefitsToSave = realBenefits.map((benefit) => {
+
+      let strBenef = benefit.description.split("\n");
+      strBenef.pop();
+
       return {
         moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: benefit.value,
         descricaoBeneficioHTML: benefit.descriptionHTML,
-        descricaoBeneficio: benefit.description,
+        descricaoBeneficio: strBenef.join(" "),
         tipoBeneficio: "REAL",
       };
     });
 
-    // for (let benefit of potentialBenefits) {
-    //   benefitsToBeSent.push({
-    //     moedaBeneficio: getBenefitCoin(benefit.coin),
-    //     memoriaCalculoBeneficio: benefit.value,
-    //     descricaoBeneficio: benefit.description,
-    //     tipoBeneficio: "POTENCIAL",
-    //   });
-    // }
+    for (let benefit of potentialBenefits) {
+      let strBenef = benefit.description.split("\n");
+      strBenef.pop();
 
-    console.log("benefitsToBeSent ->", benefitsToBeSent);
+      benefitsToSave.push({
+        moedaBeneficio: getBenefitCoin(benefit.coin),
+        memoriaCalculoBeneficio: benefit.value,
+        descricaoBeneficioHTML: benefit.descriptionHTML,
+        descricaoBeneficio: strBenef.join(" "),
+        tipoBeneficio: "POTENCIAL",
+      });
+    }
+
+    console.log("benefitsToBeSent ->", benefitsToSave);
 
 
-    const demandToBeSent = {
+    const proposalToSave = proposal.split("\n");
+    proposalToSave.pop();
+
+    const currentProblemToSave = currentProblem.split("\n");
+    currentProblemToSave.pop();
+
+    const frequencyOfUseToSave = frequencyOfUse.split("\n");
+    frequencyOfUseToSave.pop();
+
+    const demandToSave = {
       tituloDemanda: title,
-      propostaMelhoriaDemanda: proposal,
-      situacaoAtualDemanda: currentProblem,
-      frequenciaUsoDemanda: frequencyOfUse,
+      propostaMelhoriaDemanda: proposalToSave.join(" "),
+      situacaoAtualDemanda: currentProblemToSave.join(" "),
+      frequenciaUsoDemanda: frequencyOfUseToSave.join(" "),
       descricaoQualitativoDemanda: qualitativeBenefit,
       solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
       analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
       gerenteDaAreaDemanda: { numeroCadastroUsuario: 72132 },
       gestorResponsavelDemanda: { numeroCadastroUsuario: 72133 },
-      beneficiosDemanda: benefitsToBeSent,
+      beneficiosDemanda: benefitsToSave,
     };
 
+    const formDemandPDF = {
+      propostaMelhoriaDemandaHTML: proposalHTML,
+      situacaoAtualDemandaHTML: currentProblemHTML,
+      frequenciaUsoDemandaHTML: frequencyOfUseHTML,
+    }
 
     const formData = new FormData();
 
-    formData.append("demandaForm", JSON.stringify(demandToBeSent));
+    formData.append("demandaForm", JSON.stringify(demandToSave));
+    formData.append("pdfDemandaForm", JSON.stringify(formDemandPDF));
+
 
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
 
-    // fetch("http://localhost:8080/sid/api/demanda", {
-    //   method: "POST",
-    //   body: formData,
-    // }).then((res) => {
-    //   navigate("/demandas");
-    // });
+    fetch("http://localhost:8080/sid/api/demanda", {
+      method: "POST",
+      body: formData,
+    }).then((res) => {
+      navigate("/demandas");
+    });
   };
 
   function handleFileInput(event) {
@@ -325,8 +353,11 @@ export default function CreateDemand() {
             <div className="w-40 h-[5px] rounded-full bg-blue-weg ml-3" />
           </div>
           <ReactQuill
-            value={currentProblem}
-            onChange={(e) => setCurrentProblem(e)}
+            value={currentProblemHTML}
+            onChange={(e) => {
+              setCurrentProblemHTML(e)
+              setCurrentProblem(currentProblemRef.current?.getEditor().getText());
+            }}
             placeholder="Descreva a situação atual da demanda."
             modules={quillModules}
             ref={currentProblemRef}
@@ -342,8 +373,11 @@ export default function CreateDemand() {
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
-            value={proposal}
-            onChange={(e) => setProposal(e)}
+            value={proposalHTML}
+            onChange={(e) => {
+              setProposalHTML(e)
+              setProposal(proposalRef.current?.getEditor().getText());
+            }}
             placeholder="Descreva a proposta de melhoria da demanda."
             modules={quillModules}
             ref={proposalRef}
@@ -359,8 +393,11 @@ export default function CreateDemand() {
             <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
-            value={frequencyOfUse}
-            onChange={(e) => setFrequencyOfUse(e)}
+            value={frequencyOfUseHTML}
+            onChange={(e) => {
+              setFrequencyOfUseHTML(e)
+              setFrequencyOfUse(frequencyOfUseRef.current?.getEditor().getText());
+            }}
             placeholder="Descreva a frequência de uso da demanda."
             modules={quillModules}
             ref={frequencyOfUseRef}

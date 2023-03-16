@@ -112,9 +112,6 @@ export default function ProposalCard(props) {
     },
   });
 
-  const demandTitle =
-    "10000 - Automatização do processo de criação e desenvolvimento de demandas";
-
   function handleSelectedProposals() {
     if (!isButtonAddClicked) {
       props.setSelectProposals((prevState) => {
@@ -228,7 +225,7 @@ export default function ProposalCard(props) {
                 `}
               >
                 Demanda de referência:{" "}
-                <Tooltip title={demandTitle}>
+                <Tooltip title={props.referenceDemand + " - " + props.title}>
                   <span
                     className={`
                     ${
@@ -238,9 +235,9 @@ export default function ProposalCard(props) {
                     }
                     `}
                   >
-                    {demandTitle.length > 70
-                      ? demandTitle.substring(0, 70) + "..."
-                      : demandTitle}
+                    {props.referenceDemand + " - " + props.title > 70
+                      ? (props.referenceDemand + " - " + props.title).substring(0, 70) + "..."
+                      : (props.referenceDemand + " - " + props.title)}
                   </span>
                 </Tooltip>
               </h1>

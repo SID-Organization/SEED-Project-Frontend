@@ -59,7 +59,8 @@ export default function Pautas() {
     fetch("http://localhost:8080/sid/api/pauta")
       .then((response) => response.json())
       .then((data) => {
-        let pautas = data.map(pauta => ({...pauta, dataReuniaoPauta: pauta.dataReuniaoPauta.split("T")[0].split("-").reverse().join("/")}))
+        console.log("DATA", data)
+        let pautas = data.map(pauta => ({...pauta, dataReuniao: pauta.dataReuniao.split("T")[0].split("-").reverse().join("/")}))
         console.log("pautas", pautas)
         setPautas(pautas);
       });
@@ -69,13 +70,13 @@ export default function Pautas() {
     if(pautas.length === 0) return;
     setPautasMonths(() =>
       pautas
-        .map((pauta) => pauta.dataReuniaoPauta.split("/")[1])
+        .map((pauta) => pauta.dataReuniao.split("/")[1])
         .sort()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
     setPautasYear(() =>
       pautas
-        .map((pauta) => pauta.dataReuniaoPauta.split("/")[2])
+        .map((pauta) => pauta.dataReuniao.split("/")[2])
         .sort().reverse()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
@@ -83,7 +84,7 @@ export default function Pautas() {
 
 
   const getPautasInMonth = (month, year) => {
-    return pautas.filter((pauta) => pauta.dataReuniaoPauta.split("/")[1] === month && pauta.dataReuniaoPauta.split("/")[2] === year)
+    return pautas.filter((pauta) => pauta.dataReuniao.split("/")[1] === month && pauta.dataReuniao.split("/")[2] === year)
   }
 
   const months = {
@@ -131,10 +132,10 @@ export default function Pautas() {
                         <PautasCard
                           PautaName={"ID da pauta: " + pauta.idPauta}
                           Id={pauta.idPauta}
-                          QtyProposals={pauta.propostasPauta.length}
-                          MeetingDate={pauta.dataReuniaoPauta}
-                          MeetingTime={pauta.horarioInicioPauta}
-                          ResponsibleAnalyst={pauta.forumPauta.analistaResponsavelForum.nomeUsuario}
+                          QtyProposals={pauta.qtdPropostas}
+                          MeetingDate={pauta.dataReuniao}
+                          MeetingTime={pauta.horaReuniao.substring(0, 5)}
+                          ResponsibleAnalyst={pauta.analistaResponsavel}
                         />
                       ))}
                   </div>
