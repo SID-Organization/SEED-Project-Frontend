@@ -10,8 +10,6 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import DoneIcon from "@mui/icons-material/Done";
-
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 import MuiTextField from "@mui/material/TextField";
@@ -162,34 +160,50 @@ export default function GenerateProposal() {
   }, [totalCostList]);
 
   const handlePutProposal = async () => {
+    // const proposalToBeSent = {
+    //   demandId: demandId,
+    //   escopoProposta: "n tem ainda",
+    //   paybackProposta: payback,
+    //   aprovadoWorkflowProposta: 1,
+    //   startDate: startDate,
+    //   endDate: endDate,
+    //   periodoExecucaoDemanda: "20/04/2022",
+    //   naoFazParteDoEscopoProposta: "n tem ainda",
+    //   alternativasAvaliadasProposta: "n tem ainda",
+    //   planoMitigacaoProposta: "n tem ainda",
+    //   nameBusinessResponsible: nameBusinessResponsible,
+    //   areaBusinessResponsible: areaBusinessResponsible,
+    //   internalCosts: sumInternalCosts(),
+    //   externalCosts: sumExternalCosts(),
+    //   totalCosts: sumInternalCosts() + sumExternalCosts(),
+    //   custosTotaisDoProjeto: totalCostList,
+    // };
+
     const proposalToBeSent = {
-      demandId: demandId,
       escopoProposta: "n tem ainda",
       paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
-      startDate: startDate,
-      endDate: endDate,
       periodoExecucaoDemanda: "20/04/2022",
       naoFazParteDoEscopoProposta: "n tem ainda",
       alternativasAvaliadasProposta: "n tem ainda",
       planoMitigacaoProposta: "n tem ainda",
-      nameBusinessResponsible: nameBusinessResponsible,
-      areaBusinessResponsible: areaBusinessResponsible,
-      internalCosts: sumInternalCosts(),
-      externalCosts: sumExternalCosts(),
-      totalCosts: sumInternalCosts() + sumExternalCosts(),
       custosTotaisDoProjeto: totalCostList,
+    };
+
+    const pdfProposal = {
+      escopoPropostaHTML: "<p> Teste </p>",
+      naoFazParteDoEscopoPropostaHTML: "<p> Teste </p>",
+      alternativasAvaliadasPropostaHTML: "<p> Teste </p>",
+      planoMitigacaoPropostaHTML: "<p> Teste </p>",
+      proposta: { idProposta: 2 },
     };
 
     const formData = new FormData();
     formData.append("updatePropostaForm", JSON.stringify(proposalToBeSent));
 
-    fetch(`http://localhost:8080/sid/api/proposta/update/${demandId}`, {
+    fetch(`http://localhost:8080/sid/api/proposta/update/3`, {
       method: "PUT",
       body: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
     }).then((res) => {
       console.log("Res", res);
     });
