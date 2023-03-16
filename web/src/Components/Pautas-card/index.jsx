@@ -134,8 +134,16 @@ export default function PautasCard(props) {
   const [proposals, setProposals] = useState([]);
 
   useEffect(() => {
-
+    fetch(`http://localhost:8080/sid/api/pauta/propostas/${props.Id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProposals(data);
+      });
   }, [])
+
+  useEffect(() => {
+    console.log("PROPOSALS: ", proposals)
+  }, [proposals])
 
   return (
     <div className="mt-5">
@@ -367,13 +375,13 @@ export default function PautasCard(props) {
           <Divider />
           <AccordionDetails>
             <div className="grid gap-5">
-              {proposalsMock.map((proposal) => (
+              {proposals && proposals.map((proposal) => (
                 <ProposalCard
-                  newPauta={proposal.newPauta}
-                  title={proposal.title}
-                  executionTime={proposal.executionTime}
-                  value={proposal.value}
-                  referenceDemand={proposal.referenceDemand}
+                  newPauta={false}
+                  title={proposal.demandaPropostaTitulo}
+                  executionTime={proposal.tempoDeExecucaoDemanda}
+                  value={proposal.valorDemanda}
+                  referenceDemand={proposal.idDemanda}
                 />
               ))}
             </div>
