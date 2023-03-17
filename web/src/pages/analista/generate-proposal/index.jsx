@@ -181,13 +181,14 @@ export default function GenerateProposal() {
 
     const proposalToBeSent = {
       escopoProposta: "n tem ainda",
-      paybackProposta: payback,
+      paybackProposta: 123,
       aprovadoWorkflowProposta: 1,
-      periodoExecucaoDemanda: "20/04/2022",
+      motivoRecusaWorkflowProposta: "não tem",
+      periodoExecucaoDemanda: "2022-04-18",
       naoFazParteDoEscopoProposta: "n tem ainda",
       alternativasAvaliadasProposta: "n tem ainda",
       planoMitigacaoProposta: "n tem ainda",
-      custosTotaisDoProjeto: totalCostList,
+      custosTotaisDoProjeto: 123,
     };
 
     const pdfProposal = {
@@ -201,7 +202,7 @@ export default function GenerateProposal() {
     const formData = new FormData();
     formData.append("updatePropostaForm", JSON.stringify(proposalToBeSent));
 
-    fetch(`http://localhost:8080/sid/api/proposta/update/3`, {
+    fetch(`http://localhost:8080/sid/api/proposta/update/14`, {
       method: "PUT",
       body: formData,
     }).then((res) => {
