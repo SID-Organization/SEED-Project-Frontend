@@ -171,13 +171,14 @@ export default function GenerateProposal() {
 
     const proposalToBeSent = {
       escopoProposta: "n tem ainda",
-      paybackProposta: payback,
+      paybackProposta: 123,
       aprovadoWorkflowProposta: 1,
-      periodoExecucaoDemanda: "20/04/2022",
+      motivoRecusaWorkflowProposta: "não tem",
+      periodoExecucaoDemanda: "2022-04-18",
       naoFazParteDoEscopoProposta: "n tem ainda",
       alternativasAvaliadasProposta: "n tem ainda",
       planoMitigacaoProposta: "n tem ainda",
-      custosTotaisDoProjeto: totalCostList,
+      custosTotaisDoProjeto: 123,
     };
 
     const pdfProposal = {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ProposalCard from "../Proposal-card";
 
@@ -12,8 +12,16 @@ const Checkbox = styled(MuiCheckbox)({
   },
 });
 
-export default function NewPautaProposalCard() {
+export default function NewPautaProposalCard(props) {
   const [isCheckboxClicked, setIsCheckBoxClicked] = useState(false);
+
+  useEffect(() => {
+    if(isCheckboxClicked) {
+      props.setSelectedProposals(prevState => [...prevState, {idProposta: props.proposal.idProposta}]);
+    } else {
+      props.setSelectedProposals(prevState => prevState.filter(proposal => proposal.idProposta !== props.proposal.idProposta));
+    }
+  }, [isCheckboxClicked]);
 
   return (
     <div
@@ -23,16 +31,16 @@ export default function NewPautaProposalCard() {
       <Checkbox checked={isCheckboxClicked} />
       <div className="relative">
         <div
-          className={`${
-            isCheckboxClicked && "bg-[#d9d9d9]/40"
-          } w-full h-full absolute rounded-[5px]`}
+          className={`${isCheckboxClicked && "bg-[#d9d9d9]/40"
+            } w-full h-full absolute rounded-[5px]`}
         />
         <ProposalCard
           newPauta={true}
-          title="Proposta 0001"
-          executionTime={10}
-          value={4000}
-          referenceDemand="10000 - Auttização do processo de criação e desenvolvimento de demandas"
+          title={props.proposal.demandaPropostaTitulo}
+          executionTime={props.proposal.tempoDeExecucaoDemanda}
+          value={props.proposal.valorDemanda}
+          referenceDemand={props.proposal.idDemanda}
+          proposalId={props.proposal.idProposta}
         />
       </div>
     </div>
