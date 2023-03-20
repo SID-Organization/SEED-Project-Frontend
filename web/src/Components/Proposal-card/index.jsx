@@ -155,8 +155,8 @@ export default function ProposalCard(props) {
                     }`}
                   >
                     {props.title.length > 25
-                      ? props.title.substring(0, 25) + "..."
-                      : props.title}
+                      ? props.proposalId + " - " + props.title.substring(0, 25) + "..."
+                      :  props.proposalId + " - " + props.title}
                   </h1>
                 </Tooltip>
                 {props.atasCard && (

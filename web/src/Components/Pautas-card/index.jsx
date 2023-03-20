@@ -92,26 +92,6 @@ const Accordion = styled(MuiAccordion)(() => ({
 
 
 
-const proposalsMock = [
-  {
-    newPauta: false,
-    title: "Automatização do processo",
-    executionTime: 10.0,
-    value: 10.0,
-    referenceDemand: "Demanda 2",
-    ResponsibleAnalyst: "Analista 1",
-  },
-  {
-    newPauta: false,
-    title: "Automatização do processo",
-    executionTime: 10.0,
-    value: 10.0,
-    referenceDemand: "Demanda 2",
-    ResponsibleAnalyst: "Analista 1",
-  },
-];
-
-
 export default function PautasCard(props) {
   const [shareModal, setShareModal] = useState(false);
   const handleOpenShareModal = () => setShareModal(true);
@@ -140,10 +120,6 @@ export default function PautasCard(props) {
         setProposals(data);
       });
   }, [])
-
-  useEffect(() => {
-    console.log("PROPOSALS: ", proposals)
-  }, [proposals])
 
   return (
     <div className="mt-5">
@@ -242,7 +218,7 @@ export default function PautasCard(props) {
                     <EditRoundedIcon />
                   </Tooltip>
                   <Tooltip title="Gerar ATA">
-                    <Link to="gerar-ata/:id">
+                    <Link to= {`gerar-ata/${props.Id}`}>
                       <Button variant="contained">Gerar ATA</Button>
                     </Link>
                   </Tooltip>
@@ -382,6 +358,7 @@ export default function PautasCard(props) {
                   executionTime={proposal.tempoDeExecucaoDemanda}
                   value={proposal.valorDemanda}
                   referenceDemand={proposal.idDemanda}
+                  proposalId={proposal.idProposta}
                 />
               ))}
             </div>

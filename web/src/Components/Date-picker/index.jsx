@@ -9,7 +9,7 @@ const DateField = styled(TextField)({
     height: "3rem",
 });
 
-export default function DatePicker(props ) {
+export default function DatePicker(props) {
     return (
         <DateField
             id="outlined-basic"
@@ -18,7 +18,7 @@ export default function DatePicker(props ) {
             type="date"
             label={props.label}
             value={props.searchValue}
-            onChange={(e) => props.serSearchValue(e.target.value)}
+            onChange={(e) => props.setSearchValue(e.target.value)}
             InputProps={{
             startAdornment: <InputAdornment position="start" />,
             }}

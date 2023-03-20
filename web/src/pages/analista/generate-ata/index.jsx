@@ -6,12 +6,13 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import GenerateAtaProposal from "../../../Components/Generate-ata-proposal";
 
 export default function GenerateAta() {
-  const { id } = useParams();
+  const { id } = useParams("id");
 
   return (
     <div className="grid items-center">
-      <div className="flex justify-center items-center mb-5">
-        <h1 className="font-bold text-3xl text-blue-weg mt-10">Ata 0003</h1>
+      <div className="flex flex-col justify-center items-center mb-5">
+        <h1 className="font-bold text-3xl text-blue-weg mt-10">Geração de ata</h1>
+        <p className="text-blue-weg mt-4">Pauta referência: {id}</p>
       </div>
       <div className="grid">
         <GenerateAtaProposal />
