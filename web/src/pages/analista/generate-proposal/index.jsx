@@ -153,11 +153,11 @@ export default function GenerateProposal() {
     return sum;
   }
 
-  useEffect(() => {
-    console.log("Sum Internal Costs", sumInternalCosts());
+  // useEffect(() => {
+  //   console.log("Sum Internal Costs", sumInternalCosts());
 
-    console.log("Sum External Costs", sumExternalCosts());
-  }, [totalCostList]);
+  //   console.log("Sum External Costs", sumExternalCosts());
+  // }, [totalCostList]);
 
   const handlePutProposal = async () => {
     // const proposalToBeSent = {
@@ -198,30 +198,51 @@ export default function GenerateProposal() {
       proposta: { idProposta: 2 },
     };
 
+    //Mudar status para PROPOSTA_PRONTA
+
     const formData = new FormData();
     formData.append("updatePropostaForm", JSON.stringify(proposalToBeSent));
+
+    console.log("IASDJIASJDIASJD", props.demand.idDemanda);
 
     fetch(`http://localhost:8080/sid/api/proposta/update/3`, {
       method: "PUT",
       body: formData,
-    }).then((res) => {
-      console.log("Res", res);
-    });
+    })
+      .then((res) => {
+        console.log("Res", res);
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          fetch(
+            `http://localhost:8080/sid/api/demanda/status/${props.demand.idDemanda}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                statusDemanda: "PROPOSTA_PRONTA",
+              }),
+            }
+          );
+        }
+      });
   };
 
   return (
     <div>
-      <div className="grid justify-center items-center gap-5">
-        <h1 className="flex items-center justify-center text-2xl font-roboto mt-5 font-bold text-blue-weg">
+      <div className="grid items-center justify-center gap-5">
+        <h1 className="mt-5 flex items-center justify-center font-roboto text-2xl font-bold text-blue-weg">
           Gerando proposta da demanda:{" "}
         </h1>
         {demand && <DemandCard demand={demand} />}
       </div>
       <div>
-        <h1 className="flex items-center justify-center text-xl font-roboto mt-5 font-bold p-5">
+        <h1 className="mt-5 flex items-center justify-center p-5 font-roboto text-xl font-bold">
           Escopo do projeto
         </h1>
-        <h1 className="flex justify-center items-center">
+        <h1 className="flex items-center justify-center">
           <ReactQuill
             value={quillValue}
             onChange={(e) => setQuillValue(e)}
@@ -232,10 +253,10 @@ export default function GenerateProposal() {
         </h1>
       </div>
       <div className="mt-20">
-        <h1 className="flex items-center justify-center text-2xl font-roboto mt-5 font-bold text-blue-weg">
+        <h1 className="mt-5 flex items-center justify-center font-roboto text-2xl font-bold text-blue-weg">
           Tabela de custos:{" "}
         </h1>
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           <Tooltip title="Adicionar tabela de custos">
             <IconButton onClick={addTotalCoasts}>
               <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
@@ -244,42 +265,42 @@ export default function GenerateProposal() {
         </div>
       </div>
       {/* Columns table */}
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <table>
           <thead>
             <tr>
-              <th className="border-2 border-blue-weg border-b-2 border-r-0">
-                <p className="text-base font-roboto font-bold ">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+                <p className="font-roboto text-base font-bold ">
                   Tipo de despesa
                 </p>
               </th>
-              <th className="border-2 border-blue-weg border-b-2 border-r-0">
-                <p className="text-base font-roboto font-bold ">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+                <p className="font-roboto text-base font-bold ">
                   Perfil de despesa
                 </p>
               </th>
-              <th className="border-2 border-blue-weg border-b-2 border-r-0">
-                <p className="text-base font-roboto font-bold ">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+                <p className="font-roboto text-base font-bold ">
                   Mês de execução
                 </p>
               </th>
-              <th className="border-2 border-blue-weg border-b-2 border-r-0">
-                <p className="text-base font-roboto font-bold ">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+                <p className="font-roboto text-base font-bold ">
                   Horas necessárias
                 </p>
               </th>
-              <th className="border-2 border-blue-weg border-b-2 border-r-0">
-                <p className="text-base font-roboto font-bold ">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+                <p className="font-roboto text-base font-bold ">
                   Custo por hora
                 </p>
               </th>
-              <th className="border-2 border-blue-weg border-b-2 border-r-0">
-                <p className="text-base font-roboto font-bold ">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+                <p className="font-roboto text-base font-bold ">
                   Custo total da despesa
                 </p>
               </th>
-              <th className="border-2 border-blue-weg border-b-2">
-                <p className="text-base font-roboto font-bold ">
+              <th className="border-2 border-b-2 border-blue-weg">
+                <p className="font-roboto text-base font-bold ">
                   Centro de custo pagadores
                 </p>
               </th>
@@ -299,18 +320,18 @@ export default function GenerateProposal() {
         </table>
       </div>
 
-      <div className="grid justify-center items-center mt-10">
+      <div className="mt-10 grid items-center justify-center">
         <div
           className="
-          w-[40rem] h-[5rem]
-          border-2 border-dashed border-blue-weg
-          border-b-0
+          h-[5rem] w-[40rem]
+          border-2 border-b-0 border-dashed
+          border-blue-weg
         "
         >
-          <div className="flex items-center justify-start h-full">
+          <div className="flex h-full items-center justify-start">
             <p
               className="
-              text-xl font-roboto font-bold ml-5 mr-8
+              ml-5 mr-8 font-roboto text-xl font-bold
             "
             >
               Custos totais do projeto
@@ -331,15 +352,15 @@ export default function GenerateProposal() {
         </div>
         <div
           className="
-          w-[40rem] h-[10rem]
+          h-[10rem] w-[40rem]
           border-2 border-dashed border-blue-weg
         "
         >
-          <div className="grid justify-start items-center h-full">
-            <div className="flex items-center justify-start h-full">
+          <div className="grid h-full items-center justify-start">
+            <div className="flex h-full items-center justify-start">
               <p
                 className="
-          text-xl font-roboto ml-5 mr-[5.6rem]
+          ml-5 mr-[5.6rem] font-roboto text-xl
         "
               >
                 Total de despesas (desembolso)
@@ -358,10 +379,10 @@ export default function GenerateProposal() {
                 sx={{ width: "9rem" }}
               />
             </div>
-            <div className="flex items-center justify-start h-full">
+            <div className="flex h-full items-center justify-start">
               <p
                 className="
-          text-xl font-roboto ml-5 mr-8
+          ml-5 mr-8 font-roboto text-xl
         "
               >
                 Total de despesas com custos internos
@@ -383,9 +404,9 @@ export default function GenerateProposal() {
           </div>
         </div>
       </div>
-      <div className="grid justify-center items-center gap-10 mt-10">
+      <div className="mt-10 grid items-center justify-center gap-10">
         <div>
-          <p className="text-lg font-bold font-roboto">Payback</p>
+          <p className="font-roboto text-lg font-bold">Payback</p>
           <EqualInput
             id="outlined-textarea"
             variant="outlined"
@@ -400,8 +421,8 @@ export default function GenerateProposal() {
           />
         </div>
         <div>
-          <p className="text-lg font-bold font-roboto">Período de execução</p>
-          <div className="flex gap-10 mt-2">
+          <p className="font-roboto text-lg font-bold">Período de execução</p>
+          <div className="mt-2 flex gap-10">
             <DateInput
               id="outlined-basic"
               variant="outlined"
@@ -431,10 +452,10 @@ export default function GenerateProposal() {
           </div>
         </div>
         <div>
-          <p className="text-lg font-bold font-roboto">
+          <p className="font-roboto text-lg font-bold">
             Responsável pelo negócio
           </p>
-          <div className="flex gap-10 mt-2">
+          <div className="mt-2 flex gap-10">
             <NameAreaInput
               id="outlined-textarea"
               variant="outlined"
@@ -467,7 +488,7 @@ export default function GenerateProposal() {
       <div>
         <FilesTable />
       </div>
-      <div className="flex justify-end items-center m-10">
+      <div className="m-10 flex items-center justify-end">
         <Button
           onClick={() => {
             setButtonSavedClicked(true);
