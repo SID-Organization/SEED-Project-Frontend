@@ -14,7 +14,6 @@ import { InputAdornment } from "@mui/material";
 import NewPautaProposalCard from "../New-pauta-proposal-card";
 import DatePicker from "../Date-picker";
 
-
 const TextField = styled(MuiTextField)({
   width: "14rem",
   marginBottom: "1rem",
@@ -68,7 +67,6 @@ export default function CreateNewPauta() {
   const handleCloseModal = () => setOpenedModal(false);
 
   useEffect(() => {
-
     fetch("http://localhost:8080/sid/api/proposta/proposta-pronta")
       .then((response) => response.json())
       .then((data) => setReadyProposals(data));
@@ -76,41 +74,48 @@ export default function CreateNewPauta() {
     fetch("http://localhost:8080/sid/api/forum")
       .then((response) => response.json())
       .then((data) => setForuns(data));
-
-  }, [])
-
+  }, []);
 
   useEffect(() => {
     if (foruns.length > 0) {
-      setComissoes(foruns.map((forum) => ({ label: forum.nomeForum, id: forum.idForum })))
+      setComissoes(
+        foruns.map((forum) => ({ label: forum.nomeForum, id: forum.idForum }))
+      );
     }
-  }, [foruns])
+  }, [foruns]);
 
   const handleCreatePauta = () => {
     if (!meetingDate || !meetingStartTime || !meetingEndTime) {
-      alert("Preencha todos os campos")
-      return
+      alert("Preencha todos os campos");
+      return;
     }
     if (meetingEndTime < meetingStartTime) {
-      alert("O horário de término deve ser maior que o horário de início")
-      return
+      alert("O horário de término deve ser maior que o horário de início");
+      return;
     }
     if (selectedProposals.length === 0) {
-      alert("Selecione pelo menos uma proposta")
-      return
+      alert("Selecione pelo menos uma proposta");
+      return;
     }
     const pautaJson = {
       dataReuniaoPauta: meetingDate,
       forumPauta: {
-        idForum: selectedForum.id
+        idForum: selectedForum.id,
       },
       propostasPauta: selectedProposals,
       horarioInicioPauta: meetingStartTime,
       horarioTerminoPauta: meetingEndTime,
+<<<<<<< HEAD
       analistaResponsavelPauta: { numeroCadastroUsuario: user.numeroCadastroUsuario }
     }
+=======
+      analistaResponsavelPauta: {
+        numeroCadastroUsuario: user.numeroCadastroUsuario,
+      },
+    };
+>>>>>>> 53b524fa5c5912e0970e382766480fc66e7e7133
 
-    console.log("pautaJson", pautaJson)
+    console.log("pautaJson", pautaJson);
 
     fetch("http://localhost:8080/sid/api/pauta", {
       method: "POST",
@@ -122,16 +127,14 @@ export default function CreateNewPauta() {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          alert("Erro ao criar pauta\n" + data.error)
-          return
+          alert("Erro ao criar pauta\n" + data.error);
+          return;
         } else {
-          alert("Pauta criada com sucesso")
-          handleCloseModal()
+          alert("Pauta criada com sucesso");
+          handleCloseModal();
         }
-      })
-
-  }
-
+      });
+  };
 
   return (
     <div>
@@ -147,8 +150,8 @@ export default function CreateNewPauta() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={modalStyled}>
-          <div className="font-roboto grid gap-10 w-full">
-            <div className="flex justify-between items-center">
+          <div className="grid w-full gap-10 font-roboto">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-5">
                 <h1 className="font-bold">Data da reunião: </h1>
                 <DatePicker
@@ -165,7 +168,7 @@ export default function CreateNewPauta() {
                 Criar pauta
               </Button>
             </div>
-            <div className="flex justify-between items-center gap-12">
+            <div className="flex items-center justify-between gap-12">
               <div className="flex items-center gap-20">
                 <div className="flex items-center gap-5">
                   <h1 className="font-bold">Horário:</h1>
@@ -221,16 +224,16 @@ export default function CreateNewPauta() {
               />
             </div>
             <div className="grid gap-2">
-              <div className="flex justify-center items-center gap-5">
-                <div className="flex justify-center items-center gap-5">
-                  <div className="w-10 h-[1.5px] bg-light-blue-weg rounded-full" />
+              <div className="flex items-center justify-center gap-5">
+                <div className="flex items-center justify-center gap-5">
+                  <div className="h-[1.5px] w-10 rounded-full bg-light-blue-weg" />
                   <h1 className="text-xl">Selecione as propostas</h1>
-                  <div className="w-10 h-[1.5px] bg-light-blue-weg rounded-full" />
+                  <div className="h-[1.5px] w-10 rounded-full bg-light-blue-weg" />
                 </div>
               </div>
               <div
-                className="grid gap-5 overflow-y-scroll max-h-[21rem] scrollbar-thumb-[#a5a5a5]
-                scrollbar-thumb-rounded-full scrollbar-w-2 scrollbar-thin"
+                className="scrollbar-w-2 grid max-h-[21rem] gap-5 overflow-y-scroll
+                scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full"
               >
                 {readyProposals.length > 0 && readyProposals.map((item) => (
                   <NewPautaProposalCard setSelectedProposals={setSelectedProposals} proposal={item} />

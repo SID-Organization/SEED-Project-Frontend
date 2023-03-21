@@ -18,25 +18,19 @@ import GenerateAta from "./pages/analista/generate-ata";
 import GenerateProposal from "./pages/analista/generate-proposal";
 import Profile from "./pages/profile";
 import Chat from "./pages/requester/chat";
+import ProposalDetails from "./pages/analista/proposal-details";
 import { useState } from "react";
 
 import { Navigate } from "react-router-dom";
 
 function App() {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
-
-
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path=""
-            element={<Navigate to={"/login"} />}
-          />
+          <Route path="" element={<Navigate to={"/login"} />} />
           <Route
             path="/login"
             element={<Login user={user} setUser={setUser} />}
@@ -60,6 +54,7 @@ function App() {
             <Route path="pautas" element={<Pautas />} />
             <Route path="atas" element={<Atas />} />
             <Route path="propostas" element={<Proposals />} />
+            <Route path="propostas/:id" element={<ProposalDetails />} />
             <Route path="perfil" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
           </Route>
