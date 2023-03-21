@@ -1,10 +1,7 @@
 import axios from 'axios';
-import meta from 'vite';
+import apiConfig from '../../../API-config'
 
-const port = meta.env.VITE_PORT || 8080;
-const protocol = meta.env.VITE_PROTOCOL || 'http';
-
-const url = `${protocol}://localhost:${port}/sid/api/proposta`;
+const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/login`;
 
 const createProposal = async (proposal) => {
     return axios.post(url, proposal)

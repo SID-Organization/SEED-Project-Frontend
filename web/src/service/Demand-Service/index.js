@@ -1,12 +1,7 @@
 import axios from 'axios';
-import meta from 'vite';
+import apiConfig from '../../../API-config'
 
-const port = meta.env.VITE_PORT || 8080;
-const protocol = meta.env.VITE_PROTOCOL || 'http';
-
-console.log("PORT: ", port)
-
-const url = `${protocol}://localhost:${port}/sid/api/demanda`;
+const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/demanda`;
 
 const createDemand = async (demand) => {
     return axios.post(url, demand)
@@ -54,8 +49,12 @@ const getDemandsByStatus  = async (status) => {
 }
 
 const getDemandsByRequestorId = async (requestorId) => {
+    console.log("URL fetching: " + `${url}/solicitante/${requestorId}`)
     return axios.get(`${url}/solicitante/${requestorId}`)
-        .then(response => response.data);
+        .then(response => {
+            console.log("response.data - GetByREqid: " + response);
+            return response.data
+        });
 }
 
 export default {

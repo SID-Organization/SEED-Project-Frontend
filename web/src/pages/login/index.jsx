@@ -14,7 +14,7 @@ import MuiAlert from "@mui/material/Alert";
 
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import LoginService from "../../service/Login-Service";
 
 // Interfaces
 // import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
@@ -62,22 +62,13 @@ export default function Login(props) {
       return;
     }
 
-    fetch("http://localhost:8080/sid/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        numeroCadastroUsuario: parseInt(userID),
-        senhaUsuario: password,
-      }),
-    })
+    LoginService.login(userID, password)
       .then((response) => {
-        if (response.status === 404) {
+        if (response.status != 200) {
           setOpenNotification(true);
           return;
         }
-        return response.json();
+        return response.data;
       })
       .then((data) => {
         const loggedUser = {
