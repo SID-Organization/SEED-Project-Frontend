@@ -105,15 +105,8 @@ export default function CreateNewPauta() {
       propostasPauta: selectedProposals,
       horarioInicioPauta: meetingStartTime,
       horarioTerminoPauta: meetingEndTime,
-<<<<<<< HEAD
       analistaResponsavelPauta: { numeroCadastroUsuario: user.numeroCadastroUsuario }
     }
-=======
-      analistaResponsavelPauta: {
-        numeroCadastroUsuario: user.numeroCadastroUsuario,
-      },
-    };
->>>>>>> 53b524fa5c5912e0970e382766480fc66e7e7133
 
     console.log("pautaJson", pautaJson);
 

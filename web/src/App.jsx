@@ -22,9 +22,14 @@ import ProposalDetails from "./pages/analista/proposal-details";
 import { useState } from "react";
 
 import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+  useEffect(() => {
+    console.log("PORT", JSON.stringify(import.meta.env.VITE_PORT));
+  }, []) 
 
   return (
     <>

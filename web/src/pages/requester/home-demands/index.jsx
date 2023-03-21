@@ -2,6 +2,7 @@ import SubHeader from "../../../Components/Sub-header";
 import DemandCard from "../../../Components/Demand-card";
 import DemandsList from "../../../Components/Demand-card-list";
 import NoDemands from "../../../Components/No-demands";
+import demandService from "../../../service/Demand-Service";
 
 import "../../../styles/index.css";
 import { useEffect, useState } from "react";
