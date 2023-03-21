@@ -125,10 +125,6 @@ export default function GenerateProposal() {
     },
   ]);
 
-  useEffect(() => {
-    console.log("List", totalCostList);
-  }, [totalCostList]);
-
   function sumInternalCosts() {
     let sum = 0;
     totalCostList.forEach((cost) => {
@@ -152,12 +148,6 @@ export default function GenerateProposal() {
     });
     return sum;
   }
-
-  // useEffect(() => {
-  //   console.log("Sum Internal Costs", sumInternalCosts());
-
-  //   console.log("Sum External Costs", sumExternalCosts());
-  // }, [totalCostList]);
 
   const handlePutProposal = async () => {
     // const proposalToBeSent = {
@@ -214,18 +204,15 @@ export default function GenerateProposal() {
       })
       .then((res) => {
         if (res.status == 200) {
-          fetch(
-            `http://localhost:8080/sid/api/demanda/status/${props.demand.idDemanda}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                statusDemanda: "PROPOSTA_PRONTA",
-              }),
-            }
-          );
+          fetch(`http://localhost:8080/sid/api/demanda/status/${demandId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              statusDemanda: "PROPOSTA_PRONTA",
+            }),
+          });
         }
       });
   };
