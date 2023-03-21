@@ -117,6 +117,7 @@ export default function PautasCard(props) {
     fetch(`http://localhost:8080/sid/api/pauta/propostas/${props.Id}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log('data', data)
         setProposals(data);
       });
   }, [])
@@ -199,10 +200,10 @@ export default function PautasCard(props) {
                   <Tooltip title="Compartilhar pauta">
                     <h1
                       className="
-                cursor-pointer
-                text-light-blue-weg
-                hover:underline
-                "
+                            cursor-pointer
+                            text-light-blue-weg
+                            hover:underline
+                            "
                       onClick={handleOpenShareModal}
                     >
                       <div className="flex justify-center items-center">
@@ -218,7 +219,7 @@ export default function PautasCard(props) {
                     <EditRoundedIcon />
                   </Tooltip>
                   <Tooltip title="Gerar ATA">
-                    <Link to= {`gerar-ata/${props.Id}`}>
+                    <Link to={`gerar-ata/${props.Id}`}>
                       <Button variant="contained">Gerar ATA</Button>
                     </Link>
                   </Tooltip>

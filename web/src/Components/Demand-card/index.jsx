@@ -174,9 +174,6 @@ export default function DemandCard(props) {
 
   function formatDemandStatus(type) {
     const statusByRole =  demandUtils.getDemandStatusByRole(props.demand.statusDemanda, user.cargoUsuario);
-    console.log("StatusDemanda", props.demand.statusDemanda)
-    console.log("Cargo", user.cargoUsuario)
-    console.log("Status", statusByRole)
     const status =
       statusByRole[0].toLocaleUpperCase() +
       statusByRole

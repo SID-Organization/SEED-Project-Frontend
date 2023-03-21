@@ -16,10 +16,6 @@ import { useEffect } from "react";
 export default function Search(props) {
 
 
-  useEffect(() => {
-    console.log("Search input", props.search)
-  }, [props.search])
-
   return (
     <div>
       <Paper
