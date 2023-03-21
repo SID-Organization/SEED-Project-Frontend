@@ -37,21 +37,25 @@ const atasMock = [
 export default function Atas() {
   const [atas, setAtas] = useState(atasMock);
 
-  const [atasMonths, setAtasMonths] = useState(() =>
-    atas
-      .map((ata) => ata.MeetingDate.split("/")[1])
-      .sort()
-      .filter((value, index, self) => self.indexOf(value) === index)
-  );
+  const [atasMonths, setAtasMonths] = useState([]);
 
-  const [atasYears, setAtasYears] = useState(() =>
-    atas
-      .map((ata) => ata.MeetingDate.split("/")[2])
-      .sort()
-      .filter((value, index, self) => self.indexOf(value) === index)
-  );
+  const [atasYears, setAtasYears] = useState([]);
 
-  useEffect(() => {}, [atas]);
+  useEffect(() => {
+    if(atas.length === 0) return;
+    setAtasMonths(() =>
+      atas
+        .map((pauta) => pauta.dataReuniao.split("/")[1])
+        .sort()
+        .filter((value, index, self) => self.indexOf(value) === index)
+    );
+    setAtasYears(() =>
+      atas
+        .map((pauta) => pauta.dataReuniao.split("/")[2])
+        .sort().reverse()
+        .filter((value, index, self) => self.indexOf(value) === index)
+    );
+  }, [atas]);
 
   return (
     <div>
