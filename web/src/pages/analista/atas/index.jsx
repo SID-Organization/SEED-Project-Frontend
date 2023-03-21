@@ -34,6 +34,21 @@ const atasMock = [
   },
 ];
 
+const months = {
+  "01": "Janeiro",
+  "02": "Fevereiro",
+  "03": "Março",
+  "04": "Abril",
+  "05": "Maio",
+  "06": "Junho",
+  "07": "Julho",
+  "08": "Agosto",
+  "09": "Setembro",
+  "10": "Outubro",
+  "11": "Novembro",
+  "12": "Dezembro",
+}
+
 export default function Atas() {
   const [atas, setAtas] = useState(atasMock);
 
@@ -41,17 +56,22 @@ export default function Atas() {
 
   const [atasYears, setAtasYears] = useState([]);
 
+  const getAtasInMonth = (month, year) => {
+    return atas.filter((ata) => ata.MeetingDate.split("/")[1] === month && ata.MeetingDate.split("/")[2] === year)
+  }
+
+  // Filtra para pegar os meses e anos das atas
   useEffect(() => {
-    if(atas.length === 0) return;
+    if (atas.length === 0) return;
     setAtasMonths(() =>
       atas
-        .map((pauta) => pauta.dataReuniao.split("/")[1])
+        .map((ata) => ata.MeetingDate.split("/")[1])
         .sort()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
     setAtasYears(() =>
       atas
-        .map((pauta) => pauta.dataReuniao.split("/")[2])
+        .map((ata) => ata.MeetingDate.split("/")[2])
         .sort().reverse()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
@@ -70,44 +90,34 @@ export default function Atas() {
         mt-8
       "
       >
-        {atasMonths.map((month) => (
-          <div>
-            <h1
-              className="
-      text-xl
-      font-bold
-      text-dark-blue-weg
-      "
-            >
-              {{
-                "01": "Janeiro",
-                "02": "Fevereiro",
-                "03": "Março",
-                "04": "Abril",
-                "05": "Maio",
-                "06": "Junho",
-                "07": "Julho",
-                "08": "Agosto",
-                "09": "Setembro",
-                "10": "Outubro",
-                "11": "Novembro",
-                "12": "Dezembro",
-              }[month] +
-                " - " +
-                atasYears[0]}
-            </h1>
-            {atas
-              .filter((ata) => ata.MeetingDate.split("/")[1] === month)
-              .map((ata) => (
-                <AtasCard
-                  AtaName={ata.AtaName}
-                  QtyProposals={ata.QtyProposals}
-                  MeetingDate={ata.MeetingDate}
-                  MeetingTime={ata.MeetingTime}
-                  ResponsibleAnalyst={ata.ResponsibleAnalyst}
-                />
-              ))}
-          </div>
+        
+
+        {atasYears.map((year) => (
+          <>
+            {atasMonths.map((month) => (
+              <>
+                {
+                  getAtasInMonth(month, year).length > 0 &&
+                  <div>
+                    <h1 className=" text-xl font-bold text-dark-blue-weg " >
+                      {months[month] +
+                        " - " + year}
+                    </h1>
+                    {getAtasInMonth(month, year)
+                      .map((ata) => (
+                        <AtasCard
+                          AtaName={ata.AtaName}
+                          QtyProposals={ata.QtyProposals}
+                          MeetingDate={ata.MeetingDate}
+                          MeetingTime={ata.MeetingTime}
+                          ResponsibleAnalyst={ata.ResponsibleAnalyst}
+                        />
+                      ))}
+                  </div>
+                }
+              </>
+            ))}
+          </>
         ))}
       </div>
     </div>

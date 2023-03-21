@@ -31,6 +31,7 @@ export default function PautasCard(props) {
       published: true,
       atasCard: true,
       parecerComissao: "Aprovado",
+      proposalId: 1,
     },
     {
       newPauta: false,
@@ -42,6 +43,7 @@ export default function PautasCard(props) {
       published: false,
       atasCard: true,
       parecerComissao: "Reprovado",
+      proposalId: 2,
     },
   ];
 
@@ -54,7 +56,7 @@ export default function PautasCard(props) {
           id="panel1a-header"
         >
           <div className="grid font-roboto">
-            <div className="flex justify-center gap-28">
+            <div className="flex gap-32">
               <h1 className="font-bold">{props.AtaName}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
@@ -77,17 +79,20 @@ export default function PautasCard(props) {
             </div>
             <div className="flex justify-between">
               <div className="flex justify-center items-center">
-                <h1 className="mt-5 font-bold">
+                <p className="mt-5 font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
                     {props.ResponsibleAnalyst}
                   </span>
-                </h1>
+                </p>
               </div>
-              <div className="flex justify-center items-center gap-5 mt-5">
+              <div className="flex justify-center items-end gap-3">
                 <p className="font-bold">Visualizar Ata: </p>
                 <Tooltip title="Publicada">
-                  <IconButton>
+                  <IconButton
+                    sx={{
+                      padding: "0px",
+                    }}>
                     <PublicIcon
                       sx={{
                         color: "#0075B1",
@@ -101,7 +106,11 @@ export default function PautasCard(props) {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Não publicada">
-                  <IconButton>
+                  <IconButton
+                    sx={{
+                      padding: "0",
+                    }}
+                  >
                     <PublicOffIcon
                       sx={{
                         color: "#0075B1",
@@ -131,6 +140,7 @@ export default function PautasCard(props) {
                 referenceDemand={proposal.referenceDemand}
                 published={proposal.published}
                 parecerComissao={proposal.parecerComissao}
+                proposalId={proposal.proposalId}
               />
             ))}
           </div>
