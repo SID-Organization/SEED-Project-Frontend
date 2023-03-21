@@ -204,7 +204,6 @@ export default function GenerateProposal() {
     const formData = new FormData();
     formData.append("updatePropostaForm", JSON.stringify(proposalToBeSent));
 
-    console.log("IASDJIASJDIASJD", props.demand.idDemanda);
 
     fetch(`http://localhost:8080/sid/api/proposta/update/3`, {
       method: "PUT",

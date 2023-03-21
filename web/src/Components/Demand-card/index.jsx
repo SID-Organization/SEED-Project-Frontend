@@ -19,6 +19,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
+import demandUtils from "../../utils/demandUtils"
+
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
     borderLeft: "3px solid #0075B1",
@@ -53,15 +55,16 @@ const styleModalGenerateProposal = {
 
 const statusColor = {
   CANCELADA: "#C31700",
-  APROVADO_PELA_COMISSAO: "#7EB61C",
-  CLASSIFICADO_PELO_ANALISTA: "#64C3D5",
+  APROVADO_PELA_COMISSAO: "#0076B8",
+  CLASSIFICADO_PELO_ANALISTA: "#696969",
   ABERTA: "#C2BEBE",
   RASCUNHO: "#D9D9D9",
-  APROVADO_PELO_GERENTE_DA_AREA: "#00579D",
-  PROPOSTA_EM_ELABORACAO: "#FFA500",
-  PROPOSTA_EM_EXECUCAO: "#EF8300",
-  PROPOSTA_EM_SUPORTE: "FFD600",
-  PROPOSTA_FINALIZADA: "00612E",
+  APROVADO_PELO_GERENTE_DA_AREA: "#7EB61C",
+  PROPOSTA_EM_ELABORACAO: "#99D6D2",
+  PROPOSTA_EM_EXECUCAO: "#FFFF00",
+  PROPOSTA_EM_SUPORTE: "008080",
+  PROPOSTA_PRONTA: "#7AB7FF",
+  PROPOSTA_FINALIZADA: "006400",
 
   BACKLOG: "#C2BEBE",
   ASSESMENT: "#00579D",
@@ -119,11 +122,6 @@ export default function DemandCard(props) {
   const [jiraLink, setJiraLink] = useState("");
 
 
-  useEffect(() => {
-    console.log("Start", startDevDate)
-    console.log("Dead", deadLineDate)
-  }, [startDevDate, deadLineDate])
-
 
   const handleCreateProposal = async () => {
     const data = {
@@ -175,9 +173,13 @@ export default function DemandCard(props) {
 
 
   function formatDemandStatus(type) {
+    const statusByRole =  demandUtils.getDemandStatusByRole(props.demand.statusDemanda, user.cargoUsuario);
+    console.log("StatusDemanda", props.demand.statusDemanda)
+    console.log("Cargo", user.cargoUsuario)
+    console.log("Status", statusByRole)
     const status =
-      props.demand.statusDemanda[0].toLocaleUpperCase() +
-      props.demand.statusDemanda
+      statusByRole[0].toLocaleUpperCase() +
+      statusByRole
         .split("_")
         .join(" ")
         .toLocaleLowerCase()
@@ -189,6 +191,11 @@ export default function DemandCard(props) {
       }
     }
     return status;
+  }
+
+  function getPercents(){
+    const percent = demandUtils.getPercentageByStatus(props.demand.statusDemanda);
+    return percent;
   }
 
   const getData = async () => {
@@ -239,7 +246,7 @@ export default function DemandCard(props) {
           sx={{ width: 430, height: 180 }}
           style={{
             boxShadow: "1px 1px 5px 0px #808080db",
-            borderLeft: "7px solid " + statusColor[props.demand.statusDemanda],
+            borderLeft: "7px solid " + demandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
           }}
         >
           <CardContent>
@@ -328,16 +335,16 @@ export default function DemandCard(props) {
                     <Box className="flex justify-center items-center ">
                       <Slider
                         aria-label="Temperature"
-                        defaultValue={50}
+                        defaultValue={getPercents}
                         getAriaValueText={valuetext}
                         disabled
                         style={{
-                          color: statusColor[props.demand.statusDemanda],
+                          color: demandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
                         }}
                         sx={{
                           height: 16,
                           width: 120,
-                          color: statusColor[props.demand.statusDemanda],
+                          color: demandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
                           "& .MuiSlider-thumb": {
                             display: "none",
                           },
@@ -346,7 +353,7 @@ export default function DemandCard(props) {
                     </Box>
                   </span>
                   <span className="text-xs flex justify-end items-center text-black ml-1">
-                    15%
+                    {getPercents() + "%"}
                   </span>
                 </Typography>
               </div>

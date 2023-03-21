@@ -95,14 +95,25 @@ const columns = [
 
 const statusColor = {
   CANCELADA: "#C31700",
-  APROVADO_PELA_COMISSAO: "#7EB61C",
-  CLASSIFICADO_PELO_ANALISTA: "#64C3D5",
+  APROVADO_PELA_COMISSAO: "#0076B8",
+  CLASSIFICADO_PELO_ANALISTA: "#696969",
   ABERTA: "#C2BEBE",
   RASCUNHO: "#D9D9D9",
-  APROVADO_PELO_GERENTE_DA_AREA: "#00579D",
-  PROPOSTA_EM_EXECUCAO: "#EF8300",
-  PROPOSTA_EM_SUPORTE: "FFD600",
-  PROPOSTA_FINALIZADA: "00612E",
+  APROVADO_PELO_GERENTE_DA_AREA: "#7EB61C",
+  PROPOSTA_EM_ELABORACAO: "#99D6D2",
+  PROPOSTA_EM_EXECUCAO: "#FFFF00",
+  PROPOSTA_EM_SUPORTE: "008080",
+  PROPOSTA_PRONTA: "#7AB7FF",
+  PROPOSTA_FINALIZADA: "006400",
+
+  BACKLOG: "#C2BEBE",
+  ASSESMENT: "#00579D",
+  BUSINESS_CASE: "#8862A2",
+  TO_DO: "#7EB61C",
+  DESIGN_AND_BUILD: "#EF8300",
+  SUPPORT: "#FFD600",
+  CANCELLED: "#C31700",
+  DONE: "#00612E",
 };
 
 const Box = styled(MuiBox)(() => ({
@@ -124,7 +135,7 @@ const getDemandHistoric = async (id) => {
   };
 };
 
-export default function DataTable(props) {
+export default function DemandsList(props) {
   const [rows, setRows] = useState([]);
 
   const getRows = async (demands) => {
@@ -133,7 +144,7 @@ export default function DataTable(props) {
       return {
         id: demand.idDemanda,
         status: demand.statusDemanda,
-        solicitante: demand.solicitanteDemanda.nomeUsuario,
+        solicitante: demand.nomeSolicitante,
         score: demand.scoreDemanda,
         titulo: demand.tituloDemanda,
         versao: historic.version,
@@ -145,7 +156,12 @@ export default function DataTable(props) {
   };
 
   useEffect(() => {
+    console.log("rows", rows)
+  }, rows)
+
+  useEffect(() => {
     if (props.demands) {
+      console.log("props.demands", props.demands)
       getRows(props.demands);
     }
   }, []);
