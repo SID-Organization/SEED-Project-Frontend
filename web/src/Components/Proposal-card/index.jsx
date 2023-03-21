@@ -7,13 +7,15 @@ import MuiAddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import PublicIcon from "@mui/icons-material/Public";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import PublicOffIcon from "@mui/icons-material/PublicOff";
 import { IconButton, Tooltip } from "@mui/material";
 
 import MuiIconButton from "@mui/material/IconButton";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PropaneSharp } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 // interface ProposalCardProps {
 //   id: number;
@@ -132,20 +134,24 @@ export default function ProposalCard(props) {
   return (
     <div>
       <Card>
-        <div className="flex justify-around items-center gap-16">
-          <div className={`grid font-roboto gap-7 ${!props.newPauta && "w-[48rem]"}`}>
+        <div className="flex items-center justify-around gap-16">
+          <div
+            className={`grid gap-7 font-roboto ${
+              !props.newPauta && "w-[48rem]"
+            }`}
+          >
             <div
               className={`
                 ${
                   props.newPauta
-                    ? "flex items-center justify-between ml-4"
+                    ? "ml-4 flex items-center justify-between"
                     : "flex items-center justify-between "
                 }
               `}
             >
               <div
                 className={`
-                ${props.newPauta ? "none" : "gap-1 flex"}
+                ${props.newPauta ? "none" : "flex gap-1"}
                 `}
               >
                 <Tooltip title={props.title}>
@@ -155,8 +161,11 @@ export default function ProposalCard(props) {
                     }`}
                   >
                     {props.title.length > 25
-                      ? props.proposalId + " - " + props.title.substring(0, 25) + "..."
-                      :  props.proposalId + " - " + props.title}
+                      ? props.proposalId +
+                        " - " +
+                        props.title.substring(0, 25) +
+                        "..."
+                      : props.proposalId + " - " + props.title}
                   </h1>
                 </Tooltip>
                 {props.atasCard && (
@@ -181,7 +190,7 @@ export default function ProposalCard(props) {
                   </div>
                 )}
               </div>
-              <div className="flex justify-center items-center gap-5">
+              <div className="flex items-center justify-center gap-5">
                 <h1
                   className={`
                   ${props.newPauta ? "text-sm font-bold" : "font-bold"}
@@ -221,7 +230,7 @@ export default function ProposalCard(props) {
             <div className="flex items-center">
               <h1
                 className={`
-                ${props.newPauta ? "font-bold w-[49rem] ml-4" : "font-bold"}
+                ${props.newPauta ? "ml-4 w-[49rem] font-bold" : "font-bold"}
                 `}
               >
                 Demanda de referência:{" "}
@@ -230,20 +239,23 @@ export default function ProposalCard(props) {
                     className={`
                     ${
                       props.newPauta
-                        ? "font-normal text-sm text-gray-500 cursor-default"
-                        : "font-normal text-gray-500 cursor-default"
+                        ? "cursor-default text-sm font-normal text-gray-500"
+                        : "cursor-default font-normal text-gray-500"
                     }
                     `}
                   >
                     {props.referenceDemand + " - " + props.title > 70
-                      ? (props.referenceDemand + " - " + props.title).substring(0, 70) + "..."
-                      : (props.referenceDemand + " - " + props.title)}
+                      ? (props.referenceDemand + " - " + props.title).substring(
+                          0,
+                          70
+                        ) + "..."
+                      : props.referenceDemand + " - " + props.title}
                   </span>
                 </Tooltip>
               </h1>
               {props.newPauta && (
                 <h1
-                  className="text-sm w-[10rem] flex justify-center items-center cursor-pointer gap-1 font-bold text-light-blue-weg
+                  className="flex w-[10rem] cursor-pointer items-center justify-center gap-1 text-sm font-bold text-light-blue-weg
                     hover:underline
                   "
                 >
@@ -255,7 +267,7 @@ export default function ProposalCard(props) {
           </div>
           <div
             className={`
-              ${props.newPauta ? "mr-4" : "flex justify-end items-center"}
+              ${props.newPauta ? "mr-4" : "flex items-center justify-end"}
             `}
           >
             {props.newPauta ? (
@@ -272,7 +284,7 @@ export default function ProposalCard(props) {
               </Tooltip>
             )}
             {props.newPauta === "card" && (
-              <div className="flex gap-4">
+              <div className="flex items-center justify-center gap-4">
                 {/* <Tooltip title="Iniciar workflow">
                   <IconButtonStart aria-label="delete">
                     <PlayCircleFilledWhiteRoundedIcon />
@@ -295,6 +307,20 @@ export default function ProposalCard(props) {
                     </IconButtonDefault>
                   )}
                 </Tooltip>
+                {/* propostas/detalhes/:id */}
+                <Link to={`propostas/${props.proposalId}`}>
+                  <Tooltip title="Visualizar proposta">
+                    <IconButton>
+                      <VisibilityIcon
+                        sx={{
+                          color: "#0075B1",
+                          height: "1.8rem",
+                          width: "1.8rem",
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
               </div>
             )}
           </div>

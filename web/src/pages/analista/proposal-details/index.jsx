@@ -52,13 +52,9 @@ const style = {
   p: 4,
 };
 
-export default function openedDemand() {
+export default function ProposalDetails() {
   const params = useParams();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log("HISTORICO: ", historic);
-  }, []);
 
   const [user, setUser] = useState(getLoggedUser());
 

@@ -84,18 +84,17 @@ export default function Proposals() {
     fetch("http://localhost:8080/sid/api/pauta")
       .then((response) => response.json())
       .then((data) => {
-        let pautas = data.map(pauta => (
-          {
-            ...pauta,
-            dataReuniaoPauta: pauta.dataReuniaoPauta.split("T")[0].split("-").reverse().join("/"),
-          }
-
-        ))
+        let pautas = data.map((pauta) => ({
+          ...pauta,
+          dataReuniaoPauta: pauta.dataReuniaoPauta
+            .split("T")[0]
+            .split("-")
+            .reverse()
+            .join("/"),
+        }));
         setPautas(pautas);
       });
-  }, [])
-
-
+  }, []);
 
   const pautasMock = [
     {
@@ -142,7 +141,7 @@ export default function Proposals() {
       MeetingTime: "10:00",
       ResponsibleAnalyst: "Analista 1",
       isInTheModalAddToAPauta: true,
-    }
+    },
   ];
 
   return (
@@ -156,28 +155,28 @@ export default function Proposals() {
         <Box sx={addToAPautaModalStyle}>
           <h1
             className="
+            mb-3
             text-center
             text-2xl
             font-bold
-            mb-3
             text-dark-blue-weg
             
           "
           >
             Adicionar à uma pauta
           </h1>
-          <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center">
             <CreateNewPauta />
           </div>
           <div
             className="
-            grid justify-center
-            mt-5
-            overflow-y-scroll
+            scrollbar-w-2 mt-5
+            grid
             max-h-[31rem]
+            justify-center
             overflow-x-hidden
-            scrollbar-thumb-[#a5a5a5]
-              scrollbar-thumb-rounded-full scrollbar-w-2 scrollbar-thin
+            overflow-y-scroll
+              scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full
           "
           >
             {pautas.map((pauta) => (
@@ -187,7 +186,9 @@ export default function Proposals() {
                 QtyProposals={pauta.propostasPauta.length}
                 MeetingDate={pauta.dataReuniaoPauta}
                 MeetingTime={pauta.horarioInicioPauta}
-                ResponsibleAnalyst={pauta.forumPauta.analistaResponsavelForum.nomeUsuario}
+                ResponsibleAnalyst={
+                  pauta.forumPauta.analistaResponsavelForum.nomeUsuario
+                }
                 isInTheModalAddToAPauta={true}
               />
             ))}
@@ -197,7 +198,7 @@ export default function Proposals() {
       <div className="mb-10">
         <SubHeaderProposals />
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         {
           <div>
             {selectProposals.length > 0 && (
@@ -219,9 +220,9 @@ export default function Proposals() {
       <div
         className="
         flex
-        justify-center
-        items-center
         flex-col
+        items-center
+        justify-center
         gap-8
         "
       >
