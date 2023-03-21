@@ -107,7 +107,7 @@ export default function CreateNewPauta() {
       propostasPauta: selectedProposals,
       horarioInicioPauta: meetingStartTime,
       horarioTerminoPauta: meetingEndTime,
-      analistaResponsavelPauta: {numeroCadastroUsuario: user.numeroCadastroUsuario}
+      analistaResponsavelPauta: { numeroCadastroUsuario: user.numeroCadastroUsuario }
     }
 
     console.log("pautaJson", pautaJson)
@@ -232,7 +232,7 @@ export default function CreateNewPauta() {
                 className="grid gap-5 overflow-y-scroll max-h-[21rem] scrollbar-thumb-[#a5a5a5]
                 scrollbar-thumb-rounded-full scrollbar-w-2 scrollbar-thin"
               >
-                {readyProposals && readyProposals.map((item) => (
+                {readyProposals.length > 0 && readyProposals.map((item) => (
                   <NewPautaProposalCard setSelectedProposals={setSelectedProposals} proposal={item} />
                 ))}
               </div>
