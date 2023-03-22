@@ -1,7 +1,7 @@
 import axios from 'axios';
 import apiConfig from '../../../API-config'
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/demanda`;
+const url = `${apiConfig.URL}/demanda`;
 
 const createDemand = async (demand) => {
     return axios.post(url, demand)

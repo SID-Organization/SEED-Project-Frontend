@@ -1,7 +1,7 @@
 import axios from "axios";
 import apiConfig from "../../../API-config";
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/business-unity`;
+const url = `${apiConfig.URL}/business-unity`;
 
 const getBusinessUnity = async () => {
   return axios.get(url).then((response) => response.data);

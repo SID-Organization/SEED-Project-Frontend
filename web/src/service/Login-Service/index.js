@@ -1,7 +1,7 @@
 import axios from 'axios';
 import apiConfig from '../../../API-config'
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/login`;
+const url = `${apiConfig.URL}/login`;
 
 const login = async (userID, password) => {
     return axios.post(url,

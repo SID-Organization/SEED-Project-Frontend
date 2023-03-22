@@ -1,7 +1,7 @@
 import axios from "axios";
 import apiConfig from "../../../API-config";
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/notificacao`;
+const url = `${apiConfig.URL}/notificacao`;
 
 const getNotificacao = async () => {
   return axios.get(url).then((response) => response.data);

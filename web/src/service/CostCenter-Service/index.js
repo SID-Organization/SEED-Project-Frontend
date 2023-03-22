@@ -1,7 +1,7 @@
 import axios from "axios";
 import apiConfig from "../../../API-config";
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/centro-custo`;
+const url = `${apiConfig.URL}/centro-custo`;
 
 const getCostCenter = async () => {
   return axios.get(url).then((response) => response.data);

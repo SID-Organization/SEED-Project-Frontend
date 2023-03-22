@@ -1,7 +1,7 @@
 import axios from 'axios';
 import apiConfig from '../../../API-config'
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/historico-workflow`;
+const url = `${apiConfig.URL}/historico-workflow`;
 
 const createDemandLog = (demandLog) => {
     return axios.post(url, demandLog).then((response) => response.data);

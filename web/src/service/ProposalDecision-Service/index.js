@@ -1,7 +1,7 @@
 import axios from "axios";
 import apiConfig from "../../../API-config";
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/decisao-proposta`;
+const url = `${apiConfig.URL}/decisao-proposta`;
 
 const getProposalDecision = async () => {
   return axios.get(url).then((response) => response.data);

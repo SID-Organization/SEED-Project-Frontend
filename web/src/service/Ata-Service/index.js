@@ -1,7 +1,7 @@
 import axios from "axios";
 import apiConfig from "../../../API-config";
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/ata`;
+const url = `${apiConfig.URL}/ata`;
 
 const createAta = async (ata) => {
   return axios.post(url, ata).then((response) => response.data);
