@@ -20,7 +20,7 @@ const deleteBusinessUnity = async (id) => {
 };
 
 const getBusinessUnityById = async (id) => {
-  return axios.get(`${url}/${id}`).then((response) => response.data);
+  return axios.get(`${url}/id/${id}`).then((response) => response.data);
 };
 
 export default {

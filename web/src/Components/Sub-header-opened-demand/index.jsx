@@ -31,21 +31,12 @@ import { useParams, useNavigate } from "react-router";
 
 import "../../styles/index.css";
 
-// Busca a demanda do banco de dados
-const getDemandFromDatabase = async (id) => {
-  const response = await fetch(
-    "http://localhost:8080/sid/api/demanda/id/" + id
-  );
-  const data = await response.json();
-  return data;
-};
+// Services
+import DemandService from "../../service/Demand-Service";
+import BusinessUnityService from "../../service/BusinessUnity-Service";
+import DemandLogService from "../../service/DemandLog-Service";
 
-// Busca as BUs do banco de dados
-// const getBusinessUnits = async () => {
-//   const response = await fetch("http://localhost:8080/sid/api/business-unity");
-//   const data = await response.json();
-//   return data;
-// };
+
 
 // Componentes estilizados
 const styleModal = {
@@ -132,7 +123,7 @@ export default function subHeader({
   const params = useParams();
 
   useEffect(() => {
-    getDemandFromDatabase(params.id).then((response) => {
+    DemandService.getDemandById(params.id).then((response) => {
       setDemand(response);
     });
   }, []);
@@ -259,7 +250,7 @@ export default function subHeader({
   ];
 
   useEffect(() => {
-    getBusinessUnits().then((data) => {
+    BusinessUnityService.getBusinessUnity().then((data) => {
       setBusinessUnits(
         data.map((item) => ({
           text: item.nomeBusinessUnity,
@@ -314,72 +305,42 @@ export default function subHeader({
       secaoTIResponsavelDemanda: responsableSection,
       tamanhoDemanda: getDemandSize(),
     };
-    console.log("updatedDemand", updatedDemand);
 
-    fetch(
-      `http://localhost:8080/sid/api/demanda/atualiza-bus-beneficiadas/${demand.idDemanda}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedDemand),
-      }
-    )
+    DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
-        if (response.ok) {
-          fetch("http://localhost:8080/sid/api/historico-workflow", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
-              demandaHistorico: { idDemanda: demand.idDemanda },
-              acaoFeitaHistorico: "Aprovar",
-              idResponsavel: { numeroCadastroUsuario: 72132 },
-            }),
-          });
+        if (response.status == 200) {
+          const newLog = {
+            tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
+            demandaHistorico: { idDemanda: demand.idDemanda },
+            acaoFeitaHistorico: "Aprovar",
+            idResponsavel: { numeroCadastroUsuario: 72132 },
+          }
+          DemandLogService.createDemandLog(newLog);
         }
-        return response.json();
+        return response
       })
-      .then((data) => {
-        console.log(data);
+      .then((response) => {
+        navigate("/demandas");
       });
-
-    navigate("/demandas");
   };
 
   const handleManagerApproveDemand = async () => {
-    console.log("Approving...");
+    console.log("Approving...")
 
-    fetch("http://localhost:8080/sid/api/historico-workflow", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
-        demandaHistorico: { idDemanda: demand.idDemanda },
-        acaoFeitaHistorico: "Enviar",
-        idResponsavel: { numeroCadastroUsuario: 72131 },
-      }),
-    }).then((response) => {
-      if (response.ok) {
-        fetch(
-          `http://localhost:8080/sid/api/demanda/status/${demand.idDemanda}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              statusDemanda: "APROVADO_PELO_GERENTE_DA_AREA",
-            }),
-          }
-        );
-      }
-    });
+    const demandLog = {
+      tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
+      demandaHistorico: { idDemanda: demand.idDemanda },
+      acaoFeitaHistorico: "Enviar",
+      idResponsavel: { numeroCadastroUsuario: 72131 },
+    }
+
+    DemandLogService.createDemandLog(demandLog)
+      .then((response) => {
+        console.log(response);
+        if (response.status == 200 || response.status == 201) {
+          DemandService.updateDemandStatus(demand.idDemanda, "APROVADO_PELO_GERENTE_DA_AREA");
+        }
+      });
   };
 
   const getDemandSize = () => {

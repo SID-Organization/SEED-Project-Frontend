@@ -13,6 +13,17 @@ const updateDemand = async (demand) => {
         .then(response => response.data);
 }
 
+const updateBenefitedBUs = async (demandId, updatedDemand) => {
+    return axios.put(`${url}/atualiza-bus-beneficiadas/${demandId}`, updatedDemand)
+        .then(response => response);
+}
+
+const updateDemandStatus = async (demandId, newStatus) => {
+    const status = { statusDemanda: newStatus }
+    return axios.put(`${url}/status/${demandId}`, status)
+        .then(response => response);
+}
+
 const deleteDemand = async (id) => {
     return axios.delete(`${url}/${id}`)
         .then(response => response.data);
@@ -24,7 +35,7 @@ const getDemands = async () => {
 }
 
 const getDemandById = async (id) => {
-    return axios.get(`${url}/${id}`)
+    return axios.get(`${url}/id/${id}`)
         .then(response => response.data);
 }
 
@@ -68,15 +79,13 @@ const getDemandsToManage = async (userId, userRole) => {
         .then(response => response.data);
 }
 
-const updateBenefitedBUs = async (demandId, benefitedBUs) => {
-    return axios.put(`${url}/atualiza-bus-beneficiadas/${demandId}`, benefitedBUs)
-        .then(response => response.data);
-}
+
 
 export default {
     createDemand,
     updateDemand,
     updateBenefitedBUs,
+    updateDemandStatus,
     deleteDemand,
     getDemands,
     getDemandById,

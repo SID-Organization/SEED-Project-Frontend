@@ -14,14 +14,12 @@ import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
 import Draggable from "react-draggable";
-// Import de interfaces
-// import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
+
+// Services
+import DemandService from "../../../service/Demand-Service";
 
 async function getDemandsFromDatabase(userId) {
-  const response = await fetch(
-    "http://localhost:8080/sid/api/demanda/solicitante/" + userId
-  );
-  const demands = await response.json();
+  const demands = DemandService.getDemandsByRequestorId(userId);
   return demands.filter((item) => item.statusDemanda == "RASCUNHO");
 }
 

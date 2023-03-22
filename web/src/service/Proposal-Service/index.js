@@ -1,10 +1,10 @@
 import axios from "axios";
 import apiConfig from "../../../API-config";
 
-const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/login`;
+const url = `${apiConfig.PROTOCOL}://${apiConfig.HOST}:${apiConfig.PORT}/sid/api/proposta`;
 
 const createProposal = async (proposal) => {
-  return axios.post(url, proposal).then((response) => response.data);
+  return axios.post(url, proposal).then((response) => response);
 };
 
 const updateProposal = async (proposal) => {
@@ -12,7 +12,7 @@ const updateProposal = async (proposal) => {
 };
 
 const getReadyProposals = async () => {
-  return axios.get(`${url}/propotas-prontas`).then((response) => response.data);
+  return axios.get(`${url}/proposta-pronta`).then((response) => response.data);
 };
 
 const getProposalsByPautaId = async (id) => {

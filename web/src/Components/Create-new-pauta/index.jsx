@@ -14,6 +14,11 @@ import { InputAdornment } from "@mui/material";
 import NewPautaProposalCard from "../New-pauta-proposal-card";
 import DatePicker from "../Date-picker";
 
+// Services
+import ProposalService from "../../service/Proposal-Service";
+import ForumService from "../../service/Forum-Service";
+import PautaService from "../../service/Pauta-Service";
+
 const TextField = styled(MuiTextField)({
   width: "14rem",
   marginBottom: "1rem",
@@ -67,11 +72,11 @@ export default function CreateNewPauta() {
   const handleCloseModal = () => setOpenedModal(false);
 
   useEffect(() => {
-    fetch("http://localhost:8080/sid/api/proposta/proposta-pronta")
+    ProposalService.getReadyProposals()
       .then((response) => response.json())
       .then((data) => setReadyProposals(data));
 
-    fetch("http://localhost:8080/sid/api/forum")
+    ForumService.getForuns()
       .then((response) => response.json())
       .then((data) => setForuns(data));
   }, []);
@@ -110,13 +115,7 @@ export default function CreateNewPauta() {
 
     console.log("pautaJson", pautaJson);
 
-    fetch("http://localhost:8080/sid/api/pauta", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(pautaJson),
-    })
+    PautaService.createPauta(pautaJson)
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
@@ -128,6 +127,7 @@ export default function CreateNewPauta() {
         }
       });
   };
+
 
   return (
     <div>
