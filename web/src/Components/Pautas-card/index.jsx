@@ -23,7 +23,7 @@ import MuiWhatsAppIcon from "@mui/icons-material/WhatsApp";
 import MuiLinkIcon from "@mui/icons-material/Link";
 import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { Link } from "react-router-dom";
-
+import PautaService from "../../service/Pauta-Service";
 // interface PautaCardProps {
 //   PautaName: string;
 //   QtyProposals: number;
@@ -32,8 +32,6 @@ import { Link } from "react-router-dom";
 //   ResponsibleAnalyst: string;
 //   isInTheModalAddToAPauta?: boolean;
 // }
-
-
 
 const EditRoundedIcon = styled(MuiEditRoundedIcon)({
   color: "#707070",
@@ -90,8 +88,6 @@ const Accordion = styled(MuiAccordion)(() => ({
   borderBottom: "none",
 }));
 
-
-
 export default function PautasCard(props) {
   const [shareModal, setShareModal] = useState(false);
   const handleOpenShareModal = () => setShareModal(true);
@@ -114,24 +110,31 @@ export default function PautasCard(props) {
   const [proposals, setProposals] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/sid/api/pauta/propostas/${props.Id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('data', data)
-        setProposals(data);
+    // fetch(`http://localhost:8080/sid/api/pauta/propostas/${props.Id}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("data", data);
+    //     setProposals(data);
+    //   });
+    PautaService.getPautaById(props.Id)
+      .then((response) => {
+        setProposals(response.data.proposals);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-  }, [])
+  }, []);
 
   return (
     <div className="mt-5">
       {props.isInTheModalAddToAPauta ? (
         <div
-          className="w-[40rem] h-[7rem] bg-[#FFF] shadow-xl rounded-md border-light-blue-weg border-2
-          cursor-pointer hover:bg-[#F5F5F5] transition
+          className="h-[7rem] w-[40rem] cursor-pointer rounded-md border-2 border-light-blue-weg bg-[#FFF]
+          shadow-xl transition hover:bg-[#F5F5F5]
         "
         >
-          <div className="grid font-roboto h-max">
-            <div className="flex justify-between mt-2 pr-6 pl-6">
+          <div className="grid h-max font-roboto">
+            <div className="mt-2 flex justify-between pr-6 pl-6">
               <h1 className="font-bold">{props.PautaName}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
@@ -147,7 +150,7 @@ export default function PautasCard(props) {
               </h1>
             </div>
             <div className="flex justify-between">
-              <div className="flex justify-center items-center mt-11 pl-6">
+              <div className="mt-11 flex items-center justify-center pl-6">
                 <h1 className="font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
@@ -188,7 +191,7 @@ export default function PautasCard(props) {
                 </h1>
               </div>
               <div className="flex justify-between">
-                <div className="flex justify-center items-center">
+                <div className="flex items-center justify-center">
                   <h1 className="mt-5 font-bold">
                     Analista responsável:{" "}
                     <span className="font-normal text-[#707070]">
@@ -196,7 +199,7 @@ export default function PautasCard(props) {
                     </span>
                   </h1>
                 </div>
-                <div className="flex justify-center items-center gap-5 mt-5">
+                <div className="mt-5 flex items-center justify-center gap-5">
                   <Tooltip title="Compartilhar pauta">
                     <h1
                       className="
@@ -206,7 +209,7 @@ export default function PautasCard(props) {
                             "
                       onClick={handleOpenShareModal}
                     >
-                      <div className="flex justify-center items-center">
+                      <div className="flex items-center justify-center">
                         Compartilhar pauta
                         <ReplyRoundedIcon />
                       </div>
@@ -239,19 +242,19 @@ export default function PautasCard(props) {
                 <div>
                   <h1 className="text-xl">Compartilhar via...</h1>
                 </div>
-                <div className="mt-4 flex justify-center items-center gap-8">
+                <div className="mt-4 flex items-center justify-center gap-8">
                   <div className="grid gap-2">
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <div
                         className="
-                      rounded-full
-                      w-14
-                      h-14
-                      bg-gray-200
                       flex
-                      justify-center
-                      items-center
+                      h-14
+                      w-14
                       cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-200
                       transition
 
                       hover:bg-gray-300
@@ -262,22 +265,22 @@ export default function PautasCard(props) {
                         </IconButton>
                       </div>
                     </div>
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <h1>E-mail</h1>
                     </div>
                   </div>
                   <div className="grid gap-2">
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <div
                         className="
-                      rounded-full
-                      w-14
-                      h-14
-                      bg-gray-200
                       flex
-                      justify-center
-                      items-center
+                      h-14
+                      w-14
                       cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-200
                       transition
 
                       hover:bg-gray-300
@@ -288,22 +291,22 @@ export default function PautasCard(props) {
                         </IconButton>
                       </div>
                     </div>
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <h1>Whatsapp</h1>
                     </div>
                   </div>
                   <div className="grid gap-2">
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <div
                         className="
-                      rounded-full
-                      w-14
-                      h-14
-                      bg-gray-200
                       flex
-                      justify-center
-                      items-center
+                      h-14
+                      w-14
                       cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-200
                       transition
 
                       hover:bg-gray-300
@@ -314,22 +317,22 @@ export default function PautasCard(props) {
                         </IconButton>
                       </div>
                     </div>
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <h1>Copiar link</h1>
                     </div>
                   </div>
                   <div className="grid gap-2">
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <div
                         className="
-                      rounded-full
-                      w-14
-                      h-14
-                      bg-gray-200
                       flex
-                      justify-center
-                      items-center
+                      h-14
+                      w-14
                       cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-200
                       transition
 
                       hover:bg-gray-300
@@ -340,7 +343,7 @@ export default function PautasCard(props) {
                         </IconButton>
                       </div>
                     </div>
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <h1>Baixar PDF</h1>
                     </div>
                   </div>
@@ -352,16 +355,17 @@ export default function PautasCard(props) {
           <Divider />
           <AccordionDetails>
             <div className="grid gap-5">
-              {proposals && proposals.map((proposal) => (
-                <ProposalCard
-                  newPauta={false}
-                  title={proposal.demandaPropostaTitulo}
-                  executionTime={proposal.tempoDeExecucaoDemanda}
-                  value={proposal.valorDemanda}
-                  referenceDemand={proposal.idDemanda}
-                  proposalId={proposal.idProposta}
-                />
-              ))}
+              {proposals &&
+                proposals.map((proposal) => (
+                  <ProposalCard
+                    newPauta={false}
+                    title={proposal.demandaPropostaTitulo}
+                    executionTime={proposal.tempoDeExecucaoDemanda}
+                    value={proposal.valorDemanda}
+                    referenceDemand={proposal.idDemanda}
+                    proposalId={proposal.idProposta}
+                  />
+                ))}
             </div>
           </AccordionDetails>
         </Accordion>
