@@ -7,8 +7,6 @@ import Typography from "@mui/material/Typography";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import Tooltip from "@mui/material/Tooltip";
 
-import HistoricoWorkflowService from "../../service/HistoricoWorkflow-Service";
-
 import styled from "@emotion/styled";
 
 import { useEffect } from "react";

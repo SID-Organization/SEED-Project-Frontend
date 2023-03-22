@@ -68,10 +68,15 @@ const getDemandsToManage = async (userId, userRole) => {
         .then(response => response.data);
 }
 
+const updateBenefitedBUs = async (demandId, benefitedBUs) => {
+    return axios.put(`${url}/atualiza-bus-beneficiadas/${demandId}`, benefitedBUs)
+        .then(response => response.data);
+}
 
 export default {
     createDemand,
     updateDemand,
+    updateBenefitedBUs,
     deleteDemand,
     getDemands,
     getDemandById,
