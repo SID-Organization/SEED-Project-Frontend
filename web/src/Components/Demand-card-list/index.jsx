@@ -7,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import Tooltip from "@mui/material/Tooltip";
 
+import HistoricoWorkflowService from "../../service/HistoricoWorkflow-Service";
+
 import styled from "@emotion/styled";
 
 import { useEffect } from "react";
@@ -19,13 +21,14 @@ const columns = [
     field: "status",
     headerName: "Status",
     width: 80,
-    renderCell: params =>
+    renderCell: (params) => (
       <Tooltip title={params.value}>
         <SquareRoundedIcon sx={{ color: statusColor[params.value] }} />
-      </Tooltip>,
+      </Tooltip>
+    ),
     maxWidth: 80,
     align: "center",
-    headerAlign: "center"
+    headerAlign: "center",
   },
   {
     field: "titulo",
@@ -33,34 +36,35 @@ const columns = [
     headerAlign: "left",
     type: "string",
     width: 200,
-    renderCell: params =>
+    renderCell: (params) => (
       <Tooltip title={params.value}>
         <Typography variant="body2">
-          {params.value.length > 27 ? params.value.substring(0, 27) + "..." : params.value}
+          {params.value.length > 27
+            ? params.value.substring(0, 27) + "..."
+            : params.value}
         </Typography>
       </Tooltip>
+    ),
   },
   {
     field: "solicitante",
     headerName: "Solicitante",
     width: 180,
-    renderCell: params =>
+    renderCell: (params) => (
       <Tooltip title={params.value}>
-        <Typography variant="body2">
-          {params.value}
-        </Typography>
+        <Typography variant="body2">{params.value}</Typography>
       </Tooltip>
+    ),
   },
   {
     field: "ultimaAtualizacao",
     headerName: "Última atualização",
     width: 210,
-    renderCell: params =>
+    renderCell: (params) => (
       <Tooltip title={params.value}>
-        <Typography variant="body2">
-          {params.value}
-        </Typography>
+        <Typography variant="body2">{params.value}</Typography>
       </Tooltip>
+    ),
   },
   {
     field: "score",
@@ -68,7 +72,7 @@ const columns = [
     align: "center",
     headerAlign: "center",
     type: "number",
-    width: 120
+    width: 120,
   },
   {
     field: "versao",
@@ -77,11 +81,10 @@ const columns = [
     headerAlign: "center",
     type: "number",
     width: 120,
-    renderCell: params =>
-      <Typography variant="body2">
-        {params.value}
-      </Typography>
-  }
+    renderCell: (params) => (
+      <Typography variant="body2">{params.value}</Typography>
+    ),
+  },
 ];
 
 /**
@@ -121,7 +124,7 @@ const statusColor = {
 
 const Box = styled(MuiBox)(() => ({
   height: 750,
-  width: 890
+  width: 890,
 }));
 
 const getDemandHistoric = async (demandId) => {
@@ -131,7 +134,7 @@ const getDemandHistoric = async (demandId) => {
     lastUpdate: new Date(
       historic[historic.length - 2].recebimentoHistorico
     ).toLocaleDateString(),
-    responsable: historic[historic.length - 2].nomeResponsavel
+    responsable: historic[historic.length - 2].nomeResponsavel,
   };
 };
 
@@ -139,7 +142,7 @@ export default function DemandsList(props) {
   const [rows, setRows] = useState([]);
 
   const getRows = async (demands) => {
-    const tableRows = demands.map(async demand => {
+    const tableRows = demands.map(async (demand) => {
       const historic = await getDemandHistoric(demand.idDemanda);
       return {
         id: demand.idDemanda,
@@ -148,16 +151,12 @@ export default function DemandsList(props) {
         score: demand.scoreDemanda,
         titulo: demand.tituloDemanda,
         versao: historic.version,
-        ultimaAtualizacao: historic.lastUpdate + " - " + historic.responsable
+        ultimaAtualizacao: historic.lastUpdate + " - " + historic.responsable,
       };
     });
 
     setRows(await Promise.all(tableRows));
   };
-
-  useEffect(() => {
-    console.log("rows", rows)
-  }, rows)
 
   useEffect(() => {
     if (props.demands) {
@@ -174,14 +173,14 @@ export default function DemandsList(props) {
         columns={columns}
         rowsPerPageOptions={[5, 10, 25]}
         pageSize={pageSize}
-        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         components={{
-          Toolbar: GridToolbar
+          Toolbar: GridToolbar,
         }}
         sx={{
           color: "#023A67",
           fontWeight: "bold",
-          border: "none"
+          border: "none",
         }}
       />
     </Box>
