@@ -43,16 +43,15 @@ const getDemandPDF = async (id) => {
         .then(response => response.data);
 }
 
-const getDemandsByStatus  = async (status) => {
+const getDemandsByStatus = async (status) => {
     return axios.get(`${url}/statusDemanda/${status}`)
         .then(response => response.data);
 }
 
 const getDemandsByRequestorId = async (requestorId) => {
-    console.log("URL fetching: " + `${url}/solicitante/${requestorId}`)
     return axios.get(`${url}/solicitante/${requestorId}`)
         .then(response => {
-            console.log("response.data - GetByREqid: " + response);
+            console.log("Response: ", response.data)
             return response.data
         });
 }

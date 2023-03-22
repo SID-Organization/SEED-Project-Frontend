@@ -59,7 +59,7 @@ export default function homeDemands() {
   const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands.map(async (demand) => {
       console.log("Demand: ", demand)
-      let demandHistoric = DemandLogService.getDemandLogById(demand.idDemanda);
+      let demandHistoric = DemandLogService.getDemandLogs(demand.idDemanda);
 
       return ({
         ...demand,

@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
 import demandUtils from "../../utils/demandUtils"
+import DemandLogService from "../../service/DemandLog-Service";
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -94,13 +95,12 @@ export default function DemandCard(props) {
   const [demandLogs, setDemandLogs] = useState([]);
 
   const getFirstLog = async () => {
-    const response = await fetch(
-      `http://localhost:8080/sid/api/historico-workflow/demanda/${props.demand.idDemanda}`
-    );
-    const data = await response.json();
-    setDemandLogs(data);
-    let firstLog = new Date(data[0].recebimentoHistorico).toLocaleDateString();
-    setFirstLog(firstLog);
+    DemandLogService.getDemandLogs(props.demand.idDemanda)
+    .then((data) => {
+      setDemandLogs(data);
+      let firstLog = new Date(data[0].recebimentoHistorico).toLocaleDateString();
+      setFirstLog(firstLog);
+    });
   }
 
   useEffect(() => {
