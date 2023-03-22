@@ -56,6 +56,19 @@ const getDemandsByRequestorId = async (requestorId) => {
         });
 }
 
+// Função auxiliar para mapear o cargo do usuário para a URL da API
+function getUserRoleToURL(userRole) {
+    if (userRole === "ANALISTA") return "analista";
+    if (userRole === "GERENTE") return "gerente-da-area";
+    if (userRole === "GESTOR_TI") return "gestor-ti";
+}
+
+const getDemandsToManage = async (userId, userRole) => {
+    return axios.get(`${url}/${getUserRoleToURL(userRole)}/${userId}`)
+        .then(response => response.data);
+}
+
+
 export default {
     createDemand,
     updateDemand,
@@ -66,5 +79,6 @@ export default {
     getDraftDemands,
     getDemandPDF,
     getDemandsByStatus,
-    getDemandsByRequestorId
+    getDemandsByRequestorId,
+    getDemandsToManage
 }

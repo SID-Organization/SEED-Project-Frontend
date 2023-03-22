@@ -13,6 +13,9 @@ import styled from "@emotion/styled";
 
 import { useEffect } from "react";
 
+// Services
+import DemandLogService from "../../service/DemandLog-Service";
+
 const columns = [
   {
     field: "status",
@@ -124,11 +127,8 @@ const Box = styled(MuiBox)(() => ({
   width: 890,
 }));
 
-const getDemandHistoric = async (id) => {
-  const response = await fetch(
-    `http://localhost:8080/sid/api/historico-workflow/demanda/${id}`
-  );
-  const historic = await response.json();
+const getDemandHistoric = async (demandId) => {
+  const historic = await DemandLogService.getDemandLogs(demandId);
   return {
     version: historic[historic.length - 1].versaoHistorico,
     lastUpdate: new Date(
@@ -159,12 +159,7 @@ export default function DemandsList(props) {
   };
 
   useEffect(() => {
-    console.log("rows", rows);
-  }, rows);
-
-  useEffect(() => {
     if (props.demands) {
-      console.log("props.demands", props.demands);
       getRows(props.demands);
     }
   }, []);
