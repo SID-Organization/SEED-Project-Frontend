@@ -23,7 +23,7 @@ import MuiWhatsAppIcon from "@mui/icons-material/WhatsApp";
 import MuiLinkIcon from "@mui/icons-material/Link";
 import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { Link } from "react-router-dom";
-import PautaService from "../../service/Pauta-Service";
+import ProposalService from "../../service/Proposal-Service";
 // interface PautaCardProps {
 //   PautaName: string;
 //   QtyProposals: number;
@@ -116,13 +116,10 @@ export default function PautasCard(props) {
     //     console.log("data", data);
     //     setProposals(data);
     //   });
-    PautaService.getPautaById(props.Id)
-      .then((response) => {
-        setProposals(response.data.proposals);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    ProposalService.getProposalsByPautaId(props.Id).then((proposals) => {
+      setProposals(proposals);
+    });
   }, []);
 
   return (
