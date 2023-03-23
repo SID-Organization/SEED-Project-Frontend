@@ -19,7 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
 
-import demandUtils from "../../utils/demandUtils"
+import DemandUtils from "../../utils/Demand-Utils"
 
 // Services
 import DemandService from "../../service/Demand-Service";
@@ -162,7 +162,7 @@ export default function DemandCard(props) {
 
 
   function formatDemandStatus(type) {
-    const statusByRole = demandUtils.getDemandStatusByRole(props.demand.statusDemanda, user.cargoUsuario);
+    const statusByRole = DemandUtils.getDemandStatusByRole(props.demand.statusDemanda, user.cargoUsuario);
     const status =
       statusByRole[0].toLocaleUpperCase() +
       statusByRole
@@ -180,7 +180,7 @@ export default function DemandCard(props) {
   }
 
   function getPercents() {
-    const percent = demandUtils.getPercentageByStatus(props.demand.statusDemanda);
+    const percent = DemandUtils.getPercentageByStatus(props.demand.statusDemanda);
     return percent;
   }
 
@@ -232,7 +232,7 @@ export default function DemandCard(props) {
           sx={{ width: 430, height: 180 }}
           style={{
             boxShadow: "1px 1px 5px 0px #808080db",
-            borderLeft: "7px solid " + demandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
+            borderLeft: "7px solid " + DemandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
           }}
         >
           <CardContent>
@@ -325,12 +325,12 @@ export default function DemandCard(props) {
                         getAriaValueText={valuetext}
                         disabled
                         style={{
-                          color: demandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
+                          color: DemandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
                         }}
                         sx={{
                           height: 16,
                           width: 120,
-                          color: demandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
+                          color: DemandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
                           "& .MuiSlider-thumb": {
                             display: "none",
                           },

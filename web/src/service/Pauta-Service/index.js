@@ -7,7 +7,7 @@ const createPauta = async (pauta) => {
   return axios.post(url, pauta).then((response) => response.data);
 };
 
-const getPauta = async () => {
+const getPautas = async () => {
   return axios.get(url).then((response) => response.data);
 };
 
@@ -17,6 +17,6 @@ const getPautaById = async (id) => {
 
 export default {
   createPauta,
-  getPauta,
+  getPautas,
   getPautaById,
 };

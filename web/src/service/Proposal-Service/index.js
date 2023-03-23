@@ -7,8 +7,8 @@ const createProposal = async (proposal) => {
   return axios.post(url, proposal).then((response) => response);
 };
 
-const updateProposal = async (proposal) => {
-  return axios.put(url, proposal).then((response) => response.data);
+const updateProposal = async (proposal, proposalId) => {
+  return axios.put(`${url}/${proposalId}`, proposal).then((response) => response);
 };
 
 const getReadyProposals = async () => {

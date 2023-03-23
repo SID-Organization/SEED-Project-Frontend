@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import "../../styles/index.css";
 
 // MUI
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -43,11 +44,11 @@ import WegLogo from "../../assets/weg-logo.png";
 import UserMessageCard from "../Chat-components/user-message-card";
 import NotificationCard from "../Notification-card";
 
-import "../../styles/index.css";
+//Services
+import ChatService from "../../service/Chat-Service";
 
-// Import de interfaces
-// import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
-import { blue, deepOrange } from "@mui/material/colors";
+// Utils
+import UserUtils from "../../utils/User-Utils";
 
 //WebSocket Imports
 import { over } from "stompjs";
@@ -100,13 +101,6 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-// interface IMessage {
-//   idUsuario: number;
-//   textoMensagem: string;
-//   dataMensagem: string;
-//   idChat: number;
-//   position: string;
-// }
 
 export default function PrimarySearchAppBar() {
   // Usa react router para navegar entre as páginas dentro de funções.
@@ -522,18 +516,7 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  function getLoggedUserId() {
-    return JSON.parse(localStorage.getItem("user")).numeroCadastroUsuario;
-  }
-
-  async function getUsersFromDatabase() {
-    const response = await fetch(
-      "http://localhost:8080/sid/api/chat/usuario/" + getLoggedUserId()
-    );
-    const users = await response.json();
-    console.log("Usuários chat: ", users);
-    return users;
-  }
+  
 
   const [chatUsers, setChatUsers] = useState([]);
   const [users, setUsers] = useState([]);
@@ -561,7 +544,7 @@ export default function PrimarySearchAppBar() {
   const onPrivateMessage = (payload) => {
     var payLoadData = JSON.parse(payload.body);
     console.log("PAYLOAD: ", payLoadData);
-    if (payLoadData.idUsuario.numeroCadastroUsuario == getLoggedUserId()) {
+    if (payLoadData.idUsuario.numeroCadastroUsuario == UserUtils.getLoggedUserId()) {
       setMessagesReceivedByWS((prevState) => [...prevState, payLoadData]);
       setTemporaryMessages((prevState) => [
         ...prevState,
@@ -626,7 +609,8 @@ export default function PrimarySearchAppBar() {
 
   //UseEffect para buscar todos os usuários do banco de dados
   useEffect(() => {
-    getUsersFromDatabase().then((users) => {
+    ChatService.getChatByUserId(UserUtils.getLoggedUserId()).then((users) => {
+      console.log("CHAT SERVICE: ", users);
       setChatUsers(users);
     });
   }, []);

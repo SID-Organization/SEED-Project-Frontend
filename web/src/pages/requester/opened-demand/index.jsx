@@ -23,9 +23,8 @@ import DemandService from "../../../service/Demand-Service";
 import DemandLogService from "../../../service/DemandLog-Service";
 import ChatService from "../../../service/Chat-Service";
 
-function getLoggedUser() {
-  return JSON.parse(localStorage.getItem("user"));
-}
+// Utils
+import UserUtils from "../../../utils/User-Utils";
 
 
 const style = {
@@ -45,7 +44,7 @@ export default function openedDemand() {
   const params = useParams();
   const navigate = useNavigate();
 
-  const [user, setUser] = useState(getLoggedUser());
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   // const [demand, setDemand] = useState<DemandInterface>();
   // Changed to <any> to avoid errors

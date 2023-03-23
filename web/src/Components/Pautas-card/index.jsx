@@ -110,13 +110,6 @@ export default function PautasCard(props) {
   const [proposals, setProposals] = useState([]);
 
   useEffect(() => {
-    // fetch(`http://localhost:8080/sid/api/pauta/propostas/${props.Id}`)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("data", data);
-    //     setProposals(data);
-    //   });
-
     ProposalService.getProposalsByPautaId(props.Id).then((proposals) => {
       setProposals(proposals);
     });

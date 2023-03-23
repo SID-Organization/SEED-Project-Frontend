@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
-import ProposalCard from "../../../Components/Proposal-card";
-import PautasCard from "../../../Components/Pautas-card";
 
-import SubHeaderProposals from "../../../Components/Sub-header-proposals";
-
+// MUI
 import Modal from "@mui/material/Modal";
-
-import { styled } from "@mui/material/styles";
-import MuiButton from "@mui/material/Button";
 import { Box } from "@mui/material";
+import MuiButton from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+
+// Components
+import PautasCard from "../../../Components/Pautas-card";
+import SubHeaderProposals from "../../../Components/Sub-header-proposals";
+import ProposalCard from "../../../Components/Proposal-card";
 import CreateNewPauta from "../../../Components/Create-new-pauta";
+
+// Services
+import PautaService from "../../../service/Pauta-Service";
 
 const proposalsMock = [
   {
@@ -81,19 +85,17 @@ export default function Proposals() {
   const handleCloseAddToAPautaModal = () => setOpenAddToAPautaModal(false);
 
   useEffect(() => {
-    fetch("http://localhost:8080/sid/api/pauta")
-      .then((response) => response.json())
-      .then((data) => {
-        let pautas = data.map((pauta) => ({
-          ...pauta,
-          dataReuniaoPauta: pauta.dataReuniaoPauta
-            .split("T")[0]
-            .split("-")
-            .reverse()
-            .join("/"),
-        }));
-        setPautas(pautas);
-      });
+    PautaService.getPautas().then((data) => {
+      let pautas = data.map((pauta) => ({
+        ...pauta,
+        dataReuniaoPauta: pauta.dataReuniaoPauta
+          .split("T")[0]
+          .split("-")
+          .reverse()
+          .join("/"),
+      }));
+      setPautas(pautas);
+    });
   }, []);
 
   const pautasMock = [

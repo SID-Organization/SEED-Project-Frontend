@@ -1,54 +1,35 @@
+import { useEffect, useState } from "react";
+
+// MUI
 import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
+import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import { Tooltip } from "@mui/material";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Diversity3RoundedIcon from "@mui/icons-material/Diversity3Rounded";
 
+// React chat elements
 import "react-chat-elements/dist/main.css";
 import { MessageBox } from "react-chat-elements";
 import { SystemMessage } from "react-chat-elements";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-
-import { useEffect, useState } from "react";
-
-import UserMessageCard from "../../../Components/Chat-components/user-message-card";
-import ChatSubHeader from "../../../Components/Chat-components/Chat-sub-header";
-import { Tooltip } from "@mui/material";
 
 //WebSocket Imports
 import { over } from "stompjs";
 import SockJs from "sockjs-client/dist/sockjs";
 
-async function getUsersFromDatabase() {
-  const response = await fetch(
-    "http://localhost:8080/sid/api/chat/usuario/" + getLoggedUserId()
-  );
-  const users = await response.json();
-  return users;
-}
+// Components
+import UserMessageCard from "../../../Components/Chat-components/user-message-card";
+import ChatSubHeader from "../../../Components/Chat-components/Chat-sub-header";
 
-async function getMessagesFromDatabase(chatId) {
-  const response = await fetch(
-    "http://localhost:8080/sid/api/chat/mensagem/" + chatId
-  );
-  const messages = await response.json();
-  return messages;
-}
+// Services
+import ChatService from "../../../service/Chat-Service";
 
-function getLoggedUserId() {
-  return JSON.parse(localStorage.getItem("user")).numeroCadastroUsuario;
-}
-
-// interface IMessage {
-//   idUsuario: number;
-//   textoMensagem: string;
-//   dataMensagem: string;
-//   idChat: number;
-//   position: string;
-// }
+// Utils
+import UserUtils from "../../../utils/User-Utils";
 
 export default function Chat() {
   const [temporaryMessages, setTemporaryMessages] = useState([]);
@@ -79,9 +60,6 @@ export default function Chat() {
   //State para armazenar as mensagens buscadas no banco de dados
   const [messages, setMessages] = useState([]);
 
-  //State para armazenar os usuários buscados no banco de dados
-  const [users, setUsers] = useState([]);
-
   //States para armazenar arquivos enviados
   const [file, setFile] = useState([]);
   const [preview, setPreview] = useState("");
@@ -100,19 +78,16 @@ export default function Chat() {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    getUsersFromDatabase().then((users) => {
-      setChatUsers(users);
-      console.log(users);
-    });
+    ChatService.getChatByUserId(UserUtils.getLoggedUserId())
+      .then((response) => {
+        setChatUsers(response.data);
+      });
   }, []);
 
   useEffect(() => {
     console.log("USERS: ", chatUsers);
   }, [chatUsers]);
 
-  function filterUser(e) {
-    setSearch(e.target.value);
-  }
 
   const onConnected = () => {
     setUserData((prvState) => ({ ...prvState, connected: true }));
@@ -138,7 +113,7 @@ export default function Chat() {
   const onPrivateMessage = (payload) => {
     var payLoadData = JSON.parse(payload.body);
     console.log("PAYLOAD: ", payLoadData);
-    if (payLoadData.idUsuario.numeroCadastroUsuario == getLoggedUserId()) {
+    if (payLoadData.idUsuario.numeroCadastroUsuario == UserUtils.getLoggedUserId()) {
       setMessagesReceivedByWS((prevState) => [...prevState, payLoadData]);
       setTemporaryMessages((prevState) => [
         ...prevState,
@@ -156,8 +131,8 @@ export default function Chat() {
   // Atualiza a ultima mensagem do chat
   useEffect(() => {
     const lastMessage = messagesReceivedByWS[messagesReceivedByWS.length - 1];
-    setUsers(
-      users.map((user) => {
+    setChatUsers(
+      chatUsers.map((user) => {
         if (user.idChat === lastMessage.idChat.idChat) {
           return { ...user, lastMessage: lastMessage.textoMensagem };
         } else {
@@ -170,8 +145,8 @@ export default function Chat() {
   useEffect(() => {
     if (temporaryMessages.length > 0) {
       const lastMessage = temporaryMessages[temporaryMessages.length - 1];
-      setUsers(
-        users.map((user) => {
+      setChatUsers(
+        chatUsers.map((user) => {
           if (user.idChat === lastMessage.idChat) {
             return { ...user, lastMessage: lastMessage.textoMensagem };
           } else {
@@ -217,18 +192,12 @@ export default function Chat() {
     setUserData({ ...userData, message: "" });
   };
 
-  //UseEffect para buscar todos os usuários do banco de dados
-  useEffect(() => {
-    getUsersFromDatabase().then((users) => {
-      setChatUsers(users);
-    });
-  }, []);
-
   //UseEffect para buscar todas as mensagens do banco de dados
   useEffect(() => {
-    getMessagesFromDatabase(chatId).then((messages) => {
-      setChatMessages(messages);
-    });
+    ChatService.getChatMessagesByChatId(chatId)
+      .then((messages) => {
+        setChatMessages(messages);
+      });
   }, [chatId]);
 
   useEffect(() => {
@@ -240,7 +209,7 @@ export default function Chat() {
 
   useEffect(() => {
     if (chatUsers.length > 0) {
-      setUsers(
+      setChatUsers(
         chatUsers.map((user) => ({
           picture: user.fotoAnalista,
           name: user.nomeAnalista,
@@ -264,7 +233,7 @@ export default function Chat() {
         chatMessages.map((message) => {
           return {
             position:
-              message.idUsuario !== getLoggedUserId() ? "right" : "left",
+              message.idUsuario !== UserUtils.getLoggedUserId() ? "right" : "left",
             type: "text",
             text: message.textoMensagem,
             date: message.dataMensagem,
@@ -277,7 +246,7 @@ export default function Chat() {
 
   //Função para filtrar os usuários que serão exibidos na lista de usuários
   function returnedUserSearch() {
-    const filteredUsers = users.filter(user => {
+    const filteredUsers = chatUsers.filter(user => {
       return (
         user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.userDemand.toLowerCase().includes(search.toLowerCase())
@@ -357,65 +326,65 @@ export default function Chat() {
         >
           {/* USERS HERE */}
           {search === ""
-            ? users
-                .sort((a, b) => {
-                  if (a.unreadMessages && !b.unreadMessages) return -1;
-                  if (!a.unreadMessages && b.unreadMessages) return 1;
+            ? chatUsers
+              .sort((a, b) => {
+                if (a.unreadMessages && !b.unreadMessages) return -1;
+                if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                  // const timeA = new Date(
-                  //   a.time.split(":")[0],
-                  //   a.time.split(":")[1]
-                  // );
+                // const timeA = new Date(
+                //   a.time.split(":")[0],
+                //   a.time.split(":")[1]
+                // );
 
-                  // const timeB = new Date(
-                  //   b.time.split(":")[0],
-                  //   b.time.split(":")[1]
-                  // );
+                // const timeB = new Date(
+                //   b.time.split(":")[0],
+                //   b.time.split(":")[1]
+                // );
 
-                  // if (timeA > timeB) {
-                  //   return -1;
-                  // }
-                  // if (timeA < timeB) {
-                  //   return 1;
-                  // }
+                // if (timeA > timeB) {
+                //   return -1;
+                // }
+                // if (timeA < timeB) {
+                //   return 1;
+                // }
 
-                  return 0;
-                })
+                return 0;
+              })
 
-                .map((user) => {
-                  return (
-                    <div
-                      onClick={() => {
-                        const userName = user.name;
-                        const userDemand = user.userDemand;
-                        setChatUserId(user.idUsuario);
-                        setUserNameCard(userName);
-                        setUserDemandCard(userDemand);
-                        setChatId(user.idChat);
-                        setUserData({
-                          idUsuario: {
-                            numeroCadastroUsuario: user.idUsuario,
-                          },
-                          idChat: { idChat: user.idChat },
-                          idDemanda: { idDemanda: user.idDemanda },
-                          connected: false,
-                          message: "",
-                        });
-                        connect();
-                      }}
-                    >
-                      <UserMessageCard
-                        picture={user.picture}
-                        name={user.name}
-                        userDemand={user.userDemand}
-                        lastMessage={user.lastMessage}
-                        time={user.time}
-                        unreadMessages={user.unreadMessages}
-                        isOnline={user.isOnline}
-                      />
-                    </div>
-                  );
-                })
+              .map((user) => {
+                return (
+                  <div
+                    onClick={() => {
+                      const userName = user.name;
+                      const userDemand = user.userDemand;
+                      setChatUserId(user.idUsuario);
+                      setUserNameCard(userName);
+                      setUserDemandCard(userDemand);
+                      setChatId(user.idChat);
+                      setUserData({
+                        idUsuario: {
+                          numeroCadastroUsuario: user.idUsuario,
+                        },
+                        idChat: { idChat: user.idChat },
+                        idDemanda: { idDemanda: user.idDemanda },
+                        connected: false,
+                        message: "",
+                      });
+                      connect();
+                    }}
+                  >
+                    <UserMessageCard
+                      picture={user.picture}
+                      name={user.name}
+                      userDemand={user.userDemand}
+                      lastMessage={user.lastMessage}
+                      time={user.time}
+                      unreadMessages={user.unreadMessages}
+                      isOnline={user.isOnline}
+                    />
+                  </div>
+                );
+              })
             : returnedUserSearch()}
         </div>
       </div>
@@ -558,10 +527,10 @@ export default function Chat() {
                 onClick={
                   userData.message !== ""
                     ? () => {
-                        sendPrivateValue();
-                        setMessage("");
-                      }
-                    : () => {}
+                      sendPrivateValue();
+                      setMessage("");
+                    }
+                    : () => { }
                 }
                 color="primary"
                 aria-label="upload picture"

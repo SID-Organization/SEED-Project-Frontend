@@ -1,27 +1,25 @@
-import SubHeader from "../../../Components/Sub-header";
-import DemandCard from "../../../Components/Demand-card";
+import { useState, useEffect } from "react";
+
+// MUI
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
 import MuiButton from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-
-import Paper from "@mui/material/Paper";
-
-import NoDemands from "../../../Components/No-demands";
-
-import { styled } from "@mui/material/styles";
-
-import { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
+
+// Tools
 import Draggable from "react-draggable";
+
+// Components
+import NoDemands from "../../../Components/No-demands";
+import SubHeader from "../../../Components/Sub-header";
+import DemandCard from "../../../Components/Demand-card";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
 
-async function getDemandsFromDatabase(userId) {
-  const demands = DemandService.getDemandsByRequestorId(userId);
-  return demands.filter((item) => item.statusDemanda == "RASCUNHO");
-}
 
 export default function drafts() {
   const [selectedDrafts, setSelectedDrafts] = useState([]);
@@ -31,7 +29,7 @@ export default function drafts() {
   const [demands, setDemands] = useState([]);
 
   useEffect(() => {
-    getDemandsFromDatabase(user.numeroCadastroUsuario).then((demands) => {
+    DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then((demands) => {
       setDemands(demands);
     });
   }, []);

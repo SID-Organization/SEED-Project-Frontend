@@ -67,6 +67,11 @@ const getDemandsByRequestorId = async (requestorId) => {
         });
 }
 
+const getDraftsByRequestorId = async (requestorId) => {
+    return axios.get(`${url}/rascunho/${requestorId}`)
+        .then(response => response.data);
+}
+
 // Função auxiliar para mapear o cargo do usuário para a URL da API
 function getUserRoleToURL(userRole) {
     if (userRole === "ANALISTA") return "analista";
@@ -94,5 +99,6 @@ export default {
     getDemandPDF,
     getDemandsByStatus,
     getDemandsByRequestorId,
-    getDemandsToManage
+    getDemandsToManage,
+    getDraftsByRequestorId,
 }
