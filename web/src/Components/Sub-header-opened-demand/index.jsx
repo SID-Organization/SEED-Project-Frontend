@@ -695,7 +695,6 @@ export default function subHeader({
                       ) {
                         return (
                           <MenuItem
-                            key={index}
                             onClick={() => {
                               option.function();
                               setSelectedIndex(index);
