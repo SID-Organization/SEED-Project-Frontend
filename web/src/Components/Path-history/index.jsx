@@ -28,7 +28,7 @@ export default function PathHistory() {
       <Breadcrumbs aria-label="breadcrumb">
         {pathHist.map((item, index) => {
           return (
-            <>
+            <div key={index}>
               {index == 0 ? (
                 <div className="ml-3">
                   {pathHist.length == 1 ? (
@@ -50,11 +50,10 @@ export default function PathHistory() {
                   {buscarPathName(item)}
                 </Link>
               )}
-            </>
+            </div>
           );
         })}
       </Breadcrumbs>
-      <div></div>
     </div>
   );
 }

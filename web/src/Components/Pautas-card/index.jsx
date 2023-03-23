@@ -342,8 +342,9 @@ export default function PautasCard(props) {
           <AccordionDetails>
             <div className="grid gap-5">
               {proposals &&
-                proposals.map((proposal) => (
+                proposals.map((proposal, i) => (
                   <ProposalCard
+                    key={i}
                     newPauta={false}
                     title={proposal.demandaPropostaTitulo}
                     executionTime={proposal.tempoDeExecucaoDemanda}
