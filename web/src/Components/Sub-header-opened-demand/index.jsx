@@ -518,8 +518,8 @@ export default function subHeader({
                       width: 320,
                     }}
                   >
-                    {demandSizes.map((item) => (
-                      <MenuItem value={item.key}>
+                    {demandSizes.map((item, i) => (
+                      <MenuItem key={i} value={item.key}>
                         <Badge
                           badgeContent={item.description}
                           color="primary"
@@ -695,6 +695,7 @@ export default function subHeader({
                       ) {
                         return (
                           <MenuItem
+                            key={index}
                             onClick={() => {
                               option.function();
                               setSelectedIndex(index);
