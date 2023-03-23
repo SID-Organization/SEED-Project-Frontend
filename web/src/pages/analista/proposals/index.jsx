@@ -14,6 +14,7 @@ import CreateNewPauta from "../../../Components/Create-new-pauta";
 
 // Services
 import PautaService from "../../../service/Pauta-Service";
+import ProposalService from "../../../service/Proposal-Service";
 
 const proposalsMock = [
   {
@@ -77,8 +78,9 @@ const ButtonAddSelected = styled(MuiButton)({
 });
 
 export default function Proposals() {
-  const [selectProposals, setSelectProposals] = useState([]);
+  const [proposals, setProposals] = useState([]);
   const [pautas, setPautas] = useState([]);
+  const [selectProposals, setSelectProposals] = useState([]);
   const [openAddToAPautaModal, setOpenAddToAPautaModal] = useState(false);
 
   const handleOpenAddToAPautaModal = () => setOpenAddToAPautaModal(true);
@@ -86,15 +88,21 @@ export default function Proposals() {
 
   useEffect(() => {
     PautaService.getPautas().then((data) => {
+      console.log("Pautas", data)
       let pautas = data.map((pauta) => ({
         ...pauta,
-        dataReuniaoPauta: pauta.dataReuniaoPauta
+        dataReuniao: pauta.dataReuniao
           .split("T")[0]
           .split("-")
           .reverse()
           .join("/"),
       }));
       setPautas(pautas);
+    });
+
+    ProposalService.getReadyProposals().then((readyProposal) => {
+      console.log("Ready proposals", readyProposal)
+      setProposals(readyProposal);
     });
   }, []);
 
@@ -185,11 +193,11 @@ export default function Proposals() {
               <PautasCard
                 id={pauta.idPauta}
                 PautaName={"ID da pauta " + pauta.idPauta}
-                QtyProposals={pauta.propostasPauta.length}
-                MeetingDate={pauta.dataReuniaoPauta}
-                MeetingTime={pauta.horarioInicioPauta}
+                QtyProposals={pauta.qtdPropostas}
+                MeetingDate={pauta.dataReuniao}
+                MeetingTime={pauta.horaReuniao}
                 ResponsibleAnalyst={
-                  pauta.forumPauta.analistaResponsavelForum.nomeUsuario
+                  pauta.analistaResponsavel
                 }
                 isInTheModalAddToAPauta={true}
               />
@@ -219,24 +227,16 @@ export default function Proposals() {
           </div>
         }
       </div>
-      <div
-        className="
-        flex
-        flex-col
-        items-center
-        justify-center
-        gap-8
-        "
-      >
-        {proposalsMock.map((proposal, i) => (
+      <div className=" flex flex-col items-center justify-center gap-8" >
+        {proposals.length > 0 && proposals.map((proposal, i) => (
           <ProposalCard
             key={i}
-            id={proposal.id}
-            newPauta={proposal.newPauta}
-            title={proposal.title}
-            executionTime={proposal.executionTime}
-            value={proposal.value}
-            referenceDemand={proposal.referenceDemand}
+            proposalId={proposal.idProposta}
+            newPauta={"card"}
+            title={proposal.demandaPropostaTitulo}
+            executionTime={proposal.tempoDeExecucaoDemanda}
+            value={proposal.valorDemanda}
+            referenceDemand={proposal.idDemanda}
             setSelectProposals={setSelectProposals}
           />
         ))}
@@ -244,3 +244,28 @@ export default function Proposals() {
     </div>
   );
 }
+
+
+/**
+ * executionTime
+: 
+undefined
+id
+: 
+undefined
+newPauta
+: 
+undefined
+referenceDemand
+: 
+undefined
+setSelectProposals
+: 
+ƒ ()
+title
+: 
+undefined
+value
+: 
+undefined
+*/

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import AtasCard from "../../../Components/Atas-card";
+import { useEffect, useState} from "react";
 
+// Components
+import AtasCard from "../../../Components/Atas-card";
 import SubHeaderAtas from "../../../Components/Sub-header-atas";
 
 const atasMock = [

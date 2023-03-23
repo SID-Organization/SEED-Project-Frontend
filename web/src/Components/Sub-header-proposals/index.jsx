@@ -104,8 +104,9 @@ export default function SubHeaderPautas() {
                     {
                       //check if theres any demand
                       demandTitle.length > 0 ? (
-                        demandTitle.map((demand) => (
+                        demandTitle.map((demand, i) => (
                           <DemandCardProposalModal
+                            key={i}
                             title={demand.tituloDemanda}
                             id={demand.idDemanda}
                           />

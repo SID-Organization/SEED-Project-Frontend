@@ -73,11 +73,9 @@ export default function CreateNewPauta() {
 
   useEffect(() => {
     ProposalService.getReadyProposals()
-      .then((response) => response.json())
       .then((data) => setReadyProposals(data));
 
     ForumService.getForuns()
-      .then((response) => response.json())
       .then((data) => setForuns(data));
   }, []);
 

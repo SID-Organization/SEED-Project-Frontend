@@ -1,37 +1,33 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 
+//MUI
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import MuiButton from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import MuiLinkIcon from "@mui/icons-material/Link";
+import MuiIconButton from "@mui/material/IconButton";
 import MuiAccordion from "@mui/material/Accordion";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MuiWhatsAppIcon from "@mui/icons-material/WhatsApp";
+import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import MuiButton from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { Divider, Icon, IconButton, Tooltip } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import MuiIconButton from "@mui/material/IconButton";
-import ProposalCard from "../Proposal-card";
-
 import MuiEditRoundedIcon from "@mui/icons-material/EditRounded";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
+import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import MuiMailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
-import MuiWhatsAppIcon from "@mui/icons-material/WhatsApp";
-import MuiLinkIcon from "@mui/icons-material/Link";
-import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import { Link } from "react-router-dom";
-import ProposalService from "../../service/Proposal-Service";
-// interface PautaCardProps {
-//   PautaName: string;
-//   QtyProposals: number;
-//   MeetingDate: string;
-//   MeetingTime: string;
-//   ResponsibleAnalyst: string;
-//   isInTheModalAddToAPauta?: boolean;
-// }
+import { Divider, Icon, IconButton, Tooltip } from "@mui/material";
+
+// Components
+import ProposalCard from "../Proposal-card";
+
+// Services
+import PautaService from "../../service/Pauta-Service";
 
 const EditRoundedIcon = styled(MuiEditRoundedIcon)({
   color: "#707070",
@@ -110,7 +106,7 @@ export default function PautasCard(props) {
   const [proposals, setProposals] = useState([]);
 
   useEffect(() => {
-    ProposalService.getProposalsByPautaId(props.Id).then((proposals) => {
+    PautaService.getPautaProposalsById(props.Id).then((proposals) => {
       setProposals(proposals);
     });
   }, []);

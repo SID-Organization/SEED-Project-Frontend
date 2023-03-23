@@ -15,15 +15,8 @@ const getReadyProposals = async () => {
   return axios.get(`${url}/proposta-pronta`).then((response) => response.data);
 };
 
-const getProposalsByPautaId = async (id) => {
-  return axios
-    .get(`${url}/pauta/propostas/${id}`)
-    .then((response) => response.data);
-};
-
 export default {
   createProposal,
   updateProposal,
   getReadyProposals,
-  getProposalsByPautaId,
 };

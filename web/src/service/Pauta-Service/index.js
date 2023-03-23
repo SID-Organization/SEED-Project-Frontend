@@ -15,8 +15,15 @@ const getPautaById = async (id) => {
   return axios.get(`${url}/${id}`).then((response) => response.data);
 };
 
+const getPautaProposalsById = async (id) => {
+  return axios
+    .get(`${url}/propostas/${id}`)
+    .then((response) => response.data);
+};
+
 export default {
   createPauta,
   getPautas,
   getPautaById,
+  getPautaProposalsById,
 };

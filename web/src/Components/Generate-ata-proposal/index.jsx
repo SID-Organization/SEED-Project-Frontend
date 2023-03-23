@@ -1,6 +1,6 @@
 import { Badge, Box, Divider, FormControl, MenuItem } from "@mui/material";
 import Select from "@mui/material/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
@@ -9,9 +9,8 @@ import PublicOffIcon from "@mui/icons-material/PublicOff";
 
 import ProposalCard from "../Proposal-card";
 import ReactQuill from "react-quill";
-import ReactTextQuill from "../ReactTextQuill";
 
-export default function GenerateAtaProposal() {
+export default function GenerateAtaProposal({ proposal }) {
   const [parecerComissao, setParecerComissao] = useState("");
   const [considerations, setConsiderations] = useState("");
   const [value, setValue] = useState("");
@@ -62,12 +61,12 @@ export default function GenerateAtaProposal() {
       <div className="grid justify-center">
         <div className="w-[65rem]">
           <ProposalCard
-            id={1}
+            proposalId={proposal.idProposta}
             newPauta={true}
-            title="Proposta 1"
-            executionTime={10}
-            value={1000}
-            referenceDemand="Automatizar o processo de geração de atas"
+            title={proposal.demandaPropostaTitulo}
+            executionTime={proposal.tempoExecucaoDemanda}
+            value={proposal.valorDemanda}
+            referenceDemand={proposal.idDemanda}
           />
         </div>
         <div
@@ -103,10 +102,10 @@ export default function GenerateAtaProposal() {
                           action.action === "Aprovado"
                             ? "success"
                             : action.action === "Reprovado"
-                            ? "error"
-                            : action.action === "Mais informações"
-                            ? "warning"
-                            : "info"
+                              ? "error"
+                              : action.action === "Mais informações"
+                                ? "warning"
+                                : "info"
                         }
                         variant="dot"
                         sx={{
