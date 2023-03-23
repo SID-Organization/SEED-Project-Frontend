@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
-import ProposalCard from "../../../Components/Proposal-card";
-import PautasCard from "../../../Components/Pautas-card";
 
-import SubHeaderProposals from "../../../Components/Sub-header-proposals";
-
+// MUI
 import Modal from "@mui/material/Modal";
-
-import { styled } from "@mui/material/styles";
-import MuiButton from "@mui/material/Button";
 import { Box } from "@mui/material";
+import MuiButton from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+
+// Components
+import PautasCard from "../../../Components/Pautas-card";
+import SubHeaderProposals from "../../../Components/Sub-header-proposals";
+import ProposalCard from "../../../Components/Proposal-card";
 import CreateNewPauta from "../../../Components/Create-new-pauta";
+
+// Services
+import PautaService from "../../../service/Pauta-Service";
+import ProposalService from "../../../service/Proposal-Service";
 
 const proposalsMock = [
   {
@@ -73,27 +78,32 @@ const ButtonAddSelected = styled(MuiButton)({
 });
 
 export default function Proposals() {
-  const [selectProposals, setSelectProposals] = useState([]);
+  const [proposals, setProposals] = useState([]);
   const [pautas, setPautas] = useState([]);
+  const [selectProposals, setSelectProposals] = useState([]);
   const [openAddToAPautaModal, setOpenAddToAPautaModal] = useState(false);
 
   const handleOpenAddToAPautaModal = () => setOpenAddToAPautaModal(true);
   const handleCloseAddToAPautaModal = () => setOpenAddToAPautaModal(false);
 
   useEffect(() => {
-    fetch("http://localhost:8080/sid/api/pauta")
-      .then((response) => response.json())
-      .then((data) => {
-        let pautas = data.map((pauta) => ({
-          ...pauta,
-          dataReuniaoPauta: pauta.dataReuniaoPauta
-            .split("T")[0]
-            .split("-")
-            .reverse()
-            .join("/"),
-        }));
-        setPautas(pautas);
-      });
+    PautaService.getPautas().then((data) => {
+      console.log("Pautas", data)
+      let pautas = data.map((pauta) => ({
+        ...pauta,
+        dataReuniao: pauta.dataReuniao
+          .split("T")[0]
+          .split("-")
+          .reverse()
+          .join("/"),
+      }));
+      setPautas(pautas);
+    });
+
+    ProposalService.getReadyProposals().then((readyProposal) => {
+      console.log("Ready proposals", readyProposal)
+      setProposals(readyProposal);
+    });
   }, []);
 
   const pautasMock = [
@@ -183,11 +193,11 @@ export default function Proposals() {
               <PautasCard
                 id={pauta.idPauta}
                 PautaName={"ID da pauta " + pauta.idPauta}
-                QtyProposals={pauta.propostasPauta.length}
-                MeetingDate={pauta.dataReuniaoPauta}
-                MeetingTime={pauta.horarioInicioPauta}
+                QtyProposals={pauta.qtdPropostas}
+                MeetingDate={pauta.dataReuniao}
+                MeetingTime={pauta.horaReuniao}
                 ResponsibleAnalyst={
-                  pauta.forumPauta.analistaResponsavelForum.nomeUsuario
+                  pauta.analistaResponsavel
                 }
                 isInTheModalAddToAPauta={true}
               />
@@ -217,24 +227,16 @@ export default function Proposals() {
           </div>
         }
       </div>
-      <div
-        className="
-        flex
-        flex-col
-        items-center
-        justify-center
-        gap-8
-        "
-      >
-        {proposalsMock.map((proposal, i) => (
+      <div className=" flex flex-col items-center justify-center gap-8" >
+        {proposals.length > 0 && proposals.map((proposal, i) => (
           <ProposalCard
             key={i}
-            id={proposal.id}
-            newPauta={proposal.newPauta}
-            title={proposal.title}
-            executionTime={proposal.executionTime}
-            value={proposal.value}
-            referenceDemand={proposal.referenceDemand}
+            proposalId={proposal.idProposta}
+            newPauta={"card"}
+            title={proposal.demandaPropostaTitulo}
+            executionTime={proposal.tempoDeExecucaoDemanda}
+            value={proposal.valorDemanda}
+            referenceDemand={proposal.idDemanda}
             setSelectProposals={setSelectProposals}
           />
         ))}

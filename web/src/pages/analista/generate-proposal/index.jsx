@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import DemandCard from "../../../Components/Demand-card";
+
+// Tools
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+// MUI
 import {
   Button,
   CircularProgress,
@@ -9,18 +14,19 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-
 import MuiTextField from "@mui/material/TextField";
-
-import FilesTable from "../../../Components/FilesTable";
-
 import { styled } from "@mui/material/styles";
 
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// Components
+import DemandCard from "../../../Components/Demand-card";
+import FilesTable from "../../../Components/FilesTable";
 import CostTableRow from "../../../Components/Cost-table-rows";
+
+// Service
+import DemandService from "../../../service/Demand-Service";
+import ProposalService from "../../../service/Proposal-Service";
+
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -69,18 +75,11 @@ export default function GenerateProposal() {
 
   let demandId = useParams().id;
 
-  async function getDemandFromDatabase() {
-    const response = await fetch(
-      `http://localhost:8080/sid/api/demanda/id/${demandId}`
-    );
-    const data = await response.json();
-    return data;
-  }
-
   useEffect(() => {
-    getDemandFromDatabase().then((demand) => {
-      setDemand(demand);
-    });
+    DemandService.getDemandById(demandId)
+      .then((demand) => {
+        setDemand(demand);
+      });
   }, []);
 
   const quillModules = {
@@ -194,25 +193,10 @@ export default function GenerateProposal() {
     const formData = new FormData();
     formData.append("updatePropostaForm", JSON.stringify(proposalToBeSent));
 
-
-    fetch(`http://localhost:8080/sid/api/proposta/update/3`, {
-      method: "PUT",
-      body: formData,
-    })
-      .then((res) => {
-        console.log("Res", res);
-      })
-      .then((res) => {
-        if (res.status == 200) {
-          fetch(`http://localhost:8080/sid/api/demanda/status/${demandId}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              statusDemanda: "PROPOSTA_PRONTA",
-            }),
-          });
+    ProposalService.updateProposal(formData, 3)
+      .then((response) => {
+        if (response.status == 200) {
+          DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
         }
       });
   };

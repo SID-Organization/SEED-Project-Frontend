@@ -1,51 +1,12 @@
 import { useEffect, useState } from "react";
+
+// Components
 import PautasCard from "../../../Components/Pautas-card";
 import SubHeaderPautas from "../../../Components/Sub-header-pautas";
 
-const pautasMock = [
-  {
-    PautaName: "Pauta 1",
-    QtyProposals: 2,
-    MeetingDate: "10/11/2021",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "João da Silva",
-  },
-  {
-    PautaName: "Pauta 2",
-    QtyProposals: 2,
-    MeetingDate: "12/12/2021",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "Henrique Cole Fernandes",
-  },
-  {
-    PautaName: "Pauta 3",
-    QtyProposals: 2,
-    MeetingDate: "10/02/2022",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "Leonardo Giuseppe de Souza Rafaelli",
-  },
-  {
-    PautaName: "Pauta 5",
-    QtyProposals: 2,
-    MeetingDate: "10/11/2022",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "João da Silva",
-  },
-  {
-    PautaName: "Pauta 6",
-    QtyProposals: 2,
-    MeetingDate: "10/06/2021",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "Henrique Cole Fernandes",
-  },
-  {
-    PautaName: "Pauta 7",
-    QtyProposals: 2,
-    MeetingDate: "10/06/2022",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "Leonardo Giuseppe de Souza Rafaelli",
-  },
-];
+// Services
+import PautaService from "../../../service/Pauta-Service";
+
 
 export default function Pautas() {
   const [pautas, setPautas] = useState([]);
@@ -56,14 +17,10 @@ export default function Pautas() {
 
 
   useEffect(() => {
-    fetch("http://localhost:8080/sid/api/pauta")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("DATA", data)
-        let pautas = data.map(pauta => ({...pauta, dataReuniao: pauta.dataReuniao.split("T")[0].split("-").reverse().join("/")}))
-        console.log("pautas", pautas)
-        setPautas(pautas);
-      });
+    PautaService.getPautas().then((data) => {
+      let pautas = data.map(pauta => ({...pauta, dataReuniao: pauta.dataReuniao.split("T")[0].split("-").reverse().join("/")}))
+      setPautas(pautas);
+    });
   }, [])
 
   useEffect(() => {

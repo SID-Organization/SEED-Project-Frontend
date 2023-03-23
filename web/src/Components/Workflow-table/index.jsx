@@ -8,6 +8,9 @@ import {
 import { Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
 
+// Services
+import DemandLogService from "../../service/DemandLog-Service";
+
 // Renderizador de células normais
 const renderCellTooltip = (params) => (
   <Tooltip title={params.value} enterDelay={820}>
@@ -135,10 +138,7 @@ export default function WorkflowTable({
 
   // Busca os dados do workflow da demanda
   useEffect(() => {
-    fetch(
-      `http://localhost:8080/sid/api/historico-workflow/demanda/${demandId}`
-    )
-      .then((response) => response.json())
+    DemandLogService.getDemandLogs(demandId)
       .then((data) => {
         setWorkFlowData(data);
       });

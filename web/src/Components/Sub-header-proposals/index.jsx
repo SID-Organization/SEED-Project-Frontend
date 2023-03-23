@@ -1,22 +1,22 @@
-import Search from "../Search";
-import MuiButton from "@mui/material/Button";
-
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-
-import { styled } from "@mui/material/styles";
-
 import { useState, useEffect } from "react";
 
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+// MUI
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import MuiButton from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-import { Link } from "react-router-dom";
-
+// Components
+import Search from "../Search";
 import DemandCardProposalModal from "../DemandCardProposalModal";
+
+// Services
+import DemandService from "../../service/Demand-Service";
 
 const modalDemandsStyle = {
   position: "absolute",
@@ -38,20 +38,12 @@ export default function SubHeaderPautas() {
   const handleCloseModalDemands = () => setOpenModalDemands(false);
 
   useEffect(() => {
-    getDemandsTitleFromDatabase().then((demands) => {
+    DemandService.getDemandsTitleAndStatus().then((demands) => {
+      demands = demands.filter((demand) => demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA");
       setDemandTitle(demands);
     });
-    console.log("BBBBBBB:", demandTitle);
   }, []);
 
-  async function getDemandsTitleFromDatabase() {
-    const response = await fetch(
-      "http://localhost:8080/sid/api/demanda/titulos-id-demanda/"
-    );
-    let demands = await response.json();
-    demands = demands.filter((demand) => demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA");
-    return demands;
-  }
 
   const Button = styled(MuiButton)({
     backgroundColor: "#0075B1",
@@ -112,8 +104,9 @@ export default function SubHeaderPautas() {
                     {
                       //check if theres any demand
                       demandTitle.length > 0 ? (
-                        demandTitle.map((demand) => (
+                        demandTitle.map((demand, i) => (
                           <DemandCardProposalModal
+                            key={i}
                             title={demand.tituloDemanda}
                             id={demand.idDemanda}
                           />

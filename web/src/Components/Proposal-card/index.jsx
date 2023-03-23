@@ -1,37 +1,30 @@
-import MuiCard from "@mui/material/Card";
-import { styled } from "@mui/material/styles";
-
-import MuiOpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
-import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
-import MuiAddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
-import PublicIcon from "@mui/icons-material/Public";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import PublicOffIcon from "@mui/icons-material/PublicOff";
-import { IconButton, Tooltip } from "@mui/material";
-
-import MuiIconButton from "@mui/material/IconButton";
-
 import { useEffect, useState } from "react";
-import { PropaneSharp } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
-// interface ProposalCardProps {
-//   id: number;
-//   newPauta?: boolean | string;
-//   atasCard?: boolean;
-//   title: string;
-//   executionTime: number;
-//   value: number;
-//   referenceDemand: string;
-//   published?: boolean;
-//   parecerComissao?: string;
-//   setSelectProposals: (value: any) => void;
-// }
+// MUI
+import MuiCard from "@mui/material/Card";
+import PublicIcon from "@mui/icons-material/Public";
+import { styled } from "@mui/material/styles";
+import MuiIconButton from "@mui/material/IconButton";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import MuiAddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import MuiOpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
+import { IconButton, Tooltip } from "@mui/material";
+import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
+
+
+import { PropaneSharp } from "@mui/icons-material";
+
 
 export default function ProposalCard(props) {
   const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
+
+  console.log(props)
+
+  // Components MUI styles
 
   const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
     color: "#00A3FF",
@@ -114,6 +107,7 @@ export default function ProposalCard(props) {
     },
   });
 
+
   function handleSelectedProposals() {
     if (!isButtonAddClicked) {
       props.setSelectProposals((prevState) => {
@@ -136,16 +130,14 @@ export default function ProposalCard(props) {
       <Card>
         <div className="flex items-center justify-around gap-16">
           <div
-            className={`grid gap-7 font-roboto ${
-              !props.newPauta && "w-[48rem]"
-            }`}
+            className={`grid gap-7 font-roboto ${!props.newPauta && "w-[48rem]"
+              }`}
           >
             <div
               className={`
-                ${
-                  props.newPauta
-                    ? "ml-4 flex items-center justify-between"
-                    : "flex items-center justify-between "
+                ${props.newPauta
+                  ? "ml-4 flex items-center justify-between"
+                  : "flex items-center justify-between "
                 }
               `}
             >
@@ -156,15 +148,14 @@ export default function ProposalCard(props) {
               >
                 <Tooltip title={props.title}>
                   <h1
-                    className={`${
-                      props.newPauta ? "text-base font-bold" : "font-bold"
-                    }`}
+                    className={`${props.newPauta ? "text-base font-bold" : "font-bold"
+                      }`}
                   >
                     {props.title.length > 25
                       ? props.proposalId +
-                        " - " +
-                        props.title.substring(0, 25) +
-                        "..."
+                      " - " +
+                      props.title.substring(0, 25) +
+                      "..."
                       : props.proposalId + " - " + props.title}
                   </h1>
                 </Tooltip>
@@ -237,18 +228,17 @@ export default function ProposalCard(props) {
                 <Tooltip title={props.referenceDemand + " - " + props.title}>
                   <span
                     className={`
-                    ${
-                      props.newPauta
+                    ${props.newPauta
                         ? "cursor-default text-sm font-normal text-gray-500"
                         : "cursor-default font-normal text-gray-500"
-                    }
+                      }
                     `}
                   >
                     {props.referenceDemand + " - " + props.title > 70
                       ? (props.referenceDemand + " - " + props.title).substring(
-                          0,
-                          70
-                        ) + "..."
+                        0,
+                        70
+                      ) + "..."
                       : props.referenceDemand + " - " + props.title}
                   </span>
                 </Tooltip>

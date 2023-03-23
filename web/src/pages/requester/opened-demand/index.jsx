@@ -16,28 +16,16 @@ import BenefitsCard from "../../../Components/Benefits-card";
 
 import "../../../styles/index.css";
 
-// import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 import FilesTable from "../../../Components/FilesTable";
 
-function getLoggedUser() {
-  return JSON.parse(localStorage.getItem("user"));
-}
+// Services
+import DemandService from "../../../service/Demand-Service";
+import DemandLogService from "../../../service/DemandLog-Service";
+import ChatService from "../../../service/Chat-Service";
 
-async function getDemandFromDatabase(id) {
-  const response = await fetch(
-    "http://localhost:8080/sid/api/demanda/id/" + id
-  );
-  const demand = await response.json();
-  return demand;
-}
+// Utils
+import UserUtils from "../../../utils/User-Utils";
 
-async function getHistoricFromDatabase(id) {
-  const response = await fetch(
-    `http://localhost:8080/sid/api/historico-workflow/demanda/${id}`
-  );
-  const historic = await response.json();
-  return historic;
-}
 
 const style = {
   position: "absolute",
@@ -56,17 +44,13 @@ export default function openedDemand() {
   const params = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("HISTORICO: ", historic);
-  }, []);
-
-  const [user, setUser] = useState(getLoggedUser());
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   // const [demand, setDemand] = useState<DemandInterface>();
   // Changed to <any> to avoid errors
   const [demand, setDemand] = useState();
 
-  const [historic, setHistoric] = useState();
+  const [demandLogs, setDemandLogs] = useState();
 
   const [open, setOpen] = useState(false);
   const [isEditEnabled, setIsEditEnabled] = useState(true);
@@ -78,11 +62,11 @@ export default function openedDemand() {
 
   useEffect(() => {
     if (params.id) {
-      getDemandFromDatabase(params.id).then((demand) => {
+      DemandService.getDemandById(params.id).then((demand) => {
         setDemand(demand);
       });
-      getHistoricFromDatabase(params.id).then((historic) => {
-        setHistoric(historic);
+      DemandLogService.getDemandLogs(params.id).then((logs) => {
+        setDemandLogs(logs);
       });
     }
   }, []);
@@ -117,23 +101,18 @@ export default function openedDemand() {
   }, [demand]);
 
   function handleEnableChat() {
-    fetch("http://localhost:8080/sid/api/chat/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ativoChat: 2,
-        idDemanda: { idDemanda: demand?.idDemanda },
-        usuarios: [
-          {
-            numeroCadastroUsuario:
-              demand?.solicitanteDemanda.numeroCadastroUsuario,
-          },
-          { numeroCadastroUsuario: user.numeroCadastroUsuario },
-        ],
-      }),
-    }).then(() => {
+    ChatService.createChat({
+      ativoChat: 2,
+      idDemanda: { idDemanda: demand?.idDemanda },
+      usuarios: [
+        {
+          numeroCadastroUsuario:
+            demand?.solicitanteDemanda.numeroCadastroUsuario,
+        },
+        { numeroCadastroUsuario: user.numeroCadastroUsuario },
+      ],
+    })
+    .then(() => {
       navigate("/chat");
     });
   }
@@ -195,10 +174,10 @@ export default function openedDemand() {
                     <div className="flex">
                       <h1 className="mr-2 font-bold">Iniciada em:</h1>
                       <span className="font-normal">
-                        {historic
+                        {demandLogs
                           ? new Date(
-                              historic[0].recebimentoHistorico
-                            ).toLocaleDateString()
+                            demandLogs[0].recebimentoHistorico
+                          ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>

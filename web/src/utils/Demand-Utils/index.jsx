@@ -1,4 +1,3 @@
-
 const statusForAnalyst = {
     RASCUNHO: "RASCUNHO",
     CLASSIFICADO_PELO_ANALISTA: "ABERTA",

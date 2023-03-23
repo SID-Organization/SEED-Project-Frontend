@@ -39,6 +39,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
+// Services
+import DemandService from "../../../service/Demand-Service";
+
 // Import de interfaces
 // import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 
@@ -235,10 +238,7 @@ export default function CreateDemand() {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
 
-    fetch("http://localhost:8080/sid/api/demanda", {
-      method: "POST",
-      body: formData,
-    }).then((res) => {
+    DemandService.createDemand(formData).then((res) => {
       navigate("/demandas");
     });
   };

@@ -1,19 +1,14 @@
+import { useEffect, useState } from "react";
+import "../../../styles/index.css";
+
+// Components
 import SubHeader from "../../../Components/Sub-header";
+import NoDemands from "../../../Components/No-demands";
 import DemandCard from "../../../Components/Demand-card";
 import DemandsList from "../../../Components/Demand-card-list";
-import NoDemands from "../../../Components/No-demands";
+import DemandService from "../../../service/Demand-Service";
+import DemandLogService from "../../../service/DemandLog-Service";
 
-import "../../../styles/index.css";
-import { useEffect, useState } from "react";
-
-async function getDemandsFromDatabase(userId) {
-  const response = await fetch(
-    "http://localhost:8080/sid/api/demanda/solicitante/" + userId
-  )
-  .then((response) => response.json())
-
-  return response;
-}
 
 
 export default function homeDemands() {
@@ -47,7 +42,8 @@ export default function homeDemands() {
   }
 
   useEffect(() => {
-    getDemandsFromDatabase(user.numeroCadastroUsuario).then((demands) => {
+    DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then((demands) => {
+      console.log("Demands: ", demands)
       setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
     });
   }, []);
@@ -57,14 +53,7 @@ export default function homeDemands() {
   const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands.map(async (demand) => {
       console.log("Demand: ", demand)
-      let demandHistoric = await fetch("http://localhost:8080/sid/api/historico-workflow/demanda/" + demand.idDemanda)
-        .then((response) => response.json())
-        .then((data) => {
-          return data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+      let demandHistoric = DemandLogService.getDemandLogs(demand.idDemanda);
 
       return ({
         ...demand,

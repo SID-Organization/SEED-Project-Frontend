@@ -1,7 +1,9 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "../../../styles/index.css";
 
+// MUI
 import Tooltip from "@mui/material/Tooltip";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -10,36 +12,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import MessageIcon from "@mui/icons-material/Message";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 
+// Components
 import SubHeaderOpenedDemand from "../../../Components/Sub-header-opened-demand";
 import WorkflowTable from "../../../Components/Workflow-table";
 import BenefitsCard from "../../../Components/Benefits-card";
-
-import "../../../styles/index.css";
-
-// import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
 import FilesTable from "../../../Components/FilesTable";
 
-function getLoggedUser() {
-  return JSON.parse(localStorage.getItem("user"));
-}
+// Services
+import DemandService from "../../../service/Demand-Service";
+import DemandLogService from "../../../service/DemandLog-Service";
+import ChatService from "../../../service/Chat-Service";
 
-async function getDemandFromDatabase(id) {
-  const response = await fetch(
-    "http://localhost:8080/sid/api/demanda/id/" + id
-  );
-  const demand = await response.json();
-  return demand;
-}
+// Utils
+import UserUtils from "../../../utils/User-Utils";
 
-async function getHistoricFromDatabase(id) {
-  const response = await fetch(
-    `http://localhost:8080/sid/api/historico-workflow/demanda/${id}`
-  );
-  const historic = await response.json();
-  return historic;
-}
-
-const style = {
+const muiBoxStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -56,7 +43,7 @@ export default function ProposalDetails() {
   const params = useParams();
   const navigate = useNavigate();
 
-  const [user, setUser] = useState(getLoggedUser());
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   // const [demand, setDemand] = useState<DemandInterface>();
   // Changed to <any> to avoid errors
@@ -74,10 +61,10 @@ export default function ProposalDetails() {
 
   useEffect(() => {
     if (params.id) {
-      getDemandFromDatabase(params.id).then((demand) => {
+      DemandService.getDemandById(params.id).then((demand) => {
         setDemand(demand);
       });
-      getHistoricFromDatabase(params.id).then((historic) => {
+      DemandLogService.getDemandLogs(params.id).then((historic) => {
         setHistoric(historic);
       });
     }
@@ -113,25 +100,21 @@ export default function ProposalDetails() {
   }, [demand]);
 
   function handleEnableChat() {
-    fetch("http://localhost:8080/sid/api/chat/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ativoChat: 2,
-        idDemanda: { idDemanda: demand?.idDemanda },
-        usuarios: [
-          {
-            numeroCadastroUsuario:
-              demand?.solicitanteDemanda.numeroCadastroUsuario,
-          },
-          { numeroCadastroUsuario: user.numeroCadastroUsuario },
-        ],
-      }),
-    }).then(() => {
-      navigate("/chat");
-    });
+    const chatToStart = {
+      ativoChat: 2,
+      idDemanda: { idDemanda: demand?.idDemanda },
+      usuarios: [
+        {
+          numeroCadastroUsuario:
+            demand?.solicitanteDemanda.numeroCadastroUsuario,
+        },
+        { numeroCadastroUsuario: user.numeroCadastroUsuario },
+      ],
+    }
+    ChatService.createChat(chatToStart)
+      .then(() => {
+        navigate("/chat");
+      });
   }
 
   return (
@@ -170,7 +153,7 @@ export default function ProposalDetails() {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={style}>
+            <Box sx={muiBoxStyle}>
               <div className="mb-5 flex items-center justify-end">
                 <Tooltip title="Fechar">
                   <CloseIcon
@@ -193,8 +176,8 @@ export default function ProposalDetails() {
                       <span className="font-normal">
                         {historic
                           ? new Date(
-                              historic[0].recebimentoHistorico
-                            ).toLocaleDateString()
+                            historic[0].recebimentoHistorico
+                          ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>

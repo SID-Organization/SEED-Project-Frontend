@@ -1,12 +1,26 @@
+import { useEffect, useState } from "react";
+
+// MUI
 import { Button } from "@mui/material";
 import { useParams } from "react-router";
-
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
+// Components
 import GenerateAtaProposal from "../../../Components/Generate-ata-proposal";
+
+// Services
+import PautaService from "../../../service/Pauta-Service";
 
 export default function GenerateAta() {
   const { id } = useParams("id");
+  const [proposals, setProposals] = useState([]);
+
+  useEffect(() => {
+    PautaService.getPautaProposalsById(id)
+      .then((proposals) => {
+        setProposals(proposals);
+      });
+  }, []);
 
   return (
     <div className="grid items-center">
@@ -15,9 +29,12 @@ export default function GenerateAta() {
         <p className="text-blue-weg mt-4">Pauta referência: {id}</p>
       </div>
       <div className="grid">
-        <GenerateAtaProposal />
-        <GenerateAtaProposal />
-        <GenerateAtaProposal />
+        {proposals.map((proposal, i) => (
+          <GenerateAtaProposal
+            key={i}
+            proposal={proposal}
+          />
+        ))}
       </div>
       <div className="flex justify-end items-center mb-5 mr-10">
         {/* Button to confirm action and end the circuit of the system */}
@@ -26,12 +43,12 @@ export default function GenerateAta() {
           sx={{
             backgroundColor: "#0075B1",
             width: "12rem",
+            height: "2.5rem",
 
             "&:hover": {
               backgroundColor: "#0075B1",
             },
           }}
-          className="w-[10rem] h-[2.5rem] mt-5"
           startIcon={
             <AddRoundedIcon
               sx={{

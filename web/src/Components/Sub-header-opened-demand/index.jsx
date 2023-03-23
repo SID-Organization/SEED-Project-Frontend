@@ -31,21 +31,12 @@ import { useParams, useNavigate } from "react-router";
 
 import "../../styles/index.css";
 
-// Busca a demanda do banco de dados
-const getDemandFromDatabase = async (id) => {
-  const response = await fetch(
-    "http://localhost:8080/sid/api/demanda/id/" + id
-  );
-  const data = await response.json();
-  return data;
-};
+// Services
+import DemandService from "../../service/Demand-Service";
+import BusinessUnityService from "../../service/BusinessUnity-Service";
+import DemandLogService from "../../service/DemandLog-Service";
 
-// Busca as BUs do banco de dados
-const getBusinessUnits = async () => {
-  const response = await fetch("http://localhost:8080/sid/api/business-unity");
-  const data = await response.json();
-  return data;
-};
+
 
 // Componentes estilizados
 const styleModal = {
@@ -112,7 +103,6 @@ export default function subHeader({
   // Controle do botão selecionado
   const [selectedIndex, setSelectedIndex] = useState(1);
 
-
   // Demanda buscada do banco de dados
   const [demand, setDemand] = useState();
 
@@ -127,15 +117,13 @@ export default function subHeader({
   const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
 
   // Usuário logado
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const anchorRef = React.useRef(null);
   const params = useParams();
 
   useEffect(() => {
-    getDemandFromDatabase(params.id).then((response) => {
+    DemandService.getDemandById(params.id).then((response) => {
       setDemand(response);
     });
   }, []);
@@ -144,22 +132,22 @@ export default function subHeader({
 
   const navigate = useNavigate();
 
-  const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false)
+  const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
   const handleApproveDemand = () => {
-    if(confirm("Deseja aprovar a demanda?")){
+    if (confirm("Deseja aprovar a demanda?")) {
       toast.success("Demanda aprovada com sucesso!");
       handleManagerApproveDemand();
       const timeout = setTimeout(() => {
         navigate("/demandas");
-      }, 3000)
+      }, 3000);
       return () => clearTimeout(timeout);
     }
-  }
+  };
 
   const actionOptions = [
     {
@@ -179,7 +167,14 @@ export default function subHeader({
     {
       text: "Ver proposta",
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
-      demandStatus: ["PROPOSTA_PRONTA","APROVADO_PELO_GERENTE_DA_AREA", "PROPOSTA_EM_EXECUCAO", "PROPOSTA_FINALIZADA", "PROPOSTA_EM_SUPORTE", "BUSINESS_CASE"],
+      demandStatus: [
+        "PROPOSTA_PRONTA",
+        "APROVADO_PELO_GERENTE_DA_AREA",
+        "PROPOSTA_EM_EXECUCAO",
+        "PROPOSTA_FINALIZADA",
+        "PROPOSTA_EM_SUPORTE",
+        "BUSINESS_CASE",
+      ],
       key: 3,
     },
     {
@@ -197,7 +192,6 @@ export default function subHeader({
       function: handleOpenReasonOfDevolution,
       key: 5,
     },
-
   ];
 
   const sections = [
@@ -256,7 +250,7 @@ export default function subHeader({
   ];
 
   useEffect(() => {
-    getBusinessUnits().then((data) => {
+    BusinessUnityService.getBusinessUnity().then((data) => {
       setBusinessUnits(
         data.map((item) => ({
           text: item.nomeBusinessUnity,
@@ -275,10 +269,7 @@ export default function subHeader({
   };
 
   const handleCloseActions = (event) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target)
-    ) {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
 
@@ -308,77 +299,48 @@ export default function subHeader({
       busBeneficiadasDemanda: benefitedBus.map((item) => ({
         idBusinessUnity: item.key,
       })),
-      buSolicitanteDemanda: businessUnits.find((item) => item.key == requesterBu)
-        ?.text,
+      buSolicitanteDemanda: businessUnits.find(
+        (item) => item.key == requesterBu
+      )?.text,
       secaoTIResponsavelDemanda: responsableSection,
       tamanhoDemanda: getDemandSize(),
     };
-    console.log("updatedDemand", updatedDemand);
 
-    fetch(
-      `http://localhost:8080/sid/api/demanda/atualiza-bus-beneficiadas/${demand.idDemanda}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedDemand),
-      }
-    )
+    DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
-        if (response.ok) {
-          fetch("http://localhost:8080/sid/api/historico-workflow", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
-              demandaHistorico: { idDemanda: demand.idDemanda },
-              acaoFeitaHistorico: "Aprovar",
-              idResponsavel: { numeroCadastroUsuario: 72132 },
-            }),
-          });
+        if (response.status == 200) {
+          const newLog = {
+            tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
+            demandaHistorico: { idDemanda: demand.idDemanda },
+            acaoFeitaHistorico: "Aprovar",
+            idResponsavel: { numeroCadastroUsuario: 72132 },
+          }
+          DemandLogService.createDemandLog(newLog);
         }
-        return response.json();
+        return response
       })
-      .then((data) => {
-        console.log(data);
+      .then((response) => {
+        navigate("/demandas");
       });
-
-      navigate("/demandas")
   };
 
   const handleManagerApproveDemand = async () => {
-
     console.log("Approving...")
 
-    fetch("http://localhost:8080/sid/api/historico-workflow", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
-        demandaHistorico: { idDemanda: demand.idDemanda },
-        acaoFeitaHistorico: "Enviar",
-        idResponsavel: { numeroCadastroUsuario: 72131 },
-      }),
-    })
-    .then(response => {
-      if(response.ok){
-        fetch(`http://localhost:8080/sid/api/demanda/status/${demand.idDemanda}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            statusDemanda: "APROVADO_PELO_GERENTE_DA_AREA"
-          })
-        })
-      }
-    })
-    
+    const demandLog = {
+      tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
+      demandaHistorico: { idDemanda: demand.idDemanda },
+      acaoFeitaHistorico: "Enviar",
+      idResponsavel: { numeroCadastroUsuario: 72131 },
+    }
+
+    DemandLogService.createDemandLog(demandLog)
+      .then((response) => {
+        console.log(response);
+        if (response.status == 200 || response.status == 201) {
+          DemandService.updateDemandStatus(demand.idDemanda, "APROVADO_PELO_GERENTE_DA_AREA");
+        }
+      });
   };
 
   const getDemandSize = () => {
@@ -401,26 +363,27 @@ export default function subHeader({
         <Box sx={styleModalReasonOfDevolution}>
           <h1
             className="
-              text-[#0075B1]
-              font-bold
-              text-2xl
               flex
-              justify-center
               items-center
+              justify-center
               font-roboto
+              text-2xl
+              font-bold
+              text-[#0075B1]
             "
           >
-            Motivo da {selectedIndex == 2 ? "devolução" : "recusação"} da demanda
+            Motivo da {selectedIndex == 2 ? "devolução" : "recusação"} da
+            demanda
           </h1>
           <p
             className="
               mt-5
+              flex
+              gap-1
+              font-roboto
+              text-lg
               font-bold
               text-[#000000]
-              font-roboto
-              flex
-              text-lg
-              gap-1
             "
           >
             Insira o motivo
@@ -440,7 +403,7 @@ export default function subHeader({
               borderColor: "#0075B1",
             }}
           />
-          <span className="flex justify-center items-center gap-4">
+          <span className="flex items-center justify-center gap-4">
             <Button
               onClick={handleCloseReasonOfDevolution}
               variant="contained"
@@ -467,13 +430,13 @@ export default function subHeader({
       >
         <Box sx={styleModal}>
           <div className="font-roboto">
-            <div className="mb-5 flex items-center justify-center bg-dark-blue-weg h-20 w-full rounded-t-sm">
-              <h1 className="font-bold text-white text-2xl">
+            <div className="mb-5 flex h-20 w-full items-center justify-center rounded-t-sm bg-dark-blue-weg">
+              <h1 className="text-2xl font-bold text-white">
                 Insira as seguintes informações
               </h1>
             </div>
-            <div className="flex justify-evenly items-center mb-6">
-              <div className="grid justify-center items-center gap-2">
+            <div className="mb-6 flex items-center justify-evenly">
+              <div className="grid items-center justify-center gap-2">
                 <p className="font-bold text-dark-blue-weg">
                   Seção da TI responsável
                 </p>
@@ -494,7 +457,7 @@ export default function subHeader({
                   />
                 </FormControl>
               </div>
-              <div className="grid justify-center items-center gap-2">
+              <div className="grid items-center justify-center gap-2">
                 <p className="font-bold text-dark-blue-weg">BU solicitante</p>
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label">BU</InputLabel>
@@ -506,15 +469,13 @@ export default function subHeader({
                     onChange={handleChangeRequesterBu}
                   >
                     {businessUnits &&
-                      businessUnits.map(
-                        (item) => (
-                          <MenuItem value={item.key}>{item.text}</MenuItem>
-                        )
-                      )}
+                      businessUnits.map((item) => (
+                        <MenuItem value={item.key}>{item.text}</MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </div>
-              <div className="grid justify-center items-center gap-2">
+              <div className="grid items-center justify-center gap-2">
                 <p className="font-bold text-dark-blue-weg">BUs beneficiadas</p>
                 <FormControl fullWidth size="small">
                   <Autocomplete
@@ -538,7 +499,7 @@ export default function subHeader({
                   />
                 </FormControl>
               </div>
-              <div className="grid justify-center items-center gap-2 mr-20">
+              <div className="mr-20 grid items-center justify-center gap-2">
                 <p className="font-bold text-dark-blue-weg">
                   Classificação de tamanho
                 </p>
@@ -588,7 +549,7 @@ export default function subHeader({
               </div>
             </div>
 
-            <div className="flex justify-evenly items-center mt-10 mb-5">
+            <div className="mt-10 mb-5 flex items-center justify-evenly">
               <Button
                 variant="contained"
                 sx={{
@@ -639,8 +600,8 @@ export default function subHeader({
         </Box>
       </Modal>
       {/* Fim modal para inserir informações */}
-      <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
-        <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
+      <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
+        <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
           {children}
         </h1>
         <Button
@@ -727,24 +688,27 @@ export default function subHeader({
                 <ClickAwayListener onClickAway={handleCloseActions}>
                   <MenuList id="split-button-menu" autoFocusItem>
                     {actionOptions.map((option, index) => {
-                      if(option.role.includes(user.cargoUsuario) && (option.demandStatus.includes(demand.statusDemanda) || option.demandStatus.includes("TODAS"))) {
+                      if (
+                        option.role.includes(user.cargoUsuario) &&
+                        (option.demandStatus.includes(demand.statusDemanda) ||
+                          option.demandStatus.includes("TODAS"))
+                      ) {
                         return (
                           <MenuItem
                             onClick={() => {
-                                option.function()
-                                setSelectedIndex(index)
-                              }
-                            }
+                              option.function();
+                              setSelectedIndex(index);
+                            }}
                             key={option.key}
                             selected={index === selectedIndex}
                           >
                             {option.text}
                           </MenuItem>
-                        )
+                        );
                       } else {
-                        return null
+                        return null;
                       }
-                      })}
+                    })}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
