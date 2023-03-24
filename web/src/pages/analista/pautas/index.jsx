@@ -7,6 +7,8 @@ import SubHeaderPautas from "../../../Components/Sub-header-pautas";
 // Services
 import PautaService from "../../../service/Pauta-Service";
 
+// Utils
+import DateUtils from "../../../utils/Date-Utils";
 
 export default function Pautas() {
   const [pautas, setPautas] = useState([]);
@@ -18,7 +20,7 @@ export default function Pautas() {
 
   useEffect(() => {
     PautaService.getPautas().then((data) => {
-      let pautas = data.map(pauta => ({...pauta, dataReuniao: pauta.dataReuniao.split("T")[0].split("-").reverse().join("/")}))
+      let pautas = data.map(pauta => ({...pauta, dataReuniao: DateUtils.formatDate(pauta.dataReuniao)}))
       setPautas(pautas);
     });
   }, [])

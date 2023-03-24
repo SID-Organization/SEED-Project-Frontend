@@ -10,13 +10,42 @@ import PublicOffIcon from "@mui/icons-material/PublicOff";
 import ProposalCard from "../Proposal-card";
 import ReactQuill from "react-quill";
 
-export default function GenerateAtaProposal({ proposal }) {
+export default function GenerateAtaProposal({ proposal, proposalIndex, finalDecision, setFinalDecisions }) {
   const [parecerComissao, setParecerComissao] = useState("");
   const [considerations, setConsiderations] = useState("");
-  const [value, setValue] = useState("");
-  const handleChangeParecerComissao = (event) => {
-    setParecerComissao(event.target.value);
-  };
+  const [publicada, setPublicada] = useState(false);
+  const [naoPublicada, setNaoPublicada] = useState(false);
+  const [quillValue, setQuillValue] = useState("");
+
+  function formatParecerComissao(parecerComissao) {
+    switch (parecerComissao) {
+      case "Aprovado":
+        return "APROVADO";
+      case "Reprovado":
+        return "REPROVADO";
+      case "Mais informações":
+        return "MAIS_INFORMACOES";
+      case "Business Case":
+        return "BUSINESS_CASE";
+      default:
+        return "";
+    }
+  }
+
+  useEffect(() => {
+    if(!finalDecision) return;
+    const newFinalDecision = finalDecision;
+    newFinalDecision.propostaPropostaLogDTO.idProposta = proposal.idProposta;
+    newFinalDecision.parecerComissaoPropostaLogDTO = formatParecerComissao(parecerComissao);
+    newFinalDecision.consideracoesPropostaLogDTO = quillValue;
+    newFinalDecision.tipoAtaPropostaLogDTO = publicada ? "PUBLICADA" : "NAO_PUBLICADA";
+    setFinalDecisions((finalDecisions) => {
+      const newFinalDecisions = finalDecisions;
+      newFinalDecisions[proposalIndex] = newFinalDecision;
+      return newFinalDecisions;
+    });
+  }, [naoPublicada, publicada]);
+
 
   const quillModules = {
     toolbar: [
@@ -47,8 +76,6 @@ export default function GenerateAtaProposal({ proposal }) {
     },
   ];
 
-  const [publicada, setPublicada] = useState(false);
-  const [naoPublicada, setNaoPublicada] = useState(false);
 
   const Button = styled(MuiButton)({
     height: 50,
@@ -92,7 +119,7 @@ export default function GenerateAtaProposal({ proposal }) {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={parecerComissao}
-                  onChange={handleChangeParecerComissao}
+                  onChange={(e) => setParecerComissao(e.target.value)}
                 >
                   {actionsParecerComissao.map((action) => (
                     <MenuItem value={action.action}>
@@ -121,8 +148,8 @@ export default function GenerateAtaProposal({ proposal }) {
           <div className="grid">
             <p className="font-roboto font-bold">Considerações</p>
             <ReactQuill
-              value={value}
-              onChange={setValue}
+              value={quillValue}
+              onChange={setQuillValue}
               modules={quillModules}
               style={style}
             />

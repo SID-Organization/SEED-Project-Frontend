@@ -16,40 +16,8 @@ import CreateNewPauta from "../../../Components/Create-new-pauta";
 import PautaService from "../../../service/Pauta-Service";
 import ProposalService from "../../../service/Proposal-Service";
 
-const proposalsMock = [
-  {
-    id: 1,
-    newPauta: "card",
-    title: "Automatização do processo",
-    executionTime: 10.0,
-    value: 10.0,
-    referenceDemand: "Demanda 2",
-  },
-  {
-    id: 2,
-    newPauta: "card",
-    title: "Automatização do processo",
-    executionTime: 10.0,
-    value: 10.0,
-    referenceDemand: "Demanda 2",
-  },
-  {
-    id: 3,
-    newPauta: "card",
-    title: "Automatização do processo",
-    executionTime: 10.0,
-    value: 10.0,
-    referenceDemand: "Demanda 2",
-  },
-  {
-    id: 4,
-    newPauta: "card",
-    title: "Automatização do processo",
-    executionTime: 10.0,
-    value: 10.0,
-    referenceDemand: "Demanda 2",
-  },
-];
+// Utils
+import DateUtils from "../../../utils/Date-Utils";
 
 const addToAPautaModalStyle = {
   position: "absolute",
@@ -91,11 +59,7 @@ export default function Proposals() {
       console.log("Pautas", data)
       let pautas = data.map((pauta) => ({
         ...pauta,
-        dataReuniao: pauta.dataReuniao
-          .split("T")[0]
-          .split("-")
-          .reverse()
-          .join("/"),
+        dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
       }));
       setPautas(pautas);
     });
@@ -105,54 +69,6 @@ export default function Proposals() {
       setProposals(readyProposal);
     });
   }, []);
-
-  const pautasMock = [
-    {
-      id: 1,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 2,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 3,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 4,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-    {
-      id: 5,
-      PautaName: "Pauta 1",
-      QtyProposals: 2,
-      MeetingDate: "10/10/2021",
-      MeetingTime: "10:00",
-      ResponsibleAnalyst: "Analista 1",
-      isInTheModalAddToAPauta: true,
-    },
-  ];
 
   return (
     <div>

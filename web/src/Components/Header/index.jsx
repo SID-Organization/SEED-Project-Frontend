@@ -731,6 +731,7 @@ export default function PrimarySearchAppBar() {
               .map((user) => {
                 return (
                   <div
+                    key={user.idUsuario}
                     onClick={() => {
                       const userName = user.name;
                       const userDemand = user.userDemand;

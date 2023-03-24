@@ -20,8 +20,6 @@ import { PropaneSharp } from "@mui/icons-material";
 export default function ProposalCard(props) {
   const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 
-  console.log("ASDASDASDSA", props);
-
   // Components MUI styles
 
   const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
@@ -121,8 +119,6 @@ export default function ProposalCard(props) {
   function openPdf() {
     window.open("http://www.africau.edu/images/default/sample.pdf", "_blank");
   }
-
-  console.log("PROPS", props);
 
   return (
     <div>
