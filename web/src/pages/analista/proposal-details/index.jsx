@@ -11,6 +11,9 @@ import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import MessageIcon from "@mui/icons-material/Message";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import { styled } from "@mui/material/styles";
+import MuiTextField from "@mui/material/TextField";
+import { InputAdornment } from "@mui/material";
 
 // Components
 import SubHeaderOpenedDemand from "../../../Components/Sub-header-opened-demand";
@@ -22,9 +25,11 @@ import FilesTable from "../../../Components/FilesTable";
 import DemandService from "../../../service/Demand-Service";
 import DemandLogService from "../../../service/DemandLog-Service";
 import ChatService from "../../../service/Chat-Service";
+import ProposalService from "../../../service/Proposal-Service";
 
 // Utils
 import UserUtils from "../../../utils/User-Utils";
+import DateUtils from "../../../utils/Date-Utils";
 
 const muiBoxStyle = {
   position: "absolute",
@@ -38,6 +43,12 @@ const muiBoxStyle = {
   boxShadow: 24,
   p: 4,
 };
+
+const DateInput = styled(MuiTextField)({
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
 
 export default function ProposalDetails() {
   const params = useParams();
@@ -56,16 +67,27 @@ export default function ProposalDetails() {
 
   const [currentSituation, setCurrentSituation] = useState();
   const [proposal, setProposal] = useState();
+  const [getProposalDetails, setGetProposalDetails] = useState();
   const [usageFrequency, setUsageFrequency] = useState();
   const [qualitativeBenefit, setQualitativeBenefit] = useState();
 
   useEffect(() => {
-    if (params.id) {
-      DemandService.getDemandById(params.id).then((demand) => {
+    if (params.idDemanda) {
+      DemandService.getDemandById(params.idDemanda).then((demand) => {
         setDemand(demand);
+        console.log("DEMANDA DETALHES: ", demand);
       });
-      DemandLogService.getDemandLogs(params.id).then((historic) => {
+      DemandLogService.getDemandLogs(params.idDemanda).then((historic) => {
         setHistoric(historic);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (params.idProposta) {
+      ProposalService.getProposalById(params.idProposta).then((proposal) => {
+        setGetProposalDetails(proposal);
+        console.log("PROPOSTA DETALHES: ", getProposalDetails);
       });
     }
   }, []);
@@ -110,11 +132,10 @@ export default function ProposalDetails() {
         },
         { numeroCadastroUsuario: user.numeroCadastroUsuario },
       ],
-    }
-    ChatService.createChat(chatToStart)
-      .then(() => {
-        navigate("/chat");
-      });
+    };
+    ChatService.createChat(chatToStart).then(() => {
+      navigate("/chat");
+    });
   }
 
   return (
@@ -123,8 +144,17 @@ export default function ProposalDetails() {
         isEditEnabled={isEditEnabled}
         setIsEditEnabled={setIsEditEnabled}
       >
-        Visualização Demanda {params.id}
+        Visualização da proposta {params.idProposta}
       </SubHeaderOpenedDemand>
+      <div
+        className="
+      mt-5 flex items-center 
+      justify-center 
+      font-roboto text-2xl font-bold text-dark-blue-weg underline
+      "
+      >
+        <h1>Informações da demada</h1>
+      </div>
       <div className="grid items-center justify-center">
         <div className="mt-5 flex items-center justify-around">
           <Tooltip title="Abrir workflow">
@@ -176,8 +206,8 @@ export default function ProposalDetails() {
                       <span className="font-normal">
                         {historic
                           ? new Date(
-                            historic[0].recebimentoHistorico
-                          ).toLocaleDateString()
+                              historic[0].recebimentoHistorico
+                            ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>
@@ -360,6 +390,127 @@ export default function ProposalDetails() {
           />
         </div>
         <FilesTable files={fileRows} />
+        <div
+          className="
+      mt-10 flex items-center 
+      justify-center 
+      font-roboto text-2xl font-bold text-dark-blue-weg underline
+      "
+        >
+          <h1>Informações da proposta</h1>
+        </div>
+        <div>
+          <div>
+            <h1>
+              Escopo do projeto:
+              {proposal && getProposalDetails.escopoProposta}
+            </h1>
+          </div>
+          <div>
+            <h1>Tabela de custos: **TABELA DE CUSTOS AQUI**</h1>
+          </div>
+          <div>
+            <div className="mt-10 grid items-center justify-center">
+              <div
+                className="
+          h-[5rem] w-[40rem]
+          border-2 border-b-0 border-dashed
+          border-blue-weg
+        "
+              >
+                <div className="flex h-full items-center justify-start">
+                  <p
+                    className="
+              ml-5 mr-3 font-roboto text-xl font-bold
+            "
+                  >
+                    Custos totais do projeto:
+                  </p>
+                  <p className="font-roboto text-xl font-bold text-blue-weg">
+                    R${" "}
+                    {getProposalDetails &&
+                      getProposalDetails.custosTotaisDoProjeto}
+                  </p>
+                </div>
+              </div>
+              <div
+                className="
+          h-[10rem] w-[40rem]
+          border-2 border-dashed border-blue-weg
+        "
+              >
+                <div className="grid h-full items-center justify-start">
+                  <div className="flex h-full items-center justify-start">
+                    <p
+                      className="
+          ml-5 mr-3 font-roboto text-xl
+        "
+                    >
+                      Total de despesas (desembolso):
+                    </p>
+                    <p className="font-roboto text-xl font-bold text-blue-weg">
+                      R${" "}
+                      {getProposalDetails &&
+                        getProposalDetails.custosExternosDoProjeto}
+                    </p>
+                  </div>
+                  <div className="flex h-full items-center justify-start">
+                    <p
+                      className="
+          ml-5 mr-3 font-roboto text-xl
+        "
+                    >
+                      Total de despesas com custos internos
+                    </p>
+                    <p className="font-roboto text-xl font-bold text-blue-weg">
+                      R${" "}
+                      {getProposalDetails &&
+                        getProposalDetails.custosInternosDoProjeto}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h1>Payback:</h1>
+            <p>{proposal && getProposalDetails.paybackProposta}</p>
+            <div>
+              <p className="font-roboto text-lg font-bold">
+                Período de execução
+              </p>
+              <div className="mt-2 flex gap-10">
+                <DateInput
+                  disabled
+                  id="outlined-basic"
+                  variant="outlined"
+                  placeholder="dd/mm/aaaa"
+                  type="date"
+                  label="Início:"
+                  size="small"
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
+                  value={getProposalDetails.periodoExecucaoInicioProposta}
+                />
+
+                <DateInput
+                  disabled
+                  id="outlined-basic"
+                  variant="outlined"
+                  placeholder="dd/mm/aaaa"
+                  type="date"
+                  label="Término:"
+                  size="small"
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
+                  // value={endDate}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="mt-10 flex items-center justify-center">
           <Button
             variant="contained"

@@ -122,6 +122,8 @@ export default function ProposalCard(props) {
     window.open("http://www.africau.edu/images/default/sample.pdf", "_blank");
   }
 
+  console.log("PROPS", props);
+
   return (
     <div>
       <Card>
@@ -298,7 +300,7 @@ export default function ProposalCard(props) {
                     </IconButtonDefault>
                   )}
                 </Tooltip>
-                <Link to={`${props.proposalId}`}>
+                <Link to={`${props.proposalId}/${props.referenceDemand}`}>
                   <Tooltip title="Visualizar proposta">
                     <IconButton>
                       <VisibilityIcon
