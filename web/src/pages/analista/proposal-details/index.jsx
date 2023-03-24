@@ -50,6 +50,35 @@ const DateInput = styled(MuiTextField)({
   },
 });
 
+const NameAreaInput = styled(MuiTextField)({
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "3px solid #0075B1",
+  },
+});
+
+const EqualInput = styled(MuiTextField)({
+  width: "700px",
+  height: "3.5rem",
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "1.5px solid #0075B1",
+    },
+    "&:hover fieldset": {
+      borderColor: "#0075B1",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#0075B1",
+    },
+  },
+  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    borderLeft: "4px solid #0075B1",
+  },
+
+  "& .MuiOutlinedInput-input": {
+    padding: "5px 5px",
+  },
+});
+
 export default function ProposalDetails() {
   const params = useParams();
   const navigate = useNavigate();
@@ -473,8 +502,23 @@ export default function ProposalDetails() {
             </div>
           </div>
           <div>
-            <h1>Payback:</h1>
-            <p>{proposal && getProposalDetails.paybackProposta}</p>
+            <div>
+              <p className="font-roboto text-lg font-bold">Payback</p>
+              <EqualInput
+                disabled
+                id="outlined-textarea"
+                variant="outlined"
+                placeholder={
+                  getProposalDetails && getProposalDetails.paybackProposta
+                }
+                type="text"
+                multiline
+                maxRows={3}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start" />,
+                }}
+              />
+            </div>
             <div>
               <p className="font-roboto text-lg font-bold">
                 Período de execução
@@ -484,28 +528,72 @@ export default function ProposalDetails() {
                   disabled
                   id="outlined-basic"
                   variant="outlined"
-                  placeholder="dd/mm/aaaa"
-                  type="date"
+                  placeholder={
+                    getProposalDetails &&
+                    DateUtils.formatDate(
+                      getProposalDetails.periodoExecucaoInicioProposta
+                    )
+                  }
                   label="Início:"
                   size="small"
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
                   }}
-                  value={getProposalDetails.periodoExecucaoInicioProposta}
                 />
 
                 <DateInput
                   disabled
                   id="outlined-basic"
                   variant="outlined"
-                  placeholder="dd/mm/aaaa"
-                  type="date"
+                  placeholder={
+                    getProposalDetails &&
+                    DateUtils.formatDate(
+                      getProposalDetails.periodoExecucaoFimProposta
+                    )
+                  }
                   label="Término:"
                   size="small"
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
                   }}
-                  // value={endDate}
+                />
+              </div>
+            </div>
+            <div>
+              <p className="font-roboto text-lg font-bold">
+                Responsável pelo negócio
+              </p>
+              <div className="mt-2 flex gap-10">
+                <NameAreaInput
+                  disabled
+                  id="outlined-textarea"
+                  variant="outlined"
+                  type="text"
+                  multiline
+                  placeholder={
+                    getProposalDetails &&
+                    getProposalDetails.nomeResponsavelNegocio
+                  }
+                  maxRows={3}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
+                />
+                <NameAreaInput
+                  disabled
+                  id="outlined-textarea"
+                  variant="outlined"
+                  type="text"
+                  multiline
+                  placeholder={
+                    getProposalDetails &&
+                    getProposalDetails.areaResponsavelNegocio
+                  }
+                  maxRows={3}
+                  onChange={(e) => setAreaBusinessResponsible(e.target.value)}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
                 />
               </div>
             </div>
