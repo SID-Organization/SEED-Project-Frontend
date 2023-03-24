@@ -13,6 +13,7 @@ import MessageIcon from "@mui/icons-material/Message";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import { styled } from "@mui/material/styles";
 import MuiTextField from "@mui/material/TextField";
+import { InputAdornment } from "@mui/material";
 
 // Components
 import SubHeaderOpenedDemand from "../../../Components/Sub-header-opened-demand";
@@ -28,7 +29,7 @@ import ProposalService from "../../../service/Proposal-Service";
 
 // Utils
 import UserUtils from "../../../utils/User-Utils";
-import { InputAdornment } from "@mui/material";
+import DateUtils from "../../../utils/Date-Utils";
 
 const muiBoxStyle = {
   position: "absolute",
