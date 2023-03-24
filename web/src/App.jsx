@@ -27,7 +27,6 @@ import { useEffect } from "react";
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
-
   return (
     <>
       <BrowserRouter>
@@ -56,7 +55,10 @@ function App() {
             <Route path="pautas" element={<Pautas />} />
             <Route path="atas" element={<Atas />} />
             <Route path="propostas" element={<Proposals />} />
-            <Route path="propostas/:id" element={<ProposalDetails />} />
+            <Route
+              path="propostas/:idProposta/:idDemanda"
+              element={<ProposalDetails />}
+            />
             <Route path="perfil" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
           </Route>
