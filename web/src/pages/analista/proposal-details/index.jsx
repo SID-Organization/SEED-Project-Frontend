@@ -429,14 +429,27 @@ export default function ProposalDetails() {
           <h1>Informações da proposta</h1>
         </div>
         <div>
-          <div>
-            <h1>
-              Escopo do projeto:
-              {proposal && getProposalDetails.escopoProposta}
+          <div className="mt-5 grid items-center justify-center">
+            <h1
+              className="
+          font-roboto text-xl font-bold text-black
+        "
+            >
+              Escopo do projeto
             </h1>
+            <p className="flex justify-center">
+              {proposal && getProposalDetails.escopoProposta}
+            </p>
           </div>
-          <div>
-            <h1>Tabela de custos: **TABELA DE CUSTOS AQUI**</h1>
+          <div className="mt-5 grid items-center justify-center">
+            <h1
+              className="
+          flex justify-center font-roboto text-xl font-bold text-black
+        "
+            >
+              Tabela de custos
+            </h1>
+            <p className="flex justify-center">**TABELA DE CUSTOS AQUI**</p>
           </div>
           <div>
             <div className="mt-10 grid items-center justify-center">
@@ -501,8 +514,8 @@ export default function ProposalDetails() {
               </div>
             </div>
           </div>
-          <div>
-            <div>
+          <div className="grid justify-center gap-10">
+            <div className="mt-5">
               <p className="font-roboto text-lg font-bold">Payback</p>
               <EqualInput
                 disabled
@@ -572,7 +585,9 @@ export default function ProposalDetails() {
                   multiline
                   placeholder={
                     getProposalDetails &&
-                    getProposalDetails.nomeResponsavelNegocio
+                    getProposalDetails.nomeResponsavelNegocio > 0
+                      ? getProposalDetails.nomeResponsavelNegocio
+                      : "Não informado"
                   }
                   maxRows={3}
                   InputProps={{
@@ -587,7 +602,9 @@ export default function ProposalDetails() {
                   multiline
                   placeholder={
                     getProposalDetails &&
-                    getProposalDetails.areaResponsavelNegocio
+                    getProposalDetails.areaResponsavelNegocio > 0
+                      ? getProposalDetails.areaResponsavelNegocio
+                      : "Não informado"
                   }
                   maxRows={3}
                   onChange={(e) => setAreaBusinessResponsible(e.target.value)}
