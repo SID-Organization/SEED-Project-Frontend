@@ -169,12 +169,18 @@ export default function ProposalDetails() {
 
   return (
     <>
-      <SubHeaderOpenedDemand
+      {/* <SubHeaderOpenedDemand
         isEditEnabled={isEditEnabled}
         setIsEditEnabled={setIsEditEnabled}
       >
         Visualização da proposta {params.idProposta}
-      </SubHeaderOpenedDemand>
+      </SubHeaderOpenedDemand> */}
+      {/* SubHeader */}
+      <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
+        <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
+          Visualização da proposta {params.idProposta}
+        </h1>
+      </div>
       <div
         className="
       mt-5 flex items-center 
@@ -438,7 +444,7 @@ export default function ProposalDetails() {
               Escopo do projeto
             </h1>
             <p className="flex justify-center">
-              {proposal && getProposalDetails.escopoProposta}
+              {getProposalDetails && getProposalDetails.escopoProposta}
             </p>
           </div>
           <div className="mt-5 grid items-center justify-center">
@@ -524,7 +530,7 @@ export default function ProposalDetails() {
                 placeholder={
                   getProposalDetails && getProposalDetails.paybackProposta
                 }
-                type="text"
+                type="number"
                 multiline
                 maxRows={3}
                 InputProps={{
@@ -548,6 +554,7 @@ export default function ProposalDetails() {
                     )
                   }
                   label="Início:"
+                  type="text"
                   size="small"
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
@@ -565,6 +572,7 @@ export default function ProposalDetails() {
                     )
                   }
                   label="Término:"
+                  type="text"
                   size="small"
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
