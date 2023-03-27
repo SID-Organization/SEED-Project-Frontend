@@ -1,7 +1,10 @@
 import React, { createRef } from "react";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-import Box from "@mui/material/Box";
+// MUI
 import {
   Button,
   IconButton,
@@ -13,43 +16,34 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import MuiTextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
-import Paper from "@mui/material/Paper";
-import Draggable from "react-draggable";
-import UploadIcon from "@mui/icons-material/Upload";
-import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import Stepper from "@mui/material/Stepper";
+import Box from "@mui/material/Box";
 import Step from "@mui/material/Step";
+import Paper from "@mui/material/Paper";
+import Dialog from "@mui/material/Dialog";
+import Stepper from "@mui/material/Stepper";
+import Draggable from "react-draggable";
 import StepLabel from "@mui/material/StepLabel";
+import UploadIcon from "@mui/icons-material/Upload";
 import Typography from "@mui/material/Typography";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { styled } from "@mui/material/styles";
+import DialogTitle from "@mui/material/DialogTitle";
+import MuiTextField from "@mui/material/TextField";
+import DialogActions from "@mui/material/DialogActions";
+import DescriptionIcon from "@mui/icons-material/Description";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 
+// Components
 import Notification from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
-
-import { useNavigate } from "react-router-dom";
-
-import DescriptionIcon from "@mui/icons-material/Description";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
 
-// Import de interfaces
-// import LoggedUserInterface from "../../../Interfaces/user/LoggedUserInterface";
-
-// interface INewBenefit {
-//   coin: string;
-//   value: number;
-//   description: string;
-// }
+// Utils
+import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 
 function PaperComponent(props) {
   return (
@@ -172,48 +166,39 @@ export default function CreateDemand() {
 
     const benefitsToSave = realBenefits.map((benefit) => {
 
-      let strBenef = benefit.description.split("\n");
-      strBenef.pop();
+      let strBenef = ReactQuillUtils.formatQuillText(benefit.description);
 
       return {
         moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: benefit.value,
         descricaoBeneficioHTML: benefit.descriptionHTML,
-        descricaoBeneficio: strBenef.join(" "),
+        descricaoBeneficio: strBenef,
         tipoBeneficio: "REAL",
       };
     });
 
     for (let benefit of potentialBenefits) {
-      let strBenef = benefit.description.split("\n");
-      strBenef.pop();
+      let strBenef = ReactQuillUtils.formatQuillText(benefit.description);
 
       benefitsToSave.push({
         moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: benefit.value,
         descricaoBeneficioHTML: benefit.descriptionHTML,
-        descricaoBeneficio: strBenef.join(" "),
+        descricaoBeneficio: strBenef,
         tipoBeneficio: "POTENCIAL",
       });
     }
 
-    console.log("benefitsToBeSent ->", benefitsToSave);
 
-
-    const proposalToSave = proposal.split("\n");
-    proposalToSave.pop();
-
-    const currentProblemToSave = currentProblem.split("\n");
-    currentProblemToSave.pop();
-
-    const frequencyOfUseToSave = frequencyOfUse.split("\n");
-    frequencyOfUseToSave.pop();
+    const proposalToSave = ReactQuillUtils.formatQuillText(proposal);
+    const currentProblemToSave = ReactQuillUtils.formatQuillText(currentProblem);
+    const frequencyOfUseToSave = ReactQuillUtils.formatQuillText(frequencyOfUse);
 
     const demandToSave = {
       tituloDemanda: title,
-      propostaMelhoriaDemanda: proposalToSave.join(" "),
-      situacaoAtualDemanda: currentProblemToSave.join(" "),
-      frequenciaUsoDemanda: frequencyOfUseToSave.join(" "),
+      propostaMelhoriaDemanda: proposalToSave,
+      situacaoAtualDemanda: currentProblemToSave,
+      frequenciaUsoDemanda: frequencyOfUseToSave,
       descricaoQualitativoDemanda: qualitativeBenefit,
       solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
       analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
