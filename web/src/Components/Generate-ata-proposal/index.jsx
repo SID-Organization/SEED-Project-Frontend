@@ -1,21 +1,29 @@
 import { Badge, Box, Divider, FormControl, MenuItem } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import ReactQuill from "react-quill";
+
+// MUI
 import Select from "@mui/material/Select";
-import { useEffect, useState } from "react";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-
 import PublicIcon from "@mui/icons-material/Public";
 import PublicOffIcon from "@mui/icons-material/PublicOff";
 
+// Comoponents
 import ProposalCard from "../Proposal-card";
-import ReactQuill from "react-quill";
 
-export default function GenerateAtaProposal({ proposal, proposalIndex, finalDecision, setFinalDecisions }) {
-  const [parecerComissao, setParecerComissao] = useState("");
-  const [considerations, setConsiderations] = useState("");
-  const [publicada, setPublicada] = useState(false);
-  const [naoPublicada, setNaoPublicada] = useState(false);
+// Utils
+import ReactQuillUtils from "../../utils/ReactQuill-Utils";
+
+export default function GenerateAtaProposal(props) {
+  const [parecerComissao, setParecerComissao] = useState(props.finalDecision?.parecerComissaoPropostaLogDTO || "");
+  const [considerations, setConsiderations] = useState(props.finalDecision?.consideracoesPropostaLogDTO || "");
+  const [publicada, setPublicada] = useState(props.finalDecision?.tipoAtaPropostaLogDTO == "PUBLICADA");
+  const [naoPublicada, setNaoPublicada] = useState(props.finalDecision?.tipoAtaPropostaLogDTO == "NAO_PUBLICADA");
+  // HTML editor
   const [quillValue, setQuillValue] = useState("");
+
+  const parecerRef = useRef();
 
   function formatParecerComissao(parecerComissao) {
     switch (parecerComissao) {
@@ -32,20 +40,20 @@ export default function GenerateAtaProposal({ proposal, proposalIndex, finalDeci
     }
   }
 
-  useEffect(() => {
-    if(!finalDecision) return;
-    const newFinalDecision = finalDecision;
-    newFinalDecision.propostaPropostaLogDTO.idProposta = proposal.idProposta;
-    newFinalDecision.parecerComissaoPropostaLogDTO = formatParecerComissao(parecerComissao);
-    newFinalDecision.consideracoesPropostaLogDTO = quillValue;
-    newFinalDecision.tipoAtaPropostaLogDTO = publicada ? "PUBLICADA" : "NAO_PUBLICADA";
-    setFinalDecisions((finalDecisions) => {
-      const newFinalDecisions = finalDecisions;
-      newFinalDecisions[proposalIndex] = newFinalDecision;
-      return newFinalDecisions;
-    });
-  }, [naoPublicada, publicada]);
 
+  function updateDecision() {
+    if (!props.finalDecision) return;
+    const newFinalDecision = props.finalDecision;
+    newFinalDecision.propostaPropostaLogDTO.idProposta = props.proposal.idProposta;
+    newFinalDecision.parecerComissaoPropostaLogDTO = formatParecerComissao(parecerComissao);
+    newFinalDecision.consideracoesPropostaLogDTO = ReactQuillUtils.formatQuillText(considerations);
+    newFinalDecision.tipoAtaPropostaLogDTO = publicada ? "PUBLICADA" : naoPublicada ? "NAO_PUBLICADA" : "";
+    props.setFinalDecision(newFinalDecision);
+  }
+
+  useEffect(() => {
+    updateDecision();
+  }, [parecerComissao, considerations, publicada, naoPublicada]);
 
   const quillModules = {
     toolbar: [
@@ -88,12 +96,12 @@ export default function GenerateAtaProposal({ proposal, proposalIndex, finalDeci
       <div className="grid justify-center">
         <div className="w-[65rem]">
           <ProposalCard
-            proposalId={proposal.idProposta}
+            proposalId={props.proposal.idProposta}
             newPauta={true}
-            title={proposal.demandaPropostaTitulo}
-            executionTime={proposal.tempoExecucaoDemanda}
-            value={proposal.valorDemanda}
-            referenceDemand={proposal.idDemanda}
+            title={props.proposal.demandaPropostaTitulo}
+            executionTime={props.proposal.tempoExecucaoDemanda}
+            value={props.proposal.valorDemanda}
+            referenceDemand={props.proposal.idDemanda}
           />
         </div>
         <div
@@ -149,9 +157,14 @@ export default function GenerateAtaProposal({ proposal, proposalIndex, finalDeci
             <p className="font-roboto font-bold">Considerações</p>
             <ReactQuill
               value={quillValue}
-              onChange={setQuillValue}
+              onChange={(e) => {
+                setQuillValue(e);
+                const text = parecerRef.current?.getEditor()?.getText();
+                setConsiderations(text);
+              }}
               modules={quillModules}
               style={style}
+              ref={parecerRef}
             />
           </div>
           <div className="grid">

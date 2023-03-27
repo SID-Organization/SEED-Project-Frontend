@@ -10,12 +10,18 @@ import GenerateAtaProposal from "../../../Components/Generate-ata-proposal";
 
 // Services
 import PautaService from "../../../service/Pauta-Service";
+import AtaService from "../../../service/Ata-Service";
+
+// Utils
+import AtaUtils from "../../../utils/Ata-Utils";
 
 export default function GenerateAta() {
+  // ID da pauta
   const { id } = useParams("id");
   const [proposals, setProposals] = useState([]);
   const [finalDecisions, setFinalDecisions] = useState([]);
   const [finalDecisionFile, setFinalDecisionFile] = useState();
+  const [numDgAta, setNumDgAta] = useState(0);
 
   const proposalFinalDecisionTemplate = {
     propostaPropostaLogDTO: { idProposta: 0 },
@@ -24,29 +30,63 @@ export default function GenerateAta() {
     tipoAtaPropostaLogDTO: "",
   }
 
+  // Atualiza a decisão final de uma proposta
+  function updateFinalDecision(proposalId, newFinalDecision) {
+    const decisions = finalDecisions.map((decision) => {
+      if (decision.propostaPropostaLogDTO.idProposta == proposalId) {
+        return newFinalDecision;
+      }
+      return decision;
+    });
+    setFinalDecisions(decisions);
+  }
+
+  // Faz a verificação dos campos obrigatórios
+  function verificarAta() {
+    if (numDgAta == 0) {
+      alert("Número DG Ata não pode ser nulo");
+      return;
+    };
+
+    for (let fd of finalDecisions) {
+      if (AtaUtils.isFinalDecisionValid(fd) == false) {
+        alert("Parecer Comissão, Considerações e Tipo Ata são obrigatórios");
+        return;
+      }
+    }
+
+    if (finalDecisionFile == undefined) {
+      alert("Documento de aprovação é obrigatório");
+      return;
+    }
+  }
+
   useEffect(() => {
-    if(finalDecisions.length > 0) {
+    if(finalDecisions.length > 0){
       console.log(finalDecisions);
     }
-  }, [finalDecisions]);
+  }, [finalDecisions])
 
+  // Salva a ata no banco de dados
+  function saveAta() {
+    verificarAta();
 
-  /**
-   * {
-    "numeroDgAta": 2,
-    "pautaAta": {
-        "idPauta": 7
-    },
-    "propostasLogDTO": [
-        {
-            "propostaPropostaLogDTO": {"idProposta": 4},
-            "parecerComissaoPropostaLogDTO": "APROVADO",
-            "consideracoesPropostaLogDTO": "Muito boa",
-            "tipoAtaPropostaLogDTO": "PUBLICADA"
-        }
-    ]
-}
-   */
+    const ata = {
+      numeroDgAta: numDgAta,
+      pautaAta: {
+        idPauta: id
+      },
+      propostasLogDTO: finalDecisions
+    }
+
+    const form = new FormData();
+
+    form.append("ata", JSON.stringify(ata));
+    form.append("documentoAprovacao", finalDecisionFile);
+
+    AtaService.createAta(form);
+  }
+
 
   useEffect(() => {
     PautaService.getPautaProposalsById(id)
@@ -55,10 +95,11 @@ export default function GenerateAta() {
       });
   }, []);
 
+  // Cria um array de decisões finais com base nas propostas
   useEffect(() => {
-    if(proposals.length > 0) {
+    if (proposals.length > 0) {
       const finalDecisions = proposals.map((proposal) => {
-        return proposalFinalDecisionTemplate;
+        return { ...proposalFinalDecisionTemplate, propostaPropostaLogDTO: { idProposta: proposal.idProposta } };
       });
       setFinalDecisions(finalDecisions);
     }
@@ -79,6 +120,8 @@ export default function GenerateAta() {
             variant="outlined"
             size="small"
             type="number"
+            value={numDgAta}
+            onChange={(e) => setNumDgAta(e.target.value)}
             sx={{
               width: "5rem",
               height: "2.5rem",
@@ -93,8 +136,8 @@ export default function GenerateAta() {
             key={i}
             proposal={proposal}
             proposalIndex={i}
-            finalDecision={finalDecisions[i]}
-            setFinalDecisions={setFinalDecisions}
+            finalDecision={finalDecisions.find(fd => fd.propostaPropostaLogDTO.idProposta == proposal.idProposta)}
+            setFinalDecision={newFinalDecision => updateFinalDecision(proposal.idProposta, newFinalDecision)}
           />
         ))}
       </div>
@@ -152,6 +195,7 @@ export default function GenerateAta() {
           startIcon={
             <AddRounded />
           }
+          onClick={saveAta}
         >
           Gerar nova ata
         </Button>
