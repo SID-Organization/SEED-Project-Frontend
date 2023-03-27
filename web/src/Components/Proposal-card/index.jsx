@@ -17,6 +17,9 @@ import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleF
 
 import { PropaneSharp } from "@mui/icons-material";
 
+//Services
+import ProposalService from "../../service/Proposal-Service";
+
 export default function ProposalCard(props) {
   const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 
@@ -116,8 +119,8 @@ export default function ProposalCard(props) {
     setIsButtonAddClicked(!isButtonAddClicked);
   }
 
-  function openPdf() {
-    window.open("http://www.africau.edu/images/default/sample.pdf", "_blank");
+  function getProposalPDFOnClick() {
+    window.open(ProposalService.getProposalPDF(props.proposalId), "_blank");
   }
 
   return (
@@ -244,6 +247,7 @@ export default function ProposalCard(props) {
               </h1>
               {props.newPauta && (
                 <h1
+                  onClick={getProposalPDFOnClick}
                   className="flex w-[10rem] cursor-pointer items-center justify-center gap-1 text-sm font-bold text-light-blue-weg
                     hover:underline
                   "
@@ -266,7 +270,7 @@ export default function ProposalCard(props) {
                 {props.newPauta === "card" ? (
                   <VisibilityRoundedIcon />
                 ) : (
-                  <IconButton onClick={openPdf}>
+                  <IconButton>
                     <VisibilityRoundedIcon />
                   </IconButton>
                 )}

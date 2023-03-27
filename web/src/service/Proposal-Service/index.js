@@ -21,9 +21,14 @@ const getProposalById = async (proposalId) => {
   return axios.get(`${url}/${proposalId}`).then((response) => response.data);
 };
 
+const getProposalPDF = (proposalId) => {
+  return `${url}/pdf-proposta/${proposalId}`;
+};
+
 export default {
   createProposal,
   updateProposal,
   getReadyProposals,
   getProposalById,
+  getProposalPDF,
 };
