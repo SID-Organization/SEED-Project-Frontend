@@ -29,7 +29,6 @@ import ProposalService from "../../../service/Proposal-Service";
 
 //Utils
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
-import { display } from "@mui/system";
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -73,8 +72,17 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
-  const [proposalAlternatives, setProposalAlternatives] = useState("");
-  const [proposalMitigationPlan, setProposalMitigationPlan] = useState("");
+  const [textIsNotProposal, setTextIsNotProposal] = useState("");
+  const [textIsProposal, setTextIsProposal] = useState("");
+  const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
+  const [textProposalMitigationPlan, setTextProposalMitigationPlan] = useState("");
+
+  
+  // React quill
+  const [quillValueEscopo, setQuillValueEscopo] = useState("");
+  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] = useState("");
+  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] = useState("");
+  const [quillValueProposalMitigationPlan, setQuillValueProposalMitigationPlan] = useState("");
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
@@ -99,26 +107,12 @@ export default function GenerateProposal() {
     ],
   };
 
-  const [quillValueEscopo, setQuillValueEscopo] = useState("");
-  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] =
-    useState("");
-  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] =
-    useState("");
-  const [
-    quillValueProposalMitigationPlan,
-    setQuillValueProposalMitigationPlan,
-  ] = useState("");
 
   const quillValueRefEscopo = useRef(null);
   const quillValueRefIsNotEscopoPart = useRef(null);
   const quillValueRefProposalAlternatives = useRef(null);
   const quillValueRefProposalMitigationPlan = useRef(null);
-  const [textIsNotProposal, setTextIsNotProposal] = useState("");
-  const [textIsProposal, setTextIsProposal] = useState("");
-  const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
-  const [textProposalMitigationPlan, setTextProposalMitigationPlan] =
-    useState("");
-    
+
   function addTotalCoasts() {
     setTotalCostList([
       ...totalCostList,
@@ -178,7 +172,7 @@ export default function GenerateProposal() {
   }
 
 
-  
+
 
   const handlePutProposal = async () => {
     const proposalToSave = {
@@ -203,30 +197,30 @@ export default function GenerateProposal() {
       custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
     };
 
-  //   {
-  //     "escopoProposta": "Teste de escopo",
-  //     "paybackProposta": 10.0,
-  //     "aprovadoWorkflowProposta": 1,
-  //     "periodoExecucaoDemandaInicio": "2023-03-29",
-  //     "periodoExecucaoDemandaFim": "2023-04-20",
-  //     "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
-  //     "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
-  //     "planoMitigacaoProposta": "Plano de mitigação",
-  //     "custosTotaisDoProjeto": 10000.0,
-  //     "custosInternosDoProjeto": 5000.0,
-  //     "custosExternosDoProjeto": 5000.0,
-  //     "tabelaCusto": [
-  //         {
-  //             "tipoDespesa": "EXTERNA",
-  //             "perfilDespesaTabelaCusto": "TESTE",
-  //             "periodoExecucaoTabelaCusto": 10,
-  //             "quantidadeHorasTabelaCusto": 10,
-  //             "valorHoraTabelaCusto": 10
-  //         }
-  //     ],
-  //     "nomeResponsavelNegocio": "Maria",
-  //     "areaResponsavelNegocio": "Vendas"
-  // }
+    //   {
+    //     "escopoProposta": "Teste de escopo",
+    //     "paybackProposta": 10.0,
+    //     "aprovadoWorkflowProposta": 1,
+    //     "periodoExecucaoDemandaInicio": "2023-03-29",
+    //     "periodoExecucaoDemandaFim": "2023-04-20",
+    //     "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
+    //     "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
+    //     "planoMitigacaoProposta": "Plano de mitigação",
+    //     "custosTotaisDoProjeto": 10000.0,
+    //     "custosInternosDoProjeto": 5000.0,
+    //     "custosExternosDoProjeto": 5000.0,
+    //     "tabelaCusto": [
+    //         {
+    //             "tipoDespesa": "EXTERNA",
+    //             "perfilDespesaTabelaCusto": "TESTE",
+    //             "periodoExecucaoTabelaCusto": 10,
+    //             "quantidadeHorasTabelaCusto": 10,
+    //             "valorHoraTabelaCusto": 10
+    //         }
+    //     ],
+    //     "nomeResponsavelNegocio": "Maria",
+    //     "areaResponsavelNegocio": "Vendas"
+    // }
 
     const pdfProposal = {
       escopoPropostaHTML: "<p> Teste </p>",
