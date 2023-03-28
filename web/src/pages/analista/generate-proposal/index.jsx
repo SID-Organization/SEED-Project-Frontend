@@ -14,14 +14,14 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 
 // Components
 import DemandCard from "../../../Components/Demand-card";
 import FilesTable from "../../../Components/FilesTable";
-import CostTableRow from "../../../Components/Cost-table-rows";
+import CostTable from "../../../Components/Center-cost-components/Cost-table";
+import CostTableRow from "../../../Components/Center-cost-components/Cost-table-rows";
 
 // Service
 import DemandService from "../../../service/Demand-Service";
@@ -117,21 +117,6 @@ export default function GenerateProposal() {
   const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
   const [textProposalMitigationPlan, setTextProposalMitigationPlan] =
     useState("");
-
-  function addTotalCoasts() {
-    setTotalCostList([
-      ...totalCostList,
-      {
-        expenseType: "",
-        expenseProfile: "",
-        monthTimeExecution: "",
-        necessaryHours: "",
-        costHour: "",
-        totalExpenseCost: "",
-        costCenterPayers: "",
-      },
-    ]);
-  }
 
   const [totalCostList, setTotalCostList] = useState([
     {
@@ -291,68 +276,11 @@ export default function GenerateProposal() {
         <h1 className="mt-5 flex items-center justify-center font-roboto text-2xl font-bold text-blue-weg">
           Tabela de custos:{" "}
         </h1>
-        <div className="flex items-center justify-center">
-          <Tooltip title="Adicionar tabela de custos">
-            <IconButton onClick={addTotalCoasts}>
-              <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
-            </IconButton>
-          </Tooltip>
-        </div>
       </div>
       {/* Columns table */}
       <div className="flex items-center justify-center">
         <table>
-          <thead>
-            <tr>
-              <th className="w-36 border-2 border-b-2 border-r-0 border-blue-weg">
-                <p className="font-roboto text-base font-bold ">
-                  Tipo de despesa
-                </p>
-              </th>
-              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
-                <p className="font-roboto text-base font-bold ">
-                  Perfil de despesa
-                </p>
-              </th>
-              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
-                <p className="font-roboto text-base font-bold ">
-                  Mês de execução
-                </p>
-              </th>
-              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
-                <p className="font-roboto text-base font-bold ">
-                  Horas necessárias
-                </p>
-              </th>
-              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
-                <p className="font-roboto text-base font-bold ">
-                  Custo por hora
-                </p>
-              </th>
-              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
-                <p className="font-roboto text-base font-bold ">
-                  Custo total da despesa
-                </p>
-              </th>
-              <th className="w-48 border-2 border-b-2 border-blue-weg">
-                <p className="font-roboto text-base font-bold ">
-                  Centro de custo pagadores
-                </p>
-              </th>
-              <th className="w-10"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {totalCostList.map((totalCost, index) => (
-              <CostTableRow
-                key={index}
-                index={index}
-                totalCost={totalCost}
-                setCostList={setTotalCostList}
-                costList={totalCostList}
-              />
-            ))}
-          </tbody>
+          <CostTable />
         </table>
       </div>
 

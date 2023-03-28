@@ -29,7 +29,6 @@ const TableInput = styled(MuiTextField)({
 });
 
 export default function CostTableRow(props) {
-  const [expenseType, setExpenseType] = useState(props.totalCost.expenseType);
   const [expenseProfile, setExpenseProfile] = useState(
     props.totalCost.expenseProfile
   );
@@ -43,30 +42,23 @@ export default function CostTableRow(props) {
   const [totalExpenseCost, setTotalExpenseCost] = useState(
     props.totalCost.totalExpenseCost
   );
-  const [costCenterPayers, setCostCenterPayers] = useState(
-    props.totalCost.costCenterPayers
-  );
 
   const cleanStates = () => {
-    setExpenseType("");
     setExpenseProfile("");
     setMonthTimeExecution("");
     setNecessaryHours("");
     setCostHour("");
     setTotalExpenseCost("");
-    setCostCenterPayers("");
   };
 
   const updateTable = () => {
     let costList = props.costList;
     costList[props.index] = {
-      expenseType,
       expenseProfile,
       monthTimeExecution,
       necessaryHours,
       costHour,
       totalExpenseCost,
-      costCenterPayers,
     };
     props.setCostList([...costList]);
   };
@@ -76,13 +68,11 @@ export default function CostTableRow(props) {
   };
 
   const setStatesAgain = () => {
-    setExpenseType(props.totalCost.expenseType);
     setExpenseProfile(props.totalCost.expenseProfile);
     setMonthTimeExecution(props.totalCost.monthTimeExecution);
     setNecessaryHours(props.totalCost.necessaryHours);
     setCostHour(props.totalCost.costHour);
     setTotalExpenseCost(props.totalCost.totalExpenseCost);
-    setCostCenterPayers(props.totalCost.costCenterPayers);
   };
 
   useEffect(() => {
@@ -93,35 +83,7 @@ export default function CostTableRow(props) {
   return (
     <>
       <tr>
-        <td className="border-2 border-blue-weg border-b-2 border-t-0">
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            onChange={(e) => {
-              setExpenseType(e.target.value);
-            }}
-            onBlur={updateTable}
-            sx={{
-              width: "100%",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  border: "none",
-                },
-                "&:hover fieldset": {
-                  border: "none",
-                },
-                "&.Mui-focused fieldset": {
-                  border: "none",
-                },
-              },
-              borderRadius: 0,
-            }}
-          >
-            <MenuItem value={"Externo"}>Externo</MenuItem>
-            <MenuItem value={"Interno"}>Interno</MenuItem>
-          </Select>
-        </td>
-        <td className="border-2 border-blue-weg border-b-2 border-t-0">
+        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
           <TableInput
             id="outlined-basic"
             variant="outlined"
@@ -133,7 +95,7 @@ export default function CostTableRow(props) {
             onBlur={updateTable}
           />
         </td>
-        <td className="border-2 border-blue-weg border-b-2 border-t-0">
+        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
           <TableInput
             id="outlined-basic"
             variant="outlined"
@@ -145,8 +107,8 @@ export default function CostTableRow(props) {
             onBlur={updateTable}
           />
         </td>
-        <td className="border-2 border-blue-weg border-b-2 border-t-0">
-          <div className="flex justify-center items-center">
+        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
+          <div className="flex items-center justify-center">
             <TableInput
               id="outlined-basic"
               variant="outlined"
@@ -159,8 +121,8 @@ export default function CostTableRow(props) {
             />
           </div>
         </td>
-        <td className="border-2 border-blue-weg border-b-2 border-t-0">
-          <div className="flex justify-center items-center">
+        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
+          <div className="flex items-center justify-center">
             <TableInput
               id="outlined-basic"
               variant="outlined"
@@ -178,8 +140,8 @@ export default function CostTableRow(props) {
             />
           </div>
         </td>
-        <td className="border-2 border-blue-weg border-b-2 border-t-0">
-          <div className="flex justify-center items-center">
+        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
+          <div className="flex items-center justify-center">
             <TableInput
               id="outlined-basic"
               variant="outlined"
@@ -197,20 +159,7 @@ export default function CostTableRow(props) {
             />
           </div>
         </td>
-        <td className="border-2 border-blue-weg border-b-2 border-t-0">
-          <div className="flex justify-center items-center">
-            <TableInput
-              id="outlined-basic"
-              variant="outlined"
-              size="small"
-              value={costCenterPayers}
-              onChange={(e) => {
-                setCostCenterPayers(e.target.value);
-              }}
-              onBlur={updateTable}
-            />
-          </div>
-        </td>
+
         <div>
           <Tooltip title="Deletar linha">
             <IconButton onClick={deleteRow}>
