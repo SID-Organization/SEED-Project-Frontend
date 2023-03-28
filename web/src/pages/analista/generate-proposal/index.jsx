@@ -67,7 +67,8 @@ const DateInput = styled(MuiTextField)({
 
 export default function GenerateProposal() {
   const [demand, setDemand] = useState();
-  const [payback, setPayback] = useState("");
+  const [proposal, setProposal] = useState();
+  const [payback, setPayback] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
@@ -77,7 +78,7 @@ export default function GenerateProposal() {
   const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
   const [textProposalMitigationPlan, setTextProposalMitigationPlan] = useState("");
 
-  
+
   // React quill
   const [quillValueEscopo, setQuillValueEscopo] = useState("");
   const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] = useState("");
@@ -86,6 +87,7 @@ export default function GenerateProposal() {
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
+  // Demand ID
   let demandId = useParams().id;
 
   useEffect(() => {
@@ -93,6 +95,14 @@ export default function GenerateProposal() {
       setDemand(demand);
     });
   }, []);
+
+  useEffect(() => {
+    console.log("DEMANDID", demandId)
+    ProposalService.getProposalByDemandId(demandId)
+      .then((proposal) => {
+        console.log('PROPOSAL', proposal);
+      });
+  }, [])
 
   const quillModules = {
     toolbar: [
@@ -195,31 +205,6 @@ export default function GenerateProposal() {
       custosExternosDoProjeto: sumExternalCosts(),
       custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
     };
-
-    //   {
-    //     "escopoProposta": "Teste de escopo",
-    //     "paybackProposta": 10.0,
-    //     "aprovadoWorkflowProposta": 1,
-    //     "periodoExecucaoDemandaInicio": "2023-03-29",
-    //     "periodoExecucaoDemandaFim": "2023-04-20",
-    //     "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
-    //     "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
-    //     "planoMitigacaoProposta": "Plano de mitigação",
-    //     "custosTotaisDoProjeto": 10000.0,
-    //     "custosInternosDoProjeto": 5000.0,
-    //     "custosExternosDoProjeto": 5000.0,
-    //     "tabelaCusto": [
-    //         {
-    //             "tipoDespesa": "EXTERNA",
-    //             "perfilDespesaTabelaCusto": "TESTE",
-    //             "periodoExecucaoTabelaCusto": 10,
-    //             "quantidadeHorasTabelaCusto": 10,
-    //             "valorHoraTabelaCusto": 10
-    //         }
-    //     ],
-    //     "nomeResponsavelNegocio": "Maria",
-    //     "areaResponsavelNegocio": "Vendas"
-    // }
 
     const pdfProposal = {
       escopoPropostaHTML: quillValueEscopo,
