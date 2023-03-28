@@ -227,8 +227,9 @@ export default function CreateNewPauta() {
                 scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full"
               >
                 {readyProposals.length > 0 &&
-                  readyProposals.map((item) => (
+                  readyProposals.map((item, i) => (
                     <NewPautaProposalCard
+                      key={i}
                       setSelectedProposals={setSelectedProposals}
                       proposal={item}
                     />

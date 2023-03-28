@@ -4,7 +4,11 @@ import apiConfig from "../../../API-config";
 const url = `${apiConfig.URL}/ata`;
 
 const createAta = async (ata) => {
-  return axios.post(url, ata).then((response) => response.data);
+  return axios.post(url, ata, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then((response) => response);
 };
 
 const getAta = async () => {

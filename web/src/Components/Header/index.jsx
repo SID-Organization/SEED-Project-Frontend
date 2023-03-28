@@ -516,7 +516,7 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  
+
 
   const [chatUsers, setChatUsers] = useState([]);
   const [users, setUsers] = useState([]);
@@ -708,61 +708,61 @@ export default function PrimarySearchAppBar() {
       >
         {search === ""
           ? users
-              .sort((a, b) => {
-                if (a.unreadMessages && !b.unreadMessages) return -1;
-                if (!a.unreadMessages && b.unreadMessages) return 1;
+            .sort((a, b) => {
+              if (a.unreadMessages && !b.unreadMessages) return -1;
+              if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                // const timeA = new Date(
-                //   a.time.split(":")[0] as any,
-                //   a.time.split(":")[1] as any
-                // );
-                // const timeB = new Date(
-                //   b.time.split(":")[0] as any,
-                //   b.time.split(":")[1] as any
-                // );
-                // if (timeA > timeB) {
-                //   return -1;
-                // }
-                // if (timeA < timeB) {
-                //   return 1;
-                // }
-                return 0;
-              })
-              .map((user) => {
-                return (
-                  <div
-                    key={user.idUsuario}
-                    onClick={() => {
-                      const userName = user.name;
-                      const userDemand = user.userDemand;
-                      setChatUserId(user.idUsuario);
-                      setUserNameCard(userName);
-                      setUserDemandCard(userDemand);
-                      setChatId(user.idChat);
-                      setUserData({
-                        idUsuario: {
-                          numeroCadastroUsuario: user.idUsuario,
-                        },
-                        idChat: { idChat: user.idChat },
-                        idDemanda: { idDemanda: user.idDemanda },
-                        connected: false,
-                        message: "",
-                      });
-                      connect();
-                    }}
-                  >
-                    <UserMessageCard
-                      picture={user.picture}
-                      name={user.name}
-                      userDemand={user.userDemand}
-                      lastMessage={user.lastMessage}
-                      time={user.time}
-                      unreadMessages={user.unreadMessages}
-                      isOnline={user.isOnline}
-                    />
-                  </div>
-                );
-              })
+              // const timeA = new Date(
+              //   a.time.split(":")[0] as any,
+              //   a.time.split(":")[1] as any
+              // );
+              // const timeB = new Date(
+              //   b.time.split(":")[0] as any,
+              //   b.time.split(":")[1] as any
+              // );
+              // if (timeA > timeB) {
+              //   return -1;
+              // }
+              // if (timeA < timeB) {
+              //   return 1;
+              // }
+              return 0;
+            })
+            .map((user) => {
+              return (
+                <div
+                  key={user.idUsuario}
+                  onClick={() => {
+                    const userName = user.name;
+                    const userDemand = user.userDemand;
+                    setChatUserId(user.idUsuario);
+                    setUserNameCard(userName);
+                    setUserDemandCard(userDemand);
+                    setChatId(user.idChat);
+                    setUserData({
+                      idUsuario: {
+                        numeroCadastroUsuario: user.idUsuario,
+                      },
+                      idChat: { idChat: user.idChat },
+                      idDemanda: { idDemanda: user.idDemanda },
+                      connected: false,
+                      message: "",
+                    });
+                    connect();
+                  }}
+                >
+                  <UserMessageCard
+                    picture={user.picture}
+                    name={user.name}
+                    userDemand={user.userDemand}
+                    lastMessage={user.lastMessage}
+                    time={user.time}
+                    unreadMessages={user.unreadMessages}
+                    isOnline={user.isOnline}
+                  />
+                </div>
+              );
+            })
           : returnedUserSearch()}
       </div>
     </Menu>
@@ -960,8 +960,9 @@ export default function PrimarySearchAppBar() {
         </div>
       );
     } else {
-      return filteredUsers.map((user) => (
+      return filteredUsers.map((user, i) => (
         <UserMessageCard
+          key={i}
           name={user.name}
           userDemand={user.userDemand}
           lastMessage={user.lastMessage}

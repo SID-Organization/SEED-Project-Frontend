@@ -82,6 +82,7 @@ export default function GenerateProposal() {
       });
   }, []);
 
+
   const quillModules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
@@ -148,25 +149,57 @@ export default function GenerateProposal() {
     return sum;
   }
 
+  const saveProgress = async () => {
+    setButtonSavedClicked(true);
+    setTimeout(() => {
+      setButtonSavedClicked(false);
+    }, 1500);
+  }
+
   const handlePutProposal = async () => {
-    // const proposalToBeSent = {
-    //   demandId: demandId,
-    //   escopoProposta: "n tem ainda",
-    //   paybackProposta: payback,
-    //   aprovadoWorkflowProposta: 1,
-    //   startDate: startDate,
-    //   endDate: endDate,
-    //   periodoExecucaoDemanda: "20/04/2022",
-    //   naoFazParteDoEscopoProposta: "n tem ainda",
-    //   alternativasAvaliadasProposta: "n tem ainda",
-    //   planoMitigacaoProposta: "n tem ainda",
-    //   nameBusinessResponsible: nameBusinessResponsible,
-    //   areaBusinessResponsible: areaBusinessResponsible,
-    //   internalCosts: sumInternalCosts(),
-    //   externalCosts: sumExternalCosts(),
-    //   totalCosts: sumInternalCosts() + sumExternalCosts(),
-    //   custosTotaisDoProjeto: totalCostList,
-    // };
+    const proposalToSave = {
+      demandId: demandId,
+      escopoProposta: "n tem ainda",
+      paybackProposta: payback,
+      aprovadoWorkflowProposta: 1,
+      startDate: startDate,
+      endDate: endDate,
+      periodoExecucaoDemanda: "20/04/2022",
+      naoFazParteDoEscopoProposta: "n tem ainda",
+      alternativasAvaliadasProposta: "n tem ainda",
+      planoMitigacaoProposta: "n tem ainda",
+      nameBusinessResponsible: nameBusinessResponsible,
+      areaBusinessResponsible: areaBusinessResponsible,
+      internalCosts: sumInternalCosts(),
+      externalCosts: sumExternalCosts(),
+      totalCosts: sumInternalCosts() + sumExternalCosts(),
+      custosTotaisDoProjeto: totalCostList,
+    };
+
+  //   {
+  //     "escopoProposta": "Teste de escopo",
+  //     "paybackProposta": 10.0,
+  //     "aprovadoWorkflowProposta": 1,
+  //     "periodoExecucaoDemandaInicio": "2023-03-29",
+  //     "periodoExecucaoDemandaFim": "2023-04-20",
+  //     "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
+  //     "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
+  //     "planoMitigacaoProposta": "Plano de mitigação",
+  //     "custosTotaisDoProjeto": 10000.0,
+  //     "custosInternosDoProjeto": 5000.0,
+  //     "custosExternosDoProjeto": 5000.0,
+  //     "tabelaCusto": [
+  //         {
+  //             "tipoDespesa": "EXTERNA",
+  //             "perfilDespesaTabelaCusto": "TESTE",
+  //             "periodoExecucaoTabelaCusto": 10,
+  //             "quantidadeHorasTabelaCusto": 10,
+  //             "valorHoraTabelaCusto": 10
+  //         }
+  //     ],
+  //     "nomeResponsavelNegocio": "Maria",
+  //     "areaResponsavelNegocio": "Vendas"
+  // }
 
     const proposalToBeSent = {
       escopoProposta: "n tem ainda",
@@ -189,9 +222,8 @@ export default function GenerateProposal() {
     };
 
     //Mudar status para PROPOSTA_PRONTA
-
     const formData = new FormData();
-    formData.append("updatePropostaForm", JSON.stringify(proposalToBeSent));
+    formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
 
     ProposalService.updateProposal(formData, 3)
       .then((response) => {
@@ -240,40 +272,42 @@ export default function GenerateProposal() {
         <table>
           <thead>
             <tr>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-36">
                 <p className="font-roboto text-base font-bold ">
                   Tipo de despesa
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
                 <p className="font-roboto text-base font-bold ">
                   Perfil de despesa
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
                 <p className="font-roboto text-base font-bold ">
                   Mês de execução
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
                 <p className="font-roboto text-base font-bold ">
                   Horas necessárias
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
                 <p className="font-roboto text-base font-bold ">
                   Custo por hora
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg">
+              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
                 <p className="font-roboto text-base font-bold ">
                   Custo total da despesa
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-blue-weg">
+              <th className="border-2 border-b-2 border-blue-weg w-48">
                 <p className="font-roboto text-base font-bold ">
                   Centro de custo pagadores
                 </p>
+              </th>
+              <th className="w-10">
               </th>
             </tr>
           </thead>
@@ -461,12 +495,7 @@ export default function GenerateProposal() {
       </div>
       <div className="m-10 flex items-center justify-end">
         <Button
-          onClick={() => {
-            setButtonSavedClicked(true);
-            setTimeout(() => {
-              setButtonSavedClicked(false);
-            }, 1500);
-          }}
+          onClick={saveProgress}
           variant="contained"
           color="primary"
           sx={{

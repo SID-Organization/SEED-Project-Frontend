@@ -93,20 +93,21 @@ export default function Atas() {
       >
         
 
-        {atasYears.map((year) => (
+        {atasYears.map((year, iY) => (
           <>
-            {atasMonths.map((month) => (
+            {atasMonths.map((month, iM) => (
               <>
                 {
                   getAtasInMonth(month, year).length > 0 &&
-                  <div>
+                  <div key={iM + "" + iY}>
                     <h1 className=" text-xl font-bold text-dark-blue-weg " >
                       {months[month] +
                         " - " + year}
                     </h1>
                     {getAtasInMonth(month, year)
-                      .map((ata) => (
+                      .map((ata, i) => (
                         <AtasCard
+                          key={i}
                           AtaName={ata.AtaName}
                           QtyProposals={ata.QtyProposals}
                           MeetingDate={ata.MeetingDate}

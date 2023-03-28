@@ -469,8 +469,8 @@ export default function subHeader({
                     onChange={handleChangeRequesterBu}
                   >
                     {businessUnits &&
-                      businessUnits.map((item) => (
-                        <MenuItem value={item.key}>{item.text}</MenuItem>
+                      businessUnits.map((item, i) => (
+                        <MenuItem key={i} value={item.key}>{item.text}</MenuItem>
                       ))}
                   </Select>
                 </FormControl>

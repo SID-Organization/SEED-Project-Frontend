@@ -130,8 +130,9 @@ export default function PautasCard(props) {
         <Divider />
         <AccordionDetails>
           <div className="grid gap-5">
-            {proposalsMock.map((proposal) => (
+            {proposalsMock.map((proposal, i) => (
               <ProposalCard
+                key={i}
                 atasCard={proposal.atasCard}
                 newPauta={proposal.newPauta}
                 title={proposal.title}

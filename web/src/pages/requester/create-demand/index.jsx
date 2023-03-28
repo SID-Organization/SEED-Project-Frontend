@@ -43,6 +43,7 @@ import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 import DemandService from "../../../service/Demand-Service";
 
 // Utils
+import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 
 function PaperComponent(props) {
@@ -135,7 +136,7 @@ export default function CreateDemand() {
 
   const quillStyle = { maxWidth: "43rem" }
   // Usuário logado
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   // Navegador de página pela função
   const navigate = useNavigate();

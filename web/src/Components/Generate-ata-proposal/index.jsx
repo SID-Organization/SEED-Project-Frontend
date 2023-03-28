@@ -129,8 +129,8 @@ export default function GenerateAtaProposal(props) {
                   value={parecerComissao}
                   onChange={(e) => setParecerComissao(e.target.value)}
                 >
-                  {actionsParecerComissao.map((action) => (
-                    <MenuItem value={action.action}>
+                  {actionsParecerComissao.map((action, i) => (
+                    <MenuItem key={i} value={action.action}>
                       {action.action}
                       <Badge
                         color={

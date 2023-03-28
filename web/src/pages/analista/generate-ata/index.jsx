@@ -62,7 +62,7 @@ export default function GenerateAta() {
   }
 
   useEffect(() => {
-    if(finalDecisions.length > 0){
+    if (finalDecisions.length > 0) {
       console.log(finalDecisions);
     }
   }, [finalDecisions])
@@ -84,7 +84,11 @@ export default function GenerateAta() {
     form.append("ata", JSON.stringify(ata));
     form.append("documentoAprovacao", finalDecisionFile);
 
-    AtaService.createAta(form);
+    AtaService.createAta(form)
+      .then((response) => {
+        if (response.status == 200)
+          alert("Ata gerada com sucesso");
+      })
   }
 
 
