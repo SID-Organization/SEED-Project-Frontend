@@ -27,7 +27,6 @@ import CostTableRow from "../../../Components/Cost-table-rows";
 import DemandService from "../../../service/Demand-Service";
 import ProposalService from "../../../service/Proposal-Service";
 
-
 const EqualInput = styled(MuiTextField)({
   width: "700px",
   height: "3.5rem",
@@ -76,10 +75,9 @@ export default function GenerateProposal() {
   let demandId = useParams().id;
 
   useEffect(() => {
-    DemandService.getDemandById(demandId)
-      .then((demand) => {
-        setDemand(demand);
-      });
+    DemandService.getDemandById(demandId).then((demand) => {
+      setDemand(demand);
+    });
   }, []);
 
   const quillModules = {
@@ -94,8 +92,12 @@ export default function GenerateProposal() {
     ],
   };
 
-  const [quillValue, setQuillValue] = useState("");
-  const quillValueRef = useRef(null);
+  const [quillValueEscopo, setQuillValueEscopo] = useState("");
+  const quillValueRefEscopo = useRef(null);
+
+  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] =
+    useState("");
+  const quillValueRefIsNotEscopoPart = useRef(null);
 
   function addTotalCoasts() {
     setTotalCostList([
@@ -193,12 +195,11 @@ export default function GenerateProposal() {
     const formData = new FormData();
     formData.append("updatePropostaForm", JSON.stringify(proposalToBeSent));
 
-    ProposalService.updateProposal(formData, 3)
-      .then((response) => {
-        if (response.status == 200) {
-          DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
-        }
-      });
+    ProposalService.updateProposal(formData, 3).then((response) => {
+      if (response.status == 200) {
+        DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+      }
+    });
   };
 
   return (
@@ -209,16 +210,36 @@ export default function GenerateProposal() {
         </h1>
         {demand && <DemandCard demand={demand} />}
       </div>
-      <div>
+      <div className="grid">
         <h1 className="mt-5 flex items-center justify-center p-5 font-roboto text-xl font-bold">
           Escopo do projeto
         </h1>
         <h1 className="flex items-center justify-center">
           <ReactQuill
-            value={quillValue}
-            onChange={(e) => setQuillValue(e)}
+            value={quillValueEscopo}
+            onChange={(e) => setQuillValueEscopo(e)}
             modules={quillModules}
-            ref={quillValueRef}
+            ref={quillValueRefEscopo}
+            style={{ width: "50rem", height: "10rem" }}
+          />
+        </h1>
+        <h1 className="mt-10 flex items-center justify-center p-5 font-roboto text-xl font-bold">
+          Não faz parte do escopo do projeto
+        </h1>
+        <h1 className="flex items-center justify-center">
+          <ReactQuill
+            value={
+              quillValueIsNotEscopoPart === ""
+                ? quillValueIsNotEscopoPart
+                : quillValueIsNotEscopoPart
+            }
+            onChange={(e) => setQuillValueIsNotEscopoPart(e)}
+            modules={quillModules}
+            ref={
+              quillValueRefIsNotEscopoPart === ""
+                ? quillValueRefIsNotEscopoPart
+                : quillValueRefIsNotEscopoPart
+            }
             style={{ width: "50rem", height: "10rem" }}
           />
         </h1>
