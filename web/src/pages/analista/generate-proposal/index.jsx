@@ -29,6 +29,7 @@ import ProposalService from "../../../service/Proposal-Service";
 
 //Utils
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
+import { display } from "@mui/system";
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -73,6 +74,7 @@ export default function GenerateProposal() {
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
   const [proposalAlternatives, setProposalAlternatives] = useState("");
+  const [proposalMitigationPlan, setProposalMitigationPlan] = useState("");
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
@@ -97,11 +99,19 @@ export default function GenerateProposal() {
   };
 
   const [quillValueEscopo, setQuillValueEscopo] = useState("");
-  const quillValueRefEscopo = useRef(null);
-
   const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] =
     useState("");
+  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] =
+    useState("");
+  const [
+    quillValueProposalMitigationPlan,
+    setQuillValueProposalMitigationPlan,
+  ] = useState("");
+
+  const quillValueRefEscopo = useRef(null);
   const quillValueRefIsNotEscopoPart = useRef(null);
+  const quillValueRefProposalAlternatives = useRef(null);
+  const quillValueRefProposalMitigationPlan = useRef(null);
 
   function addTotalCoasts() {
     setTotalCostList([
@@ -156,6 +166,9 @@ export default function GenerateProposal() {
 
   const [textIsNotProposal, setTextIsNotProposal] = useState("");
   const [textIsProposal, setTextIsProposal] = useState("");
+  const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
+  const [textProposalMitigationPlan, setTextProposalMitigationPlan] =
+    useState("");
 
   const handlePutProposal = async () => {
     const proposalToBeSent = {
@@ -167,8 +180,12 @@ export default function GenerateProposal() {
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
-      alternativasAvaliadasProposta: "n tem ainda",
-      planoMitigacaoProposta: "n tem ainda",
+      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(
+        textProposalAlternatives
+      ),
+      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(
+        textProposalMitigationPlan
+      ),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
       custosInternosDoProjeto: sumInternalCosts(),
@@ -418,6 +435,42 @@ export default function GenerateProposal() {
             InputProps={{
               startAdornment: <InputAdornment position="start" />,
             }}
+          />
+        </div>
+        <div>
+          <p className="mb-3 font-roboto text-lg font-bold">
+            Alternativas avaliadas da proposta
+          </p>
+          <ReactQuill
+            value={quillValueProposalAlternatives}
+            onChange={(e) => {
+              setQuillValueProposalAlternatives(e);
+              const txt = quillValueRefProposalAlternatives.current
+                ?.getEditor()
+                .getText();
+              setTextProposalAlternatives(txt);
+            }}
+            modules={quillModules}
+            ref={quillValueRefProposalAlternatives}
+            style={{ width: "50rem", height: "10rem" }}
+          />
+        </div>
+        <div>
+          <p className="mt-3 mb-3 font-roboto text-lg font-bold">
+            Principais riscos / Plano mitigação
+          </p>
+          <ReactQuill
+            value={quillValueProposalMitigationPlan}
+            onChange={(e) => {
+              setQuillValueProposalMitigationPlan(e);
+              const txt = quillValueRefProposalMitigationPlan.current
+                ?.getEditor()
+                .getText();
+              setTextProposalMitigationPlan(txt);
+            }}
+            modules={quillModules}
+            ref={quillValueRefProposalMitigationPlan}
+            style={{ width: "50rem", height: "10rem" }}
           />
         </div>
         <div>
