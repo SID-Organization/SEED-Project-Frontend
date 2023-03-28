@@ -29,7 +29,6 @@ import ProposalService from "../../../service/Proposal-Service";
 
 //Utils
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
-import { display } from "@mui/system";
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -73,8 +72,17 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
-  const [proposalAlternatives, setProposalAlternatives] = useState("");
-  const [proposalMitigationPlan, setProposalMitigationPlan] = useState("");
+  const [textIsNotProposal, setTextIsNotProposal] = useState("");
+  const [textIsProposal, setTextIsProposal] = useState("");
+  const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
+  const [textProposalMitigationPlan, setTextProposalMitigationPlan] = useState("");
+
+  
+  // React quill
+  const [quillValueEscopo, setQuillValueEscopo] = useState("");
+  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] = useState("");
+  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] = useState("");
+  const [quillValueProposalMitigationPlan, setQuillValueProposalMitigationPlan] = useState("");
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
@@ -98,25 +106,11 @@ export default function GenerateProposal() {
     ],
   };
 
-  const [quillValueEscopo, setQuillValueEscopo] = useState("");
-  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] =
-    useState("");
-  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] =
-    useState("");
-  const [
-    quillValueProposalMitigationPlan,
-    setQuillValueProposalMitigationPlan,
-  ] = useState("");
 
   const quillValueRefEscopo = useRef(null);
   const quillValueRefIsNotEscopoPart = useRef(null);
   const quillValueRefProposalAlternatives = useRef(null);
   const quillValueRefProposalMitigationPlan = useRef(null);
-  const [textIsNotProposal, setTextIsNotProposal] = useState("");
-  const [textIsProposal, setTextIsProposal] = useState("");
-  const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
-  const [textProposalMitigationPlan, setTextProposalMitigationPlan] =
-    useState("");
 
   const [totalCostList, setTotalCostList] = useState([
     {
@@ -159,7 +153,10 @@ export default function GenerateProposal() {
     setTimeout(() => {
       setButtonSavedClicked(false);
     }, 1500);
-  };
+  }
+
+
+
 
   const handlePutProposal = async () => {
     const proposalToSave = {
