@@ -86,7 +86,6 @@ export default function GenerateProposal() {
     });
   }, []);
 
-
   const quillModules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
@@ -118,7 +117,7 @@ export default function GenerateProposal() {
   const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
   const [textProposalMitigationPlan, setTextProposalMitigationPlan] =
     useState("");
-    
+
   function addTotalCoasts() {
     setTotalCostList([
       ...totalCostList,
@@ -175,10 +174,7 @@ export default function GenerateProposal() {
     setTimeout(() => {
       setButtonSavedClicked(false);
     }, 1500);
-  }
-
-
-  
+  };
 
   const handlePutProposal = async () => {
     const proposalToSave = {
@@ -203,36 +199,36 @@ export default function GenerateProposal() {
       custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
     };
 
-  //   {
-  //     "escopoProposta": "Teste de escopo",
-  //     "paybackProposta": 10.0,
-  //     "aprovadoWorkflowProposta": 1,
-  //     "periodoExecucaoDemandaInicio": "2023-03-29",
-  //     "periodoExecucaoDemandaFim": "2023-04-20",
-  //     "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
-  //     "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
-  //     "planoMitigacaoProposta": "Plano de mitigação",
-  //     "custosTotaisDoProjeto": 10000.0,
-  //     "custosInternosDoProjeto": 5000.0,
-  //     "custosExternosDoProjeto": 5000.0,
-  //     "tabelaCusto": [
-  //         {
-  //             "tipoDespesa": "EXTERNA",
-  //             "perfilDespesaTabelaCusto": "TESTE",
-  //             "periodoExecucaoTabelaCusto": 10,
-  //             "quantidadeHorasTabelaCusto": 10,
-  //             "valorHoraTabelaCusto": 10
-  //         }
-  //     ],
-  //     "nomeResponsavelNegocio": "Maria",
-  //     "areaResponsavelNegocio": "Vendas"
-  // }
+    //   {
+    //     "escopoProposta": "Teste de escopo",
+    //     "paybackProposta": 10.0,
+    //     "aprovadoWorkflowProposta": 1,
+    //     "periodoExecucaoDemandaInicio": "2023-03-29",
+    //     "periodoExecucaoDemandaFim": "2023-04-20",
+    //     "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
+    //     "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
+    //     "planoMitigacaoProposta": "Plano de mitigação",
+    //     "custosTotaisDoProjeto": 10000.0,
+    //     "custosInternosDoProjeto": 5000.0,
+    //     "custosExternosDoProjeto": 5000.0,
+    //     "tabelaCusto": [
+    //         {
+    //             "tipoDespesa": "EXTERNA",
+    //             "perfilDespesaTabelaCusto": "TESTE",
+    //             "periodoExecucaoTabelaCusto": 10,
+    //             "quantidadeHorasTabelaCusto": 10,
+    //             "valorHoraTabelaCusto": 10
+    //         }
+    //     ],
+    //     "nomeResponsavelNegocio": "Maria",
+    //     "areaResponsavelNegocio": "Vendas"
+    // }
 
     const pdfProposal = {
-      escopoPropostaHTML: "<p> Teste </p>",
-      naoFazParteDoEscopoPropostaHTML: "<p> Teste </p>",
-      alternativasAvaliadasPropostaHTML: "<p> Teste </p>",
-      planoMitigacaoPropostaHTML: "<p> Teste </p>",
+      escopoPropostaHTML: quillValueEscopo,
+      naoFazParteDoEscopoPropostaHTML: quillValueIsNotEscopoPart,
+      alternativasAvaliadasPropostaHTML: quillValueProposalAlternatives,
+      planoMitigacaoPropostaHTML: quillValueProposalMitigationPlan,
       proposta: { idProposta: 2 },
     };
 
@@ -308,43 +304,42 @@ export default function GenerateProposal() {
         <table>
           <thead>
             <tr>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-36">
+              <th className="w-36 border-2 border-b-2 border-r-0 border-blue-weg">
                 <p className="font-roboto text-base font-bold ">
                   Tipo de despesa
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
+              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
                 <p className="font-roboto text-base font-bold ">
                   Perfil de despesa
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
+              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
                 <p className="font-roboto text-base font-bold ">
                   Mês de execução
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
+              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
                 <p className="font-roboto text-base font-bold ">
                   Horas necessárias
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
+              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
                 <p className="font-roboto text-base font-bold ">
                   Custo por hora
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-r-0 border-blue-weg w-48">
+              <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
                 <p className="font-roboto text-base font-bold ">
                   Custo total da despesa
                 </p>
               </th>
-              <th className="border-2 border-b-2 border-blue-weg w-48">
+              <th className="w-48 border-2 border-b-2 border-blue-weg">
                 <p className="font-roboto text-base font-bold ">
                   Centro de custo pagadores
                 </p>
               </th>
-              <th className="w-10">
-              </th>
+              <th className="w-10"></th>
             </tr>
           </thead>
           <tbody>
@@ -479,7 +474,7 @@ export default function GenerateProposal() {
             style={{ width: "50rem", height: "10rem" }}
           />
         </div>
-        <div>
+        <div className="mb-10">
           <p className="mt-3 mb-3 font-roboto text-lg font-bold">
             Principais riscos / Plano mitigação
           </p>
