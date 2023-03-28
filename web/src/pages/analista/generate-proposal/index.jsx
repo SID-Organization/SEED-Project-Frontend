@@ -22,6 +22,7 @@ import DemandCard from "../../../Components/Demand-card";
 import FilesTable from "../../../Components/FilesTable";
 import CostTable from "../../../Components/Center-cost-components/Cost-table";
 import CostTableRow from "../../../Components/Center-cost-components/Cost-table-rows";
+import CostCenterPayers from "../../../Components/Center-cost-components/Cost-center-payers";
 
 // Service
 import DemandService from "../../../service/Demand-Service";
@@ -75,14 +76,19 @@ export default function GenerateProposal() {
   const [textIsNotProposal, setTextIsNotProposal] = useState("");
   const [textIsProposal, setTextIsProposal] = useState("");
   const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
-  const [textProposalMitigationPlan, setTextProposalMitigationPlan] = useState("");
+  const [textProposalMitigationPlan, setTextProposalMitigationPlan] =
+    useState("");
 
-  
   // React quill
   const [quillValueEscopo, setQuillValueEscopo] = useState("");
-  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] = useState("");
-  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] = useState("");
-  const [quillValueProposalMitigationPlan, setQuillValueProposalMitigationPlan] = useState("");
+  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] =
+    useState("");
+  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] =
+    useState("");
+  const [
+    quillValueProposalMitigationPlan,
+    setQuillValueProposalMitigationPlan,
+  ] = useState("");
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
@@ -105,7 +111,6 @@ export default function GenerateProposal() {
       ["image", "link"],
     ],
   };
-
 
   const quillValueRefEscopo = useRef(null);
   const quillValueRefIsNotEscopoPart = useRef(null);
@@ -153,10 +158,7 @@ export default function GenerateProposal() {
     setTimeout(() => {
       setButtonSavedClicked(false);
     }, 1500);
-  }
-
-
-
+  };
 
   const handlePutProposal = async () => {
     const proposalToSave = {
@@ -180,31 +182,6 @@ export default function GenerateProposal() {
       custosExternosDoProjeto: sumExternalCosts(),
       custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
     };
-
-    //   {
-    //     "escopoProposta": "Teste de escopo",
-    //     "paybackProposta": 10.0,
-    //     "aprovadoWorkflowProposta": 1,
-    //     "periodoExecucaoDemandaInicio": "2023-03-29",
-    //     "periodoExecucaoDemandaFim": "2023-04-20",
-    //     "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
-    //     "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
-    //     "planoMitigacaoProposta": "Plano de mitigação",
-    //     "custosTotaisDoProjeto": 10000.0,
-    //     "custosInternosDoProjeto": 5000.0,
-    //     "custosExternosDoProjeto": 5000.0,
-    //     "tabelaCusto": [
-    //         {
-    //             "tipoDespesa": "EXTERNA",
-    //             "perfilDespesaTabelaCusto": "TESTE",
-    //             "periodoExecucaoTabelaCusto": 10,
-    //             "quantidadeHorasTabelaCusto": 10,
-    //             "valorHoraTabelaCusto": 10
-    //         }
-    //     ],
-    //     "nomeResponsavelNegocio": "Maria",
-    //     "areaResponsavelNegocio": "Vendas"
-    // }
 
     const pdfProposal = {
       escopoPropostaHTML: quillValueEscopo,
@@ -274,10 +251,16 @@ export default function GenerateProposal() {
           Tabela de custos:{" "}
         </h1>
       </div>
-      {/* Columns table */}
       <div className="flex items-center justify-center">
-        <table>
-          <CostTable />
+        <table className="grid gap-20">
+          <div className="grid items-center justify-center gap-5">
+            <CostTable type="interno" />
+            <CostCenterPayers type="interno" />
+          </div>
+          <div className="grid items-center justify-center gap-5">
+            <CostTable type="externo" />
+            <CostCenterPayers type="externo" />
+          </div>
         </table>
       </div>
 

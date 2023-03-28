@@ -8,7 +8,8 @@ import CostTableRow from "../Cost-table-rows";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { IconButton, Tooltip } from "@mui/material";
 
-export default function CostTable() {
+//Props: type(interno, externo)
+export default function CostTable(props) {
   const [totalCostList, setTotalCostList] = useState([
     {
       expenseType: "",
@@ -35,16 +36,26 @@ export default function CostTable() {
       },
     ]);
   }
+
   return (
-    <>
+    <div>
+      <div className="flex items-center justify-between">
+        {props.type === "interno" ? (
+          <h1 className="font-roboto text-2xl font-bold text-blue-weg">
+            Interno
+          </h1>
+        ) : (
+          <h1 className="font-roboto text-2xl font-bold text-blue-weg">
+            Externo
+          </h1>
+        )}
+        <Tooltip title="Adicionar linha">
+          <IconButton onClick={addTotalCoasts}>
+            <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip>
+      </div>
       <thead>
-        <div className="flex items-center justify-center">
-          <Tooltip title="Adicionar tabela de custos">
-            <IconButton onClick={addTotalCoasts}>
-              <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
-            </IconButton>
-          </Tooltip>
-        </div>
         <tr>
           <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
             <p className="font-roboto text-base font-bold ">
@@ -62,7 +73,7 @@ export default function CostTable() {
           <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
             <p className="font-roboto text-base font-bold ">Custo por hora</p>
           </th>
-          <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
+          <th className="w-48 border-2 border-b-2 border-r-2 border-blue-weg">
             <p className="font-roboto text-base font-bold ">
               Custo total da despesa
             </p>
@@ -81,6 +92,6 @@ export default function CostTable() {
           />
         ))}
       </tbody>
-    </>
+    </div>
   );
 }
