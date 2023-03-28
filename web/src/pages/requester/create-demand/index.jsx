@@ -133,14 +133,15 @@ export default function CreateDemand() {
     ],
   };
 
-  const quillStyle = { maxWidth: "43rem" }
+  const quillStyle = { maxWidth: "43rem" };
   // Usuário logado
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   // Navegador de página pela função
   const navigate = useNavigate();
 
-  const [openModalConfirmationDemand, setOpenModalConfirmationDemand] = useState(false);
+  const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
+    useState(false);
 
   const handleClickOpenModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(true);
@@ -165,7 +166,6 @@ export default function CreateDemand() {
     }
 
     const benefitsToSave = realBenefits.map((benefit) => {
-
       let strBenef = ReactQuillUtils.formatQuillText(benefit.description);
 
       return {
@@ -189,10 +189,11 @@ export default function CreateDemand() {
       });
     }
 
-
     const proposalToSave = ReactQuillUtils.formatQuillText(proposal);
-    const currentProblemToSave = ReactQuillUtils.formatQuillText(currentProblem);
-    const frequencyOfUseToSave = ReactQuillUtils.formatQuillText(frequencyOfUse);
+    const currentProblemToSave =
+      ReactQuillUtils.formatQuillText(currentProblem);
+    const frequencyOfUseToSave =
+      ReactQuillUtils.formatQuillText(frequencyOfUse);
 
     const demandToSave = {
       tituloDemanda: title,
@@ -211,13 +212,12 @@ export default function CreateDemand() {
       propostaMelhoriaDemandaHTML: proposalHTML,
       situacaoAtualDemandaHTML: currentProblemHTML,
       frequenciaUsoDemandaHTML: frequencyOfUseHTML,
-    }
+    };
 
     const formData = new FormData();
 
     formData.append("demandaForm", JSON.stringify(demandToSave));
     formData.append("pdfDemandaForm", JSON.stringify(formDemandPDF));
-
 
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append("arquivosDemanda", selectedFiles[i]);
@@ -235,12 +235,18 @@ export default function CreateDemand() {
   }
 
   function addRealBenefit() {
-    setRealBenefits([...realBenefits, { coin: "", value: 0, descriptionHTML: "", ref: createRef() }]);
+    setRealBenefits([
+      ...realBenefits,
+      { coin: "", value: 0, descriptionHTML: "", ref: createRef() },
+    ]);
     setButtonNotification(true);
   }
 
   function addPotentialBenefit() {
-    setPotentialBenefits([...potentialBenefits, { coin: "", value: 0, description: "", ref: createRef() }]);
+    setPotentialBenefits([
+      ...potentialBenefits,
+      { coin: "", value: 0, description: "", ref: createRef() },
+    ]);
     setButtonNotification(true);
   }
 
@@ -307,14 +313,14 @@ export default function CreateDemand() {
   // Primeiro passo - Dados gerais da demanda (titulo, problema, etc)
   const firstStep = () => {
     return (
-      <div className="grid justify-start items-center gap-20">
+      <div className="grid items-center justify-start gap-20">
         <div className="grid gap-1">
-          <div className="flex justify-center items-center mb-5">
-            <div className="w-40 h-[5px] rounded-full bg-blue-weg mr-12" />
-            <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
+          <div className="mb-5 flex items-center justify-center">
+            <div className="mr-12 h-[5px] w-40 rounded-full bg-blue-weg" />
+            <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
               Título
             </h1>
-            <div className="w-40 h-[5px] rounded-full bg-blue-weg ml-12" />
+            <div className="ml-12 h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <TextField
             id="outlined-textarea"
@@ -330,18 +336,40 @@ export default function CreateDemand() {
           />
         </div>
         <div className="grid gap-1">
-          <div className="flex justify-center items-center mb-5 gap-5">
-            <div className="w-40 h-[5px] rounded-full bg-blue-weg mr-3" />
-            <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
+          <div className="mb-5 flex items-center justify-center gap-5">
+            <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
+            <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
+              Objetivo
+            </h1>
+            <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
+          </div>
+          <ReactQuill
+            value={proposalHTML}
+            onChange={(e) => {
+              setProposalHTML(e);
+              setProposal(proposalRef.current?.getEditor().getText());
+            }}
+            placeholder="Escreva a visão do negócio/o que vai resolver"
+            modules={quillModules}
+            ref={proposalRef}
+            style={quillStyle}
+          />
+        </div>
+        <div className="grid gap-1">
+          <div className="mb-5 flex items-center justify-center gap-5">
+            <div className="mr-3 h-[5px] w-40 rounded-full bg-blue-weg" />
+            <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
               Situação atual
             </h1>
-            <div className="w-40 h-[5px] rounded-full bg-blue-weg ml-3" />
+            <div className="ml-3 h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
             value={currentProblemHTML}
             onChange={(e) => {
-              setCurrentProblemHTML(e)
-              setCurrentProblem(currentProblemRef.current?.getEditor().getText());
+              setCurrentProblemHTML(e);
+              setCurrentProblem(
+                currentProblemRef.current?.getEditor().getText()
+              );
             }}
             placeholder="Descreva a situação atual da demanda."
             modules={quillModules}
@@ -349,39 +377,22 @@ export default function CreateDemand() {
             style={quillStyle}
           />
         </div>
-        <div className="grid gap-1">
-          <div className="flex justify-center items-center mb-5 gap-5">
-            <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
-            <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
-              Proposta de melhoria
-            </h1>
-            <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
-          </div>
-          <ReactQuill
-            value={proposalHTML}
-            onChange={(e) => {
-              setProposalHTML(e)
-              setProposal(proposalRef.current?.getEditor().getText());
-            }}
-            placeholder="Descreva a proposta de melhoria da demanda."
-            modules={quillModules}
-            ref={proposalRef}
-            style={quillStyle}
-          />
-        </div>
-        <div className="grid gap-1 mb-20">
-          <div className="flex justify-center items-center mb-5 gap-5">
-            <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
-            <h1 className="font-roboto text-[17px] font-bold text-[#343434] flex justify-center items-center">
+
+        <div className="mb-20 grid gap-1">
+          <div className="mb-5 flex items-center justify-center gap-5">
+            <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
+            <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
               Frequência de uso
             </h1>
-            <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+            <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
             value={frequencyOfUseHTML}
             onChange={(e) => {
-              setFrequencyOfUseHTML(e)
-              setFrequencyOfUse(frequencyOfUseRef.current?.getEditor().getText());
+              setFrequencyOfUseHTML(e);
+              setFrequencyOfUse(
+                frequencyOfUseRef.current?.getEditor().getText()
+              );
             }}
             placeholder="Descreva a frequência de uso da demanda."
             modules={quillModules}
@@ -415,17 +426,16 @@ export default function CreateDemand() {
 
   const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
-
   // Segundo passo - Benefícios
   const secondStep = () => {
     return (
       <div className="grid gap-3">
-        <div className="flex justify-center items-center gap-10 mb-5">
-          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+        <div className="mb-5 flex items-center justify-center gap-10">
+          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
             Benefícios reais
           </h1>
-          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
 
           {buttonNotification && (
             <Notification message="Benefício adicionado com sucesso!" />
@@ -447,10 +457,7 @@ export default function CreateDemand() {
           </Tooltip>
         </div>
         {realBenefits.map((item, i) => (
-          <div
-            className="flex items-center justify-center"
-            key={i}
-          >
+          <div className="flex items-center justify-center" key={i}>
             <NewBenefitInsertion
               coin={item.coin}
               value={item.value}
@@ -463,7 +470,9 @@ export default function CreateDemand() {
                 onChange={(e) => {
                   const newRealBenefits = [...realBenefits];
                   newRealBenefits[i].descriptionHTML = e;
-                  newRealBenefits[i].description = item.ref.current?.getEditor().getText();
+                  newRealBenefits[i].description = item.ref.current
+                    ?.getEditor()
+                    .getText();
                   setRealBenefits(newRealBenefits);
                 }}
                 placeholder="Descreva o benefício."
@@ -476,16 +485,14 @@ export default function CreateDemand() {
             )}
           </div>
         ))}
-        <div className="flex justify-center items-center gap-10 mb-5 mt-10">
-          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+        <div className="mb-5 mt-10 flex items-center justify-center gap-10">
+          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
             Benefícios potenciais
           </h1>
-          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           <Tooltip title="Adicionar mais benefícios potenciais">
-            <IconButton
-              onClick={addPotentialBenefit}
-            >
+            <IconButton onClick={addPotentialBenefit}>
               <AddBoxRoundedIcon
                 sx={{
                   color: "#00579D",
@@ -497,10 +504,7 @@ export default function CreateDemand() {
           </Tooltip>
         </div>
         {potentialBenefits.map((item, i) => (
-          <div
-            className="flex items-center justify-center"
-            key={i}
-          >
+          <div className="flex items-center justify-center" key={i}>
             <NewBenefitInsertion
               coin={item.coin}
               value={item.value}
@@ -518,7 +522,9 @@ export default function CreateDemand() {
                 onChange={(e) => {
                   const newPotentialBenefits = [...potentialBenefits];
                   newPotentialBenefits[i].descriptionHTML = e;
-                  newPotentialBenefits[i].description = item.ref.current?.getEditor().getText();
+                  newPotentialBenefits[i].description = item.ref.current
+                    ?.getEditor()
+                    .getText();
                   setPotentialBenefits(newPotentialBenefits);
                 }}
                 ref={item.ref}
@@ -531,12 +537,12 @@ export default function CreateDemand() {
           </div>
         ))}
         {/* BENEFICIO QUALITATIVO */}
-        <div className="flex justify-center items-center gap-10 mb-5 mt-10">
-          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+        <div className="mb-5 mt-10 flex items-center justify-center gap-10">
+          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
             Benefício qualitativo
           </h1>
-          <div className="w-40 h-[5px] rounded-full bg-blue-weg" />
+          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
         </div>
         <div className="flex items-center justify-center">
           <TextField
@@ -582,11 +588,11 @@ export default function CreateDemand() {
     return (
       <div>
         <div className="grid">
-          <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center">
             <h1 className="text-3xl text-light-blue-weg">UPLOAD DE ARQUIVOS</h1>
           </div>
-          <div className="w-[830px] h-[380px] shadow-2xl grid">
-            <div className="flex justify-center items-center">
+          <div className="grid h-[380px] w-[830px] shadow-2xl">
+            <div className="flex items-center justify-center">
               {selectedFiles?.length > 0 ? (
                 <TableContainer
                   component={Paper}
@@ -637,15 +643,15 @@ export default function CreateDemand() {
                             scope="row"
                             align="center"
                           >
-                            <div className="flex justify-center items-center">
+                            <div className="flex items-center justify-center">
                               <Tooltip title="Baixar arquivo">
-                                <DescriptionIcon className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
+                                <DescriptionIcon className="mr-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
                               </Tooltip>
                               <h1
                                 className="
-                            text-[#000]
                             font-roboto
                             text-[17px]
+                            text-[#000]
                             
                             "
                               >
@@ -653,13 +659,13 @@ export default function CreateDemand() {
                               </h1>
                             </div>
                           </StyledTableCell>
-                          <div className="flex justify-center items-center">
+                          <div className="flex items-center justify-center">
                             <StyledTableCell align="center">
                               <h1
                                 className="
-                            text-[#000]
                             font-roboto
                             text-[17px]
+                            text-[#000]
                             
                             "
                               >
@@ -675,7 +681,7 @@ export default function CreateDemand() {
                                   selectedFiles.splice(index, 1);
                                   setSelectedFiles([...selectedFiles]);
                                 }}
-                                className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5"
+                                className="ml-5 flex cursor-pointer items-center justify-center text-light-blue-weg"
                               />
                             </Tooltip>
                           </div>
@@ -686,7 +692,7 @@ export default function CreateDemand() {
                 </TableContainer>
               ) : (
                 <div>
-                  <div className="flex justify-center items-center mb-10">
+                  <div className="mb-10 flex items-center justify-center">
                     <UploadIcon
                       sx={{
                         fontSize: "5rem",
@@ -694,7 +700,7 @@ export default function CreateDemand() {
                       }}
                     />
                   </div>
-                  <div className="flex justify-center items-center">
+                  <div className="flex items-center justify-center">
                     <h1 className="text-xl font-bold">
                       Escolha um arquivo ou arraste aqui
                     </h1>
@@ -703,7 +709,7 @@ export default function CreateDemand() {
               )}
             </div>
 
-            <div className="flex justify-center items-center">
+            <div className="flex items-center justify-center">
               <label htmlFor="upload-photo">
                 <Button
                   variant="contained"
@@ -751,8 +757,8 @@ export default function CreateDemand() {
             },
           }}
         >
-          <div className="grid justify-center items-center">
-            <div className="flex justify-center items-center">
+          <div className="grid items-center justify-center">
+            <div className="flex items-center justify-center">
               <WarningAmberRoundedIcon
                 sx={{
                   fontSize: "5rem",
@@ -804,13 +810,13 @@ export default function CreateDemand() {
   return (
     <div>
       <div className="mb-7">
-        <div className="flex justify-around items-center shadow-page-title-shadow h-[5rem]">
-          <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
+        <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
+          <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
             Criar nova demanda
           </h1>
         </div>
       </div>
-      <div className="flex justify-center items-center mb-10">
+      <div className="mb-10 flex items-center justify-center">
         {/* <StepperDemandProgress /> */}
 
         <Box sx={{ width: "50%" }}>
@@ -865,7 +871,7 @@ export default function CreateDemand() {
           )}
         </Box>
       </div>
-      <div className="grid justify-center items-center gap-14">
+      <div className="grid items-center justify-center gap-14">
         <div className="grid">
           {activeStep === 0 && firstStep()}
           {activeStep === 1 && secondStep()}

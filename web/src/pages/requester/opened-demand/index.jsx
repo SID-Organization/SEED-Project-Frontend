@@ -26,7 +26,6 @@ import ChatService from "../../../service/Chat-Service";
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -111,8 +110,7 @@ export default function openedDemand() {
         },
         { numeroCadastroUsuario: user.numeroCadastroUsuario },
       ],
-    })
-    .then(() => {
+    }).then(() => {
       navigate("/chat");
     });
   }
@@ -176,8 +174,8 @@ export default function openedDemand() {
                       <span className="font-normal">
                         {demandLogs
                           ? new Date(
-                            demandLogs[0].recebimentoHistorico
-                          ).toLocaleDateString()
+                              demandLogs[0].recebimentoHistorico
+                            ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>
@@ -297,6 +295,19 @@ export default function openedDemand() {
           <div className="grid items-center justify-around gap-5">
             <div className="grid items-center justify-center">
               <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
+                Objetivo:
+              </h1>
+              <textarea
+                className="border-1 h-20 w-[65rem] resize-none
+                rounded-[0.5rem] p-2
+              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
+                disabled={isEditEnabled}
+                value={proposal}
+                onChange={(e) => setProposal(e.target.value)}
+              />
+            </div>
+            <div className="grid items-center justify-center">
+              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Situação atual:
               </h1>
               <textarea
@@ -308,19 +319,7 @@ export default function openedDemand() {
                 onChange={(e) => setCurrentSituation(e.target.value)}
               />
             </div>
-            <div className="grid items-center justify-center">
-              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
-                Proposta de melhoria:
-              </h1>
-              <textarea
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                disabled={isEditEnabled}
-                value={proposal}
-                onChange={(e) => setProposal(e.target.value)}
-              />
-            </div>
+
             <div className="grid items-center justify-center">
               <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Frequência de uso:
