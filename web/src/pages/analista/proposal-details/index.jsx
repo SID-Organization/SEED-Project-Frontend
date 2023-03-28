@@ -371,6 +371,19 @@ export default function ProposalDetails() {
           <div className="grid items-center justify-around gap-5">
             <div className="grid items-center justify-center">
               <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
+                Objetivo:
+              </h1>
+              <textarea
+                className="border-1 h-20 w-[65rem] resize-none
+                rounded-[0.5rem] p-2
+              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
+                disabled={isEditEnabled}
+                value={proposal}
+                onChange={(e) => setProposal(e.target.value)}
+              />
+            </div>
+            <div className="grid items-center justify-center">
+              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Situação atual:
               </h1>
               <textarea
@@ -382,19 +395,7 @@ export default function ProposalDetails() {
                 onChange={(e) => setCurrentSituation(e.target.value)}
               />
             </div>
-            <div className="grid items-center justify-center">
-              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
-                Proposta de melhoria:
-              </h1>
-              <textarea
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                disabled={isEditEnabled}
-                value={proposal}
-                onChange={(e) => setProposal(e.target.value)}
-              />
-            </div>
+
             <div className="grid items-center justify-center">
               <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Frequência de uso:

@@ -27,6 +27,9 @@ import CostTableRow from "../../../Components/Cost-table-rows";
 import DemandService from "../../../service/Demand-Service";
 import ProposalService from "../../../service/Proposal-Service";
 
+//Utils
+import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
+
 const EqualInput = styled(MuiTextField)({
   width: "700px",
   height: "3.5rem",
@@ -69,6 +72,7 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
+  const [proposalAlternatives, setProposalAlternatives] = useState("");
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
@@ -161,21 +165,20 @@ export default function GenerateProposal() {
   const handlePutProposal = async () => {
     const proposalToSave = {
       demandId: demandId,
-      escopoProposta: "n tem ainda",
+      escopoProposta: ReactQuillUtils.formatQuillText(textIsProposal),
+      naoFazParteDoEscopoProposta:
+        ReactQuillUtils.formatQuillText(textIsNotProposal),
       paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
-      startDate: startDate,
-      endDate: endDate,
-      periodoExecucaoDemanda: "20/04/2022",
-      naoFazParteDoEscopoProposta: "n tem ainda",
+      periodoExecucaoDemandaInicio: startDate,
+      periodoExecucaoDemandaFim: endDate,
       alternativasAvaliadasProposta: "n tem ainda",
       planoMitigacaoProposta: "n tem ainda",
-      nameBusinessResponsible: nameBusinessResponsible,
-      areaBusinessResponsible: areaBusinessResponsible,
-      internalCosts: sumInternalCosts(),
-      externalCosts: sumExternalCosts(),
-      totalCosts: sumInternalCosts() + sumExternalCosts(),
-      custosTotaisDoProjeto: totalCostList,
+      nomeResponsavelNegocio: nameBusinessResponsible,
+      areaResponsavelNegocio: areaBusinessResponsible,
+      custosInternosDoProjeto: sumInternalCosts(),
+      custosExternosDoProjeto: sumExternalCosts(),
+      custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
     };
 
   //   {
@@ -202,18 +205,6 @@ export default function GenerateProposal() {
   //     "nomeResponsavelNegocio": "Maria",
   //     "areaResponsavelNegocio": "Vendas"
   // }
-
-    const proposalToBeSent = {
-      escopoProposta: "n tem ainda",
-      paybackProposta: 123,
-      aprovadoWorkflowProposta: 1,
-      motivoRecusaWorkflowProposta: "não tem",
-      periodoExecucaoDemanda: "2022-04-18",
-      naoFazParteDoEscopoProposta: "n tem ainda",
-      alternativasAvaliadasProposta: "n tem ainda",
-      planoMitigacaoProposta: "n tem ainda",
-      custosTotaisDoProjeto: 123,
-    };
 
     const pdfProposal = {
       escopoPropostaHTML: "<p> Teste </p>",
@@ -249,7 +240,11 @@ export default function GenerateProposal() {
         <h1 className="flex items-center justify-center">
           <ReactQuill
             value={quillValueEscopo}
-            onChange={(e) => setQuillValueEscopo(e)}
+            onChange={(e) => {
+              setQuillValueEscopo(e);
+              const txt = quillValueRefEscopo.current?.getEditor().getText();
+              setTextIsProposal(txt);
+            }}
             modules={quillModules}
             ref={quillValueRefEscopo}
             style={{ width: "50rem", height: "10rem" }}
@@ -260,18 +255,16 @@ export default function GenerateProposal() {
         </h1>
         <h1 className="flex items-center justify-center">
           <ReactQuill
-            value={
-              quillValueIsNotEscopoPart === ""
-                ? quillValueIsNotEscopoPart
-                : quillValueIsNotEscopoPart
-            }
-            onChange={(e) => setQuillValueIsNotEscopoPart(e)}
+            value={quillValueIsNotEscopoPart}
+            onChange={(e) => {
+              setQuillValueIsNotEscopoPart(e);
+              const txt = quillValueRefIsNotEscopoPart.current
+                ?.getEditor()
+                .getText();
+              setTextIsNotProposal(txt);
+            }}
             modules={quillModules}
-            ref={
-              quillValueRefIsNotEscopoPart === ""
-                ? quillValueRefIsNotEscopoPart
-                : quillValueRefIsNotEscopoPart
-            }
+            ref={quillValueRefIsNotEscopoPart}
             style={{ width: "50rem", height: "10rem" }}
           />
         </h1>
