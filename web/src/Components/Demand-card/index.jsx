@@ -25,6 +25,7 @@ import DemandUtils from "../../utils/Demand-Utils"
 import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../service/DemandLog-Service";
 import ProposalService from "../../service/Proposal-Service";
+import { Http } from "@mui/icons-material";
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -143,11 +144,17 @@ export default function DemandCard(props) {
       demandaProposta: { idDemanda: props.demand.idDemanda },
     };
 
+    console.log("ProposalSave", proposal)
+
     ProposalService.createProposal(proposal)
       .then((response) => {
-        console.log("Status", response)
-        if (response.status === 200) {
+        if (response.status === 201) {
           DemandService.updateDemandStatus(props.demand.idDemanda, "PROPOSTA_EM_ELABORACAO")
+            .then((response) => {
+              if (response.status === 200) {
+                navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`)
+              }
+            })
         }
       })
   }
@@ -469,7 +476,7 @@ export default function DemandCard(props) {
                                     id="outlined-basic"
                                     variant="outlined"
                                     placeholder="123"
-                                    type="text"
+                                    type="number"
                                     label="PPM"
                                     size="small"
                                     value={ppmCode}

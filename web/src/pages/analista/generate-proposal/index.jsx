@@ -68,7 +68,8 @@ const DateInput = styled(MuiTextField)({
 
 export default function GenerateProposal() {
   const [demand, setDemand] = useState();
-  const [payback, setPayback] = useState("");
+  const [proposal, setProposal] = useState();
+  const [payback, setPayback] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
@@ -92,6 +93,7 @@ export default function GenerateProposal() {
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
+  // Demand ID
   let demandId = useParams().id;
 
   useEffect(() => {
@@ -99,6 +101,14 @@ export default function GenerateProposal() {
       setDemand(demand);
     });
   }, []);
+
+  useEffect(() => {
+    console.log("DEMANDID", demandId)
+    ProposalService.getProposalByDemandId(demandId)
+      .then((proposal) => {
+        console.log('PROPOSAL', proposal);
+      });
+  }, [])
 
   const quillModules = {
     toolbar: [
