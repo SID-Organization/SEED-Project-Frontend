@@ -103,12 +103,11 @@ export default function GenerateProposal() {
   }, []);
 
   useEffect(() => {
-    console.log("DEMANDID", demandId)
-    ProposalService.getProposalByDemandId(demandId)
-      .then((proposal) => {
-        console.log('PROPOSAL', proposal);
-      });
-  }, [])
+    console.log("DEMANDID", demandId);
+    ProposalService.getProposalByDemandId(demandId).then((proposal) => {
+      console.log("PROPOSAL", proposal);
+    });
+  }, []);
 
   const quillModules = {
     toolbar: [
@@ -138,6 +137,21 @@ export default function GenerateProposal() {
       costCenterPayers: "",
     },
   ]);
+
+  const [totalInternalCostCenterPayers, setTotalInternalCostCenterPayers] =
+    useState([
+      {
+        costCenter: "",
+        percentage: "",
+      },
+    ]);
+  const [totalExternalCostCenterPayers, setTotalExternalCostCenterPayers] =
+    useState([
+      {
+        costCenter: "",
+        percentage: "",
+      },
+    ]);
 
   function sumInternalCosts() {
     let sum = 0;
@@ -265,11 +279,19 @@ export default function GenerateProposal() {
         <table className="grid gap-20">
           <div className="grid items-center justify-center gap-5">
             <CostTable type="interno" />
-            <CostCenterPayers type="interno" />
+            <CostCenterPayers
+              type="interno"
+              totalCostCenterPayers={totalInternalCostCenterPayers}
+              setTotalCostCenterPayers={setTotalInternalCostCenterPayers}
+            />
           </div>
           <div className="grid items-center justify-center gap-5">
             <CostTable type="externo" />
-            <CostCenterPayers type="externo" />
+            <CostCenterPayers
+              type="externo"
+              totalCostCenterPayers={totalExternalCostCenterPayers}
+              setTotalCostCenterPayers={setTotalExternalCostCenterPayers}
+            />
           </div>
         </table>
       </div>

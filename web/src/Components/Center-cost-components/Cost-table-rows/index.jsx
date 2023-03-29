@@ -43,14 +43,6 @@ export default function CostTableRow(props) {
     props.totalCost.totalExpenseCost
   );
 
-  const cleanStates = () => {
-    setExpenseProfile("");
-    setMonthTimeExecution("");
-    setNecessaryHours("");
-    setCostHour("");
-    setTotalExpenseCost("");
-  };
-
   const updateTable = () => {
     let costList = props.costList;
     costList[props.index] = {
@@ -77,7 +69,6 @@ export default function CostTableRow(props) {
 
   useEffect(() => {
     setStatesAgain();
-    console.log("ISAJDIJASIDJASI");
   }, [props.costList]);
 
   return (
