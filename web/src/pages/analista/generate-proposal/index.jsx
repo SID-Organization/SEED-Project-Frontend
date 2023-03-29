@@ -153,6 +153,10 @@ export default function GenerateProposal() {
       },
     ]);
 
+    useEffect(() => {
+      console.log("totalCostListINTERN", totalInternalCostCenterPayers)
+    }, [totalInternalCostCenterPayers])
+
   function sumInternalCosts() {
     let sum = 0;
     totalCostList.forEach((cost) => {

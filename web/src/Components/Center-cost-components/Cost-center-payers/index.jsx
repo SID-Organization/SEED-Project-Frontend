@@ -1,18 +1,14 @@
-//Hooks
-import { useState } from "react";
 
-//MUI
-import MuiTextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
-import { IconButton, InputAdornment } from "@mui/material";
+// MUI
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import { IconButton } from "@mui/material";
+
+// Components
+import PayerRow from "./Payers-row";
 
 //Props: type(interno, externo)
 export default function CostCenterPayers(props) {
-  const CCInput = styled(MuiTextField)({
-    width: "8rem",
-  });
+  
 
   console.log("PROPS: ", props);
 
@@ -45,31 +41,12 @@ export default function CostCenterPayers(props) {
           </div>
           {props.totalCostCenterPayers.map((input, index) => {
             return (
-              <div
-                key={index}
-                className="mb-5 flex items-center justify-around"
-              >
-                <CCInput
-                  error
-                  label="Centro de custo"
-                  value={input.costCenter}
-                />
-                <CCInput
-                  error
-                  label="Porcentagem"
-                  type="number"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">%</InputAdornment>
-                    ),
-                  }}
-                />
-                <IconButton>
-                  <DeleteRoundedIcon
-                    sx={{ color: "#0075B1", fontSize: "1.4rem" }}
-                  />
-                </IconButton>
-              </div>
+              <PayerRow
+                inputs = {input}
+                index={index}
+                totalCostCenterPayers={props.totalCostCenterPayers}
+                setTotalCostCenterPayers={props.setTotalCostCenterPayers}
+              />
             );
           })}
         </div>
