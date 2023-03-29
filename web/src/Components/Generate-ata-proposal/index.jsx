@@ -16,15 +16,14 @@ import ProposalCard from "../Proposal-card";
 import ReactQuillUtils from "../../utils/ReactQuill-Utils";
 
 export default function GenerateAtaProposal(props) {
-  const [parecerComissao, setParecerComissao] = useState(props.finalDecision?.parecerComissaoPropostaLogDTO || "");
-  const [considerations, setConsiderations] = useState(props.finalDecision?.consideracoesPropostaLogDTO || "");
-  const [publicada, setPublicada] = useState(props.finalDecision?.tipoAtaPropostaLogDTO == "PUBLICADA");
-  const [naoPublicada, setNaoPublicada] = useState(props.finalDecision?.tipoAtaPropostaLogDTO == "NAO_PUBLICADA");
+  const [parecerComissao, setParecerComissao] = useState("");
+  const [considerations, setConsiderations] = useState("");
+  const [publicada, setPublicada] = useState(false);
+  const [naoPublicada, setNaoPublicada] = useState(false);
   // HTML editor
   const [quillValue, setQuillValue] = useState("");
-
   const parecerRef = useRef();
-
+  
   function formatParecerComissao(parecerComissao) {
     switch (parecerComissao) {
       case "Aprovado":

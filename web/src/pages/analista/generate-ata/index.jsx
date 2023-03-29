@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 // MUI
-import { AddRounded, Download } from "@mui/icons-material";
+import { AddRounded, Download, Clear } from "@mui/icons-material";
 import { Button, Tooltip, TextField } from "@mui/material";
 
 // Components
@@ -21,7 +21,8 @@ export default function GenerateAta() {
   const [proposals, setProposals] = useState([]);
   const [finalDecisions, setFinalDecisions] = useState([]);
   const [finalDecisionFile, setFinalDecisionFile] = useState();
-  const [numDgAta, setNumDgAta] = useState(0);
+  const [numDgAta, setNumDgAta] = useState();
+  const [clearFile, setClearFile] = useState(false);
 
   const proposalFinalDecisionTemplate = {
     propostaPropostaLogDTO: { idProposta: 0 },
@@ -45,20 +46,21 @@ export default function GenerateAta() {
   function verificarAta() {
     if (numDgAta == 0) {
       alert("Número DG Ata não pode ser nulo");
-      return;
+      return false;
     };
 
     for (let fd of finalDecisions) {
       if (AtaUtils.isFinalDecisionValid(fd) == false) {
         alert("Parecer Comissão, Considerações e Tipo Ata são obrigatórios");
-        return;
+        return false;
       }
     }
 
     if (finalDecisionFile == undefined) {
-      alert("Documento de aprovação é obrigatório");
-      return;
+      if(!confirm("Você não selecionou um arquivo de decisão final. Deseja continuar?"))
+        return false;
     }
+    return true;
   }
 
   useEffect(() => {
@@ -69,7 +71,8 @@ export default function GenerateAta() {
 
   // Salva a ata no banco de dados
   function saveAta() {
-    verificarAta();
+    
+    if(!verificarAta()) return;
 
     const ata = {
       numeroDgAta: numDgAta,
@@ -79,6 +82,8 @@ export default function GenerateAta() {
       propostasLogDTO: finalDecisions
     }
 
+    console.log(ata)
+
     const form = new FormData();
 
     form.append("ata", JSON.stringify(ata));
@@ -86,7 +91,7 @@ export default function GenerateAta() {
 
     AtaService.createAta(form)
       .then((response) => {
-        if (response.status == 200)
+        if (response.status == 201)
           alert("Ata gerada com sucesso");
       })
   }
@@ -125,6 +130,7 @@ export default function GenerateAta() {
             size="small"
             type="number"
             value={numDgAta}
+            placeholder="000"
             onChange={(e) => setNumDgAta(e.target.value)}
             sx={{
               width: "5rem",
@@ -146,7 +152,29 @@ export default function GenerateAta() {
         ))}
       </div>
       <div className="flex justify-end items-center mb-5 mr-10">
-        <div className="flex items-center mr-28">
+        <div className="flex items-center mr-28" onMouseEnter={() => setClearFile(true)} onMouseLeave={() => setClearFile(false)} >
+
+          { clearFile && (finalDecisionFile != undefined) &&
+            <Clear
+              sx={{
+                color: "#0075B1",
+                cursor: "pointer",
+              }}
+              onClick={() => setFinalDecisionFile(undefined)}
+            />
+          }
+          <div className="w-36" >
+            {finalDecisionFile && (
+              <Tooltip title={finalDecisionFile.name}>
+                <p className="text-blue-weg">
+                  {
+                    finalDecisionFile.name.length > 13 ? finalDecisionFile.name.slice(0, 13) + "..." : finalDecisionFile.name
+                  }
+                </p>
+              </Tooltip>
+            )}
+          </div>
+
           <Button
             variant="contained"
             component="label"
@@ -172,17 +200,7 @@ export default function GenerateAta() {
               hidden
             />
           </Button>
-          <div className="w-32">
-            {finalDecisionFile && (
-              <Tooltip title={finalDecisionFile.name}>
-                <p className="text-blue-weg">
-                  {
-                    finalDecisionFile.name.length > 10 ? finalDecisionFile.name.slice(0, 10) + "..." : finalDecisionFile.name
-                  }
-                </p>
-              </Tooltip>
-            )}
-          </div>
+
         </div>
         {/* Button to confirm action and end the circuit of the system */}
         <Button
