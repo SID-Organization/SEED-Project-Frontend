@@ -1,31 +1,25 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
+// Imgs
 import WegLogo from "../../assets/weg-logo.png";
 
-import AuthService from "./authService.jsx";
-
 // MUI
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { TextField } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import Container from "@mui/material/Container";
+import { TextField } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import LoginService from "../../service/Login-Service";
 import { data } from "autoprefixer";
 
-// Interfaces
-// import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
+// Services
+import LoginService from "../../service/Login-Service";
 
-// interface ILoginUser {
-//   user: LoggedUserInterface;
-//   setUser: (user: LoggedUserInterface) => void;
-// }
 
 export default function Login(props) {
 
@@ -60,25 +54,6 @@ export default function Login(props) {
   };
 
   const handleLogin = () => {
-    try {
-
-      let user = {
-        "username": userID,
-        "senha": password
-      };
-
-      let responseLogin;
-
-      AuthService.login(user).then(
-        response => {
-          responseLogin = response;
-          console.log(response);
-        }
-      );
-
-    } catch (error) {
-      console.log(error);
-    }
 
     // Validação de campos
     if (!userID || !password) {
@@ -86,30 +61,30 @@ export default function Login(props) {
       return;
     }
 
-    // LoginService.login(userID, password)
-    //   .then((response) => {
-    //     if (response.status != 200) {
-    //       setOpenNotification(true);
-    //       return;
-    //     }
-    //     return response.data;
-    //   })
-    //   .then((data) => {
-    //     const loggedUser = {
-    //       numeroCadastroUsuario: data.numeroCadastroUsuario,
-    //       businessUnity: data.businessUnity,
-    //       cargoUsuario: data.cargoUsuario,
-    //       departamentoUsuario: data.departamentoUsuario,
-    //       emailUsuario: data.emailUsuario,
-    //       fotoUsuario: data.fotoUsuario,
-    //       nomeUsuario: data.nomeUsuario
-    //     };
-    //     localStorage.setItem(
-    //       "user",
-    //       JSON.stringify(loggedUser)
-    //     );
-    //     props.setUser(loggedUser);
-    //   });
+    LoginService.login(userID, password)
+      .then((response) => {
+        if (response.status != 200) {
+          setOpenNotification(true);
+          return;
+        }
+        return response.data;
+      })
+      .then((data) => {
+        const loggedUser = {
+          numeroCadastroUsuario: data.numeroCadastroUsuario,
+          businessUnity: data.businessUnity,
+          cargoUsuario: data.cargoUsuario,
+          departamentoUsuario: data.departamentoUsuario,
+          emailUsuario: data.emailUsuario,
+          fotoUsuario: data.fotoUsuario,
+          nomeUsuario: data.nomeUsuario
+        };
+        localStorage.setItem(
+          "user",
+          JSON.stringify(loggedUser)
+        );
+        props.setUser(loggedUser);
+      });
   };
 
 
