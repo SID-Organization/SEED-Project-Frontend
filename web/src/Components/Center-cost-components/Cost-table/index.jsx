@@ -10,29 +10,15 @@ import { IconButton, Tooltip } from "@mui/material";
 
 //Props: type(interno, externo)
 export default function CostTable(props) {
-  const [totalCostList, setTotalCostList] = useState([
-    {
-      expenseType: "",
-      expenseProfile: "",
-      monthTimeExecution: "",
-      necessaryHours: "",
-      costHour: "",
-      totalExpenseCost: "",
-      costCenterPayers: "",
-    },
-  ]);
-
   function addTotalCoasts() {
-    setTotalCostList([
-      ...totalCostList,
+    props.setCosts([
+      ...props.costs,
       {
-        expenseType: "",
         expenseProfile: "",
         monthTimeExecution: "",
         necessaryHours: "",
         costHour: "",
         totalExpenseCost: "",
-        costCenterPayers: "",
       },
     ]);
   }
@@ -82,13 +68,13 @@ export default function CostTable(props) {
         </tr>
       </thead>
       <tbody>
-        {totalCostList.map((totalCost, index) => (
+        {props.costs.map((cost, index) => (
           <CostTableRow
             key={index}
             index={index}
-            totalCost={totalCost}
-            setCostList={setTotalCostList}
-            costList={totalCostList}
+            totalCost={cost}
+            setCostList={props.setCosts}
+            costList={props.costs}
           />
         ))}
       </tbody>

@@ -29,19 +29,12 @@ const TableInput = styled(MuiTextField)({
 });
 
 export default function CostTableRow(props) {
-  const [expenseProfile, setExpenseProfile] = useState(
-    props.totalCost.expenseProfile
-  );
-  const [monthTimeExecution, setMonthTimeExecution] = useState(
-    props.totalCost.monthTimeExecution
-  );
-  const [necessaryHours, setNecessaryHours] = useState(
-    props.totalCost.necessaryHours
-  );
+
   const [costHour, setCostHour] = useState(props.totalCost.costHour);
-  const [totalExpenseCost, setTotalExpenseCost] = useState(
-    props.totalCost.totalExpenseCost
-  );
+  const [expenseProfile, setExpenseProfile] = useState(props.totalCost.expenseProfile);
+  const [necessaryHours, setNecessaryHours] = useState(props.totalCost.necessaryHours);
+  const [totalExpenseCost, setTotalExpenseCost] = useState(props.totalCost.totalExpenseCost);
+  const [monthTimeExecution, setMonthTimeExecution] = useState(props.totalCost.monthTimeExecution);
 
   const updateTable = () => {
     let costList = props.costList;
@@ -70,6 +63,10 @@ export default function CostTableRow(props) {
   useEffect(() => {
     setStatesAgain();
   }, [props.costList]);
+
+  useEffect(() => {
+    console.log("TotalExpense", totalExpenseCost);
+  }, [totalExpenseCost]);
 
   return (
     <>
@@ -137,9 +134,11 @@ export default function CostTableRow(props) {
               id="outlined-basic"
               variant="outlined"
               size="small"
+              type="number"
               value={totalExpenseCost}
               onChange={(e) => {
-                setTotalExpenseCost(e.target.value);
+                if (e.target.value >= 0)
+                  setTotalExpenseCost(e.target.value);
               }}
               InputProps={{
                 startAdornment: (
