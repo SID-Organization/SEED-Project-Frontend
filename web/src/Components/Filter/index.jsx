@@ -1,33 +1,26 @@
 import React from "react";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Button from "@mui/material/Button";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import Paper from "@mui/material/Paper";
-
 import { useState } from "react";
 
+// MUI
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+
+// Utils
+import DemandFilterUtils from "../../utils/DemandFilter-utils";
 
 // Requested filters
 // solicitante, gerente
 // responsável, forum de aprovação, departamento, tamanho da demanda, codigo PPM, numero da
 // solicitação.
 export default function Filter(props) {
-  const options = [
-    {value: "Data de criação", id: 0, type: 'date'},
-    {value: "Data de atualização", id: 1, type: 'date'},
-    {value: "Valor", id: 2, type: 'number'},
-    {value: "Score", id: 3, type: 'number'},
-    {value: "Versão", id: 4, type: 'number'},
-    {value: "Titulo", id: 5, type: 'text'},
-    {value: "Solicitante", id: 6, type: 'text'},
-    {value: "Analista", id: 7, type: 'text'},
-    {value: "Status", id: 8, type: 'text'},
-  ];
+  const options = DemandFilterUtils.filterTypes;
 
   const [open, setOpen] = useState(false);
   const anchorRef = React.useRef(null);
@@ -42,7 +35,7 @@ export default function Filter(props) {
     index
   ) => {
     setSelectedIndex(index);
-    props.setFilter({filterId: index, filterType: options[index].type});
+    props.setFilter({filterId: options[index].id, filterType: options[index].type, filterBy: options[index].filterBy});
     setOpen(false);
   };
 

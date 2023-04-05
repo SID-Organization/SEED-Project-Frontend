@@ -1,21 +1,14 @@
+import "../../styles/index.css";
+
+// MUI
+import GridOnIcon from "@mui/icons-material/GridOn";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+
+// Components
 import Filter from "../Filter";
 import Search from "../Search";
-
-import ListAltIcon from "@mui/icons-material/ListAlt";
-import GridOnIcon from "@mui/icons-material/GridOn";
-
-import "../../styles/index.css";
 import DatePicker from "../Date-picker";
 
-// interface ISubHeaderProps {
-//   children: string;
-//   isListFormat: boolean;
-//   setIsListFormat: (isListFormat: boolean) => void;
-//   search: string;
-//   setSearch: (search: string) => void;
-//   filter?: {filterId: number, filterType: string};
-//   setFilter?: (filterType: {filterId: number, filterType: string}) => void;
-// }
 
 // Subheader de todo o sistema
 export default function subHeader(props) {

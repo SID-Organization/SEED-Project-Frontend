@@ -13,12 +13,15 @@ import DemandCard from "../../Components/Demand-card";
 // Services
 import DemandService from "../../service/Demand-Service";
 
+// Utils
+import DemandFilterUtils from "../../utils/DemandFilter-utils";
+
 export default function DemandManager() {
   // State to set the format of the demands
   const [isListFormat, setIsListFormat] = useState(false);
 
   // Filter search for demands to manage
-  const [filter, setFilter] = useState({ filterId: 0, filterType: "date" });
+  const [filter, setFilter] = useState();
   const [search, setSearch] = useState("");
 
 
@@ -36,8 +39,13 @@ export default function DemandManager() {
         }
         setDemandsToManage(demandsToManage);
       });
+      setFilter(DemandFilterUtils.filterTypes[0]);
   }, []);
 
+
+  useEffect(() => {
+    
+  }, [search, filter])
 
   return (
     <div>
