@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import WegLogo from "../../assets/weg-logo.png";
 
 // MUI
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import Container from "@mui/material/Container";
@@ -90,7 +90,7 @@ export default function Login(props) {
 
   return (
     <div className="bg-loginWallpaper bg-cover w-full h-screen">
-      {!password && !userID ? null : (
+      {openNotification && (
         <Snackbar
           open={openNotification}
           autoHideDuration={6000}

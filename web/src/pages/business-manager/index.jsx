@@ -29,7 +29,7 @@ export default function DemandManager() {
     JSON.parse(localStorage.getItem("user"))
   );
   const [demandsToManage, setDemandsToManage] = useState([]);
-
+  const [filteredDemands, setFilteredDemands] = useState([]);
   useEffect(() => {
     DemandService.getDemandsToManage(user.numeroCadastroUsuario, user.cargoUsuario)
       .then((data) => {
@@ -44,7 +44,14 @@ export default function DemandManager() {
 
 
   useEffect(() => {
-    
+    if(!demandsToManage) return;
+    setFilteredDemands(demandsToManage);
+  }, [demandsToManage])
+
+  useEffect(() => {
+    if(!filter) return;
+      const filtered = DemandFilterUtils.filterBy(demandsToManage, filter.filterBy, search);
+      setFilteredDemands(filtered);
   }, [search, filter])
 
   return (
@@ -66,11 +73,7 @@ export default function DemandManager() {
       ) : (
         <div className="flex flex-wrap justify-around">
           {demandsToManage &&
-            demandsToManage
-              .filter((item) => {
-                if (search.length < 3) return item;
-                else if (item.tituloDemanda.toLowerCase().includes(search.toLowerCase())) return item;
-              })
+            filteredDemands
               .map((demand, i) => {
                 return <DemandCard key={i} demand={demand} />;
               })

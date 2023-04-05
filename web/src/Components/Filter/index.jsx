@@ -19,8 +19,10 @@ import DemandFilterUtils from "../../utils/DemandFilter-utils";
 // solicitante, gerente
 // responsável, forum de aprovação, departamento, tamanho da demanda, codigo PPM, numero da
 // solicitação.
+const options = DemandFilterUtils.filterTypes;
+
 export default function Filter(props) {
-  const options = DemandFilterUtils.filterTypes;
+  console.log("Filter: ", options);
 
   const [open, setOpen] = useState(false);
   const anchorRef = React.useRef(null);

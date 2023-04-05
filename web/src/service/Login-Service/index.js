@@ -16,10 +16,11 @@ const config = {
 const login = async (userID, password) => {
     return axios.post(url + "/auth",
         {
-            numeroCadastroUsuario: parseInt(userID),
-            senhaUsuario: password,
+            username: parseInt(userID),
+            senha: password,
         }, config)
-        .then(response => response);
+        .then(response => response)
+        .catch(error => error);
 }
 
 export default {
