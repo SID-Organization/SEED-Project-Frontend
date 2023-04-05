@@ -2,6 +2,8 @@ import React from "react";
 
 import WegLogo from "../../assets/weg-logo.png";
 
+import AuthService from "./authService.jsx";
+
 // MUI
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -15,6 +17,7 @@ import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import LoginService from "../../service/Login-Service";
+import { data } from "autoprefixer";
 
 // Interfaces
 // import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
@@ -55,37 +58,58 @@ export default function Login(props) {
 
     setOpenNotification(false);
   };
+
   const handleLogin = () => {
+    try {
+
+      let user = {
+        "username": userID,
+        "senha": password
+      };
+
+      let responseLogin;
+
+      AuthService.login(user).then(
+        response => {
+          responseLogin = response;
+          console.log(response);
+        }
+      );
+
+    } catch (error) {
+      console.log(error);
+    }
+
     // Validação de campos
     if (!userID || !password) {
       setOpenNotification(true);
       return;
     }
 
-    LoginService.login(userID, password)
-      .then((response) => {
-        if (response.status != 200) {
-          setOpenNotification(true);
-          return;
-        }
-        return response.data;
-      })
-      .then((data) => {
-        const loggedUser = {
-          numeroCadastroUsuario: data.numeroCadastroUsuario,
-          businessUnity: data.businessUnity,
-          cargoUsuario: data.cargoUsuario,
-          departamentoUsuario: data.departamentoUsuario,
-          emailUsuario: data.emailUsuario,
-          fotoUsuario: data.fotoUsuario,
-          nomeUsuario: data.nomeUsuario,
-        }
-        localStorage.setItem(
-          "user",
-          JSON.stringify(loggedUser)
-        );
-        props.setUser(loggedUser);
-      })
+    // LoginService.login(userID, password)
+    //   .then((response) => {
+    //     if (response.status != 200) {
+    //       setOpenNotification(true);
+    //       return;
+    //     }
+    //     return response.data;
+    //   })
+    //   .then((data) => {
+    //     const loggedUser = {
+    //       numeroCadastroUsuario: data.numeroCadastroUsuario,
+    //       businessUnity: data.businessUnity,
+    //       cargoUsuario: data.cargoUsuario,
+    //       departamentoUsuario: data.departamentoUsuario,
+    //       emailUsuario: data.emailUsuario,
+    //       fotoUsuario: data.fotoUsuario,
+    //       nomeUsuario: data.nomeUsuario
+    //     };
+    //     localStorage.setItem(
+    //       "user",
+    //       JSON.stringify(loggedUser)
+    //     );
+    //     props.setUser(loggedUser);
+    //   });
   };
 
 
@@ -101,7 +125,7 @@ export default function Login(props) {
           <Alert
             severity="error"
             sx={{
-              backgroundColor: "#C31700",
+              backgroundColor: "#C31700"
             }}
           >
             Usuário ou senha inválidos!
@@ -135,7 +159,7 @@ export default function Login(props) {
             marginTop: "8%",
             display: "flex",
             justifyContent: "end",
-            alignItems: "center",
+            alignItems: "center"
           }}
         >
           <Box
@@ -143,7 +167,7 @@ export default function Login(props) {
               bgcolor: "#cfe8fc",
               height: "520px",
               width: "500px",
-              borderRadius: "10px",
+              borderRadius: "10px"
             }}
           >
             <div className="grid justify-center items-center">
@@ -162,7 +186,7 @@ export default function Login(props) {
                       variant="filled"
                       sx={{
                         width: "24rem",
-                        input: { backgroundColor: "white", borderRadius: 1 },
+                        input: { backgroundColor: "white", borderRadius: 1 }
                       }}
                       value={userID}
                       onChange={(e) => {
@@ -181,7 +205,7 @@ export default function Login(props) {
                       type={"password"}
                       sx={{
                         width: "24rem",
-                        input: { backgroundColor: "white", borderRadius: 1 },
+                        input: { backgroundColor: "white", borderRadius: 1 }
                       }}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -211,7 +235,7 @@ export default function Login(props) {
                       fontSize: "17px",
                       fontWeight: "bold",
                       textTransform: "none",
-                      backgroundColor: "#00579D",
+                      backgroundColor: "#00579D"
                     }}
                   >
                     Entrar

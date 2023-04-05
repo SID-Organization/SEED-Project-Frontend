@@ -1,4 +1,3 @@
-
 // MUI
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { IconButton } from "@mui/material";
@@ -8,8 +7,6 @@ import PayerRow from "./Payers-row";
 
 //Props: type(interno, externo)
 export default function CostCenterPayers(props) {
-  
-
   console.log("PROPS: ", props);
 
   const addCCInput = () => {
@@ -42,7 +39,7 @@ export default function CostCenterPayers(props) {
           {props.totalCostCenterPayers.map((input, index) => {
             return (
               <PayerRow
-                inputs = {input}
+                inputs={input}
                 index={index}
                 totalCostCenterPayers={props.totalCostCenterPayers}
                 setTotalCostCenterPayers={props.setTotalCostCenterPayers}
