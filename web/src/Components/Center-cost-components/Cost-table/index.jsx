@@ -10,29 +10,15 @@ import { IconButton, Tooltip } from "@mui/material";
 
 //Props: type(interno, externo)
 export default function CostTable(props) {
-  const [totalCostList, setTotalCostList] = useState([
-    {
-      expenseType: "",
-      expenseProfile: "",
-      monthTimeExecution: "",
-      necessaryHours: "",
-      costHour: "",
-      totalExpenseCost: "",
-      costCenterPayers: "",
-    },
-  ]);
-
   function addTotalCoasts() {
-    setTotalCostList([
-      ...totalCostList,
+    props.setCosts([
+      ...props.costs,
       {
-        expenseType: "",
         expenseProfile: "",
         monthTimeExecution: "",
         necessaryHours: "",
         costHour: "",
         totalExpenseCost: "",
-        costCenterPayers: "",
       },
     ]);
   }
@@ -40,15 +26,11 @@ export default function CostTable(props) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        {props.type === "interno" ? (
+        {
           <h1 className="font-roboto text-2xl font-bold text-blue-weg">
-            Interno
+            {props.typeTitle}
           </h1>
-        ) : (
-          <h1 className="font-roboto text-2xl font-bold text-blue-weg">
-            Externo
-          </h1>
-        )}
+        }
         <Tooltip title="Adicionar linha">
           <IconButton onClick={addTotalCoasts}>
             <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
@@ -82,13 +64,13 @@ export default function CostTable(props) {
         </tr>
       </thead>
       <tbody>
-        {totalCostList.map((totalCost, index) => (
+        {props.costs.map((cost, index) => (
           <CostTableRow
             key={index}
             index={index}
-            totalCost={totalCost}
-            setCostList={setTotalCostList}
-            costList={totalCostList}
+            totalCost={cost}
+            setCostList={props.setCosts}
+            costList={props.costs}
           />
         ))}
       </tbody>

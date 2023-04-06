@@ -126,26 +126,27 @@ export default function GenerateProposal() {
   const quillValueRefProposalAlternatives = useRef(null);
   const quillValueRefProposalMitigationPlan = useRef(null);
 
-  const [totalCostList, setTotalCostList] = useState([
+  const [internalCosts, setInternalCosts] = useState([
     {
-      expenseType: "",
       expenseProfile: "",
       monthTimeExecution: "",
       necessaryHours: "",
       costHour: "",
       totalExpenseCost: "",
-      costCenterPayers: "",
     },
   ]);
 
-  const [totalInternalCostCenterPayers, setTotalInternalCostCenterPayers] =
-    useState([
-      {
-        costCenter: "",
-        percentage: "",
-      },
-    ]);
-  const [totalExternalCostCenterPayers, setTotalExternalCostCenterPayers] =
+  const [externalCosts, setExternalCosts] = useState([
+    {
+      expenseProfile: "",
+      monthTimeExecution: "",
+      necessaryHours: "",
+      costHour: "",
+      totalExpenseCost: "",
+    },
+  ]);
+
+  const [internalCostCenterPayers, setInternalCostCenterPayers] =
     useState([
       {
         costCenter: "",
@@ -153,17 +154,22 @@ export default function GenerateProposal() {
       },
     ]);
 
-    useEffect(() => {
-      console.log("totalCostListINTERN", totalInternalCostCenterPayers)
-    }, [totalInternalCostCenterPayers])
+ 
+
+  const [externalCostCenterPayers, setExternalCostCenterPayers] =
+    useState([
+      {
+        costCenter: "",
+        percentage: "",
+      },
+    ]);
+
 
   function sumInternalCosts() {
     let sum = 0;
-    totalCostList.forEach((cost) => {
-      if (cost.expenseType === "Interno") {
-        if (cost.totalExpenseCost !== "") {
-          sum += parseFloat(cost.totalExpenseCost);
-        }
+    internalCosts.forEach((cost) => {
+      if (cost.totalExpenseCost !== "") {
+        sum += parseFloat(cost.totalExpenseCost);
       }
     });
     return sum;
@@ -171,11 +177,9 @@ export default function GenerateProposal() {
 
   function sumExternalCosts() {
     let sum = 0;
-    totalCostList.forEach((cost) => {
-      if (cost.expenseType === "Externo") {
-        if (cost.totalExpenseCost !== "") {
-          sum += parseFloat(cost.totalExpenseCost);
-        }
+    externalCosts.forEach((cost) => {
+      if (cost.totalExpenseCost !== "") {
+        sum += parseFloat(cost.totalExpenseCost);
       }
     });
     return sum;
@@ -188,28 +192,108 @@ export default function GenerateProposal() {
     }, 1500);
   };
 
+  function handleFormatCosts(costs) {
+    return costs.map((cost) => {
+      return {
+        perfilDespesaTabelaLinha: cost.expenseProfile,
+        periodoExecucaoTabelaLinha: cost.monthTimeExecution,
+        valorHoraTabelaLinha: cost.costHour,
+        quantidadeHorasTabelaCusto: cost.necessaryHours,
+      };
+    });
+  }
+
   const handlePutProposal = async () => {
     const proposalToSave = {
       demandId: demandId,
       escopoProposta: ReactQuillUtils.formatQuillText(textIsProposal),
-      naoFazParteDoEscopoProposta:
-        ReactQuillUtils.formatQuillText(textIsNotProposal),
+      naoFazParteDoEscopoProposta: ReactQuillUtils.formatQuillText(textIsNotProposal),
       paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
-      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(
-        textProposalAlternatives
-      ),
-      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(
-        textProposalMitigationPlan
-      ),
+      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(textProposalAlternatives),
+      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(textProposalMitigationPlan),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
       custosInternosDoProjeto: sumInternalCosts(),
       custosExternosDoProjeto: sumExternalCosts(),
       custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
+      tabelaCusto: [
+        {
+          tipoDespesa: "INTERNA",
+          tabelaCustoLinha: handleFormatCosts(internalCosts),
+          centroCustoTabelaCusto: [
+            {
+              "centroCusto": {
+                "idCentroCusto": 1
+              },
+              "porcentagemDespesa": 50
+            }
+          ]
+        }
+      ]
     };
+
+    console.log("Tabela de custos", internalCosts);
+
+    /**
+     * {
+    "escopoProposta": "Teste de escopo",
+    "paybackProposta": 10.0,
+    "aprovadoWorkflowProposta": 1,
+    "periodoExecucaoDemandaInicio": "2023-08-30",
+    "periodoExecucaoDemandaFim": "2023-08-20",
+    "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
+    "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
+    "planoMitigacaoProposta": "Plano de mitigação",
+    "custosTotaisDoProjeto": 10000.0,
+    "custosInternosDoProjeto": 5000.0,
+    "custosExternosDoProjeto": 5000.0,
+    "tabelaCusto": [
+        {
+            "tipoDespesa": "INTERNA",
+            "tabelaCustoLinha": [
+                {
+                    "periodoExecucaoTabelaCusto": 10,
+                    "quantidadeHorasTabelaCusto": 10,
+                    "valorHoraTabelaCusto": 10,
+                    "perfilDespesaTabelaCustoLinha": "NÃO PODE TER OUTROS"
+                }
+            ],
+            "centroCustoTabelaCusto": [
+                {
+                    "centroCusto": {
+                        "idCentroCusto": 1
+                    },
+                    "porcentagemDespesa": 100
+                }
+            ]
+        },
+        {
+            "tipoDespesa": "EXTERNA",
+            "tabelaCustoLinha": [
+                {
+                    "periodoExecucaoTabelaCusto": 10,
+                    "quantidadeHorasTabelaCusto": 10,
+                    "valorHoraTabelaCusto": 10,
+                    "perfilDespesaTabelaCustoLinha": "TESTE TABELA ASDMKOASKDOSA"
+                }
+            ],
+            "centroCustoTabelaCusto": [
+                {
+                    "centroCusto": {
+                        "idCentroCusto": 1
+                    },
+                    "porcentagemDespesa": 50
+                }
+            ]
+        }
+    ],
+    "nomeResponsavelNegocio": "Maria",
+    "areaResponsavelNegocio": "Vendas"
+}
+     */
 
     const pdfProposal = {
       escopoPropostaHTML: quillValueEscopo,
@@ -220,14 +304,14 @@ export default function GenerateProposal() {
     };
 
     //Mudar status para PROPOSTA_PRONTA
-    const formData = new FormData();
-    formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
+    // const formData = new FormData();
+    // formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
 
-    ProposalService.updateProposal(formData, 3).then((response) => {
-      if (response.status == 200) {
-        DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
-      }
-    });
+    // ProposalService.updateProposal(formData, 3).then((response) => {
+    //   if (response.status == 200) {
+    //     DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+    //   }
+    // });
   };
 
   return (
@@ -282,19 +366,19 @@ export default function GenerateProposal() {
       <div className="flex items-center justify-center">
         <table className="grid gap-20">
           <div className="grid items-center justify-center gap-5">
-            <CostTable type="interno" />
+            <CostTable typeTitle="Interno" costs={internalCosts} setCosts={setInternalCosts} />
             <CostCenterPayers
-              type="interno"
-              totalCostCenterPayers={totalInternalCostCenterPayers}
-              setTotalCostCenterPayers={setTotalInternalCostCenterPayers}
+              typeTitle="interno"
+              totalCostCenterPayers={internalCostCenterPayers}
+              setTotalCostCenterPayers={setInternalCostCenterPayers}
             />
           </div>
           <div className="grid items-center justify-center gap-5">
-            <CostTable type="externo" />
+            <CostTable typeTitle="Externo" costs={externalCosts} setCosts={setExternalCosts} />
             <CostCenterPayers
-              type="externo"
-              totalCostCenterPayers={totalExternalCostCenterPayers}
-              setTotalCostCenterPayers={setTotalExternalCostCenterPayers}
+              typeTitle="externo"
+              totalCostCenterPayers={externalCostCenterPayers}
+              setTotalCostCenterPayers={setExternalCostCenterPayers}
             />
           </div>
         </table>

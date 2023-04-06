@@ -11,27 +11,32 @@ const CCInput = styled(MuiTextField)({
     width: "8rem",
 });
 
+// CCP - Cost Center Payer
+
 export default function PayerRow(props) {
 
-    const [input, setInput] = useState({
-        costCenter: props.inputs.costCenter,
-        percentage: props.inputs.percentage,
+    const [newCCP, setNewCCP] = useState({
+        costCenter: props.CCP.costCenter,
+        percentage: props.CCP.percentage,
     })
 
-    const updateCostCenterPayer = () => {
+    function handleUpdateCCP() {
         props.setTotalCostCenterPayers((prevState) => {
-            const newCostCenterPayers = [...prevState];
-            newCostCenterPayers[props.index] = input;
-            return newCostCenterPayers;
+            const CCPList = [...prevState];
+            CCPList[props.index] = newCCP;
+            return CCPList;
         });
     }
 
-    const updateStates = () => {
-        setInput({
-            costCenter: props.inputs.costCenter,
-            percentage: props.inputs.percentage,
+    function updateStates() {
+        setNewCCP({
+            costCenter: props.CCP.costCenter,
+            percentage: props.CCP.percentage,
         })
+
     }
+
+
 
     useEffect(() => {
         updateStates()
@@ -44,21 +49,21 @@ export default function PayerRow(props) {
             <CCInput
                 error
                 label="Centro de custo"
-                value={input.costCenter}
+                value={newCCP.costCenter}
                 onChange={(e) =>
-                    setInput({ ...input, costCenter: e.target.value })
+                    setNewCCP({ ...newCCP, costCenter: parseInt(e.target.value) })
                 }
-                onBlur={updateCostCenterPayer}
+                onBlur={handleUpdateCCP}
             />
             <CCInput
                 error
                 label="Porcentagem"
                 type="number"
-                value={input.percentage}
+                value={newCCP.percentage}
                 onChange={
-                    (e) => setInput({ ...input, percentage: e.target.value })
+                    (e) => setNewCCP({ ...newCCP, percentage: parseInt(e.target.value) })
                 }
-                onBlur={updateCostCenterPayer}
+                onBlur={handleUpdateCCP}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">%</InputAdornment>
@@ -74,6 +79,7 @@ export default function PayerRow(props) {
                             newCostCenterPayers.splice(props.index, 1);
                             return newCostCenterPayers;
                         });
+                        props.setPaymentPercent(parseInt(props.paymentPercent) - parseInt(newCCP.percentage));
                     }}
                 />
             </IconButton>
