@@ -26,15 +26,11 @@ export default function CostTable(props) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        {props.type === "interno" ? (
+        {
           <h1 className="font-roboto text-2xl font-bold text-blue-weg">
-            Interno
+            {props.typeTitle}
           </h1>
-        ) : (
-          <h1 className="font-roboto text-2xl font-bold text-blue-weg">
-            Externo
-          </h1>
-        )}
+        }
         <Tooltip title="Adicionar linha">
           <IconButton onClick={addTotalCoasts}>
             <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />

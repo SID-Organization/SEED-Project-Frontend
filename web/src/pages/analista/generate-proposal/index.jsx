@@ -146,14 +146,7 @@ export default function GenerateProposal() {
     },
   ]);
 
-  const [totalInternalCostCenterPayers, setTotalInternalCostCenterPayers] =
-    useState([
-      {
-        costCenter: "",
-        percentage: "",
-      },
-    ]);
-  const [totalExternalCostCenterPayers, setTotalExternalCostCenterPayers] =
+  const [internalCostCenterPayers, setInternalCostCenterPayers] =
     useState([
       {
         costCenter: "",
@@ -161,9 +154,16 @@ export default function GenerateProposal() {
       },
     ]);
 
-  useEffect(() => {
-    console.log("totalCostListINTERN", totalInternalCostCenterPayers)
-  }, [totalInternalCostCenterPayers])
+ 
+
+  const [externalCostCenterPayers, setExternalCostCenterPayers] =
+    useState([
+      {
+        costCenter: "",
+        percentage: "",
+      },
+    ]);
+
 
   function sumInternalCosts() {
     let sum = 0;
@@ -219,6 +219,20 @@ export default function GenerateProposal() {
       custosInternosDoProjeto: sumInternalCosts(),
       custosExternosDoProjeto: sumExternalCosts(),
       custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
+      tabelaCusto: [
+        {
+          tipoDespesa: "INTERNA",
+          tabelaCustoLinha: handleFormatCosts(internalCosts),
+          centroCustoTabelaCusto: [
+            {
+              "centroCusto": {
+                "idCentroCusto": 1
+              },
+              "porcentagemDespesa": 50
+            }
+          ]
+        }
+      ]
     };
 
     console.log("Tabela de custos", internalCosts);
@@ -352,19 +366,19 @@ export default function GenerateProposal() {
       <div className="flex items-center justify-center">
         <table className="grid gap-20">
           <div className="grid items-center justify-center gap-5">
-            <CostTable type="interno" costs={internalCosts} setCosts={setInternalCosts} />
+            <CostTable typeTitle="Interno" costs={internalCosts} setCosts={setInternalCosts} />
             <CostCenterPayers
-              type="interno"
-              totalCostCenterPayers={totalInternalCostCenterPayers}
-              setTotalCostCenterPayers={setTotalInternalCostCenterPayers}
+              typeTitle="interno"
+              totalCostCenterPayers={internalCostCenterPayers}
+              setTotalCostCenterPayers={setInternalCostCenterPayers}
             />
           </div>
           <div className="grid items-center justify-center gap-5">
-            <CostTable type="externo" costs={externalCosts} setCosts={setExternalCosts} />
+            <CostTable typeTitle="Externo" costs={externalCosts} setCosts={setExternalCosts} />
             <CostCenterPayers
-              type="externo"
-              totalCostCenterPayers={totalExternalCostCenterPayers}
-              setTotalCostCenterPayers={setTotalExternalCostCenterPayers}
+              typeTitle="externo"
+              totalCostCenterPayers={externalCostCenterPayers}
+              setTotalCostCenterPayers={setExternalCostCenterPayers}
             />
           </div>
         </table>

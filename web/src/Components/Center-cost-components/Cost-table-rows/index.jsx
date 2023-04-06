@@ -33,7 +33,7 @@ export default function CostTableRow(props) {
   const [costHour, setCostHour] = useState(props.totalCost.costHour);
   const [expenseProfile, setExpenseProfile] = useState(props.totalCost.expenseProfile);
   const [necessaryHours, setNecessaryHours] = useState(props.totalCost.necessaryHours);
-  const [totalExpenseCost, setTotalExpenseCost] = useState(props.totalCost.totalExpenseCost);
+  const [totalExpenseCost, setTotalExpenseCost] = useState(props.totalCost.costHour * props.totalCost.necessaryHours);
   const [monthTimeExecution, setMonthTimeExecution] = useState(props.totalCost.monthTimeExecution);
 
   const updateTable = () => {
@@ -57,7 +57,7 @@ export default function CostTableRow(props) {
     setMonthTimeExecution(props.totalCost.monthTimeExecution);
     setNecessaryHours(props.totalCost.necessaryHours);
     setCostHour(props.totalCost.costHour);
-    setTotalExpenseCost(props.totalCost.totalExpenseCost);
+    setTotalExpenseCost(props.totalCost.costHour * props.totalCost.necessaryHours);
   };
 
   useEffect(() => {
@@ -65,8 +65,8 @@ export default function CostTableRow(props) {
   }, [props.costList]);
 
   useEffect(() => {
-    console.log("TotalExpense", totalExpenseCost);
-  }, [totalExpenseCost]);
+    setTotalExpenseCost(costHour * necessaryHours);
+  }, [costHour, necessaryHours]);
 
   return (
     <>
@@ -101,9 +101,11 @@ export default function CostTableRow(props) {
               id="outlined-basic"
               variant="outlined"
               size="small"
+              type="number"
               value={necessaryHours}
               onChange={(e) => {
-                setNecessaryHours(e.target.value);
+                if (e.target.value >= 0)
+                  setNecessaryHours(e.target.value);
               }}
               onBlur={updateTable}
             />
@@ -115,9 +117,11 @@ export default function CostTableRow(props) {
               id="outlined-basic"
               variant="outlined"
               size="small"
+              type="number"
               value={costHour}
               onChange={(e) => {
-                setCostHour(e.target.value);
+                if (e.target.value >= 0)
+                  setCostHour(e.target.value);
               }}
               InputProps={{
                 startAdornment: (
@@ -136,10 +140,7 @@ export default function CostTableRow(props) {
               size="small"
               type="number"
               value={totalExpenseCost}
-              onChange={(e) => {
-                if (e.target.value >= 0)
-                  setTotalExpenseCost(e.target.value);
-              }}
+              disabled
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">R$</InputAdornment>
@@ -151,15 +152,13 @@ export default function CostTableRow(props) {
         </td>
 
         <div>
-          <Tooltip title="Deletar linha">
-            <IconButton onClick={deleteRow}>
-              <DeleteRoundedIcon
-                sx={{
-                  color: "#0175B2",
-                }}
-              />
-            </IconButton>
-          </Tooltip>
+          <IconButton onClick={deleteRow}>
+            <DeleteRoundedIcon
+              sx={{
+                color: "#0175B2",
+              }}
+            />
+          </IconButton>
         </div>
       </tr>
     </>
