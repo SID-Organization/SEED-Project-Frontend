@@ -7,9 +7,8 @@ import Divider from "@mui/material/Divider";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
-import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-
 
 export default function Search(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -88,6 +87,7 @@ export default function Search(props) {
               width: 240,
               height: 100,
               overflow: "auto",
+              padding: 3,
             }}
           >
             <h1>Filter</h1>
