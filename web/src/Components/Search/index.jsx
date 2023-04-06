@@ -27,21 +27,6 @@ export default function Search(props) {
     setIsFilterOpen(false);
   }
 
-  {
-    /* 
-              solicitante,
-              valor,
-              score,
-              título,
-              analista responsável,
-              gerente responsável,
-              forum de aprovação,
-              departamento,
-              tamanho da demanda,
-              codigo PPM,
-              numero da solicitação.
-            */
-  }
   const [requester, setRequester] = useState("");
   const [value, setValue] = useState("");
   const [score, setScore] = useState("");
@@ -54,9 +39,19 @@ export default function Search(props) {
   const [PPMCode, setPPMCode] = useState("");
   const [requestNumber, setRequestNumber] = useState("");
 
-  useEffect(() => {
-    console.log("Req", requester);
-  }, [requester]);
+  function cleanStates() {
+    setRequester("");
+    setValue("");
+    setScore("");
+    setTitle("");
+    setResponsibleAnalyst("");
+    setResponsibleManager("");
+    setApprovalForum("");
+    setDepartment("");
+    setDemandSize("");
+    setPPMCode("");
+    setRequestNumber("");
+  }
 
   return (
     <ClickAwayListener onClickAway={handleCloseFilter}>
@@ -181,13 +176,13 @@ export default function Search(props) {
               />
               <FilterComponent
                 title="Código PPM"
-                type="text"
+                type="number"
                 value={PPMCode}
                 setValue={setPPMCode}
               />
               <FilterComponent
                 title="Número da solicitação"
-                type="text"
+                type="number"
                 value={requestNumber}
                 setValue={setRequestNumber}
               />
@@ -203,6 +198,7 @@ export default function Search(props) {
                       backgroundColor: "#c2bebe",
                     },
                   }}
+                  onClick={cleanStates}
                 >
                   Limpar
                 </Button>

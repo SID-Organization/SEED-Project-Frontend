@@ -5,36 +5,10 @@ import GridOnIcon from "@mui/icons-material/GridOn";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 
 // Components
-import Filter from "../Filter";
 import Search from "../Search";
-import DatePicker from "../Date-picker";
 
 // Subheader de todo o sistema
 export default function subHeader(props) {
-  // Verifica o tipo de input pedido e retorna o mesmo
-  const getSearchInput = () => {
-    if (!props.filter) return <></>;
-
-    const filterType = props.filter.filterType;
-    if (filterType === "date") {
-      return (
-        <DatePicker
-          label="Data"
-          searchValue={props.search}
-          serSearchValue={props.setSearch}
-        />
-      );
-    } else {
-      return (
-        <Search
-          type={filterType}
-          search={props.search}
-          setSearch={props.setSearch}
-        />
-      );
-    }
-  };
-
   return (
     <div className="mb-10">
       <div className="flex h-[5rem] items-center shadow-page-title-shadow">
@@ -43,14 +17,9 @@ export default function subHeader(props) {
             {props.children}
           </h1>
         </div>
-        <div className="flex flex-[4] justify-evenly">
+        <div className="flex flex-[1] justify-around gap-10">
           <div className="flex flex-1 items-center justify-end">
-            {props.filter && props.setFilter && (
-              <Filter filter={props.filter} setFilter={props.setFilter} />
-            )}
-          </div>
-          <div className="flex flex-1 items-center justify-end">
-            {getSearchInput()}
+            <Search search={props.search} setSearch={props.setSearch} />
           </div>
           <div className="flex flex-1 items-center justify-center">
             <div
