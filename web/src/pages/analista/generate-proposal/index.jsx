@@ -146,24 +146,19 @@ export default function GenerateProposal() {
     },
   ]);
 
-  const [internalCostCenterPayers, setInternalCostCenterPayers] =
-    useState([
-      {
-        costCenter: "",
-        percentage: "",
-      },
-    ]);
+  const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([
+    {
+      costCenter: "",
+      percentage: 0,
+    },
+  ]);
 
- 
-
-  const [externalCostCenterPayers, setExternalCostCenterPayers] =
-    useState([
-      {
-        costCenter: "",
-        percentage: "",
-      },
-    ]);
-
+  const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([
+    {
+      costCenter: "",
+      percentage: 0,
+    },
+  ]);
 
   function sumInternalCosts() {
     let sum = 0;
@@ -207,13 +202,18 @@ export default function GenerateProposal() {
     const proposalToSave = {
       demandId: demandId,
       escopoProposta: ReactQuillUtils.formatQuillText(textIsProposal),
-      naoFazParteDoEscopoProposta: ReactQuillUtils.formatQuillText(textIsNotProposal),
+      naoFazParteDoEscopoProposta:
+        ReactQuillUtils.formatQuillText(textIsNotProposal),
       paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
-      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(textProposalAlternatives),
-      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(textProposalMitigationPlan),
+      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(
+        textProposalAlternatives
+      ),
+      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(
+        textProposalMitigationPlan
+      ),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
       custosInternosDoProjeto: sumInternalCosts(),
@@ -225,14 +225,14 @@ export default function GenerateProposal() {
           tabelaCustoLinha: handleFormatCosts(internalCosts),
           centroCustoTabelaCusto: [
             {
-              "centroCusto": {
-                "idCentroCusto": 1
+              centroCusto: {
+                idCentroCusto: 1,
               },
-              "porcentagemDespesa": 50
-            }
-          ]
-        }
-      ]
+              porcentagemDespesa: 50,
+            },
+          ],
+        },
+      ],
     };
 
     console.log("Tabela de custos", internalCosts);
@@ -366,7 +366,11 @@ export default function GenerateProposal() {
       <div className="flex items-center justify-center">
         <table className="grid gap-20">
           <div className="grid items-center justify-center gap-5">
-            <CostTable typeTitle="Interno" costs={internalCosts} setCosts={setInternalCosts} />
+            <CostTable
+              typeTitle="Interno"
+              costs={internalCosts}
+              setCosts={setInternalCosts}
+            />
             <CostCenterPayers
               typeTitle="interno"
               totalCostCenterPayers={internalCostCenterPayers}
@@ -374,7 +378,11 @@ export default function GenerateProposal() {
             />
           </div>
           <div className="grid items-center justify-center gap-5">
-            <CostTable typeTitle="Externo" costs={externalCosts} setCosts={setExternalCosts} />
+            <CostTable
+              typeTitle="Externo"
+              costs={externalCosts}
+              setCosts={setExternalCosts}
+            />
             <CostCenterPayers
               typeTitle="externo"
               totalCostCenterPayers={externalCostCenterPayers}
