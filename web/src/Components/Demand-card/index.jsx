@@ -1,4 +1,8 @@
 import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+// MUI
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -9,23 +13,18 @@ import Slider from "@mui/material/Slider";
 import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-
-import { styled } from "@mui/material/styles";
-
-import Skeleton from "@mui/material/Skeleton";
-
-import { Link, useNavigate } from "react-router-dom";
-
-import { useEffect, useState } from "react";
 import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
-
-import DemandUtils from "../../utils/Demand-Utils"
+import { styled } from "@mui/material/styles";
+import Skeleton from "@mui/material/Skeleton";
 
 // Services
 import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../service/DemandLog-Service";
 import ProposalService from "../../service/Proposal-Service";
-import { Http } from "@mui/icons-material";
+
+// Utils
+import DemandUtils from "../../utils/Demand-Utils"
+import UserUtils from "../../utils/User-Utils";
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -59,29 +58,6 @@ const styleModalGenerateProposal = {
   boxShadow: 24,
 };
 
-const statusColor = {
-  CANCELADA: "#C31700",
-  APROVADO_PELA_COMISSAO: "#0076B8",
-  CLASSIFICADO_PELO_ANALISTA: "#696969",
-  ABERTA: "#C2BEBE",
-  RASCUNHO: "#D9D9D9",
-  APROVADO_PELO_GERENTE_DA_AREA: "#7EB61C",
-  PROPOSTA_EM_ELABORACAO: "#99D6D2",
-  PROPOSTA_EM_EXECUCAO: "#FFFF00",
-  PROPOSTA_EM_SUPORTE: "008080",
-  PROPOSTA_PRONTA: "#7AB7FF",
-  PROPOSTA_FINALIZADA: "006400",
-
-  BACKLOG: "#C2BEBE",
-  ASSESMENT: "#00579D",
-  BUSINESS_CASE: "#8862A2",
-  TO_DO: "#7EB61C",
-  DESIGN_AND_BUILD: "#EF8300",
-  SUPPORT: "#FFD600",
-  CANCELLED: "#C31700",
-  DONE: "#00612E",
-};
-
 export default function DemandCard(props) {
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
@@ -93,7 +69,7 @@ export default function DemandCard(props) {
   const navigate = useNavigate();
 
   // Busca o usuário logado
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   // Busca o primeiro registro da demanda
   const [firstLog, setFirstLog] = useState();

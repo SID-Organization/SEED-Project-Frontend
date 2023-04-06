@@ -20,12 +20,12 @@ import DemandCard from "../../../Components/Demand-card";
 // Services
 import DemandService from "../../../service/Demand-Service";
 
+// Utils
+import UserUtils from "../../../utils/User-Utils";
 
 export default function drafts() {
   const [selectedDrafts, setSelectedDrafts] = useState([]);
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [demands, setDemands] = useState([]);
 
   useEffect(() => {

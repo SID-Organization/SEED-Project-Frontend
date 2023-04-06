@@ -9,13 +9,12 @@ import DemandsList from "../../../Components/Demand-card-list";
 import DemandService from "../../../service/Demand-Service";
 import DemandLogService from "../../../service/DemandLog-Service";
 
-
+// Utils
+import UserUtils from "../../../utils/User-Utils";
 
 export default function homeDemands() {
   const [isListFormat, setIsListFormat] = useState(false);
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
   
   /*
     Estão sendo utilizadas 3 variáveis para armazenar as demandas:

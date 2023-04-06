@@ -8,12 +8,13 @@ import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import "../../styles/index.css";
 import { Avatar, IconButton, Tooltip } from "@mui/material";
 
+// Utils
+import UserUtils from "../../utils/User-Utils";
+
 export default function Perfil() {
   const [phoneNumber, setPhoneNumber] = useState("+55 (47) 99123-2134");
   const [isEditOn, setIsEditOn] = useState(false);
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
   // Seta o avatar do usuário
   const userAvatar = () => {
     if (user.fotoUsuario) {

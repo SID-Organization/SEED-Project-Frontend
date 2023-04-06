@@ -14,7 +14,8 @@ import DemandCard from "../../Components/Demand-card";
 import DemandService from "../../service/Demand-Service";
 
 // Utils
-import DemandFilterUtils from "../../utils/DemandFilter-utils";
+import DemandFilterUtils from "../../utils/DemandFilter-Utils";
+import UserUtils from "../../utils/User-Utils";
 
 export default function DemandManager() {
   // State to set the format of the demands
@@ -25,9 +26,7 @@ export default function DemandManager() {
   const [search, setSearch] = useState("");
 
 
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [demandsToManage, setDemandsToManage] = useState([]);
   const [filteredDemands, setFilteredDemands] = useState([]);
   useEffect(() => {

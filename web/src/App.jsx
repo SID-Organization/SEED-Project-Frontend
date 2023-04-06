@@ -1,31 +1,33 @@
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import { BrowserRouter, Routes, Route, json } from "react-router-dom";
 
 import "./App.css";
 
+// Components
+import Atas from "./pages/analista/atas";
+import Chat from "./pages/requester/chat";
 import Login from "./pages/login";
 import Layout from "./Components/Layout";
-import HomeDemands from "./pages/requester/home-demands";
+import Pautas from "./pages/analista/pautas";
 import Drafts from "./pages/requester/drafts";
-import DemandCardList from "./Components/Demand-card-list";
+import Profile from "./pages/profile";
+import Proposals from "./pages/analista/proposals";
+import GenerateAta from "./pages/analista/generate-ata";
+import HomeDemands from "./pages/requester/home-demands";
 import CreateDemand from "./pages/requester/create-demand";
 import OpenedDemand from "./pages/requester/opened-demand";
-import SubHeaderOpenedDemand from "./Components/Sub-header-opened-demand";
 import DemandManager from "./pages/business-manager";
-import Pautas from "./pages/analista/pautas";
-import Proposals from "./pages/analista/proposals";
-import Atas from "./pages/analista/atas";
-import GenerateAta from "./pages/analista/generate-ata";
+import DemandCardList from "./Components/Demand-card-list";
 import GenerateProposal from "./pages/analista/generate-proposal";
-import Profile from "./pages/profile";
-import Chat from "./pages/requester/chat";
 import ProposalDetails from "./pages/analista/proposal-details";
-import { useState } from "react";
+import SubHeaderOpenedDemand from "./Components/Sub-header-opened-demand";
 
-import { Navigate } from "react-router-dom";
-import { useEffect } from "react";
+// Utils
+import UserUtils from "./utils/User-Utils";
 
 function App() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   return (
     <>

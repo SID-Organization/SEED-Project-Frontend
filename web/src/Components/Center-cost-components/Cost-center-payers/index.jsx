@@ -23,7 +23,7 @@ export default function CostCenterPayers(props) {
     });
   };
 
-  useEffect(() => {
+  const updatePercentCCP = () => {
     // Atualiza a porcentagem de pagamento dos CCP
     let newPaymentPercent = 0;
     for(let CC of props.totalCostCenterPayers) {
@@ -32,12 +32,11 @@ export default function CostCenterPayers(props) {
         newPaymentPercent += CC.percentage;
       }
     }
-    // Se a porcentagem de pagamento for > 100, retorna um alerta
-    if(newPaymentPercent > 100) {
-      alert("A soma das porcentagens dos CCP não pode ser maior que 100%")
-      return;
-    }
     setPaymentPercentage(newPaymentPercent);
+  }
+
+  useEffect(() => {
+    updatePercentCCP();
   }, [props.totalCostCenterPayers])
 
   return (
@@ -59,6 +58,7 @@ export default function CostCenterPayers(props) {
               <PayerRow
                 CCP={CCP}
                 index={index}
+                CCPS={props.totalCostCenterPayers}
                 totalCostCenterPayers={props.totalCostCenterPayers}
                 setTotalCostCenterPayers={props.setTotalCostCenterPayers}
                 paymentPercent={paymentPercentage}

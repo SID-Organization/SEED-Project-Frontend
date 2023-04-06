@@ -107,9 +107,7 @@ export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
 
   // Estado que armazena o usuário logado.
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   // Função que retorna o avatar do usuário (Imagem ou letras).
   const userAvatar = () => {

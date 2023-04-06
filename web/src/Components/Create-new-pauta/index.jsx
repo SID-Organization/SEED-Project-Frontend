@@ -1,23 +1,28 @@
+
+import { useEffect, useState } from "react";
+
+// MUI
 import MuiButton from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Autocomplete from "@mui/material/Autocomplete";
-
 import { styled } from "@mui/material/styles";
-import { useEffect, useState } from "react";
-
 import MuiTextField from "@mui/material/TextField";
-
 import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { InputAdornment } from "@mui/material";
 import NewPautaProposalCard from "../New-pauta-proposal-card";
+
+// Components
 import DatePicker from "../Date-picker";
 
 // Services
 import ProposalService from "../../service/Proposal-Service";
 import ForumService from "../../service/Forum-Service";
 import PautaService from "../../service/Pauta-Service";
+
+// Utils
+import UserUtils from "../../utils/User-Utils";
 
 const TextField = styled(MuiTextField)({
   width: "14rem",
@@ -57,7 +62,7 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
 });
 
 export default function CreateNewPauta() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [openedModal, setOpenedModal] = useState(false);
   const [foruns, setForuns] = useState([]);
   const [selectedForum, setSelectedForum] = useState("");

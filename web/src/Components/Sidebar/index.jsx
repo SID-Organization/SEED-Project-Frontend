@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 
+// MUI
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
@@ -34,8 +35,11 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
+// Components
 import SidebarLink from "./SidebarItem";
-// import LoggedUserInterface from "../../Interfaces/user/LoggedUserInterface";
+
+// Utils
+import UserUtils from "../../utils/User-Utils";
 
 const openDrawerWidth = 230;
 
@@ -43,7 +47,7 @@ export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarFixed, setIsSidebarFixed] = useState(false);
   // Usuário logado
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   const isRequester = user.cargoUsuario === "SOLICITANTE";
 

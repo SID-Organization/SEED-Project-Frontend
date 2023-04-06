@@ -150,7 +150,7 @@ export default function GenerateProposal() {
     useState([
       {
         costCenter: "",
-        percentage: "",
+        percentage: 0,
       },
     ]);
 
@@ -160,7 +160,7 @@ export default function GenerateProposal() {
     useState([
       {
         costCenter: "",
-        percentage: "",
+        percentage: 0,
       },
     ]);
 

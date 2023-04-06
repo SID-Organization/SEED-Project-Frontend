@@ -1,4 +1,9 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router";
+import toast, { Toaster } from "react-hot-toast";
+
+// MUI
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -19,15 +24,13 @@ import Select from "@mui/material/Select";
 import { Badge, InputLabel } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
 import MuiAutocomplete from "@mui/material/Autocomplete";
-import toast, { Toaster } from "react-hot-toast";
 
+// Icons
 import DoneIcon from "@mui/icons-material/Done";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router";
 
 import "../../styles/index.css";
 
@@ -36,6 +39,8 @@ import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../service/DemandLog-Service";
 import BusinessUnityService from "../../service/BusinessUnity-Service";
 
+// Utils
+import UserUtils from "../../utils/User-Utils";
 
 
 // Componentes estilizados
@@ -117,7 +122,7 @@ export default function subHeader({
   const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
 
   // Usuário logado
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   const anchorRef = React.useRef(null);
   const params = useParams();
