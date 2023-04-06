@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 
 //Props: type(interno, externo)
 export default function CostCenterPayers(props) {
-
   const [paymentPercentage, setPaymentPercentage] = useState(0);
 
   const addNewCCP = () => {
@@ -26,9 +25,9 @@ export default function CostCenterPayers(props) {
   const updatePercentCCP = () => {
     // Atualiza a porcentagem de pagamento dos CCP
     let newPaymentPercent = 0;
-    for(let CC of props.totalCostCenterPayers) {
-      // Se NaN, retorna 0 (NaN == NaN retorna false)
-      if(CC.percentage == CC.percentage){
+    for (let CC of props.totalCostCenterPayers) {
+      // Se NaN, retorna 0;
+      if (!isNaN(CC.percentage)) {
         newPaymentPercent += CC.percentage;
       }
     }
@@ -43,7 +42,7 @@ export default function CostCenterPayers(props) {
     <div>
       {" "}
       <div className="grid items-center justify-center">
-        <div className=" w-[20rem] rounded border-2 border-dark-blue-weg">
+        <div className="  rounded border-2 border-dark-blue-weg">
           {" "}
           <div className="mb-5 flex items-center justify-center">
             <h1 className="flex justify-center font-roboto text-lg font-bold text-blue-weg">
