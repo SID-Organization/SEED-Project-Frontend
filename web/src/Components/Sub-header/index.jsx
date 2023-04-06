@@ -9,56 +9,50 @@ import Filter from "../Filter";
 import Search from "../Search";
 import DatePicker from "../Date-picker";
 
-
 // Subheader de todo o sistema
 export default function subHeader(props) {
-
   // Verifica o tipo de input pedido e retorna o mesmo
   const getSearchInput = () => {
-    if(!props.filter) return (<></>);
-    
+    if (!props.filter) return <></>;
+
     const filterType = props.filter.filterType;
-    if(filterType === "date"){
+    if (filterType === "date") {
       return (
-        <DatePicker label="Data" searchValue={props.search} serSearchValue={props.setSearch}  />
-      )
+        <DatePicker
+          label="Data"
+          searchValue={props.search}
+          serSearchValue={props.setSearch}
+        />
+      );
     } else {
       return (
-            <Search
-              type={filterType}
-              search={props.search}
-              setSearch={props.setSearch}
-            />
-      )
+        <Search
+          type={filterType}
+          search={props.search}
+          setSearch={props.setSearch}
+        />
+      );
     }
-  }
-
-  
+  };
 
   return (
     <div className="mb-10">
-      <div className="flex items-center shadow-page-title-shadow h-[5rem]">
+      <div className="flex h-[5rem] items-center shadow-page-title-shadow">
         <div className="flex-[2] text-center">
-          <h1 className="text-dark-blue-weg font-bold text-3xl font-roboto">
+          <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
             {props.children}
           </h1>
         </div>
-        <div className="flex-[4] flex justify-evenly">
-          <div className="flex-1 flex items-center justify-end">
-            {
-              props.filter && props.setFilter &&
-              <Filter
-                filter={props.filter}
-                setFilter={props.setFilter}
-              />
-            }
+        <div className="flex flex-[4] justify-evenly">
+          <div className="flex flex-1 items-center justify-end">
+            {props.filter && props.setFilter && (
+              <Filter filter={props.filter} setFilter={props.setFilter} />
+            )}
           </div>
-          <div className="flex-1 flex items-center justify-end">
-            {
-              getSearchInput()
-            }
+          <div className="flex flex-1 items-center justify-end">
+            {getSearchInput()}
           </div>
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex flex-1 items-center justify-center">
             <div
               className="cursor-pointer"
               onClick={() => props.setIsListFormat(!props.isListFormat)}
