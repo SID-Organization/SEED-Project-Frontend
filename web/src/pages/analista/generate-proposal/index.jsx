@@ -66,6 +66,20 @@ const DateInput = styled(MuiTextField)({
   },
 });
 
+
+const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    [{ font: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ color: [] }, { background: [] }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ align: [] }],
+    ["image", "link"],
+  ],
+};
+
+
 export default function GenerateProposal() {
   const [demand, setDemand] = useState();
   const [proposal, setProposal] = useState();
@@ -91,40 +105,13 @@ export default function GenerateProposal() {
     setQuillValueProposalMitigationPlan,
   ] = useState("");
 
-  const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
-
-  // Demand ID
-  let demandId = useParams().id;
-
-  useEffect(() => {
-    DemandService.getDemandById(demandId).then((demand) => {
-      setDemand(demand);
-    });
-  }, []);
-
-  useEffect(() => {
-    console.log("DEMANDID", demandId);
-    ProposalService.getProposalByDemandId(demandId).then((proposal) => {
-      console.log("PROPOSAL", proposal);
-    });
-  }, []);
-
-  const quillModules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      [{ font: [] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }],
-      ["image", "link"],
-    ],
-  };
-
+  
   const quillValueRefEscopo = useRef(null);
   const quillValueRefIsNotEscopoPart = useRef(null);
   const quillValueRefProposalAlternatives = useRef(null);
   const quillValueRefProposalMitigationPlan = useRef(null);
+
+  const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
   const [internalCosts, setInternalCosts] = useState([
     {
@@ -163,6 +150,24 @@ export default function GenerateProposal() {
       },
     ]);
 
+  // Demand ID
+  let demandId = useParams().id;
+
+  useEffect(() => {
+    DemandService.getDemandById(demandId).then((demand) => {
+      setDemand(demand);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("DEMANDID", demandId);
+    ProposalService.getProposalByDemandId(demandId).then((proposal) => {
+      console.log("PROPOSAL", proposal);
+    });
+  }, []);
+
+
+
   function sumInternalCosts() {
     let sum = 0;
     internalCosts.forEach((cost) => {
@@ -190,13 +195,22 @@ export default function GenerateProposal() {
     }, 1500);
   };
 
-  function handleFormatCosts(costs) {
+  function formatCosts(costs) {
     return costs.map((cost) => {
       return {
         perfilDespesaTabelaLinha: cost.expenseProfile,
         periodoExecucaoTabelaLinha: cost.monthTimeExecution,
         valorHoraTabelaLinha: cost.costHour,
         quantidadeHorasTabelaCusto: cost.necessaryHours,
+      };
+    });
+  }
+
+  function formatCCPS(CCPS){
+    return CCPS.map((ccp) => {
+      return {
+        centroCusto: {idCentroCusto: ccp.costCenter},
+        percentual: ccp.percentage,
       };
     });
   }
@@ -225,20 +239,18 @@ export default function GenerateProposal() {
       tabelaCusto: [
         {
           tipoDespesa: "INTERNA",
-          tabelaCustoLinha: handleFormatCosts(internalCosts),
-          centroCustoTabelaCusto: [
-            {
-              centroCusto: {
-                idCentroCusto: 1,
-              },
-              porcentagemDespesa: 50,
-            },
-          ],
+          tabelaCustoLinha: formatCosts(internalCosts),
+          centroCustoTabelaCusto: formatCCPS(internalCostCenterPayers),
+        },
+        {
+          tipoDespesa: "EXTERNA",
+          tabelaCustoLinha: formatCosts(externalCosts),
+          centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
         },
       ],
     };
 
-    console.log("Tabela de custos", internalCosts);
+    console.log("PROPOSAL TO SAVE", proposalToSave);
 
     /**
      * {

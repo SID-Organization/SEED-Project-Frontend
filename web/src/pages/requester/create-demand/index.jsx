@@ -171,9 +171,9 @@ export default function CreateDemand() {
 
       return {
         moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: benefit.value,
-        descricaoBeneficioHTML: benefit.descriptionHTML,
-        descricaoBeneficio: strBenef,
+        memoriaCalculoBeneficio: strBenef,
+        memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
+        valorBeneficio: benefit.value,
         tipoBeneficio: "REAL",
       };
     });
@@ -183,9 +183,9 @@ export default function CreateDemand() {
 
       benefitsToSave.push({
         moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: benefit.value,
-        descricaoBeneficioHTML: benefit.descriptionHTML,
-        descricaoBeneficio: strBenef,
+        memoriaCalculoBeneficio: strBenef,
+        memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
+        valorBeneficio: benefit.value,
         tipoBeneficio: "POTENCIAL",
       });
     }

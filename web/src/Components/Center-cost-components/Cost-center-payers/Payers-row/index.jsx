@@ -5,27 +5,60 @@ import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import MuiTextField from "@mui/material/TextField";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import { IconButton, InputAdornment } from "@mui/material";
+import { FormControl, IconButton, InputAdornment, InputLabel } from "@mui/material";
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+
+// Services
+import CostCenterService from "../../../../service/CostCenter-Service";
 
 const CCInput = styled(MuiTextField)({
     width: "8rem",
 });
 
-// CCP - Cost Center Payer
 
+
+// CCP - Cost Center Payer
 export default function PayerRow(props) {
     const [newCCP, setNewCCP] = useState({
         costCenter: props.CCP.costCenter,
         percentage: props.CCP.percentage,
     });
-    
+
     const [percent, setPercent] = useState(0);
-    const [ccName, setCCName] = useState("");
+    const [ccId, setCCId] = useState("");
     const [error, setError] = useState(false);
+    const [CCs, setCCs] = useState([]);
+
+    useEffect(() => {
+        CostCenterService.getCostCenters().then((response) => {
+            setCCs(response);
+        });
+    }, [])
+
+    useEffect(() => {
+        console.log(CCs);
+    }, [CCs])
+
+    useEffect(() => {
+        updateStates();
+    }, [props.totalCostCenterPayers]);
+
+    useEffect(() => {
+        // New percentage
+        let np = (parseInt(props.paymentPercent) - parseInt(props.CCPS[props.index].percentage)) + parseInt(percent);
+
+        if (np > 100 || isNaN(np)) {
+            setError(true);
+            return;
+        }
+        setError(false);
+        updateNewCCP();
+    }, [ccId, percent])
 
 
     function handleUpdateCCP() {
-        if(error) return;
+        if (error) return;
         props.setTotalCostCenterPayers((prevState) => {
             const CCPList = [...prevState];
             CCPList[props.index] = newCCP;
@@ -33,34 +66,16 @@ export default function PayerRow(props) {
         });
     }
 
-    useEffect(() => {
-        updateStates();
-    }, [props.totalCostCenterPayers]);
-
-
     function updateNewCCP() {
-        setNewCCP({ costCenter: ccName, percentage: parseInt(percent) })
+        setNewCCP({ costCenter: ccId, percentage: parseInt(percent) })
     }
 
 
     function updateStates() {
         setNewCCP({ costCenter: props.CCP.costCenter, percentage: props.CCP.percentage });
         setPercent(props.CCP.percentage);
-        setCCName(props.CCP.costCenter);
+        setCCId(props.CCP.costCenter);
     }
-
-    useEffect(() => {
-        // New percentage
-        let np = parseInt(((props.paymentPercent - props.CCPS[props.index].percentage)) + parseInt(percent));
-        console.log(np)
-        if (np > 100 || isNaN(np)) {
-            setError(true);
-            return;
-        }
-        setError(false);
-        updateNewCCP();
-    }, [ccName, percent])
-
 
     function deleteCCP() {
         props.setTotalCostCenterPayers((prevState) => {
@@ -75,14 +90,22 @@ export default function PayerRow(props) {
         <div
             className="mb-5 flex items-center justify-around gap-10 p-2"
         >
-            <CCInput
-                variant="standard"
-                error={error}
-                label="CC"
-                value={ccName}
-                onChange={e => setCCName(e.target.value)}
-                onBlur={handleUpdateCCP}
-            />
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-standard-label">CC</InputLabel>
+                <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    error={error}
+                    value={ccId}
+                    onChange={e => setCCId(e.target.value)}
+                >
+                    {CCs.map((cc) => {
+                        return (
+                            <MenuItem key={cc.idCentroCusto} value={cc.idCentroCusto}>{cc.idCentroCusto}</MenuItem>
+                        )
+                    })}
+                </Select>
+            </FormControl>
             <CCInput
                 variant="standard"
                 error={error}

@@ -3,7 +3,7 @@ import apiConfig from "../../../API-config";
 
 const url = `${apiConfig.URL}/centro-custo`;
 
-const getCostCenter = async () => {
+const getCostCenters = async () => {
   return axios.get(url).then((response) => response.data);
 };
 
@@ -24,7 +24,7 @@ const deleteCostCenter = async (id) => {
 };
 
 export default {
-  getCostCenter,
+  getCostCenters,
   getCostCenterById,
   createCostCenter,
   updateCostCenter,
