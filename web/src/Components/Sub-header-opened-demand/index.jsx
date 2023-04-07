@@ -42,7 +42,6 @@ import BusinessUnityService from "../../service/BusinessUnity-Service";
 // Utils
 import UserUtils from "../../utils/User-Utils";
 
-
 // Componentes estilizados
 const styleModal = {
   position: "absolute",
@@ -319,10 +318,10 @@ export default function subHeader({
             demandaHistorico: { idDemanda: demand.idDemanda },
             acaoFeitaHistorico: "Aprovar",
             idResponsavel: { numeroCadastroUsuario: 72132 },
-          }
+          };
           DemandLogService.createDemandLog(newLog);
         }
-        return response
+        return response;
       })
       .then((response) => {
         navigate("/demandas");
@@ -330,22 +329,24 @@ export default function subHeader({
   };
 
   const handleManagerApproveDemand = async () => {
-    console.log("Approving...")
+    console.log("Approving...");
 
     const demandLog = {
       tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
       demandaHistorico: { idDemanda: demand.idDemanda },
       acaoFeitaHistorico: "Enviar",
       idResponsavel: { numeroCadastroUsuario: 72131 },
-    }
+    };
 
-    DemandLogService.createDemandLog(demandLog)
-      .then((response) => {
-        console.log(response);
-        if (response.status == 200 || response.status == 201) {
-          DemandService.updateDemandStatus(demand.idDemanda, "APROVADO_PELO_GERENTE_DA_AREA");
-        }
-      });
+    DemandLogService.createDemandLog(demandLog).then((response) => {
+      console.log(response);
+      if (response.status == 200 || response.status == 201) {
+        DemandService.updateDemandStatus(
+          demand.idDemanda,
+          "APROVADO_PELO_GERENTE_DA_AREA"
+        );
+      }
+    });
   };
 
   const getDemandSize = () => {
@@ -355,6 +356,19 @@ export default function subHeader({
     if (classifyDemandSize == "4") return "PEQUENA";
     if (classifyDemandSize == "5") return "MUITO_PEQUENA";
   };
+
+  function isToEdit() {
+    if (demand) {
+      if (
+        user.cargoUsuario == "SOLICITANTE" &&
+        demand.statusDemanda == "ABERTA"
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 
   return (
     <div>
@@ -475,7 +489,9 @@ export default function subHeader({
                   >
                     {businessUnits &&
                       businessUnits.map((item, i) => (
-                        <MenuItem key={i} value={item.key}>{item.text}</MenuItem>
+                        <MenuItem key={i} value={item.key}>
+                          {item.text}
+                        </MenuItem>
                       ))}
                   </Select>
                 </FormControl>
@@ -609,40 +625,43 @@ export default function subHeader({
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
           {children}
         </h1>
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: "#00579D",
-            columnGap: 2,
-            width: 50,
-            height: 40,
-          }}
-          onClick={() => editInput()}
-        >
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              success: {
-                iconTheme: {
-                  primary: "#7EB61C",
-                  secondary: "white",
-                },
-              },
-              style: {
-                fontSize: "14px",
-              },
+        {/* aqiqqiuqiuqiq */}
+        {isToEdit() && (
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#00579D",
+              columnGap: 2,
+              width: 50,
+              height: 40,
             }}
-          />
-          {isEditEnabled ? (
-            <Tooltip title="Editar">
-              <ModeEditIcon />
-            </Tooltip>
-          ) : (
-            <Tooltip title="Salvar alterações">
-              <DoneIcon />
-            </Tooltip>
-          )}
-        </Button>
+            onClick={() => editInput()}
+          >
+            <Toaster
+              position="top-center"
+              toastOptions={{
+                success: {
+                  iconTheme: {
+                    primary: "#7EB61C",
+                    secondary: "white",
+                  },
+                },
+                style: {
+                  fontSize: "14px",
+                },
+              }}
+            />
+            {isEditEnabled ? (
+              <Tooltip title="Editar">
+                <ModeEditIcon />
+              </Tooltip>
+            ) : (
+              <Tooltip title="Salvar alterações">
+                <DoneIcon />
+              </Tooltip>
+            )}
+          </Button>
+        )}
 
         {user.cargoUsuario != "SOLICITANTE" && (
           <Tooltip title="Ações">

@@ -12,7 +12,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PublicIcon from "@mui/icons-material/Public";
 import PublicOffIcon from "@mui/icons-material/PublicOff";
 
-
 export default function PautasCard(props) {
   const Accordion = styled(MuiAccordion)(() => ({
     width: "62.5rem",
@@ -78,7 +77,7 @@ export default function PautasCard(props) {
               </h1>
             </div>
             <div className="flex justify-between">
-              <div className="flex justify-center items-center">
+              <div className="flex items-center justify-center">
                 <p className="mt-5 font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
@@ -86,13 +85,14 @@ export default function PautasCard(props) {
                   </span>
                 </p>
               </div>
-              <div className="flex justify-center items-end gap-3">
+              <div className="flex items-end justify-center gap-3">
                 <p className="font-bold">Visualizar Ata: </p>
                 <Tooltip title="Publicada">
                   <IconButton
                     sx={{
                       padding: "0px",
-                    }}>
+                    }}
+                  >
                     <PublicIcon
                       sx={{
                         color: "#0075B1",

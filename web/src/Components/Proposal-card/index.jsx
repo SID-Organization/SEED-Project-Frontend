@@ -143,13 +143,15 @@ export default function ProposalCard(props) {
             >
               <div
                 className={`
-                ${props.newPauta ? "none" : "flex gap-1"}
+                ${props.newPauta ? "none" : "flex w-[19rem] gap-1"}
                 `}
               >
                 <Tooltip title={props.title}>
                   <h1
                     className={`${
-                      props.newPauta ? "text-base font-bold" : "font-bold"
+                      props.newPauta
+                        ? "text-base font-bold"
+                        : "text-sm font-bold"
                     }`}
                   >
                     {props.title.length > 25
@@ -183,46 +185,56 @@ export default function ProposalCard(props) {
                 )}
               </div>
               <div className="flex items-center justify-center gap-5">
-                <h1
-                  className={`
-                  ${props.newPauta ? "text-sm font-bold" : "font-bold"}
-                `}
-                >
-                  Tempo de execução:{" "}
-                  <span className="font-normal text-gray-500">
-                    {props.executionTime} horas
-                  </span>
-                </h1>
-                <h1
-                  className={`
-                  ${props.newPauta ? "text-sm font-bold" : "font-bold"}
-                `}
-                >
-                  Valor:{" "}
-                  <span className="font-normal text-gray-500">
-                    {" "}
-                    R$ {props.value}
-                  </span>
-                </h1>
-                {props.atasCard && (
+                <div className="w-[14rem]">
                   <h1
                     className={`
-                  ${props.newPauta ? "text-sm font-bold" : "font-bold"}
+                  ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}
                 `}
                   >
-                    Parecer da comissão:{" "}
+                    Tempo de execução:{" "}
                     <span className="font-normal text-gray-500">
-                      {" "}
-                      {props.parecerComissao}
+                      {props.executionTime} horas
                     </span>
                   </h1>
+                </div>
+                <div className="w-[7rem]">
+                  <h1
+                    className={`
+                  ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}
+                `}
+                  >
+                    Valor:{" "}
+                    <span className="font-normal text-gray-500">
+                      {" "}
+                      R$ {props.value}
+                    </span>
+                  </h1>
+                </div>
+                {props.atasCard && (
+                  <div className="w-[13rem]">
+                    <h1
+                      className={`
+                  ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}
+                `}
+                    >
+                      Parecer da comissão:{" "}
+                      <span className="font-normal text-gray-500">
+                        {" "}
+                        {props.parecerComissao}
+                      </span>
+                    </h1>
+                  </div>
                 )}
               </div>
             </div>
             <div className="flex items-center">
               <h1
                 className={`
-                ${props.newPauta ? "ml-4 w-[49rem] font-bold" : "font-bold"}
+                ${
+                  props.newPauta
+                    ? "ml-4 w-[49rem] font-bold"
+                    : "text-sm font-bold"
+                }
                 `}
               >
                 Demanda de referência:{" "}
