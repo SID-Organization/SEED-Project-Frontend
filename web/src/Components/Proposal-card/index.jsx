@@ -137,7 +137,7 @@ export default function ProposalCard(props) {
                 ${
                   props.newPauta
                     ? "ml-4 flex items-center justify-between"
-                    : "flex items-center justify-between "
+                    : "flex items-center justify-around "
                 }
               `}
             >
@@ -197,18 +197,15 @@ export default function ProposalCard(props) {
                     </span>
                   </h1>
                 </div>
-                <div className="w-[7rem]">
+                <div className="flex w-[10rem] items-center justify-center gap-1">
                   <h1
                     className={`
                   ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}
                 `}
                   >
                     Valor:{" "}
-                    <span className="font-normal text-gray-500">
-                      {" "}
-                      R$ {props.value}
-                    </span>
                   </h1>
+                  <p className="text-sm text-gray-500"> R$ {props.value}</p>
                 </div>
                 {props.atasCard && (
                   <div className="w-[13rem]">
