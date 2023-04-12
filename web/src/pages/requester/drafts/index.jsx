@@ -34,6 +34,10 @@ export default function drafts() {
     });
   }, []);
 
+  useEffect(() => {
+    console.log("Demands", demands);
+  }, [demands])
+
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
 

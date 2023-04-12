@@ -48,6 +48,10 @@ export default function DemandManager() {
   }, [demandsToManage])
 
   useEffect(() => {
+    console.log("AAAAAAA", demandsToManage)
+  }, [demandsToManage]);
+
+  useEffect(() => {
     if(!filter) return;
       const filtered = DemandFilterUtils.filterBy(demandsToManage, filter.filterBy, search);
       setFilteredDemands(filtered);
@@ -71,9 +75,8 @@ export default function DemandManager() {
         </div>
       ) : (
         <div className="flex flex-wrap justify-around">
-          {demandsToManage &&
-            filteredDemands
-              .map((demand, i) => {
+          {(demandsToManage) &&
+            filteredDemands.map((demand, i) => {
                 return <DemandCard key={i} demand={demand} />;
               })
           }

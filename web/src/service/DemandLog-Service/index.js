@@ -3,7 +3,7 @@ import apiConfig from "../../../API-config";
 
 const url = `${apiConfig.URL}/historico-workflow`;
 
-const createDemandLog = (demandLog) => {
+const createDemandLog = async (demandLog) => {
   return axios
     .post(url, demandLog)
     .then((response) => response.data)

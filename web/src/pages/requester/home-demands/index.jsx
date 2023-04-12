@@ -15,36 +15,37 @@ import UserUtils from "../../../utils/User-Utils";
 export default function homeDemands() {
   const [isListFormat, setIsListFormat] = useState(false);
   const [user, setUser] = useState(UserUtils.getLoggedUser());
-  
+
   /*
     Estão sendo utilizadas 3 variáveis para armazenar as demandas:
     - dbDemands: armazena as demandas que foram buscadas no banco de dados
     - demands: armazena as demandas com o histórico de workflow
     - showingDemands: armazena as demandas que serão mostradas na tela (Já filtradas ou ordenadas)
   */
-  
+
   const [demandsWLogs, setDemandsWLogs] = useState();
   const [dbDemands, setDbDemands] = useState();
   const [sortedDemands, setSortedDemands] = useState([]);
   const [showingDemands, setShowingDemands] = useState([]);
 
 
-  const [filter, setFilter] = useState({filterId: 0, filterType: "date"});
+  const [filter, setFilter] = useState({ filterId: 0, filterType: "date" });
   const [search, setSearch] = useState("");
 
   function getDemandsList() {
     return (
       <div className="flex justify-center items-center h-full">
-        <DemandsList demands={showingDemands}/>
+        <DemandsList demands={showingDemands} />
       </div>
     );
   }
 
   useEffect(() => {
-    DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then((demands) => {
-      console.log("Demands: ", demands)
-      setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
-    });
+    DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario)
+      .then((demands) => {
+        console.log("Demands: ", demands)
+        setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
+      });
   }, []);
 
 
@@ -66,52 +67,34 @@ export default function homeDemands() {
 
   const updateDemandSort = (search) => {
     let sortedDemands;
-    if(demandsWLogs) {
+    if (demandsWLogs) {
       console.log("DemandsWLogs: ", demandsWLogs)
       console.log("FILTER: ", filter)
       console.log("SEARCH: ", search)
 
-      // if(filter.filterId === 0){
-      //   // Ordenar por data de criação
-      //   sortedDemands = demandsWLogs.sort((a, b) => {
-      //     let dateA = new Date(a.historico[0].recebimentoHistorico);
-      //     let dateB = new Date(b.historico[0].recebimentoHistorico);
-      //     if(dateA > dateB) return -1;
-      //     if(dateA < dateB) return 1;
-      //     return 0
-      //   })
-      // } else if(filter.filterId === 1){
-      //   // Ordenar por data de atualização (ultima atualização)
-      //   sortedDemands = demandsWLogs.sort((a, b) => {
-      //     let dateA = new Date(a.historico[a.historico.length - 1].recebimentoHistorico);
-      //     let dateB = new Date(b.historico[b.historico.length - 1].recebimentoHistorico);
-      //     if(dateA > dateB) return -1;
-      //     if(dateA < dateB) return 1;
-      //     return 0
-        // })
 
-      // } else {
-        sortedDemands = demandsWLogs;
-      }
-      
+      sortedDemands = demandsWLogs;
+
+
       console.log("sorted demands: ", sortedDemands)
 
       setSortedDemands(sortedDemands);
     }
-  
+  }
+
 
   useEffect(() => {
-    if(dbDemands){
+    if (dbDemands) {
       getDemandsLogs();
     }
   }, [dbDemands])
 
 
   useEffect(() => {
-    if(demandsWLogs) {
+    if (demandsWLogs) {
       updateDemandSort(search);
 
-      if(sortedDemands) {
+      if (sortedDemands) {
         setShowingDemands(sortedDemands);
       }
     }

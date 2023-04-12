@@ -1,7 +1,9 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "../../../styles/index.css";
 
+// MUI
 import Tooltip from "@mui/material/Tooltip";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -10,12 +12,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import MessageIcon from "@mui/icons-material/Message";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 
+// Components
 import SubHeaderOpenedDemand from "../../../Components/Sub-header-opened-demand";
 import WorkflowTable from "../../../Components/Workflow-table";
 import BenefitsCard from "../../../Components/Benefits-card";
-
-import "../../../styles/index.css";
-
 import FilesTable from "../../../Components/FilesTable";
 
 // Services
@@ -69,6 +69,10 @@ export default function openedDemand() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    console.log("Demand Logs", demandLogs);
+  }, [demandLogs]);
 
   function getBenefits(benefitType) {
     if (benefitType == "REAL") {
