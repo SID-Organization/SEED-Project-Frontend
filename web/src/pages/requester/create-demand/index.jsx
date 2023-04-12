@@ -2,6 +2,7 @@ import React, { createRef } from "react";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
+import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
 import "react-quill/dist/quill.snow.css";
 
 // MUI
@@ -548,7 +549,7 @@ export default function CreateDemand() {
         <div className="flex items-center justify-center">
           <TextField
             sx={{
-              marginBottom: "10rem",
+              marginBottom: "5rem",
             }}
             id="ined-basic"
             label="Descrição"
@@ -588,7 +589,7 @@ export default function CreateDemand() {
   const thirdStep = () => {
     return (
       <div>
-        <div className="grid">
+        <div className="mb-10 grid">
           <div className="flex items-center justify-center">
             <h1 className="text-3xl text-light-blue-weg">UPLOAD DE ARQUIVOS</h1>
           </div>
@@ -808,6 +809,8 @@ export default function CreateDemand() {
     );
   };
 
+  const steps = ["Dados gerais", "Benefícios", "Arquivos"];
+
   return (
     <div>
       <div className="mb-7">
@@ -818,67 +821,33 @@ export default function CreateDemand() {
         </div>
       </div>
       <div className="mb-10 flex items-center justify-center">
-        {/* <StepperDemandProgress /> */}
-
-        <Box sx={{ width: "50%" }}>
-          <Stepper activeStep={activeStep}>
-            {progressSteps.map((label, index) => {
-              const stepProps = {};
-              const labelProps = {};
-              return (
-                <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
-                </Step>
-              );
-            })}
-          </Stepper>
-          {activeStep === progressSteps.length ? (
-            <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                Todos os passos foram completados!
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleReset}>Resetar</Button>
-              </Box>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                Passo {activeStep + 1}
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Voltar
-                </Button>
-                <Box sx={{ flex: "1 1 auto" }} />
-                {isStepOptional(activeStep) && (
-                  <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                    Pular
-                  </Button>
-                )}
-                <Button onClick={handleNext}>
-                  {activeStep === progressSteps.length - 1
-                    ? "Finalizar"
-                    : "Próximo"}
-                </Button>
-              </Box>
-            </React.Fragment>
-          )}
-        </Box>
+        <StepperDemandProgress
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          handleNext={handleNext}
+          handleBack={handleBack}
+          steps={steps}
+        />
       </div>
-      <div className="grid items-center justify-center gap-14">
+      <div className="grid items-center justify-center ">
         <div className="grid">
           {activeStep === 0 && firstStep()}
           {activeStep === 1 && secondStep()}
           {activeStep === 2 && thirdStep()}
           {activeStep === 3 && demandCreationConfirmation()}
-          <div />
+        </div>
+        <div className="mb-10 flex items-center justify-between">
+          <Button
+            color="inherit"
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ mr: 1 }}
+          >
+            Voltar
+          </Button>
+          <Button onClick={handleNext}>
+            {activeStep === steps.length - 1 ? "Finalizar" : "Próximo"}
+          </Button>
         </div>
       </div>
     </div>
