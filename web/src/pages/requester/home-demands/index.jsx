@@ -11,6 +11,7 @@ import DemandLogService from "../../../service/DemandLog-Service";
 
 // Utils
 import UserUtils from "../../../utils/User-Utils";
+import { Pagination } from "@mui/material";
 
 export default function homeDemands() {
   const [isListFormat, setIsListFormat] = useState(false);
@@ -28,67 +29,60 @@ export default function homeDemands() {
   const [sortedDemands, setSortedDemands] = useState([]);
   const [showingDemands, setShowingDemands] = useState([]);
 
-
   const [filter, setFilter] = useState({ filterId: 0, filterType: "date" });
   const [search, setSearch] = useState("");
 
   function getDemandsList() {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div className="flex h-full items-center justify-center">
         <DemandsList demands={showingDemands} />
       </div>
     );
   }
 
   useEffect(() => {
-    DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario)
-      .then((demands) => {
-        console.log("Demands: ", demands)
+    DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
+      (demands) => {
+        console.log("Demands: ", demands);
         setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
-      });
+      }
+    );
   }, []);
-
-
 
   const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands.map(async (demand) => {
-      console.log("Demand: ", demand)
+      console.log("Demand: ", demand);
       let demandHistoric = DemandLogService.getDemandLogs(demand.idDemanda);
 
-      return ({
+      return {
         ...demand,
-        historico: await demandHistoric
-      });
-    })
+        historico: await demandHistoric,
+      };
+    });
 
     setDemandsWLogs(await Promise.all(demandsHistoric));
-  }
-
+  };
 
   const updateDemandSort = (search) => {
     let sortedDemands;
     if (demandsWLogs) {
-      console.log("DemandsWLogs: ", demandsWLogs)
-      console.log("FILTER: ", filter)
-      console.log("SEARCH: ", search)
-
+      console.log("DemandsWLogs: ", demandsWLogs);
+      console.log("FILTER: ", filter);
+      console.log("SEARCH: ", search);
 
       sortedDemands = demandsWLogs;
 
-
-      console.log("sorted demands: ", sortedDemands)
+      console.log("sorted demands: ", sortedDemands);
 
       setSortedDemands(sortedDemands);
     }
-  }
-
+  };
 
   useEffect(() => {
     if (dbDemands) {
       getDemandsLogs();
     }
-  }, [dbDemands])
-
+  }, [dbDemands]);
 
   useEffect(() => {
     if (demandsWLogs) {
@@ -98,18 +92,39 @@ export default function homeDemands() {
         setShowingDemands(sortedDemands);
       }
     }
-  }, [filter, demandsWLogs])
-
-
+  }, [filter, demandsWLogs]);
 
   function getDemandsGrid() {
+    const demandsPerPage = 12; // Define o número de demandas por página
+    const [currentPage, setCurrentPage] = useState(1); // Define a página atual como 1
+    const lastIndex = currentPage * demandsPerPage; // Último índice das demandas a serem mostradas
+    const firstIndex = lastIndex - demandsPerPage; // Primeiro índice das demandas a serem mostradas
+
+    const showingDemandsPaginated = showingDemands
+      ? showingDemands.slice(firstIndex, lastIndex)
+      : []; // Fatiamento das demandas
+
+    const handleChangePage = (event, value) => {
+      // Função para alterar a página atual
+      setCurrentPage(value);
+    };
+
     return (
-      <div className="flex flex-wrap justify-around gap-4 w-full">
-        {showingDemands &&
-          showingDemands
-            .map((demand, i) => {
+      <div>
+        <div className="flex w-full flex-wrap justify-around gap-4">
+          {showingDemandsPaginated &&
+            showingDemandsPaginated.map((demand, i) => {
               return <DemandCard key={i} demand={demand} />;
             })}
+        </div>
+        <div className="mt-4 flex w-full justify-center">
+          <Pagination
+            count={Math.ceil(showingDemands?.length / demandsPerPage)}
+            page={currentPage}
+            onChange={handleChangePage}
+            color="primary"
+          />
+        </div>
       </div>
     );
   }
@@ -128,7 +143,7 @@ export default function homeDemands() {
           Minhas demandas
         </SubHeader>
       </div>
-      <div className="flex justify-center w-full">
+      <div className="flex w-full justify-center">
         {showingDemands ? (
           isListFormat ? (
             getDemandsList()
