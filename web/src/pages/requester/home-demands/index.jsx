@@ -14,15 +14,15 @@ import UserUtils from "../../../utils/User-Utils";
 import { Pagination } from "@mui/material";
 
 export default function homeDemands() {
-  const [isListFormat, setIsListFormat] = useState(false);
-  const [user, setUser] = useState(UserUtils.getLoggedUser());
-
   /*
     Estão sendo utilizadas 3 variáveis para armazenar as demandas:
     - dbDemands: armazena as demandas que foram buscadas no banco de dados
     - demands: armazena as demandas com o histórico de workflow
     - showingDemands: armazena as demandas que serão mostradas na tela (Já filtradas ou ordenadas)
   */
+
+  const [isListFormat, setIsListFormat] = useState(false);
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   const [demandsWLogs, setDemandsWLogs] = useState();
   const [dbDemands, setDbDemands] = useState();
@@ -32,13 +32,10 @@ export default function homeDemands() {
   const [filter, setFilter] = useState({ filterId: 0, filterType: "date" });
   const [search, setSearch] = useState("");
 
-  function getDemandsList() {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <DemandsList demands={showingDemands} />
-      </div>
-    );
-  }
+  const [currentPage, setCurrentPage] = useState(1); // Define a página atual como 1
+  const demandsPerPage = 12; // Define o número de demandas por página
+  const lastIndex = currentPage * demandsPerPage; // Último índice das demandas a serem mostradas
+  const firstIndex = lastIndex - demandsPerPage; // Primeiro índice das demandas a serem mostradas
 
   useEffect(() => {
     DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
@@ -48,6 +45,60 @@ export default function homeDemands() {
       }
     );
   }, []);
+
+  useEffect(() => {
+    if (dbDemands) {
+      getDemandsLogs();
+    }
+  }, [dbDemands]);
+
+  useEffect(() => {
+    if (demandsWLogs) {
+      updateDemandSort(search);
+
+      if (sortedDemands) {
+        setShowingDemands(sortedDemands);
+      }
+    }
+  }, [filter, demandsWLogs]);
+
+  function getDemandsList() {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <DemandsList demands={showingDemands} />
+      </div>
+    );
+  }
+
+  function getDemandsGrid() {
+    const showingDemandsPaginated = showingDemands
+      ? showingDemands.slice(firstIndex, lastIndex)
+      : []; // Fatiamento das demandas
+
+    const handleChangePage = (event, value) => {
+      // Função para alterar a página atual
+      setCurrentPage(value);
+    };
+
+    return (
+      <div>
+        <div className="flex w-full flex-wrap justify-around gap-4">
+          {showingDemandsPaginated &&
+            showingDemandsPaginated.map((demand, i) => {
+              return <DemandCard key={i} demand={demand} />;
+            })}
+        </div>
+        <div className="mt-4 flex w-full justify-center">
+          <Pagination
+            count={Math.ceil(showingDemands?.length / demandsPerPage)}
+            page={currentPage}
+            onChange={handleChangePage}
+            color="primary"
+          />
+        </div>
+      </div>
+    );
+  }
 
   const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands.map(async (demand) => {
@@ -77,57 +128,6 @@ export default function homeDemands() {
       setSortedDemands(sortedDemands);
     }
   };
-
-  useEffect(() => {
-    if (dbDemands) {
-      getDemandsLogs();
-    }
-  }, [dbDemands]);
-
-  useEffect(() => {
-    if (demandsWLogs) {
-      updateDemandSort(search);
-
-      if (sortedDemands) {
-        setShowingDemands(sortedDemands);
-      }
-    }
-  }, [filter, demandsWLogs]);
-
-  function getDemandsGrid() {
-    const demandsPerPage = 12; // Define o número de demandas por página
-    const [currentPage, setCurrentPage] = useState(1); // Define a página atual como 1
-    const lastIndex = currentPage * demandsPerPage; // Último índice das demandas a serem mostradas
-    const firstIndex = lastIndex - demandsPerPage; // Primeiro índice das demandas a serem mostradas
-
-    const showingDemandsPaginated = showingDemands
-      ? showingDemands.slice(firstIndex, lastIndex)
-      : []; // Fatiamento das demandas
-
-    const handleChangePage = (event, value) => {
-      // Função para alterar a página atual
-      setCurrentPage(value);
-    };
-
-    return (
-      <div>
-        <div className="flex w-full flex-wrap justify-around gap-4">
-          {showingDemandsPaginated &&
-            showingDemandsPaginated.map((demand, i) => {
-              return <DemandCard key={i} demand={demand} />;
-            })}
-        </div>
-        <div className="mt-4 flex w-full justify-center">
-          <Pagination
-            count={Math.ceil(showingDemands?.length / demandsPerPage)}
-            page={currentPage}
-            onChange={handleChangePage}
-            color="primary"
-          />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div>
