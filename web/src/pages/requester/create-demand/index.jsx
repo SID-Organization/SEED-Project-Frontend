@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
+import { useParams } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 
 // MUI
@@ -17,15 +18,10 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import Box from "@mui/material/Box";
-import Step from "@mui/material/Step";
 import Paper from "@mui/material/Paper";
 import Dialog from "@mui/material/Dialog";
-import Stepper from "@mui/material/Stepper";
 import Draggable from "react-draggable";
-import StepLabel from "@mui/material/StepLabel";
 import UploadIcon from "@mui/icons-material/Upload";
-import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -100,9 +96,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const progressSteps = ["Dados gerais", "Benefícios", "Arquivos"];
-
 export default function CreateDemand() {
+  const params = useParams();
+
   const [title, setTitle] = useState("");
 
   const currentProblemRef = useRef(null);
@@ -122,6 +118,78 @@ export default function CreateDemand() {
 
   const [buttonNotification, setButtonNotification] = useState(false);
   const [deleteNotification, setDeleteNotification] = useState(false);
+
+  const [realBenefits, setRealBenefits] = useState([
+    {
+      coin: "",
+      value: 0,
+      descriptionHTML: "",
+      description: "",
+      ref: useRef(null),
+    },
+  ]);
+
+  const [potentialBenefits, setPotentialBenefits] = useState([
+    {
+      coin: "",
+      value: 0,
+      descriptionHTML: "",
+      description: "",
+      ref: useRef(null),
+    },
+  ]);
+
+  const [qualitativeBenefit, setQualitativeBenefit] = useState("");
+
+  useEffect(() => {
+    if (params.id) {
+      DemandService.getDemandById(params.id).then((response) => {
+        console.log("RESPONSE", response);
+        setTitle(response.tituloDemanda);
+        setProposal(response.propostaMelhoriaDemanda);
+        setCurrentProblem(response.situacaoAtualDemanda);
+        setFrequencyOfUse(response.frequenciaUsoDemanda);
+        setRealBenefits(
+          response.beneficiosDemanda.map((benefit) => {
+            if (benefit.tipoBeneficio === "REAL") {
+              return {
+                id: benefit.idBeneficio,
+                description: benefit.descricaoBeneficio,
+                value: benefit.valorBeneficio,
+                coin: benefit.moedaBeneficio,
+                descriptionHTML: benefit.descricaoBeneficioHTML,
+                ref: useRef(null),
+              };
+            }
+          })
+        );
+        setPotentialBenefits(
+          response.beneficiosDemanda.map((benefit) => {
+            if (benefit.tipoBeneficio === "POTENCIAL") {
+              return {
+                id: benefit.idBeneficio,
+                description: benefit.descricaoBeneficio,
+                value: benefit.valorBeneficio,
+                coin: benefit.moedaBeneficio,
+                descriptionHTML: benefit.descricaoBeneficioHTML,
+                ref: useRef(null),
+              };
+            }
+          })
+        );
+        setQualitativeBenefit(response.descricaoQualitativoDemanda);
+        setSelectedFiles(
+          response.arquivosDemandas.map((attachment) => {
+            return {
+              type: attachment.type,
+              name: attachment.name,
+              size: attachment.size,
+            };
+          })
+        );
+      });
+    }
+  }, []);
 
   const quillModules = {
     toolbar: [
@@ -335,6 +403,10 @@ export default function CreateDemand() {
             InputProps={{
               startAdornment: <InputAdornment position="start" />,
             }}
+            helperText={
+              title.length == 0 ? "O título é obrigatório" : title.length > 100
+            }
+            error={title.length == 0 || title.length > 100}
           />
         </div>
         <div className="grid gap-1">
@@ -351,7 +423,7 @@ export default function CreateDemand() {
               setProposalHTML(e);
               setProposal(proposalRef.current?.getEditor().getText());
             }}
-            placeholder="Escreva a visão do negócio/o que vai resolver"
+            placeholder="Escreva a visão do negócio que vai resolver"
             modules={quillModules}
             ref={proposalRef}
             style={quillStyle}
@@ -405,28 +477,6 @@ export default function CreateDemand() {
       </div>
     );
   };
-
-  const [realBenefits, setRealBenefits] = useState([
-    {
-      coin: "",
-      value: 0,
-      descriptionHTML: "",
-      description: "",
-      ref: useRef(null),
-    },
-  ]);
-
-  const [potentialBenefits, setPotentialBenefits] = useState([
-    {
-      coin: "",
-      value: 0,
-      descriptionHTML: "",
-      description: "",
-      ref: useRef(null),
-    },
-  ]);
-
-  const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
   // Segundo passo - Benefícios
   const secondStep = () => {
@@ -570,6 +620,7 @@ export default function CreateDemand() {
   // Terceiro passo - Anexos
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filesTableRows, setFilesTableRows] = useState([]);
+  console.log("SETSELECTEFILES", selectedFiles);
 
   useEffect(() => {
     if (selectedFiles) {
@@ -827,6 +878,7 @@ export default function CreateDemand() {
           handleNext={handleNext}
           handleBack={handleBack}
           steps={steps}
+          title={title}
         />
       </div>
       <div className="grid items-center justify-center ">
@@ -845,7 +897,7 @@ export default function CreateDemand() {
           >
             Voltar
           </Button>
-          <Button onClick={handleNext}>
+          <Button onClick={handleNext} disabled={title.length == 0}>
             {activeStep === steps.length - 1 ? "Finalizar" : "Próximo"}
           </Button>
         </div>

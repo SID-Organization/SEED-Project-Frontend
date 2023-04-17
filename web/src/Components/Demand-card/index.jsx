@@ -23,7 +23,7 @@ import DemandLogService from "../../service/DemandLog-Service";
 import ProposalService from "../../service/Proposal-Service";
 
 // Utils
-import DemandUtils from "../../utils/Demand-Utils"
+import DemandUtils from "../../utils/Demand-Utils";
 import UserUtils from "../../utils/User-Utils";
 
 const TextField = styled(MuiTextField)({
@@ -76,18 +76,18 @@ export default function DemandCard(props) {
   const [demandLogs, setDemandLogs] = useState([]);
 
   const getFirstLog = async () => {
-    DemandLogService.getDemandLogs(props.demand.idDemanda)
-      .then((data) => {
-        setDemandLogs(data);
-        let firstLog = new Date(data[0].recebimentoHistorico).toLocaleDateString();
-        setFirstLog(firstLog);
-      });
-  }
+    DemandLogService.getDemandLogs(props.demand.idDemanda).then((data) => {
+      setDemandLogs(data);
+      let firstLog = new Date(
+        data[0].recebimentoHistorico
+      ).toLocaleDateString();
+      setFirstLog(firstLog);
+    });
+  };
 
   useEffect(() => {
     getFirstLog();
-  }, [])
-
+  }, []);
 
   const handleOpenReasonOfCancellation = () =>
     setOpenReasonOfCancellation(true);
@@ -102,57 +102,60 @@ export default function DemandCard(props) {
   const [deadLineDate, setDeadLineDate] = useState("");
   const [jiraLink, setJiraLink] = useState("");
 
-
-
   const handleCreateProposal = async () => {
     const proposal = {
       codigoPPMProposta: ppmCode,
       periodoExecucaoInicioProposta: startDevDate,
       periodoExecucaoFimProposta: deadLineDate,
       linkJiraProposta: "https://jira.com/sid",
-      responsaveisNegocio: demandLogs.filter((logs, index) => {
-        return index === demandLogs.findIndex(obj => obj.numeroCadastroResponsavel === logs.numeroCadastroResponsavel)
-      }).map((log) => (
-        {
-          numeroCadastroUsuario: log.numeroCadastroResponsavel
-        }
-      )),
+      responsaveisNegocio: demandLogs
+        .filter((logs, index) => {
+          return (
+            index ===
+            demandLogs.findIndex(
+              (obj) =>
+                obj.numeroCadastroResponsavel === logs.numeroCadastroResponsavel
+            )
+          );
+        })
+        .map((log) => ({
+          numeroCadastroUsuario: log.numeroCadastroResponsavel,
+        })),
       demandaProposta: { idDemanda: props.demand.idDemanda },
     };
 
-    console.log("ProposalSave", proposal)
+    console.log("ProposalSave", proposal);
 
-    ProposalService.createProposal(proposal)
-      .then((response) => {
-        if (response.status === 201) {
-          DemandService.updateDemandStatus(props.demand.idDemanda, "PROPOSTA_EM_ELABORACAO")
-            .then((response) => {
-              if (response.status === 200) {
-                navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`)
-              }
-            })
-        }
-      })
-  }
+    ProposalService.createProposal(proposal).then((response) => {
+      if (response.status === 201) {
+        DemandService.updateDemandStatus(
+          props.demand.idDemanda,
+          "PROPOSTA_EM_ELABORACAO"
+        ).then((response) => {
+          if (response.status === 200) {
+            navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`);
+          }
+        });
+      }
+    });
+  };
 
   const handleAccessProposal = () => {
-    navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`)
+    navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`);
   };
 
   function valuetext(value) {
     return `${value}°C`;
   }
 
-
   function formatDemandStatus(type) {
-    const statusByRole = DemandUtils.getDemandStatusByRole(props.demand.statusDemanda, user.cargoUsuario);
+    const statusByRole = DemandUtils.getDemandStatusByRole(
+      props.demand.statusDemanda,
+      user.cargoUsuario
+    );
     const status =
       statusByRole[0].toLocaleUpperCase() +
-      statusByRole
-        .split("_")
-        .join(" ")
-        .toLocaleLowerCase()
-        .slice(1);
+      statusByRole.split("_").join(" ").toLocaleLowerCase().slice(1);
 
     if (type === 1) {
       if (status.length > 15) {
@@ -163,7 +166,9 @@ export default function DemandCard(props) {
   }
 
   function getPercents() {
-    const percent = DemandUtils.getPercentageByStatus(props.demand.statusDemanda);
+    const percent = DemandUtils.getPercentageByStatus(
+      props.demand.statusDemanda
+    );
     return percent;
   }
 
@@ -202,7 +207,7 @@ export default function DemandCard(props) {
   }, []);
 
   return (
-    <div className="grid justify-center items-center mb-7">
+    <div className="mb-7 grid items-center justify-center">
       {isDemandLoading ? (
         <Skeleton
           variant="rectangular"
@@ -215,11 +220,16 @@ export default function DemandCard(props) {
           sx={{ width: 430, height: 180 }}
           style={{
             boxShadow: "1px 1px 5px 0px #808080db",
-            borderLeft: "7px solid " + DemandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
+            borderLeft:
+              "7px solid " +
+              DemandUtils.getDemandStatusColorByRole(
+                props.demand.statusDemanda,
+                user.cargoUsuario
+              ),
           }}
         >
           <CardContent>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <Tooltip title={props.demand.tituloDemanda}>
                 <Typography
                   variant="h5"
@@ -243,13 +253,13 @@ export default function DemandCard(props) {
               >
                 <span className="mr-1 text-[0.95rem]">Status:</span>
                 <Tooltip title={formatDemandStatus(2)}>
-                  <span className="font-medium text-black text-[0.95rem]">
+                  <span className="text-[0.95rem] font-medium text-black">
                     {formatDemandStatus(1)}
                   </span>
                 </Tooltip>
                 {/* Select */}
                 {props.demand.statusDemanda === "RASCUNHO" && (
-                  <div className="flex justify-center items-center ml-5">
+                  <div className="ml-5 flex items-center justify-center">
                     <Radio
                       checked={isDraftSelected}
                       onClick={handleSelectDrafts}
@@ -274,7 +284,7 @@ export default function DemandCard(props) {
                   className="flex"
                 >
                   <span className="mr-1 text-[0.95rem]">Score:</span>
-                  <span className="font-medium text-black text-[0.95rem]">
+                  <span className="text-[0.95rem] font-medium text-black">
                     {props.demand.scoreDemanda}
                   </span>
                 </Typography>
@@ -285,35 +295,41 @@ export default function DemandCard(props) {
                   className="flex"
                 >
                   <span className="mr-1 text-[0.95rem]">Valor:</span>
-                  <span className="font-medium text-black text-[0.95rem]">
+                  <span className="text-[0.95rem] font-medium text-black">
                     {"R$10"}
                   </span>
                 </Typography>
               </div>
-              <div className="flex justify-center items-center">
+              <div className="flex items-center justify-center">
                 <Typography
                   sx={{ mb: 1.5 }}
                   color="#675E5E"
                   fontWeight="bold"
                   className="flex"
                 >
-                  <span className="mr-1 flex justify-center text-[0.95rem] items-center text-black">
+                  <span className="mr-1 flex items-center justify-center text-[0.95rem] text-black">
                     Progresso:
                   </span>
                   <span className="grid">
-                    <Box className="flex justify-center items-center ">
+                    <Box className="flex items-center justify-center ">
                       <Slider
                         aria-label="Temperature"
                         defaultValue={getPercents}
                         getAriaValueText={valuetext}
                         disabled
                         style={{
-                          color: DemandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
+                          color: DemandUtils.getDemandStatusColorByRole(
+                            props.demand.statusDemanda,
+                            user.cargoUsuario
+                          ),
                         }}
                         sx={{
                           height: 16,
                           width: 120,
-                          color: DemandUtils.getDemandStatusColorByRole(props.demand.statusDemanda, user.cargoUsuario),
+                          color: DemandUtils.getDemandStatusColorByRole(
+                            props.demand.statusDemanda,
+                            user.cargoUsuario
+                          ),
                           "& .MuiSlider-thumb": {
                             display: "none",
                           },
@@ -321,7 +337,7 @@ export default function DemandCard(props) {
                       />
                     </Box>
                   </span>
-                  <span className="text-xs flex justify-end items-center text-black ml-1">
+                  <span className="ml-1 flex items-center justify-end text-xs text-black">
                     {getPercents() + "%"}
                   </span>
                 </Typography>
@@ -329,13 +345,15 @@ export default function DemandCard(props) {
             </div>
           </CardContent>
           <CardActions className="flex justify-between">
-            <div className="flex justify-start items-center gap-2 ml-1 mr-1">
+            <div className="ml-1 mr-1 flex items-center justify-start gap-2">
               <div className="flex">
                 <Typography color="#675E5E" fontWeight="bold" className="flex">
                   <span className="text-[0.85rem]">De: </span>
                 </Typography>
                 <Typography color="black" fontWeight="bold" className="flex">
-                  <span className="text-[0.85rem] ml-2">{firstLog && firstLog}</span>
+                  <span className="ml-2 text-[0.85rem]">
+                    {firstLog && firstLog}
+                  </span>
                 </Typography>
               </div>
               <div className="flex">
@@ -343,18 +361,31 @@ export default function DemandCard(props) {
                   <span className="text-[0.85rem]">Até: </span>
                 </Typography>
                 <Typography color="black" fontWeight="bold" className="flex">
-                  <span className="text-[0.85rem] ml-2">- - - -</span>
+                  <span className="ml-2 text-[0.85rem]">- - - -</span>
                 </Typography>
               </div>
             </div>
-            <div className="flex justify-center items-center gap-3 mr-4">
-              {((props.demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA"
-                || props.demand.statusDemanda === "PROPOSTA_EM_ELABORACAO")
-                && user.cargoUsuario != "SOLICITANTE") && (
+            <div className="mr-4 flex items-center justify-center gap-3">
+              {(props.demand.statusDemanda ===
+                "APROVADO_PELO_GERENTE_DA_AREA" ||
+                props.demand.statusDemanda === "PROPOSTA_EM_ELABORACAO") &&
+                user.cargoUsuario != "SOLICITANTE" && (
                   <div>
-                    <Tooltip title={props.demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA" ? "Gerar proposta" : "Acessar proposta"}>
+                    <Tooltip
+                      title={
+                        props.demand.statusDemanda ===
+                        "APROVADO_PELO_GERENTE_DA_AREA"
+                          ? "Gerar proposta"
+                          : "Acessar proposta"
+                      }
+                    >
                       <Button
-                        onClick={props.demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA" ? handleOpenGenerateProposal : handleAccessProposal}
+                        onClick={
+                          props.demand.statusDemanda ===
+                          "APROVADO_PELO_GERENTE_DA_AREA"
+                            ? handleOpenGenerateProposal
+                            : handleAccessProposal
+                        }
                         variant="contained"
                         sx={{
                           backgroundColor: "#FFF",
@@ -379,18 +410,18 @@ export default function DemandCard(props) {
                       aria-describedby="modal-modal-description"
                     >
                       <Box sx={styleModalGenerateProposal}>
-                        <div className="mb-5 h-14 w-full bg-dark-blue-weg flex justify-center items-center rounded-t-lg">
-                          <p className="font-roboto text-[#FFF] font-bold text-xl">
+                        <div className="mb-5 flex h-14 w-full items-center justify-center rounded-t-lg bg-dark-blue-weg">
+                          <p className="font-roboto text-xl font-bold text-[#FFF]">
                             Insira as seguintes informações
                           </p>
                         </div>
-                        <div className="flex justify-center items-center font-roboto">
+                        <div className="flex items-center justify-center font-roboto">
                           <div className="flex gap-14">
-                            <div className="grid justify-center items-center gap-1">
+                            <div className="grid items-center justify-center gap-1">
                               <p className="font-bold text-dark-blue-weg">
                                 Prazo para a elaboração da proposta
                               </p>
-                              <div className="grid justify-center items-center gap-10">
+                              <div className="grid items-center justify-center gap-10">
                                 <TextField
                                   id="outlined-basic"
                                   variant="outlined"
@@ -399,7 +430,9 @@ export default function DemandCard(props) {
                                   label="De:"
                                   size="small"
                                   value={startDevDate}
-                                  onChange={e => setStartDevDate(e.target.value)}
+                                  onChange={(e) =>
+                                    setStartDevDate(e.target.value)
+                                  }
                                   InputProps={{
                                     startAdornment: (
                                       <InputAdornment position="start" />
@@ -414,7 +447,9 @@ export default function DemandCard(props) {
                                   label="Até:"
                                   size="small"
                                   value={deadLineDate}
-                                  onChange={e => setDeadLineDate(e.target.value)}
+                                  onChange={(e) =>
+                                    setDeadLineDate(e.target.value)
+                                  }
                                   InputProps={{
                                     startAdornment: (
                                       <InputAdornment position="start" />
@@ -422,7 +457,7 @@ export default function DemandCard(props) {
                                   }}
                                 />
                               </div>
-                              <div className="grid justify-center items-center gap-4">
+                              <div className="grid items-center justify-center gap-4">
                                 <p className="font-bold text-dark-blue-weg">
                                   Link para EPIC do projeto no Jira
                                 </p>
@@ -434,14 +469,14 @@ export default function DemandCard(props) {
                                   label="Link"
                                   size="small"
                                   value={jiraLink}
-                                  onChange={e => setJiraLink(e.target.value)}
+                                  onChange={(e) => setJiraLink(e.target.value)}
                                 />
                               </div>
                             </div>
                             <div className="h-[19rem] w-0.5 bg-dark-blue-weg" />
                             <div>
                               <div className="h-[16rem]">
-                                <div className="grid gap-4 ml-4">
+                                <div className="ml-4 grid gap-4">
                                   <p className="font-bold text-dark-blue-weg">
                                     Código PPM
                                   </p>
@@ -456,11 +491,11 @@ export default function DemandCard(props) {
                                     label="PPM"
                                     size="small"
                                     value={ppmCode}
-                                    onChange={e => setPpmCode(e.target.value)}
+                                    onChange={(e) => setPpmCode(e.target.value)}
                                   />
                                 </div>
                               </div>
-                              <div className="flex justify-between items-end gap-1">
+                              <div className="flex items-end justify-between gap-1">
                                 <Button
                                   onClick={handleCloseGenerateProposal}
                                   variant="contained"
@@ -578,7 +613,7 @@ export default function DemandCard(props) {
                           borderColor: "#0075B1",
                         }}
                       />
-                      <span className="flex justify-center items-center gap-4">
+                      <span className="flex items-center justify-center gap-4">
                         <Button
                           onClick={handleCloseReasonOfCancellation}
                           variant="contained"
@@ -610,12 +645,20 @@ export default function DemandCard(props) {
               )}
               {props.demand.statusDemanda === "RASCUNHO" && (
                 <Tooltip title="Continuar rascunho">
-                  <Button
-                    variant="contained"
-                    sx={{ backgroundColor: "#0075B1", fontSize: 12, width: 90 }}
+                  <Link
+                    to={`/nova-demanda/${props.demand.idDemanda}/continuar`}
                   >
-                    Continuar
-                  </Button>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#0075B1",
+                        fontSize: 12,
+                        width: 90,
+                      }}
+                    >
+                      Continuar
+                    </Button>
+                  </Link>
                 </Tooltip>
               )}
               {props.demand.statusDemanda !== "RASCUNHO" && (

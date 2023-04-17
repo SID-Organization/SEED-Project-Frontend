@@ -83,7 +83,7 @@ export default function HorizontalLinearStepper(props) {
                 Pular
               </Button>
             )}
-            <Button onClick={props.handleNext}>
+            <Button onClick={props.handleNext} disabled={props.title == 0}>
               {props.activeStep === props.steps.length - 1
                 ? "Finalizar"
                 : "Próximo"}

@@ -47,6 +47,10 @@ function App() {
             <Route path="rascunhos" element={<Drafts />} />
             <Route path="list" element={<DemandCardList />} />
             <Route path="nova-demanda" element={<CreateDemand />} />
+            <Route
+              path="nova-demanda/:id/continuar"
+              element={<CreateDemand />}
+            />
             <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
             <Route
               path="/propostas/gerar-proposta/:id"
