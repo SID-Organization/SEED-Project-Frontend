@@ -6,7 +6,7 @@ const url = `${apiConfig.URL}/centro-custo`;
 const getCostCenters = async () => {
   return axios
     .get(url)
-    .then((response) => response.data)
+    .then((response) => response)
     .catch((error) => error);
 };
 

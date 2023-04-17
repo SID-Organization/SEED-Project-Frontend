@@ -103,6 +103,7 @@ export default function DemandCard(props) {
   const [jiraLink, setJiraLink] = useState("");
 
   const handleCreateProposal = async () => {
+    handleCloseGenerateProposal();
     const proposal = {
       codigoPPMProposta: ppmCode,
       periodoExecucaoInicioProposta: startDevDate,

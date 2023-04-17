@@ -22,8 +22,7 @@ export default function DemandManager() {
   const [isListFormat, setIsListFormat] = useState(false);
 
   // Filter search for demands to manage
-  const [filter, setFilter] = useState();
-  const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState([]);
 
 
   const [user, setUser] = useState(UserUtils.getLoggedUser());
@@ -38,34 +37,29 @@ export default function DemandManager() {
         }
         setDemandsToManage(demandsToManage);
       });
-      setFilter(DemandFilterUtils.filterTypes[0]);
   }, []);
 
 
   useEffect(() => {
-    if(!demandsToManage) return;
+    if (!demandsToManage) return;
     setFilteredDemands(demandsToManage);
+    console.log("Demands to manage", demandsToManage);
   }, [demandsToManage])
 
   useEffect(() => {
-    console.log("AAAAAAA", demandsToManage)
-  }, [demandsToManage]);
-
-  useEffect(() => {
-    if(!filter) return;
-      const filtered = DemandFilterUtils.filterBy(demandsToManage, filter.filterBy, search);
-      setFilteredDemands(filtered);
-  }, [search, filter])
+    if (!filters) return;
+    const filtered = DemandFilterUtils.filterBy(demandsToManage, filters);
+    console.log("Filters", filters);
+    setFilteredDemands(filtered);
+  }, [filters])
 
   return (
     <div>
       <SubHeader
-        search={search}
-        setSearch={setSearch}
         setIsListFormat={setIsListFormat}
         isListFormat={isListFormat}
-        setFilter={setFilter}
-        filter={filter}
+        setFilter={setFilters}
+        filter={filters}
       >
         Gerenciar demandas
       </SubHeader>
@@ -75,8 +69,13 @@ export default function DemandManager() {
         </div>
       ) : (
         <div className="flex flex-wrap justify-around">
-          {(demandsToManage) &&
-            filteredDemands.map((demand, i) => {
+          {
+            filteredDemands ?
+              filteredDemands.map((demand, i) => {
+                return <DemandCard key={i} demand={demand} />;
+              })
+              :
+              demandsToManage.map((demand, i) => {
                 return <DemandCard key={i} demand={demand} />;
               })
           }
