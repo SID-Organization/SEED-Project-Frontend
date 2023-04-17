@@ -6,7 +6,7 @@ const url = `${apiConfig.URL}/historico-workflow`;
 const createDemandLog = async (demandLog) => {
   return axios
     .post(url, demandLog)
-    .then((response) => response.data)
+    .then((response) => response)
     .catch((error) => error);
 };
 

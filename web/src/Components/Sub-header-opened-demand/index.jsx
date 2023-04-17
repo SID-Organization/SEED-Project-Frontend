@@ -38,6 +38,7 @@ import "../../styles/index.css";
 import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../service/DemandLog-Service";
 import BusinessUnityService from "../../service/BusinessUnity-Service";
+import RespITSectionService from "../../service/ResponsableITSection-Service";
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
@@ -111,11 +112,14 @@ export default function subHeader({
   const [demand, setDemand] = useState();
 
   // Dados classificados da demanda
-  const [benefitedBus, setBenefitedBus] = useState();
+  const [benefitedBus, setBenefitedBus] = useState([]);
   const [responsableSection, setResponsableSection] = useState("");
   const [classifyDemandSize, setClassifyDemandSize] = useState("");
   const [requesterBu, setRequesterBu] = useState("");
-  const [businessUnits, setBusinessUnits] = useState();
+
+  // Dados buscados do banco
+  const [businessUnits, setBusinessUnits] = useState([]);
+  const [responsableITSections, setResponsableITSections] = useState([]);
 
   // Motivo da devolução
   const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
@@ -198,32 +202,6 @@ export default function subHeader({
     },
   ];
 
-  const sections = [
-    {
-      text: "Utilidades",
-      key: 1,
-    },
-    {
-      text: "Comunicação",
-      key: 2,
-    },
-    {
-      text: "Financeiro",
-      key: 3,
-    },
-    {
-      text: "RH",
-      key: 4,
-    },
-    {
-      text: "TI",
-      key: 5,
-    },
-    {
-      text: "Vendas",
-      key: 6,
-    },
-  ];
 
   const demandSizes = [
     {
@@ -257,11 +235,21 @@ export default function subHeader({
     BusinessUnityService.getBusinessUnity().then((data) => {
       setBusinessUnits(
         data.map((item) => ({
-          text: item.nomeBusinessUnity,
+          text: item.siglaBusinessUnity + " - " + item.nomeBusinessUnity,
           key: item.idBusinessUnity,
         }))
       );
+      console.log("BUS: ", data);
     });
+    RespITSectionService.getResponsableITSections().then((data) => {
+      setResponsableITSections(
+        data.map((item) => ({
+          text: item.siglaSecaoTIResponsavel + " - " + item.nomeSecaoTIResponsavel,
+          key: item.idSecaoTIResponsavel,
+        }))
+      );
+    })
+      .catch(err => console.log("Erro ", err));
   }, []);
 
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
@@ -298,15 +286,25 @@ export default function subHeader({
   };
 
   const handleAnalystClassifyDemand = async () => {
-    // handleCloseModal();
-    const updatedDemand = {
-      busBeneficiadasDemanda: benefitedBus.map((item) => ({
-        idBusinessUnity: item.key,
-      })),
-      buSolicitanteDemanda: businessUnits.find(
+    
+    // Formatting data to send to the backend
+    const busBeneficiadas = benefitedBus.map((item) => ({
+      idBusinessUnity: item.key,
+    }));
+    const buSolicitante = {
+      idBusinessUnity: businessUnits.find(
         (item) => item.key == requesterBu
-      )?.text,
-      secaoTIResponsavelDemanda: responsableSection,
+      )?.key
+    };
+    const secaoTiResponsavel = {
+      idSecaoTIResponsavel: responsableITSections.find(
+        (item) => item.text == responsableSection
+      )?.key
+    };
+    const updatedDemand = {
+      busBeneficiadasDemanda: busBeneficiadas,
+      buSolicitanteDemanda: buSolicitante,
+      secaoTIResponsavelDemanda: secaoTiResponsavel,
       tamanhoDemanda: getDemandSize(),
     };
 
@@ -339,7 +337,6 @@ export default function subHeader({
     };
 
     DemandLogService.createDemandLog(demandLog).then((response) => {
-      console.log(response);
       if (response.status == 200 || response.status == 201) {
         DemandService.updateDemandStatus(
           demand.idDemanda,
@@ -464,7 +461,7 @@ export default function subHeader({
                     size="small"
                     disablePortal
                     id="combo-box-demo"
-                    options={sections.map((option) => option.text)}
+                    options={responsableITSections.map((option) => option.text)}
                     renderInput={(params) => (
                       <TextField {...params} label="Seção" />
                     )}

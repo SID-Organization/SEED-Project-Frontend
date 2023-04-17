@@ -252,63 +252,6 @@ export default function GenerateProposal() {
 
     console.log("PROPOSAL TO SAVE", proposalToSave);
 
-    /**
-     * {
-    "escopoProposta": "Teste de escopo",
-    "paybackProposta": 10.0,
-    "aprovadoWorkflowProposta": 1,
-    "periodoExecucaoDemandaInicio": "2023-08-30",
-    "periodoExecucaoDemandaFim": "2023-08-20",
-    "naoFazParteDoEscopoProposta": "Não faz parte do escopo",
-    "alternativasAvaliadasProposta": "Alternativa 1, Alternativa 2",
-    "planoMitigacaoProposta": "Plano de mitigação",
-    "custosTotaisDoProjeto": 10000.0,
-    "custosInternosDoProjeto": 5000.0,
-    "custosExternosDoProjeto": 5000.0,
-    "tabelaCusto": [
-        {
-            "tipoDespesa": "INTERNA",
-            "tabelaCustoLinha": [
-                {
-                    "periodoExecucaoTabelaCusto": 10,
-                    "quantidadeHorasTabelaCusto": 10,
-                    "valorHoraTabelaCusto": 10,
-                    "perfilDespesaTabelaCustoLinha": "NÃO PODE TER OUTROS"
-                }
-            ],
-            "centroCustoTabelaCusto": [
-                {
-                    "centroCusto": {
-                        "idCentroCusto": 1
-                    },
-                    "porcentagemDespesa": 100
-                }
-            ]
-        },
-        {
-            "tipoDespesa": "EXTERNA",
-            "tabelaCustoLinha": [
-                {
-                    "periodoExecucaoTabelaCusto": 10,
-                    "quantidadeHorasTabelaCusto": 10,
-                    "valorHoraTabelaCusto": 10,
-                    "perfilDespesaTabelaCustoLinha": "TESTE TABELA ASDMKOASKDOSA"
-                }
-            ],
-            "centroCustoTabelaCusto": [
-                {
-                    "centroCusto": {
-                        "idCentroCusto": 1
-                    },
-                    "porcentagemDespesa": 50
-                }
-            ]
-        }
-    ],
-    "nomeResponsavelNegocio": "Maria",
-    "areaResponsavelNegocio": "Vendas"
-}
-     */
 
     const pdfProposal = {
       escopoPropostaHTML: quillValueEscopo,

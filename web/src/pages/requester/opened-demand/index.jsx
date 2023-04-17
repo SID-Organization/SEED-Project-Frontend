@@ -70,10 +70,6 @@ export default function openedDemand() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("Demand Logs", demandLogs);
-  }, [demandLogs]);
-
   function getBenefits(benefitType) {
     if (benefitType == "REAL") {
       return demand?.beneficiosDemanda.filter(

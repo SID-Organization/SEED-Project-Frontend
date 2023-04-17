@@ -32,12 +32,12 @@ export default function PayerRow(props) {
 
     useEffect(() => {
         CostCenterService.getCostCenters().then((response) => {
-            setCCs(response);
+            if(response.status === 200) setCCs(response.data);
         });
     }, [])
 
     useEffect(() => {
-        console.log(CCs);
+        console.log("CCS ",CCs);
     }, [CCs])
 
     useEffect(() => {
@@ -99,9 +99,9 @@ export default function PayerRow(props) {
                     value={ccId}
                     onChange={e => setCCId(e.target.value)}
                 >
-                    {CCs.map((cc) => {
+                    {CCs && CCs.map((cc) => {
                         return (
-                            <MenuItem key={cc.idCentroCusto} value={cc.idCentroCusto}>{cc.idCentroCusto}</MenuItem>
+                            <MenuItem key={cc.idCentroCusto} value={cc.idCentroCusto}>{cc.numeroCentroCusto}</MenuItem>
                         )
                     })}
                 </Select>

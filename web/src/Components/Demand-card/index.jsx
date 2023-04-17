@@ -105,6 +105,7 @@ export default function DemandCard(props) {
 
 
   const handleCreateProposal = async () => {
+    handleCloseGenerateProposal();
     const proposal = {
       codigoPPMProposta: ppmCode,
       periodoExecucaoInicioProposta: startDevDate,

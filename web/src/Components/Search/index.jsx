@@ -17,16 +17,8 @@ import { useEffect } from "react";
 export default function Search(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
-  function handleOpenFilter(event) {
-    setAnchorEl(event.currentTarget);
-    setIsFilterOpen(!isFilterOpen);
-  }
-
-  function handleCloseFilter() {
-    setIsFilterOpen(false);
-  }
-
+  
+  // Filters
   const [requester, setRequester] = useState("");
   const [value, setValue] = useState("");
   const [score, setScore] = useState("");
@@ -38,6 +30,17 @@ export default function Search(props) {
   const [demandSize, setDemandSize] = useState("");
   const [PPMCode, setPPMCode] = useState("");
   const [requestNumber, setRequestNumber] = useState("");
+
+  function handleOpenFilter(event) {
+    setAnchorEl(event.currentTarget);
+    setIsFilterOpen(!isFilterOpen);
+  }
+
+  function handleCloseFilter() {
+    setIsFilterOpen(false);
+    filterDemands();
+  }
+
 
   function cleanStates() {
     setRequester("");
@@ -52,6 +55,23 @@ export default function Search(props) {
     setPPMCode("");
     setRequestNumber("");
   }
+
+  // Quando algum campo de pesquisa é utilizado, atualiza o filter
+  function filterDemands() {
+    props.setFilter([
+      { filterBy: "nomeSolicitante", value: requester, type: "text" },
+      { filterBy: "nomeGerenteResponsavelDemanda", value: responsibleManager, type: "text" },
+      { filterBy: "nomeAnalistaResponsavel", value: responsibleAnalyst, type: "text" },
+      { filterBy: "codigoPPMDemanda", value: PPMCode, type: "number" },
+      { filterBy: "departamentoDemanda", value: department, type: "text" },
+      { filterBy: "forumDeAprovacaoDemanda", value: approvalForum, type: "text" },
+      { filterBy: "tamanhoDemanda", value: demandSize, type: "text" },
+      { filterBy: "tituloDemanda", value: title, type: "text" },
+      { filterBy: "valorDemanda", value: value, type: "number" },
+      { filterBy: "scoreDemanda", value: score, type: "number" },
+      { filterBy: "idDemanda", value: requestNumber, type: "number" },
+    ])
+  };
 
   return (
     <ClickAwayListener onClickAway={handleCloseFilter}>
@@ -203,6 +223,7 @@ export default function Search(props) {
                   Limpar
                 </Button>
                 <Button
+                  onClick={filterDemands}
                   variant="contained"
                   sx={{
                     width: "100%",
