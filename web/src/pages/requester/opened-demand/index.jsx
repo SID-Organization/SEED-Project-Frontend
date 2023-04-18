@@ -96,6 +96,7 @@ export default function openedDemand() {
       setProposal(demand.propostaMelhoriaDemanda);
       setUsageFrequency(demand.frequenciaUsoDemanda);
       setQualitativeBenefit(demand.descricaoQualitativoDemanda);
+      console.log("Demand", demand);
     }
   }, [demand]);
 
@@ -174,8 +175,8 @@ export default function openedDemand() {
                       <span className="font-normal">
                         {demandLogs
                           ? new Date(
-                              demandLogs[0].recebimentoHistorico
-                            ).toLocaleDateString()
+                            demandLogs[0].recebimentoHistorico
+                          ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>
@@ -287,7 +288,9 @@ export default function openedDemand() {
               Centro de custo
             </h1>
             <h1 className="font-roboto text-sm">
-              {demand?.centroCustoDemanda[0] ?? "Não indicado"}
+              {demand?.centroCustoDemanda[0] ?
+                (demand.centroCustoDemanda[0].numeroCentroCusto + " - " + demand.centroCustoDemanda[0].nomeCentroCusto).slice(0, 40)
+                : "Não indicado"}
             </h1>
           </div>
         </div>

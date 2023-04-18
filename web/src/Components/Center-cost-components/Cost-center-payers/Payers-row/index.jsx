@@ -37,10 +37,6 @@ export default function PayerRow(props) {
     }, [])
 
     useEffect(() => {
-        console.log("CCS ",CCs);
-    }, [CCs])
-
-    useEffect(() => {
         updateStates();
     }, [props.totalCostCenterPayers]);
 
