@@ -105,7 +105,7 @@ export default function GenerateProposal() {
     setQuillValueProposalMitigationPlan,
   ] = useState("");
 
-  
+
   const quillValueRefEscopo = useRef(null);
   const quillValueRefIsNotEscopoPart = useRef(null);
   const quillValueRefProposalAlternatives = useRef(null);
@@ -160,9 +160,8 @@ export default function GenerateProposal() {
   }, []);
 
   useEffect(() => {
-    console.log("DEMANDID", demandId);
     ProposalService.getProposalByDemandId(demandId).then((proposal) => {
-      console.log("PROPOSAL", proposal);
+      setProposal(proposal[0]);
     });
   }, []);
 
@@ -190,6 +189,8 @@ export default function GenerateProposal() {
 
   const saveProgress = async () => {
     setButtonSavedClicked(true);
+    // False = don't change demand status
+    handlePutProposal(false);
     setTimeout(() => {
       setButtonSavedClicked(false);
     }, 1500);
@@ -198,26 +199,30 @@ export default function GenerateProposal() {
   function formatCosts(costs) {
     return costs.map((cost) => {
       return {
-        perfilDespesaTabelaLinha: cost.expenseProfile,
-        periodoExecucaoTabelaLinha: cost.monthTimeExecution,
-        valorHoraTabelaLinha: cost.costHour,
-        quantidadeHorasTabelaCusto: cost.necessaryHours,
+        perfilDespesaTabelaCustoLinha: cost.expenseProfile,
+        periodoExecucaoTabelaCusto: parseInt(cost.monthTimeExecution),
+        valorHoraTabelaCusto: parseInt(cost.costHour),
+        quantidadeHorasTabelaCusto: parseInt(cost.necessaryHours),
       };
     });
   }
 
-  function formatCCPS(CCPS){
+  function formatCCPS(CCPS) {
+    console.log("INT CCPS", internalCostCenterPayers)
     return CCPS.map((ccp) => {
       return {
-        centroCusto: {idCentroCusto: ccp.costCenter},
-        percentual: ccp.percentage,
+        centroCusto: { idCentroCusto: ccp.costCenter },
+        porcentagemDespesa: ccp.percentage,
       };
     });
   }
 
-  const handlePutProposal = async () => {
+  useEffect(() => {
+    console.log("INT CCPS", internalCostCenterPayers)
+  }, [internalCostCenterPayers])
+
+  const handlePutProposal = async (finish) => {
     const proposalToSave = {
-      demandId: demandId,
       escopoProposta: ReactQuillUtils.formatQuillText(textIsProposal),
       naoFazParteDoEscopoProposta:
         ReactQuillUtils.formatQuillText(textIsNotProposal),
@@ -250,33 +255,36 @@ export default function GenerateProposal() {
       ],
     };
 
-    console.log("PROPOSAL TO SAVE", proposalToSave);
-
-
     const pdfProposal = {
       escopoPropostaHTML: quillValueEscopo,
       naoFazParteDoEscopoPropostaHTML: quillValueIsNotEscopoPart,
       alternativasAvaliadasPropostaHTML: quillValueProposalAlternatives,
       planoMitigacaoPropostaHTML: quillValueProposalMitigationPlan,
-      proposta: { idProposta: 2 },
+      proposta: { idProposta: proposal.idProposta },
     };
 
-    //Mudar status para PROPOSTA_PRONTA
-    // const formData = new FormData();
-    // formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
+    console.log("PROPOSAL TO SAVE", proposalToSave);
+    // console.log("PDF proposal", pdfProposal);
+    console.log("PROPOSAL FROM DB", proposal);
 
-    // ProposalService.updateProposal(formData, 3).then((response) => {
-    //   if (response.status == 200) {
-    //     DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
-    //   }
-    // });
+    // Mudar status para PROPOSTA_PRONTA
+    const formData = new FormData();
+    formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
+    formData.append("pdfPropostaForm", JSON.stringify(pdfProposal));
+
+    ProposalService.updateProposal(formData, proposal.idProposta).then((res) => {
+      console.log("RESPONSE", res);
+      if (finish && res.status == 200) {
+        DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+      }
+    });
   };
 
   return (
     <div>
       <div className="grid items-center justify-center gap-5">
         <h1 className="mt-5 flex items-center justify-center font-roboto text-2xl font-bold text-blue-weg">
-          Gerando proposta da demanda:{" "}
+          Gerando proposta da demanda:
         </h1>
         {demand && <DemandCard demand={demand} />}
       </div>
@@ -292,6 +300,7 @@ export default function GenerateProposal() {
               const txt = quillValueRefEscopo.current?.getEditor().getText();
               setTextIsProposal(txt);
             }}
+            onBlur={saveProgress}
             modules={quillModules}
             ref={quillValueRefEscopo}
             style={{ width: "50rem", height: "10rem" }}
@@ -310,6 +319,7 @@ export default function GenerateProposal() {
                 .getText();
               setTextIsNotProposal(txt);
             }}
+            onBlur={saveProgress}
             modules={quillModules}
             ref={quillValueRefIsNotEscopoPart}
             style={{ width: "50rem", height: "10rem" }}
@@ -328,11 +338,13 @@ export default function GenerateProposal() {
               typeTitle="Interno"
               costs={internalCosts}
               setCosts={setInternalCosts}
+              onBlur={saveProgress}
             />
             <CostCenterPayers
               typeTitle="interno"
               totalCostCenterPayers={internalCostCenterPayers}
               setTotalCostCenterPayers={setInternalCostCenterPayers}
+              onBlur={saveProgress}
             />
           </div>
           <div className="grid items-center justify-center gap-5">
@@ -340,11 +352,13 @@ export default function GenerateProposal() {
               typeTitle="Externo"
               costs={externalCosts}
               setCosts={setExternalCosts}
+              onBlur={saveProgress}
             />
             <CostCenterPayers
               typeTitle="externo"
               totalCostCenterPayers={externalCostCenterPayers}
               setTotalCostCenterPayers={setExternalCostCenterPayers}
+              onBlur={saveProgress}
             />
           </div>
         </table>
@@ -464,6 +478,7 @@ export default function GenerateProposal() {
               setTextProposalAlternatives(txt);
             }}
             modules={quillModules}
+            onBlur={saveProgress}
             ref={quillValueRefProposalAlternatives}
             style={{ width: "50rem", height: "10rem" }}
           />
@@ -482,13 +497,17 @@ export default function GenerateProposal() {
               setTextProposalMitigationPlan(txt);
             }}
             modules={quillModules}
+            onBlur={saveProgress}
             ref={quillValueRefProposalMitigationPlan}
             style={{ width: "50rem", height: "10rem" }}
           />
         </div>
         <div>
           <p className="font-roboto text-lg font-bold">Período de execução</p>
-          <div className="mt-2 flex gap-10">
+          <div
+            className="mt-2 flex gap-10"
+            onBlur={saveProgress}
+          >
             <DateInput
               id="outlined-basic"
               variant="outlined"
@@ -500,6 +519,7 @@ export default function GenerateProposal() {
                 startAdornment: <InputAdornment position="start" />,
               }}
               value={startDate}
+              onBlur={saveProgress}
               onChange={(e) => setStartDate(e.target.value)}
             />
             <DateInput
@@ -513,6 +533,7 @@ export default function GenerateProposal() {
                 startAdornment: <InputAdornment position="start" />,
               }}
               value={endDate}
+              onBlur={saveProgress}
               onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
@@ -531,6 +552,7 @@ export default function GenerateProposal() {
               maxRows={3}
               value={nameBusinessResponsible}
               onChange={(e) => setNameBusinessResponsible(e.target.value)}
+              onBlur={saveProgress}
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
@@ -544,6 +566,7 @@ export default function GenerateProposal() {
               maxRows={3}
               value={areaBusinessResponsible}
               onChange={(e) => setAreaBusinessResponsible(e.target.value)}
+              onBlur={saveProgress}
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
@@ -577,7 +600,7 @@ export default function GenerateProposal() {
             "Salvar"}
         </Button>
         <Button
-          onClick={handlePutProposal}
+          onClick={() => handlePutProposal(true)}
           variant="contained"
           color="primary"
           sx={{
