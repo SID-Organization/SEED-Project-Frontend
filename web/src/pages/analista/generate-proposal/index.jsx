@@ -456,6 +456,24 @@ export default function GenerateProposal() {
             </div>
             <div className="grid gap-4">
               <p className="font-roboto text-lg font-bold">
+                Abrangência do projeto
+              </p>
+              <ReactQuill
+                value={quillValueProposalAlternatives}
+                onChange={(e) => {
+                  setQuillValueProposalAlternatives(e);
+                  const txt = quillValueRefProposalAlternatives.current
+                    ?.getEditor()
+                    .getText();
+                  setTextProposalAlternatives(txt);
+                }}
+                modules={quillModules}
+                ref={quillValueRefProposalAlternatives}
+                style={{ width: "50rem", height: "10rem" }}
+              />
+            </div>
+            <div className="grid gap-4">
+              <p className="font-roboto text-lg font-bold">
                 Principais riscos / Plano mitigação
               </p>
               <ReactQuill
