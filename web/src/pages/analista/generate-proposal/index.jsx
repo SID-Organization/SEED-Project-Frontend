@@ -93,19 +93,20 @@ export default function GenerateProposal() {
   const [textIsProposal, setTextIsProposal] = useState("");
   const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
   const [textProposalMitigationPlan, setTextProposalMitigationPlan] =useState("");
+  const [textProjectRange, setTextProjectRange] = useState("");
 
   // React quill
   const [quillValueEscopo, setQuillValueEscopo] = useState("");
   const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] = useState("");
   const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] = useState("");
   const [quillValueProposalMitigationPlan, setQuillValueProposalMitigationPlan] = useState("");
-  const [quillValueProposalRange, setQuillValueProposalRange] = useState("");
+  const [quillValueProjectRange, setQuillValueProjectRange] = useState("");
 
   const quillValueRefEscopo = useRef(null);
   const quillValueRefIsNotEscopoPart = useRef(null);
   const quillValueRefProposalAlternatives = useRef(null);
   const quillValueRefProposalMitigationPlan = useRef(null);
-  const quillValueRefProposalRange = useRef(null);
+  const quillValueRefProjectRange = useRef(null);
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
@@ -467,16 +468,16 @@ export default function GenerateProposal() {
                 Abrangência do projeto
               </p>
               <ReactQuill
-                value={quillValueProposalAlternatives}
+                value={quillValueProjectRange}
                 onChange={(e) => {
-                  setQuillValueProposalAlternatives(e);
+                  setQuillValueProjectRange(e);
                   const txt = quillValueRefProposalAlternatives.current
                     ?.getEditor()
                     .getText();
-                  setTextProposalAlternatives(txt);
+                  setTextProjectRange(txt);
                 }}
                 modules={quillModules}
-                ref={quillValueRefProposalAlternatives}
+                ref={quillValueRefProjectRange}
                 style={{ width: "50rem", height: "10rem" }}
               />
             </div>
