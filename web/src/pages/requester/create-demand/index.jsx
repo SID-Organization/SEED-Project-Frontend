@@ -294,7 +294,8 @@ export default function CreateDemand() {
     }
 
     DemandService.createDemand(formData).then((res) => {
-      navigate("/demandas");
+      // navigate("/demandas");
+      console.log("RES", res);
     });
   };
 
