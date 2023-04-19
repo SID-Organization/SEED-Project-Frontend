@@ -419,7 +419,6 @@ export default function GenerateProposal() {
             </div>
           </div>
         </div>
-
         <div className="mt-10 grid items-center justify-start gap-10">
           <div>
             <p className="font-roboto text-lg font-bold">Payback</p>
@@ -436,104 +435,108 @@ export default function GenerateProposal() {
               }}
             />
           </div>
-          <div>
-            <p className="mb-3 font-roboto text-lg font-bold">
-              Alternativas avaliadas da proposta
-            </p>
-            <ReactQuill
-              value={quillValueProposalAlternatives}
-              onChange={(e) => {
-                setQuillValueProposalAlternatives(e);
-                const txt = quillValueRefProposalAlternatives.current
-                  ?.getEditor()
-                  .getText();
-                setTextProposalAlternatives(txt);
-              }}
-              modules={quillModules}
-              ref={quillValueRefProposalAlternatives}
-              style={{ width: "50rem", height: "10rem" }}
-            />
-          </div>
-          <div className="mb-10">
-            <p className="mt-3 mb-3 font-roboto text-lg font-bold">
-              Principais riscos / Plano mitigação
-            </p>
-            <ReactQuill
-              value={quillValueProposalMitigationPlan}
-              onChange={(e) => {
-                setQuillValueProposalMitigationPlan(e);
-                const txt = quillValueRefProposalMitigationPlan.current
-                  ?.getEditor()
-                  .getText();
-                setTextProposalMitigationPlan(txt);
-              }}
-              modules={quillModules}
-              ref={quillValueRefProposalMitigationPlan}
-              style={{ width: "50rem", height: "10rem" }}
-            />
-          </div>
-          <div>
-            <p className="font-roboto text-lg font-bold">Período de execução</p>
-            <div className="mt-2 flex gap-10">
-              <DateInput
-                id="outlined-basic"
-                variant="outlined"
-                placeholder="dd/mm/aaaa"
-                type="date"
-                label="Início:"
-                size="small"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start" />,
+          <div className="grid gap-16">
+            <div className="grid gap-4">
+              <p className="font-roboto text-lg font-bold">
+                Alternativas avaliadas da proposta
+              </p>
+              <ReactQuill
+                value={quillValueProposalAlternatives}
+                onChange={(e) => {
+                  setQuillValueProposalAlternatives(e);
+                  const txt = quillValueRefProposalAlternatives.current
+                    ?.getEditor()
+                    .getText();
+                  setTextProposalAlternatives(txt);
                 }}
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-              <DateInput
-                id="outlined-basic"
-                variant="outlined"
-                placeholder="dd/mm/aaaa"
-                type="date"
-                label="Término:"
-                size="small"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start" />,
-                }}
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+                modules={quillModules}
+                ref={quillValueRefProposalAlternatives}
+                style={{ width: "50rem", height: "10rem" }}
               />
             </div>
-          </div>
-          <div>
-            <p className="font-roboto text-lg font-bold">
-              Responsável pelo negócio
-            </p>
-            <div className="mt-2 flex gap-10">
-              <NameAreaInput
-                id="outlined-textarea"
-                variant="outlined"
-                type="text"
-                multiline
-                placeholder="Nome"
-                maxRows={3}
-                value={nameBusinessResponsible}
-                onChange={(e) => setNameBusinessResponsible(e.target.value)}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start" />,
+            <div className="grid gap-4">
+              <p className="font-roboto text-lg font-bold">
+                Principais riscos / Plano mitigação
+              </p>
+              <ReactQuill
+                value={quillValueProposalMitigationPlan}
+                onChange={(e) => {
+                  setQuillValueProposalMitigationPlan(e);
+                  const txt = quillValueRefProposalMitigationPlan.current
+                    ?.getEditor()
+                    .getText();
+                  setTextProposalMitigationPlan(txt);
                 }}
+                modules={quillModules}
+                ref={quillValueRefProposalMitigationPlan}
+                style={{ width: "50rem", height: "10rem" }}
               />
-              <NameAreaInput
-                id="outlined-textarea"
-                variant="outlined"
-                type="text"
-                multiline
-                placeholder="Área"
-                maxRows={3}
-                value={areaBusinessResponsible}
-                onChange={(e) => setAreaBusinessResponsible(e.target.value)}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start" />,
-                }}
-              />
+            </div>
+            <div>
+              <p className="font-roboto text-lg font-bold">
+                Período de execução
+              </p>
+              <div className="flex gap-10">
+                <DateInput
+                  id="outlined-basic"
+                  variant="outlined"
+                  placeholder="dd/mm/aaaa"
+                  type="date"
+                  label="Início:"
+                  size="small"
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+                <DateInput
+                  id="outlined-basic"
+                  variant="outlined"
+                  placeholder="dd/mm/aaaa"
+                  type="date"
+                  label="Término:"
+                  size="small"
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <p className="font-roboto text-lg font-bold">
+                Responsável pelo negócio
+              </p>
+              <div className="flex gap-10">
+                <NameAreaInput
+                  id="outlined-textarea"
+                  variant="outlined"
+                  type="text"
+                  multiline
+                  placeholder="Nome"
+                  maxRows={3}
+                  value={nameBusinessResponsible}
+                  onChange={(e) => setNameBusinessResponsible(e.target.value)}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
+                />
+                <NameAreaInput
+                  id="outlined-textarea"
+                  variant="outlined"
+                  type="text"
+                  multiline
+                  placeholder="Área"
+                  maxRows={3}
+                  value={areaBusinessResponsible}
+                  onChange={(e) => setAreaBusinessResponsible(e.target.value)}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start" />,
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
