@@ -10,9 +10,9 @@ const createDemand = async (demand) => {
     .catch((error) => error);
 };
 
-const updateDemand = async (demand) => {
+const updateDemand = async (demandId, updatedDemand) => {
   return axios
-    .put(url, demand)
+    .put(url + "/" + demandId, updatedDemand)
     .then((response) => response.data)
     .catch((error) => error);
 };

@@ -98,6 +98,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CreateDemand() {
   const params = useParams();
+  const [demandUpdateId, setDemandUpdateId] = useState("");
 
   const [title, setTitle] = useState("");
 
@@ -141,7 +142,7 @@ export default function CreateDemand() {
 
   const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
-  useEffect(() => {
+  function eDemand() {
     if (params.id) {
       DemandService.getDemandById(params.id).then((response) => {
         console.log("RESPONSE", response);
@@ -189,7 +190,7 @@ export default function CreateDemand() {
         );
       });
     }
-  }, []);
+  };
 
   const quillModules = {
     toolbar: [
@@ -293,10 +294,13 @@ export default function CreateDemand() {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
 
-    DemandService.createDemand(formData).then((res) => {
-      // navigate("/demandas");
-      console.log("RES", res);
-    });
+    if(!demandUpdateId) {
+      DemandService.createDemand(formData)
+      .then((res) => {
+        setDemandUpdateId(res.idDemanda);
+      });
+    }
+
   };
 
   function handleFileInput(event) {
@@ -401,6 +405,7 @@ export default function CreateDemand() {
             maxRows={3}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            onBlur={handleCreateDemand}
             InputProps={{
               startAdornment: <InputAdornment position="start" />,
             }}

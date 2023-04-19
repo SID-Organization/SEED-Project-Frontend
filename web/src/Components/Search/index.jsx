@@ -58,6 +58,7 @@ export default function Search(props) {
 
   // Quando algum campo de pesquisa é utilizado, atualiza o filter
   function filterDemands() {
+    setIsFilterOpen(false);
     props.setFilter([
       { filterBy: "nomeSolicitante", value: requester, type: "text" },
       { filterBy: "nomeGerenteResponsavelDemanda", value: responsibleManager, type: "text" },
