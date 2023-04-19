@@ -29,12 +29,19 @@ const TableInput = styled(MuiTextField)({
 });
 
 export default function CostTableRow(props) {
-
   const [costHour, setCostHour] = useState(props.totalCost.costHour);
-  const [expenseProfile, setExpenseProfile] = useState(props.totalCost.expenseProfile);
-  const [necessaryHours, setNecessaryHours] = useState(props.totalCost.necessaryHours);
-  const [totalExpenseCost, setTotalExpenseCost] = useState(props.totalCost.costHour * props.totalCost.necessaryHours);
-  const [monthTimeExecution, setMonthTimeExecution] = useState(props.totalCost.monthTimeExecution);
+  const [expenseProfile, setExpenseProfile] = useState(
+    props.totalCost.expenseProfile
+  );
+  const [necessaryHours, setNecessaryHours] = useState(
+    props.totalCost.necessaryHours
+  );
+  const [totalExpenseCost, setTotalExpenseCost] = useState(
+    props.totalCost.costHour * props.totalCost.necessaryHours
+  );
+  const [monthTimeExecution, setMonthTimeExecution] = useState(
+    props.totalCost.monthTimeExecution
+  );
 
   const updateTable = () => {
     let costList = props.costList;
@@ -57,7 +64,9 @@ export default function CostTableRow(props) {
     setMonthTimeExecution(props.totalCost.monthTimeExecution);
     setNecessaryHours(props.totalCost.necessaryHours);
     setCostHour(props.totalCost.costHour);
-    setTotalExpenseCost(props.totalCost.costHour * props.totalCost.necessaryHours);
+    setTotalExpenseCost(
+      props.totalCost.costHour * props.totalCost.necessaryHours
+    );
   };
 
   useEffect(() => {
@@ -71,7 +80,7 @@ export default function CostTableRow(props) {
   return (
     <>
       <tr>
-        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
           <TableInput
             id="outlined-basic"
             variant="outlined"
@@ -83,7 +92,7 @@ export default function CostTableRow(props) {
             onBlur={updateTable}
           />
         </td>
-        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
           <TableInput
             id="outlined-basic"
             variant="outlined"
@@ -95,7 +104,7 @@ export default function CostTableRow(props) {
             onBlur={updateTable}
           />
         </td>
-        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
           <div className="flex items-center justify-center">
             <TableInput
               id="outlined-basic"
@@ -104,14 +113,13 @@ export default function CostTableRow(props) {
               type="number"
               value={necessaryHours}
               onChange={(e) => {
-                if (e.target.value >= 0)
-                  setNecessaryHours(e.target.value);
+                if (e.target.value >= 0) setNecessaryHours(e.target.value);
               }}
               onBlur={updateTable}
             />
           </div>
         </td>
-        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
           <div className="flex items-center justify-center">
             <TableInput
               id="outlined-basic"
@@ -120,8 +128,7 @@ export default function CostTableRow(props) {
               type="number"
               value={costHour}
               onChange={(e) => {
-                if (e.target.value >= 0)
-                  setCostHour(e.target.value);
+                if (e.target.value >= 0) setCostHour(e.target.value);
               }}
               InputProps={{
                 startAdornment: (
@@ -132,7 +139,7 @@ export default function CostTableRow(props) {
             />
           </div>
         </td>
-        <td className="border-2 border-b-2 border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
           <div className="flex items-center justify-center">
             <TableInput
               id="outlined-basic"

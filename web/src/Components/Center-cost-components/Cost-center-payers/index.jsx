@@ -32,17 +32,17 @@ export default function CostCenterPayers(props) {
       }
     }
     setPaymentPercentage(newPaymentPercent);
-  }
+  };
 
   useEffect(() => {
     updatePercentCCP();
-  }, [props.totalCostCenterPayers])
+  }, [props.totalCostCenterPayers]);
 
   return (
     <div>
       {" "}
       <div className="grid items-center justify-center">
-        <div className="  rounded border-2 border-dark-blue-weg">
+        <div className="  rounded border-[1px] border-dark-blue-weg">
           {" "}
           <div className="mb-5 flex items-center justify-center">
             <h1 className="flex justify-center font-roboto text-lg font-bold text-blue-weg">

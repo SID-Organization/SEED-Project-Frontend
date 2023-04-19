@@ -39,23 +39,23 @@ export default function CostTable(props) {
       </div>
       <thead>
         <tr>
-          <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
+          <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-[#00579D]">
             <p className="font-roboto text-base font-bold ">
               Perfil de despesa
             </p>
           </th>
-          <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
+          <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
             <p className="font-roboto text-base font-bold ">Mês de execução</p>
           </th>
-          <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
+          <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
             <p className="font-roboto text-base font-bold ">
               Horas necessárias
             </p>
           </th>
-          <th className="w-48 border-2 border-b-2 border-r-0 border-blue-weg">
+          <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
             <p className="font-roboto text-base font-bold ">Custo por hora</p>
           </th>
-          <th className="w-48 border-2 border-b-2 border-r-2 border-blue-weg">
+          <th className="w-48 border-[1px] border-b-[1px] border-r-2 border-blue-weg">
             <p className="font-roboto text-base font-bold ">
               Custo total da despesa
             </p>
