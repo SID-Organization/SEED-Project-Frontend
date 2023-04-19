@@ -127,7 +127,7 @@ export default function Sidebar() {
 
   const getSideBarItems = () => {
     return adminSidebarItems.map((item, index) => {
-      if(item.isActiveToUser){
+      if (item.isActiveToUser) {
         return (
           <SidebarLink
             key={index}
@@ -162,10 +162,10 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="flex items-center">
+    <div>
       <div
         onMouseEnter={() => setIsSidebarOpen(true)}
-        className="z-20 h-[200%] w-1 text-[1px] mt-14 fixed"
+        className="fixed z-20 mt-14 h-[200%] w-1 text-[1px]"
       />
       <Drawer
         onMouseLeave={
@@ -183,7 +183,7 @@ export default function Sidebar() {
       >
         <Toolbar />
         <div
-          className="flex justify-end items-center"
+          className="flex items-center justify-end"
           onClick={() => handleDrawerToggle()}
         >
           <IconButton
@@ -194,11 +194,11 @@ export default function Sidebar() {
             }}
           >
             {isSidebarFixed ? (
-              <div className="flex justify-center items-center">
+              <div className="flex items-center justify-center">
                 <ChevronLeftIcon sx={openSidebarIconStyle} />
               </div>
             ) : (
-              <div className="flex justify-center items-center">
+              <div className="flex items-center justify-center">
                 <ChevronRightIcon sx={openSidebarIconStyle} />
               </div>
             )}
