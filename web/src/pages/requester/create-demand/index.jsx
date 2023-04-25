@@ -141,6 +141,38 @@ export default function CreateDemand() {
 
   const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
+  const [anyEmptyField, setAnyEmptyField] = useState(true);
+
+  const updateStates = () => {
+    setTitle(title);
+    setCurrentProblem(currentProblem);
+    setProposal(proposal);
+    setFrequencyOfUse(frequencyOfUse);
+    setQualitativeBenefit(qualitativeBenefit);
+  };
+
+  useEffect(() => {
+    if (
+      title == "" &&
+      currentProblem == "" &&
+      proposal == "" &&
+      frequencyOfUse == "" &&
+      qualitativeBenefit == ""
+    ) {
+      setAnyEmptyField(true);
+    } else {
+      setAnyEmptyField(false);
+    }
+    console.log("-------------------------");
+    console.log("TITLE: ", title);
+    console.log("PROPOSAL: ", proposal);
+    console.log("CURRENT PROBLEM: ", currentProblem);
+    console.log("FREQUENCY OF USE: ", frequencyOfUse);
+    console.log("QUALITATIVE BENEFIT: ", qualitativeBenefit);
+    console.log("-------------------------");
+    console.log("EMPTY FIELDS?", anyEmptyField);
+  }, [title, currentProblem, proposal, frequencyOfUse, qualitativeBenefit]);
+
   useEffect(() => {
     if (params.id) {
       DemandService.getDemandById(params.id).then((response) => {
@@ -293,10 +325,14 @@ export default function CreateDemand() {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
 
-    DemandService.createDemand(formData).then((res) => {
-      // navigate("/demandas");
+    try {
+      const res = await DemandService.createDemand(formData);
       console.log("RES", res);
-    });
+      navigate("/demandas");
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao criar demanda. Por favor, tente novamente.");
+    }
   };
 
   function handleFileInput(event) {
@@ -396,6 +432,7 @@ export default function CreateDemand() {
           <TextField
             id="outlined-textarea"
             variant="outlined"
+            onBlur={updateStates}
             type="text"
             multiline
             maxRows={3}
@@ -419,6 +456,7 @@ export default function CreateDemand() {
             <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
+            onBlur={updateStates}
             value={proposalHTML}
             onChange={(e) => {
               setProposalHTML(e);
@@ -439,6 +477,7 @@ export default function CreateDemand() {
             <div className="ml-3 h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
+            onBlur={updateStates}
             value={currentProblemHTML}
             onChange={(e) => {
               setCurrentProblemHTML(e);
@@ -462,6 +501,7 @@ export default function CreateDemand() {
             <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
+            onBlur={updateStates}
             value={frequencyOfUseHTML}
             onChange={(e) => {
               setFrequencyOfUseHTML(e);
@@ -599,6 +639,7 @@ export default function CreateDemand() {
         </div>
         <div className="flex items-center justify-center">
           <TextField
+            onBlur={updateStates}
             sx={{
               marginBottom: "5rem",
             }}
@@ -621,7 +662,6 @@ export default function CreateDemand() {
   // Terceiro passo - Anexos
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filesTableRows, setFilesTableRows] = useState([]);
-  console.log("SETSELECTEFILES", selectedFiles);
 
   useEffect(() => {
     if (selectedFiles) {
@@ -821,8 +861,20 @@ export default function CreateDemand() {
               />
             </div>
             <DialogTitle style={{ color: "#0075B1" }}>
-              Têm certeza que deseja <br />
-              <span>criar uma nova demanda?</span>
+              {anyEmptyField ? (
+                <>
+                  <span>Existem campos vazios!</span>
+                  <br />
+                  <span className="flex items-center justify-center">
+                    Deseja prosseguir?
+                  </span>
+                </>
+              ) : (
+                <>
+                  Têm certeza que deseja <br />
+                  <span>criar uma nova demanda?</span>
+                </>
+              )}
             </DialogTitle>
           </div>
           <DialogActions>
@@ -851,7 +903,11 @@ export default function CreateDemand() {
                   },
                 }}
               >
-                Criar demanda
+                {
+                  <span className="flex items-center justify-center">
+                    {anyEmptyField ? "Prosseguir" : "Criar demanda"}
+                  </span>
+                }
               </Button>
               {/* </Link> */}
             </div>

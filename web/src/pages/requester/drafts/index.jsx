@@ -189,7 +189,7 @@ export default function drafts() {
           )}
         </div>
       }
-      <div className="flex h-[65vh] w-full items-center justify-center">
+      <div className="flex flex-wrap justify-around">
         {demands.length > 0 ? (
           demands.map((demand) => (
             <DemandCard

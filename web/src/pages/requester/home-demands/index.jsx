@@ -56,9 +56,9 @@ export default function homeDemands() {
     if (demandsWLogs) {
       updateDemandSort(search);
 
-      // if (sortedDemands) {
-      //   setShowingDemands(sortedDemands);
-      // }
+      if (sortedDemands) {
+        setShowingDemands(sortedDemands);
+      }
     }
   }, [filter, demandsWLogs]);
 
@@ -145,7 +145,7 @@ export default function homeDemands() {
           Minhas demandas
         </SubHeader>
       </div>
-      <div className="flex h-[65vh] w-full items-center justify-center">
+      <div className="flex flex-wrap justify-around">
         {showingDemands.length > 0 ? (
           isListFormat ? (
             getDemandsList()
@@ -153,7 +153,9 @@ export default function homeDemands() {
             getDemandsGrid()
           )
         ) : (
-          <NoDemands>Sem demandas!</NoDemands>
+          <div className="flex h-[65vh] w-full items-center justify-center">
+            <NoDemands>Sem demandas!</NoDemands>
+          </div>
         )}
       </div>
     </div>
