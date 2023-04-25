@@ -12,45 +12,39 @@ export default function noDemands({ children }) {
   return (
     <div>
       <Header />
-      <div
-        className="
-        absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-      "
-      >
-        <div className="grid justify-center items-center">
-          <div className="grid items-center justify-center w-full">
-            <div className="flex justify-center items-center">
-              <FolderOffOutlinedIcon
-                style={{
-                  fontSize: "100px",
-                  color: "#0075B1",
-                }}
-              />
-            </div>
-            <h1 className="text-2xl text-[#0075B1] font-semibold flex justify-center items-center">
-              {children}
-            </h1>
+      <div className="grid items-center justify-center">
+        <div className="grid w-full items-center justify-center">
+          <div className="flex items-center justify-center">
+            <FolderOffOutlinedIcon
+              style={{
+                fontSize: "100px",
+                color: "#0075B1",
+              }}
+            />
           </div>
-          <div className="mt-16">
-            <Stack direction="row" spacing={2}>
-              <Link to="/nova-demanda">
-                <Button
-                  sx={{ color: "#0075B1", fontWeight: "bold" }}
-                  variant="outlined"
-                  startIcon={
-                    <AddBoxIcon
-                      style={{
-                        fontSize: "35px",
-                        color: "#023A67",
-                      }}
-                    />
-                  }
-                >
-                  Criar uma demanda
-                </Button>
-              </Link>
-            </Stack>
-          </div>
+          <h1 className="flex items-center justify-center text-2xl font-semibold text-[#0075B1]">
+            {children}
+          </h1>
+        </div>
+        <div className="mt-16">
+          <Stack direction="row" spacing={2}>
+            <Link to="/nova-demanda">
+              <Button
+                sx={{ color: "#0075B1", fontWeight: "bold" }}
+                variant="outlined"
+                startIcon={
+                  <AddBoxIcon
+                    style={{
+                      fontSize: "35px",
+                      color: "#023A67",
+                    }}
+                  />
+                }
+              >
+                Criar uma demanda
+              </Button>
+            </Link>
+          </Stack>
         </div>
       </div>
     </div>

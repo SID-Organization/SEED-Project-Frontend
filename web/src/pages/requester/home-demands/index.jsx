@@ -89,12 +89,14 @@ export default function homeDemands() {
             })}
         </div>
         <div className="mt-4 flex w-full justify-center">
-          <Pagination
-            count={Math.ceil(showingDemands?.length / demandsPerPage)}
-            page={currentPage}
-            onChange={handleChangePage}
-            color="primary"
-          />
+          {showingDemands.length > 0 && (
+            <Pagination
+              count={Math.ceil(showingDemands?.length / demandsPerPage)}
+              page={currentPage}
+              onChange={handleChangePage}
+              color="primary"
+            />
+          )}
         </div>
       </div>
     );
@@ -143,15 +145,17 @@ export default function homeDemands() {
           Minhas demandas
         </SubHeader>
       </div>
-      <div className="flex w-full justify-center">
-        {showingDemands ? (
+      <div className="flex flex-wrap justify-around">
+        {showingDemands.length > 0 ? (
           isListFormat ? (
             getDemandsList()
           ) : (
             getDemandsGrid()
           )
         ) : (
-          <NoDemands>Sem demandas!</NoDemands>
+          <div className="flex h-[65vh] w-full items-center justify-center">
+            <NoDemands>Sem demandas!</NoDemands>
+          </div>
         )}
       </div>
     </div>

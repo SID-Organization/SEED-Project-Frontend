@@ -29,14 +29,16 @@ export default function drafts() {
   const [demands, setDemands] = useState([]);
 
   useEffect(() => {
-    DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then((demands) => {
-      setDemands(demands);
-    });
+    DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then(
+      (demands) => {
+        setDemands(demands);
+      }
+    );
   }, []);
 
   useEffect(() => {
     console.log("Demands", demands);
-  }, [demands])
+  }, [demands]);
 
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
@@ -96,8 +98,8 @@ export default function drafts() {
               },
             }}
           >
-            <div className="grid justify-center items-center">
-              <div className="flex justify-center items-center">
+            <div className="grid items-center justify-center">
+              <div className="flex items-center justify-center">
                 <WarningAmberRoundedIcon
                   sx={{
                     fontSize: "5rem",
