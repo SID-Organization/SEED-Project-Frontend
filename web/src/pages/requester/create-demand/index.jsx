@@ -38,6 +38,7 @@ import NewBenefitInsertion from "../../../Components/New-benefit-insert";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
+import PdfDemandService from "../../../service/PdfDemand-Service";
 
 // Utils
 import UserUtils from "../../../utils/User-Utils";
@@ -100,6 +101,20 @@ export default function CreateDemand() {
   const params = useParams();
   const [demandUpdateId, setDemandUpdateId] = useState("");
 
+
+
+  useEffect(() => {
+    if (params.id) {
+      setDemandUpdateId(params.id);
+      continueDemand();
+    } else {
+      setDemandUpdateId("");
+    }
+  }, [])
+
+  // setDemandUpdateId("");
+
+
   const [title, setTitle] = useState("");
 
   const currentProblemRef = useRef(null);
@@ -142,54 +157,62 @@ export default function CreateDemand() {
 
   const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
-  function eDemand() {
-    if (params.id) {
-      DemandService.getDemandById(params.id).then((response) => {
-        console.log("RESPONSE", response);
-        setTitle(response.tituloDemanda);
-        setProposal(response.propostaMelhoriaDemanda);
-        setCurrentProblem(response.situacaoAtualDemanda);
-        setFrequencyOfUse(response.frequenciaUsoDemanda);
-        setRealBenefits(
-          response.beneficiosDemanda.map((benefit) => {
-            if (benefit.tipoBeneficio === "REAL") {
-              return {
-                id: benefit.idBeneficio,
-                description: benefit.descricaoBeneficio,
-                value: benefit.valorBeneficio,
-                coin: benefit.moedaBeneficio,
-                descriptionHTML: benefit.descricaoBeneficioHTML,
-                ref: useRef(null),
-              };
-            }
-          })
-        );
-        setPotentialBenefits(
-          response.beneficiosDemanda.map((benefit) => {
-            if (benefit.tipoBeneficio === "POTENCIAL") {
-              return {
-                id: benefit.idBeneficio,
-                description: benefit.descricaoBeneficio,
-                value: benefit.valorBeneficio,
-                coin: benefit.moedaBeneficio,
-                descriptionHTML: benefit.descricaoBeneficioHTML,
-                ref: useRef(null),
-              };
-            }
-          })
-        );
-        setQualitativeBenefit(response.descricaoQualitativoDemanda);
-        setSelectedFiles(
-          response.arquivosDemandas.map((attachment) => {
-            return {
-              type: attachment.type,
-              name: attachment.name,
-              size: attachment.size,
-            };
-          })
-        );
+  useEffect(() => {
+    console.log("REAL BENEFITS", realBenefits)
+  }, [realBenefits])
+
+  function continueDemand() {
+    DemandService.getDemandById(params.id).then((response) => {
+      console.log("DEMAND RESPONSE", response);
+      PdfDemandService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
+        console.log("PDF RESPONSE", pdfResponse);
+        setProposalHTML(pdfResponse[pdfResponse.length - 1].propostaMelhoriaDemandaHTML);
+        setCurrentProblemHTML(pdfResponse[pdfResponse.length - 1].situacaoAtualDemandaHTML);
+        setFrequencyOfUseHTML(pdfResponse[pdfResponse.length - 1].frequenciaUsoDemandaHTML);
       });
-    }
+      setTitle(response.tituloDemanda);
+      // setProposal(response.propostaMelhoriaDemanda);
+      // setCurrentProblem(response.situacaoAtualDemanda);
+      // setFrequencyOfUse(response.frequenciaUsoDemanda);
+      setRealBenefits(() => {
+        const filteredRealBenefs = response.beneficiosDemanda.filter(benefit => benefit.tipoBeneficio == "REAL");
+        return filteredRealBenefs.map((benefit) => {
+          return {
+            benefitId: benefit.idBeneficio,
+            description: benefit.memoriaCalculoBeneficio,
+            value: benefit.valorBeneficio,
+            coin: getBenefitCoin(benefit.moedaBeneficio),
+            descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
+            ref: createRef(),
+          };
+        })
+      });
+      // setPotentialBenefits(
+      //   response.beneficiosDemanda.map((benefit) => {
+      //     if (benefit.tipoBeneficio === "POTENCIAL") {
+      //       return {
+      //         id: benefit.idBeneficio,
+      //         description: benefit.descricaoBeneficio,
+      //         value: benefit.valorBeneficio,
+      //         coin: benefit.moedaBeneficio,
+      //         descriptionHTML: benefit.descricaoBeneficioHTML,
+      //         ref: useRef(null),
+      //       };
+      //     }
+      //   })
+      // );
+      // setQualitativeBenefit(response.descricaoQualitativoDemanda);
+      // setSelectedFiles(
+      //   response.arquivosDemandas.map((attachment) => {
+      //     return {
+      //       type: attachment.type,
+      //       name: attachment.name,
+      //       size: attachment.size,
+      //     };
+      //   })
+      // );
+    });
+
   };
 
   const quillModules = {
@@ -223,41 +246,57 @@ export default function CreateDemand() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleCreateDemand = async () => {
-    function getBenefitCoin(coin) {
-      if (coin === "R$") {
-        return "REAL";
-      } else if (coin === "$") {
-        return "DOLAR";
-      } else if (coin === "€") {
-        return "EURO";
-      } else {
-        return "REAL";
-      }
+  function getBenefitCoin(coin) {
+    switch (coin) {
+      case "REAL": return "R$";
+      case "DOLAR": return "$";
+      case "EURO": return "€";
     }
+
+    switch (coin) {
+      case "R$": return "REAL";
+      case "$": return "DOLAR";
+      case "€": return "EURO";
+      default: return "REAL";
+    }
+  }
+  const handleCreateDemand = async (finish = false) => {
+    
 
     const benefitsToSave = realBenefits.map((benefit) => {
       let strBenef = ReactQuillUtils.formatQuillText(benefit.description);
 
-      return {
+      const benefToSave = {
         moedaBeneficio: getBenefitCoin(benefit.coin),
         memoriaCalculoBeneficio: strBenef,
         memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
         valorBeneficio: benefit.value,
         tipoBeneficio: "REAL",
       };
+
+      if(benefit.benefitId) {
+        benefToSave["idBeneficio"] = benefit.benefitId;
+      }
+
+      return benefToSave
     });
 
     for (let benefit of potentialBenefits) {
       let strBenef = ReactQuillUtils.formatQuillText(benefit.description);
 
-      benefitsToSave.push({
-        moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: strBenef,
-        memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
-        valorBeneficio: benefit.value,
-        tipoBeneficio: "POTENCIAL",
-      });
+      const benefToSave = {
+          moedaBeneficio: getBenefitCoin(benefit.coin),
+          memoriaCalculoBeneficio: strBenef,
+          memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
+          valorBeneficio: benefit.value,
+          tipoBeneficio: "POTENCIAL",
+        }
+
+      if(benefit.benefitId) {
+        benefToSave["idBeneficio"] = benefit.benefitId;
+      }
+
+      benefitsToSave.push(benefToSave);
     }
 
     const proposalToSave = ReactQuillUtils.formatQuillText(proposal);
@@ -285,6 +324,7 @@ export default function CreateDemand() {
       frequenciaUsoDemandaHTML: frequencyOfUseHTML,
     };
 
+    console.log("DEMAND TO SAVE", demandToSave);
     const formData = new FormData();
 
     formData.append("demandaForm", JSON.stringify(demandToSave));
@@ -294,12 +334,24 @@ export default function CreateDemand() {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
 
-    if(!demandUpdateId) {
+    if (!demandUpdateId && title !== "") {
       DemandService.createDemand(formData)
-      .then((res) => {
-        setDemandUpdateId(res.idDemanda);
-      });
+        .then((res) => {
+          console.log("CREATE DEMAND", res)
+          setDemandUpdateId(res.idDemanda);
+        });
     }
+    else {
+      DemandService.updateDemand(demandUpdateId, formData)
+        .then(res => {
+          console.log("UPDATING DEMAND", res)
+          if (res.status === 200 && finish) {
+            DemandService.updateDemandStatus(demandUpdateId, "ABERTA")
+            navigate("/demandas");
+          }
+        })
+    }
+
 
   };
 
@@ -433,6 +485,7 @@ export default function CreateDemand() {
             modules={quillModules}
             ref={proposalRef}
             style={quillStyle}
+            onBlur={handleCreateDemand}
           />
         </div>
         <div className="grid gap-1">
@@ -454,6 +507,7 @@ export default function CreateDemand() {
             placeholder="Descreva a situação atual da demanda."
             modules={quillModules}
             ref={currentProblemRef}
+            onBlur={handleCreateDemand}
             style={quillStyle}
           />
         </div>
@@ -477,6 +531,7 @@ export default function CreateDemand() {
             placeholder="Descreva a frequência de uso da demanda."
             modules={quillModules}
             ref={frequencyOfUseRef}
+            onBlur={handleCreateDemand}
             style={quillStyle}
           />
         </div>
@@ -514,7 +569,7 @@ export default function CreateDemand() {
             </IconButton>
           </Tooltip>
         </div>
-        {realBenefits.map((item, i) => (
+        {realBenefits && realBenefits.map((item, i) => (
           <div className="flex items-center justify-center" key={i}>
             <NewBenefitInsertion
               coin={item.coin}
@@ -525,6 +580,7 @@ export default function CreateDemand() {
             >
               <ReactQuill
                 value={item.descriptionHTML}
+                onBlur={handleCreateDemand}
                 onChange={(e) => {
                   const newRealBenefits = [...realBenefits];
                   newRealBenefits[i].descriptionHTML = e;
@@ -586,6 +642,7 @@ export default function CreateDemand() {
                   setPotentialBenefits(newPotentialBenefits);
                 }}
                 ref={item.ref}
+                onBlur={handleCreateDemand}
                 placeholder="Descreva o benefício."
               />
             </NewBenefitInsertion>
@@ -614,6 +671,7 @@ export default function CreateDemand() {
             multiline
             maxRows={4}
             value={qualitativeBenefit}
+            onBlur={handleCreateDemand}
             onChange={(e) => setQualitativeBenefit(e.target.value)}
           />
           <div className="mr-16" />
@@ -626,13 +684,15 @@ export default function CreateDemand() {
   // Terceiro passo - Anexos
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filesTableRows, setFilesTableRows] = useState([]);
-  console.log("SETSELECTEFILES", selectedFiles);
 
   useEffect(() => {
     if (selectedFiles) {
       setFilesTableRows(
         selectedFiles.map((file) => createFileRowData(file.name, file.size))
       );
+      if (selectedFiles.length > 0) {
+        handleCreateDemand();
+      }
     }
   }, [selectedFiles]);
 
@@ -847,7 +907,7 @@ export default function CreateDemand() {
               </Button>
               {/* <Link to="/minhas-demandas"> */}
               <Button
-                onClick={handleCreateDemand}
+                onClick={() => handleCreateDemand(true)}
                 sx={{
                   backgroundColor: "#0075B1",
                   color: "#fff",

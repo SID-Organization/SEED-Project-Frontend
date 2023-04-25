@@ -240,8 +240,8 @@ export default function DemandCard(props) {
                     fontSize: "1rem",
                   }}
                 >
-                  {props.demand.tituloDemanda.length > 25
-                    ? props.demand.tituloDemanda.slice(0, 25) + "..."
+                  {props.demand.tituloDemanda.length > 20
+                    ? props.demand.tituloDemanda.slice(0, 20) + "..."
                     : props.demand.tituloDemanda}
                 </Typography>
               </Tooltip>
