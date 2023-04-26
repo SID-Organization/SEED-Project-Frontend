@@ -51,7 +51,7 @@ const statusPercentage = {
     PROPOSTA_EM_SUPORTE: 90,
     PROPOSTA_FINALIZADA: 100,
     CANCELADA: 0,
-    RASCUNHO: 0,
+    RASCUNHO: 1,
 }
 
 const getDemandStatusByRole = (status, role = "SOLICITANTE") => {
