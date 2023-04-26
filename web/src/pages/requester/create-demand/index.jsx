@@ -143,26 +143,22 @@ export default function CreateDemand() {
 
   const [anyEmptyField, setAnyEmptyField] = useState(true);
 
-  const updateStates = () => {
-    setTitle(title);
-    setCurrentProblem(currentProblem);
-    setProposal(proposal);
-    setFrequencyOfUse(frequencyOfUse);
-    setQualitativeBenefit(qualitativeBenefit);
-  };
-
   useEffect(() => {
     if (
-      title == "" &&
-      currentProblem == "" &&
-      proposal == "" &&
-      frequencyOfUse == "" &&
-      qualitativeBenefit == ""
+      !title ||
+      !currentProblem ||
+      !proposal ||
+      !frequencyOfUse ||
+      !qualitativeBenefit
     ) {
+      // console.log("CURRENT PROB", currentProblem);
       setAnyEmptyField(true);
     } else {
       setAnyEmptyField(false);
     }
+  }, [title, currentProblem, proposal, frequencyOfUse, qualitativeBenefit]);
+
+  useEffect(() => {
     console.log("-------------------------");
     console.log("TITLE: ", title);
     console.log("PROPOSAL: ", proposal);
@@ -171,7 +167,14 @@ export default function CreateDemand() {
     console.log("QUALITATIVE BENEFIT: ", qualitativeBenefit);
     console.log("-------------------------");
     console.log("EMPTY FIELDS?", anyEmptyField);
-  }, [title, currentProblem, proposal, frequencyOfUse, qualitativeBenefit]);
+  }, [
+    title,
+    currentProblem,
+    proposal,
+    frequencyOfUse,
+    qualitativeBenefit,
+    anyEmptyField,
+  ]);
 
   useEffect(() => {
     if (params.id) {
@@ -432,7 +435,6 @@ export default function CreateDemand() {
           <TextField
             id="outlined-textarea"
             variant="outlined"
-            onBlur={updateStates}
             type="text"
             multiline
             maxRows={3}
@@ -456,7 +458,6 @@ export default function CreateDemand() {
             <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
-            onBlur={updateStates}
             value={proposalHTML}
             onChange={(e) => {
               setProposalHTML(e);
@@ -477,7 +478,6 @@ export default function CreateDemand() {
             <div className="ml-3 h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
-            onBlur={updateStates}
             value={currentProblemHTML}
             onChange={(e) => {
               setCurrentProblemHTML(e);
@@ -501,7 +501,6 @@ export default function CreateDemand() {
             <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
-            onBlur={updateStates}
             value={frequencyOfUseHTML}
             onChange={(e) => {
               setFrequencyOfUseHTML(e);
@@ -639,7 +638,6 @@ export default function CreateDemand() {
         </div>
         <div className="flex items-center justify-center">
           <TextField
-            onBlur={updateStates}
             sx={{
               marginBottom: "5rem",
             }}
