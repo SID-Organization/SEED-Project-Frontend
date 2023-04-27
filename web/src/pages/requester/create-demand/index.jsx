@@ -264,16 +264,14 @@ export default function CreateDemand() {
         setDemandUpdateId(res.idDemanda);
       });
     } else if (demandUpdateId && title !== "") {
-      DemandService.updateDemand(demandUpdateId, formData).then((res) => {
-        console.log("UPDATING DEMAND", res);
-        console.log("FINISH", finish);
-        // if (finish) {
-        //   DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
-        //   navigate("/demandas");
-        // }
-      });
+      DemandService.updateDemand(demandUpdateId, formData);
     }
   };
+
+  const handleFinishDemand = () => {
+    DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
+    navigate("/demandas")
+  }
 
   function handleFileInput(event) {
     if (event.target.files.length === 0) return;
@@ -409,6 +407,7 @@ export default function CreateDemand() {
     handleCloseConfirm,
     anyEmptyField,
     handleCreateDemand,
+    handleFinishDemand,
   }
 
   return (
