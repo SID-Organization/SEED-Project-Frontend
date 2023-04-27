@@ -104,6 +104,8 @@ export default function CreateDemand() {
   }, [title, currentProblem, proposal, frequencyOfUse, qualitativeBenefit]);
 
 
+
+
   function continueDemand() {
     DemandService.getDemandById(params.id).then((response) => {
       console.log("DEMAND RESPONSE", response);
@@ -127,41 +129,25 @@ export default function CreateDemand() {
         const filteredRealBenefs = response.beneficiosDemanda.filter(
           (benefit) => benefit.tipoBeneficio == "REAL"
         );
-        return filteredRealBenefs.map((benefit) => {
-          return {
-            benefitId: benefit.idBeneficio,
-            description: benefit.memoriaCalculoBeneficio,
-            value: benefit.valorBeneficio,
-            coin: getBenefitCoin(benefit.moedaBeneficio),
-            descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
-            ref: createRef(),
-          };
-        });
+        return filteredRealBenefs.map((benefit) => (formatBenefit(benefit, "REAL", true)));
       });
-      // setPotentialBenefits(
-      //   response.beneficiosDemanda.map((benefit) => {
-      //     if (benefit.tipoBeneficio === "POTENCIAL") {
-      //       return {
-      //         id: benefit.idBeneficio,
-      //         description: benefit.descricaoBeneficio,
-      //         value: benefit.valorBeneficio,
-      //         coin: benefit.moedaBeneficio,
-      //         descriptionHTML: benefit.descricaoBeneficioHTML,
-      //         ref: useRef(null),
-      //       };
-      //     }
-      //   })
-      // );
-      // setQualitativeBenefit(response.descricaoQualitativoDemanda);
-      // setSelectedFiles(
-      //   response.arquivosDemandas.map((attachment) => {
-      //     return {
-      //       type: attachment.type,
-      //       name: attachment.name,
-      //       size: attachment.size,
-      //     };
-      //   })
-      // );
+      setPotentialBenefits(() => {
+        const filteredPotBenefs = response.beneficiosDemanda.filter(
+          (benefit) => benefit.tipoBeneficio == "POTENCIAL"
+        );
+        return filteredPotBenefs.map((benefit) => (formatBenefit(benefit, "POTENCIAL", true)))
+      }
+      );
+      setQualitativeBenefit(response.descricaoQualitativoDemanda);
+      setSelectedFiles(
+        response.arquivosDemandas.map((attachment) => {
+          return {
+            type: attachment.type,
+            name: attachment.name,
+            size: attachment.size,
+          };
+        })
+      );
     });
   }
 
@@ -196,24 +182,36 @@ export default function CreateDemand() {
         return "DOLAR";
       case "€":
         return "EURO";
+      default: "REAL";
     }
   }
 
-  function formatBenefit(benefit, benefitType) {
-    const tempBenefit = {
-      moedaBeneficio: getBenefitCoin(benefit.coin),
-      memoriaCalculoBeneficio: formatQuillText(benefit.description),
-      memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
-      valorBeneficio: benefit.value,
-      tipoBeneficio: benefitType,
+  function formatBenefit(benefit, benefitType, formatToCode = false) {
+    let tempBenefit;
+    if (!formatToCode) {
+      tempBenefit = {
+        moedaBeneficio: getBenefitCoin(benefit.coin),
+        memoriaCalculoBeneficio: formatQuillText(benefit.description),
+        memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
+        valorBeneficio: benefit.value,
+        tipoBeneficio: benefitType,
+      }
+      if (benefit.benefitId) tempBenefit["idBeneficio"] = benefit.benefitId;
     }
-    if (benefit.benefitId) tempBenefit["idBeneficio"] = benefit.benefitId;
-
+    else if (formatToCode) {
+      tempBenefit = {
+        benefitId: benefit.idBeneficio,
+        description: benefit.memoriaCalculoBeneficio,
+        value: benefit.valorBeneficio,
+        coin: getBenefitCoin(benefit.moedaBeneficio),
+        descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
+        ref: createRef(),
+      }
+    }
     return tempBenefit;
   }
 
-  const handleCreateDemand = async (finish = false) => {
-
+  const handleCreateDemand = async (finish) => {
     // Benefício real
     const benefitsToSave = realBenefits.map((benefit) => {
       const tempRBenef = formatBenefit(benefit, "REAL");
@@ -268,10 +266,11 @@ export default function CreateDemand() {
     } else if (demandUpdateId && title !== "") {
       DemandService.updateDemand(demandUpdateId, formData).then((res) => {
         console.log("UPDATING DEMAND", res);
-        if (res.status === 200 && finish) {
-          DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
-          navigate("/demandas");
-        }
+        console.log("FINISH", finish);
+        // if (finish) {
+        //   DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
+        //   navigate("/demandas");
+        // }
       });
     }
   };
@@ -282,12 +281,6 @@ export default function CreateDemand() {
     setSelectedFiles([...selectedFiles, event.target.files[0]]);
   }
 
-
-  // TESTE
-  useEffect(() => {
-    console.log("REAL BENEF", realBenefits);
-    console.log("POTEN BENEF", potentialBenefits);
-  }, [realBenefits, potentialBenefits])
 
   function addRealBenefit() {
     setRealBenefits([
@@ -415,6 +408,7 @@ export default function CreateDemand() {
     confirmDemand,
     handleCloseConfirm,
     anyEmptyField,
+    handleCreateDemand,
   }
 
   return (

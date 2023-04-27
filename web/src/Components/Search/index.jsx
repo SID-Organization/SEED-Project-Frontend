@@ -9,10 +9,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import MuiTextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
+
+// Components
 import FilterComponent from "./FilterComponent";
-import { useEffect } from "react";
 
 export default function Search(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);

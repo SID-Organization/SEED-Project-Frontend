@@ -13,7 +13,7 @@ const createDemand = async (demand) => {
 const updateDemand = async (demandId, updatedDemand) => {
   return axios
     .put(url + "/" + demandId, updatedDemand)
-    .then((response) => response.data)
+    .then((response) => response)
     .catch((error) => error);
 };
 

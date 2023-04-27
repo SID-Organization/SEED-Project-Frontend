@@ -736,7 +736,7 @@ export default function DemandCard(props) {
               {props.demand.statusDemanda === "RASCUNHO" && (
                 <Tooltip title="Continuar rascunho">
                   <Link
-                    to={`/nova-demanda/${props.demand.idDemanda}/continuar`}
+                    to={`/nova-demanda/${props.demand.idDemanda}`}
                   >
                     <Button
                       variant="contained"
