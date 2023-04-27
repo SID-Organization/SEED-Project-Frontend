@@ -35,7 +35,7 @@ const updateDemandStatus = async (demandId, newStatus) => {
 const deleteDemand = async (id) => {
   return axios
     .delete(`${url}/${id}`)
-    .then((response) => response.data)
+    .then((response) => response)
     .catch((error) => error);
 };
 
