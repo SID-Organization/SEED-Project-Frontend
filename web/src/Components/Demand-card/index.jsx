@@ -13,7 +13,16 @@ import Slider from "@mui/material/Slider";
 import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import { IconButton, InputAdornment, Radio, Tooltip } from "@mui/material";
+import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
+import {
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+  InputAdornment,
+  Radio,
+  Tooltip,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
 
@@ -58,6 +67,18 @@ const styleModalGenerateProposal = {
   boxShadow: 24,
 };
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 580,
+  height: 405,
+  bgcolor: "background.paper",
+  borderRadius: 2,
+  boxShadow: 24,
+};
+
 export default function DemandCard(props) {
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
@@ -74,6 +95,11 @@ export default function DemandCard(props) {
   // Busca o primeiro registro da demanda
   const [firstLog, setFirstLog] = useState();
   const [demandLogs, setDemandLogs] = useState([]);
+
+  //Modal delete draft
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const getFirstLog = async () => {
     DemandLogService.getDemandLogs(props.demand.idDemanda).then((data) => {
@@ -634,7 +660,7 @@ export default function DemandCard(props) {
               {props.demand.statusDemanda === "RASCUNHO" && (
                 <div>
                   <Tooltip title="Deletar rascunho">
-                    <IconButton>
+                    <IconButton onClick={handleOpen}>
                       <DeleteRoundedIcon
                         sx={{
                           color: "#C31700",
@@ -644,6 +670,55 @@ export default function DemandCard(props) {
                   </Tooltip>
                 </div>
               )}
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <div className="grid h-full items-center justify-center">
+                    <div className="grid items-center justify-center">
+                      <div className="flex items-center justify-center">
+                        <WarningAmberRoundedIcon
+                          sx={{
+                            fontSize: "5rem",
+                            color: "#0075B1",
+                          }}
+                        />
+                      </div>
+                      <DialogTitle style={{ color: "#0075B1" }}>
+                        Deletar rascunho?
+                      </DialogTitle>
+                      <div className="flex items-center justify-center gap-5">
+                        <Button
+                          autoFocus
+                          sx={{
+                            backgroundColor: "#C2BEBE",
+                            color: "#fff",
+                            "&:hover": {
+                              backgroundColor: "#C2BEBE",
+                            },
+                          }}
+                        >
+                          Cancelar
+                        </Button>
+                        <Button
+                          sx={{
+                            backgroundColor: "#0075B1",
+                            color: "#fff",
+                            "&:hover": {
+                              backgroundColor: "#0075B1",
+                            },
+                          }}
+                        >
+                          Deletar
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </Box>
+              </Modal>
               {props.demand.statusDemanda === "RASCUNHO" && (
                 <Tooltip title="Continuar rascunho">
                   <Link
