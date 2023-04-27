@@ -1,9 +1,9 @@
-import React, { createRef } from "react";
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import ReactQuill from "react-quill";
-import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
-import { useParams } from "react-router-dom";
+
+// React
+import React, { createRef, useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
+// Styles
 import "react-quill/dist/quill.snow.css";
 
 // MUI
@@ -33,8 +33,11 @@ import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 
 // Components
+import FirstStep from "./first-step";
+import ReactQuill from "react-quill";
 import Notification from "../../../Components/Notification";
 import NewBenefitInsertion from "../../../Components/New-benefit-insert";
+import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
@@ -43,6 +46,8 @@ import PdfDemandService from "../../../service/PdfDemand-Service";
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
+const { formatQuillText, quillModules, quillStyle } = ReactQuillUtils;
+
 
 function PaperComponent(props) {
   return (
@@ -159,14 +164,6 @@ export default function CreateDemand() {
 
   const [anyEmptyField, setAnyEmptyField] = useState(true);
 
-  const updateStates = () => {
-    setTitle(title);
-    setCurrentProblem(currentProblem);
-    setProposal(proposal);
-    setFrequencyOfUse(frequencyOfUse);
-    setQualitativeBenefit(qualitativeBenefit);
-  };
-
   useEffect(() => {
     if (
       title == "" &&
@@ -247,19 +244,7 @@ export default function CreateDemand() {
 
   };
 
-  const quillModules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      [{ font: [] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }],
-      ["image", "link"],
-    ],
-  };
 
-  const quillStyle = { maxWidth: "43rem" };
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
@@ -293,10 +278,10 @@ export default function CreateDemand() {
     }
   }
   const handleCreateDemand = async (finish = false) => {
-    
+
 
     const benefitsToSave = realBenefits.map((benefit) => {
-      let strBenef = ReactQuillUtils.formatQuillText(benefit.description);
+      let strBenef = formatQuillText(benefit.description);
 
       const benefToSave = {
         moedaBeneficio: getBenefitCoin(benefit.coin),
@@ -306,7 +291,7 @@ export default function CreateDemand() {
         tipoBeneficio: "REAL",
       };
 
-      if(benefit.benefitId) {
+      if (benefit.benefitId) {
         benefToSave["idBeneficio"] = benefit.benefitId;
       }
 
@@ -314,28 +299,26 @@ export default function CreateDemand() {
     });
 
     for (let benefit of potentialBenefits) {
-      let strBenef = ReactQuillUtils.formatQuillText(benefit.description);
+      let strBenef = formatQuillText(benefit.description);
 
       const benefToSave = {
-          moedaBeneficio: getBenefitCoin(benefit.coin),
-          memoriaCalculoBeneficio: strBenef,
-          memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
-          valorBeneficio: benefit.value,
-          tipoBeneficio: "POTENCIAL",
-        }
+        moedaBeneficio: getBenefitCoin(benefit.coin),
+        memoriaCalculoBeneficio: strBenef,
+        memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
+        valorBeneficio: benefit.value,
+        tipoBeneficio: "POTENCIAL",
+      }
 
-      if(benefit.benefitId) {
+      if (benefit.benefitId) {
         benefToSave["idBeneficio"] = benefit.benefitId;
       }
 
       benefitsToSave.push(benefToSave);
     }
 
-    const proposalToSave = ReactQuillUtils.formatQuillText(proposal);
-    const currentProblemToSave =
-      ReactQuillUtils.formatQuillText(currentProblem);
-    const frequencyOfUseToSave =
-      ReactQuillUtils.formatQuillText(frequencyOfUse);
+    const proposalToSave = formatQuillText(proposal);
+    const currentProblemToSave = formatQuillText(currentProblem);
+    const frequencyOfUseToSave = formatQuillText(frequencyOfUse);
 
     const demandToSave = {
       tituloDemanda: title,
@@ -383,14 +366,6 @@ export default function CreateDemand() {
           }
         })
     }
-    // try {
-    //   const res = await DemandService.createDemand(formData);
-    //   console.log("RES", res);
-    //   navigate("/demandas");
-    // } catch (error) {
-    //   console.error(error);
-    //   alert("Erro ao criar demanda. Por favor, tente novamente.");
-    // }
 
   };
 
@@ -536,7 +511,6 @@ export default function CreateDemand() {
             <div className="ml-3 h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
-            onBlur={updateStates}
             value={currentProblemHTML}
             onChange={(e) => {
               setCurrentProblemHTML(e);
@@ -545,6 +519,7 @@ export default function CreateDemand() {
               );
             }}
             placeholder="Descreva a situação atual da demanda."
+            onBlur={handleCreateDemand}
             modules={quillModules}
             ref={currentProblemRef}
             style={quillStyle}
@@ -560,7 +535,7 @@ export default function CreateDemand() {
             <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           </div>
           <ReactQuill
-            onBlur={updateStates}
+            onBlur={handleCreateDemand}
             value={frequencyOfUseHTML}
             onChange={(e) => {
               setFrequencyOfUseHTML(e);
@@ -700,7 +675,6 @@ export default function CreateDemand() {
         </div>
         <div className="flex items-center justify-center">
           <TextField
-            onBlur={updateStates}
             sx={{
               marginBottom: "5rem",
             }}
@@ -984,6 +958,17 @@ export default function CreateDemand() {
 
   const steps = ["Dados gerais", "Benefícios", "Arquivos"];
 
+  const firstStepProps = {
+    title,
+    setTitle,
+    handleCreateDemand,
+    proposal,
+    setProposal,
+    proposalHTML,
+    setProposalHTML,
+    proposalRef
+  }
+
   return (
     <div>
       <div className="mb-7">
@@ -1005,7 +990,7 @@ export default function CreateDemand() {
       </div>
       <div className="grid items-center justify-center ">
         <div className="grid">
-          {activeStep === 0 && firstStep()}
+          {activeStep === 0 && <FirstStep props={firstStepProps}/>}
           {activeStep === 1 && secondStep()}
           {activeStep === 2 && thirdStep()}
           {activeStep === 3 && demandCreationConfirmation()}
