@@ -10,17 +10,12 @@ import "react-quill/dist/quill.snow.css";
 import {
   Button,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import Dialog from "@mui/material/Dialog";
-import Draggable from "react-draggable";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
-import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 
 // Components
 import FirstStep from "./first-step";
 import SecondStep from "./second-step";
 import ThirdStep from "./third-step";
+import FourthStep from "./fourth-step"
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
 
 // Services
@@ -32,31 +27,8 @@ import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 const { formatQuillText } = ReactQuillUtils;
 
-function PaperComponent(props) {
-  return (
-    <Draggable
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} />
-    </Draggable>
-  );
-}
-
 export default function CreateDemand() {
   const params = useParams();
-  const [demandUpdateId, setDemandUpdateId] = useState("");
-
-  useEffect(() => {
-    if (params.id) {
-      setDemandUpdateId(params.id);
-      continueDemand();
-    } else {
-      setDemandUpdateId("");
-    }
-  }, []);
-
-  // setDemandUpdateId("");
 
   const [title, setTitle] = useState("");
 
@@ -77,7 +49,7 @@ export default function CreateDemand() {
 
   const [buttonNotification, setButtonNotification] = useState(false);
   const [deleteNotification, setDeleteNotification] = useState(false);
-  
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filesTableRows, setFilesTableRows] = useState([]);
 
@@ -104,6 +76,17 @@ export default function CreateDemand() {
   const [qualitativeBenefit, setQualitativeBenefit] = useState("");
 
   const [anyEmptyField, setAnyEmptyField] = useState(true);
+
+  const [demandUpdateId, setDemandUpdateId] = useState("");
+
+  useEffect(() => {
+    if (params.id) {
+      setDemandUpdateId(params.id);
+      continueDemand();
+    } else {
+      setDemandUpdateId("");
+    }
+  }, []);
 
   useEffect(() => {
     if (
@@ -188,15 +171,11 @@ export default function CreateDemand() {
   // Navegador de página pela função
   const navigate = useNavigate();
 
-  const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
-    useState(false);
+  const [confirmDemand, setConfirmDemand] = useState(false);
 
-  const handleClickOpenModalConfirmationDemand = () => {
-    setOpenModalConfirmationDemand(true);
-  };
 
-  const handleCloseModalConfirmationDemand = () => {
-    setOpenModalConfirmationDemand(false);
+  const handleCloseConfirm = () => {
+    setConfirmDemand(false);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -217,48 +196,37 @@ export default function CreateDemand() {
         return "DOLAR";
       case "€":
         return "EURO";
-      default:
-        return "REAL";
     }
   }
+
+  function formatBenefit(benefit, benefitType) {
+    const tempBenefit = {
+      moedaBeneficio: getBenefitCoin(benefit.coin),
+      memoriaCalculoBeneficio: formatQuillText(benefit.description),
+      memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
+      valorBeneficio: benefit.value,
+      tipoBeneficio: benefitType,
+    }
+    if (benefit.benefitId) tempBenefit["idBeneficio"] = benefit.benefitId;
+
+    return tempBenefit;
+  }
+
   const handleCreateDemand = async (finish = false) => {
 
+    // Benefício real
     const benefitsToSave = realBenefits.map((benefit) => {
-      let strBenef = formatQuillText(benefit.description);
-
-      const benefToSave = {
-        moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: strBenef,
-        memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
-        valorBeneficio: benefit.value,
-        tipoBeneficio: "REAL",
-      };
-
-      if (benefit.benefitId) {
-        benefToSave["idBeneficio"] = benefit.benefitId;
-      }
-
-      return benefToSave;
+      const tempRBenef = formatBenefit(benefit, "REAL");
+      return tempRBenef;
     });
 
+    // Benefício potencial
     for (let benefit of potentialBenefits) {
-
-      const benefToSave = {
-        moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: formatQuillText(benefit.description),
-        memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
-        valorBeneficio: benefit.value,
-        tipoBeneficio: "POTENCIAL",
-      }
-
-      if (benefit.benefitId) {
-        benefToSave["idBeneficio"] = benefit.benefitId;
-      }
-
+      const benefToSave = formatBenefit(benefit, "POTENCIAL");
       benefitsToSave.push(benefToSave);
     }
 
-
+    // Demanda
     const demandToSave = {
       tituloDemanda: title,
       propostaMelhoriaDemanda: formatQuillText(proposal),
@@ -272,35 +240,39 @@ export default function CreateDemand() {
       beneficiosDemanda: benefitsToSave,
     };
 
+    // PDF da demanda
     const formDemandPDF = {
       propostaMelhoriaDemandaHTML: proposalHTML,
       situacaoAtualDemandaHTML: currentProblemHTML,
       frequenciaUsoDemandaHTML: frequencyOfUseHTML,
     };
 
-    console.log("DEMAND TO SAVE", demandToSave);
     const formData = new FormData();
 
+    console.log("DEMAND TO SAVE", demandToSave);
+
+    // Adiciona a demanda e o PDF da deamnda ao FormData
     formData.append("demandaForm", JSON.stringify(demandToSave));
     formData.append("pdfDemandaForm", JSON.stringify(formDemandPDF));
 
+    // Adiciona os arquivos selecionados ao FormData
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
 
     if (!demandUpdateId && title !== "") {
-      // DemandService.createDemand(formData).then((res) => {
-      //   console.log("CREATE DEMAND", res);
-      //   setDemandUpdateId(res.idDemanda);
-      // });
-    } else if(demandUpdateId && title !== "") {
-      // DemandService.updateDemand(demandUpdateId, formData).then((res) => {
-      //   console.log("UPDATING DEMAND", res);
-      //   if (res.status === 200 && finish) {
-      //     DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
-      //     navigate("/demandas");
-      //   }
-      // });
+      DemandService.createDemand(formData).then((res) => {
+        console.log("CREATE DEMAND", res);
+        setDemandUpdateId(res.idDemanda);
+      });
+    } else if (demandUpdateId && title !== "") {
+      DemandService.updateDemand(demandUpdateId, formData).then((res) => {
+        console.log("UPDATING DEMAND", res);
+        if (res.status === 200 && finish) {
+          DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
+          navigate("/demandas");
+        }
+      });
     }
   };
 
@@ -309,6 +281,13 @@ export default function CreateDemand() {
     if (event.target.files[0] === undefined) return;
     setSelectedFiles([...selectedFiles, event.target.files[0]]);
   }
+
+
+  // TESTE
+  useEffect(() => {
+    console.log("REAL BENEF", realBenefits);
+    console.log("POTEN BENEF", potentialBenefits);
+  }, [realBenefits, potentialBenefits])
 
   function addRealBenefit() {
     setRealBenefits([
@@ -321,7 +300,7 @@ export default function CreateDemand() {
   function addPotentialBenefit() {
     setPotentialBenefits([
       ...potentialBenefits,
-      { coin: "", value: 0, description: "", ref: createRef() },
+      { coin: "", value: 0, descriptionHTML: "", ref: createRef() },
     ]);
     setButtonNotification(true);
   }
@@ -342,9 +321,6 @@ export default function CreateDemand() {
     }
   }, [deleteNotification]);
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -361,7 +337,7 @@ export default function CreateDemand() {
     setSkipped(newSkipped);
 
     if (activeStep === 2) {
-      handleClickOpenModalConfirmationDemand();
+      setConfirmDemand(true);
     }
   };
 
@@ -370,6 +346,7 @@ export default function CreateDemand() {
   };
 
 
+  // Adiciona os arquivos selecionados à tabela de arquivos
   useEffect(() => {
     if (selectedFiles) {
       setFilesTableRows(
@@ -388,92 +365,6 @@ export default function CreateDemand() {
     return { name, size: fileSize };
   }
 
-
-  const demandCreationConfirmation = () => {
-    return (
-      <div>
-        <Dialog
-          open={openModalConfirmationDemand}
-          onClose={handleCloseModalConfirmationDemand}
-          PaperComponent={PaperComponent}
-          sx={{
-            "& .MuiDialog-paper": {
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "23rem",
-              height: "15rem",
-              backgroundColor: "#fff",
-              boxShadow: 0,
-              borderRadius: 2,
-            },
-          }}
-        >
-          <div className="grid items-center justify-center">
-            <div className="flex items-center justify-center">
-              <WarningAmberRoundedIcon
-                sx={{
-                  fontSize: "5rem",
-                  color: "#0075B1",
-                }}
-              />
-            </div>
-            <DialogTitle style={{ color: "#0075B1" }}>
-              {anyEmptyField ? (
-                <>
-                  <span>Existem campos vazios!</span>
-                  <br />
-                  <span className="flex items-center justify-center">
-                    Deseja prosseguir?
-                  </span>
-                </>
-              ) : (
-                <>
-                  Têm certeza que deseja <br />
-                  <span>criar uma nova demanda?</span>
-                </>
-              )}
-            </DialogTitle>
-          </div>
-          <DialogActions>
-            <div className="flex gap-5">
-              <Button
-                autoFocus
-                onClick={handleCloseModalConfirmationDemand}
-                sx={{
-                  backgroundColor: "#C2BEBE",
-                  color: "#fff",
-                  "&:hover": {
-                    backgroundColor: "#C2BEBE",
-                  },
-                }}
-              >
-                Cancelar
-              </Button>
-              {/* <Link to="/minhas-demandas"> */}
-              <Button
-                onClick={() => handleCreateDemand(true)}
-                sx={{
-                  backgroundColor: "#0075B1",
-                  color: "#fff",
-                  "&:hover": {
-                    backgroundColor: "#0075B1",
-                  },
-                }}
-              >
-                {
-                  <span className="flex items-center justify-center">
-                    {anyEmptyField ? "Prosseguir" : "Criar demanda"}
-                  </span>
-                }
-              </Button>
-              {/* </Link> */}
-            </div>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  };
 
   const steps = ["Dados gerais", "Benefícios", "Arquivos"];
 
@@ -520,6 +411,12 @@ export default function CreateDemand() {
     handleFileInput,
   }
 
+  const fourthStepProps = {
+    confirmDemand,
+    handleCloseConfirm,
+    anyEmptyField,
+  }
+
   return (
     <div>
       <div className="mb-7">
@@ -541,10 +438,10 @@ export default function CreateDemand() {
       </div>
       <div className="grid items-center justify-center ">
         <div className="grid">
-          {activeStep === 0 && <FirstStep props={firstStepProps}/>}
-          {activeStep === 1 && <SecondStep props={secondStepProps}/>}
-          {activeStep === 2 && <ThirdStep props={thirdStepProps}/>}
-          {activeStep === 3 && demandCreationConfirmation()}
+          {activeStep === 0 && <FirstStep props={firstStepProps} />}
+          {activeStep === 1 && <SecondStep props={secondStepProps} />}
+          {activeStep === 2 && <ThirdStep props={thirdStepProps} />}
+          {activeStep === 3 && <FourthStep props={fourthStepProps} />}
         </div>
         <div className="mb-10 flex items-center justify-between">
           <Button
