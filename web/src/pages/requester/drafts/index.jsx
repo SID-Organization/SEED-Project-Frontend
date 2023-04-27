@@ -75,15 +75,12 @@ export default function drafts() {
     setOpenModalConfirmationDemand(false);
   };
 
-  const deleteAllDrafts = () => {
-    console.log("selectedDrafts", selectedDrafts);
+  const deleteSelectedDrafts = () => {
     DemandService.deleteListDemands(selectedDrafts).then((response) => {
       console.log("RES: ", response);
       if (response.status === 200) {
-        console.log("Rascunhos deletados com sucesso");
         setSelectedDrafts([]);
-      } else {
-        console.log("Erro ao deletar os rascunhos");
+        window.location.reload();
       }
     });
   };
@@ -146,7 +143,6 @@ export default function drafts() {
                   Cancelar
                 </Button>
                 <Button
-                  onClick={deleteAllDrafts}
                   sx={{
                     backgroundColor: "#0075B1",
                     color: "#fff",
@@ -164,6 +160,7 @@ export default function drafts() {
           {selectedDrafts.length > 0 && (
             <div className="mb-10">
               <ButtonAddSelected
+                onClick={deleteSelectedDrafts}
                 variant="contained"
                 color="primary"
                 size="large"
@@ -198,7 +195,7 @@ export default function drafts() {
           )}
         </div>
       }
-      <div className="flex h-[65vh] flex-wrap items-center justify-around">
+      <div className="flex flex-wrap items-center justify-around">
         {demands.length > 0 ? (
           demands.map((demand) => (
             <DemandCard
@@ -208,7 +205,9 @@ export default function drafts() {
             />
           ))
         ) : (
-          <NoDemands>Sem rascunhos!</NoDemands>
+          <div className="flex h-[65vh] flex-wrap items-center justify-around">
+            <NoDemands>Sem rascunhos!</NoDemands>
+          </div>
         )}
       </div>
     </div>

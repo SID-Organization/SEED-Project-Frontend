@@ -42,11 +42,9 @@ const deleteDemand = async (id) => {
 const deleteListDemands = async (ids) => {
   return axios
     .post(`${url}/delete-lista-demanda`, {
-      demandas: [
-        ids.map((id) => ({
-          idDemanda: id,
-        })),
-      ],
+      demandas: ids.map((id) => ({
+        idDemanda: id,
+      })),
     })
     .then((response) => response)
     .catch((error) => error);
