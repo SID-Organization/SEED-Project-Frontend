@@ -50,6 +50,13 @@ const deleteListDemands = async (ids) => {
     .catch((error) => error);
 };
 
+const deleteAllDemands = async () => {
+  return axios
+    .delete(`${url}/deleta-rascunhos`)
+    .then((response) => response)
+    .catch((error) => error);
+};
+
 const getDemands = async () => {
   return axios
     .get(url)
@@ -139,4 +146,5 @@ export default {
   getDemandsToManage,
   getDraftsByRequestorId,
   deleteListDemands,
+  deleteAllDemands,
 };

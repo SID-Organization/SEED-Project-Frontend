@@ -85,6 +85,15 @@ export default function drafts() {
     });
   };
 
+  const deleteAllDrafts = () => {
+    DemandService.deleteAllDemands().then((response) => {
+      console.log("RES: ", response);
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    });
+  };
+
   return (
     <div>
       <SubHeader>Rascunhos</SubHeader>
@@ -143,6 +152,7 @@ export default function drafts() {
                   Cancelar
                 </Button>
                 <Button
+                  onClick={deleteAllDrafts}
                   sx={{
                     backgroundColor: "#0075B1",
                     color: "#fff",
