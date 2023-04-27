@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 // MUI
@@ -77,11 +76,9 @@ export default function CreateNewPauta() {
   const handleCloseModal = () => setOpenedModal(false);
 
   useEffect(() => {
-    ProposalService.getReadyProposals()
-      .then((data) => setReadyProposals(data));
+    ProposalService.getReadyProposals().then((data) => setReadyProposals(data));
 
-    ForumService.getForuns()
-      .then((data) => setForuns(data));
+    ForumService.getForuns().then((data) => setForuns(data));
   }, []);
 
   useEffect(() => {
@@ -113,10 +110,10 @@ export default function CreateNewPauta() {
       propostasPauta: selectedProposals,
       horarioInicioPauta: meetingStartTime,
       horarioTerminoPauta: meetingEndTime,
-      analistaResponsavelPauta: { numeroCadastroUsuario: user.numeroCadastroUsuario }
-    }
-
-    console.log("pautaJson", pautaJson);
+      analistaResponsavelPauta: {
+        numeroCadastroUsuario: user.numeroCadastroUsuario,
+      },
+    };
 
     PautaService.createPauta(pautaJson)
       .then((response) => response.json())
@@ -130,7 +127,6 @@ export default function CreateNewPauta() {
         }
       });
   };
-
 
   return (
     <div>

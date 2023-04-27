@@ -92,14 +92,20 @@ export default function GenerateProposal() {
   const [textIsNotProposal, setTextIsNotProposal] = useState("");
   const [textIsProposal, setTextIsProposal] = useState("");
   const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
-  const [textProposalMitigationPlan, setTextProposalMitigationPlan] =useState("");
+  const [textProposalMitigationPlan, setTextProposalMitigationPlan] =
+    useState("");
   const [textProjectRange, setTextProjectRange] = useState("");
 
   // React quill
   const [quillValueEscopo, setQuillValueEscopo] = useState("");
-  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] = useState("");
-  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] = useState("");
-  const [quillValueProposalMitigationPlan, setQuillValueProposalMitigationPlan] = useState("");
+  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] =
+    useState("");
+  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] =
+    useState("");
+  const [
+    quillValueProposalMitigationPlan,
+    setQuillValueProposalMitigationPlan,
+  ] = useState("");
   const [quillValueProjectRange, setQuillValueProjectRange] = useState("");
 
   const quillValueRefEscopo = useRef(null);
@@ -200,7 +206,6 @@ export default function GenerateProposal() {
   }
 
   function formatCCPS(CCPS) {
-    console.log("INT CCPS", internalCostCenterPayers)
     return CCPS.map((ccp) => {
       return {
         centroCusto: { idCentroCusto: ccp.costCenter },
@@ -209,9 +214,7 @@ export default function GenerateProposal() {
     });
   }
 
-  useEffect(() => {
-    console.log("INT CCPS", internalCostCenterPayers)
-  }, [internalCostCenterPayers])
+  useEffect(() => {}, [internalCostCenterPayers]);
 
   const handlePutProposal = async (finish) => {
     const proposalToSave = {
@@ -222,8 +225,12 @@ export default function GenerateProposal() {
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
-      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(textProposalAlternatives),
-      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(textProposalMitigationPlan),
+      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(
+        textProposalAlternatives
+      ),
+      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(
+        textProposalMitigationPlan
+      ),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
       custosInternosDoProjeto: sumInternalCosts(),
@@ -251,21 +258,18 @@ export default function GenerateProposal() {
       proposta: { idProposta: proposal.idProposta },
     };
 
-    console.log("PROPOSAL TO SAVE", JSON.stringify(proposalToSave));
-    // console.log("PDF proposal", pdfProposal);
-    console.log("PROPOSAL FROM DB", proposal);
-
     // Mudar status para PROPOSTA_PRONTA
     const formData = new FormData();
     formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
     formData.append("pdfPropostaForm", JSON.stringify(pdfProposal));
 
-    ProposalService.updateProposal(formData, proposal.idProposta).then((res) => {
-      console.log("RESPONSE", res);
-      if (finish && res.status == 200) {
-        DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+    ProposalService.updateProposal(formData, proposal.idProposta).then(
+      (res) => {
+        if (finish && res.status == 200) {
+          DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+        }
       }
-    });
+    );
   };
 
   return (

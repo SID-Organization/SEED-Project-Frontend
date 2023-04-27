@@ -103,7 +103,6 @@ const getDemandsByRequestorId = async (requestorId) => {
   return axios
     .get(`${url}/solicitante/${requestorId}`)
     .then((response) => {
-      console.log("Response: ", response.data);
       return response.data;
     })
     .catch((error) => error);

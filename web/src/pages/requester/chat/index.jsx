@@ -78,16 +78,12 @@ export default function Chat() {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    ChatService.getChatByUserId(UserUtils.getLoggedUserId())
-      .then((response) => {
+    ChatService.getChatByUserId(UserUtils.getLoggedUserId()).then(
+      (response) => {
         setChatUsers(response.data);
-      });
+      }
+    );
   }, []);
-
-  useEffect(() => {
-    console.log("USERS: ", chatUsers);
-  }, [chatUsers]);
-
 
   const onConnected = () => {
     setUserData((prvState) => ({ ...prvState, connected: true }));
@@ -112,8 +108,9 @@ export default function Chat() {
 
   const onPrivateMessage = (payload) => {
     var payLoadData = JSON.parse(payload.body);
-    console.log("PAYLOAD: ", payLoadData);
-    if (payLoadData.idUsuario.numeroCadastroUsuario == UserUtils.getLoggedUserId()) {
+    if (
+      payLoadData.idUsuario.numeroCadastroUsuario == UserUtils.getLoggedUserId()
+    ) {
       setMessagesReceivedByWS((prevState) => [...prevState, payLoadData]);
       setTemporaryMessages((prevState) => [
         ...prevState,
@@ -157,10 +154,6 @@ export default function Chat() {
     }
   }, [temporaryMessages]);
 
-  useEffect(() => {
-    console.log("CHAT ID: ", chatId);
-  }, [chatId]);
-
   const sendPrivateValue = () => {
     const date = new Date();
 
@@ -194,10 +187,9 @@ export default function Chat() {
 
   //UseEffect para buscar todas as mensagens do banco de dados
   useEffect(() => {
-    ChatService.getChatMessagesByChatId(chatId)
-      .then((messages) => {
-        setChatMessages(messages);
-      });
+    ChatService.getChatMessagesByChatId(chatId).then((messages) => {
+      setChatMessages(messages);
+    });
   }, [chatId]);
 
   useEffect(() => {
@@ -233,7 +225,9 @@ export default function Chat() {
         chatMessages.map((message) => {
           return {
             position:
-              message.idUsuario !== UserUtils.getLoggedUserId() ? "right" : "left",
+              message.idUsuario !== UserUtils.getLoggedUserId()
+                ? "right"
+                : "left",
             type: "text",
             text: message.textoMensagem,
             date: message.dataMensagem,
@@ -246,7 +240,7 @@ export default function Chat() {
 
   //Função para filtrar os usuários que serão exibidos na lista de usuários
   function returnedUserSearch() {
-    const filteredUsers = chatUsers.filter(user => {
+    const filteredUsers = chatUsers.filter((user) => {
       return (
         user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.userDemand.toLowerCase().includes(search.toLowerCase())
@@ -255,8 +249,8 @@ export default function Chat() {
 
     if (filteredUsers.length === 0) {
       return (
-        <div className="grid justify-center items-center">
-          <div className="flex justify-center items-center mt-10">
+        <div className="grid items-center justify-center">
+          <div className="mt-10 flex items-center justify-center">
             <SearchOffIcon
               sx={{
                 fontSize: 100,
@@ -264,7 +258,7 @@ export default function Chat() {
               }}
             />
           </div>
-          <p className="font-roboto tracking-wide text-[#BDBDBD] cursor-default">
+          <p className="cursor-default font-roboto tracking-wide text-[#BDBDBD]">
             Nenhum usuário encontrado
           </p>
         </div>
@@ -284,9 +278,9 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex max-h-screen h-[calc(100vh-10rem)]">
+    <div className="flex h-[calc(100vh-10rem)] max-h-screen">
       <div>
-        <div className="w-[25rem] h-[5rem] flex justify-center items-center shadow-md">
+        <div className="flex h-[5rem] w-[25rem] items-center justify-center shadow-md">
           {/* Search user here */}
           <Paper
             component="form"
@@ -318,78 +312,78 @@ export default function Chat() {
           </Paper>
         </div>
         <div
-          className=" w-[25rem] overflow-y-scroll h-[calc(100vh-10rem)]
-           scrollbar-thumb-[#C9c9c9] scrollbar-thumb-rounded-full 
-           hover:scrollbar-thumb-[#acacac] scrollbar-w-2 scrollbar-thin
-           bg-[#F5F5F5]
+          className=" scrollbar-w-2 h-[calc(100vh-10rem)] w-[25rem]
+           overflow-y-scroll bg-[#F5F5F5] 
+           scrollbar-thin scrollbar-thumb-[#C9c9c9] scrollbar-thumb-rounded-full
+           hover:scrollbar-thumb-[#acacac]
           "
         >
           {/* USERS HERE */}
           {search === ""
             ? chatUsers
-              .sort((a, b) => {
-                if (a.unreadMessages && !b.unreadMessages) return -1;
-                if (!a.unreadMessages && b.unreadMessages) return 1;
+                .sort((a, b) => {
+                  if (a.unreadMessages && !b.unreadMessages) return -1;
+                  if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                // const timeA = new Date(
-                //   a.time.split(":")[0],
-                //   a.time.split(":")[1]
-                // );
+                  // const timeA = new Date(
+                  //   a.time.split(":")[0],
+                  //   a.time.split(":")[1]
+                  // );
 
-                // const timeB = new Date(
-                //   b.time.split(":")[0],
-                //   b.time.split(":")[1]
-                // );
+                  // const timeB = new Date(
+                  //   b.time.split(":")[0],
+                  //   b.time.split(":")[1]
+                  // );
 
-                // if (timeA > timeB) {
-                //   return -1;
-                // }
-                // if (timeA < timeB) {
-                //   return 1;
-                // }
+                  // if (timeA > timeB) {
+                  //   return -1;
+                  // }
+                  // if (timeA < timeB) {
+                  //   return 1;
+                  // }
 
-                return 0;
-              })
+                  return 0;
+                })
 
-              .map((user) => {
-                return (
-                  <div
-                    onClick={() => {
-                      const userName = user.name;
-                      const userDemand = user.userDemand;
-                      setChatUserId(user.idUsuario);
-                      setUserNameCard(userName);
-                      setUserDemandCard(userDemand);
-                      setChatId(user.idChat);
-                      setUserData({
-                        idUsuario: {
-                          numeroCadastroUsuario: user.idUsuario,
-                        },
-                        idChat: { idChat: user.idChat },
-                        idDemanda: { idDemanda: user.idDemanda },
-                        connected: false,
-                        message: "",
-                      });
-                      connect();
-                    }}
-                  >
-                    <UserMessageCard
-                      picture={user.picture}
-                      name={user.name}
-                      userDemand={user.userDemand}
-                      lastMessage={user.lastMessage}
-                      time={user.time}
-                      unreadMessages={user.unreadMessages}
-                      isOnline={user.isOnline}
-                    />
-                  </div>
-                );
-              })
+                .map((user) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        const userName = user.name;
+                        const userDemand = user.userDemand;
+                        setChatUserId(user.idUsuario);
+                        setUserNameCard(userName);
+                        setUserDemandCard(userDemand);
+                        setChatId(user.idChat);
+                        setUserData({
+                          idUsuario: {
+                            numeroCadastroUsuario: user.idUsuario,
+                          },
+                          idChat: { idChat: user.idChat },
+                          idDemanda: { idDemanda: user.idDemanda },
+                          connected: false,
+                          message: "",
+                        });
+                        connect();
+                      }}
+                    >
+                      <UserMessageCard
+                        picture={user.picture}
+                        name={user.name}
+                        userDemand={user.userDemand}
+                        lastMessage={user.lastMessage}
+                        time={user.time}
+                        unreadMessages={user.unreadMessages}
+                        isOnline={user.isOnline}
+                      />
+                    </div>
+                  );
+                })
             : returnedUserSearch()}
         </div>
       </div>
       {chatId === 0 ? (
-        <div className="w-full h-full flex justify-center items-center">
+        <div className="flex h-full w-full items-center justify-center">
           <div className="grid items-center justify-center">
             <div className="flex justify-center">
               <Diversity3RoundedIcon
@@ -399,7 +393,7 @@ export default function Chat() {
                 }}
               />
             </div>
-            <p className="font-roboto tracking-wide text-blue-weg font-bold text-2xl cursor-default">
+            <p className="cursor-default font-roboto text-2xl font-bold tracking-wide text-blue-weg">
               Selecione um usuário para iniciar uma conversa
             </p>
           </div>
@@ -410,14 +404,14 @@ export default function Chat() {
           <ChatSubHeader userName={userNameCard} userDemand={userDemandCard} />
           <div
             className="
-              bg-[#dddddd]
-              h-[calc(100vh-19.8rem)]
-              overflow-y-scroll
-              scrollbar-thumb-[#a5a5a5]
-              scrollbar-thumb-rounded-full
               scrollbar-w-2
+              flex
+              h-[calc(100vh-19.8rem)]
+              flex-col-reverse
+              overflow-y-scroll
+              bg-[#dddddd]
               scrollbar-thin
-              flex flex-col-reverse
+              scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full
             "
           >
             {/* messages here */}
@@ -449,9 +443,9 @@ export default function Chat() {
           </div>
           <div
             className="
-              bg-[#ffffff]
+              flex
             h-[7.5rem]
-            flex
+            bg-[#ffffff]
             "
           >
             <Tooltip title="Adicionar anexo">
@@ -496,14 +490,14 @@ export default function Chat() {
             </Tooltip>
             <input
               className="
-              w-[calc(100%-3.5rem)]
+              mt-2
               h-[6.5rem]
+              w-[calc(100%-3.5rem)]
+              rounded-[1.5rem]
               border-[1px]
               border-[#c9c9c9]
-              rounded-[1.5rem]
               px-5
               focus:outline-none
-              mt-2
               "
               type="text"
               placeholder="Digite uma mensagem"
@@ -527,10 +521,10 @@ export default function Chat() {
                 onClick={
                   userData.message !== ""
                     ? () => {
-                      sendPrivateValue();
-                      setMessage("");
-                    }
-                    : () => { }
+                        sendPrivateValue();
+                        setMessage("");
+                      }
+                    : () => {}
                 }
                 color="primary"
                 aria-label="upload picture"

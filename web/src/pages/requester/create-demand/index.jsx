@@ -1,4 +1,3 @@
-
 // React
 import React, { createRef, useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -7,15 +6,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 
 // MUI
-import {
-  Button,
-} from "@mui/material";
+import { Button } from "@mui/material";
 
 // Components
 import FirstStep from "./first-step";
 import SecondStep from "./second-step";
 import ThirdStep from "./third-step";
-import FourthStep from "./fourth-step"
+import FourthStep from "./fourth-step";
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
 
 // Services
@@ -96,21 +93,15 @@ export default function CreateDemand() {
       !frequencyOfUse ||
       !qualitativeBenefit
     ) {
-      // console.log("CURRENT PROB", currentProblem);
       setAnyEmptyField(true);
     } else {
       setAnyEmptyField(false);
     }
   }, [title, currentProblem, proposal, frequencyOfUse, qualitativeBenefit]);
 
-
-
-
   function continueDemand() {
     DemandService.getDemandById(params.id).then((response) => {
-      console.log("DEMAND RESPONSE", response);
       PdfDemandService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
-        console.log("PDF RESPONSE", pdfResponse);
         setProposalHTML(
           pdfResponse[pdfResponse.length - 1].propostaMelhoriaDemandaHTML
         );
@@ -129,15 +120,18 @@ export default function CreateDemand() {
         const filteredRealBenefs = response.beneficiosDemanda.filter(
           (benefit) => benefit.tipoBeneficio == "REAL"
         );
-        return filteredRealBenefs.map((benefit) => (formatBenefit(benefit, "REAL", true)));
+        return filteredRealBenefs.map((benefit) =>
+          formatBenefit(benefit, "REAL", true)
+        );
       });
       setPotentialBenefits(() => {
         const filteredPotBenefs = response.beneficiosDemanda.filter(
           (benefit) => benefit.tipoBeneficio == "POTENCIAL"
         );
-        return filteredPotBenefs.map((benefit) => (formatBenefit(benefit, "POTENCIAL", true)))
-      }
-      );
+        return filteredPotBenefs.map((benefit) =>
+          formatBenefit(benefit, "POTENCIAL", true)
+        );
+      });
       setQualitativeBenefit(response.descricaoQualitativoDemanda);
       setSelectedFiles(
         response.arquivosDemandas.map((attachment) => {
@@ -158,7 +152,6 @@ export default function CreateDemand() {
   const navigate = useNavigate();
 
   const [confirmDemand, setConfirmDemand] = useState(false);
-
 
   const handleCloseConfirm = () => {
     setConfirmDemand(false);
@@ -182,7 +175,8 @@ export default function CreateDemand() {
         return "DOLAR";
       case "€":
         return "EURO";
-      default: "REAL";
+      default:
+        "REAL";
     }
   }
 
@@ -195,10 +189,9 @@ export default function CreateDemand() {
         memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
         valorBeneficio: benefit.value,
         tipoBeneficio: benefitType,
-      }
+      };
       if (benefit.benefitId) tempBenefit["idBeneficio"] = benefit.benefitId;
-    }
-    else if (formatToCode) {
+    } else if (formatToCode) {
       tempBenefit = {
         benefitId: benefit.idBeneficio,
         description: benefit.memoriaCalculoBeneficio,
@@ -206,7 +199,7 @@ export default function CreateDemand() {
         coin: getBenefitCoin(benefit.moedaBeneficio),
         descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
         ref: createRef(),
-      }
+      };
     }
     return tempBenefit;
   }
@@ -247,8 +240,6 @@ export default function CreateDemand() {
 
     const formData = new FormData();
 
-    console.log("DEMAND TO SAVE", demandToSave);
-
     // Adiciona a demanda e o PDF da deamnda ao FormData
     formData.append("demandaForm", JSON.stringify(demandToSave));
     formData.append("pdfDemandaForm", JSON.stringify(formDemandPDF));
@@ -260,13 +251,10 @@ export default function CreateDemand() {
 
     if (!demandUpdateId && title !== "") {
       DemandService.createDemand(formData).then((res) => {
-        console.log("CREATE DEMAND", res);
         setDemandUpdateId(res.idDemanda);
       });
     } else if (demandUpdateId && title !== "") {
       DemandService.updateDemand(demandUpdateId, formData).then((res) => {
-        console.log("UPDATING DEMAND", res);
-        console.log("FINISH", finish);
         // if (finish) {
         //   DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
         //   navigate("/demandas");
@@ -280,7 +268,6 @@ export default function CreateDemand() {
     if (event.target.files[0] === undefined) return;
     setSelectedFiles([...selectedFiles, event.target.files[0]]);
   }
-
 
   function addRealBenefit() {
     setRealBenefits([
@@ -314,7 +301,6 @@ export default function CreateDemand() {
     }
   }, [deleteNotification]);
 
-
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -338,7 +324,6 @@ export default function CreateDemand() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-
   // Adiciona os arquivos selecionados à tabela de arquivos
   useEffect(() => {
     if (selectedFiles) {
@@ -357,7 +342,6 @@ export default function CreateDemand() {
 
     return { name, size: fileSize };
   }
-
 
   const steps = ["Dados gerais", "Benefícios", "Arquivos"];
 
@@ -380,7 +364,7 @@ export default function CreateDemand() {
     frequencyOfUseHTML,
     setFrequencyOfUseHTML,
     frequencyOfUseRef,
-  }
+  };
 
   const secondStepProps = {
     buttonNotification,
@@ -394,7 +378,7 @@ export default function CreateDemand() {
     setPotentialBenefits,
     qualitativeBenefit,
     setQualitativeBenefit,
-  }
+  };
 
   const thirdStepProps = {
     selectedFiles,
@@ -402,14 +386,14 @@ export default function CreateDemand() {
     handleCreateDemand,
     filesTableRows,
     handleFileInput,
-  }
+  };
 
   const fourthStepProps = {
     confirmDemand,
     handleCloseConfirm,
     anyEmptyField,
     handleCreateDemand,
-  }
+  };
 
   return (
     <div>

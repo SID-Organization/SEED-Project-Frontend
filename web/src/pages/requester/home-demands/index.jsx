@@ -40,7 +40,6 @@ export default function homeDemands() {
   useEffect(() => {
     DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
       (demands) => {
-        console.log("Demands: ", demands);
         setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
       }
     );
@@ -104,7 +103,6 @@ export default function homeDemands() {
 
   const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands.map(async (demand) => {
-      console.log("Demand: ", demand);
       let demandHistoric = DemandLogService.getDemandLogs(demand.idDemanda);
 
       return {
@@ -119,13 +117,7 @@ export default function homeDemands() {
   const updateDemandSort = (search) => {
     let sortedDemands;
     if (demandsWLogs) {
-      console.log("DemandsWLogs: ", demandsWLogs);
-      console.log("FILTER: ", filter);
-      console.log("SEARCH: ", search);
-
       sortedDemands = demandsWLogs;
-
-      console.log("sorted demands: ", sortedDemands);
 
       setSortedDemands(sortedDemands);
     }

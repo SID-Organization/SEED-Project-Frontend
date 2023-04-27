@@ -113,7 +113,6 @@ export default function ProposalDetails() {
     if (params.idDemanda) {
       DemandService.getDemandById(params.idDemanda).then((demand) => {
         setDemand(demand);
-        console.log("DEMANDA DETALHES: ", demand);
       });
       DemandLogService.getDemandLogs(params.idDemanda).then((historic) => {
         setHistoric(historic);
@@ -125,7 +124,6 @@ export default function ProposalDetails() {
     if (params.idProposta) {
       ProposalService.getProposalById(params.idProposta).then((proposal) => {
         setGetProposalDetails(proposal);
-        console.log("PROPOSTA DETALHES: ", getProposalDetails);
       });
     }
   }, []);

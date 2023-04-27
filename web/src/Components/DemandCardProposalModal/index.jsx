@@ -2,22 +2,19 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-
-export default function DemandCardProposalModal(
-  props
-) {
+export default function DemandCardProposalModal(props) {
   const [demandId, setDemandId] = useState(props.id);
 
   return (
     <div
       className="
-      w-[40rem]
-      h-[5rem]
-      shadow-xl
-      border-2
-      flex items-center justify-between
-      p-4
       mt-4
+      flex
+      h-[5rem]
+      w-[40rem]
+      items-center justify-between border-2
+      p-4
+      shadow-xl
     "
     >
       <h1>
@@ -26,7 +23,6 @@ export default function DemandCardProposalModal(
 
       <Link to={`/propostas/gerar-proposta/${demandId}`}>
         <Button
-          onClick={() => console.log("clicou ", demandId)}
           variant="contained"
           sx={{
             backgroundColor: "#0075B1",

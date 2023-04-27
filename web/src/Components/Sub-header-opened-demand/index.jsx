@@ -202,7 +202,6 @@ export default function subHeader({
     },
   ];
 
-
   const demandSizes = [
     {
       text: "Muito grande",
@@ -239,17 +238,20 @@ export default function subHeader({
           key: item.idBusinessUnity,
         }))
       );
-      console.log("BUS: ", data);
     });
-    RespITSectionService.getResponsableITSections().then((data) => {
-      setResponsableITSections(
-        data.map((item) => ({
-          text: item.siglaSecaoTIResponsavel + " - " + item.nomeSecaoTIResponsavel,
-          key: item.idSecaoTIResponsavel,
-        }))
-      );
-    })
-      .catch(err => console.log("Erro ", err));
+    RespITSectionService.getResponsableITSections()
+      .then((data) => {
+        setResponsableITSections(
+          data.map((item) => ({
+            text:
+              item.siglaSecaoTIResponsavel +
+              " - " +
+              item.nomeSecaoTIResponsavel,
+            key: item.idSecaoTIResponsavel,
+          }))
+        );
+      })
+      .catch((err) => console.log("Erro ", err));
   }, []);
 
   const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
@@ -286,20 +288,18 @@ export default function subHeader({
   };
 
   const handleAnalystClassifyDemand = async () => {
-    
     // Formatting data to send to the backend
     const busBeneficiadas = benefitedBus.map((item) => ({
       idBusinessUnity: item.key,
     }));
     const buSolicitante = {
-      idBusinessUnity: businessUnits.find(
-        (item) => item.key == requesterBu
-      )?.key
+      idBusinessUnity: businessUnits.find((item) => item.key == requesterBu)
+        ?.key,
     };
     const secaoTiResponsavel = {
       idSecaoTIResponsavel: responsableITSections.find(
         (item) => item.text == responsableSection
-      )?.key
+      )?.key,
     };
     const updatedDemand = {
       busBeneficiadasDemanda: busBeneficiadas,
@@ -327,8 +327,6 @@ export default function subHeader({
   };
 
   const handleManagerApproveDemand = async () => {
-    console.log("Approving...");
-
     const demandLog = {
       tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
       demandaHistorico: { idDemanda: demand.idDemanda },
