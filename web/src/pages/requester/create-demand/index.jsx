@@ -9,34 +9,18 @@ import "react-quill/dist/quill.snow.css";
 // MUI
 import {
   Button,
-  IconButton,
-  InputAdornment,
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Tooltip,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Dialog from "@mui/material/Dialog";
 import Draggable from "react-draggable";
-import UploadIcon from "@mui/icons-material/Upload";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { styled } from "@mui/material/styles";
 import DialogTitle from "@mui/material/DialogTitle";
-import MuiTextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
-import DescriptionIcon from "@mui/icons-material/Description";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 
 // Components
 import FirstStep from "./first-step";
-import ReactQuill from "react-quill";
-import Notification from "../../../Components/Notification";
-import NewBenefitInsertion from "../../../Components/New-benefit-insert";
+import SecondStep from "./second-step";
+import ThirdStep from "./third-step";
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
 
 // Services
@@ -46,8 +30,7 @@ import PdfDemandService from "../../../service/PdfDemand-Service";
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
-const { formatQuillText, quillModules, quillStyle } = ReactQuillUtils;
-
+const { formatQuillText } = ReactQuillUtils;
 
 function PaperComponent(props) {
   return (
@@ -59,48 +42,6 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-
-const TextField = styled(MuiTextField)({
-  width: "700px",
-  height: "3.5rem",
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      border: "1.5px solid #0075B1",
-    },
-    "&:hover fieldset": {
-      borderColor: "#0075B1",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#0075B1",
-    },
-  },
-  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "4px solid #0075B1",
-  },
-
-  "& .MuiOutlinedInput-input": {
-    padding: "5px 5px",
-  },
-});
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
 
 export default function CreateDemand() {
   const params = useParams();
@@ -136,6 +77,9 @@ export default function CreateDemand() {
 
   const [buttonNotification, setButtonNotification] = useState(false);
   const [deleteNotification, setDeleteNotification] = useState(false);
+  
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [filesTableRows, setFilesTableRows] = useState([]);
 
   const [realBenefits, setRealBenefits] = useState([
     {
@@ -176,27 +120,6 @@ export default function CreateDemand() {
     }
   }, [title, currentProblem, proposal, frequencyOfUse, qualitativeBenefit]);
 
-  useEffect(() => {
-    console.log("-------------------------");
-    console.log("TITLE: ", title);
-    console.log("PROPOSAL: ", proposal);
-    console.log("CURRENT PROBLEM: ", currentProblem);
-    console.log("FREQUENCY OF USE: ", frequencyOfUse);
-    console.log("QUALITATIVE BENEFIT: ", qualitativeBenefit);
-    console.log("-------------------------");
-    console.log("EMPTY FIELDS?", anyEmptyField);
-  }, [
-    title,
-    currentProblem,
-    proposal,
-    frequencyOfUse,
-    qualitativeBenefit,
-    anyEmptyField,
-  ]);
-
-  useEffect(() => {
-    console.log("REAL BENEFITS", realBenefits);
-  }, [realBenefits]);
 
   function continueDemand() {
     DemandService.getDemandById(params.id).then((response) => {
@@ -259,7 +182,6 @@ export default function CreateDemand() {
     });
   }
 
-
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
@@ -301,7 +223,6 @@ export default function CreateDemand() {
   }
   const handleCreateDemand = async (finish = false) => {
 
-
     const benefitsToSave = realBenefits.map((benefit) => {
       let strBenef = formatQuillText(benefit.description);
 
@@ -321,11 +242,10 @@ export default function CreateDemand() {
     });
 
     for (let benefit of potentialBenefits) {
-      let strBenef = formatQuillText(benefit.description);
 
       const benefToSave = {
         moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: strBenef,
+        memoriaCalculoBeneficio: formatQuillText(benefit.description),
         memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
         valorBeneficio: benefit.value,
         tipoBeneficio: "POTENCIAL",
@@ -338,15 +258,12 @@ export default function CreateDemand() {
       benefitsToSave.push(benefToSave);
     }
 
-    const proposalToSave = formatQuillText(proposal);
-    const currentProblemToSave = formatQuillText(currentProblem);
-    const frequencyOfUseToSave = formatQuillText(frequencyOfUse);
 
     const demandToSave = {
       tituloDemanda: title,
-      propostaMelhoriaDemanda: proposalToSave,
-      situacaoAtualDemanda: currentProblemToSave,
-      frequenciaUsoDemanda: frequencyOfUseToSave,
+      propostaMelhoriaDemanda: formatQuillText(proposal),
+      situacaoAtualDemanda: formatQuillText(currentProblem),
+      frequenciaUsoDemanda: formatQuillText(frequencyOfUse),
       descricaoQualitativoDemanda: qualitativeBenefit,
       solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
       analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
@@ -372,18 +289,18 @@ export default function CreateDemand() {
     }
 
     if (!demandUpdateId && title !== "") {
-      DemandService.createDemand(formData).then((res) => {
-        console.log("CREATE DEMAND", res);
-        setDemandUpdateId(res.idDemanda);
-      });
-    } else {
-      DemandService.updateDemand(demandUpdateId, formData).then((res) => {
-        console.log("UPDATING DEMAND", res);
-        if (res.status === 200 && finish) {
-          DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
-          navigate("/demandas");
-        }
-      });
+      // DemandService.createDemand(formData).then((res) => {
+      //   console.log("CREATE DEMAND", res);
+      //   setDemandUpdateId(res.idDemanda);
+      // });
+    } else if(demandUpdateId && title !== "") {
+      // DemandService.updateDemand(demandUpdateId, formData).then((res) => {
+      //   console.log("UPDATING DEMAND", res);
+      //   if (res.status === 200 && finish) {
+      //     DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
+      //     navigate("/demandas");
+      //   }
+      // });
     }
   };
 
@@ -452,271 +369,6 @@ export default function CreateDemand() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  // Primeiro passo - Dados gerais da demanda (titulo, problema, etc)
-  const firstStep = () => {
-    return (
-      <div className="grid items-center justify-start gap-20">
-        <div className="grid gap-1">
-          <div className="mb-5 flex items-center justify-center">
-            <div className="mr-12 h-[5px] w-40 rounded-full bg-blue-weg" />
-            <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
-              Título
-            </h1>
-            <div className="ml-12 h-[5px] w-40 rounded-full bg-blue-weg" />
-          </div>
-          <TextField
-            id="outlined-textarea"
-            variant="outlined"
-            type="text"
-            multiline
-            maxRows={3}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onBlur={handleCreateDemand}
-            InputProps={{
-              startAdornment: <InputAdornment position="start" />,
-            }}
-            helperText={
-              title.length == 0 ? "O título é obrigatório" : title.length > 100
-            }
-            error={title.length == 0 || title.length > 100}
-          />
-        </div>
-        <div className="grid gap-1">
-          <div className="mb-5 flex items-center justify-center gap-5">
-            <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-            <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
-              Objetivo
-            </h1>
-            <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          </div>
-          <ReactQuill
-            value={proposalHTML}
-            onChange={(e) => {
-              setProposalHTML(e);
-              setProposal(proposalRef.current?.getEditor().getText());
-            }}
-            placeholder="Escreva a visão do negócio que vai resolver"
-            modules={quillModules}
-            ref={proposalRef}
-            style={quillStyle}
-            onBlur={handleCreateDemand}
-          />
-        </div>
-        <div className="grid gap-1">
-          <div className="mb-5 flex items-center justify-center gap-5">
-            <div className="mr-3 h-[5px] w-40 rounded-full bg-blue-weg" />
-            <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
-              Situação atual
-            </h1>
-            <div className="ml-3 h-[5px] w-40 rounded-full bg-blue-weg" />
-          </div>
-          <ReactQuill
-            value={currentProblemHTML}
-            onChange={(e) => {
-              setCurrentProblemHTML(e);
-              setCurrentProblem(
-                currentProblemRef.current?.getEditor().getText()
-              );
-            }}
-            placeholder="Descreva a situação atual da demanda."
-            onBlur={handleCreateDemand}
-            modules={quillModules}
-            ref={currentProblemRef}
-            style={quillStyle}
-          />
-        </div>
-
-        <div className="mb-20 grid gap-1">
-          <div className="mb-5 flex items-center justify-center gap-5">
-            <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-            <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
-              Frequência de uso
-            </h1>
-            <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          </div>
-          <ReactQuill
-            onBlur={handleCreateDemand}
-            value={frequencyOfUseHTML}
-            onChange={(e) => {
-              setFrequencyOfUseHTML(e);
-              setFrequencyOfUse(
-                frequencyOfUseRef.current?.getEditor().getText()
-              );
-            }}
-            placeholder="Descreva a frequência de uso da demanda."
-            modules={quillModules}
-            ref={frequencyOfUseRef}
-            style={quillStyle}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  // Segundo passo - Benefícios
-  const secondStep = () => {
-    return (
-      <div className="grid gap-3">
-        <div className="mb-5 flex items-center justify-center gap-10">
-          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
-            Benefícios reais
-          </h1>
-          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-
-          {buttonNotification && (
-            <Notification message="Benefício adicionado com sucesso!" />
-          )}
-          {deleteNotification && (
-            <Notification message="Benefício removido com sucesso!" />
-          )}
-
-          <Tooltip title="Adicionar mais benefícios reais">
-            <IconButton onClick={addRealBenefit}>
-              <AddBoxRoundedIcon
-                sx={{
-                  color: "#00579D",
-                  fontSize: "2rem",
-                  cursor: "pointer",
-                }}
-              />
-            </IconButton>
-          </Tooltip>
-        </div>
-        {realBenefits &&
-          realBenefits.map((item, i) => (
-            <div className="flex items-center justify-center" key={i}>
-              <NewBenefitInsertion
-                coin={item.coin}
-                value={item.value}
-                description={item.descriptionHTML}
-                benefitStates={{ realBenefits, setRealBenefits }}
-                benefitIndex={i}
-              >
-                <ReactQuill
-                  value={item.descriptionHTML}
-                  onBlur={handleCreateDemand}
-                  onChange={(e) => {
-                    const newRealBenefits = [...realBenefits];
-                    newRealBenefits[i].descriptionHTML = e;
-                    newRealBenefits[i].description = item.ref.current
-                      ?.getEditor()
-                      .getText();
-                    setRealBenefits(newRealBenefits);
-                  }}
-                  placeholder="Descreva o benefício."
-                  modules={quillModules}
-                  ref={item.ref}
-                />
-              </NewBenefitInsertion>
-              {(i < realBenefits.length - 1 || i === 0) && (
-                <div className="mr-16" />
-              )}
-            </div>
-          ))}
-        <div className="mb-5 mt-10 flex items-center justify-center gap-10">
-          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
-            Benefícios potenciais
-          </h1>
-          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          <Tooltip title="Adicionar mais benefícios potenciais">
-            <IconButton onClick={addPotentialBenefit}>
-              <AddBoxRoundedIcon
-                sx={{
-                  color: "#00579D",
-                  fontSize: "2rem",
-                  cursor: "pointer",
-                }}
-              />
-            </IconButton>
-          </Tooltip>
-        </div>
-        {potentialBenefits.map((item, i) => (
-          <div className="flex items-center justify-center" key={i}>
-            <NewBenefitInsertion
-              coin={item.coin}
-              value={item.value}
-              description={item.descriptionHTML}
-              benefitStates={{
-                realBenefits: potentialBenefits,
-                setRealBenefits: setPotentialBenefits,
-              }}
-              benefitIndex={i}
-            >
-              <ReactQuill
-                theme="snow"
-                modules={quillModules}
-                value={item.descriptionHTML}
-                onChange={(e) => {
-                  const newPotentialBenefits = [...potentialBenefits];
-                  newPotentialBenefits[i].descriptionHTML = e;
-                  newPotentialBenefits[i].description = item.ref.current
-                    ?.getEditor()
-                    .getText();
-                  setPotentialBenefits(newPotentialBenefits);
-                }}
-                ref={item.ref}
-                onBlur={handleCreateDemand}
-                placeholder="Descreva o benefício."
-              />
-            </NewBenefitInsertion>
-            {(i < potentialBenefits.length - 1 || i === 0) && (
-              <div className="mr-16" />
-            )}
-          </div>
-        ))}
-        {/* BENEFICIO QUALITATIVO */}
-        <div className="mb-5 mt-10 flex items-center justify-center gap-10">
-          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
-            Benefício qualitativo
-          </h1>
-          <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-        </div>
-        <div className="flex items-center justify-center">
-          <TextField
-            sx={{
-              marginBottom: "5rem",
-            }}
-            id="ined-basic"
-            label="Descrição"
-            variant="outlined"
-            type="text"
-            multiline
-            maxRows={4}
-            value={qualitativeBenefit}
-            onBlur={handleCreateDemand}
-            onChange={(e) => setQualitativeBenefit(e.target.value)}
-          />
-          <div className="mr-16" />
-        </div>
-        {/* FIM BENEFICIO QUALITATIVO */}
-      </div>
-    );
-  };
-
-  // Terceiro passo - Anexos
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [filesTableRows, setFilesTableRows] = useState([]);
 
   useEffect(() => {
     if (selectedFiles) {
@@ -736,157 +388,6 @@ export default function CreateDemand() {
     return { name, size: fileSize };
   }
 
-  const thirdStep = () => {
-    return (
-      <div>
-        <div className="mb-10 grid">
-          <div className="flex items-center justify-center">
-            <h1 className="text-3xl text-light-blue-weg">UPLOAD DE ARQUIVOS</h1>
-          </div>
-          <div className="grid h-[380px] w-[830px] shadow-2xl">
-            <div className="flex items-center justify-center">
-              {selectedFiles?.length > 0 ? (
-                <TableContainer
-                  component={Paper}
-                  sx={{
-                    "&:first-child": {
-                      backgroundColor: "#FFF",
-                    },
-                  }}
-                >
-                  <Table sx={{ minWidth: 500 }} aria-label="customized table">
-                    <TableHead>
-                      <TableRow>
-                        <StyledTableCell
-                          align="center"
-                          sx={{
-                            "&:first-child": {
-                              backgroundColor: "#FFF",
-                              color: "black",
-                              fontWeight: "bold",
-                              fontSize: "1.2rem",
-                              border: "#0075B1 solid 2px",
-                            },
-                          }}
-                        >
-                          Arquivo
-                        </StyledTableCell>
-                        <StyledTableCell
-                          align="center"
-                          sx={{
-                            fontSize: "1.2rem",
-                            border: "#0075B1 solid 2px",
-                            "&:last-child": {
-                              backgroundColor: "#FFF",
-                              color: "black",
-                              fontWeight: "bold",
-                            },
-                          }}
-                        >
-                          Tamanho
-                        </StyledTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {filesTableRows.map((row) => (
-                        <StyledTableRow key={row.name}>
-                          <StyledTableCell
-                            component="th"
-                            scope="row"
-                            align="center"
-                          >
-                            <div className="flex items-center justify-center">
-                              <Tooltip title="Baixar arquivo">
-                                <DescriptionIcon className="mr-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
-                              </Tooltip>
-                              <h1
-                                className="
-                            font-roboto
-                            text-[17px]
-                            text-[#000]
-                            "
-                              >
-                                {row.name}
-                              </h1>
-                            </div>
-                          </StyledTableCell>
-                          <div className="flex items-center justify-center">
-                            <StyledTableCell align="center">
-                              <h1
-                                className="
-                            font-roboto
-                            text-[17px]
-                            text-[#000]
-                            
-                            "
-                              >
-                                {row.size}
-                              </h1>
-                            </StyledTableCell>
-                            <Tooltip title="Deletar arquivo">
-                              <DeleteIcon
-                                onClick={() => {
-                                  const index = selectedFiles.findIndex(
-                                    (file) => file?.name === row.name
-                                  );
-                                  selectedFiles.splice(index, 1);
-                                  setSelectedFiles([...selectedFiles]);
-                                }}
-                                className="ml-5 flex cursor-pointer items-center justify-center text-light-blue-weg"
-                              />
-                            </Tooltip>
-                          </div>
-                        </StyledTableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              ) : (
-                <div>
-                  <div className="mb-10 flex items-center justify-center">
-                    <UploadIcon
-                      sx={{
-                        fontSize: "5rem",
-                        color: "#0075B1",
-                      }}
-                    />
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <h1 className="text-xl font-bold">
-                      Escolha um arquivo ou arraste aqui
-                    </h1>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="flex items-center justify-center">
-              <label htmlFor="upload-photo">
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#0075B1",
-                    "&:hover": {
-                      backgroundColor: "#0075B1",
-                    },
-                  }}
-                  component="label"
-                >
-                  Escolher arquivo
-                  <input
-                    type="file"
-                    id="upload-photo"
-                    hidden
-                    onChange={(e) => handleFileInput(e)}
-                  />
-                </Button>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   const demandCreationConfirmation = () => {
     return (
@@ -984,7 +485,39 @@ export default function CreateDemand() {
     setProposal,
     proposalHTML,
     setProposalHTML,
-    proposalRef
+    proposalRef,
+    currentProblem,
+    setCurrentProblem,
+    currentProblemHTML,
+    setCurrentProblemHTML,
+    currentProblemRef,
+    frequencyOfUse,
+    setFrequencyOfUse,
+    frequencyOfUseHTML,
+    setFrequencyOfUseHTML,
+    frequencyOfUseRef,
+  }
+
+  const secondStepProps = {
+    buttonNotification,
+    deleteNotification,
+    addRealBenefit,
+    realBenefits,
+    setRealBenefits,
+    handleCreateDemand,
+    addPotentialBenefit,
+    potentialBenefits,
+    setPotentialBenefits,
+    qualitativeBenefit,
+    setQualitativeBenefit,
+  }
+
+  const thirdStepProps = {
+    selectedFiles,
+    setSelectedFiles,
+    handleCreateDemand,
+    filesTableRows,
+    handleFileInput,
   }
 
   return (
@@ -1009,8 +542,8 @@ export default function CreateDemand() {
       <div className="grid items-center justify-center ">
         <div className="grid">
           {activeStep === 0 && <FirstStep props={firstStepProps}/>}
-          {activeStep === 1 && secondStep()}
-          {activeStep === 2 && thirdStep()}
+          {activeStep === 1 && <SecondStep props={secondStepProps}/>}
+          {activeStep === 2 && <ThirdStep props={thirdStepProps}/>}
           {activeStep === 3 && demandCreationConfirmation()}
         </div>
         <div className="mb-10 flex items-center justify-between">
