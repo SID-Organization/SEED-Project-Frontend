@@ -133,11 +133,26 @@ export default function drafts() {
                   Cancelar
                 </Button>
                 <Button
-                  onClick={() => {
-                    setDemands([]);
-                    setSelectedDrafts([]);
-                    setOpenModalConfirmationDemand(false);
-                  }}
+                  onClick={
+                    console.log("selectedDrafts", selectedDrafts)
+                    // selectedDrafts.length > 0
+                    //   ? () => {
+                    //       DemandService.deleteDemand(selectedDrafts).then(
+                    //         (response) => {
+                    //           console.log("response", response);
+                    //           // window.location.reload();
+                    //         }
+                    //       );
+                    //     }
+                    //   : () => {
+                    //       DemandService.deleteAllDrafts(
+                    //         user.numeroCadastroUsuario
+                    //       ).then((response) => {
+                    //         console.log("response", response);
+                    //         // window.location.reload();
+                    //       });
+                    //     }
+                  }
                   sx={{
                     backgroundColor: "#0075B1",
                     color: "#fff",

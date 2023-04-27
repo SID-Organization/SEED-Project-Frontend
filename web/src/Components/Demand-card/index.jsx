@@ -67,16 +67,19 @@ const styleModalGenerateProposal = {
   boxShadow: 24,
 };
 
-const style = {
+const styleModalDeleteDraft = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 580,
-  height: 405,
-  bgcolor: "background.paper",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "23rem",
+  height: "15rem",
+  backgroundColor: "#fff",
+  boxShadow: 0,
   borderRadius: 2,
-  boxShadow: 24,
 };
 
 export default function DemandCard(props) {
@@ -97,9 +100,9 @@ export default function DemandCard(props) {
   const [demandLogs, setDemandLogs] = useState([]);
 
   //Modal delete draft
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openModalDeleteDraft, setOpen] = useState(false);
+  const handleOpenModalDeleteDraft = () => setOpen(true);
+  const handleCloseModalDeleteDraft = () => setOpen(false);
 
   const getFirstLog = async () => {
     DemandLogService.getDemandLogs(props.demand.idDemanda).then((data) => {
@@ -127,6 +130,14 @@ export default function DemandCard(props) {
   const [startDevDate, setStartDevDate] = useState("");
   const [deadLineDate, setDeadLineDate] = useState("");
   const [jiraLink, setJiraLink] = useState("");
+
+  function handleDeleteDraft() {
+    DemandService.deleteDemand(props.demand.idDemanda).then((response) => {
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    });
+  }
 
   const handleCreateProposal = async () => {
     handleCloseGenerateProposal();
@@ -660,7 +671,7 @@ export default function DemandCard(props) {
               {props.demand.statusDemanda === "RASCUNHO" && (
                 <div>
                   <Tooltip title="Deletar rascunho">
-                    <IconButton onClick={handleOpen}>
+                    <IconButton onClick={handleOpenModalDeleteDraft}>
                       <DeleteRoundedIcon
                         sx={{
                           color: "#C31700",
@@ -671,12 +682,12 @@ export default function DemandCard(props) {
                 </div>
               )}
               <Modal
-                open={open}
-                onClose={handleClose}
+                open={openModalDeleteDraft}
+                onClose={handleCloseModalDeleteDraft}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                <Box sx={style}>
+                <Box sx={styleModalDeleteDraft}>
                   <div className="grid h-full items-center justify-center">
                     <div className="grid items-center justify-center">
                       <div className="flex items-center justify-center">
@@ -687,9 +698,11 @@ export default function DemandCard(props) {
                           }}
                         />
                       </div>
-                      <DialogTitle style={{ color: "#0075B1" }}>
-                        Deletar rascunho?
-                      </DialogTitle>
+                      <p className="mb-8 flex items-center justify-center text-lg font-semibold text-light-blue-weg">
+                        Têm certeza que deseja
+                        <br />
+                        deletar esse rascunho?
+                      </p>
                       <div className="flex items-center justify-center gap-5">
                         <Button
                           autoFocus
@@ -704,6 +717,7 @@ export default function DemandCard(props) {
                           Cancelar
                         </Button>
                         <Button
+                          onClick={handleDeleteDraft}
                           sx={{
                             backgroundColor: "#0075B1",
                             color: "#fff",
