@@ -107,10 +107,12 @@ export default function DemandCard(props) {
   const getFirstLog = async () => {
     DemandLogService.getDemandLogs(props.demand.idDemanda).then((data) => {
       setDemandLogs(data);
-      let firstLog = new Date(
-        data[0].recebimentoHistorico
-      ).toLocaleDateString();
-      setFirstLog(firstLog);
+      if (data && data.length > 0) {
+        let firstLog = new Date(
+          data[0].recebimentoHistorico
+        ).toLocaleDateString();
+        setFirstLog(firstLog);
+      }
     });
   };
 
