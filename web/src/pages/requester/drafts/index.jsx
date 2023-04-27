@@ -75,6 +75,19 @@ export default function drafts() {
     setOpenModalConfirmationDemand(false);
   };
 
+  const deleteAllDrafts = () => {
+    console.log("selectedDrafts", selectedDrafts);
+    DemandService.deleteListDemands(selectedDrafts).then((response) => {
+      console.log("RES: ", response);
+      if (response.status === 200) {
+        console.log("Rascunhos deletados com sucesso");
+        setSelectedDrafts([]);
+      } else {
+        console.log("Erro ao deletar os rascunhos");
+      }
+    });
+  };
+
   return (
     <div>
       <SubHeader>Rascunhos</SubHeader>
@@ -133,26 +146,7 @@ export default function drafts() {
                   Cancelar
                 </Button>
                 <Button
-                  onClick={
-                    console.log("selectedDrafts", selectedDrafts)
-                    // selectedDrafts.length > 0
-                    //   ? () => {
-                    //       DemandService.deleteDemand(selectedDrafts).then(
-                    //         (response) => {
-                    //           console.log("response", response);
-                    //           // window.location.reload();
-                    //         }
-                    //       );
-                    //     }
-                    //   : () => {
-                    //       DemandService.deleteAllDrafts(
-                    //         user.numeroCadastroUsuario
-                    //       ).then((response) => {
-                    //         console.log("response", response);
-                    //         // window.location.reload();
-                    //       });
-                    //     }
-                  }
+                  onClick={deleteAllDrafts}
                   sx={{
                     backgroundColor: "#0075B1",
                     color: "#fff",
@@ -204,7 +198,7 @@ export default function drafts() {
           )}
         </div>
       }
-      <div className="flex flex-wrap justify-around">
+      <div className="flex h-[65vh] flex-wrap items-center justify-around">
         {demands.length > 0 ? (
           demands.map((demand) => (
             <DemandCard

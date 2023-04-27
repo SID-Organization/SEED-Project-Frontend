@@ -39,6 +39,19 @@ const deleteDemand = async (id) => {
     .catch((error) => error);
 };
 
+const deleteListDemands = async (ids) => {
+  return axios
+    .post(`${url}/delete-lista-demanda`, {
+      demandas: [
+        ids.map((id) => ({
+          idDemanda: id,
+        })),
+      ],
+    })
+    .then((response) => response)
+    .catch((error) => error);
+};
+
 const getDemands = async () => {
   return axios
     .get(url)
@@ -127,4 +140,5 @@ export default {
   getDemandsByRequestorId,
   getDemandsToManage,
   getDraftsByRequestorId,
+  deleteListDemands,
 };
