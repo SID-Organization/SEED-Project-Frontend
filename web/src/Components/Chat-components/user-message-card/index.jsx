@@ -6,10 +6,7 @@ import { Badge, Box, Divider, Tooltip } from "@mui/material";
  * @returns {JSX.Element} - UserMessageCard component
  */
 
-
-export default function UserMessageCard(
-  props
-) {
+export default function UserMessageCard(props) {
   return (
     <Box
       sx={{
@@ -21,8 +18,8 @@ export default function UserMessageCard(
         },
       }}
     >
-      <div className="flex font-roboto justify-center h-20">
-        <div className="flex items-center w-[5rem]">
+      <div className="flex h-20 justify-center font-roboto">
+        <div className="flex w-[5rem] items-center">
           <Tooltip title={props.isOnline ? "On-line" : "Offline"}>
             <Badge
               badgeContent={""}
@@ -48,24 +45,24 @@ export default function UserMessageCard(
                     : userImg
                 }
                 alt="user"
-                className="w-[3.5rem] h-[3.5rem] rounded-full"
+                className="h-[3.5rem] w-[3.5rem] rounded-full"
               />
             </Badge>
           </Tooltip>
         </div>
-        <div className="grid items-center w-[13rem]">
+        <div className="grid w-[13rem] items-center">
           <Tooltip
             title={props.name + " • Demanda - " + props.userDemand}
             placement="top-start"
           >
-            <p className="font-bold text-base flex gap-2">
-              <p>
+            <p className="flex gap-2 text-base font-bold">
+              <span>
                 {props.name.length > 10
                   ? props.name.slice(0, 10) + ""
                   : props.name}
-              </p>{" "}
+              </span>{" "}
               -{" "}
-              <span className="font-normal text-[#9c9c9c] cursor-default">
+              <span className="cursor-default font-normal text-[#9c9c9c]">
                 {" "}
                 {props.userDemand.length > 9
                   ? props.userDemand.slice(0, 9) + "..."
@@ -81,19 +78,19 @@ export default function UserMessageCard(
                 props.lastMessage
               )
             ) : (
-              <div>
-                <p className="font-bold italic">Chat iniciado!</p>
-              </div>
+              <>
+                <span className="font-bold italic">Chat iniciado!</span>
+              </>
             )}
           </p>
         </div>
         <div className="grid items-center">
           <p className="font-normal text-[#9c9c9c]">
-            {props.time ? props.time : <div className="m-5"></div>}
+            {props.time ? props.time : <span className="m-5"></span>}
           </p>
-          <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center">
             {props.unreadMessages === false ? null : (
-              <div className="bg-dark-blue-weg text-white h-5 w-5 rounded-full flex justify-center items-center  text-xs font-bold">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-dark-blue-weg text-xs  font-bold text-white">
                 {props.unreadMessages}
               </div>
             )}
