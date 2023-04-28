@@ -13,7 +13,7 @@ const createDemandLog = async (demandLog) => {
 const getDemandLogs = async (demandId) => {
   return axios
     .get(`${url}/demanda/${demandId}`)
-    .then((response) => response.data)
+    .then((response) => response)
     .catch((error) => error);
 };
 
