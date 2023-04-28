@@ -67,7 +67,7 @@ export default function openedDemand() {
       });
       DemandLogService.getDemandLogs(params.id).then((res) => {
         if(res.status != 200) return console.log("Error getting demand logs\n", res);
-        setDemandLogs(res);
+        setDemandLogs(res.data);
       });
     }
   }, []);
