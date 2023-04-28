@@ -10,6 +10,9 @@ import { InputAdornment, IconButton, Tooltip } from "@mui/material";
 import { DeleteRounded } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
+//Services
+import BenefitService from "../../service/Benefit-Service";
+
 const TextField = styled(MuiTextField)({
   width: "700px",
   height: "3.5rem",
@@ -80,7 +83,11 @@ export default function NewBenefitInsertion(props) {
       const newState = props.benefitStates.realBenefits.filter(
         (item, index) => index !== props.benefitIndex
       );
-      newState.splice(props.benefitIndex, 0, {...props.benefitStates.realBenefits[props.benefitIndex], coin, value});
+      newState.splice(props.benefitIndex, 0, {
+        ...props.benefitStates.realBenefits[props.benefitIndex],
+        coin,
+        value,
+      });
       return newState;
     });
   }, [coin, value]);
@@ -89,12 +96,25 @@ export default function NewBenefitInsertion(props) {
     setCoin(event.target.value);
   };
 
+  const deleteBenefit = () => {
+    let benefit = props.benefitStates.realBenefits[props.benefitIndex];
+    if (benefit.benefitId) {
+      BenefitService.deleteBenefit(benefit.benefitId)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   return (
     <>
       <div>
-        <div className="grid mb-4">
+        <div className="mb-4 grid">
           <div className="grid gap-10">
-            <div className="flex gap-4 mb-3 mt-5">
+            <div className="mb-3 mt-5 flex gap-4">
               <TextFieldValue
                 id="outlined-textarea"
                 label="Valor mensal"
@@ -133,19 +153,13 @@ export default function NewBenefitInsertion(props) {
               </Box>
             </div>
 
-            <div className="flex items-center">
-              {props.children}
-            </div>
+            <div className="flex items-center">{props.children}</div>
           </div>
         </div>
       </div>
       {props.benefitIndex === props.benefitStates.realBenefits.length - 1 &&
         props.benefitIndex !== 0 && (
-          <Tooltip
-            title="Remover benefício"
-            enterDelay={820}
-            leaveDelay={200}
-          >
+          <Tooltip title="Remover benefício" enterDelay={820} leaveDelay={200}>
             <IconButton
               sx={{
                 marginLeft: "1rem",
@@ -156,6 +170,7 @@ export default function NewBenefitInsertion(props) {
                     (_, index) => index !== props.benefitIndex
                   )
                 );
+                deleteBenefit();
                 // setDeleteNotification(true);
               }}
             >
