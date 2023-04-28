@@ -10,6 +10,9 @@ import { InputAdornment, IconButton, Tooltip } from "@mui/material";
 import { DeleteRounded } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
+//Services
+import BenefitService from "../../service/Benefit-Service";
+
 const TextField = styled(MuiTextField)({
   width: "700px",
   height: "3.5rem",
@@ -93,6 +96,19 @@ export default function NewBenefitInsertion(props) {
     setCoin(event.target.value);
   };
 
+  const deleteBenefit = () => {
+    let benefit = props.benefitStates.realBenefits[props.benefitIndex];
+    if (benefit.benefitId) {
+      BenefitService.deleteBenefit(benefit.benefitId)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   return (
     <>
       <div>
@@ -154,6 +170,7 @@ export default function NewBenefitInsertion(props) {
                     (_, index) => index !== props.benefitIndex
                   )
                 );
+                deleteBenefit();
                 // setDeleteNotification(true);
               }}
             >
