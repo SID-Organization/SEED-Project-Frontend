@@ -36,10 +36,6 @@ export default function drafts() {
     );
   }, []);
 
-  useEffect(() => {
-    console.log("Demands", demands);
-  }, [demands]);
-
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
 
@@ -77,7 +73,6 @@ export default function drafts() {
 
   const deleteSelectedDrafts = () => {
     DemandService.deleteListDemands(selectedDrafts).then((response) => {
-      console.log("RES: ", response);
       if (response.status === 200) {
         setSelectedDrafts([]);
         window.location.reload();
@@ -87,7 +82,6 @@ export default function drafts() {
 
   const deleteAllDrafts = () => {
     DemandService.deleteAllDemands().then((response) => {
-      console.log("RES: ", response);
       if (response.status === 200) {
         window.location.reload();
       }

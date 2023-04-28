@@ -101,7 +101,6 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-
 export default function PrimarySearchAppBar() {
   // Usa react router para navegar entre as páginas dentro de funções.
   const navigate = useNavigate();
@@ -125,11 +124,8 @@ export default function PrimarySearchAppBar() {
   };
 
   const [menuAnchoeEl, setmMenuAnchoeEl] = useState(null);
-  const [messagesAnchoeEl, setMessagesAnchoeEl] = useState(
-    null
-  );
-  const [notificationsAnchoeEl, setNotificationsAnchoeEl] =
-    useState(null);
+  const [messagesAnchoeEl, setMessagesAnchoeEl] = useState(null);
+  const [notificationsAnchoeEl, setNotificationsAnchoeEl] = useState(null);
 
   const [search, setSearch] = useState("");
 
@@ -171,9 +167,7 @@ export default function PrimarySearchAppBar() {
     setMessagesAnchoeEl(event.currentTarget);
   };
 
-  const handleNotificationsMenuOpen = (
-    event
-  ) => {
+  const handleNotificationsMenuOpen = (event) => {
     setNotificationsAnchoeEl(event.currentTarget);
   };
 
@@ -439,8 +433,8 @@ export default function PrimarySearchAppBar() {
             <div className="flex items-center justify-center gap-5">
               <img
                 className="
-                  w-7
                   h-7
+                  w-7
               "
                 src={BrazilFlag}
                 alt=""
@@ -454,8 +448,8 @@ export default function PrimarySearchAppBar() {
             <div className="flex items-center justify-center gap-5">
               <img
                 className="
-                  w-7
                   h-7
+                  w-7
               "
                 src={UnitedStatesFlag}
                 alt=""
@@ -469,8 +463,8 @@ export default function PrimarySearchAppBar() {
             <div className="flex items-center justify-center gap-5">
               <img
                 className="
-                  w-7
                   h-7
+                  w-7
               "
                 src={SpainFlag}
                 alt=""
@@ -484,8 +478,8 @@ export default function PrimarySearchAppBar() {
             <div className="flex items-center justify-center gap-5">
               <img
                 className="
-                  w-7
                   h-7
+                  w-7
               "
                 src={ChinaFlag}
                 alt=""
@@ -514,8 +508,6 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-
-
   const [chatUsers, setChatUsers] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -541,8 +533,9 @@ export default function PrimarySearchAppBar() {
 
   const onPrivateMessage = (payload) => {
     var payLoadData = JSON.parse(payload.body);
-    console.log("PAYLOAD: ", payLoadData);
-    if (payLoadData.idUsuario.numeroCadastroUsuario == UserUtils.getLoggedUserId()) {
+    if (
+      payLoadData.idUsuario.numeroCadastroUsuario == UserUtils.getLoggedUserId()
+    ) {
       setMessagesReceivedByWS((prevState) => [...prevState, payLoadData]);
       setTemporaryMessages((prevState) => [
         ...prevState,
@@ -608,7 +601,6 @@ export default function PrimarySearchAppBar() {
   //UseEffect para buscar todos os usuários do banco de dados
   useEffect(() => {
     ChatService.getChatByUserId(UserUtils.getLoggedUserId()).then((users) => {
-      console.log("CHAT SERVICE: ", users);
       setChatUsers(users);
     });
   }, []);
@@ -662,9 +654,9 @@ export default function PrimarySearchAppBar() {
     >
       <p
         className="
-        text-2xl
         ml-3
         mb-3
+        text-2xl
         font-bold
         text-blue-weg
       "
@@ -696,71 +688,71 @@ export default function PrimarySearchAppBar() {
       </Paper>
       <div
         className="
+        scrollbar-w-2
         h-[calc(100vh-19.8rem)]
         overflow-y-scroll
+        scrollbar-thin
         scrollbar-thumb-[#a5a5a5]
         scrollbar-thumb-rounded-full
-        scrollbar-w-2
-        scrollbar-thin
       "
       >
         {search === ""
           ? users
-            .sort((a, b) => {
-              if (a.unreadMessages && !b.unreadMessages) return -1;
-              if (!a.unreadMessages && b.unreadMessages) return 1;
+              .sort((a, b) => {
+                if (a.unreadMessages && !b.unreadMessages) return -1;
+                if (!a.unreadMessages && b.unreadMessages) return 1;
 
-              // const timeA = new Date(
-              //   a.time.split(":")[0] as any,
-              //   a.time.split(":")[1] as any
-              // );
-              // const timeB = new Date(
-              //   b.time.split(":")[0] as any,
-              //   b.time.split(":")[1] as any
-              // );
-              // if (timeA > timeB) {
-              //   return -1;
-              // }
-              // if (timeA < timeB) {
-              //   return 1;
-              // }
-              return 0;
-            })
-            .map((user) => {
-              return (
-                <div
-                  key={user.idUsuario}
-                  onClick={() => {
-                    const userName = user.name;
-                    const userDemand = user.userDemand;
-                    setChatUserId(user.idUsuario);
-                    setUserNameCard(userName);
-                    setUserDemandCard(userDemand);
-                    setChatId(user.idChat);
-                    setUserData({
-                      idUsuario: {
-                        numeroCadastroUsuario: user.idUsuario,
-                      },
-                      idChat: { idChat: user.idChat },
-                      idDemanda: { idDemanda: user.idDemanda },
-                      connected: false,
-                      message: "",
-                    });
-                    connect();
-                  }}
-                >
-                  <UserMessageCard
-                    picture={user.picture}
-                    name={user.name}
-                    userDemand={user.userDemand}
-                    lastMessage={user.lastMessage}
-                    time={user.time}
-                    unreadMessages={user.unreadMessages}
-                    isOnline={user.isOnline}
-                  />
-                </div>
-              );
-            })
+                // const timeA = new Date(
+                //   a.time.split(":")[0] as any,
+                //   a.time.split(":")[1] as any
+                // );
+                // const timeB = new Date(
+                //   b.time.split(":")[0] as any,
+                //   b.time.split(":")[1] as any
+                // );
+                // if (timeA > timeB) {
+                //   return -1;
+                // }
+                // if (timeA < timeB) {
+                //   return 1;
+                // }
+                return 0;
+              })
+              .map((user) => {
+                return (
+                  <div
+                    key={user.idUsuario}
+                    onClick={() => {
+                      const userName = user.name;
+                      const userDemand = user.userDemand;
+                      setChatUserId(user.idUsuario);
+                      setUserNameCard(userName);
+                      setUserDemandCard(userDemand);
+                      setChatId(user.idChat);
+                      setUserData({
+                        idUsuario: {
+                          numeroCadastroUsuario: user.idUsuario,
+                        },
+                        idChat: { idChat: user.idChat },
+                        idDemanda: { idDemanda: user.idDemanda },
+                        connected: false,
+                        message: "",
+                      });
+                      connect();
+                    }}
+                  >
+                    <UserMessageCard
+                      picture={user.picture}
+                      name={user.name}
+                      userDemand={user.userDemand}
+                      lastMessage={user.lastMessage}
+                      time={user.time}
+                      unreadMessages={user.unreadMessages}
+                      isOnline={user.isOnline}
+                    />
+                  </div>
+                );
+              })
           : returnedUserSearch()}
       </div>
     </Menu>
@@ -787,11 +779,11 @@ export default function PrimarySearchAppBar() {
       onClose={handleNotificationsMenuClose}
     >
       <div className="grid">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <p
             className="
-        text-2xl
         ml-3
+        text-2xl
         font-bold
         text-blue-weg
       "
@@ -809,7 +801,7 @@ export default function PrimarySearchAppBar() {
             </IconButton>
           </Tooltip>
         </div>
-        <div className="flex items-center mb-1">
+        <div className="mb-1 flex items-center">
           <button
             onClick={() => {
               setFilterUnreadNotifications(false);
@@ -817,28 +809,28 @@ export default function PrimarySearchAppBar() {
             className={
               filterUnreadNotifications
                 ? `
-                rounded-full
-              color-[#555555]
+                color-[#555555]
+              h-[2rem]
+              w-[5rem]
+              rounded-full
+              px-2
+              py-1  
               text-[0.8rem]
               font-bold
-              w-[5rem]
-              h-[2rem]  
               transition
               hover:bg-[#f0f2f5]
-              px-2
-              py-1
                 `
                 : `
-                rounded-full
-                text-[#0075b1]
-                text-[0.8rem]
-                bg-[#f0f2f5]
-                font-bold
+                h-[2rem]
                 w-[5rem]
-                h-[2rem]  
-                transition
+                rounded-full
+                bg-[#f0f2f5]
                 px-2
                 py-1
+                text-[0.8rem]  
+                font-bold
+                text-[#0075b1]
+                transition
                 `
             }
           >
@@ -851,28 +843,28 @@ export default function PrimarySearchAppBar() {
             className={
               filterUnreadNotifications
                 ? `
-                rounded-full
-              text-[#0075b1]
-              text-[0.8rem]
-              bg-[#f0f2f5]
-              font-bold
+                h-[2rem]
               w-[5rem]
-              h-[2rem]  
-              transition
+              rounded-full
+              bg-[#f0f2f5]
               px-2
               py-1
+              text-[0.8rem]  
+              font-bold
+              text-[#0075b1]
+              transition
                 `
                 : `
-            rounded-full
-          color-[#555555]
+            color-[#555555]
+          h-[2rem]
+          w-[5rem]
+          rounded-full
+          px-2
+          py-1  
           text-[0.8rem]
           font-bold
-          w-[5rem]
-          h-[2rem]  
           transition
           hover:bg-[#f0f2f5]
-          px-2
-          py-1
             `
             }
           >
@@ -887,12 +879,12 @@ export default function PrimarySearchAppBar() {
       />
       <div
         className="
+        scrollbar-w-2
         h-[calc(100vh-19.8rem)]
         overflow-y-scroll
+        scrollbar-thin
         scrollbar-thumb-[#a5a5a5]
         scrollbar-thumb-rounded-full
-        scrollbar-w-2
-        scrollbar-thin
       "
       >
         {notificationsMock
@@ -902,14 +894,8 @@ export default function PrimarySearchAppBar() {
               if (!a.unreadNotification && b.unreadNotification) return 1;
             }
 
-            const timeA = new Date(
-              a.time.split(":")[0],
-              a.time.split(":")[1]
-            );
-            const timeB = new Date(
-              b.time.split(":")[0],
-              b.time.split(":")[1]
-            );
+            const timeA = new Date(a.time.split(":")[0], a.time.split(":")[1]);
+            const timeB = new Date(b.time.split(":")[0], b.time.split(":")[1]);
             if (timeA > timeB) {
               return -1;
             }
@@ -943,8 +929,8 @@ export default function PrimarySearchAppBar() {
 
     if (filteredUsers.length === 0) {
       return (
-        <div className="grid justify-center items-center">
-          <div className="flex justify-center items-center mt-10">
+        <div className="grid items-center justify-center">
+          <div className="mt-10 flex items-center justify-center">
             <SearchOffIcon
               sx={{
                 fontSize: 100,
@@ -952,7 +938,7 @@ export default function PrimarySearchAppBar() {
               }}
             />
           </div>
-          <p className="font-roboto tracking-wide text-[#BDBDBD] cursor-default">
+          <p className="cursor-default font-roboto tracking-wide text-[#BDBDBD]">
             Nenhum usuário encontrado
           </p>
         </div>
@@ -1011,7 +997,7 @@ export default function PrimarySearchAppBar() {
                     columnGap: "0.5rem",
                   }}
                 >
-                  <h1 className="text-usual flex justify-center items-center">
+                  <h1 className="flex items-center justify-center text-usual">
                     {user.nomeUsuario}
                   </h1>
                   {userAvatar().foto ? (

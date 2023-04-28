@@ -29,7 +29,7 @@ export default function GenerateAta() {
     parecerComissaoPropostaLogDTO: "",
     consideracoesPropostaLogDTO: "",
     tipoAtaPropostaLogDTO: "",
-  }
+  };
 
   // Atualiza a decisão final de uma proposta
   function updateFinalDecision(proposalId, newFinalDecision) {
@@ -47,7 +47,7 @@ export default function GenerateAta() {
     if (numDgAta == 0) {
       alert("Número DG Ata não pode ser nulo");
       return false;
-    };
+    }
 
     for (let fd of finalDecisions) {
       if (AtaUtils.isFinalDecisionValid(fd) == false) {
@@ -57,58 +57,52 @@ export default function GenerateAta() {
     }
 
     if (finalDecisionFile == undefined) {
-      if(!confirm("Você não selecionou um arquivo de decisão final. Deseja continuar?"))
+      if (
+        !confirm(
+          "Você não selecionou um arquivo de decisão final. Deseja continuar?"
+        )
+      )
         return false;
     }
     return true;
   }
 
-  useEffect(() => {
-    if (finalDecisions.length > 0) {
-      console.log(finalDecisions);
-    }
-  }, [finalDecisions])
-
   // Salva a ata no banco de dados
   function saveAta() {
-    
-    if(!verificarAta()) return;
+    if (!verificarAta()) return;
 
     const ata = {
       numeroDgAta: numDgAta,
       pautaAta: {
-        idPauta: id
+        idPauta: id,
       },
-      propostasLogDTO: finalDecisions
-    }
-
-    console.log(ata)
+      propostasLogDTO: finalDecisions,
+    };
 
     const form = new FormData();
 
     form.append("ata", JSON.stringify(ata));
     form.append("documentoAprovacao", finalDecisionFile);
 
-    AtaService.createAta(form)
-      .then((response) => {
-        if (response.status == 201)
-          alert("Ata gerada com sucesso");
-      })
+    AtaService.createAta(form).then((response) => {
+      if (response.status == 201) alert("Ata gerada com sucesso");
+    });
   }
 
-
   useEffect(() => {
-    PautaService.getPautaProposalsById(id)
-      .then((proposals) => {
-        setProposals(proposals);
-      });
+    PautaService.getPautaProposalsById(id).then((proposals) => {
+      setProposals(proposals);
+    });
   }, []);
 
   // Cria um array de decisões finais com base nas propostas
   useEffect(() => {
     if (proposals.length > 0) {
       const finalDecisions = proposals.map((proposal) => {
-        return { ...proposalFinalDecisionTemplate, propostaPropostaLogDTO: { idProposta: proposal.idProposta } };
+        return {
+          ...proposalFinalDecisionTemplate,
+          propostaPropostaLogDTO: { idProposta: proposal.idProposta },
+        };
       });
       setFinalDecisions(finalDecisions);
     }
@@ -116,13 +110,15 @@ export default function GenerateAta() {
 
   return (
     <div className="grid items-center">
-      <div className="flex justify-center mb-8">
+      <div className="mb-8 flex justify-center">
         <div className="flex-1"></div>
-        <div className="flex-1 flex flex-col justify-center items-center">
-          <h1 className="font-bold text-3xl text-blue-weg mt-10">Geração de ata</h1>
-          <p className="text-blue-weg mt-4">Pauta referência: {id}</p>
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <h1 className="mt-10 text-3xl font-bold text-blue-weg">
+            Geração de ata
+          </h1>
+          <p className="mt-4 text-blue-weg">Pauta referência: {id}</p>
         </div>
-        <div className="flex-1 flex items-end">
+        <div className="flex flex-1 items-end">
           <p className="text-light-blue-weg">Número DG ata:</p>
           <TextField
             id="outlined-basic"
@@ -146,15 +142,23 @@ export default function GenerateAta() {
             key={i}
             proposal={proposal}
             proposalIndex={i}
-            finalDecision={finalDecisions.find(fd => fd.propostaPropostaLogDTO.idProposta == proposal.idProposta)}
-            setFinalDecision={newFinalDecision => updateFinalDecision(proposal.idProposta, newFinalDecision)}
+            finalDecision={finalDecisions.find(
+              (fd) =>
+                fd.propostaPropostaLogDTO.idProposta == proposal.idProposta
+            )}
+            setFinalDecision={(newFinalDecision) =>
+              updateFinalDecision(proposal.idProposta, newFinalDecision)
+            }
           />
         ))}
       </div>
-      <div className="flex justify-end items-center mb-5 mr-10">
-        <div className="flex items-center mr-28" onMouseEnter={() => setClearFile(true)} onMouseLeave={() => setClearFile(false)} >
-
-          { clearFile && (finalDecisionFile != undefined) &&
+      <div className="mb-5 mr-10 flex items-center justify-end">
+        <div
+          className="mr-28 flex items-center"
+          onMouseEnter={() => setClearFile(true)}
+          onMouseLeave={() => setClearFile(false)}
+        >
+          {clearFile && finalDecisionFile != undefined && (
             <Clear
               sx={{
                 color: "#0075B1",
@@ -162,14 +166,14 @@ export default function GenerateAta() {
               }}
               onClick={() => setFinalDecisionFile(undefined)}
             />
-          }
-          <div className="w-36" >
+          )}
+          <div className="w-36">
             {finalDecisionFile && (
               <Tooltip title={finalDecisionFile.name}>
                 <p className="text-blue-weg">
-                  {
-                    finalDecisionFile.name.length > 13 ? finalDecisionFile.name.slice(0, 13) + "..." : finalDecisionFile.name
-                  }
+                  {finalDecisionFile.name.length > 13
+                    ? finalDecisionFile.name.slice(0, 13) + "..."
+                    : finalDecisionFile.name}
                 </p>
               </Tooltip>
             )}
@@ -200,7 +204,6 @@ export default function GenerateAta() {
               hidden
             />
           </Button>
-
         </div>
         {/* Button to confirm action and end the circuit of the system */}
         <Button
@@ -214,9 +217,7 @@ export default function GenerateAta() {
               backgroundColor: "#0075B1",
             },
           }}
-          startIcon={
-            <AddRounded />
-          }
+          startIcon={<AddRounded />}
           onClick={saveAta}
         >
           Gerar nova ata

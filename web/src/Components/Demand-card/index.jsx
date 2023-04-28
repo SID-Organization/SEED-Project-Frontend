@@ -107,10 +107,12 @@ export default function DemandCard(props) {
   const getFirstLog = async () => {
     DemandLogService.getDemandLogs(props.demand.idDemanda).then((data) => {
       setDemandLogs(data);
-      let firstLog = new Date(
-        data[0].recebimentoHistorico
-      ).toLocaleDateString();
-      setFirstLog(firstLog);
+      if (data && data.length > 0) {
+        let firstLog = new Date(
+          data[0].recebimentoHistorico
+        ).toLocaleDateString();
+        setFirstLog(firstLog);
+      }
     });
   };
 
@@ -161,8 +163,6 @@ export default function DemandCard(props) {
         })),
       demandaProposta: { idDemanda: props.demand.idDemanda },
     };
-
-    console.log("ProposalSave", proposal);
 
     ProposalService.createProposal(proposal).then((response) => {
       if (response.status === 201) {
@@ -239,10 +239,6 @@ export default function DemandCard(props) {
       }
     }
   }
-
-  useEffect(() => {
-    console.log("props.demand: ", props.demand);
-  }, []);
 
   return (
     <div className="mb-7 grid items-center justify-center">
@@ -735,9 +731,7 @@ export default function DemandCard(props) {
               </Modal>
               {props.demand.statusDemanda === "RASCUNHO" && (
                 <Tooltip title="Continuar rascunho">
-                  <Link
-                    to={`/nova-demanda/${props.demand.idDemanda}`}
-                  >
+                  <Link to={`/nova-demanda/${props.demand.idDemanda}`}>
                     <Button
                       variant="contained"
                       sx={{

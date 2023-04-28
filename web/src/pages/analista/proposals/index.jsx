@@ -56,7 +56,6 @@ export default function Proposals() {
 
   useEffect(() => {
     PautaService.getPautas().then((data) => {
-      console.log("Pautas", data)
       let pautas = data.map((pauta) => ({
         ...pauta,
         dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
@@ -65,7 +64,6 @@ export default function Proposals() {
     });
 
     ProposalService.getReadyProposals().then((readyProposal) => {
-      console.log("Ready proposals", readyProposal)
       setProposals(readyProposal);
     });
   }, []);
@@ -112,9 +110,7 @@ export default function Proposals() {
                 QtyProposals={pauta.qtdPropostas}
                 MeetingDate={pauta.dataReuniao}
                 MeetingTime={pauta.horaReuniao}
-                ResponsibleAnalyst={
-                  pauta.analistaResponsavel
-                }
+                ResponsibleAnalyst={pauta.analistaResponsavel}
                 isInTheModalAddToAPauta={true}
               />
             ))}
@@ -143,19 +139,20 @@ export default function Proposals() {
           </div>
         }
       </div>
-      <div className=" flex flex-col items-center justify-center gap-8" >
-        {proposals.length > 0 && proposals.map((proposal, i) => (
-          <ProposalCard
-            key={i}
-            proposalId={proposal.idProposta}
-            newPauta={"card"}
-            title={proposal.demandaPropostaTitulo}
-            executionTime={proposal.tempoDeExecucaoDemanda}
-            value={proposal.valorDemanda}
-            referenceDemand={proposal.idDemanda}
-            setSelectProposals={setSelectProposals}
-          />
-        ))}
+      <div className=" flex flex-col items-center justify-center gap-8">
+        {proposals.length > 0 &&
+          proposals.map((proposal, i) => (
+            <ProposalCard
+              key={i}
+              proposalId={proposal.idProposta}
+              newPauta={"card"}
+              title={proposal.demandaPropostaTitulo}
+              executionTime={proposal.tempoDeExecucaoDemanda}
+              value={proposal.valorDemanda}
+              referenceDemand={proposal.idDemanda}
+              setSelectProposals={setSelectProposals}
+            />
+          ))}
       </div>
     </div>
   );
