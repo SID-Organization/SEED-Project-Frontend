@@ -62,10 +62,12 @@ export default function openedDemand() {
   useEffect(() => {
     if (params.id) {
       DemandService.getDemandById(params.id).then((demand) => {
+        console.log("DEMAND", demand);
         setDemand(demand);
       });
-      DemandLogService.getDemandLogs(params.id).then((logs) => {
-        setDemandLogs(logs);
+      DemandLogService.getDemandLogs(params.id).then((res) => {
+        if(res.status != 200) return console.log("Error getting demand logs\n", res);
+        setDemandLogs(res);
       });
     }
   }, []);

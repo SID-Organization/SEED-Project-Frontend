@@ -122,9 +122,6 @@ export default function CreateDemand() {
         );
       });
       setTitle(response.tituloDemanda);
-      // setProposal(response.propostaMelhoriaDemanda);
-      // setCurrentProblem(response.situacaoAtualDemanda);
-      // setFrequencyOfUse(response.frequenciaUsoDemanda);
       setRealBenefits(() => {
         const filteredRealBenefs = response.beneficiosDemanda.filter(
           (benefit) => benefit.tipoBeneficio == "REAL"
@@ -211,7 +208,7 @@ export default function CreateDemand() {
     return tempBenefit;
   }
 
-  const handleCreateDemand = async (finish) => {
+  const handleCreateDemand = async (finish = false) => {
     // Benefício real
     const benefitsToSave = realBenefits.map((benefit) => {
       const tempRBenef = formatBenefit(benefit, "REAL");
@@ -258,17 +255,33 @@ export default function CreateDemand() {
       formData.append("arquivosDemanda", selectedFiles[i]);
     }
 
-    if (!demandUpdateId && title !== "") {
-      DemandService.createDemand(formData).then((res) => {
-        console.log("CREATE DEMAND", res);
-        setDemandUpdateId(res.idDemanda);
-      });
-    } else if (demandUpdateId && title !== "") {
-      DemandService.updateDemand(demandUpdateId, formData);
+    if(!(finish === true)) {
+      if (!demandUpdateId && title !== "") {
+        DemandService.createDemand(formData).then((res) => {
+          console.log("CREATE DEMAND", res);
+          setDemandUpdateId(res.idDemanda);
+        });
+      } else if (demandUpdateId && title !== "") {
+        DemandService.updateDemand(demandUpdateId, formData).then((res) => {
+          console.log("UPDATE DEMAND", res.data);
+        });
+      }
+    } else {
+      handleFinishDemand(formData);
     }
+
+    /**
+     * FALTA IMPLEMENTAR A LÓGICA DE ATUALIZAR O ID DOS BENEFÍCIOS
+     * LOGO QUANDO ELES FOREM CRIADOS, PARA QUE QUANDO A DEMANDA SEJA ATUALIZADA DE NOVO,
+     * ELA NÃO CRIE NOVOS BENEFÍCIOS, MAS ATUALIZE OS JÁ EXISTENTES
+     */
+
+
   };
 
-  const handleFinishDemand = () => {
+  const handleFinishDemand = (formData) => {
+    formData.append("atualizaVersaoWorkflow", "true");
+    DemandService.updateDemand(demandUpdateId, formData);
     DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
     navigate("/demandas")
   }
@@ -283,7 +296,7 @@ export default function CreateDemand() {
   function addRealBenefit() {
     setRealBenefits([
       ...realBenefits,
-      { coin: "", value: 0, descriptionHTML: "", ref: createRef() },
+      { coin: "", value: 0, descriptionHTML: "", ref: createRef(), created: false},
     ]);
     setButtonNotification(true);
   }
@@ -291,7 +304,7 @@ export default function CreateDemand() {
   function addPotentialBenefit() {
     setPotentialBenefits([
       ...potentialBenefits,
-      { coin: "", value: 0, descriptionHTML: "", ref: createRef() },
+      { coin: "", value: 0, descriptionHTML: "", ref: createRef(), created: true},
     ]);
     setButtonNotification(true);
   }

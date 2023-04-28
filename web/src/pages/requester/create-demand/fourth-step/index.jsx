@@ -13,11 +13,6 @@ import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 
 export default function FourthStep({props}) {
 
-    const finishDemand = () => {
-        props.handleCreateDemand();
-        props.handleFinishDemand();
-    }
-
     return (
         <div>
             <Dialog
@@ -79,7 +74,7 @@ export default function FourthStep({props}) {
                         </Button>
                         {/* <Link to="/minhas-demandas"> */}
                         <Button
-                            onClick={finishDemand}
+                            onClick={() => props.handleCreateDemand(true)}
                             sx={{
                                 backgroundColor: "#0075B1",
                                 color: "#fff",
