@@ -694,11 +694,11 @@ export default function DemandCard(props) {
                           }}
                         />
                       </div>
-                      <p className="mb-8 flex items-center justify-center text-lg font-semibold text-light-blue-weg">
-                        Têm certeza que deseja
-                        <br />
-                        deletar esse rascunho?
-                      </p>
+                      <DialogTitle style={{ color: "#0075B1" }}>
+                        <p className="text-center">
+                          Têm certeza que deseja deletar esse rascunho?
+                        </p>
+                      </DialogTitle>
                       <div className="flex items-center justify-center gap-5">
                         <Button
                           autoFocus
