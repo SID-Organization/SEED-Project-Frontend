@@ -439,11 +439,11 @@ export default function CreateDemand() {
 
   return (
     <div>
-      {createDemandSucceed ? (
+      {/* {createDemandSucceed ? (
         <Notification message="Deu boa" />
       ) : (
         <Notification message="Deu ruim" />
-      )}
+      )} */}
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">

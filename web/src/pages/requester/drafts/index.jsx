@@ -164,57 +164,59 @@ export default function drafts() {
             </DialogActions>
           </Dialog>
           {/* FIM MODAL DELETAR TODOS OS RASCUNHOS */}
-          <div className="mb-10 flex gap-10">
-            <Button
-              onClick={handleClickOpenModalConfirmationDemand}
-              variant="contained"
-              sx={{
-                backgroundColor: "#0075B1",
-                color: "#FFF",
-                fontSize: "0.89rem",
-                width: 200,
-                height: "2.5rem",
-                marginLeft: 2,
-                "&:hover": {
+          {demands.length > 0 && (
+            <div className="mb-10 flex gap-10">
+              <Button
+                onClick={handleClickOpenModalConfirmationDemand}
+                variant="contained"
+                sx={{
                   backgroundColor: "#0075B1",
-                },
-              }}
-              startIcon={
-                <DeleteRoundedIcon
-                  sx={{
-                    color: "#FFF",
-                    fontSize: "0.89rem",
-                  }}
-                />
-              }
-            >
-              Deletar tudo
-            </Button>
-            {selectedDrafts.length > 0 && (
-              <Fade in={selectedDrafts.length > 0} unmountOnExit>
-                <ButtonAddSelected
-                  onClick={deleteSelectedDrafts}
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  startIcon={
-                    <DeleteRoundedIcon
-                      sx={{
-                        color: "#0075B1",
-                        fontSize: "0.89rem",
-                      }}
-                    />
-                  }
-                  className={`opacity-0 transition-opacity duration-300 ease-in-out ${
-                    selectedDrafts.length > 0 ? "opacity-100" : ""
-                  }`}
-                >
-                  Deletar {"(" + selectedDrafts.length + ")"}{" "}
-                  {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
-                </ButtonAddSelected>
-              </Fade>
-            )}
-          </div>
+                  color: "#FFF",
+                  fontSize: "0.89rem",
+                  width: 200,
+                  height: "2.5rem",
+                  marginLeft: 2,
+                  "&:hover": {
+                    backgroundColor: "#0075B1",
+                  },
+                }}
+                startIcon={
+                  <DeleteRoundedIcon
+                    sx={{
+                      color: "#FFF",
+                      fontSize: "0.89rem",
+                    }}
+                  />
+                }
+              >
+                Deletar tudo
+              </Button>
+              {selectedDrafts.length > 0 && (
+                <Fade in={selectedDrafts.length > 0} unmountOnExit>
+                  <ButtonAddSelected
+                    onClick={deleteSelectedDrafts}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    startIcon={
+                      <DeleteRoundedIcon
+                        sx={{
+                          color: "#0075B1",
+                          fontSize: "0.89rem",
+                        }}
+                      />
+                    }
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
+                      selectedDrafts.length > 0 ? "opacity-100" : ""
+                    }`}
+                  >
+                    Deletar {"(" + selectedDrafts.length + ")"}{" "}
+                    {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
+                  </ButtonAddSelected>
+                </Fade>
+              )}
+            </div>
+          )}
         </div>
       }
       <div className="flex flex-wrap items-center justify-around">
