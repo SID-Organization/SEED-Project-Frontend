@@ -192,7 +192,14 @@ export default function drafts() {
                 Deletar tudo
               </Button>
               {selectedDrafts.length > 0 && (
-                <Fade in={selectedDrafts.length > 0} unmountOnExit>
+                <Fade
+                  in={selectedDrafts.length > 0}
+                  unmountOnExit
+                  sx={{
+                    transitionDelay:
+                      selectedDrafts.length > 0 ? "500ms" : "0ms",
+                  }}
+                >
                   <ButtonAddSelected
                     onClick={deleteSelectedDrafts}
                     variant="contained"
