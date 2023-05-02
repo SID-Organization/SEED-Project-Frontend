@@ -30,15 +30,12 @@ export default function CreateDemand() {
 
   const [title, setTitle] = useState("");
 
-  const currentProblemRef = useRef(null);
   const [currentProblemHTML, setCurrentProblemHTML] = useState("");
   const [currentProblem, setCurrentProblem] = useState("");
 
-  const proposalRef = useRef(null);
   const [proposalHTML, setProposalHTML] = useState("");
   const [proposal, setProposal] = useState("");
 
-  const frequencyOfUseRef = useRef(null);
   const [frequencyOfUseHTML, setFrequencyOfUseHTML] = useState("");
   const [frequencyOfUse, setFrequencyOfUse] = useState("");
 
@@ -195,12 +192,11 @@ export default function CreateDemand() {
       };
       if (benefit.benefitId) tempBenefit["idBeneficio"] = benefit.benefitId;
     } else if (formatToCode) {
-      console.log("BENEFIT TO FORMAT: ", benefit);
       tempBenefit = {
         benefitId: benefit.idBeneficio,
-        description: benefit.memoriaCalculoBeneficio,
         value: benefit.valorBeneficio,
         coin: getBenefitCoin(benefit.moedaBeneficio),
+        description: benefit.memoriaCalculoBeneficio,
         descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
         ref: createRef(),
         idFront: benefit.idFront,
@@ -250,6 +246,10 @@ export default function CreateDemand() {
       for (let i = 0; i < selectedFiles.length; i++) {
         formData.append("arquivosDemanda", selectedFiles[i]);
       }
+
+      console.log("DEMAND TO SAVE", demandToSave);
+      console.log("PDF TO SAVE", formDemandPDF);
+
       if (!(finish === true)) {
         if (!demandUpdateId && title !== "") {
           DemandService.createDemand(formData).then((res) => {
@@ -267,21 +267,12 @@ export default function CreateDemand() {
         handleFinishDemand(formData);
       }
 
-      /**
-       * FALTA IMPLEMENTAR A LÓGICA DE ATUALIZAR O ID DOS BENEFÍCIOS
-       * LOGO QUANDO ELES FOREM CRIADOS, PARA QUE QUANDO A DEMANDA SEJA ATUALIZADA DE NOVO,
-       * ELA NÃO CRIE NOVOS BENEFÍCIOS, MAS ATUALIZE OS JÁ EXISTENTES
-       */
     } catch (error) {
       console.log(error);
       setCreateDemandSucceed(false);
     }
   };
 
-  useEffect(() => {
-    console.log("REAL BENEFITS", realBenefits);
-    console.log("POTENTIAL BENEFITS", potentialBenefits);
-  }, [realBenefits, potentialBenefits])
 
   const updateBenefits = (benefits) => {
     // Database benefits
@@ -315,7 +306,6 @@ export default function CreateDemand() {
   }
 
   const handleFinishDemand = (formData) => {
-    formData.append("atualizaVersaoWorkflow", "true");
     DemandService.updateDemand(demandUpdateId, formData);
     DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
     if (createDemandSucceed === true) {
@@ -433,17 +423,14 @@ export default function CreateDemand() {
     setProposal,
     proposalHTML,
     setProposalHTML,
-    proposalRef,
     currentProblem,
     setCurrentProblem,
     currentProblemHTML,
     setCurrentProblemHTML,
-    currentProblemRef,
     frequencyOfUse,
     setFrequencyOfUse,
     frequencyOfUseHTML,
     setFrequencyOfUseHTML,
-    frequencyOfUseRef,
   };
 
   const secondStepProps = {
@@ -478,11 +465,6 @@ export default function CreateDemand() {
 
   return (
     <div>
-      {/* {createDemandSucceed ? (
-        <Notification message="Deu boa" />
-      ) : (
-        <Notification message="Deu ruim" />
-      )} */}
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">

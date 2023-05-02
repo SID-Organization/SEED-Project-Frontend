@@ -1,4 +1,5 @@
 const formatQuillText = (text) => {
+    if(!text) return "";
     const txtArr = text.split("\n");
     txtArr.pop();
     const formattedText = txtArr.join(" ");

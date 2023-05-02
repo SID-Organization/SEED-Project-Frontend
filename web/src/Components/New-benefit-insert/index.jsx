@@ -78,7 +78,7 @@ export default function NewBenefitInsertion(props) {
   const [coin, setCoin] = useState(props.coin);
   const [value, setValue] = useState(props.value);
 
-  useEffect(() => {
+  const updateState = () => {
     props.benefitStates.setRealBenefits(() => {
       const newState = props.benefitStates.realBenefits.filter(
         (item, index) => index !== props.benefitIndex
@@ -90,7 +90,7 @@ export default function NewBenefitInsertion(props) {
       });
       return newState;
     });
-  }, [coin, value]);
+  };
 
   const handleChangeCoinIcon = (event) => {
     setCoin(event.target.value);
@@ -118,6 +118,7 @@ export default function NewBenefitInsertion(props) {
               <TextFieldValue
                 id="outlined-textarea"
                 label="Valor mensal"
+                onBlur={updateState}
                 variant="outlined"
                 type="number"
                 multiline
@@ -144,6 +145,7 @@ export default function NewBenefitInsertion(props) {
                       fontSize: "1rem",
                       height: "3.5rem",
                     }}
+                    onBlur={updateState}
                   >
                     <MenuItem value={"R$"}>BRL</MenuItem>
                     <MenuItem value={"$"}>USD</MenuItem>
