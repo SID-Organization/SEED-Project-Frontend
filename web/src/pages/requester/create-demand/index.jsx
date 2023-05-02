@@ -58,6 +58,7 @@ export default function CreateDemand() {
       descriptionHTML: "",
       description: "",
       ref: useRef(null),
+      idFront: 0,
     },
   ]);
 
@@ -68,6 +69,7 @@ export default function CreateDemand() {
       descriptionHTML: "",
       description: "",
       ref: useRef(null),
+      idFront: 0,
     },
   ]);
 
@@ -189,9 +191,11 @@ export default function CreateDemand() {
         memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
         valorBeneficio: benefit.value,
         tipoBeneficio: benefitType,
+        idFront: benefit.idFront,
       };
       if (benefit.benefitId) tempBenefit["idBeneficio"] = benefit.benefitId;
     } else if (formatToCode) {
+      console.log("BENEFIT TO FORMAT: ", benefit);
       tempBenefit = {
         benefitId: benefit.idBeneficio,
         description: benefit.memoriaCalculoBeneficio,
@@ -199,6 +203,7 @@ export default function CreateDemand() {
         coin: getBenefitCoin(benefit.moedaBeneficio),
         descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
         ref: createRef(),
+        idFront: benefit.idFront,
       };
     }
     return tempBenefit;
@@ -250,10 +255,12 @@ export default function CreateDemand() {
           DemandService.createDemand(formData).then((res) => {
             console.log("CREATE DEMAND", res);
             setDemandUpdateId(res.idDemanda);
+            updateBenefits(res.beneficiosDemanda)
           });
         } else if (demandUpdateId && title !== "") {
           DemandService.updateDemand(demandUpdateId, formData).then((res) => {
             console.log("UPDATE DEMAND", res.data);
+            updateBenefits(res.data.beneficiosDemanda)
           });
         }
       } else {
@@ -272,14 +279,40 @@ export default function CreateDemand() {
   };
 
   useEffect(() => {
-    console.log("Notification: ", createDemandSucceed);
+    console.log("REAL BENEFITS", realBenefits);
+    console.log("POTENTIAL BENEFITS", potentialBenefits);
+  }, [realBenefits, potentialBenefits])
 
-    // if (createDemandSucceed === true) {
-    //   setTimeout(() => {
-    //     navigate("/demandas");
-    //   }, 3000);
-    // }
-  }, [createDemandSucceed]);
+  const updateBenefits = (benefits) => {
+    // Database benefits
+    const DBTempRealBnfs = benefits.filter(b => b.tipoBeneficio === "REAL");
+    const DBTempPotBnfs = benefits.filter(b => b.tipoBeneficio === "POTENCIAL");
+
+    // Frontend benefits
+    const tempRealBenefits = realBenefits;
+    const tempPotBenefits = potentialBenefits;
+    
+    
+    // Se o benefício não tiver um id, significa que ele foi criado agora
+    // Então, é necessário atualizar o id dele
+    // Para isso, compara-se o idFront do benefício do frontend com o idFront do benefício do backend
+    // Se forem iguais, significa que é o mesmo benefício, então atualiza o id dele
+    for (let i = 0; i < tempRealBenefits.length; i++) {
+      if(tempRealBenefits[i].benefitId) continue;
+      if (tempRealBenefits[i].idFront === DBTempRealBnfs[i].idFront) {
+        tempRealBenefits[i]['benefitId'] = DBTempRealBnfs[i].idBeneficio;
+      }
+    }
+    for (let i = 0; i < tempPotBenefits.length; i++) {
+      if(tempPotBenefits[i].benefitId) continue;
+      if (tempPotBenefits[i].idFront === DBTempPotBnfs[i].idFront) {
+        tempPotBenefits[i]['benefitId'] = DBTempPotBnfs[i].idBeneficio;
+      }
+    }
+
+    setRealBenefits(tempRealBenefits);
+    setPotentialBenefits(tempPotBenefits);
+  }
 
   const handleFinishDemand = (formData) => {
     formData.append("atualizaVersaoWorkflow", "true");
@@ -307,6 +340,7 @@ export default function CreateDemand() {
         descriptionHTML: "",
         ref: createRef(),
         created: false,
+        idFront: realBenefits.length,
       },
     ]);
     setButtonNotification(true);
@@ -321,6 +355,7 @@ export default function CreateDemand() {
         descriptionHTML: "",
         ref: createRef(),
         created: true,
+        idFront: potentialBenefits.length,
       },
     ]);
     setButtonNotification(true);
@@ -331,6 +366,8 @@ export default function CreateDemand() {
       const timer = setTimeout(() => {
         setButtonNotification(false);
       }, 1900);
+
+      return () => clearTimeout(timer);
     }
   }, [buttonNotification]);
 
@@ -339,6 +376,8 @@ export default function CreateDemand() {
       const timer = setTimeout(() => {
         setDeleteNotification(false);
       }, 1900);
+
+      return () => clearTimeout(timer);
     }
   }, [deleteNotification]);
 
