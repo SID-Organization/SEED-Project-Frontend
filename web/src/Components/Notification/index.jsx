@@ -15,8 +15,6 @@ export default function PositionedSnackbar(props) {
   });
   const { vertical, horizontal, open } = state;
 
-
-
   const handleClose = () => {
     setState({ ...state, open: false });
   };
@@ -24,13 +22,10 @@ export default function PositionedSnackbar(props) {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setState({ ...state, open: false });
-    }
-    , 1800);
+    }, 1800);
 
-    return () => clearTimeout(timer); 
+    return () => clearTimeout(timer);
   }, []);
-
-
 
   return (
     <>
@@ -40,7 +35,7 @@ export default function PositionedSnackbar(props) {
         onClose={handleClose}
         key={vertical + horizontal}
       >
-      <SnackbarContent
+        <SnackbarContent
           style={{
             backgroundColor: "#FFF",
             color: "#023A67",

@@ -14,6 +14,7 @@ import SecondStep from "./second-step";
 import ThirdStep from "./third-step";
 import FourthStep from "./fourth-step";
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
+import Notification from "../../../Components/Notification";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
@@ -75,6 +76,8 @@ export default function CreateDemand() {
   const [anyEmptyField, setAnyEmptyField] = useState(true);
 
   const [demandUpdateId, setDemandUpdateId] = useState("");
+
+  const [createDemandSucceed, setCreateDemandSucceed] = useState(false);
 
   useEffect(() => {
     if (params.id) {
@@ -202,79 +205,91 @@ export default function CreateDemand() {
   }
 
   const handleCreateDemand = async (finish = false) => {
-    // Benefício real
-    const benefitsToSave = realBenefits.map((benefit) => {
-      const tempRBenef = formatBenefit(benefit, "REAL");
-      return tempRBenef;
-    });
-
-    // Benefício potencial
-    for (let benefit of potentialBenefits) {
-      const benefToSave = formatBenefit(benefit, "POTENCIAL");
-      benefitsToSave.push(benefToSave);
-    }
-
-    // Demanda
-    const demandToSave = {
-      tituloDemanda: title,
-      propostaMelhoriaDemanda: formatQuillText(proposal),
-      situacaoAtualDemanda: formatQuillText(currentProblem),
-      frequenciaUsoDemanda: formatQuillText(frequencyOfUse),
-      descricaoQualitativoDemanda: qualitativeBenefit,
-      solicitanteDemanda: { numeroCadastroUsuario: user.numeroCadastroUsuario },
-      analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
-      gerenteDaAreaDemanda: { numeroCadastroUsuario: 72132 },
-      gestorResponsavelDemanda: { numeroCadastroUsuario: 72133 },
-      beneficiosDemanda: benefitsToSave,
-    };
-
-    // PDF da demanda
-    const formDemandPDF = {
-      propostaMelhoriaDemandaHTML: proposalHTML,
-      situacaoAtualDemandaHTML: currentProblemHTML,
-      frequenciaUsoDemandaHTML: frequencyOfUseHTML,
-    };
-
-    const formData = new FormData();
-
-    // Adiciona a demanda e o PDF da deamnda ao FormData
-    formData.append("demandaForm", JSON.stringify(demandToSave));
-    formData.append("pdfDemandaForm", JSON.stringify(formDemandPDF));
-
-    // Adiciona os arquivos selecionados ao FormData
-    for (let i = 0; i < selectedFiles.length; i++) {
-      formData.append("arquivosDemanda", selectedFiles[i]);
-    }
-
-    if(!(finish === true)) {
-      if (!demandUpdateId && title !== "") {
-        DemandService.createDemand(formData).then((res) => {
-          console.log("CREATE DEMAND", res);
-          setDemandUpdateId(res.idDemanda);
-        });
-      } else if (demandUpdateId && title !== "") {
-        DemandService.updateDemand(demandUpdateId, formData).then((res) => {
-          console.log("UPDATE DEMAND", res.data);
-        });
+    try {
+      // Benefício real
+      const benefitsToSave = realBenefits.map((benefit) => {
+        const tempRBenef = formatBenefit(benefit, "REAL");
+        return tempRBenef;
+      });
+      // Benefício potencial
+      for (let benefit of potentialBenefits) {
+        const benefToSave = formatBenefit(benefit, "POTENCIAL");
+        benefitsToSave.push(benefToSave);
       }
-    } else {
-      handleFinishDemand(formData);
+      // Demanda
+      const demandToSave = {
+        tituloDemanda: title,
+        propostaMelhoriaDemanda: formatQuillText(proposal),
+        situacaoAtualDemanda: formatQuillText(currentProblem),
+        frequenciaUsoDemanda: formatQuillText(frequencyOfUse),
+        descricaoQualitativoDemanda: qualitativeBenefit,
+        solicitanteDemanda: {
+          numeroCadastroUsuario: user.numeroCadastroUsuario,
+        },
+        analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
+        gerenteDaAreaDemanda: { numeroCadastroUsuario: 72132 },
+        gestorResponsavelDemanda: { numeroCadastroUsuario: 72133 },
+        beneficiosDemanda: benefitsToSave,
+      };
+      // PDF da demanda
+      const formDemandPDF = {
+        propostaMelhoriaDemandaHTML: proposalHTML,
+        situacaoAtualDemandaHTML: currentProblemHTML,
+        frequenciaUsoDemandaHTML: frequencyOfUseHTML,
+      };
+      const formData = new FormData();
+      // Adiciona a demanda e o PDF da deamnda ao FormData
+      formData.append("demandaForm", JSON.stringify(demandToSave));
+      formData.append("pdfDemandaForm", JSON.stringify(formDemandPDF));
+      // Adiciona os arquivos selecionados ao FormData
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append("arquivosDemanda", selectedFiles[i]);
+      }
+      if (!(finish === true)) {
+        if (!demandUpdateId && title !== "") {
+          DemandService.createDemand(formData).then((res) => {
+            console.log("CREATE DEMAND", res);
+            setDemandUpdateId(res.idDemanda);
+          });
+        } else if (demandUpdateId && title !== "") {
+          DemandService.updateDemand(demandUpdateId, formData).then((res) => {
+            console.log("UPDATE DEMAND", res.data);
+          });
+        }
+      } else {
+        handleFinishDemand(formData);
+      }
+
+      /**
+       * FALTA IMPLEMENTAR A LÓGICA DE ATUALIZAR O ID DOS BENEFÍCIOS
+       * LOGO QUANDO ELES FOREM CRIADOS, PARA QUE QUANDO A DEMANDA SEJA ATUALIZADA DE NOVO,
+       * ELA NÃO CRIE NOVOS BENEFÍCIOS, MAS ATUALIZE OS JÁ EXISTENTES
+       */
+    } catch (error) {
+      console.log(error);
+      setCreateDemandSucceed(false);
     }
-
-    /**
-     * FALTA IMPLEMENTAR A LÓGICA DE ATUALIZAR O ID DOS BENEFÍCIOS
-     * LOGO QUANDO ELES FOREM CRIADOS, PARA QUE QUANDO A DEMANDA SEJA ATUALIZADA DE NOVO,
-     * ELA NÃO CRIE NOVOS BENEFÍCIOS, MAS ATUALIZE OS JÁ EXISTENTES
-     */
-
-
   };
+
+  useEffect(() => {
+    console.log("Notification: ", createDemandSucceed);
+
+    // if (createDemandSucceed === true) {
+    //   setTimeout(() => {
+    //     navigate("/demandas");
+    //   }, 3000);
+    // }
+  }, [createDemandSucceed]);
 
   const handleFinishDemand = (formData) => {
     formData.append("atualizaVersaoWorkflow", "true");
     DemandService.updateDemand(demandUpdateId, formData);
     DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
-    navigate("/demandas");
+    if (createDemandSucceed === true) {
+      setTimeout(() => {
+        navigate("/demandas");
+      }, 3000);
+    }
   };
 
   function handleFileInput(event) {
@@ -286,7 +301,13 @@ export default function CreateDemand() {
   function addRealBenefit() {
     setRealBenefits([
       ...realBenefits,
-      { coin: "", value: 0, descriptionHTML: "", ref: createRef(), created: false},
+      {
+        coin: "",
+        value: 0,
+        descriptionHTML: "",
+        ref: createRef(),
+        created: false,
+      },
     ]);
     setButtonNotification(true);
   }
@@ -294,7 +315,13 @@ export default function CreateDemand() {
   function addPotentialBenefit() {
     setPotentialBenefits([
       ...potentialBenefits,
-      { coin: "", value: 0, descriptionHTML: "", ref: createRef(), created: true},
+      {
+        coin: "",
+        value: 0,
+        descriptionHTML: "",
+        ref: createRef(),
+        created: true,
+      },
     ]);
     setButtonNotification(true);
   }
@@ -412,6 +439,11 @@ export default function CreateDemand() {
 
   return (
     <div>
+      {createDemandSucceed ? (
+        <Notification message="Deu boa" />
+      ) : (
+        <Notification message="Deu ruim" />
+      )}
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">

@@ -8,6 +8,7 @@ import { styled } from "@mui/material/styles";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
+import Fade from "@mui/material/Fade";
 
 // Tools
 import Draggable from "react-draggable";
@@ -46,6 +47,7 @@ export default function drafts() {
     border: "#0075B1 solid 1px",
     fontSize: "0.89rem",
     width: 260,
+    height: "2.5rem",
 
     "&:hover": {
       backgroundColor: "#f3f3f3",
@@ -149,6 +151,7 @@ export default function drafts() {
                   onClick={deleteAllDrafts}
                   sx={{
                     backgroundColor: "#0075B1",
+                    height: "2.5rem",
                     color: "#fff",
                     "&:hover": {
                       backgroundColor: "#0075B1",
@@ -161,42 +164,57 @@ export default function drafts() {
             </DialogActions>
           </Dialog>
           {/* FIM MODAL DELETAR TODOS OS RASCUNHOS */}
-          {selectedDrafts.length > 0 && (
-            <div className="mb-10">
-              <ButtonAddSelected
-                onClick={deleteSelectedDrafts}
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={
-                  <DeleteRoundedIcon
-                    sx={{
-                      color: "#0075B1",
-                    }}
-                  />
-                }
-              >
-                Deletar {"(" + selectedDrafts.length + ")"}{" "}
-                {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
-              </ButtonAddSelected>
-              <Button
-                onClick={handleClickOpenModalConfirmationDemand}
-                variant="contained"
-                sx={{
+          <div className="mb-10 flex gap-10">
+            <Button
+              onClick={handleClickOpenModalConfirmationDemand}
+              variant="contained"
+              sx={{
+                backgroundColor: "#0075B1",
+                color: "#FFF",
+                fontSize: "0.89rem",
+                width: 200,
+                height: "2.5rem",
+                marginLeft: 2,
+                "&:hover": {
                   backgroundColor: "#0075B1",
-                  color: "#FFF",
-                  fontSize: "0.89rem",
-                  width: 200,
-                  marginLeft: 2,
-                  "&:hover": {
-                    backgroundColor: "#0075B1",
-                  },
-                }}
-              >
-                Deletar tudo
-              </Button>
-            </div>
-          )}
+                },
+              }}
+              startIcon={
+                <DeleteRoundedIcon
+                  sx={{
+                    color: "#FFF",
+                    fontSize: "0.89rem",
+                  }}
+                />
+              }
+            >
+              Deletar tudo
+            </Button>
+            {selectedDrafts.length > 0 && (
+              <Fade in={selectedDrafts.length > 0} unmountOnExit>
+                <ButtonAddSelected
+                  onClick={deleteSelectedDrafts}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  startIcon={
+                    <DeleteRoundedIcon
+                      sx={{
+                        color: "#0075B1",
+                        fontSize: "0.89rem",
+                      }}
+                    />
+                  }
+                  className={`opacity-0 transition-opacity duration-300 ease-in-out ${
+                    selectedDrafts.length > 0 ? "opacity-100" : ""
+                  }`}
+                >
+                  Deletar {"(" + selectedDrafts.length + ")"}{" "}
+                  {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
+                </ButtonAddSelected>
+              </Fade>
+            )}
+          </div>
         </div>
       }
       <div className="flex flex-wrap items-center justify-around">

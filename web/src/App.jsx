@@ -33,24 +33,35 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-            <Route path="" element={<Navigate to={"/login"} />} />
-            <Route path="/login" element={<Login user={user} setUser={setUser} />} />
-            <Route path="/" element={user ? <Layout /> : <Navigate to={"/login"} />} >
-            
+          <Route path="" element={<Navigate to={"/login"} />} />
+          <Route
+            path="/login"
+            element={<Login user={user} setUser={setUser} />}
+          />
+          <Route
+            path="/"
+            element={user ? <Layout /> : <Navigate to={"/login"} />}
+          >
             <Route path="demandas" element={<HomeDemands />} />
             <Route path="demandas/:id" element={<OpenedDemand />} />
             <Route path="rascunhos" element={<Drafts />} />
             <Route path="list" element={<DemandCardList />} />
             <Route path="nova-demanda" element={<CreateDemand />} />
-            <Route path="nova-demanda/:id" element={<CreateDemand />} />
+            <Route path="rascunhos/:id" element={<CreateDemand />} />
             <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
-            <Route path="/propostas/gerar-proposta/:id" element={<GenerateProposal />} />
+            <Route
+              path="/propostas/gerar-proposta/:id"
+              element={<GenerateProposal />}
+            />
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
             <Route path="gerenciar-demandas" element={<DemandManager />} />
             <Route path="pautas" element={<Pautas />} />
             <Route path="atas" element={<Atas />} />
             <Route path="propostas" element={<Proposals />} />
-            <Route path="propostas/:idProposta/:idDemanda" element={<ProposalDetails />} />
+            <Route
+              path="propostas/:idProposta/:idDemanda"
+              element={<ProposalDetails />}
+            />
             <Route path="perfil" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
           </Route>
