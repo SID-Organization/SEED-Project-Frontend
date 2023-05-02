@@ -40,6 +40,7 @@ export default function homeDemands() {
   useEffect(() => {
     DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
       (demands) => {
+        console.log("Demands carregadas:", demands);
         setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
       }
     );
@@ -47,12 +48,14 @@ export default function homeDemands() {
 
   useEffect(() => {
     if (dbDemands) {
+      console.log("Chamando getDemandsLogs()");
       getDemandsLogs();
     }
   }, [dbDemands]);
 
   useEffect(() => {
     if (demandsWLogs) {
+      console.log("Chamando updateDemandSort()");
       updateDemandSort(search);
 
       if (sortedDemands) {
@@ -123,6 +126,8 @@ export default function homeDemands() {
     }
   };
 
+  console.log("DbDemands: ", dbDemands);
+
   return (
     <div>
       <div>
@@ -138,7 +143,7 @@ export default function homeDemands() {
         </SubHeader>
       </div>
       <div className="flex flex-wrap justify-around">
-        {showingDemands.length > 0 ? (
+        {dbDemands && dbDemands.length > 0 ? (
           isListFormat ? (
             getDemandsList()
           ) : (
