@@ -1,5 +1,5 @@
 // React
-import React from "react";
+import React, { useRef } from "react";
 
 // MUI
 import { InputAdornment } from "@mui/material";
@@ -19,6 +19,29 @@ const { quillModules, quillStyle } = ReactQuillUtils;
 
 
 export default function FirstStep({ props }) {
+
+    const proposalRef = useRef(null);
+    const currentProblemRef = useRef(null);
+    const frequencyOfUseRef = useRef(null);
+
+    const updateProposal = (e) => {
+        props.setProposalHTML(e);
+        if (proposalRef.current?.getEditor().getText())
+            props.setProposal(proposalRef.current?.getEditor().getText());
+    }
+
+    const updateCurrentProblem = (e) => {
+        props.setCurrentProblemHTML(e);
+        if (currentProblemRef.current?.getEditor().getText())
+            props.setCurrentProblem(currentProblemRef.current?.getEditor().getText());
+    }
+
+    const updateFrequencyOfUse = (e) => {
+        props.setFrequencyOfUseHTML(e);
+        if (frequencyOfUseRef.current?.getEditor().getText())
+            props.setFrequencyOfUse(frequencyOfUseRef.current?.getEditor().getText());
+    }
+
     return (
         <div className="grid items-center justify-start gap-20">
             <div className="grid gap-1">
@@ -57,13 +80,10 @@ export default function FirstStep({ props }) {
                 </div>
                 <ReactQuill
                     value={props.proposalHTML}
-                    onChange={(e) => {
-                        props.setProposalHTML(e);
-                        props.setProposal(props.proposalRef.current?.getEditor().getText());
-                    }}
+                    onChange={updateProposal}
                     placeholder="Escreva a visão do negócio que vai resolver"
                     modules={quillModules}
-                    ref={props.proposalRef}
+                    ref={proposalRef}
                     style={quillStyle}
                     onBlur={props.handleCreateDemand}
                 />
@@ -78,16 +98,11 @@ export default function FirstStep({ props }) {
                 </div>
                 <ReactQuill
                     value={props.currentProblemHTML}
-                    onChange={(e) => {
-                        props.setCurrentProblemHTML(e);
-                        props.setCurrentProblem(
-                            props.currentProblemRef.current?.getEditor().getText()
-                        );
-                    }}
+                    onChange={updateCurrentProblem}
                     placeholder="Descreva a situação atual da demanda."
                     onBlur={props.handleCreateDemand}
                     modules={quillModules}
-                    ref={props.currentProblemRef}
+                    ref={currentProblemRef}
                     style={quillStyle}
                 />
             </div>
@@ -103,15 +118,10 @@ export default function FirstStep({ props }) {
                 <ReactQuill
                     onBlur={props.handleCreateDemand}
                     value={props.frequencyOfUseHTML}
-                    onChange={(e) => {
-                        props.setFrequencyOfUseHTML(e);
-                        props.setFrequencyOfUse(
-                            props.frequencyOfUseRef.current?.getEditor().getText()
-                        );
-                    }}
+                    onChange={updateFrequencyOfUse}
                     placeholder="Descreva a frequência de uso da demanda."
                     modules={quillModules}
-                    ref={props.frequencyOfUseRef}
+                    ref={frequencyOfUseRef}
                     style={quillStyle}
                 />
             </div>
