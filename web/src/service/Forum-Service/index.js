@@ -1,11 +1,10 @@
-import axios from "axios";
-import apiConfig from "../../../API-config";
+import AxiosAPI from "../../API/AxiosAPI";
+import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/forum`;
 
 const getForuns = async () => {
-  return axios
-    .get(url)
+  return AxiosAPI.get(url)
     .then((response) => response.data)
     .catch((error) => error);
 };

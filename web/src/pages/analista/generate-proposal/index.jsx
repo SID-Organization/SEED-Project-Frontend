@@ -30,6 +30,7 @@ import ProposalService from "../../../service/Proposal-Service";
 
 //Utils
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
+const { quillModules, quillStyle } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -65,18 +66,6 @@ const DateInput = styled(MuiTextField)({
     borderLeft: "3px solid #0075B1",
   },
 });
-
-const quillModules = {
-  toolbar: [
-    [{ header: [1, 2, 3, false] }],
-    [{ font: [] }],
-    ["bold", "italic", "underline", "strike"],
-    [{ color: [] }, { background: [] }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ align: [] }],
-    ["image", "link"],
-  ],
-};
 
 export default function GenerateProposal() {
   // STATES

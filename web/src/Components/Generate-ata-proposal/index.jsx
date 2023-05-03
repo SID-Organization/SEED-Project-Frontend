@@ -14,6 +14,7 @@ import ProposalCard from "../Proposal-card";
 
 // Utils
 import ReactQuillUtils from "../../utils/ReactQuill-Utils";
+const { quillModules } = ReactQuillUtils;
 
 export default function GenerateAtaProposal(props) {
   const [parecerComissao, setParecerComissao] = useState("");
@@ -53,18 +54,6 @@ export default function GenerateAtaProposal(props) {
   useEffect(() => {
     updateDecision();
   }, [parecerComissao, considerations, publicada, naoPublicada]);
-
-  const quillModules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      [{ font: [] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }],
-      ["image", "link"],
-    ],
-  };
 
   const style = { height: 100, width: 500 };
 

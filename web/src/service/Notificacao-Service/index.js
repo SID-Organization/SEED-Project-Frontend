@@ -1,32 +1,28 @@
-import axios from "axios";
-import apiConfig from "../../../API-config";
+import AxiosAPI from "../../API/AxiosAPI";
+import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/notificacao`;
 
 const getNotificacao = async () => {
-  return axios
-    .get(url)
+  return AxiosAPI.get(url)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const getNotificacaoById = async (id) => {
-  return axios
-    .get(`${url}/${id}`)
+  return AxiosAPI.get(`${url}/${id}`)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const postNotificacao = async (notificacao) => {
-  return axios
-    .post(url, notificacao)
+  return AxiosAPI.post(url, notificacao)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const deleteNotificacao = async (id) => {
-  return axios
-    .delete(`${url}/${id}`)
+  return AxiosAPI.delete(`${url}/${id}`)
     .then((response) => response.data)
     .catch((error) => error);
 };

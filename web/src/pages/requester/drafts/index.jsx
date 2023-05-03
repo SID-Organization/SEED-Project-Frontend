@@ -83,7 +83,7 @@ export default function drafts() {
   };
 
   const deleteAllDrafts = () => {
-    DemandService.deleteAllDemands().then((response) => {
+    DemandService.deleteAllDrafts(user.numeroCadastroUsuario).then((response) => {
       if (response.status === 200) {
         window.location.reload();
       }
@@ -164,7 +164,7 @@ export default function drafts() {
             </DialogActions>
           </Dialog>
           {/* FIM MODAL DELETAR TODOS OS RASCUNHOS */}
-          {demands.length > 0 && (
+          {demands && (
             <div className="mb-10 flex gap-10">
               <Button
                 onClick={handleClickOpenModalConfirmationDemand}
@@ -227,7 +227,7 @@ export default function drafts() {
         </div>
       }
       <div className="flex flex-wrap items-center justify-around">
-        {demands.length > 0 ? (
+        {demands ? (
           demands.map((demand) => (
             <DemandCard
               key={demand.idDemanda}

@@ -15,8 +15,6 @@ import { TextField } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-import { data } from "autoprefixer";
-
 // Services
 import LoginService from "../../service/Login-Service";
 
@@ -62,12 +60,13 @@ export default function Login(props) {
     }
 
     LoginService.login(userID, password)
-      .then((response) => {
-        if (response.status != 200) {
+      .then((res) => {
+        console.log("LOGIN RESPONSE", res)
+        if (res.status != 200) {
           setOpenNotification(true);
           return;
         }
-        return response.data;
+        return res.data;
       })
       .then((data) => {
         const loggedUser = {

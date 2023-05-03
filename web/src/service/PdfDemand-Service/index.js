@@ -1,11 +1,10 @@
-import axios from "axios";
-import apiConfig from "../../../API-config";
+import AxiosAPI from "../../API/AxiosAPI";
+import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/pdf-demanda`;
 
 const getPdfDemandByDemandId = async (demandId) => {
-    return axios
-        .get(`${url}/demanda/${demandId}`)
+    return AxiosAPI.get(`${url}/demanda/${demandId}`)
         .then((response) => response.data)
         .catch((error) => error);
 };

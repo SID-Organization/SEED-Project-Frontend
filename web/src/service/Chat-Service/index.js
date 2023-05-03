@@ -1,25 +1,22 @@
-import axios from "axios";
-import apiConfig from "../../../API-config";
+import AxiosAPI from "../../API/AxiosAPI";
+import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/chat`;
 
 const createChat = async (chat) => {
-  return axios
-    .post(url, chat)
+  return AxiosAPI.post(url, chat)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const getChatByUserId = async (id) => {
-  return axios
-    .get(`${url}/usuario/${id}`)
+  return AxiosAPI.get(`${url}/usuario/${id}`)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const getChatMessagesByChatId = async (id) => {
-  return axios
-    .get(`${url}/mensagem/${id}`)
+  return AxiosAPI.get(`${url}/mensagem/${id}`)
     .then((response) => response.data)
     .catch((error) => error);
 };
