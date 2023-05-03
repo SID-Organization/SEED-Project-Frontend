@@ -14,9 +14,11 @@ const config = {
 const AxiosAPI = {
     post: async (url, data, contentType) => {
 
-        if (contentType) config.headers["Content-Type"] = contentType;
-        
-        return axios.post(url, data, config)
+        let tempConfig = config;
+
+        if (contentType) tempConfig.headers["Content-Type"] = contentType;
+
+        return axios.post(url, data, tempConfig)
             .then(response => response)
             .catch(error => error);
     },

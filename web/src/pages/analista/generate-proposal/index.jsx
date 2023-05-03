@@ -30,7 +30,7 @@ import ProposalService from "../../../service/Proposal-Service";
 
 //Utils
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
-const { quillModules, quillStyle } = ReactQuillUtils;
+const { quillModules, formatQuillText } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -95,6 +95,7 @@ export default function GenerateProposal() {
     quillValueProposalMitigationPlan,
     setQuillValueProposalMitigationPlan,
   ] = useState("");
+
   const [quillValueProjectRange, setQuillValueProjectRange] = useState("");
 
   const quillValueRefEscopo = useRef(null);
@@ -203,23 +204,17 @@ export default function GenerateProposal() {
     });
   }
 
-  useEffect(() => {}, [internalCostCenterPayers]);
-
-  const handlePutProposal = async (finish) => {
+  const handlePutProposal = async (finish = false) => {
     const proposalToSave = {
-      escopoProposta: ReactQuillUtils.formatQuillText(textIsProposal),
-      naoFazParteDoEscopoProposta:
-        ReactQuillUtils.formatQuillText(textIsNotProposal),
+      escopoProposta: formatQuillText(textIsProposal),
+      naoFazParteDoEscopoProposta: formatQuillText(textIsNotProposal),
       paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
-      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(
-        textProposalAlternatives
-      ),
-      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(
-        textProposalMitigationPlan
-      ),
+      alternativasAvaliadasProposta: formatQuillText(textProposalAlternatives),
+      planoMitigacaoProposta: formatQuillText(textProposalMitigationPlan),
+      abrangenciaProjetoProposta: formatQuillText(textProjectRange),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
       custosInternosDoProjeto: sumInternalCosts(),
@@ -244,6 +239,7 @@ export default function GenerateProposal() {
       naoFazParteDoEscopoPropostaHTML: quillValueIsNotEscopoPart,
       alternativasAvaliadasPropostaHTML: quillValueProposalAlternatives,
       planoMitigacaoPropostaHTML: quillValueProposalMitigationPlan,
+      abrangenciaProjetoPropostaHTML: quillValueProjectRange,
       proposta: { idProposta: proposal.idProposta },
     };
 
@@ -252,13 +248,16 @@ export default function GenerateProposal() {
     formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
     formData.append("pdfPropostaForm", JSON.stringify(pdfProposal));
 
-    ProposalService.updateProposal(formData, proposal.idProposta).then(
-      (res) => {
-        if (finish && res.status == 200) {
-          DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
-        }
-      }
-    );
+
+    console.log("Proposal", proposalToSave);
+    console.log("PDF", pdfProposal);
+
+    // ProposalService.updateProposal(formData, proposal.idProposta)
+    //   .then(res => {
+    //     if ((finish === true) && res.status == 200) {
+    //       DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+    //     }
+    //   });
   };
 
   return (
@@ -444,6 +443,7 @@ export default function GenerateProposal() {
               </p>
               <ReactQuill
                 value={quillValueProposalAlternatives}
+                placeholder="Escreva aqui as alternativas avaliadas da proposta"
                 onChange={(e) => {
                   setQuillValueProposalAlternatives(e);
                   const txt = quillValueRefProposalAlternatives.current
@@ -462,6 +462,7 @@ export default function GenerateProposal() {
               </p>
               <ReactQuill
                 value={quillValueProjectRange}
+                placeholder="Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."
                 onChange={(e) => {
                   setQuillValueProjectRange(e);
                   const txt = quillValueRefProposalAlternatives.current
@@ -480,6 +481,7 @@ export default function GenerateProposal() {
               </p>
               <ReactQuill
                 value={quillValueProposalMitigationPlan}
+                placeholder="Escreva aqui os principais riscos e o plano de mitigação"
                 onChange={(e) => {
                   setQuillValueProposalMitigationPlan(e);
                   const txt = quillValueRefProposalMitigationPlan.current
