@@ -48,6 +48,7 @@ function App() {
               path="demandas"
               element={<DemandsPage DemandType={DemandType.DEMAND} />}
             />
+
             <Route
               path="gerenciar-demandas"
               element={<DemandsPage DemandType={DemandType.MANAGER} />}
