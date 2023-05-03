@@ -450,7 +450,7 @@ export default function PrimarySearchAppBar() {
   }, [temporaryMessages]);
 
   useEffect(() => {
-    if (chatUsers.length > 0) {
+    if (chatUsers) {
       setUsers(
         chatUsers.map((user) => ({
           picture: user.fotoAnalista,

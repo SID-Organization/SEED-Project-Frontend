@@ -145,7 +145,7 @@ export default function DemandCard(props) {
       codigoPPMProposta: ppmCode,
       periodoExecucaoInicioProposta: startDevDate,
       periodoExecucaoFimProposta: deadLineDate,
-      linkJiraProposta: "https://jira.com/sid",
+      linkJiraProposta: jiraLink,
       responsaveisNegocio: demandLogs
         .filter((logs, index) => {
           return (
@@ -162,7 +162,10 @@ export default function DemandCard(props) {
       demandaProposta: { idDemanda: props.demand.idDemanda },
     };
 
+    console.log(proposal)
+
     ProposalService.createProposal(proposal).then((response) => {
+      console.log("RESPONSE CREATE PROPOSAL", response);
       if (response.status === 201) {
         DemandService.updateDemandStatus(
           props.demand.idDemanda,
@@ -384,7 +387,7 @@ export default function DemandCard(props) {
                 </Typography>
                 <Typography color="black" fontWeight="bold" className="flex">
                   <span className="ml-2 text-[0.85rem]">
-                    {firstLog && firstLog}
+                    {firstLog ? firstLog : "- - - -"}
                   </span>
                 </Typography>
               </div>

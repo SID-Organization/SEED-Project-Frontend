@@ -4,9 +4,6 @@ const config = {
     withCredentials: true,
     headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     }
 };
 
@@ -14,7 +11,7 @@ const config = {
 const AxiosAPI = {
     post: async (url, data, contentType) => {
 
-        let tempConfig = config;
+        let tempConfig = { ...config };
 
         if (contentType) tempConfig.headers["Content-Type"] = contentType;
 
@@ -31,7 +28,7 @@ const AxiosAPI = {
 
     put: async (url, data, contentType) => {
 
-        let tempConfig = config;
+        let tempConfig = { ...config };
 
         if (contentType) tempConfig.headers["Content-Type"] = contentType;
 

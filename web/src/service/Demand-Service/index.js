@@ -21,7 +21,9 @@ const updateBenefitedBUs = async (demandId, updatedDemand) => {
 
 const updateDemandStatus = async (demandId, newStatus) => {
   const status = { statusDemanda: newStatus };
-  return AxiosAPI.put(`${url}/status/${demandId}`, status);
+  const contentType = "application/json";
+
+  return AxiosAPI.put(`${url}/status/${demandId}`, status, contentType);
 };
 
 const deleteDemand = async (id) => {

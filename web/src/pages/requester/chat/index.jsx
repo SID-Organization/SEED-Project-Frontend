@@ -200,7 +200,7 @@ export default function Chat() {
   const [userCard, setUserCard] = useState();
 
   useEffect(() => {
-    if (chatUsers.length > 0) {
+    if (chatUsers) {
       setChatUsers(
         chatUsers.map((user) => ({
           picture: user.fotoAnalista,
