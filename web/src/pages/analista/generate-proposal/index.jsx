@@ -9,10 +9,8 @@ import "react-quill/dist/quill.snow.css";
 import {
   Button,
   CircularProgress,
-  IconButton,
   InputAdornment,
   TextField,
-  Tooltip,
 } from "@mui/material";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
@@ -21,7 +19,6 @@ import { styled } from "@mui/material/styles";
 import DemandCard from "../../../Components/Demand-card";
 import FilesTable from "../../../Components/FilesTable";
 import CostTable from "../../../Components/Center-cost-components/Cost-table";
-import CostTableRow from "../../../Components/Center-cost-components/Cost-table-rows";
 import CostCenterPayers from "../../../Components/Center-cost-components/Cost-center-payers";
 
 // Service
@@ -252,12 +249,12 @@ export default function GenerateProposal() {
     console.log("Proposal", proposalToSave);
     console.log("PDF", pdfProposal);
 
-    // ProposalService.updateProposal(formData, proposal.idProposta)
-    //   .then(res => {
-    //     if ((finish === true) && res.status == 200) {
-    //       DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
-    //     }
-    //   });
+    ProposalService.updateProposal(formData, proposal.idProposta)
+      .then(res => {
+        if ((finish === true) && res.status == 200) {
+          DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+        }
+      });
   };
 
   return (

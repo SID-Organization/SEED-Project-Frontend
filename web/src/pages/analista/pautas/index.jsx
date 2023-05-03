@@ -20,6 +20,7 @@ export default function Pautas() {
 
   useEffect(() => {
     PautaService.getPautas().then((data) => {
+      if(!data) return;
       let pautas = data.map(pauta => ({...pauta, dataReuniao: DateUtils.formatDate(pauta.dataReuniao)}))
       setPautas(pautas);
     });
@@ -80,7 +81,7 @@ export default function Pautas() {
             {pautasMonths.map((month) => (
               <>
                 {
-                  getPautasInMonth(month, year).length > 0 &&
+                  getPautasInMonth(month, year) &&
                   <div>
                     <h1 className=" text-xl font-bold text-dark-blue-weg " >
                       {months[month] +

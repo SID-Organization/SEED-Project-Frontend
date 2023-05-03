@@ -40,7 +40,7 @@ const style = {
   p: 4,
 };
 
-const htmlDivStyle = "border-1 h-20 w-[65rem] resize-none rounded-[0.5rem] p-2 text-justify font-roboto font-medium text-black outline-dark-blue-weg bg-gray-100"
+const htmlDivStyle = "border-1 h-20 w-[65rem] resize-none rounded-[0.5rem] p-2 text-justify font-roboto font-medium text-black outline-dark-blue-weg bg-gray-50"
 
 export default function openedDemand() {
   const params = useParams();
@@ -56,10 +56,7 @@ export default function openedDemand() {
 
   const [open, setOpen] = useState(false);
   const [isEditEnabled, setIsEditEnabled] = useState(true);
-
-  const [currentSituation, setCurrentSituation] = useState();
-  const [proposal, setProposal] = useState();
-  const [usageFrequency, setUsageFrequency] = useState();
+  
   const [qualitativeBenefit, setQualitativeBenefit] = useState();
 
   useEffect(() => {
@@ -102,9 +99,6 @@ export default function openedDemand() {
   useEffect(() => {
     if (demand) {
       setFileRows(demand.arquivosDemandas);
-      setCurrentSituation(demand.situacaoAtualDemanda);
-      setProposal(demand.propostaMelhoriaDemanda);
-      setUsageFrequency(demand.frequenciaUsoDemanda);
       setQualitativeBenefit(demand.descricaoQualitativoDemanda);
     }
   }, [demand]);
@@ -315,9 +309,7 @@ export default function openedDemand() {
               </h1>
               <div
                 contentEditable={false}
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2
-                text-justify font-roboto font-medium text-black outline-dark-blue-weg bg-gray-100"
+                className={htmlDivStyle}
                 dangerouslySetInnerHTML={{ __html: demandHTML?.propostaMelhoriaDemandaHTML }}
               >
               </div>

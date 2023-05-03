@@ -8,7 +8,10 @@ const createProposal = async (proposal) => {
 };
 
 const updateProposal = async (proposal, proposalId) => {
-  return AxiosAPI.put(`${url}/${proposalId}`, proposal)
+  
+  const contentType = "multipart/form-data";
+
+  return AxiosAPI.put(`${url}/${proposalId}`, proposal, contentType)
     .then((response) => response)
     .catch((error) => error);
 };
