@@ -168,6 +168,10 @@ export default function DemandsPage(props) {
   //DRAFT THINGS
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
     useState(false);
+  const [
+    openModalConfirmationSelectedDemand,
+    setOpenModalConfirmationSelectedDemand,
+  ] = useState(false);
 
   const ButtonAddSelected = styled(MuiButton)({
     backgroundColor: "#FFF",
@@ -200,6 +204,13 @@ export default function DemandsPage(props) {
 
   const handleCloseModalConfirmationDemand = () => {
     setOpenModalConfirmationDemand(false);
+  };
+  const handleClickOpenModalConfirmationSelectedDemand = () => {
+    setOpenModalConfirmationSelectedDemand(true);
+  };
+
+  const handleCloseModalConfirmationSelectedDemand = () => {
+    setOpenModalConfirmationSelectedDemand(false);
   };
 
   const deleteSelectedDrafts = () => {
@@ -238,7 +249,17 @@ export default function DemandsPage(props) {
         <div className="flex w-full flex-wrap justify-around gap-4">
           {showingDemandsPaginated &&
             showingDemandsPaginated.map((demand, i) => {
-              return <DemandCard key={i} demand={demand} />;
+              if (demandType == DemandType.DRAFT) {
+                return (
+                  <DemandCard
+                    key={i}
+                    demand={demand}
+                    setSelectedDrafts={setSelectedDrafts}
+                  />
+                );
+              } else {
+                return <DemandCard key={i} demand={demand} />;
+              }
             })}
         </div>
         <div className="mt-4 flex w-full justify-center">
@@ -343,6 +364,77 @@ export default function DemandsPage(props) {
             </DialogActions>
           </Dialog>
           {/* FIM MODAL DELETAR TODOS OS RASCUNHOS */}
+          {/* MODAL CONFIRM DELETE SELECTED DRAFTS */}
+          <Dialog
+            open={openModalConfirmationSelectedDemand}
+            onClose={handleCloseModalConfirmationSelectedDemand}
+            sx={{
+              "& .MuiDialog-paper": {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "23rem",
+                height: "15rem",
+                backgroundColor: "#fff",
+                boxShadow: 0,
+                borderRadius: 2,
+              },
+            }}
+          >
+            <div className="grid items-center justify-center">
+              <div className="flex items-center justify-center">
+                <WarningAmberRoundedIcon
+                  sx={{
+                    fontSize: "5rem",
+                    color: "#0075B1",
+                  }}
+                />
+              </div>
+              <DialogTitle style={{ color: "#0075B1" }}>
+                <p
+                  className="
+                  text-center
+                "
+                >
+                  Têm certeza que deseja deletar{" "}
+                  {selectedDrafts.length > 1
+                    ? "esses rascunhos?"
+                    : "esse rascunho?"}
+                </p>
+              </DialogTitle>
+            </div>
+            <DialogActions>
+              <div className="flex gap-5">
+                <Button
+                  autoFocus
+                  onClick={handleCloseModalConfirmationSelectedDemand}
+                  sx={{
+                    backgroundColor: "#C2BEBE",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#C2BEBE",
+                    },
+                  }}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={deleteSelectedDrafts}
+                  sx={{
+                    backgroundColor: "#0075B1",
+                    height: "2.5rem",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#0075B1",
+                    },
+                  }}
+                >
+                  Deletar
+                </Button>
+              </div>
+            </DialogActions>
+          </Dialog>
+          {/* FIM MODAL DELETAR TODOS OS RASCUNHOS SELECIONADOS */}
           {dbDemands && dbDemands.length > 0 && (
             <div className="mb-10 flex gap-10">
               <Button
@@ -372,15 +464,14 @@ export default function DemandsPage(props) {
               </Button>
               {selectedDrafts.length > 0 && (
                 <Fade
-                  in={selectedDrafts.length > 0}
-                  unmountOnExit
+                  in={true}
                   sx={{
                     transitionDelay:
                       selectedDrafts.length > 0 ? "500ms" : "0ms",
                   }}
                 >
                   <ButtonAddSelected
-                    onClick={deleteSelectedDrafts}
+                    onClick={handleClickOpenModalConfirmationSelectedDemand}
                     variant="contained"
                     color="primary"
                     size="large"
