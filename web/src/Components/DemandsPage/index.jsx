@@ -1,26 +1,14 @@
 import { useEffect, useState } from "react";
-import "../../../styles/index.css";
+import DemandType from "./DemandType-ENUM";
 
-// Components
-import SubHeader from "../../../Components/Sub-header";
-import NoDemands from "../../../Components/No-demands";
-import DemandCard from "../../../Components/Demand-card";
-import DemandsList from "../../../Components/Demand-card-list";
-import DemandService from "../../../service/Demand-Service";
+//Services
+import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../../service/DemandLog-Service";
-
-// Utils
-import UserUtils from "../../../utils/User-Utils";
+import DemandCard from "../Demand-card";
 import { Pagination } from "@mui/material";
+import DemandsList from "../Demand-card-list";
 
-export default function homeDemands() {
-  /*
-    Estão sendo utilizadas 3 variáveis para armazenar as demandas:
-    - dbDemands: armazena as demandas que foram buscadas no banco de dados
-    - demands: armazena as demandas com o histórico de workflow
-    - showingDemands: armazena as demandas que serão mostradas na tela (Já filtradas ou ordenadas)
-  */
-
+export default function DemandsPage(props) {
   const [isListFormat, setIsListFormat] = useState(false);
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
@@ -38,12 +26,34 @@ export default function homeDemands() {
   const firstIndex = lastIndex - demandsPerPage; // Primeiro índice das demandas a serem mostradas
 
   useEffect(() => {
-    DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
-      (demands) => {
-        console.log("Demands carregadas:", demands);
-        setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
-      }
-    );
+    if (props.DemandType == DemandType.DEMAND) {
+      DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
+        (demands) => {
+          console.log("Demands carregadas:", demands);
+          setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
+        }
+      );
+    } else if (props.DemandType == DemandType.DRAFT) {
+      DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then(
+        (demands) => {
+          console.log("Demands carregadas:", demands);
+          setDbDemands(demands.filter((d) => d.statusDemanda == "RASCUNHO"));
+        }
+      );
+    } else {
+      DemandService.getDemandsToManage(
+        user.numeroCadastroUsuario,
+        user.cargoUsuario
+      ).then((data) => {
+        let demandsToManage = data;
+        if (user.cargoUsuario === "GERENTE") {
+          demandsToManage = demandsToManage.filter(
+            (item) => item.statusDemanda === "CLASSIFICADO_PELO_ANALISTA"
+          );
+        }
+        setDbDemands(demandsToManage);
+      });
+    }
   }, []);
 
   useEffect(() => {
