@@ -129,7 +129,10 @@ export default function NewBenefitInsertion(props) {
                 }}
                 maxRows={1}
                 value={value}
-                onChange={(e) => setValue(Number(e.target.value))}
+                onChange={(e) => {
+                  if (e.target.value.match(/^[0-9]*$/))
+                    setValue(Number(e.target.value))
+                }}
               />
               <Box sx={{ minWidth: 100 }}>
                 <FormControl fullWidth>

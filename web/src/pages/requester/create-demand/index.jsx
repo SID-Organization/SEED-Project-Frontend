@@ -76,7 +76,7 @@ export default function CreateDemand() {
 
   const [demandUpdateId, setDemandUpdateId] = useState("");
 
-  const [createDemandSucceed, setCreateDemandSucceed] = useState(false);
+  const [createDemandSucceed, setCreateDemandSucceed] = useState(true);
 
   useEffect(() => {
     if (params.id) {
@@ -264,6 +264,7 @@ export default function CreateDemand() {
           });
         }
       } else {
+        console.log("FINISH DEMAND CALLED")
         handleFinishDemand(formData);
       }
 
@@ -311,7 +312,7 @@ export default function CreateDemand() {
     if (createDemandSucceed === true) {
       setTimeout(() => {
         navigate("/demandas");
-      }, 3000);
+      }, 1000);
     }
   };
 

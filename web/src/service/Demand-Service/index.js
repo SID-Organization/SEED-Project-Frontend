@@ -4,7 +4,7 @@ import apiConfig from "../../API/API-config";
 const url = `${apiConfig.URL}/demanda`;
 
 const createDemand = async (demand) => {
-  const contentType = "application/x-www-form-urlencoded";
+  const contentType = "multipart/form-data";
 
   return AxiosAPI.post(url, demand, contentType)
     .then((response) => response.data)
