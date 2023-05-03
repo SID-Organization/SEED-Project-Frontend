@@ -140,7 +140,7 @@ export default function Proposals() {
         }
       </div>
       <div className=" flex flex-col items-center justify-center gap-8">
-        {proposals.length > 0 &&
+        {proposals &&
           proposals.map((proposal, i) => (
             <ProposalCard
               key={i}
