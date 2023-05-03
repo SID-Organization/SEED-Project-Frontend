@@ -1,4 +1,5 @@
-import Cookie from "js-cookie";
+
+import CookieUtils from "../Cookie-Utils"
 
 const getLoggedUser = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -15,8 +16,13 @@ const getUserRole = () => {
   return user.cargoUsuario;
 };
 
-const getUserCookie = () => {
-  const user = Cookie.get("user");
+const logUserOut = () => {
+  localStorage.removeItem("user");
+  CookieUtils.removeAllCookies();
+};
+
+const getUserFromCookie = () => {
+  const user = CookieUtils.getUserCookie();
   return user;
 };
 
@@ -24,5 +30,6 @@ export default {
   getLoggedUser,
   getLoggedUserId,
   getUserRole,
-  getUserCookie,
+  logUserOut,
+  getUserFromCookie,
 };

@@ -37,6 +37,7 @@ export default function homeDemands() {
   const lastIndex = currentPage * demandsPerPage; // Último índice das demandas a serem mostradas
   const firstIndex = lastIndex - demandsPerPage; // Primeiro índice das demandas a serem mostradas
 
+
   useEffect(() => {
     DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
       (demands) => {

@@ -26,7 +26,7 @@ import DemandType from "./Components/DemandsPage/DemandType-ENUM";
 
 // Utils
 import UserUtils from "./utils/User-Utils";
-import DemandsPage from "./Components/DemandsPage";
+// import DemandsPage from "./Components/DemandsPage";
 
 function App() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
@@ -44,7 +44,7 @@ function App() {
             path="/"
             element={user ? <Layout /> : <Navigate to={"/login"} />}
           >
-            <Route
+            {/* <Route
               path="demandas"
               element={<DemandsPage DemandType={DemandType.DEMAND} />}
             />
@@ -55,8 +55,9 @@ function App() {
             <Route
               path="rascunhos"
               element={<DemandsPage DemandType={DemandType.DRAFT} />}
-            />
-            {/* <Route path="rascunhos" element={<Drafts />} /> */}
+            /> */}
+            <Route path="demandas" element={<HomeDemands />} />
+            <Route path="rascunhos" element={<Drafts />} />
             <Route path="demandas/:id" element={<OpenedDemand />} />
             <Route path="list" element={<DemandCardList />} />
             <Route path="nova-demanda" element={<CreateDemand />} />
@@ -67,7 +68,7 @@ function App() {
               element={<GenerateProposal />}
             />
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
-            {/* <Route path="gerenciar-demandas" element={<DemandManager />} /> */}
+            <Route path="gerenciar-demandas" element={<DemandManager />} />
             <Route path="pautas" element={<Pautas />} />
             <Route path="atas" element={<Atas />} />
             <Route path="propostas" element={<Proposals />} />

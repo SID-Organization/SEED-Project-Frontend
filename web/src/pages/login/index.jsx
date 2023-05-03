@@ -17,6 +17,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 
 // Services
 import LoginService from "../../service/Login-Service";
+import UserUtils from "../../utils/User-Utils";
 
 
 export default function Login(props) {
@@ -66,21 +67,10 @@ export default function Login(props) {
           setOpenNotification(true);
           return;
         }
-        return res.data;
       })
-      .then((data) => {
-        const loggedUser = {
-          numeroCadastroUsuario: data.numeroCadastroUsuario,
-          businessUnity: data.businessUnity,
-          cargoUsuario: data.cargoUsuario,
-          departamentoUsuario: data.departamentoUsuario,
-          emailUsuario: data.emailUsuario,
-          fotoUsuario: data.fotoUsuario,
-          nomeUsuario: data.nomeUsuario
-        };
-        localStorage.setItem(
-          "user",
-          JSON.stringify(loggedUser)
+      .then(() => {
+        const loggedUser = UserUtils.getUserFromCookie();
+        localStorage.setItem("user", JSON.stringify(loggedUser)
         );
         props.setUser(loggedUser);
       });
