@@ -12,7 +12,9 @@ const createDemand = async (demand) => {
 };
 
 const updateDemand = async (demandId, updatedDemand) => {
-  return AxiosAPI.put(`${url}/${demandId}`, updatedDemand)
+  const contentType = "multipart/form-data";
+
+  return AxiosAPI.put(`${url}/${demandId}`, updatedDemand, contentType)
 };
 
 const updateBenefitedBUs = async (demandId, updatedDemand) => {
@@ -67,12 +69,6 @@ const getDraftDemands = async () => {
     .catch((error) => error);
 };
 
-const getDemandPDF = async (id) => {
-  return AxiosAPI.get(`${url}/pdf/${id}`)
-    .then((response) => response.data)
-    .catch((error) => error);
-};
-
 const getDemandsByStatus = async (status) => {
   return AxiosAPI.get(`${url}/statusDemanda/${status}`)
     .then((response) => response.data)
@@ -114,7 +110,6 @@ export default {
   getDemandById,
   getDemandsTitleAndStatus,
   getDraftDemands,
-  getDemandPDF,
   getDemandsByStatus,
   getDemandsByRequestorId,
   getDemandsToManage,

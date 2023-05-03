@@ -9,12 +9,14 @@ const createDemandLog = async (demandLog) => {
 
 const getDemandLogs = async (demandId) => {
   return AxiosAPI.get(`${url}/demanda/${demandId}`)
-  .then(res => res.data)
-  .catch(err => err);
+    .then(res => res)
+    .catch(err => err);
 };
 
 const getDemandFirstLog = async (demandId) => {
-  return getDemandLogs(demandId)[0];
+  return getDemandLogs(demandId)
+    .then(res => res.data[0])
+    .catch(err => err);
 };
 
 export default {

@@ -105,13 +105,13 @@ export default function CreateDemand() {
     DemandService.getDemandById(params.id).then((response) => {
       PdfDemandService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
         setProposalHTML(
-          pdfResponse[pdfResponse.length - 1].propostaMelhoriaDemandaHTML
+          pdfResponse.propostaMelhoriaDemandaHTML
         );
         setCurrentProblemHTML(
-          pdfResponse[pdfResponse.length - 1].situacaoAtualDemandaHTML
+          pdfResponse.situacaoAtualDemandaHTML
         );
         setFrequencyOfUseHTML(
-          pdfResponse[pdfResponse.length - 1].frequenciaUsoDemandaHTML
+          pdfResponse.frequenciaUsoDemandaHTML
         );
       });
       setTitle(response.tituloDemanda);

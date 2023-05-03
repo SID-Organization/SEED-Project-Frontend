@@ -102,20 +102,19 @@ export default function DemandCard(props) {
   const handleOpenModalDeleteDraft = () => setOpen(true);
   const handleCloseModalDeleteDraft = () => setOpen(false);
 
-  const getFirstLog = async () => {
-    DemandLogService.getDemandLogs(props.demand.idDemanda).then((data) => {
-      setDemandLogs(data);
-      if (data && data.length > 0) {
-        let firstLog = new Date(
-          data[0].recebimentoHistorico
-        ).toLocaleDateString();
+  const getLogs = async () => {
+    DemandLogService.getDemandLogs(props.demand.idDemanda).then((res) => {
+      if (res.data) {
+        setDemandLogs(res.data);
+
+        let firstLog = new Date(res.data[0].recebimentoHistorico).toLocaleDateString();
         setFirstLog(firstLog);
       }
     });
   };
 
   useEffect(() => {
-    getFirstLog();
+    getLogs();
   }, []);
 
   const handleOpenReasonOfCancellation = () =>
@@ -409,7 +408,7 @@ export default function DemandCard(props) {
                     <Tooltip
                       title={
                         props.demand.statusDemanda ===
-                        "APROVADO_PELO_GERENTE_DA_AREA"
+                          "APROVADO_PELO_GERENTE_DA_AREA"
                           ? "Gerar proposta"
                           : "Acessar proposta"
                       }
@@ -417,7 +416,7 @@ export default function DemandCard(props) {
                       <Button
                         onClick={
                           props.demand.statusDemanda ===
-                          "APROVADO_PELO_GERENTE_DA_AREA"
+                            "APROVADO_PELO_GERENTE_DA_AREA"
                             ? handleOpenGenerateProposal
                             : handleAccessProposal
                         }

@@ -20,6 +20,7 @@ import FilesTable from "../../../Components/FilesTable";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
+import PdfDemandService from "../../../service/PdfDemand-Service";
 import DemandLogService from "../../../service/DemandLog-Service";
 import ChatService from "../../../service/Chat-Service";
 
@@ -39,6 +40,8 @@ const style = {
   p: 4,
 };
 
+const htmlDivStyle = "border-1 h-20 w-[65rem] resize-none rounded-[0.5rem] p-2 text-justify font-roboto font-medium text-black outline-dark-blue-weg bg-gray-100"
+
 export default function openedDemand() {
   const params = useParams();
   const navigate = useNavigate();
@@ -48,7 +51,7 @@ export default function openedDemand() {
   // const [demand, setDemand] = useState<DemandInterface>();
   // Changed to <any> to avoid errors
   const [demand, setDemand] = useState();
-
+  const [demandHTML, setDemandHTML] = useState();
   const [demandLogs, setDemandLogs] = useState();
 
   const [open, setOpen] = useState(false);
@@ -62,11 +65,14 @@ export default function openedDemand() {
   useEffect(() => {
     if (params.id) {
       DemandService.getDemandById(params.id).then((demand) => {
-        console.log("DEMAND", demand);
         setDemand(demand);
+        PdfDemandService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
+          setDemandHTML(pdfResponse);
+          console.log("HTML da demanda: ", pdfResponse);
+        });
       });
       DemandLogService.getDemandLogs(params.id).then((res) => {
-        if(res.status != 200) return console.log("Error getting demand logs\n", res);
+        if (res.status != 200) return console.log("Error getting demand logs\n", res);
         setDemandLogs(res.data);
       });
     }
@@ -89,6 +95,8 @@ export default function openedDemand() {
   const handleClose = () => setOpen(false);
 
   const [fileRows, setFileRows] = useState();
+
+
 
   // Seta os arquivos da demanda no estado
   useEffect(() => {
@@ -176,8 +184,8 @@ export default function openedDemand() {
                       <span className="font-normal">
                         {demandLogs
                           ? new Date(
-                              demandLogs[0].recebimentoHistorico
-                            ).toLocaleDateString()
+                            demandLogs[0].recebimentoHistorico
+                          ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>
@@ -291,10 +299,10 @@ export default function openedDemand() {
             <h1 className="font-roboto text-sm">
               {demand?.centroCustoDemanda[0]
                 ? (
-                    demand.centroCustoDemanda[0].numeroCentroCusto +
-                    " - " +
-                    demand.centroCustoDemanda[0].nomeCentroCusto
-                  ).slice(0, 40)
+                  demand.centroCustoDemanda[0].numeroCentroCusto +
+                  " - " +
+                  demand.centroCustoDemanda[0].nomeCentroCusto
+                ).slice(0, 40)
                 : "Não indicado"}
             </h1>
           </div>
@@ -305,41 +313,37 @@ export default function openedDemand() {
               <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Objetivo:
               </h1>
-              <textarea
+              <div
+                contentEditable={false}
                 className="border-1 h-20 w-[65rem] resize-none
                 rounded-[0.5rem] p-2
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                disabled={isEditEnabled}
-                value={proposal}
-                onChange={(e) => setProposal(e.target.value)}
-              />
+                text-justify font-roboto font-medium text-black outline-dark-blue-weg bg-gray-100"
+                dangerouslySetInnerHTML={{ __html: demandHTML?.propostaMelhoriaDemandaHTML }}
+              >
+              </div>
             </div>
             <div className="grid items-center justify-center">
               <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Situação atual:
               </h1>
-              <textarea
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                disabled={isEditEnabled}
-                value={currentSituation}
-                onChange={(e) => setCurrentSituation(e.target.value)}
-              />
+              <div
+                contentEditable={false}
+                className={htmlDivStyle}
+                dangerouslySetInnerHTML={{ __html: demandHTML?.situacaoAtualDemandaHTML }}
+              >
+              </div>
             </div>
 
             <div className="grid items-center justify-center">
               <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Frequência de uso:
               </h1>
-              <textarea
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                disabled={isEditEnabled}
-                value={usageFrequency}
-                onChange={(e) => setUsageFrequency(e.target.value)}
-              />
+              <div
+                contentEditable={false}
+                className={htmlDivStyle}
+                dangerouslySetInnerHTML={{ __html: demandHTML?.frequenciaUsoDemandaHTML }}
+              >
+              </div>
             </div>
             <div className="grid items-center justify-center">
               <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
