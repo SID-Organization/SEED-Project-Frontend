@@ -46,16 +46,26 @@ function App() {
           >
             <Route
               path="demandas"
-              element={<DemandsPage DemandType={DemandType.DEMAND} />}
+              element={
+                <DemandsPage key="demandas" DemandType={DemandType.DEMAND} />
+              }
             />
 
             <Route
               path="gerenciar-demandas"
-              element={<DemandsPage DemandType={DemandType.MANAGER} />}
+              element={
+                <DemandsPage
+                  key="gerenciar-demandas"
+                  DemandType={DemandType.MANAGER}
+                />
+              }
             />
+
             <Route
               path="rascunhos"
-              element={<DemandsPage DemandType={DemandType.DRAFT} />}
+              element={
+                <DemandsPage key="rascunhos" DemandType={DemandType.DRAFT} />
+              }
             />
             {/* <Route path="rascunhos" element={<Drafts />} /> */}
             <Route path="demandas/:id" element={<OpenedDemand />} />
