@@ -60,7 +60,7 @@ export default function DemandsPage(props) {
   //   showingDemands ? showingDemands.slice(firstIndex, lastIndex) : []
   // ); // Fatiamento das demandas
 
-  const [showingDemandsPaginated, setShowingDemandsPaginated] = useState([]);
+  // const [showingDemandsPaginated, setShowingDemandsPaginated] = useState([]);
 
   useEffect(() => {
     setDemandType(props.DemandType);
@@ -123,12 +123,6 @@ export default function DemandsPage(props) {
       }
     }
   }, [filter, demandsWLogs]);
-
-  useEffect(() => {
-    if (showingDemands) {
-      setShowingDemandsPaginated(showingDemands.slice(firstIndex, lastIndex));
-    }
-  }, [showingDemands]);
 
   const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands.map(async (demand) => {
@@ -239,6 +233,9 @@ export default function DemandsPage(props) {
   }
 
   function getDemandsGrid() {
+    const showingDemandsPaginated = showingDemands
+      ? showingDemands.slice(firstIndex, lastIndex)
+      : [];
     const handleChangePage = (event, value) => {
       // Função para alterar a página atual
       setCurrentPage(value);
