@@ -701,6 +701,7 @@ export default function DemandCard(props) {
                       </DialogTitle>
                       <div className="flex items-center justify-center gap-5">
                         <Button
+                          onClick={handleCloseModalDeleteDraft}
                           autoFocus
                           sx={{
                             backgroundColor: "#C2BEBE",

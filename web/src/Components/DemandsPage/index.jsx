@@ -259,8 +259,8 @@ export default function DemandsPage(props) {
               }
             })}
         </div>
-        <div className="mt-4 flex w-full justify-center">
-          {showingDemands.length > 0 && (
+        <div className="flex w-full justify-center">
+          {showingDemands && showingDemands.length > 0 && (
             <Pagination
               count={Math.ceil(showingDemands?.length / demandsPerPage)}
               page={currentPage}
