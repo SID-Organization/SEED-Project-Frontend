@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 // Tools
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { toast } from "react-hot-toast";
 
 // MUI
 import {
@@ -183,25 +184,61 @@ export default function GenerateProposal() {
 
   function formatCosts(costs) {
     return costs.map((cost) => {
-      return {
+      const tempCost = {
         perfilDespesaTabelaCustoLinha: cost.expenseProfile,
         periodoExecucaoTabelaCusto: parseInt(cost.monthTimeExecution),
         valorHoraTabelaCusto: parseInt(cost.costHour),
         quantidadeHorasTabelaCusto: parseInt(cost.necessaryHours),
       };
-    });
+
+      if (Object.values(tempCost).includes("") || Object.values(tempCost).includes(0)) {
+        return null;
+      }
+
+      return tempCost;
+    }).filter(item => item != null);
   }
 
   function formatCCPS(CCPS) {
     return CCPS.map((ccp) => {
-      return {
+      const tempCcp = {
         centroCusto: { idCentroCusto: ccp.costCenter },
         porcentagemDespesa: ccp.percentage,
       };
-    });
+
+      if (tempCcp.centroCusto.idCentroCusto === "" || tempCcp.porcentagemDespesa === 0) {
+        return null;
+      }
+
+      return tempCcp;
+    }).filter(item => item != null);
   }
 
   const handlePutProposal = async (finish = false) => {
+
+
+    const tabelaCustoInterno = {
+      tipoDespesa: "INTERNA",
+      tabelaCustoLinha: formatCosts(internalCosts),
+      centroCustoTabelaCusto: formatCCPS(internalCostCenterPayers),
+    }
+
+    const tabelaCustoExterno = {
+      tipoDespesa: "EXTERNA",
+      tabelaCustoLinha: formatCosts(externalCosts),
+      centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
+    }
+
+    if((tabelaCustoInterno.tabelaCustoLinha.length === 0 && tabelaCustoInterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoExterno.tabelaCustoLinha.length > 0 && tabelaCustoExterno.centroCustoTabelaCusto.length === 0)) {
+      toast.error("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
+      return;
+    }
+
+    if((tabelaCustoExterno.tabelaCustoLinha.length === 0 && tabelaCustoExterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoInterno.tabelaCustoLinha.length > 0 && tabelaCustoInterno.centroCustoTabelaCusto.length === 0)) {
+      toast.error("Preencha todos os campos de custo externo ( tabela de custo e centro de custo )");
+      return;
+    }
+
     const proposalToSave = {
       escopoProposta: formatQuillText(textIsProposal),
       naoFazParteDoEscopoProposta: formatQuillText(textIsNotProposal),
@@ -218,16 +255,8 @@ export default function GenerateProposal() {
       custosExternosDoProjeto: sumExternalCosts(),
       custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
       tabelaCusto: [
-        {
-          tipoDespesa: "INTERNA",
-          tabelaCustoLinha: formatCosts(internalCosts),
-          centroCustoTabelaCusto: formatCCPS(internalCostCenterPayers),
-        },
-        {
-          tipoDespesa: "EXTERNA",
-          tabelaCustoLinha: formatCosts(externalCosts),
-          centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
-        },
+        tabelaCustoInterno,
+        tabelaCustoExterno,
       ],
     };
 
