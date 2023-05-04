@@ -5,7 +5,7 @@ import DemandType from "./DemandType-ENUM";
 import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../service/DemandLog-Service";
 import DemandCard from "../Demand-card";
-import { Fade, Pagination } from "@mui/material";
+import { Box, CircularProgress, Fade, Pagination } from "@mui/material";
 import DemandsList from "../Demand-card-list";
 
 //Utils
@@ -39,7 +39,7 @@ export default function DemandsPage(props) {
 
   //States para demandas
   const [demandsWLogs, setDemandsWLogs] = useState();
-  const [dbDemands, setDbDemands] = useState();
+  const [dbDemands, setDbDemands] = useState([]);
   const [sortedDemands, setSortedDemands] = useState([]);
   const [showingDemands, setShowingDemands] = useState([]);
   const [selectedDrafts, setSelectedDrafts] = useState([]);
@@ -56,11 +56,8 @@ export default function DemandsPage(props) {
 
   const [demandType, setDemandType] = useState(props.DemandType);
 
-  // const [showingDemandsPaginated, setShowingDemandsPaginated] = useState(
-  //   showingDemands ? showingDemands.slice(firstIndex, lastIndex) : []
-  // ); // Fatiamento das demandas
-
-  // const [showingDemandsPaginated, setShowingDemandsPaginated] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
     setDemandType(props.DemandType);
@@ -74,6 +71,7 @@ export default function DemandsPage(props) {
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
         (demands) => {
           setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
+          setLoadingProgress(100);
         }
       );
     } else if (demandType == DemandType.DRAFT) {
@@ -81,6 +79,7 @@ export default function DemandsPage(props) {
       DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then(
         (demands) => {
           setDbDemands(demands.filter((d) => d.statusDemanda == "RASCUNHO"));
+          setLoadingProgress(100);
         }
       );
     } else {
@@ -96,10 +95,17 @@ export default function DemandsPage(props) {
           );
         }
         setDbDemands(demandsToManage);
+        setLoadingProgress(100);
         console.log("Demands to manage: ", demandsToManage);
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (dbDemands.length > 0) {
+      setIsLoaded(true);
+    }
+  }, [dbDemands]);
 
   useEffect(() => {
     if (dbDemands) {
@@ -493,22 +499,29 @@ export default function DemandsPage(props) {
           )}
         </div>
       )}
+
       <div className="flex flex-wrap justify-around">
-        {dbDemands && dbDemands.length > 0 ? (
-          isListFormat ? (
-            getDemandsList()
+        {isLoaded ? (
+          dbDemands && dbDemands.length > 0 ? (
+            isListFormat ? (
+              getDemandsList()
+            ) : (
+              getDemandsGrid()
+            )
           ) : (
-            getDemandsGrid()
+            <div className="flex h-[65vh] w-full items-center justify-center">
+              <NoDemands>
+                {demandType == DemandType.DEMAND ? (
+                  <p>Sem demandas!</p>
+                ) : (
+                  <p>Sem rascunhos!</p>
+                )}
+              </NoDemands>
+            </div>
           )
         ) : (
-          <div className="flex h-[65vh] w-full items-center justify-center">
-            <NoDemands>
-              {demandType == DemandType.DEMAND ? (
-                <p>Sem demandas!</p>
-              ) : (
-                <p>Sem rascunhos!</p>
-              )}
-            </NoDemands>
+          <div className="flex h-[71vh] flex-wrap items-center justify-around">
+            <CircularProgress />
           </div>
         )}
       </div>
