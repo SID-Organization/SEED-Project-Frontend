@@ -16,7 +16,7 @@ import ProposalCard from "../Proposal-card";
 import ReactQuillUtils from "../../utils/ReactQuill-Utils";
 const { quillModules } = ReactQuillUtils;
 
-export default function GenerateAtaProposal(props) {
+export default function fsdGenerateAtaProposal(props) {
   const [parecerComissao, setParecerComissao] = useState("");
   const [considerations, setConsiderations] = useState("");
   const [publicada, setPublicada] = useState(false);
