@@ -15,10 +15,9 @@ import { TextField } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-import { data } from "autoprefixer";
-
 // Services
 import LoginService from "../../service/Login-Service";
+import UserUtils from "../../utils/User-Utils";
 
 
 export default function Login(props) {
@@ -62,26 +61,16 @@ export default function Login(props) {
     }
 
     LoginService.login(userID, password)
-      .then((response) => {
-        if (response.status != 200) {
+      .then((res) => {
+        console.log("LOGIN RESPONSE", res)
+        if (res.status != 200) {
           setOpenNotification(true);
           return;
         }
-        return response.data;
       })
-      .then((data) => {
-        const loggedUser = {
-          numeroCadastroUsuario: data.numeroCadastroUsuario,
-          businessUnity: data.businessUnity,
-          cargoUsuario: data.cargoUsuario,
-          departamentoUsuario: data.departamentoUsuario,
-          emailUsuario: data.emailUsuario,
-          fotoUsuario: data.fotoUsuario,
-          nomeUsuario: data.nomeUsuario
-        };
-        localStorage.setItem(
-          "user",
-          JSON.stringify(loggedUser)
+      .then(() => {
+        const loggedUser = UserUtils.getUserFromCookie();
+        localStorage.setItem("user", JSON.stringify(loggedUser)
         );
         props.setUser(loggedUser);
       });

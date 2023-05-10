@@ -50,7 +50,7 @@ export default function DemandManager() {
             ? filteredDemands.map((demand, i) => {
                 return <DemandCard key={i} demand={demand} />;
               })
-            : demandsToManage.map((demand, i) => {
+            : demandsToManage && demandsToManage.map((demand, i) => {
                 return <DemandCard key={i} demand={demand} />;
               })}
         </div>

@@ -76,9 +76,15 @@ export default function CreateNewPauta() {
   const handleCloseModal = () => setOpenedModal(false);
 
   useEffect(() => {
-    ProposalService.getReadyProposals().then((data) => setReadyProposals(data));
+    ProposalService.getReadyProposals().then((data) => {
+      if (!data) return;
+      setReadyProposals(data)
+    });
 
-    ForumService.getForuns().then((data) => setForuns(data));
+    ForumService.getForuns().then((data) => {
+      if (!data) return;
+      setForuns(data)
+    });
   }, []);
 
   useEffect(() => {

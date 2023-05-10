@@ -15,8 +15,6 @@ import MuiTextField from "@mui/material/TextField";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import {
-  Dialog,
-  DialogActions,
   DialogTitle,
   IconButton,
   InputAdornment,
@@ -104,20 +102,19 @@ export default function DemandCard(props) {
   const handleOpenModalDeleteDraft = () => setOpen(true);
   const handleCloseModalDeleteDraft = () => setOpen(false);
 
-  const getFirstLog = async () => {
-    DemandLogService.getDemandLogs(props.demand.idDemanda).then((data) => {
-      setDemandLogs(data);
-      if (data && data.length > 0) {
-        let firstLog = new Date(
-          data[0].recebimentoHistorico
-        ).toLocaleDateString();
+  const getLogs = async () => {
+    DemandLogService.getDemandLogs(props.demand.idDemanda).then((res) => {
+      if (res.data) {
+        setDemandLogs(res.data);
+
+        let firstLog = new Date(res.data[0].recebimentoHistorico).toLocaleDateString();
         setFirstLog(firstLog);
       }
     });
   };
 
   useEffect(() => {
-    getFirstLog();
+    getLogs();
   }, []);
 
   const handleOpenReasonOfCancellation = () =>
@@ -147,7 +144,7 @@ export default function DemandCard(props) {
       codigoPPMProposta: ppmCode,
       periodoExecucaoInicioProposta: startDevDate,
       periodoExecucaoFimProposta: deadLineDate,
-      linkJiraProposta: "https://jira.com/sid",
+      linkJiraProposta: jiraLink,
       responsaveisNegocio: demandLogs
         .filter((logs, index) => {
           return (
@@ -164,7 +161,10 @@ export default function DemandCard(props) {
       demandaProposta: { idDemanda: props.demand.idDemanda },
     };
 
+    console.log(proposal)
+
     ProposalService.createProposal(proposal).then((response) => {
+      console.log("RESPONSE CREATE PROPOSAL", response);
       if (response.status === 201) {
         DemandService.updateDemandStatus(
           props.demand.idDemanda,
@@ -386,7 +386,7 @@ export default function DemandCard(props) {
                 </Typography>
                 <Typography color="black" fontWeight="bold" className="flex">
                   <span className="ml-2 text-[0.85rem]">
-                    {firstLog && firstLog}
+                    {firstLog ? firstLog : "- - - -"}
                   </span>
                 </Typography>
               </div>
@@ -408,7 +408,7 @@ export default function DemandCard(props) {
                     <Tooltip
                       title={
                         props.demand.statusDemanda ===
-                        "APROVADO_PELO_GERENTE_DA_AREA"
+                          "APROVADO_PELO_GERENTE_DA_AREA"
                           ? "Gerar proposta"
                           : "Acessar proposta"
                       }
@@ -416,7 +416,7 @@ export default function DemandCard(props) {
                       <Button
                         onClick={
                           props.demand.statusDemanda ===
-                          "APROVADO_PELO_GERENTE_DA_AREA"
+                            "APROVADO_PELO_GERENTE_DA_AREA"
                             ? handleOpenGenerateProposal
                             : handleAccessProposal
                         }

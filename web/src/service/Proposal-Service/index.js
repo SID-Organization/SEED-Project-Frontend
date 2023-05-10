@@ -1,42 +1,43 @@
-import axios from "axios";
-import apiConfig from "../../../API-config";
+import AxiosAPI from "../../API/AxiosAPI";
+import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/proposta`;
 
 const createProposal = async (proposal) => {
-  return axios.post(url, proposal).then((response) => response);
+  return AxiosAPI.post(url, proposal);
 };
 
 const updateProposal = async (proposal, proposalId) => {
-  return axios
-    .put(`${url}/${proposalId}`, proposal)
+  
+  const contentType = "multipart/form-data";
+
+  return AxiosAPI.put(`${url}/${proposalId}`, proposal, contentType)
     .then((response) => response)
     .catch((error) => error);
 };
 
 const getReadyProposals = async () => {
-  return axios
-    .get(`${url}/proposta-pronta`)
+  return AxiosAPI.get(`${url}/proposta-pronta`)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const getProposalById = async (proposalId) => {
-  return axios
-    .get(`${url}/${proposalId}`)
+  return AxiosAPI.get(`${url}/${proposalId}`)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const getProposalByDemandId = async (demandId) => {
-  return axios
-    .get(`${url}/demanda/${demandId}`)
+  return AxiosAPI.get(`${url}/demanda/${demandId}`)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const getProposalPDF = (proposalId) => {
-  return `${url}/pdf-proposta/${proposalId}`;
+  return AxiosAPI.get(`${url}/pdf/${proposalId}`)
+    .then((response) => response.data)
+    .catch((error) => error);
 };
 
 export default {

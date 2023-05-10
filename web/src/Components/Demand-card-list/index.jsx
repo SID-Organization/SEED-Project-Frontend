@@ -126,7 +126,10 @@ const Box = styled(MuiBox)(() => ({
 }));
 
 const getDemandHistoric = async (demandId) => {
-  const historic = await DemandLogService.getDemandLogs(demandId);
+  const historic = await DemandLogService.getDemandLogs(demandId)
+    .then(res => res.data)
+    .catch(err => console.log(err));
+    
   return {
     version: historic[historic.length - 1].versaoHistorico,
     lastUpdate: new Date(

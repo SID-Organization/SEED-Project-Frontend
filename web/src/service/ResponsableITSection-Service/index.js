@@ -1,13 +1,12 @@
-import axios from "axios";
-import apiConfig from "../../../API-config";
+import AxiosAPI from "../../API/AxiosAPI";
+import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/secao-ti-responsavel`;
 
 const getResponsableITSections = async () => {
-    return axios
-        .get(url)
-        .then((response) => response.data)
-        .catch((error) => error);
+    return AxiosAPI.get(url)
+        .then(res => res.data)
+        .catch(err => err);
 };
 
 export default {

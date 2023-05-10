@@ -1,18 +1,16 @@
-import axios from "axios";
-import apiConfig from "../../../API-config";
+import AxiosAPI from "../../API/AxiosAPI";
+import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/PDF`;
 
 const gerarPDFProposta = async (proposta) => {
-  return axios
-    .post(url, proposta)
+  return AxiosAPI.post(url, proposta)
     .then((response) => response.data)
     .catch((error) => error);
 };
 
 const getPDFProposta = async () => {
-  return axios
-    .get(url)
+  return AxiosAPI.get(url)
     .then((response) => response.data)
     .catch((error) => error);
 };

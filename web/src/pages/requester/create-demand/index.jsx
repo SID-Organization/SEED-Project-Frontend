@@ -76,7 +76,7 @@ export default function CreateDemand() {
 
   const [demandUpdateId, setDemandUpdateId] = useState("");
 
-  const [createDemandSucceed, setCreateDemandSucceed] = useState(false);
+  const [createDemandSucceed, setCreateDemandSucceed] = useState(true);
 
   useEffect(() => {
     if (params.id) {
@@ -105,13 +105,13 @@ export default function CreateDemand() {
     DemandService.getDemandById(params.id).then((response) => {
       PdfDemandService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
         setProposalHTML(
-          pdfResponse[pdfResponse.length - 1].propostaMelhoriaDemandaHTML
+          pdfResponse.propostaMelhoriaDemandaHTML
         );
         setCurrentProblemHTML(
-          pdfResponse[pdfResponse.length - 1].situacaoAtualDemandaHTML
+          pdfResponse.situacaoAtualDemandaHTML
         );
         setFrequencyOfUseHTML(
-          pdfResponse[pdfResponse.length - 1].frequenciaUsoDemandaHTML
+          pdfResponse.frequenciaUsoDemandaHTML
         );
       });
       setTitle(response.tituloDemanda);
@@ -264,6 +264,7 @@ export default function CreateDemand() {
           });
         }
       } else {
+        console.log("FINISH DEMAND CALLED")
         handleFinishDemand(formData);
       }
 
@@ -311,7 +312,7 @@ export default function CreateDemand() {
     if (createDemandSucceed === true) {
       setTimeout(() => {
         navigate("/demandas");
-      }, 3000);
+      }, 1000);
     }
   };
 

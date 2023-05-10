@@ -1,31 +1,18 @@
-import axios from "axios";
-import apiConfig from "../../../API-config";
+import AxiosAPI from "../../API/AxiosAPI";
+import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/ata`;
 
 const createAta = async (ata) => {
-  return axios
-    .post(url, ata, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    })
-    .then((response) => response)
-    .catch((error) => error);
+  return AxiosAPI.post(url, ata);
 };
 
 const getAta = async () => {
-  return axios
-    .get(url)
-    .then((response) => response.data)
-    .catch((error) => error);
+  return AxiosAPI.get(url);
 };
 
 const getAtaById = async (id) => {
-  return axios
-    .get(`${url}/${id}`)
-    .then((response) => response.data)
-    .catch((error) => error);
+  return AxiosAPI.get(`${url}/${id}`);
 };
 
 export default {

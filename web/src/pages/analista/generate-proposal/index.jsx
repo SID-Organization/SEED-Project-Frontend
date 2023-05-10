@@ -4,15 +4,14 @@ import { useParams } from "react-router-dom";
 // Tools
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { toast } from "react-hot-toast";
 
 // MUI
 import {
   Button,
   CircularProgress,
-  IconButton,
   InputAdornment,
   TextField,
-  Tooltip,
 } from "@mui/material";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
@@ -21,7 +20,6 @@ import { styled } from "@mui/material/styles";
 import DemandCard from "../../../Components/Demand-card";
 import FilesTable from "../../../Components/FilesTable";
 import CostTable from "../../../Components/Center-cost-components/Cost-table";
-import CostTableRow from "../../../Components/Center-cost-components/Cost-table-rows";
 import CostCenterPayers from "../../../Components/Center-cost-components/Cost-center-payers";
 
 // Service
@@ -30,6 +28,7 @@ import ProposalService from "../../../service/Proposal-Service";
 
 //Utils
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
+const { quillModules, formatQuillText } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -66,18 +65,6 @@ const DateInput = styled(MuiTextField)({
   },
 });
 
-const quillModules = {
-  toolbar: [
-    [{ header: [1, 2, 3, false] }],
-    [{ font: [] }],
-    ["bold", "italic", "underline", "strike"],
-    [{ color: [] }, { background: [] }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ align: [] }],
-    ["image", "link"],
-  ],
-};
-
 export default function GenerateProposal() {
   // STATES
   const [demand, setDemand] = useState();
@@ -106,6 +93,7 @@ export default function GenerateProposal() {
     quillValueProposalMitigationPlan,
     setQuillValueProposalMitigationPlan,
   ] = useState("");
+
   const [quillValueProjectRange, setQuillValueProjectRange] = useState("");
 
   const quillValueRefEscopo = useRef(null);
@@ -196,57 +184,79 @@ export default function GenerateProposal() {
 
   function formatCosts(costs) {
     return costs.map((cost) => {
-      return {
+      const tempCost = {
         perfilDespesaTabelaCustoLinha: cost.expenseProfile,
         periodoExecucaoTabelaCusto: parseInt(cost.monthTimeExecution),
         valorHoraTabelaCusto: parseInt(cost.costHour),
         quantidadeHorasTabelaCusto: parseInt(cost.necessaryHours),
       };
-    });
+
+      if (Object.values(tempCost).includes("") || Object.values(tempCost).includes(0)) {
+        return null;
+      }
+
+      return tempCost;
+    }).filter(item => item != null);
   }
 
   function formatCCPS(CCPS) {
     return CCPS.map((ccp) => {
-      return {
+      const tempCcp = {
         centroCusto: { idCentroCusto: ccp.costCenter },
         porcentagemDespesa: ccp.percentage,
       };
-    });
+
+      if (tempCcp.centroCusto.idCentroCusto === "" || tempCcp.porcentagemDespesa === 0) {
+        return null;
+      }
+
+      return tempCcp;
+    }).filter(item => item != null);
   }
 
-  useEffect(() => {}, [internalCostCenterPayers]);
+  const handlePutProposal = async (finish = false) => {
 
-  const handlePutProposal = async (finish) => {
+
+    const tabelaCustoInterno = {
+      tipoDespesa: "INTERNA",
+      tabelaCustoLinha: formatCosts(internalCosts),
+      centroCustoTabelaCusto: formatCCPS(internalCostCenterPayers),
+    }
+
+    const tabelaCustoExterno = {
+      tipoDespesa: "EXTERNA",
+      tabelaCustoLinha: formatCosts(externalCosts),
+      centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
+    }
+
+    if((tabelaCustoInterno.tabelaCustoLinha.length === 0 && tabelaCustoInterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoExterno.tabelaCustoLinha.length > 0 && tabelaCustoExterno.centroCustoTabelaCusto.length === 0)) {
+      toast.error("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
+      return;
+    }
+
+    if((tabelaCustoExterno.tabelaCustoLinha.length === 0 && tabelaCustoExterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoInterno.tabelaCustoLinha.length > 0 && tabelaCustoInterno.centroCustoTabelaCusto.length === 0)) {
+      toast.error("Preencha todos os campos de custo externo ( tabela de custo e centro de custo )");
+      return;
+    }
+
     const proposalToSave = {
-      escopoProposta: ReactQuillUtils.formatQuillText(textIsProposal),
-      naoFazParteDoEscopoProposta:
-        ReactQuillUtils.formatQuillText(textIsNotProposal),
+      escopoProposta: formatQuillText(textIsProposal),
+      naoFazParteDoEscopoProposta: formatQuillText(textIsNotProposal),
       paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
-      alternativasAvaliadasProposta: ReactQuillUtils.formatQuillText(
-        textProposalAlternatives
-      ),
-      planoMitigacaoProposta: ReactQuillUtils.formatQuillText(
-        textProposalMitigationPlan
-      ),
+      alternativasAvaliadasProposta: formatQuillText(textProposalAlternatives),
+      planoMitigacaoProposta: formatQuillText(textProposalMitigationPlan),
+      abrangenciaProjetoProposta: formatQuillText(textProjectRange),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
       custosInternosDoProjeto: sumInternalCosts(),
       custosExternosDoProjeto: sumExternalCosts(),
       custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
       tabelaCusto: [
-        {
-          tipoDespesa: "INTERNA",
-          tabelaCustoLinha: formatCosts(internalCosts),
-          centroCustoTabelaCusto: formatCCPS(internalCostCenterPayers),
-        },
-        {
-          tipoDespesa: "EXTERNA",
-          tabelaCustoLinha: formatCosts(externalCosts),
-          centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
-        },
+        tabelaCustoInterno,
+        tabelaCustoExterno,
       ],
     };
 
@@ -255,6 +265,7 @@ export default function GenerateProposal() {
       naoFazParteDoEscopoPropostaHTML: quillValueIsNotEscopoPart,
       alternativasAvaliadasPropostaHTML: quillValueProposalAlternatives,
       planoMitigacaoPropostaHTML: quillValueProposalMitigationPlan,
+      abrangenciaProjetoPropostaHTML: quillValueProjectRange,
       proposta: { idProposta: proposal.idProposta },
     };
 
@@ -263,13 +274,16 @@ export default function GenerateProposal() {
     formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
     formData.append("pdfPropostaForm", JSON.stringify(pdfProposal));
 
-    ProposalService.updateProposal(formData, proposal.idProposta).then(
-      (res) => {
-        if (finish && res.status == 200) {
+
+    console.log("Proposal", proposalToSave);
+    console.log("PDF", pdfProposal);
+
+    ProposalService.updateProposal(formData, proposal.idProposta)
+      .then(res => {
+        if ((finish === true) && res.status == 200) {
           DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
         }
-      }
-    );
+      });
   };
 
   return (
@@ -455,6 +469,7 @@ export default function GenerateProposal() {
               </p>
               <ReactQuill
                 value={quillValueProposalAlternatives}
+                placeholder="Escreva aqui as alternativas avaliadas da proposta"
                 onChange={(e) => {
                   setQuillValueProposalAlternatives(e);
                   const txt = quillValueRefProposalAlternatives.current
@@ -473,6 +488,7 @@ export default function GenerateProposal() {
               </p>
               <ReactQuill
                 value={quillValueProjectRange}
+                placeholder="Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."
                 onChange={(e) => {
                   setQuillValueProjectRange(e);
                   const txt = quillValueRefProposalAlternatives.current
@@ -491,6 +507,7 @@ export default function GenerateProposal() {
               </p>
               <ReactQuill
                 value={quillValueProposalMitigationPlan}
+                placeholder="Escreva aqui os principais riscos e o plano de mitigação"
                 onChange={(e) => {
                   setQuillValueProposalMitigationPlan(e);
                   const txt = quillValueRefProposalMitigationPlan.current

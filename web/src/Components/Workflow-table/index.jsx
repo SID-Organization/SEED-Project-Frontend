@@ -139,8 +139,8 @@ export default function WorkflowTable({
   // Busca os dados do workflow da demanda
   useEffect(() => {
     DemandLogService.getDemandLogs(demandId)
-      .then((data) => {
-        setWorkFlowData(data);
+      .then((res) => {
+        setWorkFlowData(res.data);
       });
   }, []);
 

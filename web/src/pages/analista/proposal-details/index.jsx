@@ -111,12 +111,14 @@ export default function ProposalDetails() {
 
   useEffect(() => {
     if (params.idDemanda) {
-      DemandService.getDemandById(params.idDemanda).then((demand) => {
-        setDemand(demand);
-      });
-      DemandLogService.getDemandLogs(params.idDemanda).then((historic) => {
-        setHistoric(historic);
-      });
+      DemandService.getDemandById(params.idDemanda)
+        .then((demand) => {
+          setDemand(demand);
+        });
+      DemandLogService.getDemandLogs(params.idDemanda)
+        .then((res) => {
+          setHistoric(res.data);
+        });
     }
   }, []);
 
@@ -248,8 +250,8 @@ export default function ProposalDetails() {
                       <span className="font-normal">
                         {historic
                           ? new Date(
-                              historic[0].recebimentoHistorico
-                            ).toLocaleDateString()
+                            historic[0].recebimentoHistorico
+                          ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>
@@ -601,7 +603,7 @@ export default function ProposalDetails() {
                   multiline
                   placeholder={
                     getProposalDetails &&
-                    getProposalDetails.nomeResponsavelNegocio > 0
+                      getProposalDetails.nomeResponsavelNegocio > 0
                       ? getProposalDetails.nomeResponsavelNegocio
                       : "Não informado"
                   }
@@ -618,7 +620,7 @@ export default function ProposalDetails() {
                   multiline
                   placeholder={
                     getProposalDetails &&
-                    getProposalDetails.areaResponsavelNegocio > 0
+                      getProposalDetails.areaResponsavelNegocio > 0
                       ? getProposalDetails.areaResponsavelNegocio
                       : "Não informado"
                   }
