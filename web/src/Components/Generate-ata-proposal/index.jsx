@@ -14,15 +14,14 @@ import ProposalCard from "../Proposal-card";
 
 // Utils
 import ReactQuillUtils from "../../utils/ReactQuill-Utils";
-const { quillModules } = ReactQuillUtils;
+const { quillModules, removeHTML } = ReactQuillUtils;
 
 export default function fsdGenerateAtaProposal(props) {
   const [parecerComissao, setParecerComissao] = useState("");
-  const [considerations, setConsiderations] = useState("");
   const [publicada, setPublicada] = useState(false);
   const [naoPublicada, setNaoPublicada] = useState(false);
   // HTML editor
-  const [quillValue, setQuillValue] = useState("");
+  const [quillValueConsideration, setQuillValueConsideration] = useState("");
   const parecerRef = useRef();
   
   function formatParecerComissao(parecerComissao) {
@@ -46,7 +45,7 @@ export default function fsdGenerateAtaProposal(props) {
     const newFinalDecision = props.finalDecision;
     newFinalDecision.propostaPropostaLogDTO.idProposta = props.proposal.idProposta;
     newFinalDecision.parecerComissaoPropostaLogDTO = formatParecerComissao(parecerComissao);
-    newFinalDecision.consideracoesPropostaLogDTO = ReactQuillUtils.formatQuillText(considerations);
+    newFinalDecision.consideracoesPropostaLogDTO = removeHTML(quillValueConsideration);
     newFinalDecision.tipoAtaPropostaLogDTO = publicada ? "PUBLICADA" : naoPublicada ? "NAO_PUBLICADA" : "";
     props.setFinalDecision(newFinalDecision);
   }
@@ -144,12 +143,8 @@ export default function fsdGenerateAtaProposal(props) {
           <div className="grid">
             <p className="font-roboto font-bold">Considerações</p>
             <ReactQuill
-              value={quillValue}
-              onChange={(e) => {
-                setQuillValue(e);
-                const text = parecerRef.current?.getEditor()?.getText();
-                setConsiderations(text);
-              }}
+              value={quillValueConsideration}
+              onChange={(e) => setQuillValueConsideration(e)}
               modules={quillModules}
               style={style}
               ref={parecerRef}

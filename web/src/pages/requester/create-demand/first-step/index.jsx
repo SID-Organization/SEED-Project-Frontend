@@ -20,26 +20,17 @@ const { quillModules, quillStyle } = ReactQuillUtils;
 
 export default function FirstStep({ props }) {
 
-    const proposalRef = useRef(null);
-    const currentProblemRef = useRef(null);
-    const frequencyOfUseRef = useRef(null);
 
     const updateProposal = (e) => {
         props.setProposalHTML(e);
-        if (proposalRef.current?.getEditor().getText())
-            props.setProposal(proposalRef.current?.getEditor().getText());
     }
 
     const updateCurrentProblem = (e) => {
         props.setCurrentProblemHTML(e);
-        if (currentProblemRef.current?.getEditor().getText())
-            props.setCurrentProblem(currentProblemRef.current?.getEditor().getText());
     }
 
     const updateFrequencyOfUse = (e) => {
         props.setFrequencyOfUseHTML(e);
-        if (frequencyOfUseRef.current?.getEditor().getText())
-            props.setFrequencyOfUse(frequencyOfUseRef.current?.getEditor().getText());
     }
 
     return (
@@ -83,7 +74,6 @@ export default function FirstStep({ props }) {
                     onChange={updateProposal}
                     placeholder="Escreva a visão do negócio que vai resolver"
                     modules={quillModules}
-                    ref={proposalRef}
                     style={quillStyle}
                     onBlur={props.handleCreateDemand}
                 />
@@ -102,7 +92,6 @@ export default function FirstStep({ props }) {
                     placeholder="Descreva a situação atual da demanda."
                     onBlur={props.handleCreateDemand}
                     modules={quillModules}
-                    ref={currentProblemRef}
                     style={quillStyle}
                 />
             </div>
@@ -121,7 +110,6 @@ export default function FirstStep({ props }) {
                     onChange={updateFrequencyOfUse}
                     placeholder="Descreva a frequência de uso da demanda."
                     modules={quillModules}
-                    ref={frequencyOfUseRef}
                     style={quillStyle}
                 />
             </div>

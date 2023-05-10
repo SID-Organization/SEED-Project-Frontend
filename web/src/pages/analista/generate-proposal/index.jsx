@@ -28,7 +28,7 @@ import ProposalService from "../../../service/Proposal-Service";
 
 //Utils
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
-const { quillModules, formatQuillText } = ReactQuillUtils;
+const { quillModules, removeHTML } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
   width: "700px",
@@ -74,14 +74,6 @@ export default function GenerateProposal() {
   const [endDate, setEndDate] = useState("");
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
-
-  // React quill text
-  const [textIsNotProposal, setTextIsNotProposal] = useState("");
-  const [textIsProposal, setTextIsProposal] = useState("");
-  const [textProposalAlternatives, setTextProposalAlternatives] = useState("");
-  const [textProposalMitigationPlan, setTextProposalMitigationPlan] =
-    useState("");
-  const [textProjectRange, setTextProjectRange] = useState("");
 
   // React quill
   const [quillValueEscopo, setQuillValueEscopo] = useState("");
@@ -229,26 +221,32 @@ export default function GenerateProposal() {
       centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
     }
 
-    if((tabelaCustoInterno.tabelaCustoLinha.length === 0 && tabelaCustoInterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoExterno.tabelaCustoLinha.length > 0 && tabelaCustoExterno.centroCustoTabelaCusto.length === 0)) {
+    let tcli = tabelaCustoInterno.tabelaCustoLinha;
+    let tcci = tabelaCustoInterno.centroCustoTabelaCusto;
+    let tcle = tabelaCustoExterno.tabelaCustoLinha;
+    let tcce = tabelaCustoExterno.centroCustoTabelaCusto;
+
+    //
+    if ((tcli[0].perfilDespesaTabelaCustoLinha == "" && tcci.centroCusto.idCentroCusto != "") || (tcci[0].centroCusto.idCentroCusto == "" && tcli.perfilDespesaTabelaCustoLinha != "")) {
       toast.error("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
       return;
     }
 
-    if((tabelaCustoExterno.tabelaCustoLinha.length === 0 && tabelaCustoExterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoInterno.tabelaCustoLinha.length > 0 && tabelaCustoInterno.centroCustoTabelaCusto.length === 0)) {
+    if ((tcle[0].perfilDespesaTabelaCustoLinha == "" && tcce.centroCusto.idCentroCusto != "") || (tcce[0].centroCusto.idCentroCusto == "" && tcle.perfilDespesaTabelaCustoLinha != "")) {
       toast.error("Preencha todos os campos de custo externo ( tabela de custo e centro de custo )");
       return;
     }
 
     const proposalToSave = {
-      escopoProposta: formatQuillText(textIsProposal),
-      naoFazParteDoEscopoProposta: formatQuillText(textIsNotProposal),
+      escopoProposta: removeHTML(quillValueEscopo),
+      naoFazParteDoEscopoProposta: removeHTML(quillValueIsNotEscopoPart),
       paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
-      alternativasAvaliadasProposta: formatQuillText(textProposalAlternatives),
-      planoMitigacaoProposta: formatQuillText(textProposalMitigationPlan),
-      abrangenciaProjetoProposta: formatQuillText(textProjectRange),
+      alternativasAvaliadasProposta: removeHTML(quillValueProposalAlternatives),
+      planoMitigacaoProposta: removeHTML(quillValueProposalMitigationPlan),
+      abrangenciaProjetoProposta: removeHTML(quillValueProjectRange),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
       custosInternosDoProjeto: sumInternalCosts(),
@@ -302,11 +300,7 @@ export default function GenerateProposal() {
             </h1>
             <ReactQuill
               value={quillValueEscopo}
-              onChange={(e) => {
-                setQuillValueEscopo(e);
-                const txt = quillValueRefEscopo.current?.getEditor().getText();
-                setTextIsProposal(txt);
-              }}
+              onChange={(e) => setQuillValueEscopo(e)}
               placeholder="Escreva aqui o objetivo e o escopo do projeto"
               onBlur={saveProgress}
               modules={quillModules}
@@ -320,13 +314,7 @@ export default function GenerateProposal() {
             </h1>
             <ReactQuill
               value={quillValueIsNotEscopoPart}
-              onChange={(e) => {
-                setQuillValueIsNotEscopoPart(e);
-                const txt = quillValueRefIsNotEscopoPart.current
-                  ?.getEditor()
-                  .getText();
-                setTextIsNotProposal(txt);
-              }}
+              onChange={(e) => setQuillValueIsNotEscopoPart(e)}
               onBlur={saveProgress}
               placeholder="Escreva aqui o que não faz parte do escopo do projeto (não deve ser gasto tempo com)"
               modules={quillModules}
@@ -470,13 +458,7 @@ export default function GenerateProposal() {
               <ReactQuill
                 value={quillValueProposalAlternatives}
                 placeholder="Escreva aqui as alternativas avaliadas da proposta"
-                onChange={(e) => {
-                  setQuillValueProposalAlternatives(e);
-                  const txt = quillValueRefProposalAlternatives.current
-                    ?.getEditor()
-                    .getText();
-                  setTextProposalAlternatives(txt);
-                }}
+                onChange={(e) => setQuillValueProposalAlternatives(e)}
                 modules={quillModules}
                 ref={quillValueRefProposalAlternatives}
                 style={{ width: "50rem", height: "10rem" }}
@@ -489,13 +471,7 @@ export default function GenerateProposal() {
               <ReactQuill
                 value={quillValueProjectRange}
                 placeholder="Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."
-                onChange={(e) => {
-                  setQuillValueProjectRange(e);
-                  const txt = quillValueRefProposalAlternatives.current
-                    ?.getEditor()
-                    .getText();
-                  setTextProjectRange(txt);
-                }}
+                onChange={(e) => setQuillValueProjectRange(e)}
                 modules={quillModules}
                 ref={quillValueRefProjectRange}
                 style={{ width: "50rem", height: "10rem" }}
@@ -508,13 +484,7 @@ export default function GenerateProposal() {
               <ReactQuill
                 value={quillValueProposalMitigationPlan}
                 placeholder="Escreva aqui os principais riscos e o plano de mitigação"
-                onChange={(e) => {
-                  setQuillValueProposalMitigationPlan(e);
-                  const txt = quillValueRefProposalMitigationPlan.current
-                    ?.getEditor()
-                    .getText();
-                  setTextProposalMitigationPlan(txt);
-                }}
+                onChange={(e) => setQuillValueProposalMitigationPlan(e)}
                 modules={quillModules}
                 ref={quillValueRefProposalMitigationPlan}
                 style={{ width: "50rem", height: "10rem" }}

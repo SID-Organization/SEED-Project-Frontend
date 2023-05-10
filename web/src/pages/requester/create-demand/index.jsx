@@ -23,7 +23,7 @@ import PdfDemandService from "../../../service/PdfDemand-Service";
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
-const { formatQuillText } = ReactQuillUtils;
+const { removeHTML } = ReactQuillUtils;
 
 export default function CreateDemand() {
   const params = useParams();
@@ -31,14 +31,10 @@ export default function CreateDemand() {
   const [title, setTitle] = useState("");
 
   const [currentProblemHTML, setCurrentProblemHTML] = useState("");
-  const [currentProblem, setCurrentProblem] = useState("");
 
   const [proposalHTML, setProposalHTML] = useState("");
-  const [proposal, setProposal] = useState("");
 
   const [frequencyOfUseHTML, setFrequencyOfUseHTML] = useState("");
-  const [frequencyOfUse, setFrequencyOfUse] = useState("");
-
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
@@ -90,16 +86,13 @@ export default function CreateDemand() {
   useEffect(() => {
     if (
       !title ||
-      !currentProblem ||
-      !proposal ||
-      !frequencyOfUse ||
       !qualitativeBenefit
     ) {
       setAnyEmptyField(true);
     } else {
       setAnyEmptyField(false);
     }
-  }, [title, currentProblem, proposal, frequencyOfUse, qualitativeBenefit]);
+  }, [title, qualitativeBenefit]);
 
   function continueDemand() {
     DemandService.getDemandById(params.id).then((response) => {
@@ -184,7 +177,7 @@ export default function CreateDemand() {
     if (!formatToCode) {
       tempBenefit = {
         moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: formatQuillText(benefit.description),
+        memoriaCalculoBeneficio: removeHTML(benefit.descriptionHTML),
         memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
         valorBeneficio: benefit.value,
         tipoBeneficio: benefitType,
@@ -198,7 +191,6 @@ export default function CreateDemand() {
         coin: getBenefitCoin(benefit.moedaBeneficio),
         description: benefit.memoriaCalculoBeneficio,
         descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
-        ref: createRef(),
         idFront: benefit.idFront,
       };
     }
@@ -220,9 +212,9 @@ export default function CreateDemand() {
       // Demanda
       const demandToSave = {
         tituloDemanda: title,
-        propostaMelhoriaDemanda: formatQuillText(proposal),
-        situacaoAtualDemanda: formatQuillText(currentProblem),
-        frequenciaUsoDemanda: formatQuillText(frequencyOfUse),
+        propostaMelhoriaDemanda: removeHTML(proposalHTML),
+        situacaoAtualDemanda: removeHTML(currentProblemHTML),
+        frequenciaUsoDemanda: removeHTML(frequencyOfUseHTML),
         descricaoQualitativoDemanda: qualitativeBenefit,
         solicitanteDemanda: {
           numeroCadastroUsuario: user.numeroCadastroUsuario,
@@ -420,16 +412,10 @@ export default function CreateDemand() {
     title,
     setTitle,
     handleCreateDemand,
-    proposal,
-    setProposal,
     proposalHTML,
     setProposalHTML,
-    currentProblem,
-    setCurrentProblem,
     currentProblemHTML,
     setCurrentProblemHTML,
-    frequencyOfUse,
-    setFrequencyOfUse,
     frequencyOfUseHTML,
     setFrequencyOfUseHTML,
   };
