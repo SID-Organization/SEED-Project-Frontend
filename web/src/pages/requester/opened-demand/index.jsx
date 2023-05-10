@@ -20,7 +20,7 @@ import FilesTable from "../../../Components/FilesTable";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
-import PdfDemandService from "../../../service/PdfDemand-Service";
+import DemandPDFService from "../../../service/DemandPDF-Service";
 import DemandLogService from "../../../service/DemandLog-Service";
 import ChatService from "../../../service/Chat-Service";
 
@@ -63,7 +63,7 @@ export default function openedDemand() {
     if (params.id) {
       DemandService.getDemandById(params.id).then((demand) => {
         setDemand(demand);
-        PdfDemandService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
+        DemandPDFService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
           setDemandHTML(pdfResponse);
           console.log("HTML da demanda: ", pdfResponse);
         });
