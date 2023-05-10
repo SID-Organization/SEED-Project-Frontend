@@ -57,6 +57,7 @@ export default function DemandsPage(props) {
   const [demandType, setDemandType] = useState(props.DemandType);
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
     setDemandType(props.DemandType);
@@ -66,18 +67,23 @@ export default function DemandsPage(props) {
   //Pegar as respectivas demandas
   useEffect(() => {
     if (demandType == DemandType.DEMAND) {
+      console.log("ENTROU DEMAND");
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
         (demands) => {
           setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
+          setLoadingProgress(100);
         }
       );
     } else if (demandType == DemandType.DRAFT) {
+      console.log("ENTROU DRAFT");
       DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then(
         (demands) => {
           setDbDemands(demands.filter((d) => d.statusDemanda == "RASCUNHO"));
+          setLoadingProgress(100);
         }
       );
     } else {
+      console.log("ENTROU GERENTE");
       DemandService.getDemandsToManage(
         user.numeroCadastroUsuario,
         user.cargoUsuario
@@ -89,13 +95,14 @@ export default function DemandsPage(props) {
           );
         }
         setDbDemands(demandsToManage);
+        setLoadingProgress(100);
         console.log("Demands to manage: ", demandsToManage);
       });
     }
   }, []);
 
   useEffect(() => {
-    if (dbDemands.length > 0) {
+    if (dbDemands && dbDemands.length > 0) {
       setIsLoaded(true);
     }
   }, [dbDemands]);
@@ -514,11 +521,7 @@ export default function DemandsPage(props) {
           )
         ) : (
           <div className="flex h-[71vh] flex-wrap items-center justify-around">
-            <CircularProgress
-              sx={{
-                color: "#0075B1",
-              }}
-            />
+            <CircularProgress />
           </div>
         )}
       </div>
