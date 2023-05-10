@@ -6,6 +6,12 @@ const formatQuillText = (text) => {
     return formattedText;
 }
 
+const removeHTML = (text) => {
+    if(!text) return "";
+    const formattedText = text.replace(/<[^>]+>/g, '');
+    return formattedText;
+} 
+
 const quillModules = {
     toolbar: [
         [{ header: [1, 2, 3, false] }],
@@ -22,6 +28,7 @@ const quillStyle = { maxWidth: "43rem" };
 
 export default {
     formatQuillText,
+    removeHTML,
     quillModules,
     quillStyle
 }
