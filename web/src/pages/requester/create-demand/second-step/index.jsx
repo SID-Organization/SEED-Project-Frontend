@@ -64,12 +64,10 @@ export default function SecondStep({ props }) {
                   onChange={(e) => {
                     const newRealBenefits = [...props.realBenefits];
                     newRealBenefits[i].descriptionHTML = e;
-                    newRealBenefits[i].description = e.replace(/<\/?[^>]+(>|$)/g, "");
                     props.setRealBenefits(newRealBenefits);
                   }}
                   placeholder="Descreva o benefício."
                   modules={quillModules}
-                  ref={item.ref}
               />
             </NewBenefitInsertion>
             {(i < props.realBenefits.length - 1 || i === 0) && (
@@ -114,12 +112,8 @@ export default function SecondStep({ props }) {
               onChange={(e) => {
                 const newPotentialBenefits = [...props.potentialBenefits];
                 newPotentialBenefits[i].descriptionHTML = e;
-                newPotentialBenefits[i].description = item.ref.current
-                  ?.getEditor()
-                  .getText();
                 props.setPotentialBenefits(newPotentialBenefits);
               }}
-              ref={item.ref}
               onBlur={props.handleCreateDemand}
               placeholder="Descreva o benefício."
             />

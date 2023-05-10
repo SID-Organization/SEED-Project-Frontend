@@ -25,6 +25,7 @@ import CostCenterPayers from "../../../Components/Center-cost-components/Cost-ce
 // Service
 import DemandService from "../../../service/Demand-Service";
 import ProposalService from "../../../service/Proposal-Service";
+import ProposalPDFService from "../../../service/ProposalPDF-Service";
 
 //Utils
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
@@ -69,6 +70,8 @@ export default function GenerateProposal() {
   // STATES
   const [demand, setDemand] = useState();
   const [proposal, setProposal] = useState();
+  const [proposalHTML, setProposalHTML] = useState("");
+
   const [payback, setPayback] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -76,23 +79,17 @@ export default function GenerateProposal() {
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
 
   // React quill
-  const [quillValueEscopo, setQuillValueEscopo] = useState("");
-  const [quillValueIsNotEscopoPart, setQuillValueIsNotEscopoPart] =
+  const [quillHtmlScope, setQuillHtmlScope] = useState("");
+  const [quillHtmlIsNotOnScope, setQuillHtmlIsNotOnScope] =
     useState("");
-  const [quillValueProposalAlternatives, setQuillValueProposalAlternatives] =
+  const [quillHtmlProposalAlternatives, setQuillHtmlProposalAlternatives] =
     useState("");
   const [
-    quillValueProposalMitigationPlan,
-    setQuillValueProposalMitigationPlan,
+    quillHtmlProposalMitigationPlan,
+    setQuillHtmlProposalMitigationPlan,
   ] = useState("");
 
   const [quillValueProjectRange, setQuillValueProjectRange] = useState("");
-
-  const quillValueRefEscopo = useRef(null);
-  const quillValueRefIsNotEscopoPart = useRef(null);
-  const quillValueRefProposalAlternatives = useRef(null);
-  const quillValueRefProposalMitigationPlan = useRef(null);
-  const quillValueRefProjectRange = useRef(null);
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
@@ -133,6 +130,7 @@ export default function GenerateProposal() {
   // Demand ID
   let demandId = useParams().id;
 
+  // Get demand, proposal and proposal pdf from DB
   useEffect(() => {
     DemandService.getDemandById(demandId).then((demand) => {
       setDemand(demand);
@@ -141,9 +139,28 @@ export default function GenerateProposal() {
 
   useEffect(() => {
     ProposalService.getProposalByDemandId(demandId).then((proposal) => {
-      setProposal(proposal[0]);
-    });
+      const lastProposal = proposal[proposal.length - 1];
+      console.log("PROPOSAL", lastProposal)
+      setProposal(lastProposal);
+      return lastProposal.idProposta;
+    })
+      .then(proposalId => {
+        ProposalPDFService.getPdfByProposalId(proposalId).then((pdf) => {
+          if (pdf)
+            continueProposal(pdf);
+        });
+      });
   }, []);
+
+  async function continueProposal(html) {
+    delete html.idPdfProposta;
+    delete html.proposta;
+    setQuillHtmlScope(html.escopoPropostaHTML);
+    setQuillHtmlIsNotOnScope(html.naoFazParteDoEscopoPropostaHTML);
+    setQuillHtmlProposalAlternatives(html.alternativasAvaliadasPropostaHTML);
+    setQuillHtmlProposalMitigationPlan(html.planoMitigacaoPropostaHTML);
+    console.log("PDF", html);
+  }
 
   function sumInternalCosts() {
     let sum = 0;
@@ -226,26 +243,26 @@ export default function GenerateProposal() {
     let tcle = tabelaCustoExterno.tabelaCustoLinha;
     let tcce = tabelaCustoExterno.centroCustoTabelaCusto;
 
-    //
-    if ((tcli[0].perfilDespesaTabelaCustoLinha == "" && tcci.centroCusto.idCentroCusto != "") || (tcci[0].centroCusto.idCentroCusto == "" && tcli.perfilDespesaTabelaCustoLinha != "")) {
-      toast.error("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
+
+    if ((tcli.length == 0 && tcci.length > 0) || (tcli.length > 0 && tcci.length == 0)) {
+      alert("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
       return;
     }
 
-    if ((tcle[0].perfilDespesaTabelaCustoLinha == "" && tcce.centroCusto.idCentroCusto != "") || (tcce[0].centroCusto.idCentroCusto == "" && tcle.perfilDespesaTabelaCustoLinha != "")) {
-      toast.error("Preencha todos os campos de custo externo ( tabela de custo e centro de custo )");
+    if ((tcle.length == 0 && tcce.length > 0) || (tcle.length > 0 && tcce.length == 0)) {
+      alert("Preencha todos os campos de custo externo ( tabela de custo e centro de custo )");
       return;
     }
 
     const proposalToSave = {
-      escopoProposta: removeHTML(quillValueEscopo),
-      naoFazParteDoEscopoProposta: removeHTML(quillValueIsNotEscopoPart),
+      escopoProposta: removeHTML(quillHtmlScope),
+      naoFazParteDoEscopoProposta: removeHTML(quillHtmlIsNotOnScope),
       paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
-      alternativasAvaliadasProposta: removeHTML(quillValueProposalAlternatives),
-      planoMitigacaoProposta: removeHTML(quillValueProposalMitigationPlan),
+      alternativasAvaliadasProposta: removeHTML(quillHtmlProposalAlternatives),
+      planoMitigacaoProposta: removeHTML(quillHtmlProposalMitigationPlan),
       abrangenciaProjetoProposta: removeHTML(quillValueProjectRange),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
@@ -259,10 +276,10 @@ export default function GenerateProposal() {
     };
 
     const pdfProposal = {
-      escopoPropostaHTML: quillValueEscopo,
-      naoFazParteDoEscopoPropostaHTML: quillValueIsNotEscopoPart,
-      alternativasAvaliadasPropostaHTML: quillValueProposalAlternatives,
-      planoMitigacaoPropostaHTML: quillValueProposalMitigationPlan,
+      escopoPropostaHTML: quillHtmlScope,
+      naoFazParteDoEscopoPropostaHTML: quillHtmlIsNotOnScope,
+      alternativasAvaliadasPropostaHTML: quillHtmlProposalAlternatives,
+      planoMitigacaoPropostaHTML: quillHtmlProposalMitigationPlan,
       abrangenciaProjetoPropostaHTML: quillValueProjectRange,
       proposta: { idProposta: proposal.idProposta },
     };
@@ -299,12 +316,11 @@ export default function GenerateProposal() {
               Escopo do projeto
             </h1>
             <ReactQuill
-              value={quillValueEscopo}
-              onChange={(e) => setQuillValueEscopo(e)}
+              value={quillHtmlScope}
+              onChange={(e) => setQuillHtmlScope(e)}
               placeholder="Escreva aqui o objetivo e o escopo do projeto"
               onBlur={saveProgress}
               modules={quillModules}
-              ref={quillValueRefEscopo}
               style={{ width: "50rem", height: "10rem" }}
             />
           </div>
@@ -313,12 +329,11 @@ export default function GenerateProposal() {
               Não faz parte do escopo do projeto
             </h1>
             <ReactQuill
-              value={quillValueIsNotEscopoPart}
-              onChange={(e) => setQuillValueIsNotEscopoPart(e)}
+              value={quillHtmlIsNotOnScope}
+              onChange={(e) => setQuillHtmlIsNotOnScope(e)}
               onBlur={saveProgress}
               placeholder="Escreva aqui o que não faz parte do escopo do projeto (não deve ser gasto tempo com)"
               modules={quillModules}
-              ref={quillValueRefIsNotEscopoPart}
               style={{ width: "50rem", height: "10rem" }}
             />
           </div>
@@ -456,11 +471,10 @@ export default function GenerateProposal() {
                 Alternativas avaliadas da proposta
               </p>
               <ReactQuill
-                value={quillValueProposalAlternatives}
+                value={quillHtmlProposalAlternatives}
                 placeholder="Escreva aqui as alternativas avaliadas da proposta"
-                onChange={(e) => setQuillValueProposalAlternatives(e)}
+                onChange={(e) => setQuillHtmlProposalAlternatives(e)}
                 modules={quillModules}
-                ref={quillValueRefProposalAlternatives}
                 style={{ width: "50rem", height: "10rem" }}
               />
             </div>
@@ -473,7 +487,6 @@ export default function GenerateProposal() {
                 placeholder="Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."
                 onChange={(e) => setQuillValueProjectRange(e)}
                 modules={quillModules}
-                ref={quillValueRefProjectRange}
                 style={{ width: "50rem", height: "10rem" }}
               />
             </div>
@@ -482,11 +495,10 @@ export default function GenerateProposal() {
                 Principais riscos / Plano mitigação
               </p>
               <ReactQuill
-                value={quillValueProposalMitigationPlan}
+                value={quillHtmlProposalMitigationPlan}
                 placeholder="Escreva aqui os principais riscos e o plano de mitigação"
-                onChange={(e) => setQuillValueProposalMitigationPlan(e)}
+                onChange={(e) => setQuillHtmlProposalMitigationPlan(e)}
                 modules={quillModules}
-                ref={quillValueRefProposalMitigationPlan}
                 style={{ width: "50rem", height: "10rem" }}
               />
             </div>

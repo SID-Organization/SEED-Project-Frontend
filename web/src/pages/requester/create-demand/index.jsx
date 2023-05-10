@@ -1,5 +1,5 @@
 // React
-import React, { createRef, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // Styles
@@ -18,7 +18,7 @@ import Notification from "../../../Components/Notification";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
-import PdfDemandService from "../../../service/PdfDemand-Service";
+import PdfDemandService from "../../../service/DemandPDF-Service";
 
 // Utils
 import UserUtils from "../../../utils/User-Utils";
@@ -49,8 +49,6 @@ export default function CreateDemand() {
       coin: "",
       value: 0,
       descriptionHTML: "",
-      description: "",
-      ref: useRef(null),
       idFront: 0,
     },
   ]);
@@ -60,8 +58,6 @@ export default function CreateDemand() {
       coin: "",
       value: 0,
       descriptionHTML: "",
-      description: "",
-      ref: useRef(null),
       idFront: 0,
     },
   ]);
@@ -189,7 +185,6 @@ export default function CreateDemand() {
         benefitId: benefit.idBeneficio,
         value: benefit.valorBeneficio,
         coin: getBenefitCoin(benefit.moedaBeneficio),
-        description: benefit.memoriaCalculoBeneficio,
         descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
         idFront: benefit.idFront,
       };
@@ -321,8 +316,6 @@ export default function CreateDemand() {
         coin: "",
         value: 0,
         descriptionHTML: "",
-        ref: createRef(),
-        created: false,
         idFront: realBenefits.length,
       },
     ]);
@@ -336,8 +329,6 @@ export default function CreateDemand() {
         coin: "",
         value: 0,
         descriptionHTML: "",
-        ref: createRef(),
-        created: true,
         idFront: potentialBenefits.length,
       },
     ]);

@@ -12,15 +12,32 @@ const removeHTML = (text) => {
     return formattedText;
 } 
 
+const colors = [
+    "black",
+    "white",
+    "lightgray",
+    "darkgray",
+    "gray",
+
+    "red",
+    "darkred",
+    
+    "blue",
+    "lightblue",
+    "darkblue",
+]
+
+
+
 const quillModules = {
     toolbar: [
         [{ header: [1, 2, 3, false] }],
         [{ font: [] }],
         ["bold", "italic", "underline", "strike"],
-        [{ color: [] }, { background: [] }],
+        [{ color: colors}],
         [{ list: "ordered" }, { list: "bullet" }],
         [{ align: [] }],
-        ["image", "link"],
+        ["link"],
     ],
 };
 
