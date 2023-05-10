@@ -229,12 +229,12 @@ export default function GenerateProposal() {
       centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
     }
 
-    if((tabelaCustoInterno.tabelaCustoLinha.length === 0 && tabelaCustoInterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoExterno.tabelaCustoLinha.length > 0 && tabelaCustoExterno.centroCustoTabelaCusto.length === 0)) {
+    if ((tabelaCustoInterno.tabelaCustoLinha.length === 0 && tabelaCustoInterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoExterno.tabelaCustoLinha.length > 0 && tabelaCustoExterno.centroCustoTabelaCusto.length === 0)) {
       toast.error("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
       return;
     }
 
-    if((tabelaCustoExterno.tabelaCustoLinha.length === 0 && tabelaCustoExterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoInterno.tabelaCustoLinha.length > 0 && tabelaCustoInterno.centroCustoTabelaCusto.length === 0)) {
+    if ((tabelaCustoExterno.tabelaCustoLinha.length === 0 && tabelaCustoExterno.centroCustoTabelaCusto.length > 0) || (tabelaCustoInterno.tabelaCustoLinha.length > 0 && tabelaCustoInterno.centroCustoTabelaCusto.length === 0)) {
       toast.error("Preencha todos os campos de custo externo ( tabela de custo e centro de custo )");
       return;
     }

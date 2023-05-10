@@ -70,8 +70,7 @@ export default function Login(props) {
       })
       .then(() => {
         const loggedUser = UserUtils.getUserFromCookie();
-        localStorage.setItem("user", JSON.stringify(loggedUser)
-        );
+        localStorage.setItem("user", JSON.stringify(loggedUser));
         props.setUser(loggedUser);
       });
   };
