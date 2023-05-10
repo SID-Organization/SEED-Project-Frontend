@@ -10,23 +10,20 @@ import Chat from "./pages/requester/chat";
 import Login from "./pages/login";
 import Layout from "./Components/Layout";
 import Pautas from "./pages/analista/pautas";
-import Drafts from "./pages/requester/drafts";
 import Profile from "./pages/profile";
 import Proposals from "./pages/analista/proposals";
 import GenerateAta from "./pages/analista/generate-ata";
-import HomeDemands from "./pages/requester/home-demands";
 import CreateDemand from "./pages/requester/create-demand";
 import OpenedDemand from "./pages/requester/opened-demand";
-import DemandManager from "./pages/business-manager";
 import DemandCardList from "./Components/Demand-card-list";
 import GenerateProposal from "./pages/analista/generate-proposal";
 import ProposalDetails from "./pages/analista/proposal-details";
 import SubHeaderOpenedDemand from "./Components/Sub-header-opened-demand";
 import DemandType from "./Components/DemandsPage/DemandType-ENUM";
+import DemandsPage from "./Components/DemandsPage";
 
 // Utils
 import UserUtils from "./utils/User-Utils";
-// import DemandsPage from "./Components/DemandsPage";
 
 function App() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
