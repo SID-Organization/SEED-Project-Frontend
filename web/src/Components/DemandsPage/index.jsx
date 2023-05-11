@@ -58,7 +58,6 @@ export default function DemandsPage(props) {
   const [demandType, setDemandType] = useState(props.DemandType);
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
     setDemandType(props.DemandType);
@@ -72,7 +71,6 @@ export default function DemandsPage(props) {
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
         (demands) => {
           setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
-          setLoadingProgress(100);
         }
       );
     } else if (demandType == DemandType.DRAFT) {
@@ -80,7 +78,6 @@ export default function DemandsPage(props) {
       DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then(
         (demands) => {
           setDbDemands(demands.filter((d) => d.statusDemanda == "RASCUNHO"));
-          setLoadingProgress(100);
         }
       );
     } else {
@@ -96,7 +93,6 @@ export default function DemandsPage(props) {
           );
         }
         setDbDemands(demandsToManage);
-        setLoadingProgress(100);
         console.log("Demands to manage: ", demandsToManage);
       });
     }
