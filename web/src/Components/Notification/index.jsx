@@ -1,17 +1,19 @@
 import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
 
-import { SnackbarContent } from "@mui/material";
+import { Button, SnackbarContent } from "@mui/material";
+import { Link } from "react-router-dom";
 
 // interface messageProps {
 //   message: string;
+//   action: boolean;
 // }
 
 export default function PositionedSnackbar(props) {
   const [state, setState] = React.useState({
     open: true,
     vertical: "top",
-    horizontal: "right",
+    horizontal: "center",
   });
   const { vertical, horizontal, open } = state;
 
@@ -19,21 +21,40 @@ export default function PositionedSnackbar(props) {
     setState({ ...state, open: false });
   };
 
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setState({ ...state, open: false });
-    }, 1800);
+  const action = (
+    <Link to="/nova-demanda">
+      <Button color="secondary" size="small">
+        Criar demanda
+      </Button>
+    </Link>
+  );
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <>
+  if (props.action == true) {
+    return (
       <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
         open={open}
+        autoHideDuration={6000}
         onClose={handleClose}
-        key={vertical + horizontal}
+        anchorOrigin={{ vertical, horizontal }}
+      >
+        <SnackbarContent
+          style={{
+            backgroundColor: "#FFF",
+            color: "#023A67",
+            fontWeight: "bold",
+          }}
+          message={props.message}
+          action={action}
+        />
+      </Snackbar>
+    );
+  } else {
+    return (
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical, horizontal }}
       >
         <SnackbarContent
           style={{
@@ -44,6 +65,6 @@ export default function PositionedSnackbar(props) {
           message={props.message}
         />
       </Snackbar>
-    </>
-  );
+    );
+  }
 }

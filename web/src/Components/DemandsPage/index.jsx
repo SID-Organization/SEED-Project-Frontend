@@ -14,6 +14,7 @@ import UserUtils from "../../utils/User-Utils";
 //Components
 import NoDemands from "../../Components/No-demands";
 import SubHeader from "../Sub-header";
+import Notification from "../../Components/Notification";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -501,24 +502,13 @@ export default function DemandsPage(props) {
       )}
 
       <div className="flex flex-wrap justify-around">
+        {dbDemands && dbDemands.length == 0 && (
+          <Notification message="Nenhuma demanda encontrada!" action={true} />
+        )}
         {isLoaded ? (
-          dbDemands && dbDemands.length > 0 ? (
-            isListFormat ? (
-              getDemandsList()
-            ) : (
-              getDemandsGrid()
-            )
-          ) : (
-            <div className="flex h-[65vh] w-full items-center justify-center">
-              <NoDemands>
-                {demandType == DemandType.DEMAND ? (
-                  <p>Sem demandas!</p>
-                ) : (
-                  <p>Sem rascunhos!</p>
-                )}
-              </NoDemands>
-            </div>
-          )
+          dbDemands &&
+          dbDemands.length > 0 &&
+          (isListFormat ? getDemandsList() : getDemandsGrid())
         ) : (
           <div className="flex h-[71vh] flex-wrap items-center justify-around">
             <CircularProgress />
