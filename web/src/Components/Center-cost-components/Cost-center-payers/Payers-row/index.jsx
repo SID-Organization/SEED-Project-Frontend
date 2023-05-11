@@ -27,19 +27,26 @@ export default function PayerRow(props) {
 
     const [percent, setPercent] = useState(0);
     const [ccId, setCCId] = useState("");
+
     const [error, setError] = useState(false);
     const [CCs, setCCs] = useState([]);
 
+    // Get de cost center payers
     useEffect(() => {
         CostCenterService.getCostCenters().then((response) => {
-            if(response.status === 200) setCCs(response.data);
+            if (response.status === 200) setCCs(response.data);
         });
     }, [])
 
+    // Atualiza o html
     useEffect(() => {
         updateStates();
     }, [props.totalCostCenterPayers]);
 
+
+
+
+    // Executado após updateCCP
     useEffect(() => {
         // New percentage
         let np = (parseInt(props.paymentPercent) - parseInt(props.CCPS[props.index].percentage)) + parseInt(percent);
@@ -52,7 +59,7 @@ export default function PayerRow(props) {
         updateNewCCP();
     }, [ccId, percent])
 
-
+    // Atualiza o CCP no array de CCPs
     function handleUpdateCCP() {
         if (error) return;
         props.setTotalCostCenterPayers((prevState) => {
@@ -82,6 +89,8 @@ export default function PayerRow(props) {
         props.setPaymentPercent(parseInt(props.paymentPercent) - parseInt(newCCP.percentage));
     }
 
+
+
     return (
         <div
             className="mb-5 flex items-center justify-around gap-10 p-2"
@@ -93,7 +102,10 @@ export default function PayerRow(props) {
                     id="demo-simple-select-standard"
                     error={error}
                     value={ccId}
-                    onChange={e => setCCId(e.target.value)}
+                    onChange={(e) => {
+                        const ccpId = e.target.value;
+                        setCCId(ccpId);
+                    }}
                 >
                     {CCs && CCs.map((cc) => {
                         return (

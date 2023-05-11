@@ -27,7 +27,9 @@ import DemandService from "../../../service/Demand-Service";
 import ProposalService from "../../../service/Proposal-Service";
 import ProposalPDFService from "../../../service/ProposalPDF-Service";
 
-//Utils
+// Utils
+import DateUtils from "../../../utils/Date-Utils";
+import ProposalUtils from "../../../utils/Proposal-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
@@ -70,7 +72,6 @@ export default function GenerateProposal() {
   // STATES
   const [demand, setDemand] = useState();
   const [proposal, setProposal] = useState();
-  const [proposalHTML, setProposalHTML] = useState("");
 
   const [payback, setPayback] = useState(0);
   const [startDate, setStartDate] = useState("");
@@ -91,41 +92,16 @@ export default function GenerateProposal() {
 
   const [quillValueProjectRange, setQuillValueProjectRange] = useState("");
 
+
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
-  const [internalCosts, setInternalCosts] = useState([
-    {
-      expenseProfile: "",
-      monthTimeExecution: "",
-      necessaryHours: "",
-      costHour: "",
-      totalExpenseCost: "",
-    },
-  ]);
+  const [internalCosts, setInternalCosts] = useState([]);
 
-  const [externalCosts, setExternalCosts] = useState([
-    {
-      expenseProfile: "",
-      monthTimeExecution: "",
-      necessaryHours: "",
-      costHour: "",
-      totalExpenseCost: "",
-    },
-  ]);
+  const [externalCosts, setExternalCosts] = useState([]);
 
-  const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([
-    {
-      costCenter: "",
-      percentage: 0,
-    },
-  ]);
+  const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([]);
 
-  const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([
-    {
-      costCenter: "",
-      percentage: 0,
-    },
-  ]);
+  const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([]);
 
   // Demand ID
   let demandId = useParams().id;
@@ -156,11 +132,31 @@ export default function GenerateProposal() {
     delete html.idPdfProposta;
     delete html.proposta;
     setQuillHtmlScope(html.escopoPropostaHTML);
+    setQuillValueProjectRange(html.abrangenciaProjetoPropostaHTML);
     setQuillHtmlIsNotOnScope(html.naoFazParteDoEscopoPropostaHTML);
-    setQuillHtmlProposalAlternatives(html.alternativasAvaliadasPropostaHTML);
     setQuillHtmlProposalMitigationPlan(html.planoMitigacaoPropostaHTML);
+    setQuillHtmlProposalAlternatives(html.alternativasAvaliadasPropostaHTML);
     console.log("PDF", html);
   }
+
+
+  useEffect(() => {
+    if (proposal) {
+      const intTable = proposal.tabelaCusto.find(tc => tc.tipoDespesa == "INTERNA");
+      const extTable = proposal.tabelaCusto.find(tc => tc.tipoDespesa == "EXTERNA");
+
+      setInternalCosts(ProposalUtils.formatCostsFromDB(intTable));
+      setExternalCosts(ProposalUtils.formatCostsFromDB(extTable));
+      setInternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(intTable));
+      setExternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(extTable));
+      setStartDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaInicio));
+      setEndDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaFim));
+    }
+  }, [proposal])
+
+  useEffect(() => {
+    console.log("Start date", startDate);
+  });
 
   function sumInternalCosts() {
     let sum = 0;
@@ -254,6 +250,9 @@ export default function GenerateProposal() {
       return;
     }
 
+    const intCostsSum = ProposalUtils.sumCosts(internalCosts);
+    const extCostsSum = ProposalUtils.sumCosts(externalCosts);
+
     const proposalToSave = {
       escopoProposta: removeHTML(quillHtmlScope),
       naoFazParteDoEscopoProposta: removeHTML(quillHtmlIsNotOnScope),
@@ -266,9 +265,9 @@ export default function GenerateProposal() {
       abrangenciaProjetoProposta: removeHTML(quillValueProjectRange),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
-      custosInternosDoProjeto: sumInternalCosts(),
-      custosExternosDoProjeto: sumExternalCosts(),
-      custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
+      custosInternosDoProjeto: intCostsSum,
+      custosExternosDoProjeto: extCostsSum,
+      custosTotaisDoProjeto: intCostsSum + extCostsSum,
       tabelaCusto: [
         tabelaCustoInterno,
         tabelaCustoExterno,
