@@ -57,14 +57,14 @@ export default function UserMessageCard(props) {
           >
             <p className="flex gap-2 text-base font-bold">
               <span>
-                {props.name.length > 10
+                {props.name && props.name.length > 10
                   ? props.name.slice(0, 10) + ""
                   : props.name}
               </span>{" "}
               -{" "}
               <span className="cursor-default font-normal text-[#9c9c9c]">
                 {" "}
-                {props.userDemand.length > 9
+                {props.userDemand && props.userDemand.length > 9
                   ? props.userDemand.slice(0, 9) + "..."
                   : props.userDemand}
               </span>
@@ -73,7 +73,7 @@ export default function UserMessageCard(props) {
           <p>
             {props.lastMessage ? (
               props.lastMessage.length > 20 ? (
-                props.lastMessage.slice(0, 20) + "..."
+                props.lastMessage.slice(0, 20) + "..  ."
               ) : (
                 props.lastMessage
               )
