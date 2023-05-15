@@ -13,7 +13,7 @@ const getChatByUserId = async (id) => {
   return AxiosAPI.get(`${url}/usuario/${id}`)
     .then((response) => response.data)
     .catch((error) => error);
-};
+}
 
 const getChatMessagesByChatId = async (id) => {
   return AxiosAPI.get(`${url}/mensagem/${id}`)
