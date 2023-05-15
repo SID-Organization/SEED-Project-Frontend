@@ -21,7 +21,7 @@ import MuiEditRoundedIcon from "@mui/icons-material/EditRounded";
 import MuiDownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import MuiMailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
-import { Divider, Icon, IconButton, Tooltip } from "@mui/material";
+import { Divider, Tooltip } from "@mui/material";
 
 // Components
 import ProposalCard from "../Proposal-card";
@@ -107,6 +107,7 @@ export default function PautasCard(props) {
 
   useEffect(() => {
     PautaService.getPautaProposalsById(props.Id).then((proposals) => {
+      console.log("Proposals", proposals)
       setProposals(proposals);
     });
   }, []);
@@ -341,7 +342,7 @@ export default function PautasCard(props) {
           <Divider />
           <AccordionDetails>
             <div className="grid gap-5">
-              {proposals &&
+              {(proposals && Array.isArray(proposals)) &&
                 proposals.map((proposal, i) => (
                   <ProposalCard
                     key={i}

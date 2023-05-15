@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 // Tools
 import ReactQuill from "react-quill";
@@ -31,6 +31,7 @@ import ProposalPDFService from "../../../service/ProposalPDF-Service";
 import DateUtils from "../../../utils/Date-Utils";
 import ProposalUtils from "../../../utils/Proposal-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
+import DemandLogService from "../../../service/DemandLog-Service";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
@@ -69,6 +70,9 @@ const DateInput = styled(MuiTextField)({
 });
 
 export default function GenerateProposal() {
+  
+  const navigate = useNavigate();
+
   // STATES
   const [demand, setDemand] = useState();
   const [proposal, setProposal] = useState();
@@ -154,10 +158,6 @@ export default function GenerateProposal() {
     }
   }, [proposal])
 
-  useEffect(() => {
-    console.log("Start date", startDate);
-  });
-
   function sumInternalCosts() {
     let sum = 0;
     internalCosts.forEach((cost) => {
@@ -239,7 +239,6 @@ export default function GenerateProposal() {
     let tcle = tabelaCustoExterno.tabelaCustoLinha;
     let tcce = tabelaCustoExterno.centroCustoTabelaCusto;
 
-
     if ((tcli.length == 0 && tcci.length > 0) || (tcli.length > 0 && tcci.length == 0)) {
       alert("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
       return;
@@ -288,14 +287,25 @@ export default function GenerateProposal() {
     formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
     formData.append("pdfPropostaForm", JSON.stringify(pdfProposal));
 
-
     console.log("Proposal", proposalToSave);
     console.log("PDF", pdfProposal);
 
     ProposalService.updateProposal(formData, proposal.idProposta)
       .then(res => {
-        if ((finish === true) && res.status == 200) {
-          DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+        if (finish && res.status === 200 || res.status === 201) {
+          const demandLog = {
+            tarefaHistoricoWorkflow: "PROPOSTA_PRONTA",
+            demandaHistorico: { idDemanda: demandId },
+            acaoFeitaHistorico: "Enviar",
+            idResponsavel: { numeroCadastroUsuario: 72131 },
+          };
+      
+          DemandLogService.createDemandLog(demandLog).then((response) => {
+            if (response.status == 200 || response.status == 201) {
+              DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+            }
+          });
+          navigate('/gerenciar-demandas');
         }
       });
   };
