@@ -15,23 +15,87 @@ import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
 
-import { PropaneSharp } from "@mui/icons-material";
-
 //Services
 import ProposalService from "../../service/Proposal-Service";
+
+const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
+  color: "#00A3FF",
+  cursor: "pointer",
+  transition: "0.2s",
+  fontSize: "1.2rem",
+});
+
+
+
+const IconButtonStart = styled(MuiIconButton)({
+  backgroundColor: "#0075B1",
+  border: "1px solid #0075B1",
+  width: "2rem",
+  height: "2rem",
+
+  "&:hover": {
+    backgroundColor: "#008fd6",
+    border: "1px solid #008fd6",
+  },
+});
+
+const IconButtonDefault = styled(MuiIconButton)({
+  backgroundColor: "#0075B1",
+  border: "1px solid #0075B1",
+  width: "2rem",
+  height: "2rem",
+
+  "&:hover": {
+    backgroundColor: "#008fd6",
+    border: "1px solid #008fd6",
+  },
+});
+
+const IconButtonClicked = styled(MuiIconButton)({
+  backgroundColor: "#FFF",
+  border: "1px solid #FFF",
+  width: "2rem",
+  height: "2rem",
+
+  "&:hover": {
+    backgroundColor: "#FFF",
+    border: "1px solid #FFF",
+  },
+});
+
+const PlayCircleFilledWhiteRoundedIcon = styled(
+  MuiPlayCircleFilledWhiteRoundedIcon
+)({
+  color: "#FFF",
+  fontSize: "2rem",
+});
+
+const AddCircleRoundedIcon = styled(MuiAddCircleRoundedIcon)({
+  color: "#FFF",
+  fontSize: "2rem",
+});
+
+const CheckCircleRoundedIcon = styled(MuiCheckCircleRoundedIcon)({
+  color: "#0075B1",
+  fontSize: "2rem",
+});
+
+const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
+  color: "#707070",
+  fontSize: "1.7rem",
+  cursor: "pointer",
+  transition: "0.2s",
+
+  "&:hover": {
+    color: "#979797",
+  },
+});
+
 
 export default function ProposalCard(props) {
   const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 
   // Components MUI styles
-
-  const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
-    color: "#00A3FF",
-    cursor: "pointer",
-    transition: "0.2s",
-    fontSize: "1.2rem",
-  });
-
   const Card = styled(MuiCard)({
     width: props.newPauta ? "100%" : "100%",
     height: props.newPauta ? "6rem" : "none",
@@ -40,70 +104,6 @@ export default function ProposalCard(props) {
     border: "1px solid #E5E5E5",
     padding: "10px",
     backgroundColor: "#F0F0F0",
-  });
-
-  const IconButtonStart = styled(MuiIconButton)({
-    backgroundColor: "#0075B1",
-    border: "1px solid #0075B1",
-    width: "2rem",
-    height: "2rem",
-
-    "&:hover": {
-      backgroundColor: "#008fd6",
-      border: "1px solid #008fd6",
-    },
-  });
-
-  const IconButtonDefault = styled(MuiIconButton)({
-    backgroundColor: "#0075B1",
-    border: "1px solid #0075B1",
-    width: "2rem",
-    height: "2rem",
-
-    "&:hover": {
-      backgroundColor: "#008fd6",
-      border: "1px solid #008fd6",
-    },
-  });
-
-  const IconButtonClicked = styled(MuiIconButton)({
-    backgroundColor: "#FFF",
-    border: "1px solid #FFF",
-    width: "2rem",
-    height: "2rem",
-
-    "&:hover": {
-      backgroundColor: "#FFF",
-      border: "1px solid #FFF",
-    },
-  });
-
-  const PlayCircleFilledWhiteRoundedIcon = styled(
-    MuiPlayCircleFilledWhiteRoundedIcon
-  )({
-    color: "#FFF",
-    fontSize: "2rem",
-  });
-
-  const AddCircleRoundedIcon = styled(MuiAddCircleRoundedIcon)({
-    color: "#FFF",
-    fontSize: "2rem",
-  });
-
-  const CheckCircleRoundedIcon = styled(MuiCheckCircleRoundedIcon)({
-    color: "#0075B1",
-    fontSize: "2rem",
-  });
-
-  const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
-    color: "#707070",
-    fontSize: "1.7rem",
-    cursor: "pointer",
-    transition: "0.2s",
-
-    "&:hover": {
-      color: "#979797",
-    },
   });
 
   function handleSelectedProposals() {
@@ -120,7 +120,14 @@ export default function ProposalCard(props) {
   }
 
   function getProposalPDFOnClick() {
-    window.open(ProposalService.getProposalPDF(props.proposalId), "_blank");
+    ProposalService.getProposalPDF(props.proposalId).then((response) => {
+      const pdfFile = new Blob([response.data], { type: "application/pdf" });
+      const fileURL = URL.createObjectURL(pdfFile);
+
+      window.open(fileURL, "_blank");
+      // console.log("FILE", file);
+      console.log("FILE URL", fileURL)
+    });
   }
 
   return (
@@ -128,16 +135,14 @@ export default function ProposalCard(props) {
       <Card>
         <div className="flex items-center justify-around gap-16">
           <div
-            className={`grid gap-7 font-roboto ${
-              !props.newPauta && "w-[48rem]"
-            }`}
+            className={`grid gap-7 font-roboto ${!props.newPauta && "w-[48rem]"
+              }`}
           >
             <div
               className={`
-                ${
-                  props.newPauta
-                    ? "ml-4 flex items-center justify-between"
-                    : "flex items-center justify-around "
+                ${props.newPauta
+                  ? "ml-4 flex items-center justify-between"
+                  : "flex items-center justify-around "
                 }
               `}
             >
@@ -148,17 +153,16 @@ export default function ProposalCard(props) {
               >
                 <Tooltip title={props.title}>
                   <h1
-                    className={`${
-                      props.newPauta
-                        ? "text-base font-bold"
-                        : "text-sm font-bold"
-                    }`}
+                    className={`${props.newPauta
+                      ? "text-base font-bold"
+                      : "text-sm font-bold"
+                      }`}
                   >
                     {props.title.length > 25
                       ? props.proposalId +
-                        " - " +
-                        props.title.substring(0, 25) +
-                        "..."
+                      " - " +
+                      props.title.substring(0, 25) +
+                      "..."
                       : props.proposalId + " - " + props.title}
                   </h1>
                 </Tooltip>
@@ -227,29 +231,27 @@ export default function ProposalCard(props) {
             <div className="flex items-center">
               <h1
                 className={`
-                ${
-                  props.newPauta
+                ${props.newPauta
                     ? "ml-4 w-[49rem] font-bold"
                     : "text-sm font-bold"
-                }
+                  }
                 `}
               >
                 Demanda de referência:{" "}
                 <Tooltip title={props.referenceDemand + " - " + props.title}>
                   <span
                     className={`
-                    ${
-                      props.newPauta
+                    ${props.newPauta
                         ? "cursor-default text-sm font-normal text-gray-500"
                         : "cursor-default font-normal text-gray-500"
-                    }
+                      }
                     `}
                   >
                     {props.referenceDemand + " - " + props.title > 70
                       ? (props.referenceDemand + " - " + props.title).substring(
-                          0,
-                          70
-                        ) + "..."
+                        0,
+                        70
+                      ) + "..."
                       : props.referenceDemand + " - " + props.title}
                   </span>
                 </Tooltip>

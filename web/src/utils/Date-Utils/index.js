@@ -7,6 +7,14 @@ const formatDate = (date) => {
     return newDate;
 };
 
+const formatDateFromDB = (date) => {
+    const newDate = date
+        .split("T")[0]
+    
+    return newDate;
+};
+
 export default {
     formatDate,
+    formatDateFromDB
 }

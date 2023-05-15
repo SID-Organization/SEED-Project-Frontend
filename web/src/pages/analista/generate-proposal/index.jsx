@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 // Tools
 import ReactQuill from "react-quill";
@@ -27,8 +27,11 @@ import DemandService from "../../../service/Demand-Service";
 import ProposalService from "../../../service/Proposal-Service";
 import ProposalPDFService from "../../../service/ProposalPDF-Service";
 
-//Utils
+// Utils
+import DateUtils from "../../../utils/Date-Utils";
+import ProposalUtils from "../../../utils/Proposal-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
+import DemandLogService from "../../../service/DemandLog-Service";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
@@ -67,10 +70,12 @@ const DateInput = styled(MuiTextField)({
 });
 
 export default function GenerateProposal() {
+  
+  const navigate = useNavigate();
+
   // STATES
   const [demand, setDemand] = useState();
   const [proposal, setProposal] = useState();
-  const [proposalHTML, setProposalHTML] = useState("");
 
   const [payback, setPayback] = useState(0);
   const [startDate, setStartDate] = useState("");
@@ -91,41 +96,16 @@ export default function GenerateProposal() {
 
   const [quillValueProjectRange, setQuillValueProjectRange] = useState("");
 
+
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
-  const [internalCosts, setInternalCosts] = useState([
-    {
-      expenseProfile: "",
-      monthTimeExecution: "",
-      necessaryHours: "",
-      costHour: "",
-      totalExpenseCost: "",
-    },
-  ]);
+  const [internalCosts, setInternalCosts] = useState([]);
 
-  const [externalCosts, setExternalCosts] = useState([
-    {
-      expenseProfile: "",
-      monthTimeExecution: "",
-      necessaryHours: "",
-      costHour: "",
-      totalExpenseCost: "",
-    },
-  ]);
+  const [externalCosts, setExternalCosts] = useState([]);
 
-  const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([
-    {
-      costCenter: "",
-      percentage: 0,
-    },
-  ]);
+  const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([]);
 
-  const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([
-    {
-      costCenter: "",
-      percentage: 0,
-    },
-  ]);
+  const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([]);
 
   // Demand ID
   let demandId = useParams().id;
@@ -156,11 +136,27 @@ export default function GenerateProposal() {
     delete html.idPdfProposta;
     delete html.proposta;
     setQuillHtmlScope(html.escopoPropostaHTML);
+    setQuillValueProjectRange(html.abrangenciaProjetoPropostaHTML);
     setQuillHtmlIsNotOnScope(html.naoFazParteDoEscopoPropostaHTML);
-    setQuillHtmlProposalAlternatives(html.alternativasAvaliadasPropostaHTML);
     setQuillHtmlProposalMitigationPlan(html.planoMitigacaoPropostaHTML);
+    setQuillHtmlProposalAlternatives(html.alternativasAvaliadasPropostaHTML);
     console.log("PDF", html);
   }
+
+
+  useEffect(() => {
+    if (proposal) {
+      const intTable = proposal.tabelaCusto.find(tc => tc.tipoDespesa == "INTERNA");
+      const extTable = proposal.tabelaCusto.find(tc => tc.tipoDespesa == "EXTERNA");
+
+      setInternalCosts(ProposalUtils.formatCostsFromDB(intTable));
+      setExternalCosts(ProposalUtils.formatCostsFromDB(extTable));
+      setInternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(intTable));
+      setExternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(extTable));
+      setStartDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaInicio));
+      setEndDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaFim));
+    }
+  }, [proposal])
 
   function sumInternalCosts() {
     let sum = 0;
@@ -243,7 +239,6 @@ export default function GenerateProposal() {
     let tcle = tabelaCustoExterno.tabelaCustoLinha;
     let tcce = tabelaCustoExterno.centroCustoTabelaCusto;
 
-
     if ((tcli.length == 0 && tcci.length > 0) || (tcli.length > 0 && tcci.length == 0)) {
       alert("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
       return;
@@ -253,6 +248,9 @@ export default function GenerateProposal() {
       alert("Preencha todos os campos de custo externo ( tabela de custo e centro de custo )");
       return;
     }
+
+    const intCostsSum = ProposalUtils.sumCosts(internalCosts);
+    const extCostsSum = ProposalUtils.sumCosts(externalCosts);
 
     const proposalToSave = {
       escopoProposta: removeHTML(quillHtmlScope),
@@ -266,9 +264,9 @@ export default function GenerateProposal() {
       abrangenciaProjetoProposta: removeHTML(quillValueProjectRange),
       nomeResponsavelNegocio: nameBusinessResponsible,
       areaResponsavelNegocio: areaBusinessResponsible,
-      custosInternosDoProjeto: sumInternalCosts(),
-      custosExternosDoProjeto: sumExternalCosts(),
-      custosTotaisDoProjeto: sumInternalCosts() + sumExternalCosts(),
+      custosInternosDoProjeto: intCostsSum,
+      custosExternosDoProjeto: extCostsSum,
+      custosTotaisDoProjeto: intCostsSum + extCostsSum,
       tabelaCusto: [
         tabelaCustoInterno,
         tabelaCustoExterno,
@@ -289,14 +287,25 @@ export default function GenerateProposal() {
     formData.append("updatePropostaForm", JSON.stringify(proposalToSave));
     formData.append("pdfPropostaForm", JSON.stringify(pdfProposal));
 
-
     console.log("Proposal", proposalToSave);
     console.log("PDF", pdfProposal);
 
     ProposalService.updateProposal(formData, proposal.idProposta)
       .then(res => {
-        if ((finish === true) && res.status == 200) {
-          DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+        if (finish && res.status === 200 || res.status === 201) {
+          const demandLog = {
+            tarefaHistoricoWorkflow: "PROPOSTA_PRONTA",
+            demandaHistorico: { idDemanda: demandId },
+            acaoFeitaHistorico: "Enviar",
+            idResponsavel: { numeroCadastroUsuario: 72131 },
+          };
+      
+          DemandLogService.createDemandLog(demandLog).then((response) => {
+            if (response.status == 200 || response.status == 201) {
+              DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+            }
+          });
+          navigate('/gerenciar-demandas');
         }
       });
   };
