@@ -5,7 +5,7 @@ import DemandType from "./DemandType-ENUM";
 import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../service/DemandLog-Service";
 import DemandCard from "../Demand-card";
-import { Box, CircularProgress, Fade, Pagination } from "@mui/material";
+import { Box, CircularProgress, Fade, Grid, Pagination } from "@mui/material";
 import DemandsList from "../Demand-card-list";
 
 //Utils
@@ -245,8 +245,17 @@ export default function DemandsPage(props) {
     };
 
     return (
-      <div>
-        <div className="flex w-full flex-wrap justify-around gap-4">
+      <>
+        <Grid
+          container
+          gap={3}
+          rowGap={1}
+          direction="row"
+          justify="center"
+          alignItems="center"
+          alignContent="center"
+          style={{ padding: "0 20px" }}
+        >
           {showingDemandsPaginated &&
             showingDemandsPaginated.map((demand, i) => {
               if (demandType == DemandType.DRAFT) {
@@ -261,7 +270,8 @@ export default function DemandsPage(props) {
                 return <DemandCard key={i} demand={demand} />;
               }
             })}
-        </div>
+        </Grid>
+
         <div className="flex w-full justify-center">
           {showingDemands && showingDemands.length > 0 && (
             <Pagination
@@ -272,7 +282,7 @@ export default function DemandsPage(props) {
             />
           )}
         </div>
-      </div>
+      </>
     );
   }
 
@@ -498,9 +508,15 @@ export default function DemandsPage(props) {
       )}
 
       <div className="flex flex-wrap justify-around">
-        {dbDemands && dbDemands.length == 0 && (
-          <Notification message="Nenhuma demanda encontrada!" action={true} />
+        {dbDemands && dbDemands.length == 0 && DemandType.MANAGER && (
+          <Notification message="Nenhuma demanda encontrada!" />
         )}
+        {dbDemands &&
+          dbDemands.length == 0 &&
+          DemandType.DEMAND &&
+          DemandType.DRAFT && (
+            <Notification message="Nenhuma demanda encontrada!" action={true} />
+          )}
         {isLoaded ? (
           dbDemands &&
           dbDemands.length > 0 &&
