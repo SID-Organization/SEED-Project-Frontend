@@ -42,7 +42,7 @@ export default function homeDemands() {
     DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
       (demands) => {
         console.log("Demands carregadas:", demands);
-        setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
+        setDbDemands(demands.data.filter((d) => d.statusDemanda != "RASCUNHO"));
       }
     );
   }, []);
