@@ -77,7 +77,7 @@ const getDemandsByStatus = async (status) => {
 
 const getDemandsByRequestorId = async (requestorId) => {
   return AxiosAPI.get(`${url}/solicitante/${requestorId}`)
-    .then((response) => response.data)
+    .then((response) => response)
     .catch ((error) => error);
 };
 
