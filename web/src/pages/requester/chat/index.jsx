@@ -80,10 +80,15 @@ export default function Chat() {
   useEffect(() => {
     ChatService.getChatByUserId(UserUtils.getLoggedUserId()).then(
       (response) => {
-        setChatUsers(response.data);
+        console.log("RES", response);
+        setChatUsers(response);
       }
     );
   }, []);
+
+  useEffect(() => {
+    console.log("ChatUsers: ", chatUsers);
+  }, [chatUsers]);
 
   const onConnected = () => {
     setUserData((prvState) => ({ ...prvState, connected: true }));
@@ -95,13 +100,13 @@ export default function Chat() {
   };
 
   const onError = (error) => {
-    console.log(error);
+    console.log("error line 96", error);
   };
 
   const userJoin = () => {
     var chatMessage = {
       idUsuario: userData.idUsuario.numeroCadastroUsuario,
-      status: "JOIN",
+      status: "JOIN"
     };
     stompClient.send("/app/message/", {}, JSON.stringify(chatMessage));
   };
@@ -119,24 +124,26 @@ export default function Chat() {
           idUsuario: payLoadData.idUsuario.numeroCadastroUsuario,
           dataMensagem: new Date().toLocaleTimeString(),
           idChat: payLoadData.idChat.idChat,
-          position: "left",
-        },
+          position: "left"
+        }
       ]);
     }
   };
 
   // Atualiza a ultima mensagem do chat
   useEffect(() => {
-    const lastMessage = messagesReceivedByWS[messagesReceivedByWS.length - 1];
-    setChatUsers(
-      chatUsers.map((user) => {
-        if (user.idChat === lastMessage.idChat.idChat) {
-          return { ...user, lastMessage: lastMessage.textoMensagem };
-        } else {
-          return user;
-        }
-      })
-    );
+    if (messagesReceivedByWS) {
+      const lastMessage = messagesReceivedByWS[messagesReceivedByWS.length - 1];
+      setChatUsers(
+        chatUsers.map((user) => {
+          if (user.idChat === lastMessage.idChat) {
+            return { ...user, lastMessage: lastMessage.textoMensagem };
+          } else {
+            return user;
+          }
+        })
+      );
+    }
   }, [messagesReceivedByWS]);
 
   useEffect(() => {
@@ -162,7 +169,7 @@ export default function Chat() {
       arquivoMensagem: null,
       dataMensagem: date.toISOString(),
       idUsuario: userData.idUsuario,
-      idChat: { idChat: userData.idChat.idChat },
+      idChat: { idChat: userData.idChat.idChat }
     };
 
     if (userData.idChat.idChat !== userData.idChat.idChat) {
@@ -178,8 +185,8 @@ export default function Chat() {
         idUsuario: chatUserId,
         dataMensagem: new Date().toLocaleTimeString(),
         idChat: userData.idChat.idChat,
-        position: "right",
-      },
+        position: "right"
+      }
     ]);
 
     setUserData({ ...userData, message: "" });
@@ -187,9 +194,11 @@ export default function Chat() {
 
   //UseEffect para buscar todas as mensagens do banco de dados
   useEffect(() => {
-    ChatService.getChatMessagesByChatId(chatId).then((messages) => {
-      setChatMessages(messages);
-    });
+    if (chatId !== 0) {
+      ChatService.getChatMessagesByChatId(chatId).then((messages) => {
+        setChatMessages(messages);
+      });
+    }
   }, [chatId]);
 
   useEffect(() => {
@@ -201,21 +210,9 @@ export default function Chat() {
 
   useEffect(() => {
     if (chatUsers) {
-      setChatUsers(
-        chatUsers.map((user) => ({
-          picture: user.fotoAnalista,
-          name: user.nomeAnalista,
-          userDemand: user.tituloDemanda,
-          lastMessage: user.ultimaMensagem,
-          time: user.dataUltimaMensagem,
-          idUsuario: user.idUsuario,
-          unreadMessages: "1",
-          idChat: user.idChat,
-          idDemanda: user.idDemanda,
-          isOnline: true,
-        }))
-      );
+      setUserCard({name: "Nome"})
     }
+    console.log("CHATUSERS", chatUsers);
   }, [chatUsers]);
 
   //UseEffect para setar as mensagens no chat
@@ -231,7 +228,7 @@ export default function Chat() {
             type: "text",
             text: message.textoMensagem,
             date: message.dataMensagem,
-            status: "received ",
+            status: "received "
           };
         })
       );
@@ -240,40 +237,42 @@ export default function Chat() {
 
   //Função para filtrar os usuários que serão exibidos na lista de usuários
   function returnedUserSearch() {
-    const filteredUsers = chatUsers.filter((user) => {
-      return (
-        user.name.toLowerCase().includes(search.toLowerCase()) ||
-        user.userDemand.toLowerCase().includes(search.toLowerCase())
-      );
-    });
+    if (chatUsers) {
+      const filteredUsers = chatUsers.filter((user) => {
+        return (
+          user.name.toLowerCase().includes(search.toLowerCase()) ||
+          user.userDemand.toLowerCase().includes(search.toLowerCase())
+        );
+      });
 
-    if (filteredUsers.length === 0) {
-      return (
-        <div className="grid items-center justify-center">
-          <div className="mt-10 flex items-center justify-center">
-            <SearchOffIcon
-              sx={{
-                fontSize: 100,
-                color: "#BDBDBD",
-              }}
-            />
+      if (filteredUsers.length === 0) {
+        return (
+          <div className="grid items-center justify-center">
+            <div className="mt-10 flex items-center justify-center">
+              <SearchOffIcon
+                sx={{
+                  fontSize: 100,
+                  color: "#BDBDBD"
+                }}
+              />
+            </div>
+            <p className="cursor-default font-roboto tracking-wide text-[#BDBDBD]">
+              Nenhum usuário encontrado
+            </p>
           </div>
-          <p className="cursor-default font-roboto tracking-wide text-[#BDBDBD]">
-            Nenhum usuário encontrado
-          </p>
-        </div>
-      );
-    } else {
-      return filteredUsers.map((user) => (
-        <UserMessageCard
-          name={user.name}
-          userDemand={user.userDemand}
-          lastMessage={user.lastMessage}
-          time={user.time}
-          unreadMessages={user.unreadMessages}
-          isOnline={user.isOnline}
-        />
-      ));
+        );
+      } else {
+        return filteredUsers.map((user) => (
+          <UserMessageCard
+            name={user.name}
+            userDemand={user.userDemand}
+            lastMessage={user.lastMessage}
+            time={user.time}
+            unreadMessages={user.unreadMessages}
+            isOnline={user.isOnline}
+          />
+        ));
+      }
     }
   }
 
@@ -292,13 +291,13 @@ export default function Chat() {
               height: "3.5rem",
               borderRadius: "50px",
               marginLeft: "1rem",
-              marginRight: "1rem",
+              marginRight: "1rem"
             }}
           >
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <SearchIcon
                 sx={{
-                  color: "#9e9e9e",
+                  color: "#9e9e9e"
                 }}
               />
             </IconButton>
@@ -319,66 +318,65 @@ export default function Chat() {
           "
         >
           {/* USERS HERE */}
-          {search === ""
+          {(search === "" && chatUsers)
             ? chatUsers
-                .sort((a, b) => {
-                  if (a.unreadMessages && !b.unreadMessages) return -1;
-                  if (!a.unreadMessages && b.unreadMessages) return 1;
+              .sort((a, b) => {
+                if (a.unreadMessages && !b.unreadMessages) return -1;
+                if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                  // const timeA = new Date(
-                  //   a.time.split(":")[0],
-                  //   a.time.split(":")[1]
-                  // );
+                // const timeA = new Date(
+                //   a.time.split(":")[0],
+                //   a.time.split(":")[1]
+                // );
 
-                  // const timeB = new Date(
-                  //   b.time.split(":")[0],
-                  //   b.time.split(":")[1]
-                  // );
+                // const timeB = new Date(
+                //   b.time.split(":")[0],
+                //   b.time.split(":")[1]
+                // );
 
-                  // if (timeA > timeB) {
-                  //   return -1;
-                  // }
-                  // if (timeA < timeB) {
-                  //   return 1;
-                  // }
+                // if (timeA > timeB) {
+                //   return -1;
+                // }
+                // if (timeA < timeB) {
+                //   return 1;
+                // }
 
-                  return 0;
-                })
-
-                .map((user) => {
-                  return (
-                    <div
-                      onClick={() => {
-                        const userName = user.name;
-                        const userDemand = user.userDemand;
-                        setChatUserId(user.idUsuario);
-                        setUserNameCard(userName);
-                        setUserDemandCard(userDemand);
-                        setChatId(user.idChat);
-                        setUserData({
-                          idUsuario: {
-                            numeroCadastroUsuario: user.idUsuario,
-                          },
-                          idChat: { idChat: user.idChat },
-                          idDemanda: { idDemanda: user.idDemanda },
-                          connected: false,
-                          message: "",
-                        });
-                        connect();
-                      }}
-                    >
-                      <UserMessageCard
-                        picture={user.picture}
-                        name={user.name}
-                        userDemand={user.userDemand}
-                        lastMessage={user.lastMessage}
-                        time={user.time}
-                        unreadMessages={user.unreadMessages}
-                        isOnline={user.isOnline}
-                      />
-                    </div>
-                  );
-                })
+                return 0;
+              })
+              .map((user) => {
+                return (
+                  <div
+                    onClick={() => {
+                      const userName = user.name;
+                      const userDemand = user.userDemand;
+                      setChatUserId(user.idUsuario);
+                      setUserNameCard(userName);
+                      setUserDemandCard(userDemand);
+                      setChatId(user.idChat);
+                      setUserData({
+                        idUsuario: {
+                          numeroCadastroUsuario: user.idUsuario
+                        },
+                        idChat: { idChat: user.idChat },
+                        idDemanda: { idDemanda: user.idDemanda },
+                        connected: false,
+                        message: ""
+                      });
+                      connect();
+                    }}
+                  >
+                    <UserMessageCard
+                      picture={user.picture}
+                      name={user.name}
+                      userDemand={user.userDemand}
+                      lastMessage={user.lastMessage}
+                      time={user.time}
+                      unreadMessages={user.unreadMessages}
+                      isOnline={user.isOnline}
+                    />
+                  </div>
+                );
+              })
             : returnedUserSearch()}
         </div>
       </div>
@@ -389,7 +387,7 @@ export default function Chat() {
               <Diversity3RoundedIcon
                 sx={{
                   fontSize: 200,
-                  color: "#0075B1",
+                  color: "#0075B1"
                 }}
               />
             </div>
@@ -461,10 +459,10 @@ export default function Chat() {
                   color: "#0075B1",
                   transition: "all 0.2s ease-in-out",
                   "&:hover": {
-                    color: "#000",
+                    color: "#000"
                   },
                   height: "2.5rem",
-                  width: "2.5rem",
+                  width: "2.5rem"
                 }}
               >
                 <input
@@ -511,7 +509,7 @@ export default function Chat() {
               onChange={(e) => {
                 setUserData({
                   ...userData,
-                  message: e.target.value,
+                  message: e.target.value
                 });
               }}
               value={userData.message}
@@ -521,10 +519,11 @@ export default function Chat() {
                 onClick={
                   userData.message !== ""
                     ? () => {
-                        sendPrivateValue();
-                        setMessage("");
-                      }
-                    : () => {}
+                      sendPrivateValue();
+                      setMessage("");
+                    }
+                    : () => {
+                    }
                 }
                 color="primary"
                 aria-label="upload picture"
@@ -537,10 +536,10 @@ export default function Chat() {
                   color: "#0075B1",
                   transition: "all 0.2s ease-in-out",
                   "&:hover": {
-                    color: "#000",
+                    color: "#000"
                   },
                   height: "2.5rem",
-                  width: "2.5rem",
+                  width: "2.5rem"
                 }}
               >
                 <SendRoundedIcon />
