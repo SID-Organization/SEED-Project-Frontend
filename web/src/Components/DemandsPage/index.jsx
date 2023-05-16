@@ -64,24 +64,29 @@ export default function DemandsPage(props) {
     console.log("props.DemandType: ", props.DemandType);
   }, [props.DemandType]);
 
-  //Pegar as respectivas demandas
+  // Pegar as respectivas demandas
   useEffect(() => {
     if (demandType == DemandType.DEMAND) {
-      console.log("ENTROU DEMAND");
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
-        (demands) => {
-          setDbDemands(demands.filter((d) => d.statusDemanda != "RASCUNHO"));
+        (res) => {
+          if (res.data.length > 0) {
+            setDbDemands(res.data.filter((d) => d.statusDemanda != "RASCUNHO"));
+          } else {
+            setDbDemands([]);
+          }
         }
       );
     } else if (demandType == DemandType.DRAFT) {
-      console.log("ENTROU DRAFT");
       DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then(
         (demands) => {
-          setDbDemands(demands.filter((d) => d.statusDemanda == "RASCUNHO"));
+          if (demands.length > 0) {
+            setDbDemands(demands.filter((d) => d.statusDemanda == "RASCUNHO"));
+          } else {
+            setDbDemands([]);
+          }
         }
       );
     } else {
-      console.log("ENTROU GERENTE");
       DemandService.getDemandsToManage(
         user.numeroCadastroUsuario,
         user.cargoUsuario
@@ -92,7 +97,11 @@ export default function DemandsPage(props) {
             (item) => item.statusDemanda === "CLASSIFICADO_PELO_ANALISTA"
           );
         }
-        setDbDemands(demandsToManage);
+        if (demandsToManage.length > 0) {
+          setDbDemands(demandsToManage);
+        } else {
+          setDbDemands([]);
+        }
         console.log("Demands to manage: ", demandsToManage);
       });
     }
