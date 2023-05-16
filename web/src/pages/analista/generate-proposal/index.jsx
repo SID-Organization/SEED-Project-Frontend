@@ -296,16 +296,16 @@ export default function GenerateProposal() {
       .then(res => {
         console.log("finish", finish);
         if (finish && (res.status === 200 || res.status === 201)) {
-          const demandLog = {
-            tarefaHistoricoWorkflow: "PROPOSTA_PRONTA",
+          const newDemandLog = {
+            tarefaHistoricoWorkflow: "APROVACAO_COMISSAO",
             demandaHistorico: { idDemanda: demandId },
-            acaoFeitaHistorico: "Enviar",
+            acaoFeitaHistorico: "Aprovar",
             idResponsavel: { numeroCadastroUsuario: 72131 },
           };
 
-          DemandLogService.createDemandLog(demandLog).then((response) => {
+          DemandLogService.createDemandLog(newDemandLog).then((response) => {
             if (response.status == 200 || response.status == 201) {
-              DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+              DemandService.updateDemandStatus(demandId, "APROVACAO_COMISSAO");
               navigate('/gerenciar-demandas');
             }
           });
@@ -474,6 +474,7 @@ export default function GenerateProposal() {
               multiline
               maxRows={3}
               value={payback}
+              onBlur={saveProgress}
               onChange={(e) => setPayback(e.target.value)}
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
@@ -489,6 +490,7 @@ export default function GenerateProposal() {
                 value={quillHtmlProposalAlternatives}
                 placeholder="Escreva aqui as alternativas avaliadas da proposta"
                 onChange={(e) => setQuillHtmlProposalAlternatives(e)}
+                onBlur={saveProgress}
                 modules={quillModules}
                 style={{ width: "50rem", height: "10rem" }}
               />
@@ -501,6 +503,7 @@ export default function GenerateProposal() {
                 value={quillValueProjectRange}
                 placeholder="Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."
                 onChange={(e) => setQuillValueProjectRange(e)}
+                onBlur={saveProgress}
                 modules={quillModules}
                 style={{ width: "50rem", height: "10rem" }}
               />
@@ -513,6 +516,7 @@ export default function GenerateProposal() {
                 value={quillHtmlProposalMitigationPlan}
                 placeholder="Escreva aqui os principais riscos e o plano de mitigação"
                 onChange={(e) => setQuillHtmlProposalMitigationPlan(e)}
+                onBlur={saveProgress}
                 modules={quillModules}
                 style={{ width: "50rem", height: "10rem" }}
               />

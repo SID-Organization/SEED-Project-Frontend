@@ -21,14 +21,14 @@ export default function Pautas() {
 
   useEffect(() => {
     PautaService.getPautas().then((data) => {
-      if(!data) return;
-      let pautas = data.map(pauta => ({...pauta, dataReuniao: DateUtils.formatDate(pauta.dataReuniao)}))
+      if (!data) return;
+      let pautas = data.map(pauta => ({ ...pauta, dataReuniao: DateUtils.formatDate(pauta.dataReuniao) }))
       setPautas(pautas);
     });
   }, [])
 
   useEffect(() => {
-    if(pautas.length === 0) return;
+    if (pautas.length === 0) return;
     setPautasMonths(() =>
       pautas
         .map((pauta) => pauta.dataReuniao.split("/")[1])
@@ -65,7 +65,7 @@ export default function Pautas() {
 
   return (
     <div>
-      <SubHeaderPautas filters={filters} setFilters={setFilters}/>
+      <SubHeaderPautas filters={filters} setFilters={setFilters} />
       <div
         className="
         flex
@@ -89,14 +89,15 @@ export default function Pautas() {
                         " - " + year}
                     </h1>
                     {getPautasInMonth(month, year)
-                      .map((pauta) => (
+                      .map((pauta, i) => (
                         <PautasCard
-                          PautaName={"ID da pauta: " + pauta.idPauta}
-                          Id={pauta.idPauta}
-                          QtyProposals={pauta.qtdPropostas}
-                          MeetingDate={pauta.dataReuniao}
-                          MeetingTime={pauta.horaReuniao.substring(0, 5)}
-                          ResponsibleAnalyst={pauta.analistaResponsavel}
+                          key={i}
+                          pautaName={"ID da pauta: " + pauta.idPauta}
+                          pautaId={pauta.idPauta}
+                          qtyProposals={pauta.qtdPropostas}
+                          meetingDate={pauta.dataReuniao}
+                          meetingTime={pauta.horaReuniao.substring(0, 5)}
+                          responsibleAnalyst={pauta.analistaResponsavel}
                         />
                       ))}
                   </div>

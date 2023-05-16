@@ -132,10 +132,11 @@ export default function Atas() {
                         <AtasCard
                           key={i}
                           idAta={ata.idAta}
-                          QtyProposals={ata.qtdPropostas}
-                          MeetingDate={ata.dataReuniaoAta}
-                          MeetingTime={ata.horarioInicioAta}
-                          ResponsibleAnalyst={ata.analistaResponsavel}
+                          qtyProposals={ata.qtdPropostas}
+                          meetingDate={ata.dataReuniaoAta}
+                          meetingTime={ata.horarioInicioAta}
+                          responsibleAnalyst={ata.analistaResponsavel}
+                          proposals={ata.propostasLog}
                         />
                       ))}
                   </div>

@@ -23,7 +23,7 @@ export default function PautasCard(props) {
   }));
 
   useEffect(() => {
-    
+
   }, [])
 
   const proposalsMock = [
@@ -53,6 +53,10 @@ export default function PautasCard(props) {
     },
   ];
 
+  useEffect(() => {
+    console.log("Proposals", props.proposals);
+  }, [props.proposals])
+
   return (
     <div className="mt-5">
       <Accordion>
@@ -67,19 +71,19 @@ export default function PautasCard(props) {
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
                 <span className="font-normal text-[#707070]">
-                  {props.QtyProposals}
+                  {props.qtyProposals}
                 </span>
               </h1>
               <h1 className="font-bold">
                 Data da reunião:{" "}
                 <span className="font-normal text-[#707070]">
-                  {props.MeetingDate}
+                  {props.meetingDate}
                 </span>
               </h1>
               <h1 className="font-bold">
                 Horário:{" "}
                 <span className="font-normal text-[#707070]">
-                  {props.MeetingTime}
+                  {props.meetingTime}
                 </span>
               </h1>
             </div>
@@ -88,7 +92,7 @@ export default function PautasCard(props) {
                 <p className="mt-5 font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
-                    {props.ResponsibleAnalyst}
+                    {props.responsibleAnalyst}
                   </span>
                 </p>
               </div>
@@ -137,18 +141,18 @@ export default function PautasCard(props) {
         <Divider />
         <AccordionDetails>
           <div className="grid gap-5">
-            {proposalsMock.map((proposal, i) => (
+            {props.proposals.map((proposal, i) => (
               <ProposalCard
                 key={i}
-                atasCard={proposal.atasCard}
-                newPauta={proposal.newPauta}
-                title={proposal.title}
-                executionTime={proposal.executionTime}
-                value={proposal.value}
-                referenceDemand={proposal.referenceDemand}
-                published={proposal.published}
-                parecerComissao={proposal.parecerComissao}
-                proposalId={proposal.proposalId}
+                atasCard={true}
+                newPauta={false}
+                title={proposal.demandaTituloPropostaLog}
+                executionTime={proposal.demandaTempoExecucaoPropostaLog}
+                value={proposal.demandaValorPropostaLog}
+                referenceDemand={proposal.idPropostaLog}
+                published={proposal.tipoAtaPropostaLog}
+                parecerComissao={proposal.parecerComissaoPropostaLog}
+                proposalId={proposal.idPropostaLog}
               />
             ))}
           </div>
