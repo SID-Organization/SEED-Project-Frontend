@@ -1,5 +1,6 @@
 import userImg from "../../../assets/profile-pic.png";
 import { Badge, Box, Divider, Tooltip } from "@mui/material";
+import { useEffect } from "react";
 
 /**
  * Function that returns a card with the user's name and the last message sent
@@ -7,6 +8,10 @@ import { Badge, Box, Divider, Tooltip } from "@mui/material";
  */
 
 export default function UserMessageCard(props) {
+  useEffect(() => {
+    console.log("User: ", props);
+  }, []);
+
   return (
     <Box
       sx={{
