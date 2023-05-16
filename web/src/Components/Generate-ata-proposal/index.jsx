@@ -21,38 +21,30 @@ export default function fsdGenerateAtaProposal(props) {
   const [publicada, setPublicada] = useState(false);
   const [naoPublicada, setNaoPublicada] = useState(false);
   // HTML editor
-  const [quillValueConsideration, setQuillValueConsideration] = useState("");
-  const parecerRef = useRef();
+  const [quillHtmlConsideration, setQuillHtmlConsideration] = useState("");
   
   function formatParecerComissao(parecerComissao) {
-    switch (parecerComissao) {
-      case "Aprovado":
-        return "APROVADO";
-      case "Reprovado":
-        return "REPROVADO";
-      case "Mais informações":
-        return "MAIS_INFORMACOES";
-      case "Business Case":
-        return "BUSINESS_CASE";
-      default:
-        return "";
-    }
+    let txtToUpper = parecerComissao.toUpperCase();
+    let cleanedTxt = txtToUpper.replace(/Ç/g, 'C').replace(/Õ/g, 'O').replace(/ /g, "_");
+
+    return cleanedTxt;
   }
 
 
   function updateDecision() {
     if (!props.finalDecision) return;
-    const newFinalDecision = props.finalDecision;
-    newFinalDecision.propostaPropostaLogDTO.idProposta = props.proposal.idProposta;
-    newFinalDecision.parecerComissaoPropostaLogDTO = formatParecerComissao(parecerComissao);
-    newFinalDecision.consideracoesPropostaLogDTO = removeHTML(quillValueConsideration);
-    newFinalDecision.tipoAtaPropostaLogDTO = publicada ? "PUBLICADA" : naoPublicada ? "NAO_PUBLICADA" : "";
+    const newFinalDecision = {...props.finalDecision};
+    console.log(newFinalDecision);
+    newFinalDecision.propostaPropostaLog.idProposta = props.proposal.idProposta;
+    newFinalDecision.parecerComissaoPropostaLog = formatParecerComissao(parecerComissao);
+    newFinalDecision.consideracoesPropostaLog = removeHTML(quillHtmlConsideration);
+    newFinalDecision.tipoAtaPropostaLog = publicada ? "PUBLICADA" : naoPublicada ? "NAO_PUBLICADA" : "";
     props.setFinalDecision(newFinalDecision);
   }
 
   useEffect(() => {
     updateDecision();
-  }, [parecerComissao, considerations, publicada, naoPublicada]);
+  }, [parecerComissao, publicada, naoPublicada]);
 
   const style = { height: 100, width: 500 };
 
@@ -143,11 +135,11 @@ export default function fsdGenerateAtaProposal(props) {
           <div className="grid">
             <p className="font-roboto font-bold">Considerações</p>
             <ReactQuill
-              value={quillValueConsideration}
-              onChange={(e) => setQuillValueConsideration(e)}
+              value={quillHtmlConsideration}
+              onChange={(e) => setQuillHtmlConsideration(e)}
+              onBlur={updateDecision}
               modules={quillModules}
               style={style}
-              ref={parecerRef}
             />
           </div>
           <div className="grid">

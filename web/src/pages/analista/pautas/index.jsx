@@ -17,6 +17,7 @@ export default function Pautas() {
 
   const [pautasYear, setPautasYear] = useState([]);
 
+  const [filters, setFilters] = useState([{}]);
 
   useEffect(() => {
     PautaService.getPautas().then((data) => {
@@ -64,7 +65,7 @@ export default function Pautas() {
 
   return (
     <div>
-      <SubHeaderPautas />
+      <SubHeaderPautas filters={filters} setFilters={setFilters}/>
       <div
         className="
         flex

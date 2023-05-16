@@ -1,9 +1,9 @@
 const isFinalDecisionValid = (finalDecision) => {
-    const { propostaPropostaLogDTO, parecerComissaoPropostaLogDTO, consideracoesPropostaLogDTO, tipoAtaPropostaLogDTO } = finalDecision;
-    if (propostaPropostaLogDTO.idProposta == 0) return false;
-    if (parecerComissaoPropostaLogDTO == "") return false;
-    if (consideracoesPropostaLogDTO == "") return false;
-    if (tipoAtaPropostaLogDTO == "") return false;
+    const { propostaPropostaLog, parecerComissaoPropostaLog, consideracoesPropostaLog, tipoAtaPropostaLog } = finalDecision;
+    if (propostaPropostaLog.idProposta == 0) return false;
+    if (parecerComissaoPropostaLog == "") return false;
+    if (consideracoesPropostaLog == "") return false;
+    if (tipoAtaPropostaLog == "") return false;
     return true;
 };
 

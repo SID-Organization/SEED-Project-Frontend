@@ -110,15 +110,23 @@ export default function PrimarySearchAppBar() {
 
   // Função que retorna o avatar do usuário (Imagem ou letras).
   const userAvatar = () => {
-    if (user.fotoUsuario) {
+    if (user && user.fotoUsuario) {
+      // add a check to see if 'user' is defined
       return { foto: true, src: user.fotoUsuario };
-    } else {
+    } else if (user && user.nomeUsuario) {
+      // add a check to see if 'user.nomeUsuario' is defined
       const names = user.nomeUsuario.split(" ");
       const userLetterAvatar =
         names[0][0].toUpperCase() + names[names.length - 1][0].toUpperCase();
       return {
         foto: false,
         src: userLetterAvatar,
+      };
+    } else {
+      // handle case when 'user' is undefined or does not have 'fotoUsuario' or 'nomeUsuario' properties
+      return {
+        foto: false,
+        src: "",
       };
     }
   };
@@ -324,7 +332,7 @@ export default function PrimarySearchAppBar() {
                 src={UnitedStatesFlag}
                 alt=""
               />
-              <h1 className="mr-6 ml-1">Inglês</h1>
+              <h1 className="ml-1 mr-6">Inglês</h1>
             </div>
           </Button>
         </AccordionDetails>
@@ -354,7 +362,7 @@ export default function PrimarySearchAppBar() {
                 src={ChinaFlag}
                 alt=""
               />
-              <h1 className="mr-[0.9rem] ml-1">Chinês</h1>
+              <h1 className="ml-1 mr-[0.9rem]">Chinês</h1>
             </div>
           </Button>
         </AccordionDetails>
@@ -524,8 +532,8 @@ export default function PrimarySearchAppBar() {
     >
       <p
         className="
-        ml-3
         mb-3
+        ml-3
         text-2xl
         font-bold
         text-blue-weg
@@ -558,12 +566,12 @@ export default function PrimarySearchAppBar() {
       </Paper>
       <div
         className="
-        scrollbar-w-2
         h-[calc(100vh-19.8rem)]
         overflow-y-scroll
         scrollbar-thin
         scrollbar-thumb-[#a5a5a5]
         scrollbar-thumb-rounded-full
+        scrollbar-w-2
       "
       >
         {search === ""
@@ -749,12 +757,12 @@ export default function PrimarySearchAppBar() {
       />
       <div
         className="
-        scrollbar-w-2
         h-[calc(100vh-19.8rem)]
         overflow-y-scroll
         scrollbar-thin
         scrollbar-thumb-[#a5a5a5]
         scrollbar-thumb-rounded-full
+        scrollbar-w-2
       "
       >
         {notificationsMock

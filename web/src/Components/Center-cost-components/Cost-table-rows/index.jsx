@@ -2,10 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   IconButton,
   InputAdornment,
-  MenuItem,
-  Select,
-  TextField,
-  Tooltip,
 } from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
@@ -99,7 +95,8 @@ export default function CostTableRow(props) {
             size="small"
             value={monthTimeExecution}
             onChange={(e) => {
-              setMonthTimeExecution(e.target.value);
+              if (e.target.value.match("^[0-9]*$"))
+                setMonthTimeExecution(e.target.value);
             }}
             onBlur={updateTable}
           />
@@ -113,7 +110,9 @@ export default function CostTableRow(props) {
               type="number"
               value={necessaryHours}
               onChange={(e) => {
-                if (e.target.value >= 0) setNecessaryHours(e.target.value);
+                const numValue = (e.target.value);
+                if (isNaN(numValue)) return;
+                if (numValue >= 0) setNecessaryHours(e.target.value);
               }}
               onBlur={updateTable}
             />
@@ -128,6 +127,8 @@ export default function CostTableRow(props) {
               type="number"
               value={costHour}
               onChange={(e) => {
+                const numValue = (e.target.value);
+                if (isNaN(numValue)) return;
                 if (e.target.value >= 0) setCostHour(e.target.value);
               }}
               InputProps={{

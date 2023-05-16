@@ -107,7 +107,9 @@ export default function DemandCard(props) {
       if (res.data) {
         setDemandLogs(res.data);
 
-        let firstLog = new Date(res.data[0].recebimentoHistorico).toLocaleDateString();
+        let firstLog = new Date(
+          res.data[0].recebimentoHistorico
+        ).toLocaleDateString();
         setFirstLog(firstLog);
       }
     });
@@ -161,7 +163,7 @@ export default function DemandCard(props) {
       demandaProposta: { idDemanda: props.demand.idDemanda },
     };
 
-    console.log(proposal)
+    console.log(proposal);
 
     ProposalService.createProposal(proposal).then((response) => {
       console.log("RESPONSE CREATE PROPOSAL", response);
@@ -408,7 +410,7 @@ export default function DemandCard(props) {
                     <Tooltip
                       title={
                         props.demand.statusDemanda ===
-                          "APROVADO_PELO_GERENTE_DA_AREA"
+                        "APROVADO_PELO_GERENTE_DA_AREA"
                           ? "Gerar proposta"
                           : "Acessar proposta"
                       }
@@ -416,7 +418,7 @@ export default function DemandCard(props) {
                       <Button
                         onClick={
                           props.demand.statusDemanda ===
-                            "APROVADO_PELO_GERENTE_DA_AREA"
+                          "APROVADO_PELO_GERENTE_DA_AREA"
                             ? handleOpenGenerateProposal
                             : handleAccessProposal
                         }
@@ -701,6 +703,7 @@ export default function DemandCard(props) {
                       </DialogTitle>
                       <div className="flex items-center justify-center gap-5">
                         <Button
+                          onClick={handleCloseModalDeleteDraft}
                           autoFocus
                           sx={{
                             backgroundColor: "#C2BEBE",

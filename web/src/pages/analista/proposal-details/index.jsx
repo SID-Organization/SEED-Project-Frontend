@@ -344,10 +344,10 @@ export default function ProposalDetails() {
               Solicitante
             </h1>
             <h1 className="font-roboto text-sm font-semibold">
-              {demand?.solicitanteDemanda.nomeUsuario.toUpperCase()}
+              {user?.nomeUsuario.toUpperCase()}
             </h1>
             <h1 className="font-roboto text-xs">
-              {demand?.solicitanteDemanda.departamentoUsuario.toUpperCase()}
+              {user?.departamentoUsuario.toUpperCase()}
             </h1>
           </div>
           <div className="flex items-center justify-center gap-5 text-sm">
@@ -363,7 +363,7 @@ export default function ProposalDetails() {
               Centro de custo
             </h1>
             <h1 className="font-roboto text-sm">
-              {demand?.centroCustoDemanda[0] ?? "Não indicado"}
+              {demand?.centroCustoDemanda[0].nomeCentroCusto ?? "Não indicado"}
             </h1>
           </div>
         </div>

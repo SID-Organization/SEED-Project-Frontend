@@ -1,58 +1,14 @@
-import { useState, useEffect } from "react";
-
 // Styles
 import "../../styles/index.css";
 
 // Components
-import DemandList from "../../Components/Demand-card-list";
 import SubHeader from "../../Components/Sub-header";
 
-// Interfaces
-import DemandCard from "../../Components/Demand-card";
-
-// Services
-import DemandService from "../../service/Demand-Service";
-
 // Utils
-import DemandFilterUtils from "../../utils/DemandFilter-Utils";
-import UserUtils from "../../utils/User-Utils";
+import DemandsPage from "../../Components/DemandsPage";
+import DemandType from "../../Components/DemandsPage/DemandType-ENUM";
 
 export default function DemandManager() {
-  // State to set the format of the demands
-  const [isListFormat, setIsListFormat] = useState(false);
-
-  // Filter search for demands to manage
-  const [filters, setFilters] = useState([]);
-
-  const [user, setUser] = useState(UserUtils.getLoggedUser());
-  const [demandsToManage, setDemandsToManage] = useState([]);
-  const [filteredDemands, setFilteredDemands] = useState([]);
-  useEffect(() => {
-    DemandService.getDemandsToManage(
-      user.numeroCadastroUsuario,
-      user.cargoUsuario
-    ).then((data) => {
-      let demandsToManage = data;
-      if (user.cargoUsuario === "GERENTE") {
-        demandsToManage = demandsToManage.filter(
-          (item) => item.statusDemanda === "CLASSIFICADO_PELO_ANALISTA"
-        );
-      }
-      setDemandsToManage(demandsToManage);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!demandsToManage) return;
-    setFilteredDemands(demandsToManage);
-  }, [demandsToManage]);
-
-  useEffect(() => {
-    if (!filters) return;
-    const filtered = DemandFilterUtils.filterBy(demandsToManage, filters);
-    setFilteredDemands(filtered);
-  }, [filters]);
-
   return (
     <div>
       <SubHeader
@@ -63,7 +19,7 @@ export default function DemandManager() {
       >
         Gerenciar demandas
       </SubHeader>
-      {isListFormat ? (
+      {/* {isListFormat ? (
         <div className="flex h-full items-center justify-center">
           <DemandList demands={demandsToManage} />
         </div>
@@ -77,7 +33,8 @@ export default function DemandManager() {
                 return <DemandCard key={i} demand={demand} />;
               })}
         </div>
-      )}
+      )} */}
+      <DemandsPage DemandType={DemandType.MANAGER} />
     </div>
   );
 }

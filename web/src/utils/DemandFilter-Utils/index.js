@@ -1,6 +1,9 @@
 const filterBy = (demands, filters) => {
   let filteredDemands;
 
+  console.log("FILTERS", filters);
+  console.log("DEMANDS", demands);
+  
   // Faz um for pelos filtros, verificando qual deles tem valor para ser filtrado
   for (let filter of filters) {
     if (filter.value == "") continue;
