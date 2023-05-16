@@ -546,7 +546,9 @@ export default function DemandsPage(props) {
           ) : (
             <div className="flex h-[71vh] items-center justify-around">
               {!hasDemands ? (
-                <NoDemands>
+                <NoDemands
+                  isManager={demandType == DemandType.MANAGER ? false : true}
+                >
                   {demandType == DemandType.DEMAND && <>Sem demandas!</>}
                   {demandType == DemandType.DRAFT && <>Sem rascunhos!</>}
                   {demandType == DemandType.MANAGER && (
