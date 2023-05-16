@@ -137,6 +137,7 @@ export default function fsdGenerateAtaProposal(props) {
             <ReactQuill
               value={quillHtmlConsideration}
               onChange={(e) => setQuillHtmlConsideration(e)}
+              onBlur={updateDecision}
               modules={quillModules}
               style={style}
             />

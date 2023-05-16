@@ -17,7 +17,7 @@ import AtaUtils from "../../../utils/Ata-Utils";
 
 export default function GenerateAta() {
   // ID da pauta
-  const { id } = useParams("id");
+  const { id: pautaId } = useParams("id");
   const [proposals, setProposals] = useState([]);
   const [finalDecisions, setFinalDecisions] = useState([]);
   const [finalDecisionFile, setFinalDecisionFile] = useState();
@@ -57,8 +57,8 @@ export default function GenerateAta() {
     }
 
     if (finalDecisionFile == undefined) {
-        alert("Você não selecionou um arquivo de decisão final. Por favor, anexe um!")
-        return false;
+      alert("Você não selecionou um arquivo de decisão final. Por favor, anexe um!")
+      return false;
     }
     return true;
   }
@@ -70,7 +70,7 @@ export default function GenerateAta() {
     const ata = {
       numeroDgAta: numDgAta,
       pautaAta: {
-        idPauta: id,
+        idPauta: pautaId,
       },
       propostasLog: finalDecisions,
     };
@@ -88,7 +88,7 @@ export default function GenerateAta() {
   }
 
   useEffect(() => {
-    PautaService.getPautaProposalsById(id).then((proposals) => {
+    PautaService.getPautaProposalsById(pautaId).then((proposals) => {
       setProposals(proposals);
     });
   }, []);
@@ -114,7 +114,7 @@ export default function GenerateAta() {
           <h1 className="mt-10 text-3xl font-bold text-blue-weg">
             Geração de ata
           </h1>
-          <p className="mt-4 text-blue-weg">Pauta referência: {id}</p>
+          <p className="mt-4 text-blue-weg">Pauta referência: {pautaId}</p>
         </div>
         <div className="flex flex-1 items-end">
           <p className="text-light-blue-weg">Número DG ata:</p>
@@ -127,7 +127,7 @@ export default function GenerateAta() {
             placeholder="000"
             onChange={(e) => {
               const value = e.target.value;
-              console.log("VALUE", value)
+              
               if (isNaN(value) || value == "")
                 setNumDgAta("");
 
