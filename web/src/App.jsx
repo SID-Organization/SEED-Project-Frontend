@@ -23,7 +23,9 @@ import DemandType from "./Components/DemandsPage/DemandType-ENUM";
 import DemandsPage from "./Components/DemandsPage";
 
 // Utils
-import UserUtils from "./utils/User-Utils";
+import UserUtils from "./utils/User-Utils"
+
+import VLibras from "@djpfs/react-vlibras/dist/cjs/index.js";
 
 function App() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
@@ -31,6 +33,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <VLibras forceOnLoad={true} />
         <Routes>
           <Route path="" element={<Navigate to={"/login"} />} />
           <Route
