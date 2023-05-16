@@ -61,11 +61,11 @@ export default function homeDemands() {
     setUserData((prevState) => ({ ...prevState, connected: true }));
     stompClient.subscribe(
       
-      userData.cargoUsuario === "SOLICITANTE"
+      (userData.cargoUsuario === "SOLICITANTE"
         ? "/notificacao-usuario-status/" +
-        userData.numeroCadastroUsuario : null,
+        userData.numeroCadastroUsuario : null),  
       (message) => {
-        console.log("Mensagem recebida", message);
+        console.log("Mensagem recebida: ", message);
         const notification = JSON.parse(message.body);
         handleNotification(notification);
       }
@@ -77,11 +77,13 @@ export default function homeDemands() {
   };
 
   const handleNotification = (notification) => {
+    console.log("Notificação recebida: ", notification);
     setNotificationsReceivedByWS((prevNotifications) => [...prevNotifications, notification]);
-    console.log("Notificações recebidas", notificationsReceivedByWS);
   };
   
-
+  useEffect(() => {
+    console.log("Notificações recebidas", notificationsReceivedByWS);
+  }, [notificationsReceivedByWS]);
 
   useEffect(() => {
     DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
