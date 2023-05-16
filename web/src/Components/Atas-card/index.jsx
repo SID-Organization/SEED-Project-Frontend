@@ -1,16 +1,19 @@
+import { useState, useEffect } from "react";
 import * as React from "react";
-import { useState } from "react";
 
+// MUI
+import { styled } from "@mui/material/styles";
+import PublicIcon from "@mui/icons-material/Public";
 import MuiAccordion from "@mui/material/Accordion";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { Divider, IconButton, Tooltip } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import ProposalCard from "../Proposal-card";
 
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PublicIcon from "@mui/icons-material/Public";
-import PublicOffIcon from "@mui/icons-material/PublicOff";
+
+// Components
+import ProposalCard from "../Proposal-card";
 
 export default function PautasCard(props) {
   const Accordion = styled(MuiAccordion)(() => ({
@@ -18,6 +21,10 @@ export default function PautasCard(props) {
     border: "2px solid #E5E5E5",
     borderBottom: "none",
   }));
+
+  useEffect(() => {
+    
+  }, [])
 
   const proposalsMock = [
     {
@@ -56,7 +63,7 @@ export default function PautasCard(props) {
         >
           <div className="grid font-roboto">
             <div className="flex gap-32">
-              <h1 className="font-bold">{props.AtaName}</h1>
+              <h1 className="font-bold">{"ATA " + props.idAta}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
                 <span className="font-normal text-[#707070]">

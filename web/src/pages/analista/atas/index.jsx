@@ -1,8 +1,14 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 // Components
 import AtasCard from "../../../Components/Atas-card";
 import SubHeaderAtas from "../../../Components/Sub-header-atas";
+
+// Service
+import AtaService from "../../../service/Ata-Service"
+
+// Utils
+import DateUtils from "../../../utils/Date-Utils"
 
 const atasMock = [
   {
@@ -51,28 +57,45 @@ const months = {
 }
 
 export default function Atas() {
-  const [atas, setAtas] = useState(atasMock);
+  const [atas, setAtas] = useState([]);
 
   const [atasMonths, setAtasMonths] = useState([]);
 
   const [atasYears, setAtasYears] = useState([]);
 
   const getAtasInMonth = (month, year) => {
-    return atas.filter((ata) => ata.MeetingDate.split("/")[1] === month && ata.MeetingDate.split("/")[2] === year)
+    return atas.filter((ata) => ata.dataReuniaoAta.split("/")[1] === month && ata.dataReuniaoAta.split("/")[2] === year)
   }
+
+  useEffect(() => {
+    AtaService.getAtas().then(res => {
+      if (!res.error) {
+        console.log("ATAS", res.data);
+        const dbAtas = res.data.map(ata => {
+          ata.dataReuniaoAta = DateUtils.formatDateFromDB(ata.dataReuniaoAta)
+          return ata;
+        })
+        setAtas(dbAtas);
+      } else {
+        alert("Erro ao buscar atas");
+        console.log("Request", res)
+      }
+    })
+  }, [])
 
   // Filtra para pegar os meses e anos das atas
   useEffect(() => {
+    console.log("ATAS", atas);
     if (atas.length === 0) return;
     setAtasMonths(() =>
       atas
-        .map((ata) => ata.MeetingDate.split("/")[1])
+        .map((ata) => ata.dataReuniaoAta.split("/")[1])
         .sort()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
     setAtasYears(() =>
       atas
-        .map((ata) => ata.MeetingDate.split("/")[2])
+        .map((ata) => ata.dataReuniaoAta.split("/")[2])
         .sort().reverse()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
@@ -91,7 +114,7 @@ export default function Atas() {
         mt-8
       "
       >
-        
+
 
         {atasYears.map((year, iY) => (
           <>
@@ -108,11 +131,11 @@ export default function Atas() {
                       .map((ata, i) => (
                         <AtasCard
                           key={i}
-                          AtaName={ata.AtaName}
-                          QtyProposals={ata.QtyProposals}
-                          MeetingDate={ata.MeetingDate}
-                          MeetingTime={ata.MeetingTime}
-                          ResponsibleAnalyst={ata.ResponsibleAnalyst}
+                          idAta={ata.idAta}
+                          QtyProposals={ata.qtdPropostas}
+                          MeetingDate={ata.dataReuniaoAta}
+                          MeetingTime={ata.horarioInicioAta}
+                          ResponsibleAnalyst={ata.analistaResponsavel}
                         />
                       ))}
                   </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 // MUI
 import { AddRounded, Download, Clear } from "@mui/icons-material";
@@ -18,6 +18,8 @@ import AtaUtils from "../../../utils/Ata-Utils";
 export default function GenerateAta() {
   // ID da pauta
   const { id: pautaId } = useParams("id");
+  const navigate = useNavigate();
+
   const [proposals, setProposals] = useState([]);
   const [finalDecisions, setFinalDecisions] = useState([]);
   const [finalDecisionFile, setFinalDecisionFile] = useState();
@@ -83,7 +85,10 @@ export default function GenerateAta() {
     form.append("documentoAprovacao", finalDecisionFile);
 
     AtaService.createAta(form).then((response) => {
-      if (response.status == 201) alert("Ata gerada com sucesso");
+      if (response.status == 201) {
+        alert("Ata gerada com sucesso")
+        navigate("/atas")
+      };
     });
   }
 

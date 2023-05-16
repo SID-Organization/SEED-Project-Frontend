@@ -157,6 +157,10 @@ export default function subHeader({
     }
   };
 
+  const changeDemandStatus = () => {
+    // CRIAR MODAL PARA MOSTRAR E TROCAR OS STATUS DA DEMANDA
+  }
+
   const actionOptions = [
     {
       text: "Classificar demanda",
@@ -173,6 +177,13 @@ export default function subHeader({
       key: 2,
     },
     {
+      text: "Alterar status",
+      role: ["ANALISTA"],
+      demandStatus: ["TODAS"],
+      function: changeDemandStatus,
+      key: 3,
+    },
+    {
       text: "Ver proposta",
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: [
@@ -183,14 +194,14 @@ export default function subHeader({
         "PROPOSTA_EM_SUPORTE",
         "BUSINESS_CASE",
       ],
-      key: 3,
+      key: 4,
     },
     {
       text: "Devolver",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       function: handleOpenReasonOfDevolution,
-      key: 4,
+      key: 5,
     },
 
     {
@@ -198,7 +209,7 @@ export default function subHeader({
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       function: handleOpenReasonOfDevolution,
-      key: 5,
+      key: 6,
     },
   ];
 
@@ -254,9 +265,7 @@ export default function subHeader({
       .catch((err) => console.log("Erro ", err));
   }, []);
 
-  const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
-  const notifyEditEnabledOff = () =>
-    toast.success("Alterações salvas com sucesso!");
+ 
 
   const handleToggleActions = () => {
     setOpenActions((prevOpen) => !prevOpen);
