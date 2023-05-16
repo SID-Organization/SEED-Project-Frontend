@@ -26,7 +26,7 @@ export default function noDemands({ children }) {
             {children}
           </h1>
         </div>
-        <div className="mt-16">
+        <div className="mt-16 flex items-center justify-center">
           <Stack direction="row" spacing={2}>
             <Link to="/nova-demanda">
               <Button
