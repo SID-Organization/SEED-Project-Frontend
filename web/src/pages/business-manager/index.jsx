@@ -49,6 +49,7 @@ export default function DemandManager() {
 
   useEffect(() => {
     if (!filters) return;
+    console.log("FILTer MADEMANDS", demandsToManage)
     const filtered = DemandFilterUtils.filterBy(demandsToManage, filters);
     setFilteredDemands(filtered);
   }, [filters]);

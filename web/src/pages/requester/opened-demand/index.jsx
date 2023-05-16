@@ -63,6 +63,7 @@ export default function openedDemand() {
     if (params.id) {
       DemandService.getDemandById(params.id).then((demand) => {
         setDemand(demand);
+        console.log("DEMAND", demand);
         DemandPDFService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
           setDemandHTML(pdfResponse);
           console.log("HTML da demanda: ", pdfResponse);
@@ -76,16 +77,9 @@ export default function openedDemand() {
   }, []);
 
   function getBenefits(benefitType) {
-    if (benefitType == "REAL") {
       return demand?.beneficiosDemanda.filter(
-        (benefit) => benefit.tipoBeneficio == "REAL"
+        (benefit) => benefit.tipoBeneficio == benefitType
       );
-    } else if (benefitType == "POTENCIAL") {
-      return demand?.beneficiosDemanda.filter(
-        (benefit) => benefit.tipoBeneficio == "POTENCIAL"
-      );
-    }
-    return [];
   }
 
   const handleOpen = () => setOpen(true);
@@ -170,7 +164,7 @@ export default function openedDemand() {
                 <div className="flex items-center justify-between text-lg">
                   <div className="mt-[-5rem] flex">
                     <h1 className="mr-2 font-bold">Número de demanda:</h1>
-                    <span className="font-normal">1000018</span>
+                    <span className="font-normal">{params.id}</span>
                   </div>
                   <div className="grid items-center justify-center">
                     <div className="flex">
@@ -195,10 +189,10 @@ export default function openedDemand() {
                   <div className="grid items-center justify-center">
                     <h1 className="font-roboto font-bold">Solicitante</h1>
                     <h1 className="font-roboto font-medium">
-                      {demand?.solicitanteDemanda.nomeUsuario}
+                      {user?.nomeUsuario}
                     </h1>
                     <h1 className="text-sm text-[#5B5B5B]">
-                      {demand?.solicitanteDemanda.departamentoUsuario}
+                      {user?.departamentoUsuario}
                     </h1>
                   </div>
                   <div className="grid items-center justify-center">
@@ -209,7 +203,7 @@ export default function openedDemand() {
                       {demand?.analistaResponsavelDemanda.nomeUsuario}
                     </h1>
                     <h1 className="text-sm text-[#5B5B5B]">
-                      {demand?.analistaResponsavelDemanda.departamentoUsuario}
+                      {demand?.analistaResponsavelDemanda.departamentoUsuario.nomeBusinessUnity}
                     </h1>
                   </div>
                 </div>
@@ -272,10 +266,10 @@ export default function openedDemand() {
               Solicitante
             </h1>
             <h1 className="font-roboto text-sm font-semibold">
-              {demand?.solicitanteDemanda.nomeUsuario.toUpperCase()}
+              {user?.nomeUsuario.toUpperCase()}
             </h1>
             <h1 className="font-roboto text-xs">
-              {demand?.solicitanteDemanda.departamentoUsuario.toUpperCase()}
+              {user?.departamentoUsuario.toUpperCase()}
             </h1>
           </div>
           <div className="flex items-center justify-center gap-5 text-sm">

@@ -8,6 +8,7 @@ const formatDate = (date) => {
 };
 
 const formatDateFromDB = (date) => {
+    if (!date) return "";
     const newDate = date
         .split("T")[0]
     

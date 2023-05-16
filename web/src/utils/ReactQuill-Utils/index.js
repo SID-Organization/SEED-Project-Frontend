@@ -1,5 +1,5 @@
 const formatQuillText = (text) => {
-    if(!text) return "";
+    if (!text) return "";
     const txtArr = text.split("\n");
     txtArr.pop();
     const formattedText = txtArr.join(" ");
@@ -7,10 +7,10 @@ const formatQuillText = (text) => {
 }
 
 const removeHTML = (text) => {
-    if(!text) return "";
+    if (!text) return "";
     const formattedText = text.replace(/<[^>]+>/g, '');
     return formattedText;
-} 
+}
 
 const colors = [
     "black",
@@ -21,7 +21,7 @@ const colors = [
 
     "red",
     "darkred",
-    
+
     "blue",
     "lightblue",
     "darkblue",
@@ -34,7 +34,7 @@ const quillModules = {
         [{ header: [1, 2, 3, false] }],
         [{ font: [] }],
         ["bold", "italic", "underline", "strike"],
-        [{ color: colors}],
+        [{ color: colors }],
         [{ list: "ordered" }, { list: "bullet" }],
         [{ align: [] }],
         ["link"],

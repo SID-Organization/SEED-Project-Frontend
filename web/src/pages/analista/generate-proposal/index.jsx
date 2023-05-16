@@ -74,8 +74,8 @@ export default function GenerateProposal() {
   const navigate = useNavigate();
 
   // STATES
-  const [demand, setDemand] = useState();
-  const [proposal, setProposal] = useState();
+  const [demand, setDemand] = useState("");
+  const [proposal, setProposal] = useState("");
 
   const [payback, setPayback] = useState(0);
   const [startDate, setStartDate] = useState("");
@@ -303,9 +303,9 @@ export default function GenerateProposal() {
           DemandLogService.createDemandLog(demandLog).then((response) => {
             if (response.status == 200 || response.status == 201) {
               DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
+              navigate('/gerenciar-demandas');
             }
           });
-          navigate('/gerenciar-demandas');
         }
       });
   };
@@ -395,7 +395,7 @@ export default function GenerateProposal() {
                 variant="outlined"
                 size="small"
                 disabled
-                value={sumInternalCosts() + sumExternalCosts()}
+                defaultValue={sumInternalCosts() + sumExternalCosts()}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">R$</InputAdornment>
@@ -424,7 +424,7 @@ export default function GenerateProposal() {
                   variant="outlined"
                   size="small"
                   disabled
-                  value={sumExternalCosts()}
+                  defaultValue={sumExternalCosts()}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">R$</InputAdornment>
@@ -445,7 +445,7 @@ export default function GenerateProposal() {
                   id="outlined-basic"
                   variant="outlined"
                   disabled
-                  value={sumInternalCosts()}
+                  defaultValue={sumInternalCosts()}
                   size="small"
                   InputProps={{
                     startAdornment: (

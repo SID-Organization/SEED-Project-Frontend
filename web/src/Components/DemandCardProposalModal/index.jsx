@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function DemandCardProposalModal(props) {
-  const [demandId, setDemandId] = useState(props.id);
+
+  const demandId = props.id;
 
   return (
     <div
@@ -18,7 +18,7 @@ export default function DemandCardProposalModal(props) {
     "
     >
       <h1>
-        {props.id} - {props.title}
+        {demandId} - {props.title}
       </h1>
 
       <Link to={`/propostas/gerar-proposta/${demandId}`}>
