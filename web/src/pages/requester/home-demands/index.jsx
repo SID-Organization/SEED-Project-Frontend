@@ -9,6 +9,9 @@ import DemandsList from "../../../Components/Demand-card-list";
 import DemandService from "../../../service/Demand-Service";
 import DemandLogService from "../../../service/DemandLog-Service";
 
+import { over } from "stompjs";
+import SockJs from "sockjs-client/dist/sockjs";
+
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 import { Pagination } from "@mui/material";
@@ -36,12 +39,55 @@ export default function homeDemands() {
   const demandsPerPage = 12; // Define o número de demandas por página
   const lastIndex = currentPage * demandsPerPage; // Último índice das demandas a serem mostradas
   const firstIndex = lastIndex - demandsPerPage; // Primeiro índice das demandas a serem mostradas
+  const [stompClient, setStompClient] = useState(null);
+  const [notificationsReceivedByWS, setNotificationsReceivedByWS] = useState([]);
+
+  const connect = () => {
+    console.log("Conectando ao websocket");
+    let Sock = new SockJs("http://localhost:8443/ws");
+    setStompClient(over(Sock));
+  };
+
+  useEffect(() => {
+    console.log("stompClient", stompClient);
+    if (stompClient) {
+      stompClient.connect({}, onConnected, onError);
+    }
+  }, [stompClient]);
+
+  const [userData, setUserData] = useState(UserUtils.getLoggedUser());
+
+  const onConnected = () => {
+    setUserData((prevState) => ({ ...prevState, connected: true }));
+    stompClient.subscribe(
+      
+      userData.cargoUsuario === "SOLICITANTE"
+        ? "/notificacao-usuario-status/" +
+        userData.numeroCadastroUsuario : null,
+      (message) => {
+        console.log("Mensagem recebida", message);
+        const notification = JSON.parse(message.body);
+        handleNotification(notification);
+      }
+    );
+  };
+
+  const onError = (error) => {
+    console.log(error);
+  };
+
+  const handleNotification = (notification) => {
+    setNotificationsReceivedByWS((prevNotifications) => [...prevNotifications, notification]);
+    console.log("Notificações recebidas", notificationsReceivedByWS);
+  };
+  
 
 
   useEffect(() => {
     DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
       (demands) => {
         console.log("Demands carregadas:", demands);
+        connect();
         setDbDemands(demands.data.filter((d) => d.statusDemanda != "RASCUNHO"));
       }
     );
