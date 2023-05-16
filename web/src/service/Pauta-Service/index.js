@@ -4,8 +4,11 @@ import apiConfig from "../../API/API-config";
 const url = `${apiConfig.URL}/pauta`;
 
 const createPauta = async (pauta) => {
-  return AxiosAPI.post(url, pauta)
-    .then((response) => response.data)
+  
+  const contentType = "application/json";
+
+  return AxiosAPI.post(url, pauta, contentType)
+    .then((response) => response)
     .catch((error) => error);
 };
 

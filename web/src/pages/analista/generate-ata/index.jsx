@@ -17,7 +17,7 @@ import AtaUtils from "../../../utils/Ata-Utils";
 
 export default function GenerateAta() {
   // ID da pauta
-  const { id } = useParams("id");
+  const { id: pautaId } = useParams("id");
   const [proposals, setProposals] = useState([]);
   const [finalDecisions, setFinalDecisions] = useState([]);
   const [finalDecisionFile, setFinalDecisionFile] = useState();
@@ -25,16 +25,16 @@ export default function GenerateAta() {
   const [clearFile, setClearFile] = useState(false);
 
   const proposalFinalDecisionTemplate = {
-    propostaPropostaLogDTO: { idProposta: 0 },
-    parecerComissaoPropostaLogDTO: "",
-    consideracoesPropostaLogDTO: "",
-    tipoAtaPropostaLogDTO: "",
+    propostaPropostaLog: { idProposta: 0 },
+    parecerComissaoPropostaLog: "",
+    consideracoesPropostaLog: "",
+    tipoAtaPropostaLog: "",
   };
 
   // Atualiza a decisão final de uma proposta
   function updateFinalDecision(proposalId, newFinalDecision) {
     const decisions = finalDecisions.map((decision) => {
-      if (decision.propostaPropostaLogDTO.idProposta == proposalId) {
+      if (decision.propostaPropostaLog.idProposta == proposalId) {
         return newFinalDecision;
       }
       return decision;
@@ -57,12 +57,8 @@ export default function GenerateAta() {
     }
 
     if (finalDecisionFile == undefined) {
-      if (
-        !confirm(
-          "Você não selecionou um arquivo de decisão final. Deseja continuar?"
-        )
-      )
-        return false;
+      alert("Você não selecionou um arquivo de decisão final. Por favor, anexe um!")
+      return false;
     }
     return true;
   }
@@ -74,10 +70,12 @@ export default function GenerateAta() {
     const ata = {
       numeroDgAta: numDgAta,
       pautaAta: {
-        idPauta: id,
+        idPauta: pautaId,
       },
-      propostasLogDTO: finalDecisions,
+      propostasLog: finalDecisions,
     };
+
+    console.log("NEW ATA", ata);
 
     const form = new FormData();
 
@@ -90,7 +88,7 @@ export default function GenerateAta() {
   }
 
   useEffect(() => {
-    PautaService.getPautaProposalsById(id).then((proposals) => {
+    PautaService.getPautaProposalsById(pautaId).then((proposals) => {
       setProposals(proposals);
     });
   }, []);
@@ -101,7 +99,7 @@ export default function GenerateAta() {
       const finalDecisions = proposals.map((proposal) => {
         return {
           ...proposalFinalDecisionTemplate,
-          propostaPropostaLogDTO: { idProposta: proposal.idProposta },
+          propostaPropostaLog: { idProposta: proposal.idProposta },
         };
       });
       setFinalDecisions(finalDecisions);
@@ -116,7 +114,7 @@ export default function GenerateAta() {
           <h1 className="mt-10 text-3xl font-bold text-blue-weg">
             Geração de ata
           </h1>
-          <p className="mt-4 text-blue-weg">Pauta referência: {id}</p>
+          <p className="mt-4 text-blue-weg">Pauta referência: {pautaId}</p>
         </div>
         <div className="flex flex-1 items-end">
           <p className="text-light-blue-weg">Número DG ata:</p>
@@ -127,7 +125,15 @@ export default function GenerateAta() {
             type="number"
             value={numDgAta}
             placeholder="000"
-            onChange={(e) => setNumDgAta(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              
+              if (isNaN(value) || value == "")
+                setNumDgAta("");
+
+              if (e.target.value.match(/^[0-9]+$/))
+                setNumDgAta(e.target.value)
+            }}
             sx={{
               width: "5rem",
               height: "2.5rem",
@@ -144,7 +150,7 @@ export default function GenerateAta() {
             proposalIndex={i}
             finalDecision={finalDecisions.find(
               (fd) =>
-                fd.propostaPropostaLogDTO.idProposta == proposal.idProposta
+                fd.propostaPropostaLog.idProposta == proposal.idProposta
             )}
             setFinalDecision={(newFinalDecision) =>
               updateFinalDecision(proposal.idProposta, newFinalDecision)

@@ -133,12 +133,7 @@ export default function SubHeaderPautas() {
             </Box>
           </Modal>
 
-          <Search
-            search={""}
-            setSearch={function (search) {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <Search/>
         </div>
       </div>
     </div>

@@ -4,7 +4,8 @@ import apiConfig from "../../API/API-config";
 const url = `${apiConfig.URL}/ata`;
 
 const createAta = async (ata) => {
-  return AxiosAPI.post(url, ata);
+  const contentType = "multipart/form-data";
+  return AxiosAPI.post(url, ata, contentType);
 };
 
 const getAta = async () => {

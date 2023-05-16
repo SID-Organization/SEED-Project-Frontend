@@ -4,7 +4,8 @@ import apiConfig from "../../API/API-config";
 const url = `${apiConfig.URL}/historico-workflow`;
 
 const createDemandLog = async (demandLog) => {
-  return AxiosAPI.post(url, demandLog);
+  const contentType = "application/json";
+  return AxiosAPI.post(url, demandLog, contentType);
 };
 
 const getDemandLogs = async (demandId) => {

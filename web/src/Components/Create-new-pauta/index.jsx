@@ -90,7 +90,7 @@ export default function CreateNewPauta() {
   useEffect(() => {
     if (foruns.length > 0) {
       setComissoes(
-        foruns.map((forum) => ({ label: forum.nomeForum, id: forum.idForum }))
+        foruns.map((comissao) => ({ label: comissao.nomeComissao, id: comissao.idComissao }))
       );
     }
   }, [foruns]);
@@ -121,11 +121,12 @@ export default function CreateNewPauta() {
       },
     };
 
+    console.log("PAUTA JSON", pautaJson);
+
     PautaService.createPauta(pautaJson)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          alert("Erro ao criar pauta\n" + data.error);
+      .then((res) => {
+        if (res.error) {
+          alert("Erro ao criar pauta\n" + res.error);
           return;
         } else {
           alert("Pauta criada com sucesso");
