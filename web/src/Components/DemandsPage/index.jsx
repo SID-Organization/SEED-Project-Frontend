@@ -58,6 +58,7 @@ export default function DemandsPage(props) {
   const [demandType, setDemandType] = useState(props.DemandType);
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasDemands, setHasDemands] = useState(true); // Novo estado para controlar se há demandas cadastradas
 
   useEffect(() => {
     setDemandType(props.DemandType);
@@ -73,9 +74,12 @@ export default function DemandsPage(props) {
             setDbDemands(
               res.data.filter((d) => d.statusDemanda !== "RASCUNHO")
             );
+            setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);
+            setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
           }
+          setIsLoaded(true); // Atualiza o estado de carregamento
         })
         .catch((error) => {
           console.error("Erro ao obter as demandas:", error);
@@ -85,9 +89,12 @@ export default function DemandsPage(props) {
         .then((demands) => {
           if (demands && demands.length > 0) {
             setDbDemands(demands.filter((d) => d.statusDemanda === "RASCUNHO"));
+            setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);
+            setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
           }
+          setIsLoaded(true); // Atualiza o estado de carregamento
         })
         .catch((error) => {
           console.error("Erro ao obter os rascunhos:", error);
@@ -106,10 +113,13 @@ export default function DemandsPage(props) {
           }
           if (demandsToManage && demandsToManage.length > 0) {
             setDbDemands(demandsToManage);
+            setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);
+            setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
           }
           console.log("Demandas para gerenciar: ", demandsToManage);
+          setIsLoaded(true); // Atualiza o estado de carregamento
         })
         .catch((error) => {
           console.error("Erro ao obter as demandas para gerenciar:", error);
@@ -305,7 +315,7 @@ export default function DemandsPage(props) {
   }
 
   return (
-    <div>
+    <>
       <div>
         <SubHeader
           setIsListFormat={setIsListFormat}
@@ -526,25 +536,36 @@ export default function DemandsPage(props) {
       )}
 
       <div className="flex flex-wrap justify-around">
-        {dbDemands && dbDemands.length == 0 && DemandType.MANAGER && (
-          <Notification message="Nenhuma demanda encontrada!" />
-        )}
-        {dbDemands &&
-          dbDemands.length == 0 &&
-          DemandType.DEMAND &&
-          DemandType.DRAFT && (
-            <Notification message="Nenhuma demanda encontrada!" action={true} />
-          )}
         {isLoaded ? (
-          dbDemands &&
-          dbDemands.length > 0 &&
-          (isListFormat ? getDemandsList() : getDemandsGrid())
+          dbDemands && dbDemands.length > 0 ? (
+            isListFormat ? (
+              getDemandsList()
+            ) : (
+              getDemandsGrid()
+            )
+          ) : (
+            <div className="flex h-[71vh] items-center justify-around">
+              {!hasDemands ? (
+                <NoDemands
+                  isManager={demandType == DemandType.MANAGER ? false : true}
+                >
+                  {demandType == DemandType.DEMAND && <>Sem demandas!</>}
+                  {demandType == DemandType.DRAFT && <>Sem rascunhos!</>}
+                  {demandType == DemandType.MANAGER && (
+                    <>Sem demandas para gerenciar!</>
+                  )}
+                </NoDemands>
+              ) : (
+                <CircularProgress />
+              )}
+            </div>
+          )
         ) : (
-          <div className="flex h-[71vh] flex-wrap items-center justify-around">
+          <div className="flex h-[71vh] items-center justify-around">
             <CircularProgress />
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
