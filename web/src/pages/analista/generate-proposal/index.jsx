@@ -156,6 +156,7 @@ export default function GenerateProposal() {
       setExternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(extTable));
       setStartDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaInicio));
       setEndDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaFim));
+      setPayback(proposal.paybackProposta);
     }
   }, [proposal])
 
@@ -299,13 +300,13 @@ export default function GenerateProposal() {
           const newDemandLog = {
             tarefaHistoricoWorkflow: "APROVACAO_COMISSAO",
             demandaHistorico: { idDemanda: demandId },
-            acaoFeitaHistorico: "Aprovar",
+            acaoFeitaHistorico: "Enviar",
             idResponsavel: { numeroCadastroUsuario: 72131 },
           };
 
           DemandLogService.createDemandLog(newDemandLog).then((response) => {
             if (response.status == 200 || response.status == 201) {
-              DemandService.updateDemandStatus(demandId, "APROVACAO_COMISSAO");
+              DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
               navigate('/gerenciar-demandas');
             }
           });
