@@ -48,11 +48,11 @@ export default function homeDemands() {
   const onConnected = () => {
     setUserData((prevState) => ({ ...prevState, connected: true }));
     stompClient.subscribe(
-      userData.cargoUsuario === "SOLICITANTE"
+      (userData.cargoUsuario === "SOLICITANTE"
         ? "/notificacao-usuario-status/" + userData.numeroCadastroUsuario
-        : null,
+        : null),  
       (message) => {
-        console.log("Mensagem recebida", message);
+        console.log("Mensagem recebida: ", message);
         const notification = JSON.parse(message.body);
         handleNotification(notification);
       }
@@ -64,11 +64,11 @@ export default function homeDemands() {
   };
 
   const handleNotification = (notification) => {
+    console.log("Notificação recebida: ", notification);
     setNotificationsReceivedByWS((prevNotifications) => [
       ...prevNotifications,
       notification,
     ]);
-    console.log("Notificações recebidas", notificationsReceivedByWS);
   };
 
   return (
