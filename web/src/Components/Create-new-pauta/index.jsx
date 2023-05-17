@@ -5,15 +5,16 @@ import MuiButton from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Autocomplete from "@mui/material/Autocomplete";
-import { styled } from "@mui/material/styles";
 import MuiTextField from "@mui/material/TextField";
 import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import MuiAddBoxIcon from "@mui/icons-material/AddBox";
+import { styled } from "@mui/material/styles";
 import { InputAdornment } from "@mui/material";
-import NewPautaProposalCard from "../New-pauta-proposal-card";
 
 // Components
 import DatePicker from "../Date-picker";
+import NewPautaProposalCard from "../New-pauta-proposal-card";
 
 // Services
 import ProposalService from "../../service/Proposal-Service";
@@ -29,6 +30,15 @@ const TextField = styled(MuiTextField)({
   height: "3rem",
 });
 
+const AddBoxIcon = styled(MuiAddBoxIcon)(({ theme }) => ({
+  fontSize: "35px",
+  color: "#023A67",
+  // Adicione a regra de estilo para ajustar o tamanho do ícone
+  "& svg": {
+    fontSize: "35px",
+  },
+}));
+
 const modalStyled = {
   position: "absolute",
   top: "50%",
@@ -41,6 +51,11 @@ const modalStyled = {
   p: 4,
   borderRadius: "10px",
 };
+
+const ButtonIsPauta = styled(MuiButton)(() => ({
+  color: "#0075B1",
+  fontWeight: "bold",
+}));
 
 const Button = styled(MuiButton)({
   backgroundColor: "#0075B1",
@@ -60,7 +75,7 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
   width: "1.5rem",
 });
 
-export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
+export default function CreateNewPauta(props) {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [openedModal, setOpenedModal] = useState(false);
   const [foruns, setForuns] = useState([]);
@@ -72,8 +87,8 @@ export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
   const [meetingStartTime, setMeetingStartTime] = useState("");
   const [meetingEndTime, setMeetingEndTime] = useState("");
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleOpenModal = () => setOpenedModal(true);
+  const handleCloseModal = () => setOpenedModal(false);
 
   useEffect(() => {
     ProposalService.getReadyProposals().then((data) => {
@@ -82,7 +97,6 @@ export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
     });
 
     ForumService.getForuns().then((data) => {
-      console.log("FORUNS", data);
       if (!data) return;
       setForuns(data);
     });
@@ -91,12 +105,13 @@ export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
   useEffect(() => {
     if (foruns.length > 0) {
       setComissoes(
-        foruns.map((forum) =>
-        ({
+        foruns.map((forum) => ({
           id: forum.idForum,
-          label: forum.comissaoForum.siglaComissao + " - " + forum.comissaoForum.nomeComissao,
-        })
-        )
+          label:
+            forum.comissaoForum.siglaComissao +
+            " - " +
+            forum.comissaoForum.nomeComissao,
+        }))
       );
     }
   }, [foruns]);
@@ -142,10 +157,20 @@ export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpenModal}>
-        <AddRoundedIcon />
-        Criar nova pauta
-      </Button>
+      {props.isPauta == true ? (
+        <ButtonIsPauta
+          variant="outlined"
+          startIcon={<AddBoxIcon />}
+          onClick={handleOpenModal}
+        >
+          Crie uma pauta
+        </ButtonIsPauta>
+      ) : (
+        <Button variant="contained" onClick={handleOpenModal}>
+          <AddRoundedIcon />
+          Criar nova pauta
+        </Button>
+      )}
 
       <Modal
         open={isModalOpen}

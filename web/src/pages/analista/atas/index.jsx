@@ -1,14 +1,16 @@
+import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 
 // Components
 import AtasCard from "../../../Components/Atas-card";
 import SubHeaderAtas from "../../../Components/Sub-header-atas";
+import NoContent from "../../../Components/No-content";
 
 // Service
-import AtaService from "../../../service/Ata-Service"
+import AtaService from "../../../service/Ata-Service";
 
 // Utils
-import DateUtils from "../../../utils/Date-Utils"
+import DateUtils from "../../../utils/Date-Utils";
 
 const months = {
   "01": "Janeiro",
@@ -20,37 +22,45 @@ const months = {
   "07": "Julho",
   "08": "Agosto",
   "09": "Setembro",
-  "10": "Outubro",
-  "11": "Novembro",
-  "12": "Dezembro",
-}
+  10: "Outubro",
+  11: "Novembro",
+  12: "Dezembro",
+};
 
 export default function Atas() {
   const [atas, setAtas] = useState([]);
-
   const [atasMonths, setAtasMonths] = useState([]);
-
   const [atasYears, setAtasYears] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAtasInMonth = (month, year) => {
-    return atas.filter((ata) => ata.dataReuniaoAta.split("/")[1] === month && ata.dataReuniaoAta.split("/")[2] === year)
-  }
+    return atas.filter(
+      (ata) =>
+        ata.dataReuniaoAta.split("/")[1] === month &&
+        ata.dataReuniaoAta.split("/")[2] === year
+    );
+  };
 
   useEffect(() => {
-    AtaService.getAtas().then(res => {
-      if (!res.error) {
-        const dbAtas = res.data.map(ata => {
-          ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta)
-          return ata;
-        })
-        setAtas(dbAtas);
-      } else {
-        alert("Erro ao buscar atas");
-      }
-    })
-  }, [])
+    setIsLoading(true);
+    AtaService.getAtas()
+      .then((res) => {
+        if (!res.error) {
+          const dbAtas = res.data.map((ata) => {
+            ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
+            return ata;
+          });
+          setAtas(dbAtas);
+        } else {
+          alert("Erro ao buscar atas");
+          console.log("Request", res);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
-  // Filtra para pegar os meses e anos das atas
   useEffect(() => {
     if (atas.length === 0) return;
     setAtasMonths(() =>
@@ -62,7 +72,8 @@ export default function Atas() {
     setAtasYears(() =>
       atas
         .map((ata) => ata.dataReuniaoAta.split("/")[2])
-        .sort().reverse()
+        .sort()
+        .reverse()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
   }, [atas]);
@@ -70,33 +81,26 @@ export default function Atas() {
   return (
     <div>
       <SubHeaderAtas />
-      <div
-        className="
-        flex
-        justify-center
-        items-center
-        flex-col
-        gap-4
-        mt-8
-      "
-      >
-
-
-        {atasYears.map((year, iY) => (
-          <>
-            {atasMonths.map((month, iM) => (
-              <>
-                {
-                  getAtasInMonth(month, year).length > 0 &&
-                  <div key={iM + "" + iY}>
-                    <h1 className=" text-xl font-bold text-dark-blue-weg " >
-                      {months[month] +
-                        " - " + year}
-                    </h1>
-                    {getAtasInMonth(month, year)
-                      .map((ata, i) => (
+      <div className="mt-8 flex flex-col items-center justify-center gap-4">
+        {isLoading ? (
+          <CircularProgress />
+        ) : atasYears.length === 0 ? (
+          <div className="flex h-[71vh] items-center justify-around">
+            <NoContent isAta={true}>Sem atas!</NoContent>
+          </div>
+        ) : (
+          atasYears.map((year, iY) => (
+            <React.Fragment key={year}>
+              {atasMonths.map((month, iM) => (
+                <React.Fragment key={month}>
+                  {getAtasInMonth(month, year).length > 0 && (
+                    <div key={iM}>
+                      <h1 className="text-xl font-bold text-dark-blue-weg">
+                        {months[month] + " - " + year}
+                      </h1>
+                      {getAtasInMonth(month, year).map((ata, i) => (
                         <AtasCard
-                          key={i}
+                          key={ata.idAta}
                           idAta={ata.idAta}
                           qtyProposals={ata.qtdPropostas}
                           meetingDate={ata.dataReuniaoAta}
@@ -105,12 +109,13 @@ export default function Atas() {
                           proposals={ata.propostasLog}
                         />
                       ))}
-                  </div>
-                }
-              </>
-            ))}
-          </>
-        ))}
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </React.Fragment>
+          ))
+        )}
       </div>
     </div>
   );
