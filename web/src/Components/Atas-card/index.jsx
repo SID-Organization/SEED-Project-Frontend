@@ -1,16 +1,19 @@
+import { useState, useEffect } from "react";
 import * as React from "react";
-import { useState } from "react";
 
+// MUI
+import { styled } from "@mui/material/styles";
+import PublicIcon from "@mui/icons-material/Public";
 import MuiAccordion from "@mui/material/Accordion";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { Divider, IconButton, Tooltip } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import ProposalCard from "../Proposal-card";
 
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PublicIcon from "@mui/icons-material/Public";
-import PublicOffIcon from "@mui/icons-material/PublicOff";
+
+// Components
+import ProposalCard from "../Proposal-card";
 
 export default function PautasCard(props) {
   const Accordion = styled(MuiAccordion)(() => ({
@@ -18,6 +21,10 @@ export default function PautasCard(props) {
     border: "2px solid #E5E5E5",
     borderBottom: "none",
   }));
+
+  useEffect(() => {
+
+  }, [])
 
   const proposalsMock = [
     {
@@ -46,6 +53,10 @@ export default function PautasCard(props) {
     },
   ];
 
+  useEffect(() => {
+    console.log("Proposals", props.proposals);
+  }, [props.proposals])
+
   return (
     <div className="mt-5">
       <Accordion>
@@ -56,23 +67,23 @@ export default function PautasCard(props) {
         >
           <div className="grid font-roboto">
             <div className="flex gap-32">
-              <h1 className="font-bold">{props.AtaName}</h1>
+              <h1 className="font-bold">{"ATA " + props.idAta}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
                 <span className="font-normal text-[#707070]">
-                  {props.QtyProposals}
+                  {props.qtyProposals}
                 </span>
               </h1>
               <h1 className="font-bold">
                 Data da reunião:{" "}
                 <span className="font-normal text-[#707070]">
-                  {props.MeetingDate}
+                  {props.meetingDate}
                 </span>
               </h1>
               <h1 className="font-bold">
                 Horário:{" "}
                 <span className="font-normal text-[#707070]">
-                  {props.MeetingTime}
+                  {props.meetingTime}
                 </span>
               </h1>
             </div>
@@ -81,7 +92,7 @@ export default function PautasCard(props) {
                 <p className="mt-5 font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
-                    {props.ResponsibleAnalyst}
+                    {props.responsibleAnalyst}
                   </span>
                 </p>
               </div>
@@ -130,18 +141,18 @@ export default function PautasCard(props) {
         <Divider />
         <AccordionDetails>
           <div className="grid gap-5">
-            {proposalsMock.map((proposal, i) => (
+            {props.proposals.map((proposal, i) => (
               <ProposalCard
                 key={i}
-                atasCard={proposal.atasCard}
-                newPauta={proposal.newPauta}
-                title={proposal.title}
-                executionTime={proposal.executionTime}
-                value={proposal.value}
-                referenceDemand={proposal.referenceDemand}
-                published={proposal.published}
-                parecerComissao={proposal.parecerComissao}
-                proposalId={proposal.proposalId}
+                atasCard={true}
+                newPauta={false}
+                title={proposal.demandaTituloPropostaLog}
+                executionTime={proposal.demandaTempoExecucaoPropostaLog}
+                value={proposal.demandaValorPropostaLog}
+                referenceDemand={proposal.idPropostaLog}
+                published={proposal.tipoAtaPropostaLog}
+                parecerComissao={proposal.parecerComissaoPropostaLog}
+                proposalId={proposal.idPropostaLog}
               />
             ))}
           </div>

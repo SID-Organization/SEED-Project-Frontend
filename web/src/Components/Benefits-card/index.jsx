@@ -1,9 +1,15 @@
+import { useEffect } from "react";
+
 export default function BenefitsCard(props) {
   function getCurrency(moeda) {
     if (moeda === "REAL") return "R$";
     if (moeda === "DOLAR") return "$";
     if (moeda === "EURO") return "€";
   }
+
+  useEffect(() => {
+    console.log("benefícios", props);
+  }, [])
 
   return (
     <div>
@@ -35,7 +41,11 @@ export default function BenefitsCard(props) {
                         {benefit.valorBeneficio}
                       </p>
                     </td>
-                    <td className="border p-4">{benefit.descricaoBeneficio}</td>
+                    <td
+                      className="border p-4 max-w-[18.25rem] break-words"
+                      dangerouslySetInnerHTML={{ __html: benefit.memoriaCalculoBeneficioHTML }}
+                    >
+                    </td>
                   </tr>
                 );
               })}

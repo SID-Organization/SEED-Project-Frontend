@@ -8,7 +8,7 @@ const createAta = async (ata) => {
   return AxiosAPI.post(url, ata, contentType);
 };
 
-const getAta = async () => {
+const getAtas = async () => {
   return AxiosAPI.get(url);
 };
 
@@ -18,6 +18,6 @@ const getAtaById = async (id) => {
 
 export default {
   createAta,
-  getAta,
+  getAtas,
   getAtaById,
 };

@@ -168,7 +168,7 @@ export default function ProposalCard(props) {
                 </Tooltip>
                 {props.atasCard && (
                   <div className="mr-5 flex items-center">
-                    {props.atasCard === true ? (
+                    {props.published === "PUBLICADA" ? (
                       <Tooltip title="Proposta publicada">
                         <PublicIcon
                           sx={{

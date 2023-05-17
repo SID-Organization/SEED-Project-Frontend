@@ -12,7 +12,7 @@ import DemandsList from "../Demand-card-list";
 import UserUtils from "../../utils/User-Utils";
 
 //Components
-import NoDemands from "../../Components/No-demands";
+import NoContent from "../No-content";
 import SubHeader from "../Sub-header";
 import Notification from "../../Components/Notification";
 
@@ -58,6 +58,7 @@ export default function DemandsPage(props) {
   const [demandType, setDemandType] = useState(props.DemandType);
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasDemands, setHasDemands] = useState(true); // Novo estado para controlar se há demandas cadastradas
 
   useEffect(() => {
     setDemandType(props.DemandType);
@@ -66,47 +67,65 @@ export default function DemandsPage(props) {
 
   // Pegar as respectivas demandas
   useEffect(() => {
-    if (demandType == DemandType.DEMAND) {
-      DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario).then(
-        (res) => {
-          if (res.data.length > 0) {
-            setDbDemands(res.data.filter((d) => d.statusDemanda != "RASCUNHO"));
+    if (demandType === DemandType.DEMAND) {
+      DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario)
+        .then((res) => {
+          if (res.data && res.data.length > 0) {
+            setDbDemands(
+              res.data.filter((d) => d.statusDemanda !== "RASCUNHO")
+            );
+            setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);
+            setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
           }
-        }
-      );
-    } else if (demandType == DemandType.DRAFT) {
-      DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario).then(
-        (demands) => {
-          if (demands.length > 0) {
-            setDbDemands(demands.filter((d) => d.statusDemanda == "RASCUNHO"));
+          setIsLoaded(true); // Atualiza o estado de carregamento
+        })
+        .catch((error) => {
+          console.error("Erro ao obter as demandas:", error);
+        });
+    } else if (demandType === DemandType.DRAFT) {
+      DemandService.getDraftsByRequestorId(user.numeroCadastroUsuario)
+        .then((demands) => {
+          if (demands && demands.length > 0) {
+            setDbDemands(demands.filter((d) => d.statusDemanda === "RASCUNHO"));
+            setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);
+            setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
           }
-        }
-      );
+          setIsLoaded(true); // Atualiza o estado de carregamento
+        })
+        .catch((error) => {
+          console.error("Erro ao obter os rascunhos:", error);
+        });
     } else {
       DemandService.getDemandsToManage(
         user.numeroCadastroUsuario,
         user.cargoUsuario
-      ).then((data) => {
-        let demandsToManage = data;
-        if (user.cargoUsuario === "GERENTE") {
-          demandsToManage = demandsToManage.filter(
-            (item) => item.statusDemanda === "CLASSIFICADO_PELO_ANALISTA"
-          );
-        }
-        if (demandsToManage.length > 0) {
-          setDbDemands(demandsToManage);
-        } else {
-          setDbDemands([]);
-        }
-        console.log("Demands to manage: ", demandsToManage);
-      });
+      )
+        .then((data) => {
+          let demandsToManage = data;
+          if (user.cargoUsuario === "GERENTE") {
+            demandsToManage = demandsToManage.filter(
+              (item) => item.statusDemanda === "CLASSIFICADO_PELO_ANALISTA"
+            );
+          }
+          if (demandsToManage && demandsToManage.length > 0) {
+            setDbDemands(demandsToManage);
+            setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
+          } else {
+            setDbDemands([]);
+            setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
+          }
+          console.log("Demandas para gerenciar: ", demandsToManage);
+          setIsLoaded(true); // Atualiza o estado de carregamento
+        })
+        .catch((error) => {
+          console.error("Erro ao obter as demandas para gerenciar:", error);
+        });
     }
   }, []);
-
   useEffect(() => {
     if (dbDemands && dbDemands.length > 0) {
       setIsLoaded(true);
@@ -296,7 +315,7 @@ export default function DemandsPage(props) {
   }
 
   return (
-    <div>
+    <>
       <div>
         <SubHeader
           setIsListFormat={setIsListFormat}
@@ -517,25 +536,36 @@ export default function DemandsPage(props) {
       )}
 
       <div className="flex flex-wrap justify-around">
-        {dbDemands && dbDemands.length == 0 && DemandType.MANAGER && (
-          <Notification message="Nenhuma demanda encontrada!" />
-        )}
-        {dbDemands &&
-          dbDemands.length == 0 &&
-          DemandType.DEMAND &&
-          DemandType.DRAFT && (
-            <Notification message="Nenhuma demanda encontrada!" action={true} />
-          )}
         {isLoaded ? (
-          dbDemands &&
-          dbDemands.length > 0 &&
-          (isListFormat ? getDemandsList() : getDemandsGrid())
+          dbDemands && dbDemands.length > 0 ? (
+            isListFormat ? (
+              getDemandsList()
+            ) : (
+              getDemandsGrid()
+            )
+          ) : (
+            <div className="flex h-[71vh] items-center justify-around">
+              {!hasDemands ? (
+                <NoContent
+                  isManager={demandType == DemandType.MANAGER ? false : true}
+                >
+                  {demandType == DemandType.DEMAND && <>Sem demandas!</>}
+                  {demandType == DemandType.DRAFT && <>Sem rascunhos!</>}
+                  {demandType == DemandType.MANAGER && (
+                    <>Sem demandas para gerenciar!</>
+                  )}
+                </NoContent>
+              ) : (
+                <CircularProgress />
+              )}
+            </div>
+          )
         ) : (
-          <div className="flex h-[71vh] flex-wrap items-center justify-around">
+          <div className="flex h-[71vh] items-center justify-around">
             <CircularProgress />
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }

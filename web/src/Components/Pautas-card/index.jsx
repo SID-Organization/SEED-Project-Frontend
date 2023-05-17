@@ -106,7 +106,7 @@ export default function PautasCard(props) {
   const [proposals, setProposals] = useState([]);
 
   useEffect(() => {
-    PautaService.getPautaProposalsById(props.Id).then((proposals) => {
+    PautaService.getPautaProposalsById(props.pautaId).then((proposals) => {
       console.log("Proposals", proposals)
       setProposals(proposals);
     });
@@ -122,17 +122,17 @@ export default function PautasCard(props) {
         >
           <div className="grid h-max font-roboto">
             <div className="mt-2 flex justify-between pr-6 pl-6">
-              <h1 className="font-bold">{props.PautaName}</h1>
+              <h1 className="font-bold">{props.pautaName}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
                 <span className="font-normal text-[#707070]">
-                  {props.QtyProposals}
+                  {props.qtyProposals}
                 </span>
               </h1>
               <h1 className="font-bold">
                 Data da reunião:{" "}
                 <span className="font-normal text-[#707070]">
-                  {props.MeetingDate}
+                  {props.meetingDate}
                 </span>
               </h1>
             </div>
@@ -141,7 +141,7 @@ export default function PautasCard(props) {
                 <h1 className="font-bold">
                   Analista responsável:{" "}
                   <span className="font-normal text-[#707070]">
-                    {props.ResponsibleAnalyst}
+                    {props.responsibleAnalyst}
                   </span>
                 </h1>
               </div>
@@ -157,23 +157,23 @@ export default function PautasCard(props) {
           >
             <div className="grid font-roboto">
               <div className="flex justify-center gap-28">
-                <h1 className="font-bold">{props.PautaName}</h1>
+                <h1 className="font-bold">{props.pautaName}</h1>
                 <h1 className="font-bold">
                   Qtd. Propostas:{" "}
                   <span className="font-normal text-[#707070]">
-                    {props.QtyProposals}
+                    {props.qtyProposals}
                   </span>
                 </h1>
                 <h1 className="font-bold">
                   Data da reunião:{" "}
                   <span className="font-normal text-[#707070]">
-                    {props.MeetingDate}
+                    {props.meetingDate}
                   </span>
                 </h1>
                 <h1 className="font-bold">
                   Horário:{" "}
                   <span className="font-normal text-[#707070]">
-                    {props.MeetingTime}
+                    {props.meetingTime}
                   </span>
                 </h1>
               </div>
@@ -182,7 +182,7 @@ export default function PautasCard(props) {
                   <h1 className="mt-5 font-bold">
                     Analista responsável:{" "}
                     <span className="font-normal text-[#707070]">
-                      {props.ResponsibleAnalyst}
+                      {props.responsibleAnalyst}
                     </span>
                   </h1>
                 </div>
@@ -209,7 +209,7 @@ export default function PautasCard(props) {
                     <EditRoundedIcon />
                   </Tooltip>
                   <Tooltip title="Gerar ATA">
-                    <Link to={`gerar-ata/${props.Id}`}>
+                    <Link to={`gerar-ata/${props.pautaId}`}>
                       <Button variant="contained">Gerar ATA</Button>
                     </Link>
                   </Tooltip>

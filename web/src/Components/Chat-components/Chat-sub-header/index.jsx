@@ -15,23 +15,22 @@ import { useState } from "react";
 import { IconButton, SnackbarContent, Tooltip } from "@mui/material";
 
 export default function ChatSubHeader(props) {
+  console.log("HEADER: ", props);
+
   const [drawerState, setDrawerState] = useState({
     right: false,
   });
 
-  const toggleDrawer =
-    (anchor, open) =>
-    (event) => {
-      if (
-        event.type === "keydown" &&
-        ((event).key === "Tab" ||
-          (event).key === "Shift")
-      ) {
-        return;
-      }
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
 
-      setDrawerState({ ...drawerState, [anchor]: open });
-    };
+    setDrawerState({ ...drawerState, [anchor]: open });
+  };
 
   const userInformations = {
     name: "Henrique Cole Fernandes",
@@ -104,31 +103,31 @@ export default function ChatSubHeader(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <div className="mt-3">
-        <div className="flex justify-center items-center mb-5">
-          <h1 className="font-bold text-2xl text-dark-blue-weg">Informações</h1>
+        <div className="mb-5 flex items-center justify-center">
+          <h1 className="text-2xl font-bold text-dark-blue-weg">Informações</h1>
         </div>
         <Divider />
-        <div className="grid justify-center items-center gap-2 mt-5">
-          <div className="flex justify-center items-center">
+        <div className="mt-5 grid items-center justify-center gap-2">
+          <div className="flex items-center justify-center">
             <img className="h-40 w-40" src={UserIMG} alt="" />
           </div>
-          <p className="flex justify-center items-center text-lg">
+          <p className="flex items-center justify-center text-lg">
             {props.userName}
           </p>
         </div>
-        <div className="grid justify-start items-center font-roboto gap-3 ml-3 mt-5">
-          <p className="text-lg font-bold text-justify mr-3">
+        <div className="ml-3 mt-5 grid items-center justify-start gap-3 font-roboto">
+          <p className="mr-3 text-justify text-lg font-bold">
             Demanda:{" "}
             <span className="font-normal text-[#222222] ">
-              {props.userDemand.length > 35
+              {props.userDemand && props.userDemand.length > 35
                 ? props.userDemand.slice(0, 35) + "..."
                 : props.userDemand}
             </span>
           </p>
-          <p className="text-lg font-bold text-justify mr-3">
+          <p className="mr-3 text-justify text-lg font-bold">
             E-mail:{" "}
             <span
-              className="font-normal text-[#222222] cursor-pointer hover:underline"
+              className="cursor-pointer font-normal text-[#222222] hover:underline"
               onClick={() => {
                 copyEmailToClipboard();
               }}
@@ -138,13 +137,13 @@ export default function ChatSubHeader(props) {
                 : userInformations.email}
             </span>
           </p>
-          <p className="text-lg font-bold mr-3">
+          <p className="mr-3 text-lg font-bold">
             Departamento:{" "}
             <span className="font-normal text-[#222222]">
               {userInformations.department}
             </span>
           </p>
-          <p className="text-lg font-bold text-justify mr-3">
+          <p className="mr-3 text-justify text-lg font-bold">
             Seção:{" "}
             <span className="font-normal text-[#222222]">
               {userInformations.section.length > 35
@@ -152,10 +151,10 @@ export default function ChatSubHeader(props) {
                 : userInformations.section}
             </span>
           </p>
-          <p className="text-lg font-bold text-justify mr-3">
+          <p className="mr-3 text-justify text-lg font-bold">
             Telefone:{" "}
             <span
-              className="font-normal text-[#222222] cursor-pointer hover:underline"
+              className="cursor-pointer font-normal text-[#222222] hover:underline"
               onClick={() => {
                 copyPhoneToClipboard();
               }}
@@ -164,7 +163,7 @@ export default function ChatSubHeader(props) {
             </span>
           </p>
         </div>
-        <div className="flex justify-center items-center mt-10">
+        <div className="mt-10 flex items-center justify-center">
           <Button
             variant="contained"
             color="primary"
@@ -207,8 +206,8 @@ export default function ChatSubHeader(props) {
           }
         />
       </Snackbar>
-      <div className="shadow-md border-l-[#d9d9d9] border-l-2 h-20 flex justify-between items-center bg-blue-weg rounded-br-sm rounded-bl-sm">
-        <p className="ml-5 text-white font-normal text-xl cursor-default ">
+      <div className="flex h-20 items-center justify-between rounded-bl-sm rounded-br-sm border-l-2 border-l-[#d9d9d9] bg-blue-weg shadow-md">
+        <p className="ml-5 cursor-default text-xl font-normal text-white ">
           {props.userName}
         </p>
         <div className="flex gap-5">

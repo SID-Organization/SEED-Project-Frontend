@@ -35,12 +35,9 @@ export default function Login(props) {
     }
   }, [props.user]);
 
-  const Alert = React.forwardRef(function Alert(
-    props,
-    ref
-  ) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
+ 
+    
+
 
   const handleCloseNotification = (
     event,
@@ -87,14 +84,14 @@ export default function Login(props) {
           onClose={handleCloseNotification}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <Alert
+          <MuiAlert elevation={6} variant="filled"
             severity="error"
             sx={{
               backgroundColor: "#C31700"
             }}
           >
             Usuário ou senha inválidos!
-          </Alert>
+          </MuiAlert>
         </Snackbar>
       )}
 

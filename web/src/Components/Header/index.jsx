@@ -199,7 +199,6 @@ export default function PrimarySearchAppBar() {
     location.reload();
   };
 
-
   const notificationsMock = [
     {
       name: "Henrique Cole Fernandes",
@@ -626,10 +625,10 @@ export default function PrimarySearchAppBar() {
                 // }
                 return 0;
               })
-              .map((user) => {
+              .map((user, i) => {
                 return (
                   <div
-                    key={user.idUsuario}
+                    key={i}
                     onClick={() => {
                       const userName = user.name;
                       const userDemand = user.userDemand;

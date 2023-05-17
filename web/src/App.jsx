@@ -24,6 +24,9 @@ import DemandsPage from "./Components/DemandsPage";
 
 // Utils
 import UserUtils from "./utils/User-Utils";
+// import DemandsPage from "./Components/DemandsPage";
+
+import VLibras from "@djpfs/react-vlibras/dist/cjs/index.js";
 
 function App() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
@@ -31,6 +34,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <VLibras forceOnLoad={true} />
         <Routes>
           <Route path="" element={<Navigate to={"/login"} />} />
           <Route
@@ -88,8 +92,10 @@ function App() {
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>
       </BrowserRouter>
+      <VLibras forceOnload={true}/>
     </>
   );
 }
 
 export default App;
+
