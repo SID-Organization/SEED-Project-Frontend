@@ -17,10 +17,11 @@ import ProposalService from "../../../service/Proposal-Service";
 // Utils
 import AtaUtils from "../../../utils/Ata-Utils";
 import DemandService from "../../../service/Demand-Service";
+import ProposalUtils from "../../../utils/Proposal-Utils";
 
-export default function GenerateAta() {
+export default function GenerateAta(props) {
   // ID da pauta
-  const { id: pautaId } = useParams("id");
+  const params = useParams("id");
   const navigate = useNavigate();
 
   const [proposals, setProposals] = useState([]);
@@ -75,12 +76,10 @@ export default function GenerateAta() {
     const ata = {
       numeroDgAta: numDgAta,
       pautaAta: {
-        idPauta: pautaId,
+        idPauta: params.id,
       },
       propostasLog: finalDecisions,
     };
-
-    console.log("NEW ATA", ata);
 
     const form = new FormData();
 
@@ -90,7 +89,7 @@ export default function GenerateAta() {
     AtaService.createAta(form).then((response) => {
       if (response.status == 201) {
         updateEachDemand()
-        PautaService.deletePautaById(pautaId).then(res => {
+        PautaService.deletePautaById(params.id).then(res => {
           console.log("Pauta delete", res);
         });
         alert("Ata gerada com sucesso")
@@ -101,7 +100,7 @@ export default function GenerateAta() {
 
   const formatStatusToDemand = (status) => {
     switch (status) {
-      case "APROVADA":
+      case "APROVADO":
         return "APROVADA_PELA_COMISSAO";
       case "REPROVADO":
         return "CANCELADA";
@@ -120,7 +119,7 @@ export default function GenerateAta() {
       const newDemandLog = {
         tarefaHistoricoWorkflow: "EXECUCAO_PROPOSTA",
         demandaHistorico: { idDemanda: demandId },
-        acaoFeitaHistorico: "Aprovar",
+        acaoFeitaHistorico: "Concluir",
         idResponsavel: { numeroCadastroUsuario: 72131 },
       };
       DemandLogService.createDemandLog(newDemandLog).then(res => {
@@ -132,10 +131,17 @@ export default function GenerateAta() {
   }
 
   useEffect(() => {
-    PautaService.getPautaProposalsById(pautaId).then((proposals) => {
-      console.log("PROPOSALS", proposals);
-      setProposals(proposals);
-    });
+    if(!props.isAtaForDG) {
+      PautaService.getPautaProposalsById(params.id).then((proposals) => {
+        setProposals(proposals);
+      });
+    } else {
+      AtaService.getAtaById(params.id).then(ata => {
+        console.log("Propostas", ata);
+        setProposals(ProposalUtils.formatLogProposalsToProposals(ata.propostasLog));
+        setNumDgAta(ata.numeroDgAta);
+      })
+    }
   }, []);
 
   // Cria um array de decisões finais com base nas propostas
@@ -157,9 +163,9 @@ export default function GenerateAta() {
         <div className="flex-1"></div>
         <div className="flex flex-1 flex-col items-center justify-center">
           <h1 className="mt-10 text-3xl font-bold text-blue-weg">
-            Geração de ata
+            Geração de ata {props.isAtaForDG && "para DG"}
           </h1>
-          <p className="mt-4 text-blue-weg">Pauta referência: {pautaId}</p>
+          <p className="mt-4 text-blue-weg">{props.isAtaForDG ? "Ata" : "Pauta"} referência: {params.id}</p>
         </div>
         <div className="flex flex-1 items-end">
           <p className="text-light-blue-weg">Número DG ata:</p>
@@ -168,6 +174,7 @@ export default function GenerateAta() {
             variant="outlined"
             size="small"
             type="number"
+            disabled={props.isAtaForDG}
             value={numDgAta}
             placeholder="000"
             onChange={(e) => {
@@ -192,6 +199,7 @@ export default function GenerateAta() {
           <GenerateAtaProposal
             key={i}
             proposal={proposal}
+            isAtaForDG={props.isAtaForDG}
             proposalIndex={i}
             finalDecision={finalDecisions.find(
               (fd) =>

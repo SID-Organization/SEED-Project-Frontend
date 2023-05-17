@@ -120,15 +120,7 @@ export default function ProposalCard(props) {
   }
 
   function openProposalPDF() {
-    ProposalService.getProposalPDF(props.proposalId)
-    .then((response) => {
-
-      const pdfFile = new Blob([response.data], { type: "application/pdf" });
-      const fileURL = URL.createObjectURL(pdfFile);
-
-      window.open(fileURL, "_blank");
-      
-    });
+    ProposalService.openProposalPDF(props.proposalId);
   }
 
   return (
@@ -278,7 +270,8 @@ export default function ProposalCard(props) {
             {props.newPauta ? (
               ""
             ) : (
-              <Tooltip title="Visualizar proposta">
+              <Tooltip title="Visualizar proposta"
+                onClick={openProposalPDF}>
                 {props.newPauta === "card" ? (
                   <VisibilityRoundedIcon />
                 ) : (
@@ -312,21 +305,19 @@ export default function ProposalCard(props) {
                     </IconButtonDefault>
                   )}
                 </Tooltip>
-                <Link to={`${props.proposalId}/${props.referenceDemand}`}>
-                  <Tooltip title="Visualizar proposta">
-                    <IconButton
-                      onClick={openProposalPDF}
-                    >
-                      <VisibilityIcon
-                        sx={{
-                          color: "#0075B1",
-                          height: "1.8rem",
-                          width: "1.8rem",
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </Link>
+                <Tooltip title="Visualizar proposta">
+                  <IconButton
+                    onClick={openProposalPDF}
+                  >
+                    <VisibilityIcon
+                      sx={{
+                        color: "#0075B1",
+                        height: "1.8rem",
+                        width: "1.8rem",
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
               </div>
             )}
           </div>

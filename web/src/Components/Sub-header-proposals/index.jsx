@@ -122,7 +122,7 @@ export default function SubHeaderPautas() {
                             />
                           </div>
                           <p className="font-roboto font-bold mt-2 text-[#b3b3b3]">
-                            Nenhuma demanda cadastrada!
+                            Nenhuma proposta pronta para ser adicionada em pauta!
                           </p>
                         </div>
                       )

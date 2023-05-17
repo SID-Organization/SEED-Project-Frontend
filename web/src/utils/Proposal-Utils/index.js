@@ -38,8 +38,21 @@ const sumCosts = (costs) => {
     return sum;
 }
 
+const formatLogProposalsToProposals = (logProposals) => {
+    return logProposals.map((logProposal) => (
+        {
+            idProposta: logProposal.propostaPropostaLog.idProposta,
+            demandaPropostaTitulo: logProposal.demandaTituloPropostaLog,
+            tempoExecucaoDemanda: logProposal.demandaTempoExecucaoPropostaLog,
+            valorDemanda: logProposal.demandaValorPropostaLog,
+            idDemanda: logProposal.propostaPropostaLog.demandaProposta.idDemanda,
+        }
+    ))
+}
+
 export default {
     formatCostsFromDB,
     formatCCPsFromDB,
-    sumCosts
+    sumCosts,
+    formatLogProposalsToProposals
 }

@@ -794,22 +794,12 @@ export default function PrimarySearchAppBar() {
         scrollbar-w-2
       "
       >
-        {notificationsReceivedByWS
+        {notificationsReceivedByWS && notificationsReceivedByWS
           .sort((a, b) => {
             if (filterUnreadNotifications) {
               if (a.unreadNotification && !b.unreadNotification) return -1;
               if (!a.unreadNotification && b.unreadNotification) return 1;
             }
-
-            // const timeA = new Date(a.time.split(":")[0], a.time.split(":")[1]);
-            // const timeB = new Date(b.time.split(":")[0], b.time.split(":")[1]);
-            // if (timeA > timeB) {
-            //   return -1;
-            // }
-            // if (timeA < timeB) {
-            //   return 1;
-            // }
-            // return 0;
           })
 
           .map((notification, i) => (

@@ -10,37 +10,6 @@ import AtaService from "../../../service/Ata-Service"
 // Utils
 import DateUtils from "../../../utils/Date-Utils"
 
-const atasMock = [
-  {
-    AtaName: "Ata 1",
-    QtyProposals: 2,
-    MeetingDate: "10/11/2021",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "João da Silva",
-  },
-  {
-    AtaName: "Ata 2",
-    QtyProposals: 2,
-    MeetingDate: "10/06/2021",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "Henrique Cole Fernandes",
-  },
-  {
-    AtaName: "Ata 3",
-    QtyProposals: 2,
-    MeetingDate: "10/02/2022",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "Leonardo Giuseppe de Souza Rafaelli",
-  },
-  {
-    AtaName: "Ata 4",
-    QtyProposals: 2,
-    MeetingDate: "10/11/2021",
-    MeetingTime: "10:00",
-    ResponsibleAnalyst: "João da Silva",
-  },
-];
-
 const months = {
   "01": "Janeiro",
   "02": "Fevereiro",
@@ -70,22 +39,19 @@ export default function Atas() {
   useEffect(() => {
     AtaService.getAtas().then(res => {
       if (!res.error) {
-        console.log("ATAS", res.data);
         const dbAtas = res.data.map(ata => {
-          ata.dataReuniaoAta = DateUtils.formatDateFromDB(ata.dataReuniaoAta)
+          ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta)
           return ata;
         })
         setAtas(dbAtas);
       } else {
         alert("Erro ao buscar atas");
-        console.log("Request", res)
       }
     })
   }, [])
 
   // Filtra para pegar os meses e anos das atas
   useEffect(() => {
-    console.log("ATAS", atas);
     if (atas.length === 0) return;
     setAtasMonths(() =>
       atas
