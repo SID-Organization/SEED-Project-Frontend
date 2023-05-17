@@ -199,79 +199,6 @@ export default function PrimarySearchAppBar() {
     location.reload();
   };
 
-  const notificationsMock = [
-    {
-      name: "Henrique Cole Fernandes",
-      time: "21:00",
-      content: "Aprovou sua demanda!",
-      unreadNotification: false,
-      type: "approved",
-    },
-    {
-      name: "Leonardo Rafaelli",
-      time: "12:00",
-      content: "Reprovou sua demanda!",
-      unreadNotification: true,
-      type: "rejected",
-    },
-    {
-      name: "Gustavo Rebelatto Zapella",
-      time: "15:00",
-      content: "Reprovou sua demanda!",
-      unreadNotification: true,
-      type: "returned",
-    },
-    {
-      name: "Romario Horngurg",
-      time: "18:00",
-      content: "Editou sua demanda!",
-      unreadNotification: false,
-      type: "edited",
-    },
-    {
-      name: "Otavio Augusto dos Santos",
-      time: "09:00",
-      content: "Reprovou sua demanda!",
-      unreadNotification: false,
-      type: "rejected",
-    },
-    {
-      name: "Henrique Cole Fernandes",
-      time: "22:00",
-      content: "Aprovou sua demanda!",
-      unreadNotification: false,
-      type: "approved",
-    },
-    {
-      name: "Leonardo Rafaelli",
-      time: "16:00",
-      content: "Devolveu sua demanda!",
-      unreadNotification: true,
-      type: "returned",
-    },
-    {
-      name: "Gustavo Rebelatto Zapella",
-      time: "20:00",
-      content: "Devolveu sua demanda!",
-      unreadNotification: true,
-      type: "returned",
-    },
-    {
-      name: "Romario Horngurg",
-      time: "17:00",
-      content: "Reprovou sua demanda!",
-      unreadNotification: false,
-      type: "rejected",
-    },
-    {
-      name: "Otavio Augusto dos Santos",
-      time: "14:00",
-      content: "Editou sua demanda!",
-      unreadNotification: false,
-      type: "edited",
-    },
-  ];
-
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -488,27 +415,33 @@ export default function PrimarySearchAppBar() {
       setChatUsers(users);
     });
     WebSocketUtils.connect(handleNotification);
-    NotificationService.getNotificacaoByUsuario(UserUtils.getLoggedUserId()).then(data => setNotificationsReceivedByWS(data));
+    NotificationService.getNotificacaoByUsuario(
+      UserUtils.getLoggedUserId()
+    ).then((data) => setNotificationsReceivedByWS(data));
     return () => {
       WebSocketUtils.disconnect();
-    }
+    };
   }, []);
 
   let listaVerifica = [];
   const handleNotification = (notification) => {
     listaVerifica = [...listaVerifica, notification];
-    if(listaVerifica.length === 1){
-      setNotificationsReceivedByWS((prevState) => [...prevState, JSON.parse(notification.body)]);
-    } else if(listaVerifica[listaVerifica.length - 1] != notification){
-      setNotificationsReceivedByWS((prevState) => [...prevState, JSON.parse(notification.body)]);
+    if (listaVerifica.length === 1) {
+      setNotificationsReceivedByWS((prevState) => [
+        ...prevState,
+        JSON.parse(notification.body),
+      ]);
+    } else if (listaVerifica[listaVerifica.length - 1] != notification) {
+      setNotificationsReceivedByWS((prevState) => [
+        ...prevState,
+        JSON.parse(notification.body),
+      ]);
     }
-};
+  };
 
   useEffect(() => {
-    console.log("AOBA: ", notificationsReceivedByWS);
     listaVerifica = [];
   }, [notificationsReceivedByWS]);
-      
 
   const [stompClient, setStompClient] = useState(null);
 
@@ -521,9 +454,7 @@ export default function PrimarySearchAppBar() {
   //State para armazenar o id do chat que o usuário está conversando
   const [chatId, setChatId] = useState(0);
 
-  const [userData, setUserData] = useState(
-    
-  );
+  const [userData, setUserData] = useState();
 
   const connect = () => {
     let Sock = new SockJs("http://localhost:8080/ws");
@@ -608,21 +539,6 @@ export default function PrimarySearchAppBar() {
               .sort((a, b) => {
                 if (a.unreadMessages && !b.unreadMessages) return -1;
                 if (!a.unreadMessages && b.unreadMessages) return 1;
-
-                // const timeA = new Date(
-                //   a.time.split(":")[0] as any,
-                //   a.time.split(":")[1] as any
-                // );
-                // const timeB = new Date(
-                //   b.time.split(":")[0] as any,
-                //   b.time.split(":")[1] as any
-                // );
-                // if (timeA > timeB) {
-                //   return -1;
-                // }
-                // if (timeA < timeB) {
-                //   return 1;
-                // }
                 return 0;
               })
               .map((user, i) => {

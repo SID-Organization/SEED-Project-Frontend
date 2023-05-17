@@ -300,7 +300,7 @@ export default function GenerateProposal() {
           const newDemandLog = {
             tarefaHistoricoWorkflow: "APROVACAO_COMISSAO",
             demandaHistorico: { idDemanda: demandId },
-            acaoFeitaHistorico: "Enviar",
+            acaoFeitaHistorico: "Aprovar",
             idResponsavel: { numeroCadastroUsuario: 72131 },
           };
 

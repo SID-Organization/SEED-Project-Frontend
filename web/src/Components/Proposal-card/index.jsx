@@ -119,15 +119,8 @@ export default function ProposalCard(props) {
     setIsButtonAddClicked(!isButtonAddClicked);
   }
 
-  function getProposalPDFOnClick() {
-    ProposalService.getProposalPDF(props.proposalId).then((response) => {
-      const pdfFile = new Blob([response.data], { type: "application/pdf" });
-      const fileURL = URL.createObjectURL(pdfFile);
-
-      window.open(fileURL, "_blank");
-      // console.log("FILE", file);
-      console.log("FILE URL", fileURL)
-    });
+  function openProposalPDF() {
+    ProposalService.openProposalPDF(props.proposalId);
   }
 
   return (
@@ -258,7 +251,7 @@ export default function ProposalCard(props) {
               </h1>
               {props.newPauta && (
                 <h1
-                  onClick={getProposalPDFOnClick}
+                  onClick={openProposalPDF}
                   className="flex w-[10rem] cursor-pointer items-center justify-center gap-1 text-sm font-bold text-light-blue-weg
                     hover:underline
                   "
@@ -277,7 +270,8 @@ export default function ProposalCard(props) {
             {props.newPauta ? (
               ""
             ) : (
-              <Tooltip title="Visualizar proposta">
+              <Tooltip title="Visualizar proposta"
+                onClick={openProposalPDF}>
                 {props.newPauta === "card" ? (
                   <VisibilityRoundedIcon />
                 ) : (
@@ -311,19 +305,19 @@ export default function ProposalCard(props) {
                     </IconButtonDefault>
                   )}
                 </Tooltip>
-                <Link to={`${props.proposalId}/${props.referenceDemand}`}>
-                  <Tooltip title="Visualizar proposta">
-                    <IconButton>
-                      <VisibilityIcon
-                        sx={{
-                          color: "#0075B1",
-                          height: "1.8rem",
-                          width: "1.8rem",
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </Link>
+                <Tooltip title="Visualizar proposta">
+                  <IconButton
+                    onClick={openProposalPDF}
+                  >
+                    <VisibilityIcon
+                      sx={{
+                        color: "#0075B1",
+                        height: "1.8rem",
+                        width: "1.8rem",
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
               </div>
             )}
           </div>

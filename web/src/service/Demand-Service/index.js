@@ -100,6 +100,11 @@ const getDemandsToManage = async (userId, userRole) => {
     .catch((error) => error);
 };
 
+const openDemandPDF = async (demandId) => {
+  // Open in new tab
+  window.open(`${url}/pdf-demanda/${demandId}`, "_blank");
+};
+
 export default {
   createDemand,
   updateDemand,
@@ -116,4 +121,5 @@ export default {
   getDraftsByRequestorId,
   deleteListDemands,
   deleteAllDrafts,
+  openDemandPDF
 };

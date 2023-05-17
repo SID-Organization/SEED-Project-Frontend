@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 
 //Components
 import Header from "../Header";
+import CreateNewPauta from "../Create-new-pauta";
+import CreateNewProposalButton from "../CreateNewProposal-Button";
 
 //MUI
 import MuiFolderOffOutlinedIcon from "@mui/icons-material/FolderOffOutlined";
 import MuiButton from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import MuiAddBoxIcon from "@mui/icons-material/AddBox";
 import { styled } from "@mui/material/styles";
 
@@ -54,13 +55,12 @@ export default function noContent(props) {
         )}
         {props.isPauta && (
           <div className="mt-16 flex items-center justify-center">
-            <Button
-              variant="outlined"
-              startIcon={<AddBoxIcon />}
-              onClick={props.onButtonClick}
-            >
-              Crie uma pauta
-            </Button>
+            <CreateNewPauta isPauta={true} />
+          </div>
+        )}
+        {props.isProposal && (
+          <div className="mt-16 flex items-center justify-center">
+            <CreateNewProposalButton isProposal={true} />
           </div>
         )}
       </div>

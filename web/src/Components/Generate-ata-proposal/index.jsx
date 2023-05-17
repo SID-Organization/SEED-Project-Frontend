@@ -22,7 +22,7 @@ export default function fsdGenerateAtaProposal(props) {
   const [naoPublicada, setNaoPublicada] = useState(false);
   // HTML editor
   const [quillHtmlConsideration, setQuillHtmlConsideration] = useState("");
-  
+
   function formatParecerComissao(parecerComissao) {
     let txtToUpper = parecerComissao.toUpperCase();
     let cleanedTxt = txtToUpper.replace(/Ç/g, 'C').replace(/Õ/g, 'O').replace(/ /g, "_");
@@ -33,7 +33,7 @@ export default function fsdGenerateAtaProposal(props) {
 
   function updateDecision() {
     if (!props.finalDecision) return;
-    const newFinalDecision = {...props.finalDecision};
+    const newFinalDecision = { ...props.finalDecision };
     console.log(newFinalDecision);
     newFinalDecision.propostaPropostaLog.idProposta = props.proposal.idProposta;
     newFinalDecision.parecerComissaoPropostaLog = formatParecerComissao(parecerComissao);
@@ -48,7 +48,7 @@ export default function fsdGenerateAtaProposal(props) {
 
   const style = { height: 100, width: 500 };
 
-  const actionsParecerComissao = [
+  const actionsComission = [
     {
       action: "Aprovado",
     },
@@ -62,6 +62,20 @@ export default function fsdGenerateAtaProposal(props) {
       action: "Business Case",
     },
   ];
+
+  const actionsDG = [
+    {
+      action: "Aprovado",
+    },
+    {
+      action: "Reprovado",
+    },
+  ]
+
+  const getActions = () => {
+    if(props.isAtaForDG) return actionsDG;
+    return actionsComission;
+  }
 
 
   const Button = styled(MuiButton)({
@@ -91,7 +105,7 @@ export default function fsdGenerateAtaProposal(props) {
         "
         >
           <div className="grid">
-            <p className="font-roboto font-bold">Parecer da comissão</p>
+            <p className="font-roboto font-bold">Parecer da {props.isAtaForDG ? "DG" : "comissão"}</p>
             <Box sx={{ minWidth: 120 }}>
               <FormControl
                 fullWidth
@@ -108,7 +122,7 @@ export default function fsdGenerateAtaProposal(props) {
                   value={parecerComissao}
                   onChange={(e) => setParecerComissao(e.target.value)}
                 >
-                  {actionsParecerComissao.map((action, i) => (
+                  {getActions().map((action, i) => (
                     <MenuItem key={i} value={action.action}>
                       {action.action}
                       <Badge
@@ -142,7 +156,7 @@ export default function fsdGenerateAtaProposal(props) {
               style={style}
             />
           </div>
-          <div className="grid">
+          {!props.isAtaForDG ? <div className="grid">
             <p className="font-roboto font-bold mb-2">
               Assunto registrado em ata
             </p>
@@ -197,6 +211,9 @@ export default function fsdGenerateAtaProposal(props) {
               </Button>
             </div>
           </div>
+            : (
+              <div className="h-28" />
+            )}
         </div>
       </div>
       <Divider
