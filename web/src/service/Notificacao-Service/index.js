@@ -15,6 +15,12 @@ const getNotificacaoById = async (id) => {
     .catch((error) => error);
 };
 
+const getNotificacaoByUsuario = async (id) => {
+  return AxiosAPI.get(`${url}/usuario/${id}`)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
 const postNotificacao = async (notificacao) => {
   return AxiosAPI.post(url, notificacao)
     .then((response) => response.data)
@@ -30,6 +36,7 @@ const deleteNotificacao = async (id) => {
 export default {
   getNotificacao,
   getNotificacaoById,
+  getNotificacaoByUsuario,
   postNotificacao,
   deleteNotificacao,
 };

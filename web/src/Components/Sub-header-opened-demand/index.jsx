@@ -157,6 +157,15 @@ export default function subHeader({
     }
   };
 
+  const changeDemandStatus = () => {
+    // CRIAR MODAL PARA MOSTRAR E TROCAR OS STATUS DA DEMANDA
+  }
+
+  const accessProposal = () => {
+    navigate(`/propostas/gerar-proposta/${demand.idDemanda}`);
+  }
+
+
   const actionOptions = [
     {
       text: "Classificar demanda",
@@ -173,6 +182,20 @@ export default function subHeader({
       key: 2,
     },
     {
+      text: "Alterar status",
+      role: ["ANALISTA"],
+      demandStatus: ["TODAS"],
+      function: changeDemandStatus,
+      key: 3,
+    },
+    {
+      text: "Acessar proposta",
+      role: ["ANALISTA", "GESTOR_TI"],
+      demandStatus: ["PROPOSTA_EM_ELABORACAO"],
+      function: accessProposal,
+      key: 4,
+    },
+    {
       text: "Ver proposta",
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: [
@@ -183,14 +206,14 @@ export default function subHeader({
         "PROPOSTA_EM_SUPORTE",
         "BUSINESS_CASE",
       ],
-      key: 3,
+      key: 5,
     },
     {
       text: "Devolver",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       function: handleOpenReasonOfDevolution,
-      key: 4,
+      key: 6,
     },
 
     {
@@ -198,7 +221,7 @@ export default function subHeader({
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       function: handleOpenReasonOfDevolution,
-      key: 5,
+      key: 7,
     },
   ];
 
@@ -254,9 +277,7 @@ export default function subHeader({
       .catch((err) => console.log("Erro ", err));
   }, []);
 
-  const notifyEditEnabledOn = () => toast("Agora você pode editar os campos!");
-  const notifyEditEnabledOff = () =>
-    toast.success("Alterações salvas com sucesso!");
+
 
   const handleToggleActions = () => {
     setOpenActions((prevOpen) => !prevOpen);
@@ -311,30 +332,31 @@ export default function subHeader({
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {
-          const newLog = {
+          const newDemandLog = {
             tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
             demandaHistorico: { idDemanda: demand.idDemanda },
             acaoFeitaHistorico: "Aprovar",
             idResponsavel: { numeroCadastroUsuario: 72132 },
           };
-          DemandLogService.createDemandLog(newLog);
+          DemandLogService.createDemandLog(newDemandLog);
         }
         return response;
       })
-      .then((response) => {
-        navigate("/demandas");
+      .then((res) => {
+        if (res.status == 200)
+          navigate("/demandas");
       });
   };
 
   const handleManagerApproveDemand = async () => {
-    const demandLog = {
+    const newDemandLog = {
       tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
       demandaHistorico: { idDemanda: demand.idDemanda },
       acaoFeitaHistorico: "Enviar",
       idResponsavel: { numeroCadastroUsuario: 72131 },
     };
 
-    DemandLogService.createDemandLog(demandLog).then((response) => {
+    DemandLogService.createDemandLog(newDemandLog).then((response) => {
       if (response.status == 200 || response.status == 201) {
         DemandService.updateDemandStatus(
           demand.idDemanda,

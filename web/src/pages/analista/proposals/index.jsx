@@ -94,13 +94,13 @@ export default function Proposals() {
           </div>
           <div
             className="
-            scrollbar-w-2 mt-5
-            grid
+            mt-5 grid
             max-h-[31rem]
             justify-center
-            overflow-x-hidden
             overflow-y-scroll
-              scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full
+            overflow-x-hidden
+            scrollbar-thin
+              scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2
           "
           >
             {pautas.map((pauta) => (

@@ -119,14 +119,15 @@ export default function ProposalCard(props) {
     setIsButtonAddClicked(!isButtonAddClicked);
   }
 
-  function getProposalPDFOnClick() {
-    ProposalService.getProposalPDF(props.proposalId).then((response) => {
+  function openProposalPDF() {
+    ProposalService.getProposalPDF(props.proposalId)
+    .then((response) => {
+
       const pdfFile = new Blob([response.data], { type: "application/pdf" });
       const fileURL = URL.createObjectURL(pdfFile);
 
       window.open(fileURL, "_blank");
-      // console.log("FILE", file);
-      console.log("FILE URL", fileURL)
+      
     });
   }
 
@@ -168,7 +169,7 @@ export default function ProposalCard(props) {
                 </Tooltip>
                 {props.atasCard && (
                   <div className="mr-5 flex items-center">
-                    {props.atasCard === true ? (
+                    {props.published === "PUBLICADA" ? (
                       <Tooltip title="Proposta publicada">
                         <PublicIcon
                           sx={{
@@ -258,7 +259,7 @@ export default function ProposalCard(props) {
               </h1>
               {props.newPauta && (
                 <h1
-                  onClick={getProposalPDFOnClick}
+                  onClick={openProposalPDF}
                   className="flex w-[10rem] cursor-pointer items-center justify-center gap-1 text-sm font-bold text-light-blue-weg
                     hover:underline
                   "
@@ -313,7 +314,9 @@ export default function ProposalCard(props) {
                 </Tooltip>
                 <Link to={`${props.proposalId}/${props.referenceDemand}`}>
                   <Tooltip title="Visualizar proposta">
-                    <IconButton>
+                    <IconButton
+                      onClick={openProposalPDF}
+                    >
                       <VisibilityIcon
                         sx={{
                           color: "#0075B1",

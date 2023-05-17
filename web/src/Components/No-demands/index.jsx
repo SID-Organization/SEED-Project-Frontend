@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-export default function noDemands({ children }) {
+export default function noDemands(props) {
+  
   return (
     <div>
       <Header />
@@ -23,29 +24,31 @@ export default function noDemands({ children }) {
             />
           </div>
           <h1 className="flex items-center justify-center text-2xl font-semibold text-[#0075B1]">
-            {children}
+            {props.children}
           </h1>
         </div>
-        <div className="mt-16">
-          <Stack direction="row" spacing={2}>
-            <Link to="/nova-demanda">
-              <Button
-                sx={{ color: "#0075B1", fontWeight: "bold" }}
-                variant="outlined"
-                startIcon={
-                  <AddBoxIcon
-                    style={{
-                      fontSize: "35px",
-                      color: "#023A67",
-                    }}
-                  />
-                }
-              >
-                Criar uma demanda
-              </Button>
-            </Link>
-          </Stack>
-        </div>
+        {props.isManager && (
+          <div className="mt-16 flex items-center justify-center">
+            <Stack direction="row" spacing={2}>
+              <Link to="/nova-demanda">
+                <Button
+                  sx={{ color: "#0075B1", fontWeight: "bold" }}
+                  variant="outlined"
+                  startIcon={
+                    <AddBoxIcon
+                      style={{
+                        fontSize: "35px",
+                        color: "#023A67",
+                      }}
+                    />
+                  }
+                >
+                  Criar uma demanda
+                </Button>
+              </Link>
+            </Stack>
+          </div>
+        )}
       </div>
     </div>
   );

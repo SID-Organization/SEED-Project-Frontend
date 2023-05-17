@@ -30,9 +30,16 @@ const getPautaProposalsById = async (id) => {
     .catch((error) => error);
 };
 
+const deletePautaById = async (id) => {
+  return AxiosAPI.delete(`${url}/${id}`)
+    .then((response) => response)
+    .catch((error) => error);
+}
+
 export default {
   createPauta,
   getPautas,
   getPautaById,
   getPautaProposalsById,
+  deletePautaById,
 };

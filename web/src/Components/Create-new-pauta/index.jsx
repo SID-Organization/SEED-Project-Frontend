@@ -60,7 +60,7 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
   width: "1.5rem",
 });
 
-export default function CreateNewPauta() {
+export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [openedModal, setOpenedModal] = useState(false);
   const [foruns, setForuns] = useState([]);
@@ -72,25 +72,31 @@ export default function CreateNewPauta() {
   const [meetingStartTime, setMeetingStartTime] = useState("");
   const [meetingEndTime, setMeetingEndTime] = useState("");
 
-  const handleOpenModal = () => setOpenedModal(true);
-  const handleCloseModal = () => setOpenedModal(false);
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     ProposalService.getReadyProposals().then((data) => {
       if (!data) return;
-      setReadyProposals(data)
+      setReadyProposals(data);
     });
 
     ForumService.getForuns().then((data) => {
+      console.log("FORUNS", data);
       if (!data) return;
-      setForuns(data)
+      setForuns(data);
     });
   }, []);
 
   useEffect(() => {
     if (foruns.length > 0) {
       setComissoes(
-        foruns.map((comissao) => ({ label: comissao.nomeComissao, id: comissao.idComissao }))
+        foruns.map((forum) =>
+        ({
+          id: forum.idForum,
+          label: forum.comissaoForum.siglaComissao + " - " + forum.comissaoForum.nomeComissao,
+        })
+        )
       );
     }
   }, [foruns]);
@@ -123,16 +129,15 @@ export default function CreateNewPauta() {
 
     console.log("PAUTA JSON", pautaJson);
 
-    PautaService.createPauta(pautaJson)
-      .then((res) => {
-        if (res.error) {
-          alert("Erro ao criar pauta\n" + res.error);
-          return;
-        } else {
-          alert("Pauta criada com sucesso");
-          handleCloseModal();
-        }
-      });
+    PautaService.createPauta(pautaJson).then((res) => {
+      if (res.error) {
+        alert("Erro ao criar pauta\n" + res.error);
+        return;
+      } else {
+        alert("Pauta criada com sucesso");
+        handleCloseModal();
+      }
+    });
   };
 
   return (
@@ -231,8 +236,8 @@ export default function CreateNewPauta() {
                 </div>
               </div>
               <div
-                className="scrollbar-w-2 grid max-h-[21rem] gap-5 overflow-y-scroll
-                scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full"
+                className="grid max-h-[21rem] gap-5 overflow-y-scroll scrollbar-thin
+                scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
               >
                 {readyProposals.length > 0 &&
                   readyProposals.map((item, i) => (
