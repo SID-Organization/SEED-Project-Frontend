@@ -80,11 +80,6 @@ export default function Pautas() {
     11: "Novembro",
     12: "Dezembro",
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
 
   return (
     <div>
@@ -123,9 +118,7 @@ export default function Pautas() {
           ))
         ) : (
           <div className="flex h-[71vh] items-center justify-around">
-            <NoContent isPauta={true} onButtonClick={handleOpenModal}>
-              Sem pautas!
-            </NoContent>
+            <NoContent isPauta={true}>Sem pautas!</NoContent>
           </div>
         )}
       </div>
