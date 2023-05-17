@@ -46,9 +46,11 @@ import NotificationCard from "../Notification-card";
 
 //Services
 import ChatService from "../../service/Chat-Service";
+import NotificationService from "../../service/Notificacao-Service";
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
+import WebSocketUtils from "../../utils/WebSocket-Utils";
 
 //WebSocket Imports
 import { over } from "stompjs";
@@ -391,6 +393,11 @@ export default function PrimarySearchAppBar() {
   const [messagesReceivedByWS, setMessagesReceivedByWS] = useState([]);
   const [temporaryMessages, setTemporaryMessages] = useState([]);
 
+  const [destinyList, setDestinyList] = useState([]);
+  const [notificationsReceivedByWS, setNotificationsReceivedByWS] = useState(
+    []
+  );
+
   const userJoin = () => {
     var chatMessage = {
       idUsuario: userData.idUsuario.numeroCadastroUsuario,
@@ -480,7 +487,28 @@ export default function PrimarySearchAppBar() {
     ChatService.getChatByUserId(UserUtils.getLoggedUserId()).then((users) => {
       setChatUsers(users);
     });
+    WebSocketUtils.connect(handleNotification);
+    NotificationService.getNotificacaoByUsuario(UserUtils.getLoggedUserId()).then(data => setNotificationsReceivedByWS(data));
+    return () => {
+      WebSocketUtils.disconnect();
+    }
   }, []);
+
+  let listaVerifica = [];
+  const handleNotification = (notification) => {
+    listaVerifica = [...listaVerifica, notification];
+    if(listaVerifica.length === 1){
+      setNotificationsReceivedByWS((prevState) => [...prevState, JSON.parse(notification.body)]);
+    } else if(listaVerifica[listaVerifica.length - 1] != notification){
+      setNotificationsReceivedByWS((prevState) => [...prevState, JSON.parse(notification.body)]);
+    }
+};
+
+  useEffect(() => {
+    console.log("AOBA: ", notificationsReceivedByWS);
+    listaVerifica = [];
+  }, [notificationsReceivedByWS]);
+      
 
   const [stompClient, setStompClient] = useState(null);
 
@@ -493,7 +521,9 @@ export default function PrimarySearchAppBar() {
   //State para armazenar o id do chat que o usuário está conversando
   const [chatId, setChatId] = useState(0);
 
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(
+    
+  );
 
   const connect = () => {
     let Sock = new SockJs("http://localhost:8080/ws");
@@ -764,32 +794,32 @@ export default function PrimarySearchAppBar() {
         scrollbar-w-2
       "
       >
-        {notificationsMock
+        {notificationsReceivedByWS
           .sort((a, b) => {
             if (filterUnreadNotifications) {
               if (a.unreadNotification && !b.unreadNotification) return -1;
               if (!a.unreadNotification && b.unreadNotification) return 1;
             }
 
-            const timeA = new Date(a.time.split(":")[0], a.time.split(":")[1]);
-            const timeB = new Date(b.time.split(":")[0], b.time.split(":")[1]);
-            if (timeA > timeB) {
-              return -1;
-            }
-            if (timeA < timeB) {
-              return 1;
-            }
-            return 0;
+            // const timeA = new Date(a.time.split(":")[0], a.time.split(":")[1]);
+            // const timeB = new Date(b.time.split(":")[0], b.time.split(":")[1]);
+            // if (timeA > timeB) {
+            //   return -1;
+            // }
+            // if (timeA < timeB) {
+            //   return 1;
+            // }
+            // return 0;
           })
 
           .map((notification, i) => (
             <NotificationCard
               key={i}
-              name={notification.name}
-              content={notification.content}
-              time={notification.time}
-              unreadNotification={notification.unreadNotification}
-              type={notification.type}
+              name={notification.responsavel}
+              content={notification.textoNotificacao}
+              time={notification.tempoNotificacao}
+              unreadNotification={true}
+              type={notification.tipoNotificacao}
             />
           ))}
       </div>

@@ -19,21 +19,6 @@ export default function DemandManager() {
       >
         Gerenciar demandas
       </SubHeader>
-      {/* {isListFormat ? (
-        <div className="flex h-full items-center justify-center">
-          <DemandList demands={demandsToManage} />
-        </div>
-      ) : (
-        <div className="flex flex-wrap justify-around">
-          {filteredDemands
-            ? filteredDemands.map((demand, i) => {
-                return <DemandCard key={i} demand={demand} />;
-              })
-            : demandsToManage && demandsToManage.map((demand, i) => {
-                return <DemandCard key={i} demand={demand} />;
-              })}
-        </div>
-      )} */}
       <DemandsPage DemandType={DemandType.MANAGER} />
     </div>
   );
