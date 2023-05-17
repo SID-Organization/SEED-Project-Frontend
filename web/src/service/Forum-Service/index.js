@@ -1,7 +1,7 @@
 import AxiosAPI from "../../API/AxiosAPI";
 import apiConfig from "../../API/API-config";
 
-const url = `${apiConfig.URL}/comissao`;
+const url = `${apiConfig.URL}/forum`;
 
 const getForuns = async () => {
   return AxiosAPI.get(url)

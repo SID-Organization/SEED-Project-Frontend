@@ -161,6 +161,11 @@ export default function subHeader({
     // CRIAR MODAL PARA MOSTRAR E TROCAR OS STATUS DA DEMANDA
   }
 
+  const accessProposal = () => {
+    navigate(`/propostas/gerar-proposta/${demand.idDemanda}`);
+  }
+
+
   const actionOptions = [
     {
       text: "Classificar demanda",
@@ -184,6 +189,13 @@ export default function subHeader({
       key: 3,
     },
     {
+      text: "Acessar proposta",
+      role: ["ANALISTA", "GESTOR_TI"],
+      demandStatus: ["PROPOSTA_EM_ELABORACAO"],
+      function: accessProposal,
+      key: 4,
+    },
+    {
       text: "Ver proposta",
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: [
@@ -194,14 +206,14 @@ export default function subHeader({
         "PROPOSTA_EM_SUPORTE",
         "BUSINESS_CASE",
       ],
-      key: 4,
+      key: 5,
     },
     {
       text: "Devolver",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       function: handleOpenReasonOfDevolution,
-      key: 5,
+      key: 6,
     },
 
     {
@@ -209,7 +221,7 @@ export default function subHeader({
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       function: handleOpenReasonOfDevolution,
-      key: 6,
+      key: 7,
     },
   ];
 

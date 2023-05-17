@@ -177,18 +177,6 @@ export default function DemandsPage(props) {
     }
   };
 
-  // useEffect(() => {
-  //   if (!demandsToManage) return;
-  //   setFilteredDemands(demandsToManage);
-  // }, [demandsToManage]);
-
-  // useEffect(() => {
-  //   if (!filters) return;
-  //   const filtered = DemandFilterUtils.filterBy(demandsToManage, filters);
-  //   setFilteredDemands(filtered);
-  // }, [filters]);
-
-  // console.log("DbDemands: ", dbDemands);
 
   //DRAFT THINGS
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =

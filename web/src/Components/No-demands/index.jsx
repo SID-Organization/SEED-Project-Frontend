@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 export default function noDemands(props) {
-  console.log("IASJDIJASDIJASD: ", props);
+  
   return (
     <div>
       <Header />

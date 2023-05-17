@@ -36,9 +36,7 @@ const getProposalByDemandId = async (demandId) => {
 
 const getProposalPDF = async (proposalId) => {
   return AxiosAPI.get(`${url}/pdf-proposta/${proposalId}`)
-    .then((response) => {
-      return response.data;
-    })
+    .then((response) => (response))
     .catch((error) => error);
 };
 

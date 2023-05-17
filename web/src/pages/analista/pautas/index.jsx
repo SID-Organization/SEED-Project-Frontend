@@ -21,6 +21,7 @@ export default function Pautas() {
 
   useEffect(() => {
     PautaService.getPautas().then((data) => {
+      console.log("Pautas", data);
       if (!data) return;
       let pautas = data.map(pauta => ({ ...pauta, dataReuniao: DateUtils.formatDate(pauta.dataReuniao) }))
       setPautas(pautas);

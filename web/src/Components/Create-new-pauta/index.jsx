@@ -82,6 +82,7 @@ export default function CreateNewPauta() {
     });
 
     ForumService.getForuns().then((data) => {
+      console.log("FORUNS", data);
       if (!data) return;
       setForuns(data)
     });
@@ -90,7 +91,12 @@ export default function CreateNewPauta() {
   useEffect(() => {
     if (foruns.length > 0) {
       setComissoes(
-        foruns.map((comissao) => ({ label: comissao.nomeComissao, id: comissao.idComissao }))
+        foruns.map((forum) =>
+        ({
+          id: forum.idForum,
+          label: forum.comissaoForum.siglaComissao + " - " + forum.comissaoForum.nomeComissao,
+        })
+        )
       );
     }
   }, [foruns]);
