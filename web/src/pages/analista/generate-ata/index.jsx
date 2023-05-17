@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 // MUI
 import { AddRounded, Download, Clear } from "@mui/icons-material";
@@ -9,15 +9,20 @@ import { Button, Tooltip, TextField } from "@mui/material";
 import GenerateAtaProposal from "../../../Components/Generate-ata-proposal";
 
 // Services
-import PautaService from "../../../service/Pauta-Service";
 import AtaService from "../../../service/Ata-Service";
+import PautaService from "../../../service/Pauta-Service";
+import DemandLogService from "../../../service/DemandLog-Service";
+import ProposalService from "../../../service/Proposal-Service";
 
 // Utils
 import AtaUtils from "../../../utils/Ata-Utils";
+import DemandService from "../../../service/Demand-Service";
 
 export default function GenerateAta() {
   // ID da pauta
   const { id: pautaId } = useParams("id");
+  const navigate = useNavigate();
+
   const [proposals, setProposals] = useState([]);
   const [finalDecisions, setFinalDecisions] = useState([]);
   const [finalDecisionFile, setFinalDecisionFile] = useState();
@@ -83,12 +88,52 @@ export default function GenerateAta() {
     form.append("documentoAprovacao", finalDecisionFile);
 
     AtaService.createAta(form).then((response) => {
-      if (response.status == 201) alert("Ata gerada com sucesso");
+      if (response.status == 201) {
+        updateEachDemand()
+        PautaService.deletePautaById(pautaId).then(res => {
+          console.log("Pauta delete", res);
+        });
+        alert("Ata gerada com sucesso")
+        navigate("/atas")
+      };
     });
+  }
+
+  const formatStatusToDemand = (status) => {
+    switch (status) {
+      case "APROVADA":
+        return "APROVADA_PELA_COMISSAO";
+      case "REPROVADO":
+        return "CANCELADA";
+      case "MAIS INFORMACOES":
+        return "BUSINESS_CASE";
+      case "BUSINESS CASE":
+        return "BUSINESS_CASE";
+    }
+  }
+
+  const updateEachDemand = () => {
+    finalDecisions.forEach(async (fd) => {
+      const proposal = await ProposalService.getProposalById(fd.propostaPropostaLog.idProposta);
+      const demandId = proposal.demandaProposta.idDemanda;
+
+      const newDemandLog = {
+        tarefaHistoricoWorkflow: "EXECUCAO_PROPOSTA",
+        demandaHistorico: { idDemanda: demandId },
+        acaoFeitaHistorico: "Aprovar",
+        idResponsavel: { numeroCadastroUsuario: 72131 },
+      };
+      DemandLogService.createDemandLog(newDemandLog).then(res => {
+        if(res.status == 201 || res.status == 200) {
+          DemandService.updateDemandStatus(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog));
+        }
+      })
+    })
   }
 
   useEffect(() => {
     PautaService.getPautaProposalsById(pautaId).then((proposals) => {
+      console.log("PROPOSALS", proposals);
       setProposals(proposals);
     });
   }, []);
@@ -143,7 +188,7 @@ export default function GenerateAta() {
         </div>
       </div>
       <div className="grid">
-        {proposals.map((proposal, i) => (
+        {proposals && proposals.map((proposal, i) => (
           <GenerateAtaProposal
             key={i}
             proposal={proposal}

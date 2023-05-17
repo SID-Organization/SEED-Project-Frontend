@@ -30,10 +30,12 @@ export default function Pautas() {
         return;
       }
 
+      if (!data) return;
       let pautas = data.map((pauta) => ({
         ...pauta,
         dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
       }));
+
       setPautas(pautas);
       setIsLoading(false); // Define o estado de carregamento como falso quando os dados são carregados
     });
@@ -104,13 +106,13 @@ export default function Pautas() {
                       </h1>
                       {getPautasInMonth(month, year).map((pauta) => (
                         <PautasCard
-                          key={pauta.idPauta}
-                          PautaName={"ID da pauta: " + pauta.idPauta}
-                          Id={pauta.idPauta}
-                          QtyProposals={pauta.qtdPropostas}
-                          MeetingDate={pauta.dataReuniao}
-                          MeetingTime={pauta.horaReuniao.substring(0, 5)}
-                          ResponsibleAnalyst={pauta.analistaResponsavel}
+                          key={i}
+                          pautaName={"ID da pauta: " + pauta.idPauta}
+                          pautaId={pauta.idPauta}
+                          qtyProposals={pauta.qtdPropostas}
+                          meetingDate={pauta.dataReuniao}
+                          meetingTime={pauta.horaReuniao.substring(0, 5)}
+                          responsibleAnalyst={pauta.analistaResponsavel}
                         />
                       ))}
                     </div>

@@ -70,7 +70,7 @@ const DateInput = styled(MuiTextField)({
 });
 
 export default function GenerateProposal() {
-  
+
   const navigate = useNavigate();
 
   // STATES
@@ -106,6 +106,7 @@ export default function GenerateProposal() {
   const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([]);
 
   const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([]);
+
 
   // Demand ID
   let demandId = useParams().id;
@@ -155,8 +156,10 @@ export default function GenerateProposal() {
       setExternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(extTable));
       setStartDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaInicio));
       setEndDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaFim));
+      setPayback(proposal.paybackProposta);
     }
   }, [proposal])
+
 
   function sumInternalCosts() {
     let sum = 0;
@@ -292,15 +295,16 @@ export default function GenerateProposal() {
 
     ProposalService.updateProposal(formData, proposal.idProposta)
       .then(res => {
-        if (finish && res.status === 200 || res.status === 201) {
-          const demandLog = {
-            tarefaHistoricoWorkflow: "PROPOSTA_PRONTA",
+        console.log("finish", finish);
+        if (finish && (res.status === 200 || res.status === 201)) {
+          const newDemandLog = {
+            tarefaHistoricoWorkflow: "APROVACAO_COMISSAO",
             demandaHistorico: { idDemanda: demandId },
             acaoFeitaHistorico: "Enviar",
             idResponsavel: { numeroCadastroUsuario: 72131 },
           };
-      
-          DemandLogService.createDemandLog(demandLog).then((response) => {
+
+          DemandLogService.createDemandLog(newDemandLog).then((response) => {
             if (response.status == 200 || response.status == 201) {
               DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
               navigate('/gerenciar-demandas');
@@ -395,7 +399,8 @@ export default function GenerateProposal() {
                 variant="outlined"
                 size="small"
                 disabled
-                defaultValue={sumInternalCosts() + sumExternalCosts()}
+                value={sumInternalCosts() + sumExternalCosts()}
+                aria-readonly={true}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">R$</InputAdornment>
@@ -424,7 +429,8 @@ export default function GenerateProposal() {
                   variant="outlined"
                   size="small"
                   disabled
-                  defaultValue={sumExternalCosts()}
+                  value={sumExternalCosts()}
+                  aria-readonly={true}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">R$</InputAdornment>
@@ -445,7 +451,8 @@ export default function GenerateProposal() {
                   id="outlined-basic"
                   variant="outlined"
                   disabled
-                  defaultValue={sumInternalCosts()}
+                  value={sumInternalCosts()}
+                  aria-readonly={true}
                   size="small"
                   InputProps={{
                     startAdornment: (
@@ -468,6 +475,7 @@ export default function GenerateProposal() {
               multiline
               maxRows={3}
               value={payback}
+              onBlur={saveProgress}
               onChange={(e) => setPayback(e.target.value)}
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
@@ -483,6 +491,7 @@ export default function GenerateProposal() {
                 value={quillHtmlProposalAlternatives}
                 placeholder="Escreva aqui as alternativas avaliadas da proposta"
                 onChange={(e) => setQuillHtmlProposalAlternatives(e)}
+                onBlur={saveProgress}
                 modules={quillModules}
                 style={{ width: "50rem", height: "10rem" }}
               />
@@ -495,6 +504,7 @@ export default function GenerateProposal() {
                 value={quillValueProjectRange}
                 placeholder="Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."
                 onChange={(e) => setQuillValueProjectRange(e)}
+                onBlur={saveProgress}
                 modules={quillModules}
                 style={{ width: "50rem", height: "10rem" }}
               />
@@ -507,6 +517,7 @@ export default function GenerateProposal() {
                 value={quillHtmlProposalMitigationPlan}
                 placeholder="Escreva aqui os principais riscos e o plano de mitigação"
                 onChange={(e) => setQuillHtmlProposalMitigationPlan(e)}
+                onBlur={saveProgress}
                 modules={quillModules}
                 style={{ width: "50rem", height: "10rem" }}
               />
