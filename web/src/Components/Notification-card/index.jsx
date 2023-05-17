@@ -29,7 +29,7 @@ export default function NotificationCard(props) {
           },
         }}
       >
-        <div className="flex font-roboto justify-center h-20 ml-5 mr-5">
+        <div className="flex font-roboto justify-center h-20 ml-5 mr-5" onClickCapture={console.log("AAA")}>
           <div className="flex items-center w-[5rem]">
             {props.type === "approved" ? (
               <Tooltip title="Aprovação">
@@ -69,7 +69,7 @@ export default function NotificationCard(props) {
               </Tooltip>
             )}
           </div>
-          <div className="grid items-center w-[13rem]">
+          <div className="grid items-center w-[13rem]"  >
             <p className="font-bold">
               {props.name.length + props.content.length > 80
                 ? props.name.slice(0, 70) + "..."
@@ -80,7 +80,7 @@ export default function NotificationCard(props) {
             </p>
           </div>
           <div className="grid items-center">
-            <div className="flex justify-center items-center w-5">
+            <div className="flex justify-center items-center w-5" >
               {props.unreadNotification === false ? null : (
                 <div className="bg-dark-blue-weg text-white h-3 w-3 rounded-full flex justify-center items-center  text-xs font-bold">
                   {props.unreadNotification}

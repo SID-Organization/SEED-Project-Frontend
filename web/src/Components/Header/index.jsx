@@ -814,11 +814,11 @@ export default function PrimarySearchAppBar() {
 
           .map((notification, i) => (
             <NotificationCard
-              key={i}
+              key={notification.idNotificacao}
               name={notification.responsavel}
               content={notification.textoNotificacao}
               time={notification.tempoNotificacao}
-              unreadNotification={true}
+              unreadNotification={notification.visualizada}
               type={notification.tipoNotificacao}
             />
           ))}
