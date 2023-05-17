@@ -12,7 +12,7 @@ import DemandsList from "../Demand-card-list";
 import UserUtils from "../../utils/User-Utils";
 
 //Components
-import NoDemands from "../../Components/No-demands";
+import NoContent from "../No-content";
 import SubHeader from "../Sub-header";
 import Notification from "../../Components/Notification";
 
@@ -546,7 +546,7 @@ export default function DemandsPage(props) {
           ) : (
             <div className="flex h-[71vh] items-center justify-around">
               {!hasDemands ? (
-                <NoDemands
+                <NoContent
                   isManager={demandType == DemandType.MANAGER ? false : true}
                 >
                   {demandType == DemandType.DEMAND && <>Sem demandas!</>}
@@ -554,7 +554,7 @@ export default function DemandsPage(props) {
                   {demandType == DemandType.MANAGER && (
                     <>Sem demandas para gerenciar!</>
                   )}
-                </NoDemands>
+                </NoContent>
               ) : (
                 <CircularProgress />
               )}
