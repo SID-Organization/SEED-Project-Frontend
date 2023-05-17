@@ -97,7 +97,6 @@ export default function CreateNewPauta(props) {
     });
 
     ForumService.getForuns().then((data) => {
-      console.log("FORUNS", data);
       if (!data) return;
       setForuns(data);
     });

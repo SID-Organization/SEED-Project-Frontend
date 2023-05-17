@@ -513,7 +513,6 @@ export default function PrimarySearchAppBar() {
   };
 
   useEffect(() => {
-    console.log("AOBA: ", notificationsReceivedByWS);
     listaVerifica = [];
   }, [notificationsReceivedByWS]);
 

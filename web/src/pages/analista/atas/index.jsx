@@ -46,7 +46,6 @@ export default function Atas() {
     AtaService.getAtas()
       .then((res) => {
         if (!res.error) {
-          console.log("ATAS", res.data);
           const dbAtas = res.data.map((ata) => {
             ata.dataReuniaoAta = DateUtils.formatDateFromDB(ata.dataReuniaoAta);
             return ata;
@@ -63,7 +62,6 @@ export default function Atas() {
   }, []);
 
   useEffect(() => {
-    console.log("ATAS", atas);
     if (atas.length === 0) return;
     setAtasMonths(() =>
       atas

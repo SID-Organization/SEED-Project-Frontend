@@ -118,7 +118,6 @@ export default function DemandsPage(props) {
             setDbDemands([]);
             setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
           }
-          console.log("Demandas para gerenciar: ", demandsToManage);
           setIsLoaded(true); // Atualiza o estado de carregamento
         })
         .catch((error) => {
@@ -134,13 +133,6 @@ export default function DemandsPage(props) {
 
   useEffect(() => {
     if (dbDemands) {
-      if (demandType == DemandType.DEMAND) {
-        console.log("Demands carregadas:", dbDemands);
-      } else if (demandType == DemandType.DRAFT) {
-        console.log("Drafts carregados:", dbDemands);
-      } else {
-        console.log("Demands to manage: ", dbDemands);
-      }
       getDemandsLogs();
     }
   }, [dbDemands]);
@@ -172,11 +164,9 @@ export default function DemandsPage(props) {
     let sortedDemands;
     if (demandsWLogs) {
       sortedDemands = demandsWLogs;
-
       setSortedDemands(sortedDemands);
     }
   };
-
 
   //DRAFT THINGS
   const [openModalConfirmationDemand, setOpenModalConfirmationDemand] =
