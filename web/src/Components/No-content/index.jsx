@@ -63,6 +63,13 @@ export default function noContent(props) {
             </Button>
           </div>
         )}
+        {props.isProposal && (
+          <div className="mt-16 flex items-center justify-center">
+            <Button variant="outlined" startIcon={<AddBoxIcon />}>
+              Crie uma proposta
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

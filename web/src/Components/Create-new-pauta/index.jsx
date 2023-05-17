@@ -5,12 +5,12 @@ import MuiButton from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Autocomplete from "@mui/material/Autocomplete";
-import { styled } from "@mui/material/styles";
 import MuiTextField from "@mui/material/TextField";
 import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import { InputAdornment } from "@mui/material";
 import NewPautaProposalCard from "../New-pauta-proposal-card";
+import { styled } from "@mui/material/styles";
+import { InputAdornment } from "@mui/material";
 
 // Components
 import DatePicker from "../Date-picker";
@@ -60,7 +60,7 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
   width: "1.5rem",
 });
 
-export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
+export default function CreateNewPauta() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [openedModal, setOpenedModal] = useState(false);
   const [foruns, setForuns] = useState([]);
@@ -72,8 +72,8 @@ export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
   const [meetingStartTime, setMeetingStartTime] = useState("");
   const [meetingEndTime, setMeetingEndTime] = useState("");
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleOpenModal = () => setOpenedModal(true);
+  const handleCloseModal = () => setOpenedModal(false);
 
   useEffect(() => {
     ProposalService.getReadyProposals().then((data) => {
@@ -91,12 +91,13 @@ export default function CreateNewPauta({ isModalOpen, setIsModalOpen }) {
   useEffect(() => {
     if (foruns.length > 0) {
       setComissoes(
-        foruns.map((forum) =>
-        ({
+        foruns.map((forum) => ({
           id: forum.idForum,
-          label: forum.comissaoForum.siglaComissao + " - " + forum.comissaoForum.nomeComissao,
-        })
-        )
+          label:
+            forum.comissaoForum.siglaComissao +
+            " - " +
+            forum.comissaoForum.nomeComissao,
+        }))
       );
     }
   }, [foruns]);

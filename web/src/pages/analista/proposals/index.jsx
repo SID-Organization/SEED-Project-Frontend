@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // MUI
 import Modal from "@mui/material/Modal";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
@@ -11,6 +11,7 @@ import PautasCard from "../../../Components/Pautas-card";
 import SubHeaderProposals from "../../../Components/Sub-header-proposals";
 import ProposalCard from "../../../Components/Proposal-card";
 import CreateNewPauta from "../../../Components/Create-new-pauta";
+import NoContent from "../../../Components/No-content";
 
 // Services
 import PautaService from "../../../service/Pauta-Service";
@@ -50,22 +51,28 @@ export default function Proposals() {
   const [pautas, setPautas] = useState([]);
   const [selectProposals, setSelectProposals] = useState([]);
   const [openAddToAPautaModal, setOpenAddToAPautaModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOpenAddToAPautaModal = () => setOpenAddToAPautaModal(true);
   const handleCloseAddToAPautaModal = () => setOpenAddToAPautaModal(false);
 
   useEffect(() => {
-    PautaService.getPautas().then((data) => {
-      let pautas = data.map((pauta) => ({
-        ...pauta,
-        dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
-      }));
-      setPautas(pautas);
-    });
-
-    ProposalService.getReadyProposals().then((readyProposal) => {
-      setProposals(readyProposal);
-    });
+    setIsLoading(true);
+    Promise.all([PautaService.getPautas(), ProposalService.getReadyProposals()])
+      .then(([pautasData, proposalsData]) => {
+        let pautas = pautasData.map((pauta) => ({
+          ...pauta,
+          dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
+        }));
+        setPautas(pautas);
+        setProposals(proposalsData);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return (
@@ -77,34 +84,16 @@ export default function Proposals() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={addToAPautaModalStyle}>
-          <h1
-            className="
-            mb-3
-            text-center
-            text-2xl
-            font-bold
-            text-dark-blue-weg
-            
-          "
-          >
+          <h1 className="mb-3 text-center text-2xl font-bold text-dark-blue-weg">
             Adicionar à uma pauta
           </h1>
           <div className="flex items-center justify-center">
             <CreateNewPauta />
           </div>
-          <div
-            className="
-            mt-5 grid
-            max-h-[31rem]
-            justify-center
-            overflow-y-scroll
-            overflow-x-hidden
-            scrollbar-thin
-              scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2
-          "
-          >
+          <div className="mt-5 grid max-h-[31rem] justify-center overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2">
             {pautas.map((pauta) => (
               <PautasCard
+                key={pauta.idPauta}
                 id={pauta.idPauta}
                 PautaName={"ID da pauta " + pauta.idPauta}
                 QtyProposals={pauta.qtdPropostas}
@@ -121,26 +110,31 @@ export default function Proposals() {
         <SubHeaderProposals />
       </div>
       <div className="flex items-center justify-center">
-        {
-          <div>
-            {selectProposals.length > 0 && (
-              <div className="mb-10">
-                <ButtonAddSelected
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  onClick={handleOpenAddToAPautaModal}
-                >
-                  Adicionar à pauta {"(" + selectProposals.length + ")"}{" "}
-                  {selectProposals.length > 1 ? "propostas" : "proposta"}
-                </ButtonAddSelected>
-              </div>
-            )}
+        {selectProposals.length > 0 && (
+          <div className="mb-10">
+            <ButtonAddSelected
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={handleOpenAddToAPautaModal}
+            >
+              Adicionar à pauta (
+              {selectProposals.length > 1
+                ? selectProposals.length + " propostas"
+                : "1 proposta"}
+              )
+            </ButtonAddSelected>
           </div>
-        }
+        )}
       </div>
-      <div className=" flex flex-col items-center justify-center gap-8">
-        {proposals &&
+      <div className="flex flex-col items-center justify-center gap-8">
+        {isLoading ? (
+          <CircularProgress />
+        ) : proposals.length === 0 ? (
+          <div className="flex h-[71vh] items-center justify-around">
+            <NoContent isProposal={true}>Sem propostas!</NoContent>
+          </div>
+        ) : (
           proposals.map((proposal, i) => (
             <ProposalCard
               key={i}
@@ -152,7 +146,8 @@ export default function Proposals() {
               referenceDemand={proposal.idDemanda}
               setSelectProposals={setSelectProposals}
             />
-          ))}
+          ))
+        )}
       </div>
     </div>
   );

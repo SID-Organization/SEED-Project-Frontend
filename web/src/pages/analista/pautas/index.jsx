@@ -124,7 +124,7 @@ export default function Pautas() {
         ) : (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isPauta={true} onButtonClick={handleOpenModal}>
-              Sem pautas cadastradas!
+              Sem pautas!
             </NoContent>
           </div>
         )}
