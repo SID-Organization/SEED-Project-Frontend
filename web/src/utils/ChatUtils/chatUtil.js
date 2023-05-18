@@ -1,4 +1,4 @@
-function fileToByteArray(file) {
+async function fileToByteArray(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
