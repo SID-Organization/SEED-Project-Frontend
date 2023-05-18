@@ -5,11 +5,9 @@ module.exports = {
   theme: {
     extend: {
       fontSize: {
-        xs: "12px",
-        sm: "14px",
-        base: "16px",
-        lg: "18px",
-        xl: "20px",
+        usual: "14px",
+        text: "12px",
+        title: "16px",
       },
 
       fontFamily: {
