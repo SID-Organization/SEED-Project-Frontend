@@ -40,7 +40,7 @@ const style = {
   p: 4,
 };
 
-const htmlDivStyle = "border-1 h-20 w-[65rem] resize-none rounded-[0.5rem] p-2 text-justify font-roboto font-medium text-black outline-dark-blue-weg bg-gray-50"
+const htmlDivStyle = "border-1 h-auto w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50"
 
 export default function openedDemand() {
   const params = useParams();
@@ -87,6 +87,9 @@ export default function openedDemand() {
 
   const [fileRows, setFileRows] = useState();
 
+  const handleOpenDocument = () => {
+    DemandService.openDemandPDF(params.id);
+  }
 
 
   // Seta os arquivos da demanda no estado
@@ -249,6 +252,7 @@ export default function openedDemand() {
           <div>
             <Tooltip title="Abrir como documento">
               <Button
+                onClick={handleOpenDocument}
                 variant="contained"
                 sx={{
                   width: 40,

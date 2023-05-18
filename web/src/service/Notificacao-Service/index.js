@@ -21,8 +21,14 @@ const getNotificacaoByUsuario = async (id) => {
     .catch((error) => error);
 };
 
-const postNotificacao = async (notificacao) => {
-  return AxiosAPI.post(url, notificacao)
+const postNotificacao = async (idNotificacao) => {
+  return AxiosAPI.post(`${url}/visualizar/${idNotificacao}`)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
+const putNotificacao = async (notificacao) => {
+  return AxiosAPI.put(url, notificacao)
     .then((response) => response.data)
     .catch((error) => error);
 };

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import * as React from "react";
 
 // MUI
@@ -9,53 +8,34 @@ import PublicOffIcon from "@mui/icons-material/PublicOff";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import { Divider, IconButton, Tooltip } from "@mui/material";
+import { Button, Divider, IconButton, Tooltip } from "@mui/material";
+
+// Service
+import AtaService from "../../service/Ata-Service";
 
 
 // Components
 import ProposalCard from "../Proposal-card";
+import { useNavigate } from "react-router";
+
+// MUI Styled Components
+const Accordion = styled(MuiAccordion)(() => ({
+  width: "62.5rem",
+  border: "2px solid #E5E5E5",
+  borderBottom: "none",
+}));
 
 export default function PautasCard(props) {
-  const Accordion = styled(MuiAccordion)(() => ({
-    width: "62.5rem",
-    border: "2px solid #E5E5E5",
-    borderBottom: "none",
-  }));
 
-  useEffect(() => {
+  const navigate = useNavigate();
 
-  }, [])
+  const openAtaPDF = () => {
+    AtaService.openAtaPDF(props.idAta);
+  }
 
-  const proposalsMock = [
-    {
-      newPauta: false,
-      title: "Automatização do processoaaaaa",
-      executionTime: 10.0,
-      value: 10.0,
-      referenceDemand: "Demanda 2",
-      ResponsibleAnalyst: "Analista 1",
-      published: true,
-      atasCard: true,
-      parecerComissao: "Aprovado",
-      proposalId: 1,
-    },
-    {
-      newPauta: false,
-      title: "Automatização do processo",
-      executionTime: 10.0,
-      value: 10.0,
-      referenceDemand: "Demanda 2",
-      ResponsibleAnalyst: "Analista 1",
-      published: false,
-      atasCard: true,
-      parecerComissao: "Reprovado",
-      proposalId: 2,
-    },
-  ];
-
-  useEffect(() => {
-    console.log("Proposals", props.proposals);
-  }, [props.proposals])
+  const generateAtaDG = () => {
+    navigate("/atas/gerar-ata-dg/" + props.idAta);
+  }
 
   return (
     <div className="mt-5">
@@ -96,10 +76,30 @@ export default function PautasCard(props) {
                   </span>
                 </p>
               </div>
+              <div className="flex items-end">
+                <Button
+                  onClick={generateAtaDG}
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#FFF",
+                    color: "#0075B1",
+                    fontWeight: "bold",
+                    border: "#0075B1 solid 1px",
+                    fontSize: 10,
+
+                    "&:hover": {
+                      backgroundColor: "#f3f3f3",
+                    },
+                  }}
+                >
+                  Gerar ATA DG
+                </Button>
+              </div>
               <div className="flex items-end justify-center gap-3">
                 <p className="font-bold">Visualizar Ata: </p>
                 <Tooltip title="Publicada">
                   <IconButton
+                    onClick={openAtaPDF}
                     sx={{
                       padding: "0px",
                     }}
@@ -118,6 +118,7 @@ export default function PautasCard(props) {
                 </Tooltip>
                 <Tooltip title="Não publicada">
                   <IconButton
+                    onClick={openAtaPDF}
                     sx={{
                       padding: "0",
                     }}

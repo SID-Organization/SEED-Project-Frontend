@@ -34,10 +34,10 @@ const getProposalByDemandId = async (demandId) => {
     .catch((error) => error);
 };
 
-const getProposalPDF = async (proposalId) => {
-  return AxiosAPI.get(`${url}/pdf-proposta/${proposalId}`)
-    .then((response) => (response))
-    .catch((error) => error);
+const openProposalPDF = async (proposalId) => {
+  // Open in new tab 
+  window.open(`${url}/pdf-proposta/${proposalId}`, "_blank");
+
 };
 
 export default {
@@ -46,5 +46,5 @@ export default {
   getReadyProposals,
   getProposalById,
   getProposalByDemandId,
-  getProposalPDF,
+  openProposalPDF,
 };

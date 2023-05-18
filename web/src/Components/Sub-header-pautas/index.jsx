@@ -1,10 +1,7 @@
 import Search from "../Search";
 import CreateNewPauta from "../Create-new-pauta";
-import { useState } from "react";
 
 export default function SubHeaderPautas(props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <div>
       <div className="flex h-[5rem] items-center justify-between shadow-page-title-shadow">
@@ -12,11 +9,7 @@ export default function SubHeaderPautas(props) {
           Pautas
         </h1>
         <div className="mr-10 flex gap-16">
-          <CreateNewPauta
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-          />
-
+          <CreateNewPauta />
           <Search filter={props.filters} setFilter={props.setFilters} />
         </div>
       </div>
