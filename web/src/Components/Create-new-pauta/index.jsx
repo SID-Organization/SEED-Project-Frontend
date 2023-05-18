@@ -77,7 +77,7 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
 
 export default function CreateNewPauta(props) {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
-  const [openedModal, setOpenedModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [foruns, setForuns] = useState([]);
   const [selectedForum, setSelectedForum] = useState("");
   const [comissoes, setComissoes] = useState([]);
@@ -87,8 +87,8 @@ export default function CreateNewPauta(props) {
   const [meetingStartTime, setMeetingStartTime] = useState("");
   const [meetingEndTime, setMeetingEndTime] = useState("");
 
-  const handleOpenModal = () => setOpenedModal(true);
-  const handleCloseModal = () => setOpenedModal(false);
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     ProposalService.getReadyProposals().then((data) => {

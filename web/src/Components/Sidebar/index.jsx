@@ -24,6 +24,8 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ClassIcon from "@mui/icons-material/Class";
 import ClassOutlinedIcon from "@mui/icons-material/ClassOutlined";
 
+import { FolderOutlined, Folder } from "@mui/icons-material";
+
 import DescriptionIcon from "@mui/icons-material/Description";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 
@@ -46,6 +48,8 @@ const openDrawerWidth = 230;
 export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarFixed, setIsSidebarFixed] = useState(false);
+  const [selectedPage, setSelectedPage] = useState(1);
+
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
@@ -54,7 +58,7 @@ export default function Sidebar() {
   const iconStyle = { color: "#fff", fontSize: "1.9rem", marginLeft: 1.1 };
   const openSidebarIconStyle = { color: "#fff", fontSize: "1.4rem" };
 
-  const adminSidebarItems = [
+  const sideBarItems = [
     {
       title: "Nova demanda",
       outlinedIcon: <AddBoxOutlinedIcon sx={iconStyle} />,
@@ -98,8 +102,15 @@ export default function Sidebar() {
       outlinedIcon: <ClassOutlinedIcon sx={iconStyle} />,
       fullIcon: <ClassIcon sx={iconStyle} />,
       linkTo: "/atas",
-      hasDivider: true,
       isActiveToUser: !isRequester,
+    },
+    {
+      title: "Atas DG",
+      outlinedIcon: <FolderOutlined sx={iconStyle} />,
+      fullIcon: <Folder sx={iconStyle} />,
+      linkTo: "/atas-dg",
+      hasDivider: true,
+      isActiveToUser: !isRequester
     },
     {
       title: "Propostas",
@@ -126,7 +137,7 @@ export default function Sidebar() {
   ];
 
   const getSideBarItems = () => {
-    return adminSidebarItems.map((item, index) => {
+    return sideBarItems.map((item, index) => {
       if (item.isActiveToUser) {
         return (
           <SidebarLink
@@ -134,6 +145,9 @@ export default function Sidebar() {
             title={item.title}
             outlinedIcon={item.outlinedIcon}
             fullIcon={item.fullIcon}
+            selected={selectedPage == index}
+            setSelected={setSelectedPage}
+            index={index}
             linkTo={item.linkTo}
             hasDivider={item.hasDivider}
           />
@@ -144,7 +158,7 @@ export default function Sidebar() {
     });
   };
 
-  useEffect(() => {}, [isSidebarFixed, isSidebarOpen]);
+
   const handleDrawerToggle = () => {
     if (!isSidebarOpen && !isSidebarFixed) {
       setIsSidebarOpen(true);
@@ -169,7 +183,7 @@ export default function Sidebar() {
       />
       <Drawer
         onMouseLeave={
-          !isSidebarFixed ? () => setIsSidebarOpen(false) : () => {}
+          !isSidebarFixed ? () => setIsSidebarOpen(false) : () => { }
         }
         variant="permanent"
         open={isSidebarOpen}

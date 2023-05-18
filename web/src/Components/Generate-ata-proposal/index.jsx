@@ -73,10 +73,18 @@ export default function fsdGenerateAtaProposal(props) {
   ]
 
   const getActions = () => {
-    if(props.isAtaForDG) return actionsDG;
+    if (props.isAtaForDG) return actionsDG;
     return actionsComission;
   }
 
+  const getBadgeColor = (action) => {
+    switch (action) {
+      case 'Aprovado': return 'success'
+      case 'Reprovado': return 'error'
+      case 'Mais informações': return 'warning'
+      default: return'info'
+    }
+  }
 
   const Button = styled(MuiButton)({
     height: 50,
@@ -126,15 +134,7 @@ export default function fsdGenerateAtaProposal(props) {
                     <MenuItem key={i} value={action.action}>
                       {action.action}
                       <Badge
-                        color={
-                          action.action === "Aprovado"
-                            ? "success"
-                            : action.action === "Reprovado"
-                              ? "error"
-                              : action.action === "Mais informações"
-                                ? "warning"
-                                : "info"
-                        }
+                        color={getBadgeColor(action.action)}
                         variant="dot"
                         sx={{
                           ml: 1.5,

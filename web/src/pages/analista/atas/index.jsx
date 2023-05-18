@@ -1,5 +1,5 @@
 import { CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 
 // Components
 import AtasCard from "../../../Components/Atas-card";
@@ -90,9 +90,9 @@ export default function Atas() {
           </div>
         ) : (
           atasYears.map((year, iY) => (
-            <React.Fragment key={year}>
+            <Fragment key={year}>
               {atasMonths.map((month, iM) => (
-                <React.Fragment key={month}>
+                <Fragment key={month}>
                   {getAtasInMonth(month, year).length > 0 && (
                     <div key={iM}>
                       <h1 className="text-xl font-bold text-dark-blue-weg">
@@ -111,9 +111,9 @@ export default function Atas() {
                       ))}
                     </div>
                   )}
-                </React.Fragment>
+                </Fragment>
               ))}
-            </React.Fragment>
+            </Fragment>
           ))
         )}
       </div>
