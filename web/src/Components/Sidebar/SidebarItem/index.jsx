@@ -42,7 +42,7 @@ export default function SidebarLink(props) {
 
   return (
     <div>
-      <div className={`mt-1 ${props.hasDivider ? "mb-1" : ""}`}>
+      <div className={`mt-1 ${props.hasDivider && "mb-1"}`}>
         <Tooltip title={props.title} placement="right">
           <Link
             to={props.linkTo}
@@ -55,14 +55,14 @@ export default function SidebarLink(props) {
             style={{ width: "100%" }}
           >
             <Box onClick={pageSelected}>
-              <React.Fragment>
+              <>
                 {icon}
                 <div className="ml-[1.1rem] flex items-center justify-end">
                   <h1 className="font-sans text-[14px] text-white">
                     {props.title}
                   </h1>
                 </div>
-              </React.Fragment>
+              </>
             </Box>
           </Link>
         </Tooltip>
