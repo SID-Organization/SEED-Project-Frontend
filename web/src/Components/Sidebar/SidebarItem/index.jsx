@@ -8,7 +8,6 @@ import MuiDivider from "@mui/material/Divider";
 import { Tooltip } from "@mui/material";
 import { useState } from "react";
 
-
 const Box = styled(MuiBox)(() => ({
   width: "100%",
   height: "100%",
@@ -31,32 +30,35 @@ const Divider = styled(MuiDivider)(() => ({
 }));
 
 export default function SidebarLink(props) {
-
   const [icon, setIcon] = useState();
 
   useEffect(() => {
-    setIcon(props.selected ? props.fullIcon : props.outlinedIcon)
-  }, [props.selected])
+    setIcon(props.selected ? props.fullIcon : props.outlinedIcon);
+  }, [props.selected]);
 
   const pageSelected = () => {
-    props.setSelected(props.index)
-  }
+    props.setSelected(props.index);
+  };
 
   return (
     <div>
       <div className={`mt-1 ${props.hasDivider ? "mb-1" : ""}`}>
         <Tooltip title={props.title} placement="right">
-          <Link to={props.linkTo} onClick={() => {
-            if (props.title === "Sair") {
-              localStorage.clear();
-              window.location.reload();
-            }
-          }} style={{ width: "100%" }}>
+          <Link
+            to={props.linkTo}
+            onClick={() => {
+              if (props.title === "Sair") {
+                localStorage.clear();
+                window.location.reload();
+              }
+            }}
+            style={{ width: "100%" }}
+          >
             <Box onClick={pageSelected}>
               <React.Fragment>
                 {icon}
-                <div className="flex justify-end items-center ml-[1.1rem]">
-                  <h1 className="text-white text-usual font-sans">
+                <div className="ml-[1.1rem] flex items-center justify-end">
+                  <h1 className="font-sans text-[14px] text-white">
                     {props.title}
                   </h1>
                 </div>
@@ -67,8 +69,5 @@ export default function SidebarLink(props) {
       </div>
       {props.hasDivider && <Divider />}
     </div>
-
-
-
   );
 }
