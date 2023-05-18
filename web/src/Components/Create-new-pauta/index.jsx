@@ -173,7 +173,7 @@ export default function CreateNewPauta(props) {
       )}
 
       <Modal
-        open={isModalOpen}
+        open={openedModal}
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"

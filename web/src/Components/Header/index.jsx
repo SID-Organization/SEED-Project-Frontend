@@ -717,15 +717,25 @@ export default function PrimarySearchAppBar() {
                 if (a.unreadNotification && !b.unreadNotification) return -1;
                 if (!a.unreadNotification && b.unreadNotification) return 1;
               }
+
+              // const timeA = new Date(a.time.split(":")[0], a.time.split(":")[1]);
+              // const timeB = new Date(b.time.split(":")[0], b.time.split(":")[1]);
+              // if (timeA > timeB) {
+              //   return -1;
+              // }
+              // if (timeA < timeB) {
+              //   return 1;
+              // }
+              // return 0;
             })
 
             .map((notification, i) => (
               <NotificationCard
-                key={i}
+                key={notification.idNotificacao}
                 name={notification.responsavel}
                 content={notification.textoNotificacao}
                 time={notification.tempoNotificacao}
-                unreadNotification={true}
+                unreadNotification={notification.visualizada}
                 type={notification.tipoNotificacao}
               />
             ))}

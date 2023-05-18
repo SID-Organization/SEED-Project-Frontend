@@ -83,7 +83,9 @@ export default function Atas() {
       <SubHeaderAtas />
       <div className="mt-8 flex flex-col items-center justify-center gap-4">
         {isLoading ? (
-          <CircularProgress />
+          <div className="flex h-[71vh] items-center justify-around">
+            <CircularProgress />
+          </div>
         ) : atasYears.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isAta={true}>Sem atas!</NoContent>
