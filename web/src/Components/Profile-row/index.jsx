@@ -14,14 +14,14 @@ export default function ProfileRow(props) {
   const [inputValue, setInputValue] = useState(18);
 
   const increaseValue = () => {
-    if (inputValue < 22) {
-      setInputValue(inputValue + 1);
+    if (inputValue < 20) {
+      setInputValue(inputValue + 2);
     }
   };
 
   const decreaseValue = () => {
-    if (inputValue > 14) {
-      setInputValue(inputValue - 1);
+    if (inputValue > 12) {
+      setInputValue(inputValue - 2);
     } else {
       setInputValue(inputValue);
     }
