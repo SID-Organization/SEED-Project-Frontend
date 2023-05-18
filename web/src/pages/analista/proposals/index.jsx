@@ -129,7 +129,9 @@ export default function Proposals() {
       </div>
       <div className="flex flex-col items-center justify-center gap-8">
         {isLoading ? (
-          <CircularProgress />
+          <div className="flex h-[71vh] items-center justify-around">
+            <CircularProgress />
+          </div>
         ) : proposals.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isProposal={true}>Sem propostas!</NoContent>
