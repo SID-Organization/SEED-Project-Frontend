@@ -101,7 +101,7 @@ export default function Pautas() {
                       </h1>
                       {getPautasInMonth(month, year).map((pauta) => (
                         <PautasCard
-                          key={i}
+                          key={pauta.idPauta}
                           pautaName={"ID da pauta: " + pauta.idPauta}
                           pautaId={pauta.idPauta}
                           qtyProposals={pauta.qtdPropostas}

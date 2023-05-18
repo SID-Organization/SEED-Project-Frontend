@@ -180,7 +180,7 @@ export default function Chat() {
     }
   }, [temporaryMessages]);
 
-  const sendPrivateValue = () => {
+  const sendPrivateValue = async () => {
     const date = new Date();
 
     var chatMessage = {
@@ -191,27 +191,31 @@ export default function Chat() {
       idChat: { idChat: userData.idChat.idChat }
     };
 
-    fileToByteArray(userData.file).then((file) => {
-      chatMessage.arquivoMensagem = file;
-      if (userData.idChat.idChat !== userData.idChat.idChat) {
-        privateChats.get(userData.idChat.idChat).push(chatMessage);
-        setPrivateChats(new Map(privateChats));
+    console.log("userdara.FIle", userData.file);
+
+    if (userData.file !== null) {
+      await fileToByteArray(userData.file).then((file) => {
+        chatMessage.arquivoMensagem = file;
+      });
+    }
+
+    if (userData.idChat.idChat !== userData.idChat.idChat) {
+      privateChats.get(userData.idChat.idChat).push(chatMessage);
+      setPrivateChats(new Map(privateChats));
+    }
+    console.log("chatMessage", JSON.stringify(chatMessage));
+    stompClient.send("/app/sid/api/mensagem", {}, JSON.stringify(chatMessage));
+
+    setTemporaryMessages([
+      ...temporaryMessages,
+      {
+        textoMensagem: userData.message,
+        idUsuario: chatUserId,
+        dataMensagem: new Date().toLocaleTimeString(),
+        idChat: userData.idChat.idChat,
+        position: "right"
       }
-      console.log("chatMessage", JSON.stringify(chatMessage));
-      stompClient.send("/app/sid/api/mensagem", {}, JSON.stringify(chatMessage));
-
-      setTemporaryMessages([
-        ...temporaryMessages,
-        {
-          textoMensagem: userData.message,
-          idUsuario: chatUserId,
-          dataMensagem: new Date().toLocaleTimeString(),
-          idChat: userData.idChat.idChat,
-          position: "right"
-        }
-      ]);
-    });
-
+    ]);
     setUserData({ ...userData, message: "" });
   };
 

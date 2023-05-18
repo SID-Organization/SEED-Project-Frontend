@@ -110,8 +110,8 @@ export default function createNewProposalButton(props) {
               >
                 {
                   //check if theres any demand
-                  props.demandTitle && props.demandTitle.length > 0 ? (
-                    props.demandTitle.map((demand, i) => (
+                  props.demandsTitle && props.demandsTitle.length > 0 ? (
+                    props.demandsTitle.map((demand, i) => (
                       <DemandCardProposalModal
                         key={i}
                         title={demand.tituloDemanda}

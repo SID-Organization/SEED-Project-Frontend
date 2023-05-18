@@ -9,14 +9,14 @@ import CreateNewProposalButton from "../CreateNewProposal-Button";
 import DemandService from "../../service/Demand-Service";
 
 export default function SubHeaderPautas() {
-  const [demandTitle, setDemandTitle] = useState([]);
+  const [demandsTitle, setDemandsTitle] = useState([]);
 
   useEffect(() => {
     DemandService.getDemandsTitleAndStatus().then((demands) => {
       demands = demands.filter(
         (demand) => demand.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA"
       );
-      setDemandTitle(demands);
+      setDemandsTitle(demands);
     });
   }, []);
 
@@ -27,7 +27,7 @@ export default function SubHeaderPautas() {
           Propostas
         </h1>
         <div className="mr-10 flex gap-16">
-          <CreateNewProposalButton demandTitle={demandTitle} />
+          <CreateNewProposalButton demandsTitle={demandsTitle} />
           <Search />
         </div>
       </div>

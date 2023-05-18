@@ -199,79 +199,6 @@ export default function PrimarySearchAppBar() {
     location.reload();
   };
 
-  const notificationsMock = [
-    {
-      name: "Henrique Cole Fernandes",
-      time: "21:00",
-      content: "Aprovou sua demanda!",
-      unreadNotification: false,
-      type: "approved",
-    },
-    {
-      name: "Leonardo Rafaelli",
-      time: "12:00",
-      content: "Reprovou sua demanda!",
-      unreadNotification: true,
-      type: "rejected",
-    },
-    {
-      name: "Gustavo Rebelatto Zapella",
-      time: "15:00",
-      content: "Reprovou sua demanda!",
-      unreadNotification: true,
-      type: "returned",
-    },
-    {
-      name: "Romario Horngurg",
-      time: "18:00",
-      content: "Editou sua demanda!",
-      unreadNotification: false,
-      type: "edited",
-    },
-    {
-      name: "Otavio Augusto dos Santos",
-      time: "09:00",
-      content: "Reprovou sua demanda!",
-      unreadNotification: false,
-      type: "rejected",
-    },
-    {
-      name: "Henrique Cole Fernandes",
-      time: "22:00",
-      content: "Aprovou sua demanda!",
-      unreadNotification: false,
-      type: "approved",
-    },
-    {
-      name: "Leonardo Rafaelli",
-      time: "16:00",
-      content: "Devolveu sua demanda!",
-      unreadNotification: true,
-      type: "returned",
-    },
-    {
-      name: "Gustavo Rebelatto Zapella",
-      time: "20:00",
-      content: "Devolveu sua demanda!",
-      unreadNotification: true,
-      type: "returned",
-    },
-    {
-      name: "Romario Horngurg",
-      time: "17:00",
-      content: "Reprovou sua demanda!",
-      unreadNotification: false,
-      type: "rejected",
-    },
-    {
-      name: "Otavio Augusto dos Santos",
-      time: "14:00",
-      content: "Editou sua demanda!",
-      unreadNotification: false,
-      type: "edited",
-    },
-  ];
-
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -612,21 +539,6 @@ export default function PrimarySearchAppBar() {
               .sort((a, b) => {
                 if (a.unreadMessages && !b.unreadMessages) return -1;
                 if (!a.unreadMessages && b.unreadMessages) return 1;
-
-                // const timeA = new Date(
-                //   a.time.split(":")[0] as any,
-                //   a.time.split(":")[1] as any
-                // );
-                // const timeB = new Date(
-                //   b.time.split(":")[0] as any,
-                //   b.time.split(":")[1] as any
-                // );
-                // if (timeA > timeB) {
-                //   return -1;
-                // }
-                // if (timeA < timeB) {
-                //   return 1;
-                // }
                 return 0;
               })
               .map((user, i) => {
@@ -798,35 +710,34 @@ export default function PrimarySearchAppBar() {
         scrollbar-w-2
       "
       >
-        {notificationsReceivedByWS &&
-          notificationsReceivedByWS
-            .sort((a, b) => {
-              if (filterUnreadNotifications) {
-                if (a.unreadNotification && !b.unreadNotification) return -1;
-                if (!a.unreadNotification && b.unreadNotification) return 1;
-              }
+        {notificationsReceivedByWS
+          .sort((a, b) => {
+            if (filterUnreadNotifications) {
+              if (a.unreadNotification && !b.unreadNotification) return -1;
+              if (!a.unreadNotification && b.unreadNotification) return 1;
+            }
 
-              // const timeA = new Date(a.time.split(":")[0], a.time.split(":")[1]);
-              // const timeB = new Date(b.time.split(":")[0], b.time.split(":")[1]);
-              // if (timeA > timeB) {
-              //   return -1;
-              // }
-              // if (timeA < timeB) {
-              //   return 1;
-              // }
-              // return 0;
-            })
+            // const timeA = new Date(a.time.split(":")[0], a.time.split(":")[1]);
+            // const timeB = new Date(b.time.split(":")[0], b.time.split(":")[1]);
+            // if (timeA > timeB) {
+            //   return -1;
+            // }
+            // if (timeA < timeB) {
+            //   return 1;
+            // }
+            // return 0;
+          })
 
-            .map((notification, i) => (
-              <NotificationCard
-                key={i}
-                name={notification.responsavel}
-                content={notification.textoNotificacao}
-                time={notification.tempoNotificacao}
-                unreadNotification={true}
-                type={notification.tipoNotificacao}
-              />
-            ))}
+          .map((notification, i) => (
+            <NotificationCard
+              key={notification.idNotificacao}
+              name={notification.responsavel}
+              content={notification.textoNotificacao}
+              time={notification.tempoNotificacao}
+              unreadNotification={notification.visualizada}
+              type={notification.tipoNotificacao}
+            />
+          ))}
       </div>
     </Menu>
   );

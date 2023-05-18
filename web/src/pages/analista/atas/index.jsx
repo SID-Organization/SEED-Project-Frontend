@@ -47,7 +47,7 @@ export default function Atas() {
       .then((res) => {
         if (!res.error) {
           const dbAtas = res.data.map((ata) => {
-            ata.dataReuniaoAta = DateUtils.formatDateFromDB(ata.dataReuniaoAta);
+            ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
             return ata;
           });
           setAtas(dbAtas);
