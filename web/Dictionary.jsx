@@ -6,17 +6,17 @@ import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition"
 export const SpeechRecognitionText = () => {
   const commands = [
     {
-      command: 'lisa limpar tela',
+      command: 'cid limpar tela',
       callback: ({resetTranscript}) => resetTranscript(),
     },
     {
-      command: 'lisa pesquisar sobre * no google',
+      command: 'cid pesquisar sobre * no google',
       callback: (site) => {
         window.open(`https://www.google.com/search?q=${site}`)
       },
     },
     {
-      command: 'lisa cor *',
+      command: 'cid cor *',
       callback: (cor) => {
         document.body.style.background = cor;
         if(cor === 'Black') document.getElementById('h1-text').style.color = 'white'
