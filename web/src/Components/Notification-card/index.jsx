@@ -29,7 +29,7 @@ export default function NotificationCard(props) {
           },
         }}
       >
-        <div className="flex font-roboto justify-center h-20 ml-5 mr-5" onClickCapture={console.log("AAA")}>
+        <div className="flex font-roboto justify-center h-20 ml-5 mr-5" >
           <div className="flex items-center w-[5rem]">
             {props.type === "approved" ? (
               <Tooltip title="Aprovação">
