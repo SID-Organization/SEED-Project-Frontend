@@ -4,6 +4,7 @@ const fontSize = {
   base: 16,
   lg: 18,
   xl: 20,
+  fontControl: 0,
 };
 
 const setFontSize = () => {
@@ -12,7 +13,7 @@ const setFontSize = () => {
 };
 
 const incFontSize = () => {
-  const fontSize = getFontSize();
+  const fontSize = getFontSizes();
   const fontSizeUpdated = {};
   for (const key in fontSize) {
     fontSizeUpdated[key] = fontSize[key] + 1;
@@ -21,7 +22,7 @@ const incFontSize = () => {
 };
 
 const decFontSize = () => {
-  const fontSize = getFontSize();
+  const fontSize = getFontSizes();
   const fontSizeUpdated = {};
   for (const key in fontSize) {
     fontSizeUpdated[key] = fontSize[key] - 1;
@@ -29,14 +30,20 @@ const decFontSize = () => {
   localStorage.setItem("fontSize", JSON.stringify(fontSizeUpdated));
 };
 
-const getFontSize = () => {
+const getFontSizes = () => {
   const fonts = JSON.parse(localStorage.getItem("fontSize"));
   return fonts || fontSize;
 };
 
+const getFontControl = () => {
+  const fonts = getFontSizes();
+  return fonts.fontControl;
+};
+
 export default {
-  getFontSize,
+  getFontSizes,
   setFontSize,
   incFontSize,
   decFontSize,
+  getFontControl,
 };

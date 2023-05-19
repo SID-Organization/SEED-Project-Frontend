@@ -13,28 +13,28 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 export default function ProfileRow(props) {
   const [phoneNumber, setPhoneNumber] = useState("+55 (47) 99123-2134");
   const [isEditOn, setIsEditOn] = useState(false);
-  const [fonts, setFonts] = useState(FontSizeUtils.getFontSize());
-  const [fontControl, setFontControl] = useState(0);
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+  const [fontControl, setFontControl] = useState(
+    FontSizeUtils.getFontControl()
+  );
 
   const increaseValue = () => {
-    if (fontControl < 3) {
+    if (fontControl < 4) {
       FontSizeUtils.incFontSize();
       setFontControl(fontControl + 1);
     }
   };
 
   const decreaseValue = () => {
-    if (fontControl > -3) {
+    if (fontControl > -4) {
       FontSizeUtils.decFontSize();
       setFontControl(fontControl - 1);
     }
   };
 
   useEffect(() => {
-    setFonts(FontSizeUtils.getFontSize());
+    setFonts(FontSizeUtils.getFontSizes());
   }, [fontControl]);
-
-  const fontSizeClass = `text-[${fonts.xl}px]`;
 
   return (
     <div>
@@ -124,7 +124,7 @@ export default function ProfileRow(props) {
             </div>
           )}
         </div>
-        <h1 className={fontSizeClass}>
+        <h1 style={{ fontSize: fonts.xl }}>
           UASHDUASHDUASHDUASHDUASHDUASHDUASHDUASUAdh
         </h1>
       </div>
