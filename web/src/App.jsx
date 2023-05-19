@@ -46,6 +46,7 @@ function App() {
             element={user ? <Layout /> : <Navigate to={"/login"} />}
           >
             <Route
+            
               path="demandas"
               element={
                 <DemandsPage key="demandas" DemandType={DemandType.DEMAND} />
