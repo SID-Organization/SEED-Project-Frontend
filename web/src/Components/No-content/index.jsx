@@ -11,6 +11,10 @@ import MuiFolderOffOutlinedIcon from "@mui/icons-material/FolderOffOutlined";
 import MuiButton from "@mui/material/Button";
 import MuiAddBoxIcon from "@mui/icons-material/AddBox";
 import { styled } from "@mui/material/styles";
+import { useEffect, useState } from "react";
+
+//Utils
+import FontSizeUtils from "../../utils/FontSize-Utils";
 
 const Button = styled(MuiButton)(() => ({
   color: "#0075B1",
@@ -32,6 +36,12 @@ const FolderOffOutlinedIcon = styled(MuiFolderOffOutlinedIcon)(() => ({
 }));
 
 export default function noContent(props) {
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
+
   return (
     <div>
       <Header />
@@ -47,7 +57,11 @@ export default function noContent(props) {
         {props.isManager && (
           <div className="mt-16 flex items-center justify-center">
             <Link to="/nova-demanda">
-              <Button variant="outlined" startIcon={<AddBoxIcon />}>
+              <Button
+                style={{ fontSize: fonts.sm }}
+                variant="outlined"
+                startIcon={<AddBoxIcon />}
+              >
                 Crie uma demanda
               </Button>
             </Link>
