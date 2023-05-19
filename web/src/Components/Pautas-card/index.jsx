@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 //MUI
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -84,26 +83,29 @@ const Accordion = styled(MuiAccordion)(() => ({
   borderBottom: "none",
 }));
 
+const IconButton = styled(MuiIconButton)(() => ({
+  width: "100%",
+  height: "100%",
+}));
+
+const Button = styled(MuiButton)(() => ({
+  backgroundColor: "#0075B1",
+  height: "2rem",
+  "&:hover": {
+    backgroundColor: "#0075B1",
+  },
+}));
+
 export default function PautasCard(props) {
   const [shareModal, setShareModal] = useState(false);
   const handleOpenShareModal = () => setShareModal(true);
   const handleCloseShareModal = () => setShareModal(false);
 
-  const IconButton = styled(MuiIconButton)(() => ({
-    width: "100%",
-    height: "100%",
-  }));
-
-  const Button = styled(MuiButton)(() => ({
-    backgroundColor: "#0075B1",
-    height: "2rem",
-
-    "&:hover": {
-      backgroundColor: "#0075B1",
-    },
-  }));
-
   const [proposals, setProposals] = useState([]);
+
+  const editPauta = () => {
+
+  }
 
   useEffect(() => {
     PautaService.getPautaProposalsById(props.pautaId).then((proposals) => {
@@ -206,7 +208,7 @@ export default function PautasCard(props) {
                     <VisibilityRoundedIcon />
                   </Tooltip>
                   <Tooltip title="Editar pauta">
-                    <EditRoundedIcon />
+                      <EditRoundedIcon onClick={editPauta} />
                   </Tooltip>
                   <Tooltip title="Gerar ATA">
                     <Link to={`gerar-ata/${props.pautaId}`}>
