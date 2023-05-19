@@ -24,6 +24,9 @@ const onConnected = (user, handleNotification) => {
             if (!stompClient.subscriptions["/notificacao-usuario-status/" + user.numeroCadastroUsuario]) {
                 subscribeId = [...subscribeId, stompClient.subscribe("/notificacao-usuario-status/" + user.numeroCadastroUsuario, handleNotification)];
             }
+            // if (!stompClient.subscriptions["/reuniao-pauta/" + user.numeroCadastroUsuario]) {
+            //     subscribeId = [...subscribeId, stompClient.subscribe("/reuniao-pauta/" + user.numeroCadastroUsuario, handleNotification)];
+            // }
             console.log(stompClient.subscriptions);
             if (user.cargoUsuario === "ANALISTA") {
                 const analistRoute = "/notificacao-demanda-cadastro/analista/" + user.numeroCadastroUsuario;
