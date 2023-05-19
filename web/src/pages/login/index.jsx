@@ -19,10 +19,9 @@ import SockJs from "sockjs-client/dist/sockjs";
 // Services
 import LoginService from "../../service/Login-Service";
 import UserUtils from "../../utils/User-Utils";
-
+import FontSizeUtils from "../../utils/FontSize-Utils";
 
 export default function Login(props) {
-
   const [openNotification, setOpenNotification] = useState(false);
   const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
@@ -35,14 +34,7 @@ export default function Login(props) {
     }
   }, [props.user]);
 
- 
-    
-
-
-  const handleCloseNotification = (
-    event,
-    reason
-  ) => {
+  const handleCloseNotification = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -51,7 +43,6 @@ export default function Login(props) {
   };
 
   const handleLogin = () => {
-
     // Validação de campos
     if (!userID || !password) {
       setOpenNotification(true);
@@ -60,9 +51,8 @@ export default function Login(props) {
 
     LoginService.login(userID, password)
       .then((res) => {
-        console.log("LOGIN RESPONSE", res)
+        console.log("LOGIN RESPONSE", res);
         if (res.status != 200) {
-
           setOpenNotification(true);
           return;
         }
@@ -70,13 +60,14 @@ export default function Login(props) {
       .then(() => {
         const loggedUser = UserUtils.getUserFromCookie();
         localStorage.setItem("user", JSON.stringify(loggedUser));
+
+        FontSizeUtils.setFontSize();
         props.setUser(loggedUser);
       });
   };
 
-
   return (
-    <div className="bg-loginWallpaper bg-cover w-full h-screen">
+    <div className="h-screen w-full bg-loginWallpaper bg-cover">
       {openNotification && (
         <Snackbar
           open={openNotification}
@@ -84,10 +75,12 @@ export default function Login(props) {
           onClose={handleCloseNotification}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <MuiAlert elevation={6} variant="filled"
+          <MuiAlert
+            elevation={6}
+            variant="filled"
             severity="error"
             sx={{
-              backgroundColor: "#C31700"
+              backgroundColor: "#C31700",
             }}
           >
             Usuário ou senha inválidos!
@@ -96,9 +89,9 @@ export default function Login(props) {
       )}
 
       <div className="flex">
-        <div className="w-2/6 h-60 gap-24 grid justify-center items-center">
+        <div className="grid h-60 w-2/6 items-center justify-center gap-24">
           <img
-            className="w-32 h-20 drop-shadow-weg-shadow mt-20"
+            className="mt-20 h-20 w-32 drop-shadow-weg-shadow"
             src={WegLogo}
             alt=""
           />
@@ -121,7 +114,7 @@ export default function Login(props) {
             marginTop: "8%",
             display: "flex",
             justifyContent: "end",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Box
@@ -129,16 +122,16 @@ export default function Login(props) {
               bgcolor: "#cfe8fc",
               height: "520px",
               width: "500px",
-              borderRadius: "10px"
+              borderRadius: "10px",
             }}
           >
-            <div className="grid justify-center items-center">
+            <div className="grid items-center justify-center">
               <div className="grid gap-4">
-                <h1 className="font-bold flex justify-center items-center text-5xl m-12 text-blue-weg">
+                <h1 className="m-12 flex items-center justify-center text-5xl font-bold text-blue-weg">
                   Login
                 </h1>
                 <div className="grid gap-4">
-                  <div className="flex justify-center items-center">
+                  <div className="flex items-center justify-center">
                     <PersonOutlineOutlinedIcon
                       sx={{ fontSize: 35, color: "#00579D" }}
                     />
@@ -148,7 +141,7 @@ export default function Login(props) {
                       variant="filled"
                       sx={{
                         width: "24rem",
-                        input: { backgroundColor: "white", borderRadius: 1 }
+                        input: { backgroundColor: "white", borderRadius: 1 },
                       }}
                       value={userID}
                       onChange={(e) => {
@@ -158,7 +151,7 @@ export default function Login(props) {
                       }}
                     />
                   </div>
-                  <div className="flex justify-center items-center">
+                  <div className="flex items-center justify-center">
                     <LockOutlinedIcon sx={{ fontSize: 35, color: "#00579D" }} />
                     <TextField
                       id="outlined-basic"
@@ -167,11 +160,11 @@ export default function Login(props) {
                       type={"password"}
                       sx={{
                         width: "24rem",
-                        input: { backgroundColor: "white", borderRadius: 1 }
+                        input: { backgroundColor: "white", borderRadius: 1 },
                       }}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      onKeyDown={e => {
+                      onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleLogin();
                         }
@@ -179,14 +172,14 @@ export default function Login(props) {
                     />
                   </div>
                 </div>
-                <div className="flex justify-between items-center mt-3">
+                <div className="mt-3 flex items-center justify-between">
                   <div>
-                    <h1 className="text-blue-weg cursor-pointer hover:text-sky-600 transition text-sm">
+                    <h1 className="cursor-pointer text-sm text-blue-weg transition hover:text-sky-600">
                       Esqueceu a senha?
                     </h1>
                   </div>
                 </div>
-                <div className="grid gap-4 justify-center items-center">
+                <div className="grid items-center justify-center gap-4">
                   <Button
                     onClick={handleLogin}
                     variant="contained"
@@ -197,7 +190,7 @@ export default function Login(props) {
                       fontSize: "17px",
                       fontWeight: "bold",
                       textTransform: "none",
-                      backgroundColor: "#00579D"
+                      backgroundColor: "#00579D",
                     }}
                   >
                     Entrar

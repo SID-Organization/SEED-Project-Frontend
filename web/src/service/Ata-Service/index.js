@@ -15,13 +15,17 @@ const getAtas = async () => {
 const getAtaById = async (id) => {
   return AxiosAPI.get(`${url}/${id}`)
   .then(res => res.data)
-  .catch(err => err)
+  .catch(err => err);
 };
 
 const openAtaPDF = async (ataId) => {
   // Open in new tab
   window.open(`${url}/pdf-ata/${ataId}`, "_blank");
 };
+
+const updateProposalLog = async (propLogId, proposalLog) => {
+  return AxiosAPI.put(`${url}/${propLogId}`, proposalLog);
+}
 
 export default {
   createAta,

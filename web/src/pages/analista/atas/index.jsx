@@ -1,5 +1,5 @@
 import { CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 
 // Components
 import AtasCard from "../../../Components/Atas-card";
@@ -83,16 +83,18 @@ export default function Atas() {
       <SubHeaderAtas />
       <div className="mt-8 flex flex-col items-center justify-center gap-4">
         {isLoading ? (
-          <CircularProgress />
+          <div className="flex h-[71vh] items-center justify-around">
+            <CircularProgress />
+          </div>
         ) : atasYears.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isAta={true}>Sem atas!</NoContent>
           </div>
         ) : (
           atasYears.map((year, iY) => (
-            <React.Fragment key={year}>
+            <Fragment key={year}>
               {atasMonths.map((month, iM) => (
-                <React.Fragment key={month}>
+                <Fragment key={month}>
                   {getAtasInMonth(month, year).length > 0 && (
                     <div key={iM}>
                       <h1 className="text-xl font-bold text-dark-blue-weg">
@@ -111,9 +113,9 @@ export default function Atas() {
                       ))}
                     </div>
                   )}
-                </React.Fragment>
+                </Fragment>
               ))}
-            </React.Fragment>
+            </Fragment>
           ))
         )}
       </div>
