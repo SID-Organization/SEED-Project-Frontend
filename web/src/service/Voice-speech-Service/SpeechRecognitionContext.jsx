@@ -1,5 +1,7 @@
+
 import React, { createContext, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
 
 const SpeechRecognitionContext = createContext();
 export const SpeechRecognitionProvider = ({ children }) => {
@@ -18,8 +20,9 @@ export const SpeechRecognitionProvider = ({ children }) => {
       command: 'sidney cor *',
       callback: (cor) => {
         document.body.style.background = cor;
-        if (cor === 'Black') document.getElementById('h1-text').style.color = 'white';
-        else document.getElementById('h1-text').style.color = 'black';
+        if (cor === "Black")
+          document.getElementById("h1-text").style.color = "white";
+        else document.getElementById("h1-text").style.color = "black";
       },
     },
   ];
@@ -41,7 +44,6 @@ export const SpeechRecognitionProvider = ({ children }) => {
       console.log("Seu navegador não é compatível com SpeechRecognition.")
       return <alert>Seu navegador não é compatível com SpeechRecognition.</alert>;
     }
-
     if (!listening) {
       console.log("Audio ligado")
       SpeechRecognition.startListening({ continuous: true });
@@ -61,7 +63,11 @@ export const SpeechRecognitionProvider = ({ children }) => {
     stopListening,
   };
 
-  return <SpeechRecognitionContext.Provider value={contextValue}>{children}</SpeechRecognitionContext.Provider>;
+  return (
+    <SpeechRecognitionContext.Provider value={contextValue}>
+      {children}
+    </SpeechRecognitionContext.Provider>
+  );
 };
 
 export default SpeechRecognitionContext;

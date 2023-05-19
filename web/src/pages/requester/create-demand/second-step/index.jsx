@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // MUI
 import { IconButton, Tooltip } from "@mui/material";
@@ -16,12 +16,23 @@ import MUISC from "../../../../styles/Mui-Styled-Components";
 import ReactQuillUtils from "../../../../utils/ReactQuill-Utils";
 const { quillModules } = ReactQuillUtils;
 
+import FontSizeUtils from "../../../../utils/FontSize-Utils";
+
 export default function SecondStep({ props }) {
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
+
   return (
     <div className="grid gap-3">
       <div className="mb-5 flex items-center justify-center gap-10">
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-        <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
+        <h1
+          style={{ fontSize: fonts.base }}
+          className="font-roboto font-bold text-[#343434]"
+        >
           Benefícios reais
         </h1>
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
@@ -58,16 +69,16 @@ export default function SecondStep({ props }) {
               }}
               benefitIndex={i}
             >
-                <ReactQuill
-                  value={item.descriptionHTML}
-                  onBlur={props.handleCreateDemand}
-                  onChange={(e) => {
-                    const newRealBenefits = [...props.realBenefits];
-                    newRealBenefits[i].descriptionHTML = e;
-                    props.setRealBenefits(newRealBenefits);
-                  }}
-                  placeholder="Descreva o benefício."
-                  modules={quillModules}
+              <ReactQuill
+                value={item.descriptionHTML}
+                onBlur={props.handleCreateDemand}
+                onChange={(e) => {
+                  const newRealBenefits = [...props.realBenefits];
+                  newRealBenefits[i].descriptionHTML = e;
+                  props.setRealBenefits(newRealBenefits);
+                }}
+                placeholder="Descreva o benefício."
+                modules={quillModules}
               />
             </NewBenefitInsertion>
             {(i < props.realBenefits.length - 1 || i === 0) && (
@@ -77,7 +88,10 @@ export default function SecondStep({ props }) {
         ))}
       <div className="mb-5 mt-10 flex items-center justify-center gap-10">
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-        <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
+        <h1
+          style={{ fontSize: fonts.xl }}
+          className="font-roboto font-bold text-[#343434]"
+        >
           Benefícios potenciais
         </h1>
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
@@ -126,7 +140,10 @@ export default function SecondStep({ props }) {
       {/* BENEFICIO QUALITATIVO */}
       <div className="mb-5 mt-10 flex items-center justify-center gap-10">
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-        <h1 className="font-roboto text-[17px] font-bold text-[#343434]">
+        <h1
+          style={{ fontSize: fonts.xl }}
+          className="font-roboto font-bold text-[#343434]"
+        >
           Benefício qualitativo
         </h1>
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />

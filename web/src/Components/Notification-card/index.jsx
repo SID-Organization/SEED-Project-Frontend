@@ -29,63 +29,70 @@ export default function NotificationCard(props) {
           },
         }}
       >
-        <div className="flex font-roboto justify-center h-20 ml-5 mr-5" onClickCapture={console.log("AAA")}>
-          <div className="flex items-center w-[5rem]">
-            {props.type === "approved" ? (
-              <Tooltip title="Aprovação">
-                <CheckCircleOutlineRoundedIcon
-                  sx={{
-                    color: "#023A67",
-                    fontSize: "2.5rem",
-                  }}
-                />
-              </Tooltip>
-            ) : props.type === "rejected" ? (
-              <Tooltip title="Rejeição">
-                <HighlightOffRoundedIcon
-                  sx={{
-                    color: "#023A67",
-                    fontSize: "2.5rem",
-                  }}
-                />
-              </Tooltip>
-            ) : props.type === "returned" ? (
-              <Tooltip title="Devolução">
-                <ReplayRoundedIcon
-                  sx={{
-                    color: "#023A67",
-                    fontSize: "2.5rem",
-                  }}
-                />
-              </Tooltip>
-            ) : (
-              <Tooltip title="Edição">
-                <EditRoundedIcon
-                  sx={{
-                    color: "#023A67",
-                    fontSize: "2.5rem",
-                  }}
-                />
-              </Tooltip>
-            )}
-          </div>
-          <div className="grid items-center w-[13rem]"  >
-            <p className="font-bold">
-              {props.name.length + props.content.length > 80
-                ? props.name.slice(0, 70) + "..."
-                : props.name + " " + props.content}
-            </p>
-            <p className="text-xs text-light-blue-weg font-bold">
-              {props.time}
-            </p>
-          </div>
-          <div className="grid items-center">
-            <div className="flex justify-center items-center w-5" >
-              {props.unreadNotification === false ? null : (
-                <div className="bg-dark-blue-weg text-white h-3 w-3 rounded-full flex justify-center items-center  text-xs font-bold">
-                  {props.unreadNotification}
-                </div>
+        <div
+          className="ml-5 mr-5 flex h-20 justify-center font-roboto"
+          onClickCapture={console.log("AAA")}
+        >
+          <div className="ml-5 mr-5 flex h-20 justify-center font-roboto">
+            <div className="flex w-[5rem] items-center">
+              {props.type === "approved" ? (
+                <Tooltip title="Aprovação">
+                  <CheckCircleOutlineRoundedIcon
+                    sx={{
+                      color: "#023A67",
+                      fontSize: "2.5rem",
+                    }}
+                  />
+                </Tooltip>
+              ) : props.type === "rejected" ? (
+                <Tooltip title="Rejeição">
+                  <HighlightOffRoundedIcon
+                    sx={{
+                      color: "#023A67",
+                      fontSize: "2.5rem",
+                    }}
+                  />
+                </Tooltip>
+              ) : props.type === "returned" ? (
+                <Tooltip title="Devolução">
+                  <ReplayRoundedIcon
+                    sx={{
+                      color: "#023A67",
+                      fontSize: "2.5rem",
+                    }}
+                  />
+                </Tooltip>
+              ) : (
+                <Tooltip title="Edição">
+                  <EditRoundedIcon
+                    sx={{
+                      color: "#023A67",
+                      fontSize: "2.5rem",
+                    }}
+                  />
+                </Tooltip>
               )}
+            </div>
+            <div className="grid w-[13rem] items-center">
+              <p className="font-bold">
+                {props.name &&
+                props.content &&
+                props.name.length + props.content.length > 80
+                  ? props.name.slice(0, 70) + "..."
+                  : props.name + " " + props.content}
+              </p>
+              <p className="text-xs font-bold text-light-blue-weg">
+                {props.time}
+              </p>
+            </div>
+            <div className="grid items-center">
+              <div className="flex w-5 items-center justify-center">
+                {props.unreadNotification === false ? null : (
+                  <div className="flex h-3 w-3 items-center justify-center rounded-full bg-dark-blue-weg text-xs  font-bold text-white">
+                    {props.unreadNotification}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

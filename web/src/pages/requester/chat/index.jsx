@@ -31,6 +31,7 @@ import ChatService from "../../../service/Chat-Service";
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 import fileToByteArray from "../../../utils/ChatUtils/chatUtil.js";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 export default function Chat() {
   const [temporaryMessages, setTemporaryMessages] = useState([]);
@@ -65,6 +66,12 @@ export default function Chat() {
   const [fileState, setFileState] = useState({});
   const [preview, setPreview] = useState("");
 
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
+
   const connect = () => {
     let Sock = new SockJs("http://localhost:8443/ws");
     setStompClient(over(Sock));
@@ -74,7 +81,7 @@ export default function Chat() {
     if (fileState) {
       setUserData({
         ...userData,
-        file: fileState
+        file: fileState,
       });
     }
   }, [fileState]);
@@ -124,7 +131,7 @@ export default function Chat() {
   const userJoin = () => {
     var chatMessage = {
       idUsuario: userData.idUsuario.numeroCadastroUsuario,
-      status: "JOIN"
+      status: "JOIN",
     };
     stompClient.send("/app/message/", {}, JSON.stringify(chatMessage));
   };
@@ -143,8 +150,8 @@ export default function Chat() {
           dataMensagem: new Date().toLocaleTimeString(),
           idChat: payLoadData.idChat.idChat,
           position: "left",
-          arquivoMensagem: payLoadData.arquivoMensagem
-        }
+          arquivoMensagem: payLoadData.arquivoMensagem,
+        },
       ]);
     }
   };
@@ -188,7 +195,7 @@ export default function Chat() {
       arquivoMensagem: null,
       dataMensagem: date.toISOString(),
       idUsuario: userData.idUsuario,
-      idChat: { idChat: userData.idChat.idChat }
+      idChat: { idChat: userData.idChat.idChat },
     };
 
     console.log("userdara.FIle", userData.file);
@@ -213,8 +220,8 @@ export default function Chat() {
         idUsuario: chatUserId,
         dataMensagem: new Date().toLocaleTimeString(),
         idChat: userData.idChat.idChat,
-        position: "right"
-      }
+        position: "right",
+      },
     ]);
     setUserData({ ...userData, message: "" });
   };
@@ -255,7 +262,7 @@ export default function Chat() {
             type: "text",
             text: message.textoMensagem,
             date: message.dataMensagem,
-            status: "received "
+            status: "received ",
           };
         })
       );
@@ -279,7 +286,7 @@ export default function Chat() {
               <SearchOffIcon
                 sx={{
                   fontSize: 100,
-                  color: "#BDBDBD"
+                  color: "#BDBDBD",
                 }}
               />
             </div>
@@ -318,13 +325,13 @@ export default function Chat() {
               height: "3.5rem",
               borderRadius: "50px",
               marginLeft: "1rem",
-              marginRight: "1rem"
+              marginRight: "1rem",
             }}
           >
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <SearchIcon
                 sx={{
-                  color: "#9e9e9e"
+                  color: "#9e9e9e",
                 }}
               />
             </IconButton>
@@ -347,47 +354,47 @@ export default function Chat() {
           {/* USERS HERE */}
           {search === "" && chatUsers
             ? chatUsers
-              .sort((a, b) => {
-                if (a.unreadMessages && !b.unreadMessages) return -1;
-                if (!a.unreadMessages && b.unreadMessages) return 1;
+                .sort((a, b) => {
+                  if (a.unreadMessages && !b.unreadMessages) return -1;
+                  if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                return 0;
-              })
-              .map((user) => {
-                return (
-                  <div
-                    onClick={() => {
-                      const userName = user.nomeAnalista;
-                      const userDemand = user.tituloDemanda;
-                      setChatUserId(user.idUsuario);
-                      setUserNameCard(userName);
-                      setUserDemandCard(userDemand);
-                      setChatId(user.idChat);
-                      setUserData({
-                        idUsuario: {
-                          numeroCadastroUsuario: user.idUsuario
-                        },
-                        idChat: { idChat: user.idChat },
-                        idDemanda: { idDemanda: user.idDemanda },
-                        connected: false,
-                        message: "",
-                        file: fileState
-                      });
-                      connect();
-                    }}
-                  >
-                    <UserMessageCard
-                      picture={user.picture}
-                      name={user.nomeAnalista}
-                      userDemand={user.tituloDemanda}
-                      lastMessage={user.lastMessage}
-                      time={user.time}
-                      unreadMessages={user.unreadMessages}
-                      isOnline={user.isOnline}
-                    />
-                  </div>
-                );
-              })
+                  return 0;
+                })
+                .map((user) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        const userName = user.nomeAnalista;
+                        const userDemand = user.tituloDemanda;
+                        setChatUserId(user.idUsuario);
+                        setUserNameCard(userName);
+                        setUserDemandCard(userDemand);
+                        setChatId(user.idChat);
+                        setUserData({
+                          idUsuario: {
+                            numeroCadastroUsuario: user.idUsuario,
+                          },
+                          idChat: { idChat: user.idChat },
+                          idDemanda: { idDemanda: user.idDemanda },
+                          connected: false,
+                          message: "",
+                          file: fileState,
+                        });
+                        connect();
+                      }}
+                    >
+                      <UserMessageCard
+                        picture={user.picture}
+                        name={user.nomeAnalista}
+                        userDemand={user.tituloDemanda}
+                        lastMessage={user.lastMessage}
+                        time={user.time}
+                        unreadMessages={user.unreadMessages}
+                        isOnline={user.isOnline}
+                      />
+                    </div>
+                  );
+                })
             : returnedUserSearch()}
         </div>
       </div>
@@ -398,11 +405,14 @@ export default function Chat() {
               <Diversity3RoundedIcon
                 sx={{
                   fontSize: 200,
-                  color: "#0075B1"
+                  color: "#0075B1",
                 }}
               />
             </div>
-            <p className="cursor-default font-roboto text-2xl font-bold tracking-wide text-blue-weg">
+            <p
+              style={{ fontSize: fonts.xl }}
+              className="cursor-default font-roboto font-bold tracking-wide text-blue-weg"
+            >
               Selecione um usuário para iniciar uma conversa
             </p>
           </div>
@@ -470,10 +480,10 @@ export default function Chat() {
                   color: "#0075B1",
                   transition: "all 0.2s ease-in-out",
                   "&:hover": {
-                    color: "#000"
+                    color: "#000",
                   },
                   height: "2.5rem",
-                  width: "2.5rem"
+                  width: "2.5rem",
                 }}
               >
                 <input
@@ -514,7 +524,12 @@ export default function Chat() {
               placeholder="Digite uma mensagem"
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
-                  if (userData.message !== "" || userData.file !== "" || userData.file !== null, userData.file !== undefined) {
+                  if (
+                    (userData.message !== "" ||
+                      userData.file !== "" ||
+                      userData.file !== null,
+                    userData.file !== undefined)
+                  ) {
                     sendPrivateValue();
                   }
                 }
@@ -522,7 +537,7 @@ export default function Chat() {
               onChange={(e) => {
                 setUserData({
                   ...userData,
-                  message: e.target.value
+                  message: e.target.value,
                 });
               }}
               value={userData.message}
@@ -532,12 +547,11 @@ export default function Chat() {
                 onClick={
                   userData.message !== ""
                     ? () => {
-                      sendPrivateValue();
-                      setMessage("");
-                      setFileState({});
-                    }
-                    : () => {
-                    }
+                        sendPrivateValue();
+                        setMessage("");
+                        setFileState({});
+                      }
+                    : () => {}
                 }
                 color="primary"
                 aria-label="upload picture"
@@ -550,10 +564,10 @@ export default function Chat() {
                   color: "#0075B1",
                   transition: "all 0.2s ease-in-out",
                   "&:hover": {
-                    color: "#000"
+                    color: "#000",
                   },
                   height: "2.5rem",
-                  width: "2.5rem"
+                  width: "2.5rem",
                 }}
               >
                 <SendRoundedIcon />
