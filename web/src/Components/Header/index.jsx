@@ -821,7 +821,7 @@ export default function PrimarySearchAppBar() {
                     columnGap: "0.5rem",
                   }}
                 >
-                  <h1 className="flex items-center justify-center text-usual">
+                  <h1 className="flex items-center justify-center text-base">
                     {user.nomeUsuario}
                   </h1>
                   {userAvatar().foto ? (
