@@ -32,6 +32,9 @@ import UserUtils from "./utils/User-Utils";
 // import DemandsPage from "./Components/DemandsPage";
 
 function App() {
+
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
+
   return (
     <>
       <BrowserRouter>

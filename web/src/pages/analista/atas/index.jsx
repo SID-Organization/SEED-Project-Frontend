@@ -44,7 +44,7 @@ export default function Atas(props) {
 
   useEffect(() => {
     setIsLoading(true);
-    if (!props.isAtaForDG) {
+    // if (!props.isAtaForDG) {
       AtaService.getAtas()
         .then((res) => {
           if (!res.error) {
@@ -61,17 +61,16 @@ export default function Atas(props) {
         .finally(() => {
           setIsLoading(false);
         });
-    } else {
-      AtaDGService.getAtasDG()
-        .then((res) => {
-          
-          const dbAtas = res.data.map((ata) => {
-            ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
-            return ata;
-          });
-          setAtas(dbAtas);
-        }
-    }
+    // } else {
+    //   AtaDGService.getAtasDG()
+    //     .then((data) => {
+    //       const dbAtas = data.map((ata) => {
+    //         ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
+    //         return ata;
+    //       });
+    //       setAtas(dbAtas);
+    //     });
+    // }
   }, []);
 
   useEffect(() => {
