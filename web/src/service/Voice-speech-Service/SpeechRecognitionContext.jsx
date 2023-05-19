@@ -1,22 +1,21 @@
-import React, { createContext } from 'react';
-// import { useSpeechRecognition } from 'react-speech-recognition';
+import React, { createContext, useEffect } from "react";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const SpeechRecognitionContext = createContext();
-
 export const SpeechRecognitionProvider = ({ children }) => {
   const commands = [
     {
-      command: 'cid limpar tela',
+      command: 'sidney limpar tela',
       callback: ({ resetTranscript }) => resetTranscript(),
     },
     {
-      command: 'cid pesquisar sobre * no google',
+      command: 'sidney pesquisar sobre * no google',
       callback: (site) => {
         window.open(`https://www.google.com/search?q=${site}`);
       },
     },
     {
-      command: 'cid cor *',
+      command: 'sidney cor *',
       callback: (cor) => {
         document.body.style.background = cor;
         if (cor === 'Black') document.getElementById('h1-text').style.color = 'white';
@@ -35,17 +34,22 @@ export const SpeechRecognitionProvider = ({ children }) => {
   } = useSpeechRecognition({ commands });
 
   const handleStart = () => {
-    console.log("a")
+
+    console.log("handleStart")
+
+    if (!browserSupportsSpeechRecognition) {
+      console.log("Seu navegador não é compatível com SpeechRecognition.")
+      return <alert>Seu navegador não é compatível com SpeechRecognition.</alert>;
+    }
+
     if (!listening) {
-      startListening({ continuous: true });
+      console.log("Audio ligado")
+      SpeechRecognition.startListening({ continuous: true });
     } else {
-      stopListening();
+      console.log("Audio desligado")
+      SpeechRecognition.stopListening();
     }
   };
-
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Seu navegador não é compatível com SpeechRecognition.</span>;
-  }
 
   const contextValue = {
     transcript,

@@ -21,22 +21,19 @@ import ProposalDetails from "./pages/analista/proposal-details";
 import SubHeaderOpenedDemand from "./Components/Sub-header-opened-demand";
 import DemandType from "./Components/DemandsPage/DemandType-ENUM";
 import DemandsPage from "./Components/DemandsPage";
-import VoiceSpeech from "./Components/VoiceSpeech";
-
-//context
-import { SpeechRecognitionProvider } from "./service/Voice-speech-Service/SpeechRecognitionContext.jsx";
 
 // Utils
 import UserUtils from "./utils/User-Utils";
+import { SpeechRecognitionProvider } from "./service/Voice-speech-Service/SpeechRecognitionContext.jsx";
 
 // import DemandsPage from "./Components/DemandsPage";
 
 function App() {
-
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   return (
     <>
+      <SpeechRecognitionProvider>
       <BrowserRouter>
         <Routes>
           <Route path="" element={<Navigate to={"/login"} />} />
@@ -49,21 +46,11 @@ function App() {
             element={user ? <Layout /> : <Navigate to={"/login"} />}
           >
             <Route
-            
               path="demandas"
               element={
                 <DemandsPage key="demandas" DemandType={DemandType.DEMAND} />
               }
             />
-            <Route
-              path="voicetext"
-              element={
-              <SpeechRecognitionProvider>
-                <VoiceSpeech />
-              </SpeechRecognitionProvider>
-              }
-            />
-
             <Route
               path="gerenciar-demandas"
               element={
@@ -107,8 +94,10 @@ function App() {
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>
       </BrowserRouter>
+      </SpeechRecognitionProvider>
     </>
   );
 }
 
 export default App;
+

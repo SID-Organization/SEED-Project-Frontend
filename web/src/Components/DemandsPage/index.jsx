@@ -25,6 +25,8 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
 
+import { SpeechRecognitionProvider } from "../../service/Voice-speech-Service/SpeechRecognitionContext.jsx";
+
 // Tools
 import Draggable from "react-draggable";
 
