@@ -4,6 +4,13 @@ import "../../../styles/index.css";
 import DemandsPage from "../../../Components/DemandsPage";
 import DemandType from "../../../Components/DemandsPage/DemandType-ENUM";
 
+import SubHeader from "../../../Components/Sub-header";
+import NoDemands from "../../../Components/No-demands";
+import DemandCard from "../../../Components/Demand-card";
+import DemandsList from "../../../Components/Demand-card-list";
+import DemandService from "../../../service/Demand-Service";
+import DemandLogService from "../../../service/DemandLog-Service";
+
 import { over } from "stompjs";
 import SockJs from "sockjs-client/dist/sockjs";
 
@@ -41,9 +48,9 @@ export default function homeDemands() {
   const onConnected = () => {
     setUserData((prevState) => ({ ...prevState, connected: true }));
     stompClient.subscribe(
-      userData.cargoUsuario === "SOLICITANTE"
+      (userData.cargoUsuario === "SOLICITANTE"
         ? "/notificacao-usuario-status/" + userData.numeroCadastroUsuario
-        : null,
+        : null),  
       (message) => {
         console.log("Mensagem recebida: ", message);
         const notification = JSON.parse(message.body);

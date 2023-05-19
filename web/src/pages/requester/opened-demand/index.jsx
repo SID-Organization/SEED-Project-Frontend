@@ -26,7 +26,6 @@ import ChatService from "../../../service/Chat-Service";
 
 // Utils
 import UserUtils from "../../../utils/User-Utils";
-import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 const style = {
   position: "absolute",
@@ -41,8 +40,7 @@ const style = {
   p: 4,
 };
 
-const htmlDivStyle =
-  "border-1 h-auto w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50";
+const htmlDivStyle = "border-1 h-auto w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50"
 
 export default function openedDemand() {
   const params = useParams();
@@ -58,39 +56,30 @@ export default function openedDemand() {
 
   const [open, setOpen] = useState(false);
   const [isEditEnabled, setIsEditEnabled] = useState(true);
-
+  
   const [qualitativeBenefit, setQualitativeBenefit] = useState();
-
-  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
-
-  useEffect(() => {
-    setFonts(FontSizeUtils.getFontSizes());
-  }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
     if (params.id) {
       DemandService.getDemandById(params.id).then((demand) => {
         setDemand(demand);
         console.log("DEMAND", demand);
-        DemandPDFService.getPdfDemandByDemandId(params.id).then(
-          (pdfResponse) => {
-            setDemandHTML(pdfResponse);
-            console.log("HTML da demanda: ", pdfResponse);
-          }
-        );
+        DemandPDFService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
+          setDemandHTML(pdfResponse);
+          console.log("HTML da demanda: ", pdfResponse);
+        });
       });
       DemandLogService.getDemandLogs(params.id).then((res) => {
-        if (res.status != 200)
-          return console.log("Error getting demand logs\n", res);
+        if (res.status != 200) return console.log("Error getting demand logs\n", res);
         setDemandLogs(res.data);
       });
     }
   }, []);
 
   function getBenefits(benefitType) {
-    return demand?.beneficiosDemanda.filter(
-      (benefit) => benefit.tipoBeneficio == benefitType
-    );
+      return demand?.beneficiosDemanda.filter(
+        (benefit) => benefit.tipoBeneficio == benefitType
+      );
   }
 
   const handleOpen = () => setOpen(true);
@@ -100,7 +89,8 @@ export default function openedDemand() {
 
   const handleOpenDocument = () => {
     DemandService.openDemandPDF(params.id);
-  };
+  }
+
 
   // Seta os arquivos da demanda no estado
   useEffect(() => {
@@ -138,7 +128,6 @@ export default function openedDemand() {
         <div className="mt-5 flex items-center justify-around">
           <Tooltip title="Abrir workflow">
             <Button
-              style={{ fontSize: fonts.sm }}
               onClick={handleOpen}
               variant="contained"
               sx={{
@@ -147,6 +136,7 @@ export default function openedDemand() {
                 fontWeight: "bold",
                 width: 100,
                 height: 35,
+                fontSize: 13,
                 color: "#343434",
                 "&:hover": {
                   backgroundColor: "#D7D7D7",
@@ -176,51 +166,23 @@ export default function openedDemand() {
               <div>
                 <div className="flex items-center justify-between text-lg">
                   <div className="mt-[-5rem] flex">
-                    <h1
-                      style={{ fontSize: fonts.lg }}
-                      className="mr-2 font-bold"
-                    >
-                      Número de demanda:
-                    </h1>
-                    <span
-                      style={{ fontSize: fonts.lg }}
-                      className="font-normal"
-                    >
-                      {params.id}
-                    </span>
+                    <h1 className="mr-2 font-bold">Número de demanda:</h1>
+                    <span className="font-normal">{params.id}</span>
                   </div>
                   <div className="grid items-center justify-center">
                     <div className="flex">
-                      <h1
-                        style={{ fontSize: fonts.lg }}
-                        className="mr-2 font-bold"
-                      >
-                        Iniciada em:
-                      </h1>
-                      <span
-                        style={{ fontSize: fonts.lg }}
-                        className="font-normal"
-                      >
+                      <h1 className="mr-2 font-bold">Iniciada em:</h1>
+                      <span className="font-normal">
                         {demandLogs
                           ? new Date(
-                              demandLogs[0].recebimentoHistorico
-                            ).toLocaleDateString()
+                            demandLogs[0].recebimentoHistorico
+                          ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>
                     <div className="flex">
-                      <h1
-                        style={{ fontSize: fonts.lg }}
-                        className="mr-2 font-bold"
-                      >
-                        Concluída em:
-                      </h1>
-                      <span
-                        style={{ fontSize: fonts.lg }}
-                        className="font-normal"
-                      >
-                        Indefinido
-                      </span>
+                      <h1 className="mr-2 font-bold">Concluída em:</h1>
+                      <span className="font-normal">Indefinido</span>
                     </div>
                   </div>
                 </div>
@@ -228,56 +190,30 @@ export default function openedDemand() {
               <div className="mt-4">
                 <div className="flex items-center justify-start gap-[7rem]">
                   <div className="grid items-center justify-center">
-                    <h1
-                      style={{ fontSize: fonts.base }}
-                      className="font-roboto font-bold"
-                    >
-                      Solicitante
-                    </h1>
-                    <h1
-                      style={{ fontSize: fonts.base }}
-                      className="font-roboto font-medium"
-                    >
+                    <h1 className="font-roboto font-bold">Solicitante</h1>
+                    <h1 className="font-roboto font-medium">
                       {user?.nomeUsuario}
                     </h1>
-                    <h1
-                      style={{ fontSize: fonts.sm }}
-                      className="text-sm text-[#5B5B5B]"
-                    >
+                    <h1 className="text-sm text-[#5B5B5B]">
                       {user?.departamentoUsuario}
                     </h1>
                   </div>
                   <div className="grid items-center justify-center">
-                    <h1
-                      style={{ fontSize: fonts.base }}
-                      className="font-roboto font-bold"
-                    >
+                    <h1 className="font-roboto font-bold">
                       Analista responsável
                     </h1>
-                    <h1
-                      style={{ fontSize: fonts.base }}
-                      className="font-roboto font-medium"
-                    >
+                    <h1 className="font-roboto font-medium">
                       {demand?.analistaResponsavelDemanda.nomeUsuario}
                     </h1>
-                    <h1
-                      style={{ fontSize: fonts.sm }}
-                      className="text-sm text-[#5B5B5B]"
-                    >
-                      {
-                        demand?.analistaResponsavelDemanda.departamentoUsuario
-                          .nomeBusinessUnity
-                      }
+                    <h1 className="text-sm text-[#5B5B5B]">
+                      {demand?.analistaResponsavelDemanda.departamentoUsuario.nomeBusinessUnity}
                     </h1>
                   </div>
                 </div>
               </div>
               <div className="grid items-center">
                 <div className="flex items-center justify-start">
-                  <h1
-                    style={{ fontSize: fonts.lg }}
-                    className="mt-5 font-roboto text-lg font-bold"
-                  >
+                  <h1 className="mt-5 font-roboto text-lg font-bold">
                     Histórico
                   </h1>
                 </div>
@@ -288,10 +224,7 @@ export default function openedDemand() {
           <div className="grid items-center justify-center">
             <div className="flex items-center justify-center">
               <div>
-                <h1
-                  style={{ fontSize: fonts.xl }}
-                  className="font-roboto font-bold text-light-blue-weg"
-                >
+                <h1 className="font-roboto text-xl font-bold text-light-blue-weg">
                   {demand?.tituloDemanda}
                 </h1>
               </div>
@@ -311,10 +244,7 @@ export default function openedDemand() {
               )}
             </div>
             <div className="flex items-center justify-center">
-              <h1
-                style={{ fontSize: fonts.base }}
-                className="font-roboto font-semibold text-dark-blue-weg"
-              >
+              <h1 className="font-roboto font-semibold text-dark-blue-weg">
                 Score: {demand?.scoreDemanda}
               </h1>
             </div>
@@ -336,56 +266,35 @@ export default function openedDemand() {
         </div>
         <div className="mt-3 flex items-center justify-around">
           <div className="grid items-center justify-center">
-            <h1
-              style={{ fontSize: fonts.base }}
-              className="font-roboto font-bold text-dark-blue-weg"
-            >
+            <h1 className="font-roboto text-base font-bold text-dark-blue-weg">
               Solicitante
             </h1>
-            <h1
-              style={{ fontSize: fonts.sm }}
-              className="font-roboto font-semibold"
-            >
+            <h1 className="font-roboto text-sm font-semibold">
               {user?.nomeUsuario.toUpperCase()}
             </h1>
-            <h1 style={{ fontSize: fonts.xs }} className="font-roboto">
+            <h1 className="font-roboto text-xs">
               {user?.departamentoUsuario.toUpperCase()}
             </h1>
           </div>
-          <div
-            style={{ fontSize: fonts.sm }}
-            className="flex items-center justify-center gap-5"
-          >
+          <div className="flex items-center justify-center gap-5 text-sm">
             <h1 className="font-roboto font-bold">
               De: <span className="text-dark-blue-weg">10/05/2022</span>
             </h1>
-            <h1
-              style={{ fontSize: fonts.sm }}
-              className="font-roboto font-bold"
-            >
-              Até:{" "}
-              <span
-                style={{ fontSize: fonts.sm }}
-                className="text-dark-blue-weg"
-              >
-                20/06/2022
-              </span>
+            <h1 className="font-roboto font-bold">
+              Até: <span className="text-dark-blue-weg">20/06/2022</span>
             </h1>
           </div>
           <div className="grid items-center justify-center">
-            <h1
-              style={{ fontSize: fonts.base }}
-              className="font-roboto font-bold text-dark-blue-weg"
-            >
+            <h1 className="font-roboto text-base font-bold text-dark-blue-weg">
               Centro de custo
             </h1>
-            <h1 style={{ fontSize: fonts.sm }} className="font-roboto">
+            <h1 className="font-roboto text-sm">
               {demand?.centroCustoDemanda[0]
                 ? (
-                    demand.centroCustoDemanda[0].numeroCentroCusto +
-                    " - " +
-                    demand.centroCustoDemanda[0].nomeCentroCusto
-                  ).slice(0, 40)
+                  demand.centroCustoDemanda[0].numeroCentroCusto +
+                  " - " +
+                  demand.centroCustoDemanda[0].nomeCentroCusto
+                ).slice(0, 40)
                 : "Não indicado"}
             </h1>
           </div>
@@ -393,56 +302,41 @@ export default function openedDemand() {
         <div className="mt-10 flex flex-wrap items-center justify-center">
           <div className="grid items-center justify-around gap-5">
             <div className="grid items-center justify-center">
-              <h1
-                style={{ fontSize: fonts.lg }}
-                className="font-roboto font-bold text-dark-blue-weg"
-              >
+              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Objetivo:
               </h1>
               <div
                 contentEditable={false}
                 className={htmlDivStyle}
-                dangerouslySetInnerHTML={{
-                  __html: demandHTML?.propostaMelhoriaDemandaHTML,
-                }}
-              ></div>
+                dangerouslySetInnerHTML={{ __html: demandHTML?.propostaMelhoriaDemandaHTML }}
+              >
+              </div>
             </div>
             <div className="grid items-center justify-center">
-              <h1
-                style={{ fontSize: fonts.lg }}
-                className="font-roboto font-bold text-dark-blue-weg"
-              >
+              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Situação atual:
               </h1>
               <div
                 contentEditable={false}
                 className={htmlDivStyle}
-                dangerouslySetInnerHTML={{
-                  __html: demandHTML?.situacaoAtualDemandaHTML,
-                }}
-              ></div>
+                dangerouslySetInnerHTML={{ __html: demandHTML?.situacaoAtualDemandaHTML }}
+              >
+              </div>
             </div>
 
             <div className="grid items-center justify-center">
-              <h1
-                style={{ fontSize: fonts.lg }}
-                className="font-roboto font-bold text-dark-blue-weg"
-              >
+              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Frequência de uso:
               </h1>
               <div
                 contentEditable={false}
                 className={htmlDivStyle}
-                dangerouslySetInnerHTML={{
-                  __html: demandHTML?.frequenciaUsoDemandaHTML,
-                }}
-              ></div>
+                dangerouslySetInnerHTML={{ __html: demandHTML?.frequenciaUsoDemandaHTML }}
+              >
+              </div>
             </div>
             <div className="grid items-center justify-center">
-              <h1
-                style={{ fontSize: fonts.lg }}
-                className="font-roboto font-bold text-dark-blue-weg"
-              >
+              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
                 Benefício qualitativo:
               </h1>
               <textarea
@@ -469,14 +363,13 @@ export default function openedDemand() {
         <FilesTable files={fileRows} />
         <div className="mt-10 flex items-center justify-center">
           <Button
-            style={{ fontSize: fonts.lg }}
             variant="contained"
             sx={{
               width: "5rem",
               height: "2.5rem",
               marginBottom: "2rem",
             }}
-            className="font-roboto font-bold text-white"
+            className="font-roboto text-lg font-bold text-white"
           >
             Ok
           </Button>

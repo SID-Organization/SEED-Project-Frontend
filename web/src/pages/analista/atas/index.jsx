@@ -11,7 +11,6 @@ import AtaService from "../../../service/Ata-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
-import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 const months = {
   "01": "Janeiro",
@@ -33,12 +32,6 @@ export default function Atas() {
   const [atasMonths, setAtasMonths] = useState([]);
   const [atasYears, setAtasYears] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
-
-  useEffect(() => {
-    setFonts(FontSizeUtils.getFontSizes());
-  }, [FontSizeUtils.getFontControl()]);
 
   const getAtasInMonth = (month, year) => {
     return atas.filter(
@@ -95,9 +88,7 @@ export default function Atas() {
           </div>
         ) : atasYears.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
-            <NoContent isAta={true}>
-              <span style={{ fontSize: fonts.xl }}>Sem atas!</span>
-            </NoContent>
+            <NoContent isAta={true}>Sem atas!</NoContent>
           </div>
         ) : (
           atasYears.map((year, iY) => (
@@ -106,10 +97,7 @@ export default function Atas() {
                 <Fragment key={month}>
                   {getAtasInMonth(month, year).length > 0 && (
                     <div key={iM}>
-                      <h1
-                        style={{ fontSize: fonts.xl }}
-                        className=" font-bold text-dark-blue-weg"
-                      >
+                      <h1 className="text-xl font-bold text-dark-blue-weg">
                         {months[month] + " - " + year}
                       </h1>
                       {getAtasInMonth(month, year).map((ata, i) => (

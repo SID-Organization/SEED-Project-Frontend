@@ -1,36 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React from 'react'
 
 import {
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TableCell,
-  Tooltip,
-  Button,
-} from "@mui/material";
-import {
-  Description,
-  Delete,
-  InsertDriveFileOutlined,
-} from "@mui/icons-material";
-import { tableCellClasses } from "@mui/material/TableCell";
-import { styled } from "@mui/material/styles";
-
-//Utils
-import FontSizeUtils from "../../utils/FontSize-Utils";
+    Table,
+    TableBody,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    TableCell,
+    Tooltip,
+    Button
+} from '@mui/material'
+import {Description, Delete, InsertDriveFileOutlined} from '@mui/icons-material'
+import { tableCellClasses } from '@mui/material/TableCell'
+import { styled } from '@mui/material/styles'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    textAlign: "left",
-  },
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+      textAlign: "left",
+    },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -43,110 +36,105 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function FilesTable({ files }) {
-  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
-
-  useEffect(() => {
-    setFonts(FontSizeUtils.getFontSizes());
-  }, [FontSizeUtils.getFontControl()]);
-
   return (
-    <div className="mt-16 grid items-center justify-center">
-      <div className="flex items-center justify-center">
-        <h1
-          style={{ fontSize: fonts.xl }}
-          className="mb-5 font-roboto font-bold text-dark-blue-weg"
-        >
-          Arquivos anexados
-        </h1>
-      </div>
-      <div>
-        <TableContainer
-          component={Paper}
-          sx={{
-            "&:first-child": {
-              backgroundColor: "#e5e5e5",
-            },
-          }}
-        >
-          <Table sx={{ minWidth: 500 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell
-                  style={{ fontSize: fonts.xl }}
-                  align="center"
-                  sx={{
-                    "&:first-child": {
-                      backgroundColor: "#e5e5e5",
-                      color: "black",
-                      fontWeight: "bold",
-                      border: "#d4d4d4 solid 2px",
-                    },
-                  }}
-                >
-                  Arquivo
-                </StyledTableCell>
-                <StyledTableCell
-                  style={{ fontSize: fonts.xl }}
-                  align="center"
-                  sx={{
-                    border: "#d4d4d4 solid 2px",
-                    "&:last-child": {
-                      backgroundColor: "#e5e5e5",
-                      color: "black",
-                      fontWeight: "bold",
-                    },
-                  }}
-                >
-                  Anexado em
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {files &&
-                files?.map((fileRow, i) => (
-                  <StyledTableRow key={i}>
-                    <StyledTableCell component="th" scope="row" align="center">
-                      <a
-                        href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`}
-                        download={fileRow.nomeArquivo.split(".")[0]}
-                      >
-                        <Tooltip title="Baixar arquivo">
-                          <Description className="mr-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
-                        </Tooltip>
-                      </a>
-                      {fileRow.nomeArquivo}
-                    </StyledTableCell>
-                    <div className="flex items-center justify-center">
-                      <StyledTableCell align="center">
-                        {new Date(
-                          fileRow.dataRegistroArquivo
-                        ).toLocaleDateString()}
-                      </StyledTableCell>
-                      <Tooltip title="Deletar arquivo">
-                        <Delete className="ml-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
-                      </Tooltip>
-                    </div>
-                  </StyledTableRow>
-                ))}
-            </TableBody>
-          </Table>
-          <div className="mb-5 mt-5 flex items-center justify-center">
-            <Tooltip title="Adicionar arquivo">
-              <Button
-                variant="contained"
-                component="label"
-                sx={{
-                  backgroundColor: "#0075B1",
-                }}
-              >
-                <InsertDriveFileOutlined className="mr-5 flex cursor-pointer items-center justify-center text-white" />
-                <span style={{ fontSize: fonts.sm }}>Anexar arquivo</span>
-                <input hidden accept="file/*" multiple type="file" />
-              </Button>
-            </Tooltip>
+    <div className="grid justify-center items-center mt-16">
+          <div className="flex justify-center items-center">
+            <h1 className="mb-5 font-roboto text-2xl font-bold text-dark-blue-weg">
+              Arquivos anexados
+            </h1>
           </div>
-        </TableContainer>
-      </div>
-    </div>
-  );
+          <div>
+            <TableContainer
+              component={Paper}
+              sx={{
+                "&:first-child": {
+                  backgroundColor: "#e5e5e5",
+                },
+              }}
+            >
+              <Table sx={{ minWidth: 500 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        "&:first-child": {
+                          backgroundColor: "#e5e5e5",
+                          color: "black",
+                          fontWeight: "bold",
+                          fontSize: "1.2rem",
+                          border: "#d4d4d4 solid 2px",
+                        },
+                      }}
+                    >
+                      Arquivo
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      sx={{
+                        fontSize: "1.2rem",
+                        border: "#d4d4d4 solid 2px",
+                        "&:last-child": {
+                          backgroundColor: "#e5e5e5",
+                          color: "black",
+                          fontWeight: "bold",
+                        },
+                      }}
+                    >
+                      Anexado em
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {files &&
+                    files?.map((fileRow, i) => (
+                      <StyledTableRow key={i}>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          <a
+                            href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`}
+                            download={fileRow.nomeArquivo.split(".")[0]}
+                          >
+                            <Tooltip title="Baixar arquivo">
+                              <Description className="text-light-blue-weg cursor-pointer flex justify-center items-center mr-5" />
+                            </Tooltip>
+                          </a>
+                          {fileRow.nomeArquivo}
+                        </StyledTableCell>
+                        <div className="flex justify-center items-center">
+                          <StyledTableCell align="center">
+                            {new Date(
+                              fileRow.dataRegistroArquivo
+                            ).toLocaleDateString()}
+                          </StyledTableCell>
+                          <Tooltip title="Deletar arquivo">
+                            <Delete className="text-light-blue-weg cursor-pointer flex justify-center items-center ml-5" />
+                          </Tooltip>
+                        </div>
+                      </StyledTableRow>
+                    ))}
+                </TableBody>
+              </Table>
+              <div className="flex justify-center items-center mt-5 mb-5">
+                <Tooltip title="Adicionar arquivo">
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{
+                      backgroundColor: "#0075B1",
+                    }}
+                  >
+                    <InsertDriveFileOutlined className="text-white cursor-pointer flex justify-center items-center mr-5" />
+                    Anexar arquivo
+                    <input hidden accept="file/*" multiple type="file" />
+                  </Button>
+                </Tooltip>
+              </div>
+            </TableContainer>
+          </div>
+        </div>
+  )
 }

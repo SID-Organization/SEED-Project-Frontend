@@ -23,7 +23,6 @@ import PautaService from "../../service/Pauta-Service";
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
-import FontSizeUtils from "../../utils/FontSize-Utils";
 
 const TextField = styled(MuiTextField)({
   width: "14rem",
@@ -87,12 +86,6 @@ export default function CreateNewPauta(props) {
   const [meetingDate, setMeetingDate] = useState("");
   const [meetingStartTime, setMeetingStartTime] = useState("");
   const [meetingEndTime, setMeetingEndTime] = useState("");
-
-  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
-
-  useEffect(() => {
-    setFonts(FontSizeUtils.getFontSizes());
-  }, [FontSizeUtils.getFontControl()]);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -166,7 +159,6 @@ export default function CreateNewPauta(props) {
     <div>
       {props.isPauta ? (
         <ButtonIsPauta
-          style={{ fontSize: fonts.sm }}
           variant="outlined"
           startIcon={<AddBoxIcon />}
           onClick={handleOpenModal}
@@ -174,11 +166,7 @@ export default function CreateNewPauta(props) {
           Crie uma pauta
         </ButtonIsPauta>
       ) : (
-        <Button
-          style={{ fontSize: fonts.sm }}
-          variant="contained"
-          onClick={handleOpenModal}
-        >
+        <Button variant="contained" onClick={handleOpenModal}>
           <AddRoundedIcon />
           Criar nova pauta
         </Button>
@@ -193,16 +181,13 @@ export default function CreateNewPauta(props) {
           <div className="grid w-full gap-10 font-roboto">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-5">
-                <h1 style={{ fontSize: fonts.base }} className="font-bold">
-                  Data da reunião:{" "}
-                </h1>
+                <h1 className="font-bold">Data da reunião: </h1>
                 <DatePicker
                   searchValue={meetingDate}
                   setSearchValue={setMeetingDate}
                 />
               </div>
               <Button
-                style={{ fontSize: fonts.sm }}
                 disabled={false}
                 variant="contained"
                 endIcon={<CheckRoundedIcon />}
@@ -214,9 +199,7 @@ export default function CreateNewPauta(props) {
             <div className="flex items-center justify-between gap-12">
               <div className="flex items-center gap-20">
                 <div className="flex items-center gap-5">
-                  <h1 style={{ fontSize: fonts.base }} className="font-bold">
-                    Horário:
-                  </h1>
+                  <h1 className="font-bold">Horário:</h1>
                   <TextField
                     id="outlined-basic"
                     label="Início"
@@ -272,7 +255,7 @@ export default function CreateNewPauta(props) {
               <div className="flex items-center justify-center gap-5">
                 <div className="flex items-center justify-center gap-5">
                   <div className="h-[1.5px] w-10 rounded-full bg-light-blue-weg" />
-                  <h1 style={{ fontSize: fonts.xl }}>Selecione as propostas</h1>
+                  <h1 className="text-xl">Selecione as propostas</h1>
                   <div className="h-[1.5px] w-10 rounded-full bg-light-blue-weg" />
                 </div>
               </div>
