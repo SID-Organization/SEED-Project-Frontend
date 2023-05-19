@@ -32,8 +32,6 @@ import UserUtils from "./utils/User-Utils";
 // import DemandsPage from "./Components/DemandsPage";
 
 function App() {
-  const [user, setUser] = useState(UserUtils.getLoggedUser());
-
   return (
     <>
       <BrowserRouter>
@@ -48,6 +46,7 @@ function App() {
             element={user ? <Layout /> : <Navigate to={"/login"} />}
           >
             <Route
+            
               path="demandas"
               element={
                 <DemandsPage key="demandas" DemandType={DemandType.DEMAND} />
@@ -110,4 +109,3 @@ function App() {
 }
 
 export default App;
-
