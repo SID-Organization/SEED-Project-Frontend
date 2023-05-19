@@ -157,7 +157,7 @@ export default function CreateNewPauta(props) {
 
   return (
     <div>
-      {props.isPauta == true ? (
+      {props.isPauta ? (
         <ButtonIsPauta
           variant="outlined"
           startIcon={<AddBoxIcon />}
@@ -171,7 +171,6 @@ export default function CreateNewPauta(props) {
           Criar nova pauta
         </Button>
       )}
-
       <Modal
         open={isModalOpen}
         onClose={handleCloseModal}
