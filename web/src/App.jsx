@@ -21,9 +21,14 @@ import ProposalDetails from "./pages/analista/proposal-details";
 import SubHeaderOpenedDemand from "./Components/Sub-header-opened-demand";
 import DemandType from "./Components/DemandsPage/DemandType-ENUM";
 import DemandsPage from "./Components/DemandsPage";
+import VoiceSpeech from "./Components/VoiceSpeech";
+
+//context
+import { SpeechRecognitionProvider } from "./service/Voice-speech-Service/SpeechRecognitionContext.jsx";
 
 // Utils
 import UserUtils from "./utils/User-Utils";
+
 // import DemandsPage from "./Components/DemandsPage";
 
 function App() {
@@ -46,6 +51,14 @@ function App() {
               path="demandas"
               element={
                 <DemandsPage key="demandas" DemandType={DemandType.DEMAND} />
+              }
+            />
+            <Route
+              path="voicetext"
+              element={
+              <SpeechRecognitionProvider>
+                <VoiceSpeech />
+              </SpeechRecognitionProvider>
               }
             />
 
@@ -80,7 +93,7 @@ function App() {
             <Route path="atas" element={<Atas />} />
             <Route path="atas-dg" element={<Atas />} />
             <Route path="atas/gerar-ata-dg/:id" element={<GenerateAta isAtaForDG={true} />} />
-            
+
             <Route path="propostas" element={<Proposals />} />
             <Route
               path="propostas/:idProposta/:idDemanda"
