@@ -7,29 +7,34 @@ import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 
+//Utils
+import FontSizeUtils from "../../utils/FontSize-Utils";
+
 export default function ProfileRow(props) {
   const [phoneNumber, setPhoneNumber] = useState("+55 (47) 99123-2134");
   const [isEditOn, setIsEditOn] = useState(false);
-
-  const [inputValue, setInputValue] = useState(18);
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSize());
+  const [fontControl, setFontControl] = useState(0);
 
   const increaseValue = () => {
-    if (inputValue < 20) {
-      setInputValue(inputValue + 2);
+    if (fontControl < 3) {
+      FontSizeUtils.incFontSize();
+      setFontControl(fontControl + 1);
     }
   };
 
   const decreaseValue = () => {
-    if (inputValue > 12) {
-      setInputValue(inputValue - 2);
-    } else {
-      setInputValue(inputValue);
+    if (fontControl > -3) {
+      FontSizeUtils.decFontSize();
+      setFontControl(fontControl - 1);
     }
   };
 
   useEffect(() => {
-    console.log("Tamanho fonte: ", inputValue);
-  }, [inputValue]);
+    setFonts(FontSizeUtils.getFontSize());
+  }, [fontControl]);
+
+  const fontSizeClass = `text-[${fonts.xl}px]`;
 
   return (
     <div>
@@ -119,6 +124,9 @@ export default function ProfileRow(props) {
             </div>
           )}
         </div>
+        <h1 className={fontSizeClass}>
+          UASHDUASHDUASHDUASHDUASHDUASHDUASHDUASUAdh
+        </h1>
       </div>
     </div>
   );
