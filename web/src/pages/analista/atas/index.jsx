@@ -11,6 +11,7 @@ import AtaService from "../../../service/Ata-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
+import AtaDGService from "../../../service/AtaDG-Service";
 
 const months = {
   "01": "Janeiro",
@@ -27,7 +28,7 @@ const months = {
   12: "Dezembro",
 };
 
-export default function Atas() {
+export default function Atas(props) {
   const [atas, setAtas] = useState([]);
   const [atasMonths, setAtasMonths] = useState([]);
   const [atasYears, setAtasYears] = useState([]);
@@ -43,22 +44,34 @@ export default function Atas() {
 
   useEffect(() => {
     setIsLoading(true);
-    AtaService.getAtas()
-      .then((res) => {
-        if (!res.error) {
+    if (!props.isAtaForDG) {
+      AtaService.getAtas()
+        .then((res) => {
+          if (!res.error) {
+            const dbAtas = res.data.map((ata) => {
+              ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
+              return ata;
+            });
+            setAtas(dbAtas);
+          } else {
+            alert("Erro ao buscar atas");
+            console.log("Request", res);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      AtaDGService.getAtasDG()
+        .then((res) => {
+          
           const dbAtas = res.data.map((ata) => {
             ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
             return ata;
           });
           setAtas(dbAtas);
-        } else {
-          alert("Erro ao buscar atas");
-          console.log("Request", res);
         }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    }
   }, []);
 
   useEffect(() => {

@@ -18,9 +18,11 @@ import ProposalService from "../../../service/Proposal-Service";
 import AtaUtils from "../../../utils/Ata-Utils";
 import DemandService from "../../../service/Demand-Service";
 import ProposalUtils from "../../../utils/Proposal-Utils";
+import AtaDGService from "../../../service/AtaDG-Service";
 
 export default function GenerateAta(props) {
-  // ID da pauta
+  // ID da pauta para Generate ATA
+  // ID da ata para Generate ATA DG
   const params = useParams("id");
   const navigate = useNavigate();
 
@@ -48,6 +50,16 @@ export default function GenerateAta(props) {
     setFinalDecisions(decisions);
   }
 
+  // Formata a decisão final para o formato de Ata DG
+  function formatFinalDecisionToAtaDG(finalDecision) {
+    const newFinalDecision = {
+      idAta: params.id,
+      parecerDGPropostaLog: finalDecision.parecerComissaoPropostaLog,
+      consideracoesParecerDGPropostaLog: finalDecision.consideracoesPropostaLog,
+    }
+    return newFinalDecision;
+  }
+
   // Faz a verificação dos campos obrigatórios
   function verificarAta() {
     if (numDgAta == 0) {
@@ -56,7 +68,7 @@ export default function GenerateAta(props) {
     }
 
     for (let fd of finalDecisions) {
-      if (AtaUtils.isFinalDecisionValid(fd) == false) {
+      if (!AtaUtils.isFinalDecisionValid(fd)) {
         alert("Parecer Comissão, Considerações e Tipo Ata são obrigatórios");
         return false;
       }
@@ -71,7 +83,8 @@ export default function GenerateAta(props) {
 
   // Salva a ata no banco de dados
   function saveAta() {
-    if (!verificarAta()) return;
+
+    if (!props.isAtaForDG && !verificarAta()) return;
 
     const ata = {
       numeroDgAta: numDgAta,
@@ -81,21 +94,44 @@ export default function GenerateAta(props) {
       propostasLog: finalDecisions,
     };
 
+    const ataDG = {
+      ataAtaDg: { idAta: params.id }
+    }
+
     const form = new FormData();
+
+    console.log("ATA", ata);
 
     form.append("ata", JSON.stringify(ata));
     form.append("documentoAprovacao", finalDecisionFile);
 
-    AtaService.createAta(form).then((response) => {
-      if (response.status == 201) {
-        updateEachDemand()
-        PautaService.deletePautaById(params.id).then(res => {
-          console.log("Pauta delete", res);
-        });
-        alert("Ata gerada com sucesso")
-        navigate("/atas")
-      };
-    });
+    if (!props.isAtaForDG) {
+      AtaService.createAta(form).then((response) => {
+        if (response.status == 201) {
+          updateEachDemand()
+          PautaService.deletePautaById(params.id).then(res => {
+            console.log("Pauta delete", res);
+          });
+          alert("Ata gerada com sucesso")
+          navigate("/atas")
+        };
+      });
+    } else {
+      console.log("FINAL DECISIONS DG", finalDecisions)
+      finalDecisions.forEach(fd => {
+        const finalDecision = formatFinalDecisionToAtaDG(fd)
+        AtaService.updateProposalLog(fd.propostaPropostaLog.idProposta, finalDecision)
+      })
+      setTimeout(() => {
+        AtaDGService.createAtaDG(ataDG)
+        .then((ata) => {
+          console.log("ATA GERADA", ata)
+          AtaDGService.generatePDFAtaDG(ata.idAtaDG);
+        })
+      }, 1000)
+    }
+
+
   }
 
   const formatStatusToDemand = (status) => {
@@ -111,6 +147,10 @@ export default function GenerateAta(props) {
     }
   }
 
+  const getCorrectId = (proposal) => {
+    return props.isAtaForDG ? proposal.idPropostaLog : proposal.idProposta
+  }
+
   const updateEachDemand = () => {
     finalDecisions.forEach(async (fd) => {
       const proposal = await ProposalService.getProposalById(fd.propostaPropostaLog.idProposta);
@@ -123,7 +163,7 @@ export default function GenerateAta(props) {
         idResponsavel: { numeroCadastroUsuario: 72131 },
       };
       DemandLogService.createDemandLog(newDemandLog).then(res => {
-        if(res.status == 201 || res.status == 200) {
+        if (res.status == 201 || res.status == 200) {
           DemandService.updateDemandStatus(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog));
         }
       })
@@ -131,13 +171,15 @@ export default function GenerateAta(props) {
   }
 
   useEffect(() => {
-    if(!props.isAtaForDG) {
+    if (!props.isAtaForDG) {
+      // Proposal ID
       PautaService.getPautaProposalsById(params.id).then((proposals) => {
         setProposals(proposals);
       });
     } else {
+      // Ata ID
       AtaService.getAtaById(params.id).then(ata => {
-        console.log("Propostas", ata);
+        console.log("ATA", ata)
         setProposals(ProposalUtils.formatLogProposalsToProposals(ata.propostasLog));
         setNumDgAta(ata.numeroDgAta);
       })
@@ -148,10 +190,13 @@ export default function GenerateAta(props) {
   useEffect(() => {
     if (proposals.length > 0) {
       const finalDecisions = proposals.map((proposal) => {
-        return {
+        console.log("PROPOSAL", proposal);
+
+        const fd = {
           ...proposalFinalDecisionTemplate,
-          propostaPropostaLog: { idProposta: proposal.idProposta },
-        };
+          propostaPropostaLog: { idProposta: getCorrectId(proposal) },
+        }
+        return fd;
       });
       setFinalDecisions(finalDecisions);
     }
@@ -179,7 +224,7 @@ export default function GenerateAta(props) {
             placeholder="000"
             onChange={(e) => {
               const value = e.target.value;
-              
+
               if (isNaN(value) || value == "")
                 setNumDgAta("");
 
@@ -203,10 +248,10 @@ export default function GenerateAta(props) {
             proposalIndex={i}
             finalDecision={finalDecisions.find(
               (fd) =>
-                fd.propostaPropostaLog.idProposta == proposal.idProposta
+                fd.propostaPropostaLog.idProposta == getCorrectId(proposal)
             )}
             setFinalDecision={(newFinalDecision) =>
-              updateFinalDecision(proposal.idProposta, newFinalDecision)
+              updateFinalDecision(getCorrectId(proposal), newFinalDecision)
             }
           />
         ))}
