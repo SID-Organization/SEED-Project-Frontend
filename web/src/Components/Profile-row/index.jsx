@@ -6,6 +6,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
+import RestoreRoundedIcon from "@mui/icons-material/RestoreRounded";
 
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
@@ -32,6 +33,11 @@ export default function ProfileRow(props) {
     }
   };
 
+  const defaultFont = () => {
+    FontSizeUtils.defaultFontSize();
+    setFontControl(0);
+  };
+
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [fontControl]);
@@ -46,7 +52,9 @@ export default function ProfileRow(props) {
               : `flex items-center gap-10 border-b-[1px] border-t-[0px] border-[#808080]`
           }
         >
-          <h1 className="m-4 font-bold">{props.topic}</h1>
+          <h1 style={{ fontSize: fonts.base }} className="m-4 font-bold">
+            {props.topic}
+          </h1>
           {props.phone == true && (
             <>
               <input
@@ -54,6 +62,7 @@ export default function ProfileRow(props) {
                 value={phoneNumber}
                 disabled={!isEditOn}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                style={{ fontSize: fonts.base }}
                 className={
                   `font-normal text-[#6C6C6C]` +
                   (isEditOn
@@ -96,7 +105,12 @@ export default function ProfileRow(props) {
             </>
           )}
           {props.content && (
-            <span className="font-normal text-[#6C6C6C]">{props.content}</span>
+            <span
+              style={{ fontSize: fonts.base }}
+              className="font-normal text-[#6C6C6C]"
+            >
+              {props.content}
+            </span>
           )}
           {props.increaseFontSize == true && (
             <div className="flex items-center justify-center gap-4">
@@ -121,12 +135,20 @@ export default function ProfileRow(props) {
                   </IconButton>
                 </Tooltip>
               </>
+
+              <>
+                <Tooltip title="Fonte padrão">
+                  <IconButton onClick={defaultFont}>
+                    <RestoreRoundedIcon
+                      className="cursor-pointer"
+                      sx={{ color: "#000" }}
+                    />
+                  </IconButton>
+                </Tooltip>
+              </>
             </div>
           )}
         </div>
-        <h1 style={{ fontSize: fonts.xl }}>
-          UASHDUASHDUASHDUASHDUASHDUASHDUASHDUASUAdh
-        </h1>
       </div>
     </div>
   );

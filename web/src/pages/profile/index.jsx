@@ -1,5 +1,5 @@
 import ProfilePic from "../../assets/profile-pic.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //MUI
 import { Avatar } from "@mui/material";
@@ -8,6 +8,7 @@ import MuiButton from "@mui/material/Button";
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
+import FontSizeUtils from "../../utils/FontSize-Utils";
 
 //Components
 import ProfileRow from "../../Components/Profile-row";
@@ -20,7 +21,7 @@ const Button = styled(MuiButton)(() => ({
   borderRadius: "5px",
   color: "#0075B1",
   height: "2rem",
-  width: "9rem",
+  width: "11rem",
   fontSize: "0.8rem",
 
   "&:hover": {
@@ -31,6 +32,12 @@ const Button = styled(MuiButton)(() => ({
 
 export default function Perfil() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   // Seta o avatar do usuário
   const userAvatar = () => {
@@ -71,14 +78,20 @@ export default function Perfil() {
               {userAvatar().src}
             </Avatar>
           )}
-          <Button variant="outlined" component="label">
+          <Button
+            style={{ fontSize: fonts.xs }}
+            variant="outlined"
+            component="label"
+          >
             Enviar imagem
             <input hidden accept="image/*" multiple type="file" />
           </Button>
         </div>
         <div className="grid w-[50vw] gap-16">
           <div>
-            <h1 className="mb-2 font-semibold">Dados pessoais</h1>
+            <h1 style={{ fontSize: fonts.base }} className="mb-2 font-semibold">
+              Dados pessoais
+            </h1>
             <ProfileRow
               topLine={true}
               topic={"Nome"}
@@ -87,7 +100,12 @@ export default function Perfil() {
             <ProfileRow topLine={false} topic={"Telefone"} phone={true} />
           </div>
           <div>
-            <h1 className="mb-2 mt-5 font-semibold">Dados da empresa - WEG</h1>
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="mb-2 mt-5 font-semibold"
+            >
+              Dados da empresa - WEG
+            </h1>
             <ProfileRow
               topLine={true}
               topic={"Departamento"}
@@ -100,7 +118,12 @@ export default function Perfil() {
             />
           </div>
           <div>
-            <h1 className="mb-2 mt-5 font-semibold">Acessibilidade</h1>
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="mb-2 mt-5 font-semibold"
+            >
+              Acessibilidade
+            </h1>
             <ProfileRow
               topLine={true}
               topic={"Tamanho da fonte"}
