@@ -46,7 +46,7 @@ export default function CreateDemand() {
 
   const [realBenefits, setRealBenefits] = useState([
     {
-      coin: "",
+      coin: "R$",
       value: 0,
       descriptionHTML: "",
       idFront: 0,
@@ -55,7 +55,7 @@ export default function CreateDemand() {
 
   const [potentialBenefits, setPotentialBenefits] = useState([
     {
-      coin: "",
+      coin: "R$",
       value: 0,
       descriptionHTML: "",
       idFront: 0,
@@ -69,6 +69,16 @@ export default function CreateDemand() {
   const [demandUpdateId, setDemandUpdateId] = useState("");
 
   const [createDemandSucceed, setCreateDemandSucceed] = useState(true);
+
+  
+  // Usuário logado
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
+
+  // Navegador de página pela função
+  const navigate = useNavigate();
+
+  const [confirmDemand, setConfirmDemand] = useState(false);
+
 
   useEffect(() => {
     if (params.id) {
@@ -132,14 +142,6 @@ export default function CreateDemand() {
       );
     });
   }
-
-  // Usuário logado
-  const [user, setUser] = useState(UserUtils.getLoggedUser());
-
-  // Navegador de página pela função
-  const navigate = useNavigate();
-
-  const [confirmDemand, setConfirmDemand] = useState(false);
 
   const handleCloseConfirm = () => {
     setConfirmDemand(false);
@@ -313,7 +315,7 @@ export default function CreateDemand() {
     setRealBenefits([
       ...realBenefits,
       {
-        coin: "",
+        coin: "R$",
         value: 0,
         descriptionHTML: "",
         idFront: realBenefits.length,

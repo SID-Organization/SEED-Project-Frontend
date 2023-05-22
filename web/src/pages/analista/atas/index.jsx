@@ -42,9 +42,12 @@ export default function Atas(props) {
     );
   };
 
+
+
   useEffect(() => {
     setIsLoading(true);
-    // if (!props.isAtaForDG) {
+    if (!props.isAtaForDG) {
+      // Get Atas passadas pela comissão
       AtaService.getAtas()
         .then((res) => {
           if (!res.error) {
@@ -61,17 +64,15 @@ export default function Atas(props) {
         .finally(() => {
           setIsLoading(false);
         });
-    // } else {
-    //   AtaDGService.getAtasDG()
-    //     .then((data) => {
-    //       const dbAtas = data.map((ata) => {
-    //         ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
-    //         return ata;
-    //       });
-    //       setAtas(dbAtas);
-    //     });
-    // }
-  }, []);
+    } else {
+      // Busca as atas já passadas pela DG
+      AtaDGService.getAtasDG()
+        .then((data) => {
+          console.log("ATAS DG", data);
+          // setAtas(data);
+        });
+    }
+  }, [props.isAtaForDG]);
 
   useEffect(() => {
     if (atas.length === 0) return;
@@ -92,7 +93,7 @@ export default function Atas(props) {
 
   return (
     <div>
-      <SubHeaderAtas />
+      <SubHeaderAtas isAtaForDG={props.isAtaForDG} />
       <div className="mt-8 flex flex-col items-center justify-center gap-4">
         {isLoading ? (
           <div className="flex h-[71vh] items-center justify-around">

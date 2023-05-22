@@ -60,11 +60,15 @@ export default function Proposals() {
     setIsLoading(true);
     Promise.all([PautaService.getPautas(), ProposalService.getReadyProposals()])
       .then(([pautasData, proposalsData]) => {
-        let pautas = pautasData.map((pauta) => ({
-          ...pauta,
-          dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
-        }));
-        setPautas(pautas);
+        console.warn("PAUTAS", pautasData)
+        if(Array.isArray(pautasData)) {
+          let pautas = pautasData.map((pauta) => ({
+            ...pauta,
+            dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
+          }));
+          setPautas(pautas);
+        }
+        console.warn("PROPOSALS", proposalsData)
         setProposals(proposalsData);
       })
       .catch((error) => {

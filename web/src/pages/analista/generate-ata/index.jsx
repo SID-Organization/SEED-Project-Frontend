@@ -118,17 +118,17 @@ export default function GenerateAta(props) {
       });
     } else {
       console.log("FINAL DECISIONS DG", finalDecisions)
-      finalDecisions.forEach(fd => {
+      const promises = finalDecisions.map(fd => {
         const finalDecision = formatFinalDecisionToAtaDG(fd)
-        AtaService.updateProposalLog(fd.propostaPropostaLog.idProposta, finalDecision)
+        return AtaService.updateProposalLog(fd.propostaPropostaLog.idProposta, finalDecision)
       })
-      setTimeout(() => {
+      Promise.all(promises).then(res => {
         AtaDGService.createAtaDG(ataDG)
         .then((ata) => {
           console.log("ATA GERADA", ata)
           AtaDGService.generatePDFAtaDG(ata.idAtaDG);
         })
-      }, 1000)
+      });
     }
 
 
@@ -137,7 +137,7 @@ export default function GenerateAta(props) {
   const formatStatusToDemand = (status) => {
     switch (status) {
       case "APROVADO":
-        return "APROVADA_PELA_COMISSAO";
+        return "APROVADA_EM_COMISSAO";
       case "REPROVADO":
         return "CANCELADA";
       case "MAIS INFORMACOES":
@@ -157,9 +157,9 @@ export default function GenerateAta(props) {
       const demandId = proposal.demandaProposta.idDemanda;
 
       const newDemandLog = {
-        tarefaHistoricoWorkflow: "EXECUCAO_PROPOSTA",
+        tarefaHistoricoWorkflow: "APROVACAO_DG",
         demandaHistorico: { idDemanda: demandId },
-        acaoFeitaHistorico: "Concluir",
+        acaoFeitaHistorico: "Aprovar",
         idResponsavel: { numeroCadastroUsuario: 72131 },
       };
       DemandLogService.createDemandLog(newDemandLog).then(res => {
@@ -190,14 +190,13 @@ export default function GenerateAta(props) {
   useEffect(() => {
     if (proposals.length > 0) {
       const finalDecisions = proposals.map((proposal) => {
-        console.log("PROPOSAL", proposal);
-
         const fd = {
           ...proposalFinalDecisionTemplate,
           propostaPropostaLog: { idProposta: getCorrectId(proposal) },
         }
         return fd;
       });
+      console.log("Final decisions", finalDecisions);
       setFinalDecisions(finalDecisions);
     }
   }, [proposals]);
