@@ -1,7 +1,7 @@
 import "regenerator-runtime/runtime";
 
 // React
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // MUI
 import { InputAdornment } from "@mui/material";
@@ -21,9 +21,10 @@ import { SpeechRecognitionProvider } from "../../../../service/Voice-speech-Serv
 import VoiceSpeech from "../../../../Components/VoiceSpeech/index.jsx";
 
 const { quillModules, quillStyle } = ReactQuillUtils;
-
+import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
 export default function FirstStep({ props }) {
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   const [textoSpeech, setTextoSpeech] = React.useState("");
 
@@ -33,6 +34,9 @@ export default function FirstStep({ props }) {
     props.setTitle(textoSpeech);
   }, [textoSpeech]);
 
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   const updateProposal = (e) => {
     props.setProposalHTML(e);
@@ -51,7 +55,10 @@ export default function FirstStep({ props }) {
       <div className="grid gap-1">
         <div className="mb-5 flex items-center justify-center">
           <div className="mr-12 h-[5px] w-40 rounded-full bg-blue-weg" />
-          <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
+          <h1
+            style={{ fontSize: fonts.xl }}
+            className="flex items-center justify-center font-roboto font-bold text-[#343434]"
+          >
             Título
           </h1>
           <div className="ml-12 h-[5px] w-40 rounded-full bg-blue-weg" />
@@ -67,10 +74,12 @@ export default function FirstStep({ props }) {
           onChange={(e) => props.setTitle(e.target.value)}
           onBlur={props.handleCreateDemand}
           InputProps={{
-            startAdornment: <InputAdornment position="start" />
+            startAdornment: <InputAdornment position="start" />,
           }}
           helperText={
-            props.title.length == 0 ? "O título é obrigatório" : props.title.length > 100
+            props.title.length == 0
+              ? "O título é obrigatório"
+              : props.title.length > 100
           }
           error={props.title.length == 0 || props.title.length > 100}
         />
@@ -78,7 +87,10 @@ export default function FirstStep({ props }) {
       <div className="grid gap-1">
         <div className="mb-5 flex items-center justify-center gap-5">
           <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
+          <h1
+            style={{ fontSize: fonts.xl }}
+            className="flex items-center justify-center font-roboto font-bold text-[#343434]"
+          >
             Objetivo
           </h1>
           <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
@@ -95,7 +107,10 @@ export default function FirstStep({ props }) {
       <div className="grid gap-1">
         <div className="mb-5 flex items-center justify-center gap-5">
           <div className="mr-3 h-[5px] w-40 rounded-full bg-blue-weg" />
-          <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
+          <h1
+            style={{ fontSize: fonts.xl }}
+            className="flex items-center justify-center font-roboto font-bold text-[#343434]"
+          >
             Situação atual
           </h1>
           <div className="ml-3 h-[5px] w-40 rounded-full bg-blue-weg" />
@@ -113,7 +128,10 @@ export default function FirstStep({ props }) {
       <div className="mb-20 grid gap-1">
         <div className="mb-5 flex items-center justify-center gap-5">
           <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          <h1 className="flex items-center justify-center font-roboto text-[17px] font-bold text-[#343434]">
+          <h1
+            style={{ fontSize: fonts.xl }}
+            className="flex items-center justify-center font-roboto font-bold text-[#343434]"
+          >
             Frequência de uso
           </h1>
           <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
@@ -129,4 +147,4 @@ export default function FirstStep({ props }) {
       </div>
     </div>
   );
-};
+}

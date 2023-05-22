@@ -11,6 +11,7 @@ import PautaService from "../../../service/Pauta-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 export default function Pautas() {
   const [pautas, setPautas] = useState([]);
@@ -20,6 +21,12 @@ export default function Pautas() {
   const [pautasYear, setPautasYear] = useState([]);
 
   const [filters, setFilters] = useState([{}]);
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
     setIsLoading(true); // Define o estado de carregamento como verdadeiro
@@ -96,7 +103,10 @@ export default function Pautas() {
                 <>
                   {getPautasInMonth(month, year).length > 0 && (
                     <div key={`${year}-${month}`}>
-                      <h1 className="text-xl font-bold text-dark-blue-weg">
+                      <h1
+                        style={{ fontSize: fonts.xl }}
+                        className="font-bold text-dark-blue-weg"
+                      >
                         {months[month] + " - " + year}
                       </h1>
                       {getPautasInMonth(month, year).map((pauta) => (
@@ -118,7 +128,9 @@ export default function Pautas() {
           ))
         ) : (
           <div className="flex h-[71vh] items-center justify-around">
-            <NoContent isPauta={true}>Sem pautas!</NoContent>
+            <NoContent isPauta={true}>
+              <span style={{ fontSize: fonts.xl }}>Sem pautas!</span>
+            </NoContent>
           </div>
         )}
       </div>

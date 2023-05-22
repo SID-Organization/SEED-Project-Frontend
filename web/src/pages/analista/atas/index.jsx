@@ -11,7 +11,7 @@ import AtaService from "../../../service/Ata-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
-import AtaDGService from "../../../service/AtaDG-Service";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 const months = {
   "01": "Janeiro",
@@ -28,11 +28,17 @@ const months = {
   12: "Dezembro",
 };
 
-export default function Atas(props) {
+export default function Atas() {
   const [atas, setAtas] = useState([]);
   const [atasMonths, setAtasMonths] = useState([]);
   const [atasYears, setAtasYears] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   const getAtasInMonth = (month, year) => {
     return atas.filter(
@@ -44,33 +50,22 @@ export default function Atas(props) {
 
   useEffect(() => {
     setIsLoading(true);
-    // if (!props.isAtaForDG) {
-      AtaService.getAtas()
-        .then((res) => {
-          if (!res.error) {
-            const dbAtas = res.data.map((ata) => {
-              ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
-              return ata;
-            });
-            setAtas(dbAtas);
-          } else {
-            alert("Erro ao buscar atas");
-            console.log("Request", res);
-          }
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    // } else {
-    //   AtaDGService.getAtasDG()
-    //     .then((data) => {
-    //       const dbAtas = data.map((ata) => {
-    //         ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
-    //         return ata;
-    //       });
-    //       setAtas(dbAtas);
-    //     });
-    // }
+    AtaService.getAtas()
+      .then((res) => {
+        if (!res.error) {
+          const dbAtas = res.data.map((ata) => {
+            ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
+            return ata;
+          });
+          setAtas(dbAtas);
+        } else {
+          alert("Erro ao buscar atas");
+          console.log("Request", res);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -100,7 +95,9 @@ export default function Atas(props) {
           </div>
         ) : atasYears.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
-            <NoContent isAta={true}>Sem atas!</NoContent>
+            <NoContent isAta={true}>
+              <span style={{ fontSize: fonts.xl }}>Sem atas!</span>
+            </NoContent>
           </div>
         ) : (
           atasYears.map((year, iY) => (
@@ -109,7 +106,10 @@ export default function Atas(props) {
                 <Fragment key={month}>
                   {getAtasInMonth(month, year).length > 0 && (
                     <div key={iM}>
-                      <h1 className="text-xl font-bold text-dark-blue-weg">
+                      <h1
+                        style={{ fontSize: fonts.xl }}
+                        className=" font-bold text-dark-blue-weg"
+                      >
                         {months[month] + " - " + year}
                       </h1>
                       {getAtasInMonth(month, year).map((ata, i) => (
