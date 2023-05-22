@@ -19,6 +19,7 @@ import ProposalService from "../../../service/Proposal-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 const addToAPautaModalStyle = {
   position: "absolute",
@@ -52,6 +53,12 @@ export default function Proposals() {
   const [selectProposals, setSelectProposals] = useState([]);
   const [openAddToAPautaModal, setOpenAddToAPautaModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   const handleOpenAddToAPautaModal = () => setOpenAddToAPautaModal(true);
   const handleCloseAddToAPautaModal = () => setOpenAddToAPautaModal(false);
@@ -138,7 +145,9 @@ export default function Proposals() {
           </div>
         ) : proposals.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
-            <NoContent isProposal={true}>Sem propostas!</NoContent>
+            <NoContent isProposal={true}>
+              <span style={{ fontSize: fonts.xl }}>Sem propostas!</span>
+            </NoContent>
           </div>
         ) : (
           proposals.map((proposal, i) => (

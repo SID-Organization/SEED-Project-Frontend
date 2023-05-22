@@ -129,19 +129,16 @@ const columns = [
   },
 ];
 
-export default function WorkflowTable({
-  demandId,
-}) {
+export default function WorkflowTable({ demandId }) {
   const [pageSize, setPageSize] = useState(5);
   const [workFlowData, setWorkFlowData] = useState([]);
   const [workFlowRows, setWorkFlowRows] = useState([]);
 
   // Busca os dados do workflow da demanda
   useEffect(() => {
-    DemandLogService.getDemandLogs(demandId)
-      .then((res) => {
-        setWorkFlowData(res.data);
-      });
+    DemandLogService.getDemandLogs(demandId).then((res) => {
+      setWorkFlowData(res.data);
+    });
   }, []);
 
   // Seta as linhas da tabela de workflow

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //MUI
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -12,6 +12,9 @@ import MuiAddBoxIcon from "@mui/icons-material/AddBox";
 
 //Components
 import DemandCardProposalModal from "../DemandCardProposalModal";
+
+//Utils
+import FontSizeUtils from "../../utils/FontSize-Utils";
 
 const ButtonProposalSubHeader = styled(MuiButton)({
   backgroundColor: "#0075B1",
@@ -58,10 +61,17 @@ export default function createNewProposalButton(props) {
   const handleOpenModalDemands = () => setOpenModalDemands(true);
   const handleCloseModalDemands = () => setOpenModalDemands(false);
 
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
+
   return (
     <>
       {props.isProposal == true ? (
         <ButtonPage
+          style={{ fontSize: fonts.sm }}
           variant="outlined"
           startIcon={<AddBoxIcon />}
           onClick={handleOpenModalDemands}
@@ -70,6 +80,7 @@ export default function createNewProposalButton(props) {
         </ButtonPage>
       ) : (
         <ButtonProposalSubHeader
+          style={{ fontSize: fonts.sm }}
           variant="contained"
           onClick={handleOpenModalDemands}
         >
@@ -86,12 +97,12 @@ export default function createNewProposalButton(props) {
         <Box sx={modalDemandsStyle}>
           <div>
             <Typography
+              style={{ fontSize: fonts.xl }}
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#0075B1",
-                fontSize: "1.5rem",
                 fontWeight: "bold",
               }}
             >
@@ -128,7 +139,10 @@ export default function createNewProposalButton(props) {
                           }}
                         />
                       </div>
-                      <p className="mt-2 font-roboto font-bold text-[#b3b3b3]">
+                      <p
+                        style={{ fontSize: fonts.base }}
+                        className="mt-2 font-roboto font-bold text-[#b3b3b3]"
+                      >
                         Nenhuma demanda cadastrada!
                       </p>
                     </div>

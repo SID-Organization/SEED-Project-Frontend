@@ -6,8 +6,19 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+import { useState, useEffect } from "react";
+
+//Utils
+import FontSizeUtils from "../../utils/FontSize-Utils";
+
 export default function HorizontalLinearStepper(props) {
   const [skipped, setSkipped] = React.useState(new Set());
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -48,28 +59,33 @@ export default function HorizontalLinearStepper(props) {
           const labelProps = {};
           return (
             <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
+              <StepLabel {...labelProps}>
+                <Typography style={{ fontSize: fonts.sm }}>{label}</Typography>
+              </StepLabel>
             </Step>
           );
         })}
       </Stepper>
       {props.activeStep === props.steps.length ? (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
+          <Typography style={{ fontSize: fonts.base }} sx={{ mt: 2, mb: 1 }}>
             Todos os passos foram completados!
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Resetar</Button>
+            <Button style={{ fontSize: fonts.sm }} onClick={handleReset}>
+              Resetar
+            </Button>
           </Box>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
+          <Typography style={{ fontSize: fonts.base }} sx={{ mt: 2, mb: 1 }}>
             Passo {props.activeStep + 1}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
+              style={{ fontSize: fonts.sm }}
               color="inherit"
               disabled={props.activeStep === 0}
               onClick={props.handleBack}
@@ -79,11 +95,20 @@ export default function HorizontalLinearStepper(props) {
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {isStepOptional(props.activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+              <Button
+                style={{ fontSize: fonts.sm }}
+                color="inherit"
+                onClick={handleSkip}
+                sx={{ mr: 1 }}
+              >
                 Pular
               </Button>
             )}
-            <Button onClick={props.handleNext} disabled={props.title == 0}>
+            <Button
+              style={{ fontSize: fonts.sm }}
+              onClick={props.handleNext}
+              disabled={props.title == 0}
+            >
               {props.activeStep === props.steps.length - 1
                 ? "Finalizar"
                 : "Próximo"}

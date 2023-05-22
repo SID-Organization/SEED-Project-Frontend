@@ -40,10 +40,15 @@ const getFontControl = () => {
   return fonts.fontControl;
 };
 
+const defaultFontSize = () => {
+  localStorage.setItem("fontSize", JSON.stringify(fontSize));
+};
+
 export default {
   getFontSizes,
   setFontSize,
   incFontSize,
   decFontSize,
   getFontControl,
+  defaultFontSize,
 };

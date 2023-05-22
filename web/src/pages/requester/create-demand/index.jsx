@@ -23,6 +23,8 @@ import PdfDemandService from "../../../service/DemandPDF-Service";
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
+
 const { removeHTML } = ReactQuillUtils;
 
 export default function CreateDemand() {
@@ -79,6 +81,11 @@ export default function CreateDemand() {
 
   const [confirmDemand, setConfirmDemand] = useState(false);
 
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
     if (params.id) {
@@ -90,10 +97,7 @@ export default function CreateDemand() {
   }, []);
 
   useEffect(() => {
-    if (
-      !title ||
-      !qualitativeBenefit
-    ) {
+    if (!title || !qualitativeBenefit) {
       setAnyEmptyField(true);
     } else {
       setAnyEmptyField(false);
@@ -103,15 +107,9 @@ export default function CreateDemand() {
   function continueDemand() {
     DemandService.getDemandById(params.id).then((response) => {
       PdfDemandService.getPdfDemandByDemandId(params.id).then((pdfResponse) => {
-        setProposalHTML(
-          pdfResponse.propostaMelhoriaDemandaHTML
-        );
-        setCurrentProblemHTML(
-          pdfResponse.situacaoAtualDemandaHTML
-        );
-        setFrequencyOfUseHTML(
-          pdfResponse.frequenciaUsoDemandaHTML
-        );
+        setProposalHTML(pdfResponse.propostaMelhoriaDemandaHTML);
+        setCurrentProblemHTML(pdfResponse.situacaoAtualDemandaHTML);
+        setFrequencyOfUseHTML(pdfResponse.frequenciaUsoDemandaHTML);
       });
       setTitle(response.tituloDemanda);
       setRealBenefits(() => {
@@ -244,56 +242,55 @@ export default function CreateDemand() {
           DemandService.createDemand(formData).then((res) => {
             console.log("CREATE DEMAND", res);
             setDemandUpdateId(res.idDemanda);
-            updateBenefits(res.beneficiosDemanda)
+            updateBenefits(res.beneficiosDemanda);
           });
         } else if (demandUpdateId && title !== "") {
           DemandService.updateDemand(demandUpdateId, formData).then((res) => {
             console.log("UPDATE DEMAND", res.data);
-            updateBenefits(res.data.beneficiosDemanda)
+            updateBenefits(res.data.beneficiosDemanda);
           });
         }
       } else {
-        console.log("FINISH DEMAND CALLED")
+        console.log("FINISH DEMAND CALLED");
         handleFinishDemand(formData);
       }
-
     } catch (error) {
       console.log(error);
       setCreateDemandSucceed(false);
     }
   };
 
-
   const updateBenefits = (benefits) => {
     // Database benefits
-    const DBTempRealBnfs = benefits.filter(b => b.tipoBeneficio === "REAL");
-    const DBTempPotBnfs = benefits.filter(b => b.tipoBeneficio === "POTENCIAL");
+    const DBTempRealBnfs = benefits.filter((b) => b.tipoBeneficio === "REAL");
+    const DBTempPotBnfs = benefits.filter(
+      (b) => b.tipoBeneficio === "POTENCIAL"
+    );
 
     // Frontend benefits
     const tempRealBenefits = realBenefits;
     const tempPotBenefits = potentialBenefits;
-    
-    
+
     // Se o benefício não tiver um id, significa que ele foi criado agora
     // Então, é necessário atualizar o id dele
     // Para isso, compara-se o idFront do benefício do frontend com o idFront do benefício do backend
     // Se forem iguais, significa que é o mesmo benefício, então atualiza o id dele
     for (let i = 0; i < tempRealBenefits.length; i++) {
-      if(tempRealBenefits[i].benefitId) continue;
+      if (tempRealBenefits[i].benefitId) continue;
       if (tempRealBenefits[i].idFront === DBTempRealBnfs[i].idFront) {
-        tempRealBenefits[i]['benefitId'] = DBTempRealBnfs[i].idBeneficio;
+        tempRealBenefits[i]["benefitId"] = DBTempRealBnfs[i].idBeneficio;
       }
     }
     for (let i = 0; i < tempPotBenefits.length; i++) {
-      if(tempPotBenefits[i].benefitId) continue;
+      if (tempPotBenefits[i].benefitId) continue;
       if (tempPotBenefits[i].idFront === DBTempPotBnfs[i].idFront) {
-        tempPotBenefits[i]['benefitId'] = DBTempPotBnfs[i].idBeneficio;
+        tempPotBenefits[i]["benefitId"] = DBTempPotBnfs[i].idBeneficio;
       }
     }
 
     setRealBenefits(tempRealBenefits);
     setPotentialBenefits(tempPotBenefits);
-  }
+  };
 
   const handleFinishDemand = (formData) => {
     DemandService.updateDemand(demandUpdateId, formData);
@@ -471,6 +468,7 @@ export default function CreateDemand() {
         </div>
         <div className="mb-10 flex items-center justify-between">
           <Button
+            style={{ fontSize: fonts.sm }}
             color="inherit"
             disabled={activeStep === 0}
             onClick={handleBack}
@@ -478,7 +476,11 @@ export default function CreateDemand() {
           >
             Voltar
           </Button>
-          <Button onClick={handleNext} disabled={title.length == 0}>
+          <Button
+            style={{ fontSize: fonts.sm }}
+            onClick={handleNext}
+            disabled={title.length == 0}
+          >
             {activeStep === steps.length - 1 ? "Finalizar" : "Próximo"}
           </Button>
         </div>
