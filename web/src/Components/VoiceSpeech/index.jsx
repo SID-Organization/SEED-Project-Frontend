@@ -3,19 +3,23 @@ import React, { useContext, useEffect } from "react";
 import SpeechRecognitionContext from "../../service/Voice-speech-Service/SpeechRecognitionContext.jsx";
 
 export default function SpeechRecognitionText(props) {
-  const { transcript, handleStart, listening } = useContext(SpeechRecognitionContext);
+  let { transcript, handleStart, listening } = useContext(SpeechRecognitionContext);
+
+  const [texto, setTexto] = React.useState("");
 
   useEffect(() => {
-    if (transcript !== undefined) {
-      props.setTexto(transcript);
-    }
-
+    //NECESSITA DE UM USEEFECT AQUI DENTRO PARA RETORNAR CONFORME A VARIÁVEL TRANSCRIPT ESTÁ SENDO MUDADA, DA FORMA QUE ESTÁ AGORA ELÁ SÓ É RETORNADA
+    //QUANDO LIGAMOS O MICROFONE (e nesse momento ela é vazia).
     if (listening) {
-      props.setMicOn(true);
-    } else {
-      props.setMicOn(false);
+      console.log("Texto falado: " + transcript);
+      props.setTextoFalado(transcript);
+      transcript = "";
+    } else if (!listening) {
+      console.log("setTexto: " + transcript);
+      props.setTexto(transcript);
+      transcript = "";
     }
-  }, [transcript]);
+  }, [listening]);
 
   return (
     <div>
