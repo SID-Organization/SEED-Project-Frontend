@@ -189,7 +189,6 @@ export default function DemandsPage(props) {
     fontWeight: "bold",
     border: "#0075B1 solid 1px",
     fontSize: "0.89rem",
-    width: 260,
     height: "2.5rem",
 
     "&:hover": {
@@ -467,7 +466,6 @@ export default function DemandsPage(props) {
                 sx={{
                   backgroundColor: "#0075B1",
                   color: "#FFF",
-                  width: 200,
                   height: "2.5rem",
                   marginLeft: 2,
                   "&:hover": {
