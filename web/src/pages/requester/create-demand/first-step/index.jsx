@@ -1,38 +1,40 @@
 import "regenerator-runtime/runtime";
-
-// React
 import React, { useEffect, useRef } from "react";
-
-// MUI
 import { InputAdornment } from "@mui/material";
-
-// Components
 import ReactQuill from "react-quill";
-
-// Styled Components
 import MUISC from "../../../../styles/Mui-Styled-Components";
-
-// Styles
 import "react-quill/dist/quill.snow.css";
-
-// Utils
 import ReactQuillUtils from "../../../../utils/ReactQuill-Utils";
 import { SpeechRecognitionProvider } from "../../../../service/Voice-speech-Service/SpeechRecognitionContext.jsx";
 import VoiceSpeech from "../../../../Components/VoiceSpeech/index.jsx";
 
 const { quillModules, quillStyle } = ReactQuillUtils;
 
-
 export default function FirstStep({ props }) {
-
   const [textoSpeech, setTextoSpeech] = React.useState("");
-
-  const [microfone, setMicrofone] = React.useState(false);
+  const [textoAgora, setTextoAgora] = React.useState("");
+  const [textoInput, setTextoInput] = React.useState("");
 
   useEffect(() => {
-    props.setTitle(textoSpeech);
+    console.log("textoSpeech", textoSpeech);
+    if (textoSpeech !== "") {
+      if (props.title === "") {
+        props.setTitle(textoSpeech);
+      } else {
+        props.setTitle(props.title + " " + textoSpeech);
+      }
+    }
+    setTextoSpeech("");
   }, [textoSpeech]);
 
+  useEffect(() => {
+    console.log(textoAgora);
+  }, [textoAgora]);
+
+  useEffect(() => {
+    console.log("textoInput", textoInput);
+    props.setTitle(textoInput);
+  }, [textoInput]);
 
   const updateProposal = (e) => {
     props.setProposalHTML(e);
@@ -46,6 +48,10 @@ export default function FirstStep({ props }) {
     props.setFrequencyOfUseHTML(e);
   };
 
+  const handleSpeechInput = (text) => {
+    setTextoSpeech(text);
+  };
+
   return (
     <div className="grid items-center justify-start gap-20">
       <div className="grid gap-1">
@@ -55,7 +61,7 @@ export default function FirstStep({ props }) {
             Título
           </h1>
           <div className="ml-12 h-[5px] w-40 rounded-full bg-blue-weg" />
-          <VoiceSpeech setTexto={setTextoSpeech} setMicOn={setMicrofone} />
+          <VoiceSpeech setTexto={setTextoSpeech} setTitle={props.setTitle} setTextoFalado={setTextoAgora} />
         </div>
         <MUISC.TextField
           id="outlined-textarea"
@@ -64,7 +70,7 @@ export default function FirstStep({ props }) {
           multiline
           maxRows={3}
           value={props.title}
-          onChange={(e) => props.setTitle(e.target.value)}
+          onChange={(e) => setTextoInput(e.target.value)}
           onBlur={props.handleCreateDemand}
           InputProps={{
             startAdornment: <InputAdornment position="start" />
