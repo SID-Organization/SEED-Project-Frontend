@@ -297,14 +297,8 @@ export default function GenerateProposal() {
       .then(res => {
         console.log("finish", finish);
         if (finish && (res.status === 200 || res.status === 201)) {
-          const newDemandLog = {
-            tarefaHistoricoWorkflow: "APROVACAO_COMISSAO",
-            demandaHistorico: { idDemanda: demandId },
-            acaoFeitaHistorico: "Aprovar",
-            idResponsavel: { numeroCadastroUsuario: 72131 },
-          };
 
-          DemandLogService.createDemandLog(newDemandLog).then((response) => {
+          DemandLogService.createDemandLog("APROVACAO_COMISSAO", demandId, "Aprovar", 72131).then((response) => {
             if (response.status == 200 || response.status == 201) {
               DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
               navigate('/gerenciar-demandas');
@@ -526,7 +520,7 @@ export default function GenerateProposal() {
               <p className="font-roboto text-lg font-bold">
                 Período de execução
               </p>
-              <div className="flex gap-10">
+              <div className="flex gap-10 mt-4">
                 <DateInput
                   id="outlined-basic"
                   variant="outlined"
@@ -538,6 +532,7 @@ export default function GenerateProposal() {
                     startAdornment: <InputAdornment position="start" />,
                   }}
                   value={startDate}
+                  helperText="Data de início da execução da demanda"
                   onChange={(e) => setStartDate(e.target.value)}
                 />
                 <DateInput
@@ -551,6 +546,7 @@ export default function GenerateProposal() {
                     startAdornment: <InputAdornment position="start" />,
                   }}
                   value={endDate}
+                  helperText="Data de término da execução da demanda"
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </div>

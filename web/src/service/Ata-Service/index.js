@@ -23,8 +23,8 @@ const openAtaPDF = async (ataId) => {
   window.open(`${url}/pdf-ata/${ataId}`, "_blank");
 };
 
-const updateProposalLog = async (propLogId, proposalLog) => {
-  return AxiosAPI.put(`${url}/${propLogId}`, proposalLog);
+const updateProposalsLogs = async (proposalsLogs) => {
+  return AxiosAPI.put(`${url}/atualiza-proposta-log`, proposalsLogs);
 }
 
 export default {
@@ -32,5 +32,5 @@ export default {
   getAtas,
   getAtaById,
   openAtaPDF,
-  updateProposalLog
+  updateProposalsLogs
 };

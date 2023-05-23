@@ -3,9 +3,17 @@ import apiConfig from "../../API/API-config";
 
 const url = `${apiConfig.URL}/historico-workflow`;
 
-const createDemandLog = async (demandLog) => {
+const createDemandLog = async (nextTask, demandId, actionMade, responsableId) => {
+
+  const newDemandLog = {
+    tarefaHistoricoWorkflow: nextTask,
+    demandaHistorico: { idDemanda: demandId },
+    acaoFeitaHistoricoAnterior: actionMade,
+    idResponsavel: { numeroCadastroUsuario: responsableId },
+  };
+
   const contentType = "application/json";
-  return AxiosAPI.post(url, demandLog, contentType);
+  return AxiosAPI.post(url, newDemandLog, contentType);
 };
 
 const getDemandLogs = async (demandId) => {

@@ -54,6 +54,8 @@ export default function GenerateAta(props) {
   function formatFinalDecisionToAtaDG(finalDecision) {
     const newFinalDecision = {
       idAta: params.id,
+      idDemanda: finalDecision.idDemanda,
+      idPropostaLog: finalDecision.propostaPropostaLog.idProposta,
       parecerDGPropostaLog: finalDecision.parecerComissaoPropostaLog,
       consideracoesParecerDGPropostaLog: finalDecision.consideracoesPropostaLog,
     }
@@ -86,12 +88,13 @@ export default function GenerateAta(props) {
 
     if (!props.isAtaForDG && !verificarAta()) return;
 
+    // Creates ata JSON, and removes idDemanda from finalDecisions
     const ata = {
       numeroDgAta: numDgAta,
       pautaAta: {
         idPauta: params.id,
       },
-      propostasLog: finalDecisions,
+      propostasLog: finalDecisions.map(fd => { const obj = { ...fd }; delete obj.idDemanda; return obj; }),
     };
 
     const ataDG = {
@@ -109,26 +112,22 @@ export default function GenerateAta(props) {
       AtaService.createAta(form).then((response) => {
         if (response.status == 201) {
           updateEachDemand()
-          PautaService.deletePautaById(params.id).then(res => {
-            console.log("Pauta delete", res);
-          });
           alert("Ata gerada com sucesso")
           navigate("/atas")
         };
       });
     } else {
       console.log("FINAL DECISIONS DG", finalDecisions)
-      const promises = finalDecisions.map(fd => {
+      const decisions = finalDecisions.map(fd => {
         const finalDecision = formatFinalDecisionToAtaDG(fd)
-        return AtaService.updateProposalLog(fd.propostaPropostaLog.idProposta, finalDecision)
+        return finalDecision;
       })
-      Promise.all(promises).then(res => {
-        AtaDGService.createAtaDG(ataDG)
-        .then((ata) => {
-          console.log("ATA GERADA", ata)
-          AtaDGService.generatePDFAtaDG(ata.idAtaDG);
-        })
+
+      AtaService.updateProposalsLogs(decisions).then(res => {
+        if (res.status == 201)
+          AtaDGService.generatePDFAtaDG(res.data.idAta);
       });
+
     }
 
 
@@ -153,16 +152,10 @@ export default function GenerateAta(props) {
 
   const updateEachDemand = () => {
     finalDecisions.forEach(async (fd) => {
-      const proposal = await ProposalService.getProposalById(fd.propostaPropostaLog.idProposta);
-      const demandId = proposal.demandaProposta.idDemanda;
+      // const proposal = await ProposalService.getProposalById(fd.propostaPropostaLog.idProposta);
+      const demandId = fd.idDemanda;
 
-      const newDemandLog = {
-        tarefaHistoricoWorkflow: "APROVACAO_DG",
-        demandaHistorico: { idDemanda: demandId },
-        acaoFeitaHistorico: "Aprovar",
-        idResponsavel: { numeroCadastroUsuario: 72131 },
-      };
-      DemandLogService.createDemandLog(newDemandLog).then(res => {
+      DemandLogService.createDemandLog("APROVACAO_DG", demandId, "Aprovar", 72131).then(res => {
         if (res.status == 201 || res.status == 200) {
           DemandService.updateDemandStatus(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog));
         }
@@ -170,6 +163,7 @@ export default function GenerateAta(props) {
     })
   }
 
+  // On component mount get proposals from pauta or ata
   useEffect(() => {
     if (!props.isAtaForDG) {
       // Proposal ID
@@ -179,7 +173,6 @@ export default function GenerateAta(props) {
     } else {
       // Ata ID
       AtaService.getAtaById(params.id).then(ata => {
-        console.log("ATA", ata)
         setProposals(ProposalUtils.formatLogProposalsToProposals(ata.propostasLog));
         setNumDgAta(ata.numeroDgAta);
       })
@@ -200,6 +193,11 @@ export default function GenerateAta(props) {
       setFinalDecisions(finalDecisions);
     }
   }, [proposals]);
+
+  useEffect(() => {
+    console.log("Final decisions", finalDecisions);
+    console.log("Proposals", proposals);
+  }, [proposals, finalDecisions])
 
   return (
     <div className="grid items-center">

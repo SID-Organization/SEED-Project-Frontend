@@ -38,6 +38,8 @@ export default function fsdGenerateAtaProposal(props) {
     // newFinalDecision.propostaPropostaLog.idProposta = props.proposal.idProposta;
     newFinalDecision.parecerComissaoPropostaLog = formatParecerComissao(parecerComissao);
     newFinalDecision.consideracoesPropostaLog = removeHTML(quillHtmlConsideration);
+    newFinalDecision.idDemanda = props.proposal.idDemanda;
+
     if (!props.isAtaForDG)
       newFinalDecision.tipoAtaPropostaLog = publicada ? "PUBLICADA" : naoPublicada ? "NAO_PUBLICADA" : "";
 
@@ -132,6 +134,7 @@ export default function fsdGenerateAtaProposal(props) {
                   id="demo-simple-select"
                   value={parecerComissao}
                   onChange={(e) => setParecerComissao(e.target.value)}
+                  onBlur={updateDecision}
                 >
                   {getActions().map((action, i) => (
                     <MenuItem key={i} value={action.action}>

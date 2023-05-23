@@ -126,18 +126,18 @@ export default function Atas(props) {
                       >
                         {months[month] + " - " + year}
                       </h1>
-                      {/* {getAtasInMonth(month, year).map((ata, i) => (
-//   <AtasCard
-//     key={ata.idAta}
-//     idAta={ata.idAta}
-//     qtyProposals={ata.qtdPropostas}
-//     meetingDate={ata.dataReuniaoAta}
-//     meetingTime={ata.horarioInicioAta}
-//     responsibleAnalyst={ata.analistaResponsavel}
-//     proposals={ata.propostasLog}
-//   />
-// ))
-// } */}
+                      {getAtasInMonth(month, year).map((ata, i) => (
+                        <AtasCard
+                          key={ata.idAta}
+                          idAta={ata.idAta}
+                          qtyProposals={ata.qtdPropostas}
+                          meetingDate={ata.dataReuniaoAta}
+                          meetingTime={ata.horarioInicioAta}
+                          responsibleAnalyst={ata.analistaResponsavel}
+                          proposals={ata.propostasLog}
+                        />
+                      ))
+                      }
                     </div>
                   )}
                 </Fragment>

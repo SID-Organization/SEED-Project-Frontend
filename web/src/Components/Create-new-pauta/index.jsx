@@ -80,6 +80,7 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
 export default function CreateNewPauta(props) {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const [foruns, setForuns] = useState([]);
   const [selectedForum, setSelectedForum] = useState("");
   const [comissoes, setComissoes] = useState([]);
@@ -88,6 +89,9 @@ export default function CreateNewPauta(props) {
   const [meetingDate, setMeetingDate] = useState("");
   const [meetingStartTime, setMeetingStartTime] = useState("");
   const [meetingEndTime, setMeetingEndTime] = useState("");
+
+  // Search for title in create pauta
+  const [searchTitle, setSearchTitle] = useState("");
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
@@ -154,19 +158,20 @@ export default function CreateNewPauta(props) {
 
     console.warn("Selected proposals", selectedProposals);
 
-    // PautaService.createPauta(pautaJson).then((res) => {
-    //   if (res.error) {
-    //     alert("Erro ao criar pauta\n" + res.error);
-    //     return;
-    //   } else {
-    //     alert("Pauta criada com sucesso");
-    //     handleCloseModal();
-    //   }
-    // });
-    selectedProposals.forEach((proposal) => {
-      console.log("ProposalIdDemanda", proposal);
-      // DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
+    PautaService.createPauta(pautaJson).then((res) => {
+      if (res.error) {
+        alert("Erro ao criar pauta\n" + res.error);
+        return;
+      } else {
+        alert("Pauta criada com sucesso");
+        handleCloseModal();
+        selectedProposals.forEach((proposal) => {
+          console.log("ProposalIdDemanda", proposal);
+          DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
+        });
+      }
     });
+
   };
 
   return (
@@ -273,6 +278,8 @@ export default function CreateNewPauta(props) {
                 id="outlined-basic"
                 label="Procurar proposta por título"
                 variant="outlined"
+                value={searchTitle}
+                onChange={(e) => setSearchTitle(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
@@ -288,7 +295,10 @@ export default function CreateNewPauta(props) {
                 scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
               >
                 {readyProposals.length > 0 &&
-                  readyProposals.map((item, i) => (
+                  readyProposals.filter(item => {
+                    if (!searchTitle || searchTitle.length < 3) return true;
+                    return item.demandaPropostaTitulo.toLowerCase().includes(searchTitle.toLowerCase());
+                  }).map((item, i) => (
                     <NewPautaProposalCard
                       key={i}
                       setSelectedProposals={setSelectedProposals}
