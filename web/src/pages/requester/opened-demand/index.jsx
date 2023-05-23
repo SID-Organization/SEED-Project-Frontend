@@ -41,8 +41,7 @@ const style = {
   p: 4,
 };
 
-const htmlDivStyle =
-  "border-1 h-auto w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50";
+const htmlDivStyle = "border-1 h-auto min-h-[6rem] w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50"
 
 export default function openedDemand() {
   const params = useParams();
@@ -469,6 +468,7 @@ export default function openedDemand() {
         <FilesTable files={fileRows} />
         <div className="mt-10 flex items-center justify-center">
           <Button
+            onClick={() => navigate(-1)}
             style={{ fontSize: fonts.lg }}
             variant="contained"
             sx={{

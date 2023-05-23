@@ -8,6 +8,7 @@ import NoContent from "../../../Components/No-content";
 
 // Service
 import AtaService from "../../../service/Ata-Service";
+import AtaDGService from "../../../service/AtaDG-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
@@ -48,25 +49,37 @@ export default function Atas() {
     );
   };
 
+
+
   useEffect(() => {
     setIsLoading(true);
-    AtaService.getAtas()
-      .then((res) => {
-        if (!res.error) {
-          const dbAtas = res.data.map((ata) => {
-            ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
-            return ata;
-          });
-          setAtas(dbAtas);
-        } else {
-          alert("Erro ao buscar atas");
-          console.log("Request", res);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    if (!props.isAtaForDG) {
+      // Get Atas passadas pela comissão
+      AtaService.getAtas()
+        .then((res) => {
+          if (!res.error) {
+            const dbAtas = res.data.map((ata) => {
+              ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
+              return ata;
+            });
+            setAtas(dbAtas);
+          } else {
+            alert("Erro ao buscar atas");
+            console.log("Request", res);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      // Busca as atas já passadas pela DG
+      AtaDGService.getAtasDG()
+        .then((data) => {
+          console.log("ATAS DG", data);
+          // setAtas(data);
+        });
+    }
+  }, [props.isAtaForDG]);
 
   useEffect(() => {
     if (atas.length === 0) return;
@@ -87,7 +100,7 @@ export default function Atas() {
 
   return (
     <div>
-      <SubHeaderAtas />
+      <SubHeaderAtas isAtaForDG={props.isAtaForDG} />
       <div className="mt-8 flex flex-col items-center justify-center gap-4">
         {isLoading ? (
           <div className="flex h-[71vh] items-center justify-around">

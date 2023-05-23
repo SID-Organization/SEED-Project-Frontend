@@ -97,6 +97,21 @@ export default function Sidebar() {
   const iconStyle = { color: "#fff", fontSize: "1.9rem", marginLeft: 1.1 };
   const openSidebarIconStyle = { color: "#fff", fontSize: "1.4rem" };
 
+
+
+
+  useEffect(() => {
+    window.addEventListener('popstate', () => {
+      console.warn("URL changed!");
+    });
+
+    return () => {
+      window.removeEventListener('popstate', () => {
+        console.warn("URL changed!");
+      });
+    }
+  }, [])
+
   const sideBarItems = [
     {
       title: "Nova demanda",

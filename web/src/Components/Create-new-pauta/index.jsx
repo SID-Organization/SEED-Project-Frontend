@@ -19,6 +19,7 @@ import NewPautaProposalCard from "../New-pauta-proposal-card";
 // Services
 import ProposalService from "../../service/Proposal-Service";
 import ForumService from "../../service/Forum-Service";
+import DemandService from "../../service/Demand-Service";
 import PautaService from "../../service/Pauta-Service";
 
 // Utils
@@ -141,7 +142,7 @@ export default function CreateNewPauta(props) {
       forumPauta: {
         idForum: selectedForum.id,
       },
-      propostasPauta: selectedProposals,
+      propostasPauta: selectedProposals.map(proposal => ({ idProposta: proposal.idProposta })),
       horarioInicioPauta: meetingStartTime,
       horarioTerminoPauta: meetingEndTime,
       analistaResponsavelPauta: {
@@ -151,15 +152,23 @@ export default function CreateNewPauta(props) {
 
     console.log("PAUTA JSON", pautaJson);
 
-    PautaService.createPauta(pautaJson).then((res) => {
-      if (res.error) {
-        alert("Erro ao criar pauta\n" + res.error);
-        return;
-      } else {
-        alert("Pauta criada com sucesso");
-        handleCloseModal();
-      }
+    console.warn("Selected proposals", selectedProposals);
+
+    // PautaService.createPauta(pautaJson).then((res) => {
+    //   if (res.error) {
+    //     alert("Erro ao criar pauta\n" + res.error);
+    //     return;
+    //   } else {
+    //     alert("Pauta criada com sucesso");
+    //     handleCloseModal();
+    selectedProposals.forEach((proposal) => {
+
+      // DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
+
+
     });
+    //   }
+    // });
   };
 
   return (

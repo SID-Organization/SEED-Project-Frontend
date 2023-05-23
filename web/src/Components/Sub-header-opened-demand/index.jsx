@@ -344,7 +344,7 @@ export default function subHeader({
       })
       .then((res) => {
         if (res.status == 200)
-          navigate("/demandas");
+          navigate(-1);
       });
   };
 
