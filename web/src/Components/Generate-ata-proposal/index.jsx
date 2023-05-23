@@ -35,16 +35,19 @@ export default function fsdGenerateAtaProposal(props) {
     if (!props.finalDecision) return;
     const newFinalDecision = { ...props.finalDecision };
     console.log(newFinalDecision);
-    newFinalDecision.propostaPropostaLog.idProposta = props.proposal.idProposta;
+    // newFinalDecision.propostaPropostaLog.idProposta = props.proposal.idProposta;
     newFinalDecision.parecerComissaoPropostaLog = formatParecerComissao(parecerComissao);
     newFinalDecision.consideracoesPropostaLog = removeHTML(quillHtmlConsideration);
-    newFinalDecision.tipoAtaPropostaLog = publicada ? "PUBLICADA" : naoPublicada ? "NAO_PUBLICADA" : "";
+    if (!props.isAtaForDG)
+      newFinalDecision.tipoAtaPropostaLog = publicada ? "PUBLICADA" : naoPublicada ? "NAO_PUBLICADA" : "";
+
+    
     props.setFinalDecision(newFinalDecision);
   }
 
   useEffect(() => {
     updateDecision();
-  }, [parecerComissao, publicada, naoPublicada]);
+  }, [parecerComissao, publicada, naoPublicada, quillHtmlConsideration]);
 
   const style = { height: 100, width: 500 };
 
@@ -82,7 +85,7 @@ export default function fsdGenerateAtaProposal(props) {
       case 'Aprovado': return 'success'
       case 'Reprovado': return 'error'
       case 'Mais informações': return 'warning'
-      default: return'info'
+      default: return 'info'
     }
   }
 
@@ -151,7 +154,7 @@ export default function fsdGenerateAtaProposal(props) {
             <ReactQuill
               value={quillHtmlConsideration}
               onChange={(e) => setQuillHtmlConsideration(e)}
-              onBlur={updateDecision}
+              // onBlur={updateDecision}
               modules={quillModules}
               style={style}
             />

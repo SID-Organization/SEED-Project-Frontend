@@ -8,18 +8,7 @@ import MuiDivider from "@mui/material/Divider";
 import { Tooltip } from "@mui/material";
 import { useState } from "react";
 
-const Box = styled(MuiBox)(() => ({
-  width: "100%",
-  height: "100%",
-  paddingTop: "0.8rem",
-  paddingBottom: "0.8rem",
-  "&:hover": {
-    backgroundColor: "#f5f5f529",
-  },
-  cursor: "pointer",
-  paddingLeft: "0.5rem",
-  display: "flex",
-}));
+
 
 const Divider = styled(MuiDivider)(() => ({
   width: "90%",
@@ -31,6 +20,20 @@ const Divider = styled(MuiDivider)(() => ({
 
 export default function SidebarLink(props) {
   const [icon, setIcon] = useState();
+
+  const Box = styled(MuiBox)(() => ({
+    width: "100%",
+    height: "100%",
+    paddingTop: "0.8rem",
+    paddingBottom: "0.8rem",
+    "&:hover": {
+      backgroundColor: "#f5f5f529",
+    },
+    backgroundColor: props.selected && "#f5f5f529",
+    cursor: "pointer",
+    paddingLeft: "0.5rem",
+    display: "flex",
+  }));
 
   useEffect(() => {
     setIcon(props.selected ? props.fullIcon : props.outlinedIcon);

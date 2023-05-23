@@ -10,6 +10,7 @@ import DemandsList from "../Demand-card-list";
 
 //Utils
 import UserUtils from "../../utils/User-Utils";
+import FontSizeUtils from "../../utils/FontSize-Utils";
 
 //Components
 import NoContent from "../No-content";
@@ -24,8 +25,6 @@ import MuiButton from "@mui/material/Button";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
-
-import { SpeechRecognitionProvider } from "../../service/Voice-speech-Service/SpeechRecognitionContext.jsx";
 
 // Tools
 import Draggable from "react-draggable";
@@ -61,6 +60,12 @@ export default function DemandsPage(props) {
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasDemands, setHasDemands] = useState(true); // Novo estado para controlar se há demandas cadastradas
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
     setDemandType(props.DemandType);
@@ -184,7 +189,6 @@ export default function DemandsPage(props) {
     fontWeight: "bold",
     border: "#0075B1 solid 1px",
     fontSize: "0.89rem",
-    width: 260,
     height: "2.5rem",
 
     "&:hover": {
@@ -456,13 +460,12 @@ export default function DemandsPage(props) {
           {dbDemands && dbDemands.length > 0 && (
             <div className="mb-10 flex gap-10">
               <Button
+                style={{ fontSize: fonts.base }}
                 onClick={handleClickOpenModalConfirmationDemand}
                 variant="contained"
                 sx={{
                   backgroundColor: "#0075B1",
                   color: "#FFF",
-                  fontSize: "0.89rem",
-                  width: 200,
                   height: "2.5rem",
                   marginLeft: 2,
                   "&:hover": {
@@ -489,6 +492,7 @@ export default function DemandsPage(props) {
                   }}
                 >
                   <ButtonAddSelected
+                    style={{ fontSize: fonts.base }}
                     onClick={handleClickOpenModalConfirmationSelectedDemand}
                     variant="contained"
                     color="primary"
@@ -529,10 +533,16 @@ export default function DemandsPage(props) {
                 <NoContent
                   isManager={demandType == DemandType.MANAGER ? false : true}
                 >
-                  {demandType == DemandType.DEMAND && <>Sem demandas!</>}
-                  {demandType == DemandType.DRAFT && <>Sem rascunhos!</>}
+                  {demandType == DemandType.DEMAND && (
+                    <div style={{ fontSize: fonts.xl }}>Sem demandas!</div>
+                  )}
+                  {demandType == DemandType.DRAFT && (
+                    <div style={{ fontSize: fonts.xl }}>Sem rascunhos!</div>
+                  )}
                   {demandType == DemandType.MANAGER && (
-                    <>Sem demandas para gerenciar!</>
+                    <div style={{ fontSize: fonts.xl }}>
+                      Sem demandas para gerenciar!
+                    </div>
                   )}
                 </NoContent>
               ) : (

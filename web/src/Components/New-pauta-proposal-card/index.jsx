@@ -17,7 +17,7 @@ export default function NewPautaProposalCard(props) {
 
   useEffect(() => {
     if(isCheckboxClicked) {
-      props.setSelectedProposals(prevState => [...prevState, {idProposta: props.proposal.idProposta}]);
+      props.setSelectedProposals(prevState => [...prevState, {idProposta: props.proposal.idProposta, idDemanda: props.proposal.idDemanda}]);
     } else {
       props.setSelectedProposals(prevState => prevState.filter(proposal => proposal.idProposta !== props.proposal.idProposta));
     }
