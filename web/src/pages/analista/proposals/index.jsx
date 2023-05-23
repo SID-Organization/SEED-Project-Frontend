@@ -67,15 +67,15 @@ export default function Proposals() {
     setIsLoading(true);
     Promise.all([PautaService.getPautas(), ProposalService.getReadyProposals()])
       .then(([pautasData, proposalsData]) => {
-        console.warn("PAUTAS", pautasData)
-        if(Array.isArray(pautasData)) {
+        console.warn("PAUTAS", pautasData);
+        if (Array.isArray(pautasData)) {
           let pautas = pautasData.map((pauta) => ({
             ...pauta,
             dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
           }));
           setPautas(pautas);
         }
-        console.warn("PROPOSALS", proposalsData)
+        console.warn("PROPOSALS", proposalsData);
         setProposals(proposalsData);
       })
       .catch((error) => {
@@ -143,13 +143,14 @@ export default function Proposals() {
           <div className="flex h-[71vh] items-center justify-around">
             <CircularProgress />
           </div>
-        ) : proposals.length === 0 ? (
+        ) : proposals && proposals.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isProposal={true}>
               <span style={{ fontSize: fonts.xl }}>Sem propostas!</span>
             </NoContent>
           </div>
         ) : (
+          proposals &&
           proposals.map((proposal, i) => (
             <ProposalCard
               key={i}

@@ -44,6 +44,7 @@ export const SpeechRecognitionProvider = ({ children }) => {
 
     if (!listening) {
       console.log("Audio ligado")
+      resetTranscript();
       SpeechRecognition.startListening({ continuous: true });
     } else {
       console.log("Audio desligado")

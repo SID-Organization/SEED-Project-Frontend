@@ -25,8 +25,6 @@ const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
   fontSize: "1.2rem",
 });
 
-
-
 const IconButtonStart = styled(MuiIconButton)({
   backgroundColor: "#0075B1",
   border: "1px solid #0075B1",
@@ -91,7 +89,6 @@ const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
   },
 });
 
-
 export default function ProposalCard(props) {
   const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 
@@ -128,14 +125,16 @@ export default function ProposalCard(props) {
       <Card>
         <div className="flex items-center justify-around gap-16">
           <div
-            className={`grid gap-7 font-roboto ${!props.newPauta && "w-[48rem]"
-              }`}
+            className={`grid gap-7 font-roboto ${
+              !props.newPauta && "w-[48rem]"
+            }`}
           >
             <div
               className={`
-                ${props.newPauta
-                  ? "ml-4 flex items-center justify-between"
-                  : "flex items-center justify-around "
+                ${
+                  props.newPauta
+                    ? "ml-4 flex items-center justify-between"
+                    : "flex items-center justify-around "
                 }
               `}
             >
@@ -146,16 +145,17 @@ export default function ProposalCard(props) {
               >
                 <Tooltip title={props.title}>
                   <h1
-                    className={`${props.newPauta
-                      ? "text-base font-bold"
-                      : "text-sm font-bold"
-                      }`}
+                    className={`${
+                      props.newPauta
+                        ? "text-base font-bold"
+                        : "text-sm font-bold"
+                    }`}
                   >
                     {props.title.length > 25
                       ? props.proposalId +
-                      " - " +
-                      props.title.substring(0, 25) +
-                      "..."
+                        " - " +
+                        props.title.substring(0, 25) +
+                        "..."
                       : props.proposalId + " - " + props.title}
                   </h1>
                 </Tooltip>
@@ -224,27 +224,29 @@ export default function ProposalCard(props) {
             <div className="flex items-center">
               <h1
                 className={`
-                ${props.newPauta
+                ${
+                  props.newPauta
                     ? "ml-4 w-[49rem] font-bold"
                     : "text-sm font-bold"
-                  }
+                }
                 `}
               >
                 Demanda de referência:{" "}
                 <Tooltip title={props.referenceDemand + " - " + props.title}>
                   <span
                     className={`
-                    ${props.newPauta
+                    ${
+                      props.newPauta
                         ? "cursor-default text-sm font-normal text-gray-500"
                         : "cursor-default font-normal text-gray-500"
-                      }
+                    }
                     `}
                   >
                     {props.referenceDemand + " - " + props.title > 70
                       ? (props.referenceDemand + " - " + props.title).substring(
-                        0,
-                        70
-                      ) + "..."
+                          0,
+                          70
+                        ) + "..."
                       : props.referenceDemand + " - " + props.title}
                   </span>
                 </Tooltip>
@@ -270,8 +272,7 @@ export default function ProposalCard(props) {
             {props.newPauta ? (
               ""
             ) : (
-              <Tooltip title="Visualizar proposta"
-                onClick={openProposalPDF}>
+              <Tooltip title="Visualizar proposta" onClick={openProposalPDF}>
                 {props.newPauta === "card" ? (
                   <VisibilityRoundedIcon />
                 ) : (
@@ -306,9 +307,7 @@ export default function ProposalCard(props) {
                   )}
                 </Tooltip>
                 <Tooltip title="Visualizar proposta">
-                  <IconButton
-                    onClick={openProposalPDF}
-                  >
+                  <IconButton onClick={openProposalPDF}>
                     <VisibilityIcon
                       sx={{
                         color: "#0075B1",
