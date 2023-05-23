@@ -142,7 +142,7 @@ export default function CreateNewPauta(props) {
       forumPauta: {
         idForum: selectedForum.id,
       },
-      propostasPauta: selectedProposals.map(proposal => ({ idProposta: proposal.idProposta })),
+      propostasPauta: selectedProposals.map(({ idProposta, ...rest }) => ({ idProposta })),
       horarioInicioPauta: meetingStartTime,
       horarioTerminoPauta: meetingEndTime,
       analistaResponsavelPauta: {
@@ -161,14 +161,12 @@ export default function CreateNewPauta(props) {
     //   } else {
     //     alert("Pauta criada com sucesso");
     //     handleCloseModal();
-    selectedProposals.forEach((proposal) => {
-
-      // DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
-
-
-    });
     //   }
     // });
+    selectedProposals.forEach((proposal) => {
+      console.log("ProposalIdDemanda", proposal);
+      // DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
+    });
   };
 
   return (

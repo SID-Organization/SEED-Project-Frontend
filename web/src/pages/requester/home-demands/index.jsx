@@ -4,13 +4,6 @@ import "../../../styles/index.css";
 import DemandsPage from "../../../Components/DemandsPage";
 import DemandType from "../../../Components/DemandsPage/DemandType-ENUM";
 
-import SubHeader from "../../../Components/Sub-header";
-import NoDemands from "../../../Components/No-demands";
-import DemandCard from "../../../Components/Demand-card";
-import DemandsList from "../../../Components/Demand-card-list";
-import DemandService from "../../../service/Demand-Service";
-import DemandLogService from "../../../service/DemandLog-Service";
-
 import { over } from "stompjs";
 import SockJs from "sockjs-client/dist/sockjs";
 

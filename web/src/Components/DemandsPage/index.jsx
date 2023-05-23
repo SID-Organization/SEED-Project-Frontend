@@ -77,6 +77,7 @@ export default function DemandsPage(props) {
     if (demandType === DemandType.DEMAND) {
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario)
         .then((res) => {
+          console.log("Requestor Demands", res.data)
           if (res.data && res.data.length > 0) {
             setDbDemands(
               res.data.filter((d) => d.statusDemanda !== "RASCUNHO")
@@ -131,7 +132,8 @@ export default function DemandsPage(props) {
           console.error("Erro ao obter as demandas para gerenciar:", error);
         });
     }
-  }, []);
+  }, [demandType]);
+
   useEffect(() => {
     if (dbDemands && dbDemands.length > 0) {
       setIsLoaded(true);
@@ -505,9 +507,8 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
-                      selectedDrafts.length > 0 ? "opacity-100" : ""
-                    }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
+                      }`}
                   >
                     Deletar {"(" + selectedDrafts.length + ")"}{" "}
                     {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
@@ -531,19 +532,13 @@ export default function DemandsPage(props) {
             <div className="flex h-[71vh] items-center justify-around">
               {!hasDemands ? (
                 <NoContent
-                  isManager={demandType == DemandType.MANAGER ? false : true}
+                  isManager={!(demandType == DemandType.MANAGER)}
                 >
-                  {demandType == DemandType.DEMAND && (
-                    <div style={{ fontSize: fonts.xl }}>Sem demandas!</div>
-                  )}
-                  {demandType == DemandType.DRAFT && (
-                    <div style={{ fontSize: fonts.xl }}>Sem rascunhos!</div>
-                  )}
-                  {demandType == DemandType.MANAGER && (
-                    <div style={{ fontSize: fonts.xl }}>
-                      Sem demandas para gerenciar!
-                    </div>
-                  )}
+                  <div style={{ fontSize: fonts.xl }}>
+                    {demandType == DemandType.DEMAND && "Você ainda não possui demandas!"}
+                    {demandType == DemandType.DRAFT && "Você não possui rascunhos!"}
+                    {demandType == DemandType.MANAGER && "Não há demandas para gerenciar!"}
+                  </div>
                 </NoContent>
               ) : (
                 <CircularProgress />
