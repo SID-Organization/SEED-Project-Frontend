@@ -22,7 +22,7 @@ const statusColorForAnalyst = {
     BACKLOG: "#5499C7",
     ASSESMENT: "#2980B9",
     BUSINESS_CASE: "#8862A2",
-    TO_DO: "#0076B8",
+    TO_DO: "#154360",
     DESIGN_AND_BUILD: "#EF8300",
     SUPPORT: "#008080",
     CANCELLED: "#C31700",

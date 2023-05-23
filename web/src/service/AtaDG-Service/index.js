@@ -9,9 +9,9 @@ const getAtasDG = async () => {
         .catch(err => err);
 }
 
-const createAtaDG = async (ataDg) => {
-    return AxiosAPI.post(url, ataDg)
-        .then(res => res.data)
+const createAtaDG = async (idAtaDg) => {
+    return AxiosAPI.post(url, idAtaDg)
+        .then(res => res)
         .catch(err => err);
 }
 

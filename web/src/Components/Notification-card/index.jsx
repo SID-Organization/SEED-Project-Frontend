@@ -31,7 +31,6 @@ export default function NotificationCard(props) {
       >
         <div
           className="ml-5 mr-5 flex h-20 justify-center font-roboto"
-          onClickCapture={console.log("AAA")}
         >
           <div className="flex w-[5rem] items-center">
             {props.type === "approved" ? (

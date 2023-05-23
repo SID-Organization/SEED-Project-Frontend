@@ -46,7 +46,7 @@ const formatLogProposalsToProposals = (logProposals) => {
             demandaPropostaTitulo: logProposal.demandaTituloPropostaLog,
             tempoExecucaoDemanda: logProposal.demandaTempoExecucaoPropostaLog,
             valorDemanda: logProposal.demandaValorPropostaLog,
-            idDemanda: logProposal.propostaPropostaLog.demandaProposta.idDemanda,
+            idDemanda: logProposal.idDemanda,
         }
     ))
 }
