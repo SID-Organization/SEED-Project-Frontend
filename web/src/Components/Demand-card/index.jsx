@@ -445,7 +445,7 @@ export default function DemandCard(props) {
                   </Typography>
                   <Typography color="black" fontWeight="bold" className="flex">
                     <span style={{ fontSize: fonts.sm }} className="ml-2">
-                      19/05/2023
+                      - - - -
                     </span>
                   </Typography>
                 </div>

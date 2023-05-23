@@ -41,7 +41,8 @@ const style = {
   p: 4,
 };
 
-const htmlDivStyle = "border-1 h-auto min-h-[6rem] w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50"
+const htmlDivStyle =
+  "border-1 h-auto min-h-[6rem] w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50";
 
 export default function openedDemand() {
   const params = useParams();
@@ -444,6 +445,7 @@ export default function openedDemand() {
               >
                 Benefício qualitativo:
               </h1>
+
               <textarea
                 className="border-1 h-20 w-[65rem] resize-none
                 rounded-[0.5rem] p-2 

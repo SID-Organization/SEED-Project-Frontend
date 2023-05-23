@@ -77,7 +77,7 @@ export default function DemandsPage(props) {
     if (demandType === DemandType.DEMAND) {
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario)
         .then((res) => {
-          console.log("Requestor Demands", res.data)
+          console.log("Requestor Demands", res.data);
           if (res.data && res.data.length > 0) {
             setDbDemands(
               res.data.filter((d) => d.statusDemanda !== "RASCUNHO")
@@ -462,7 +462,7 @@ export default function DemandsPage(props) {
           {dbDemands && dbDemands.length > 0 && (
             <div className="mb-10 flex gap-10">
               <Button
-                style={{ fontSize: fonts.base }}
+                style={{ fontSize: fonts.sm }}
                 onClick={handleClickOpenModalConfirmationDemand}
                 variant="contained"
                 sx={{
@@ -494,7 +494,7 @@ export default function DemandsPage(props) {
                   }}
                 >
                   <ButtonAddSelected
-                    style={{ fontSize: fonts.base }}
+                    style={{ fontSize: fonts.sm }}
                     onClick={handleClickOpenModalConfirmationSelectedDemand}
                     variant="contained"
                     color="primary"
@@ -507,8 +507,9 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
-                      }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
+                      selectedDrafts.length > 0 ? "opacity-100" : ""
+                    }`}
                   >
                     Deletar {"(" + selectedDrafts.length + ")"}{" "}
                     {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
@@ -531,13 +532,14 @@ export default function DemandsPage(props) {
           ) : (
             <div className="flex h-[71vh] items-center justify-around">
               {!hasDemands ? (
-                <NoContent
-                  isManager={!(demandType == DemandType.MANAGER)}
-                >
+                <NoContent isManager={!(demandType == DemandType.MANAGER)}>
                   <div style={{ fontSize: fonts.xl }}>
-                    {demandType == DemandType.DEMAND && "Você ainda não possui demandas!"}
-                    {demandType == DemandType.DRAFT && "Você não possui rascunhos!"}
-                    {demandType == DemandType.MANAGER && "Não há demandas para gerenciar!"}
+                    {demandType == DemandType.DEMAND &&
+                      "Você ainda não possui demandas!"}
+                    {demandType == DemandType.DRAFT &&
+                      "Você não possui rascunhos!"}
+                    {demandType == DemandType.MANAGER &&
+                      "Não há demandas para gerenciar!"}
                   </div>
                 </NoContent>
               ) : (
