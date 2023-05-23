@@ -29,7 +29,7 @@ const months = {
   12: "Dezembro",
 };
 
-export default function Atas() {
+export default function Atas(props) {
   const [atas, setAtas] = useState([]);
   const [atasMonths, setAtasMonths] = useState([]);
   const [atasYears, setAtasYears] = useState([]);
@@ -57,6 +57,7 @@ export default function Atas() {
       // Get Atas passadas pela comissão
       AtaService.getAtas()
         .then((res) => {
+          console.log("ATAS", res.data);
           if (!res.error) {
             const dbAtas = res.data.map((ata) => {
               ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
@@ -125,17 +126,18 @@ export default function Atas() {
                       >
                         {months[month] + " - " + year}
                       </h1>
-                      {getAtasInMonth(month, year).map((ata, i) => (
-                        <AtasCard
-                          key={ata.idAta}
-                          idAta={ata.idAta}
-                          qtyProposals={ata.qtdPropostas}
-                          meetingDate={ata.dataReuniaoAta}
-                          meetingTime={ata.horarioInicioAta}
-                          responsibleAnalyst={ata.analistaResponsavel}
-                          proposals={ata.propostasLog}
-                        />
-                      ))}
+                      {/* {getAtasInMonth(month, year).map((ata, i) => (
+//   <AtasCard
+//     key={ata.idAta}
+//     idAta={ata.idAta}
+//     qtyProposals={ata.qtdPropostas}
+//     meetingDate={ata.dataReuniaoAta}
+//     meetingTime={ata.horarioInicioAta}
+//     responsibleAnalyst={ata.analistaResponsavel}
+//     proposals={ata.propostasLog}
+//   />
+// ))
+// } */}
                     </div>
                   )}
                 </Fragment>
