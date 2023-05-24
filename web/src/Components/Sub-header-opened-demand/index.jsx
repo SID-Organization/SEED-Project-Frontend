@@ -345,7 +345,7 @@ export default function subHeader({
 
   const handleManagerApproveDemand = async () => {
 
-    DemandLogService.createDemandLog("ELABORACAO_PROPOSTA", demand.idDemanda, "Enviar", 72131).then((response) => {
+    DemandLogService.createDemandLog("ELABORACAO_PROPOSTA", demand.idDemanda, "Aprovar", 72131).then((response) => {
       if (response.status == 200 || response.status == 201) {
         DemandService.updateDemandStatus(
           demand.idDemanda,
