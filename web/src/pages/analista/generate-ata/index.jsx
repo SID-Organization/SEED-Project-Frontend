@@ -111,7 +111,7 @@ export default function GenerateAta(props) {
     if (!props.isAtaForDG) {
       AtaService.createAta(form).then((response) => {
         if (response.status == 201) {
-          updateEachDemand()
+          updateEachDemand(false)
           alert("Ata gerada com sucesso")
           navigate("/atas")
         };
@@ -125,7 +125,8 @@ export default function GenerateAta(props) {
 
       AtaService.updateProposalsLogs(decisions).then(res => {
         if (res.status == 201)
-          AtaDGService.generatePDFAtaDG(res.data.idAta);
+        AtaDGService.generatePDFAtaDG(res.data.idAtaDG);
+        updateEachDemand(true)
       });
 
     }
@@ -133,10 +134,10 @@ export default function GenerateAta(props) {
 
   }
 
-  const formatStatusToDemand = (status) => {
+  const formatStatusToDemand = (status, isForDG) => {
     switch (status) {
       case "APROVADO":
-        return "APROVADA_EM_COMISSAO";
+        return isForDG ? "APROVADA_EM_DG" : "APROVADA_EM_COMISSAO";
       case "REPROVADO":
         return "CANCELADA";
       case "MAIS INFORMACOES":
@@ -150,16 +151,26 @@ export default function GenerateAta(props) {
     return props.isAtaForDG ? proposal.idPropostaLog : proposal.idProposta
   }
 
-  const updateEachDemand = () => {
-    finalDecisions.forEach(async (fd) => {
+  const updateEachDemand = (isForDG = false) => {
+    finalDecisions.forEach((fd) => {
       // const proposal = await ProposalService.getProposalById(fd.propostaPropostaLog.idProposta);
       const demandId = fd.idDemanda;
+      if (!isForDG) {
+        DemandLogService.createDemandLog("APROVACAO_DG", demandId, "Aprovar", 72131).then(res => {
+          if (res.status == 201 || res.status == 200) {
+            DemandService.updateDemandStatus(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog, isForDG));
+          }
+        })
+      } else {
+        // console.log("EXECUCAO_PROPOSTA", demandId, "Aprovar", 72131);
+        // console.log(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog, isForDG));
+        DemandLogService.createDemandLog("EXECUCAO_PROPOSTA", demandId, "Aprovar", 72131).then(res => {
+          if (res.status == 201 || res.status == 200) {
+            DemandService.updateDemandStatus(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog, isForDG));
+          }
+        })
+      }
 
-      DemandLogService.createDemandLog("APROVACAO_DG", demandId, "Aprovar", 72131).then(res => {
-        if (res.status == 201 || res.status == 200) {
-          DemandService.updateDemandStatus(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog));
-        }
-      })
     })
   }
 

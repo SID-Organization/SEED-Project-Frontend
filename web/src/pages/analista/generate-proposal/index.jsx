@@ -157,10 +157,10 @@ export default function GenerateProposal() {
       setInternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(intTable));
       setExternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(extTable));
       setStartDate(
-        DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaInicio)
+        DateUtils.formatDateForDB(proposal.periodoExecucaoDemandaInicio)
       );
       setEndDate(
-        DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaFim)
+        DateUtils.formatDateForDB(proposal.periodoExecucaoDemandaFim)
       );
       setPayback(proposal.paybackProposta);
     }
@@ -316,7 +316,7 @@ export default function GenerateProposal() {
         console.log("finish", finish);
         if (finish && (res.status === 200 || res.status === 201)) {
 
-          DemandLogService.createDemandLog("APROVACAO_COMISSAO", demandId, "Aprovar", 72131).then((response) => {
+          DemandLogService.createDemandLog("APROVACAO_COMISSAO", demandId, "Enviar", 72131).then((response) => {
             if (response.status == 200 || response.status == 201) {
               DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
               navigate("/gerenciar-demandas");
