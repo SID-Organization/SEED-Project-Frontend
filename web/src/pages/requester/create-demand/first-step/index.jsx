@@ -44,7 +44,9 @@ export default function FirstStep({ props }) {
     props.setTitle(textoInput);
   }, [textoInput]);
 
-  setFonts(FontSizeUtils.getFontSizes());
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()])
 
   const updateProposal = (e) => {
     props.setProposalHTML(e);
