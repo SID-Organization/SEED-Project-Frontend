@@ -11,6 +11,9 @@ import { useState, useEffect } from "react";
 // Services
 import DemandLogService from "../../service/DemandLog-Service";
 
+// Utils
+import DateUtils from "../../utils/Date-Utils";
+
 // Renderizador de células normais
 const renderCellTooltip = (params) => (
   <Tooltip title={params.value} enterDelay={820}>
@@ -20,7 +23,7 @@ const renderCellTooltip = (params) => (
 
 // Renderizador de células de data
 const renderDateCell = (params) => {
-  const date = params.value ? getTableDate(params.value) : "Indefinido";
+  const date = params.value ? DateUtils.formatDateTime(params.value) : "Indefinido";
   return (
     <Tooltip title={date} enterDelay={820}>
       <p className="text-[11px]">{date}</p>
@@ -28,22 +31,6 @@ const renderDateCell = (params) => {
   );
 };
 
-// Função para formatar a data
-function getTableDate(date) {
-  const dateObject = new Date(date);
-  const dateString =
-    dateObject.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }) +
-    " - " +
-    dateObject.toLocaleTimeString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  return dateString;
-}
 
 function CustomToolbar() {
   return (
@@ -153,7 +140,7 @@ export default function WorkflowTable({ demandId }) {
           prazo: wfdata.prazoHistorico,
           tarefa: wfdata.tarefaHistoricoWorkflow,
           responsavel: wfdata.nomeResponsavel,
-          acao: wfdata.acaoFeitaHistorico,
+          acao: wfdata.acaoFeitaHistorico ?? "- - - - -",
           status: wfdata.statusWorkflow,
           versao: wfdata.versaoHistorico,
         };
