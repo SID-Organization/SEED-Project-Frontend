@@ -112,7 +112,9 @@ export default function Chat() {
   }, [chatUsers]);
 
   useEffect(() => {
-    console.log("userdata: ", userData);
+    if (userData && userData.file) {
+      console.log("userdata: ", userData.file.name);
+    }
   }, [userData]);
 
   const onConnected = () => {
@@ -540,7 +542,13 @@ export default function Chat() {
                   message: e.target.value,
                 });
               }}
-              value={userData.message}
+              value={
+                userData.message !== ""
+                  ? userData.message
+                  : userData.file !== null
+                  ? userData.file.name
+                  : ""
+              }
             />
             <Tooltip title="Enviar mensagem">
               <IconButton

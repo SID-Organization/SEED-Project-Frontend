@@ -24,7 +24,6 @@ import DemandsPage from "./Components/DemandsPage";
 
 // Utils
 import UserUtils from "./utils/User-Utils";
-import { SpeechRecognitionProvider } from "./service/Voice-speech-Service/SpeechRecognitionContext.jsx";
 
 // import DemandsPage from "./Components/DemandsPage";
 
@@ -33,7 +32,6 @@ function App() {
 
   return (
     <>
-      <SpeechRecognitionProvider>
       <BrowserRouter>
         <Routes>
           <Route path="" element={<Navigate to={"/login"} />} />
@@ -94,7 +92,6 @@ function App() {
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>
       </BrowserRouter>
-      </SpeechRecognitionProvider>
     </>
   );
 }
