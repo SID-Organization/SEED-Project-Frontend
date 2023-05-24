@@ -196,27 +196,21 @@ export default function DemandCard(props) {
     return `${value}°C`;
   }
 
-  function formatDemandStatus(type) {
+  function formatDemandStatus(tooltip = false) {
     const statusByRole = DemandUtils.getDemandStatusByRole(
       props.demand.statusDemanda,
       user.cargoUsuario
     );
-    const status =
-      statusByRole[0].toLocaleUpperCase() +
-      statusByRole.split("_").join(" ").toLocaleLowerCase().slice(1);
-
-    if (type === 1) {
-      if (status.length > 15) {
-        return status.slice(0, 15) + "...";
+    // If the status is too long, cuts it
+    if (!tooltip)
+      if (statusByRole.length > 15) {
+        return statusByRole.substr(0, 15) + "..."
       }
-    }
-    return status;
+    return statusByRole;
   }
 
   function getPercents() {
-    const percent = DemandUtils.getPercentageByStatus(
-      props.demand.statusDemanda
-    );
+    const percent = DemandUtils.getPercentageByStatus(props.demand.statusDemanda);
     return percent;
   }
 
@@ -311,12 +305,12 @@ export default function DemandCard(props) {
                   <span style={{ fontSize: fonts.sm }} className="mr-1 ">
                     Status:
                   </span>
-                  <Tooltip title={formatDemandStatus(2)}>
+                  <Tooltip title={formatDemandStatus(true)}>
                     <span
                       style={{ fontSize: fonts.sm }}
                       className="font-medium text-black"
                     >
-                      {formatDemandStatus(1)}
+                      {formatDemandStatus()}
                     </span>
                   </Tooltip>
                   {/* Select */}
@@ -459,7 +453,7 @@ export default function DemandCard(props) {
                       <Tooltip
                         title={
                           props.demand.statusDemanda ===
-                          "APROVADO_PELO_GERENTE_DA_AREA"
+                            "APROVADO_PELO_GERENTE_DA_AREA"
                             ? "Gerar proposta"
                             : "Acessar proposta"
                         }
@@ -467,7 +461,7 @@ export default function DemandCard(props) {
                         <Button
                           onClick={
                             props.demand.statusDemanda ===
-                            "APROVADO_PELO_GERENTE_DA_AREA"
+                              "APROVADO_PELO_GERENTE_DA_AREA"
                               ? handleOpenGenerateProposal
                               : handleAccessProposal
                           }

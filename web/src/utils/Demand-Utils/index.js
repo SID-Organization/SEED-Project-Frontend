@@ -46,19 +46,6 @@ const statusColorForRequester = {
     PROPOSTA_FINALIZADA: "#00612E",
 }
 
-/**
- * #F0F8FF - Alice Blue
- * #D6EAF8 - Blue Haze
- * #AED6F1 - Blue Lagoon
- * #85C1E9 - Cornflower Blue
- * #5499C7 - Dark Powder Blue
- * #2980B9 - Ocean Blue
- * #1F618D - Denim Blue
- * #154360 - Midnight Blue
- * #0B365E - Dark Blue
- * #041F37 - Navy Blue
- */
-
 const statusPercentage = {
     ABERTA: 15,
     CLASSIFICADO_PELO_ANALISTA: 30,
@@ -75,18 +62,45 @@ const statusPercentage = {
     RASCUNHO: 1,
 }
 
-const getDemandStatusByRole = (status, role = "SOLICITANTE") => {
-    if (role === "ANALISTA" || role === "GERENTE" || role === "GESTOR_TI") {
-        return statusForAnalyst[status]
-    }
+// Format the status to show in the demand card
+const formatStatus = {
+    ABERTA: "Aberta",
+    CLASSIFICADO_PELO_ANALISTA: "Classificado pelo Analista",
+    APROVADO_PELO_GERENTE_DA_AREA: "Aprovado pelo Gerente da Área",
+    PROPOSTA_EM_ELABORACAO: "Proposta em Elaboração",
+    PROPOSTA_PRONTA: "Proposta Pronta",
+    EM_PAUTA: "Em Pauta",
+    APROVADA_EM_COMISSAO: "Aprovada em Comissão",
+    APROVADA_EM_DG: "Aprovada em DG",
+    PROPOSTA_EM_EXECUCAO: "Proposta em Execução",
+    PROPOSTA_EM_SUPORTE: "Proposta em Suporte",
+    PROPOSTA_FINALIZADA: "Proposta Finalizada",
+    CANCELADA: "Cancelada",
+    RASCUNHO: "Rascunho",
 
+    ASSESMENT: "Assesment",
+    BACKLOG: "Backlog",
+    BUSINESS_CASE: "Business Case",
+    TO_DO: "To Do",
+    DESIGN_AND_BUILD: "Design and Build",
+    SUPPORT: "Support",
+    DONE: "Done",
+    CANCELLED: "Cancelled",
+}
+
+const getDemandStatusByRole = (demandStatus, role = "SOLICITANTE") => {
+    let status;
+    if (["ANALISTA", "GERENTE", "GESTOR_TI"].includes(role)) {
+        status = formatStatus[statusForAnalyst[demandStatus]]
+    } else {
+        status = formatStatus[demandStatus]
+    }
     return status
 }
 
-
 const getDemandStatusColorByRole = (status, role = "SOLICITANTE") => {
-    if (role === "ANALISTA" || role === "GERENTE" || role === "GESTOR_TI") {
-        return statusColorForAnalyst[getDemandStatusByRole(status, role)]
+    if (["ANALISTA", "GERENTE", "GESTOR_TI"].includes(role)) {
+        return statusColorForAnalyst[statusForAnalyst[status]]
     }
 
     return statusColorForRequester[status]
