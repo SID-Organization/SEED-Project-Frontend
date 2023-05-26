@@ -51,13 +51,14 @@ export default function Login(props) {
 
     LoginService.login(userID, password)
       .then((res) => {
-        console.log("LOGIN RESPONSE", res);
         if (res.status != 200) {
           setOpenNotification(true);
-          return;
+          return false
         }
+        return true;
       })
-      .then(() => {
+      .then((auth) => {
+        if (!auth) return;
         const loggedUser = UserUtils.getUserFromCookie();
         localStorage.setItem("user", JSON.stringify(loggedUser));
 
@@ -100,7 +101,7 @@ export default function Login(props) {
             <h1 className="text-3xl text-white">Bem-vindo!</h1>
           </div>
           <div className="grid">
-            <h1 className="text-3xl font-bold text-white">SID</h1>
+            <h1 className="text-3xl font-bold text-white">SEED</h1>
             <h1 className="text-2xl font-bold text-slate-300">
               Sustainable System
             </h1>

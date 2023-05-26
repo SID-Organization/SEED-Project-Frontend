@@ -332,31 +332,20 @@ export default function subHeader({
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {
-          const newDemandLog = {
-            tarefaHistoricoWorkflow: "APROVACAO_GERENTE_AREA",
-            demandaHistorico: { idDemanda: demand.idDemanda },
-            acaoFeitaHistorico: "Aprovar",
-            idResponsavel: { numeroCadastroUsuario: 72132 },
-          };
-          DemandLogService.createDemandLog(newDemandLog);
+
+          DemandLogService.createDemandLog("APROVACAO_GERENTE_AREA", demand.idDemanda, "Aprovar", 72132);
         }
         return response;
       })
       .then((res) => {
         if (res.status == 200)
-          navigate("/demandas");
+          navigate(-1);
       });
   };
 
   const handleManagerApproveDemand = async () => {
-    const newDemandLog = {
-      tarefaHistoricoWorkflow: "ELABORACAO_PROPOSTA",
-      demandaHistorico: { idDemanda: demand.idDemanda },
-      acaoFeitaHistorico: "Enviar",
-      idResponsavel: { numeroCadastroUsuario: 72131 },
-    };
 
-    DemandLogService.createDemandLog(newDemandLog).then((response) => {
+    DemandLogService.createDemandLog("ELABORACAO_PROPOSTA", demand.idDemanda, "Aprovar", 72131).then((response) => {
       if (response.status == 200 || response.status == 201) {
         DemandService.updateDemandStatus(
           demand.idDemanda,

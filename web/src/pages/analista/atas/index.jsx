@@ -8,9 +8,11 @@ import NoContent from "../../../Components/No-content";
 
 // Service
 import AtaService from "../../../service/Ata-Service";
+import AtaDGService from "../../../service/AtaDG-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 const months = {
   "01": "Janeiro",
@@ -27,11 +29,17 @@ const months = {
   12: "Dezembro",
 };
 
-export default function Atas() {
+export default function Atas(props) {
   const [atas, setAtas] = useState([]);
   const [atasMonths, setAtasMonths] = useState([]);
   const [atasYears, setAtasYears] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   const getAtasInMonth = (month, year) => {
     return atas.filter(
@@ -41,25 +49,38 @@ export default function Atas() {
     );
   };
 
+
+
   useEffect(() => {
     setIsLoading(true);
-    AtaService.getAtas()
-      .then((res) => {
-        if (!res.error) {
-          const dbAtas = res.data.map((ata) => {
-            ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
-            return ata;
-          });
-          setAtas(dbAtas);
-        } else {
-          alert("Erro ao buscar atas");
-          console.log("Request", res);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    if (!props.isAtaForDG) {
+      // Get Atas passadas pela comissão
+      AtaService.getAtas()
+        .then((res) => {
+          console.log("ATAS", res.data);
+          if (!res.error) {
+            const dbAtas = res.data.map((ata) => {
+              ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
+              return ata;
+            });
+            setAtas(dbAtas);
+          } else {
+            alert("Erro ao buscar atas");
+            console.log("Request", res);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      // Busca as atas já passadas pela DG
+      AtaDGService.getAtasDG()
+        .then((data) => {
+          console.log("ATAS DG", data);
+          // setAtas(data);
+        });
+    }
+  }, [props.isAtaForDG]);
 
   useEffect(() => {
     if (atas.length === 0) return;
@@ -80,7 +101,7 @@ export default function Atas() {
 
   return (
     <div>
-      <SubHeaderAtas />
+      <SubHeaderAtas isAtaForDG={props.isAtaForDG} />
       <div className="mt-8 flex flex-col items-center justify-center gap-4">
         {isLoading ? (
           <div className="flex h-[71vh] items-center justify-around">
@@ -88,7 +109,9 @@ export default function Atas() {
           </div>
         ) : atasYears.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
-            <NoContent isAta={true}>Sem atas!</NoContent>
+            <NoContent isAta={true}>
+              <span style={{ fontSize: fonts.xl }}>Sem atas!</span>
+            </NoContent>
           </div>
         ) : (
           atasYears.map((year, iY) => (
@@ -97,7 +120,10 @@ export default function Atas() {
                 <Fragment key={month}>
                   {getAtasInMonth(month, year).length > 0 && (
                     <div key={iM}>
-                      <h1 className="text-xl font-bold text-dark-blue-weg">
+                      <h1
+                        style={{ fontSize: fonts.xl }}
+                        className=" font-bold text-dark-blue-weg"
+                      >
                         {months[month] + " - " + year}
                       </h1>
                       {getAtasInMonth(month, year).map((ata, i) => (
@@ -110,7 +136,8 @@ export default function Atas() {
                           responsibleAnalyst={ata.analistaResponsavel}
                           proposals={ata.propostasLog}
                         />
-                      ))}
+                      ))
+                      }
                     </div>
                   )}
                 </Fragment>

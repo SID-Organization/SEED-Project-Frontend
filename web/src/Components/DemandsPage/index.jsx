@@ -10,6 +10,7 @@ import DemandsList from "../Demand-card-list";
 
 //Utils
 import UserUtils from "../../utils/User-Utils";
+import FontSizeUtils from "../../utils/FontSize-Utils";
 
 //Components
 import NoContent from "../No-content";
@@ -24,8 +25,6 @@ import MuiButton from "@mui/material/Button";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
-
-import { SpeechRecognitionProvider } from "../../service/Voice-speech-Service/SpeechRecognitionContext.jsx";
 
 // Tools
 import Draggable from "react-draggable";
@@ -62,6 +61,12 @@ export default function DemandsPage(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasDemands, setHasDemands] = useState(true); // Novo estado para controlar se há demandas cadastradas
 
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
+
   useEffect(() => {
     setDemandType(props.DemandType);
     console.log("props.DemandType: ", props.DemandType);
@@ -72,6 +77,7 @@ export default function DemandsPage(props) {
     if (demandType === DemandType.DEMAND) {
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario)
         .then((res) => {
+          console.log("Requestor Demands", res.data);
           if (res.data && res.data.length > 0) {
             setDbDemands(
               res.data.filter((d) => d.statusDemanda !== "RASCUNHO")
@@ -126,7 +132,8 @@ export default function DemandsPage(props) {
           console.error("Erro ao obter as demandas para gerenciar:", error);
         });
     }
-  }, []);
+  }, [demandType]);
+
   useEffect(() => {
     if (dbDemands && dbDemands.length > 0) {
       setIsLoaded(true);
@@ -184,7 +191,6 @@ export default function DemandsPage(props) {
     fontWeight: "bold",
     border: "#0075B1 solid 1px",
     fontSize: "0.89rem",
-    width: 260,
     height: "2.5rem",
 
     "&:hover": {
@@ -456,13 +462,12 @@ export default function DemandsPage(props) {
           {dbDemands && dbDemands.length > 0 && (
             <div className="mb-10 flex gap-10">
               <Button
+                style={{ fontSize: fonts.sm }}
                 onClick={handleClickOpenModalConfirmationDemand}
                 variant="contained"
                 sx={{
                   backgroundColor: "#0075B1",
                   color: "#FFF",
-                  fontSize: "0.89rem",
-                  width: 200,
                   height: "2.5rem",
                   marginLeft: 2,
                   "&:hover": {
@@ -489,6 +494,7 @@ export default function DemandsPage(props) {
                   }}
                 >
                   <ButtonAddSelected
+                    style={{ fontSize: fonts.sm }}
                     onClick={handleClickOpenModalConfirmationSelectedDemand}
                     variant="contained"
                     color="primary"
@@ -526,14 +532,15 @@ export default function DemandsPage(props) {
           ) : (
             <div className="flex h-[71vh] items-center justify-around">
               {!hasDemands ? (
-                <NoContent
-                  isManager={demandType == DemandType.MANAGER ? false : true}
-                >
-                  {demandType == DemandType.DEMAND && <>Sem demandas!</>}
-                  {demandType == DemandType.DRAFT && <>Sem rascunhos!</>}
-                  {demandType == DemandType.MANAGER && (
-                    <>Sem demandas para gerenciar!</>
-                  )}
+                <NoContent isManager={!(demandType == DemandType.MANAGER)}>
+                  <div style={{ fontSize: fonts.xl }}>
+                    {demandType == DemandType.DEMAND &&
+                      "Você ainda não possui demandas!"}
+                    {demandType == DemandType.DRAFT &&
+                      "Você não possui rascunhos!"}
+                    {demandType == DemandType.MANAGER &&
+                      "Não há demandas para gerenciar!"}
+                  </div>
                 </NoContent>
               ) : (
                 <CircularProgress />

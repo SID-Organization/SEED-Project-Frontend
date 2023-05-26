@@ -41,11 +41,12 @@ const sumCosts = (costs) => {
 const formatLogProposalsToProposals = (logProposals) => {
     return logProposals.map((logProposal) => (
         {
+            idPropostaLog: logProposal.idPropostaLog,
             idProposta: logProposal.propostaPropostaLog.idProposta,
             demandaPropostaTitulo: logProposal.demandaTituloPropostaLog,
             tempoExecucaoDemanda: logProposal.demandaTempoExecucaoPropostaLog,
             valorDemanda: logProposal.demandaValorPropostaLog,
-            idDemanda: logProposal.propostaPropostaLog.demandaProposta.idDemanda,
+            idDemanda: logProposal.idDemanda,
         }
     ))
 }

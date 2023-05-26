@@ -32,6 +32,7 @@ import DateUtils from "../../../utils/Date-Utils";
 import ProposalUtils from "../../../utils/Proposal-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 import DemandLogService from "../../../service/DemandLog-Service";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
@@ -70,46 +71,44 @@ const DateInput = styled(MuiTextField)({
 });
 
 export default function GenerateProposal() {
-
   const navigate = useNavigate();
+
+  // Demand ID
+  let demandId = useParams().id;
 
   // STATES
   const [demand, setDemand] = useState("");
   const [proposal, setProposal] = useState("");
-
   const [payback, setPayback] = useState(0);
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
   const [nameBusinessResponsible, setNameBusinessResponsible] = useState("");
   const [areaBusinessResponsible, setAreaBusinessResponsible] = useState("");
 
   // React quill
   const [quillHtmlScope, setQuillHtmlScope] = useState("");
-  const [quillHtmlIsNotOnScope, setQuillHtmlIsNotOnScope] =
-    useState("");
+  const [quillHtmlIsNotOnScope, setQuillHtmlIsNotOnScope] = useState("");
   const [quillHtmlProposalAlternatives, setQuillHtmlProposalAlternatives] =
     useState("");
-  const [
-    quillHtmlProposalMitigationPlan,
-    setQuillHtmlProposalMitigationPlan,
-  ] = useState("");
-
+  const [quillHtmlProposalMitigationPlan, setQuillHtmlProposalMitigationPlan] =
+    useState("");
   const [quillValueProjectRange, setQuillValueProjectRange] = useState("");
-
 
   const [buttonSavedClicked, setButtonSavedClicked] = useState(false);
 
   const [internalCosts, setInternalCosts] = useState([]);
-
   const [externalCosts, setExternalCosts] = useState([]);
 
   const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([]);
-
   const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([]);
 
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
-  // Demand ID
-  let demandId = useParams().id;
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   // Get demand, proposal and proposal pdf from DB
   useEffect(() => {
@@ -119,16 +118,16 @@ export default function GenerateProposal() {
   }, []);
 
   useEffect(() => {
-    ProposalService.getProposalByDemandId(demandId).then((proposal) => {
-      const lastProposal = proposal[proposal.length - 1];
-      console.log("PROPOSAL", lastProposal)
-      setProposal(lastProposal);
-      return lastProposal.idProposta;
-    })
-      .then(proposalId => {
+    ProposalService.getProposalByDemandId(demandId)
+      .then((proposal) => {
+        const lastProposal = proposal[proposal.length - 1];
+        console.log("PROPOSAL", lastProposal);
+        setProposal(lastProposal);
+        return lastProposal.idProposta;
+      })
+      .then((proposalId) => {
         ProposalPDFService.getPdfByProposalId(proposalId).then((pdf) => {
-          if (pdf)
-            continueProposal(pdf);
+          if (pdf) continueProposal(pdf);
         });
       });
   }, []);
@@ -144,22 +143,28 @@ export default function GenerateProposal() {
     console.log("PDF", html);
   }
 
-
   useEffect(() => {
     if (proposal) {
-      const intTable = proposal.tabelaCusto.find(tc => tc.tipoDespesa == "INTERNA");
-      const extTable = proposal.tabelaCusto.find(tc => tc.tipoDespesa == "EXTERNA");
+      const intTable = proposal.tabelaCusto.find(
+        (tc) => tc.tipoDespesa == "INTERNA"
+      );
+      const extTable = proposal.tabelaCusto.find(
+        (tc) => tc.tipoDespesa == "EXTERNA"
+      );
 
       setInternalCosts(ProposalUtils.formatCostsFromDB(intTable));
       setExternalCosts(ProposalUtils.formatCostsFromDB(extTable));
       setInternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(intTable));
       setExternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(extTable));
-      setStartDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaInicio));
-      setEndDate(DateUtils.formatDateFromDB(proposal.periodoExecucaoDemandaFim));
+      setStartDate(
+        DateUtils.formatDateForDB(proposal.periodoExecucaoDemandaInicio)
+      );
+      setEndDate(
+        DateUtils.formatDateForDB(proposal.periodoExecucaoDemandaFim)
+      );
       setPayback(proposal.paybackProposta);
     }
-  }, [proposal])
-
+  }, [proposal]);
 
   function sumInternalCosts() {
     let sum = 0;
@@ -191,20 +196,25 @@ export default function GenerateProposal() {
   };
 
   function formatCosts(costs) {
-    return costs.map((cost) => {
-      const tempCost = {
-        perfilDespesaTabelaCustoLinha: cost.expenseProfile,
-        periodoExecucaoTabelaCusto: parseInt(cost.monthTimeExecution),
-        valorHoraTabelaCusto: parseInt(cost.costHour),
-        quantidadeHorasTabelaCusto: parseInt(cost.necessaryHours),
-      };
+    return costs
+      .map((cost) => {
+        const tempCost = {
+          perfilDespesaTabelaCustoLinha: cost.expenseProfile,
+          periodoExecucaoTabelaCusto: parseInt(cost.monthTimeExecution),
+          valorHoraTabelaCusto: parseInt(cost.costHour),
+          quantidadeHorasTabelaCusto: parseInt(cost.necessaryHours),
+        };
 
-      if (Object.values(tempCost).includes("") || Object.values(tempCost).includes(0)) {
-        return null;
-      }
+        if (
+          Object.values(tempCost).includes("") ||
+          Object.values(tempCost).includes(0)
+        ) {
+          return null;
+        }
 
-      return tempCost;
-    }).filter(item => item != null);
+        return tempCost;
+      })
+      .filter((item) => item != null);
   }
 
   function formatCCPS(CCPS) {
@@ -214,41 +224,52 @@ export default function GenerateProposal() {
         porcentagemDespesa: ccp.percentage,
       };
 
-      if (tempCcp.centroCusto.idCentroCusto === "" || tempCcp.porcentagemDespesa === 0) {
+      if (
+        tempCcp.centroCusto.idCentroCusto === "" ||
+        tempCcp.porcentagemDespesa === 0
+      ) {
         return null;
       }
 
       return tempCcp;
-    }).filter(item => item != null);
+    }).filter((item) => item != null);
   }
 
   const handlePutProposal = async (finish = false) => {
-
-
     const tabelaCustoInterno = {
       tipoDespesa: "INTERNA",
       tabelaCustoLinha: formatCosts(internalCosts),
       centroCustoTabelaCusto: formatCCPS(internalCostCenterPayers),
-    }
+    };
 
     const tabelaCustoExterno = {
       tipoDespesa: "EXTERNA",
       tabelaCustoLinha: formatCosts(externalCosts),
       centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
-    }
+    };
 
     let tcli = tabelaCustoInterno.tabelaCustoLinha;
     let tcci = tabelaCustoInterno.centroCustoTabelaCusto;
     let tcle = tabelaCustoExterno.tabelaCustoLinha;
     let tcce = tabelaCustoExterno.centroCustoTabelaCusto;
 
-    if ((tcli.length == 0 && tcci.length > 0) || (tcli.length > 0 && tcci.length == 0)) {
-      alert("Preencha todos os campos de custo interno ( tabela de custo e centro de custo )");
+    if (
+      (tcli.length == 0 && tcci.length > 0) ||
+      (tcli.length > 0 && tcci.length == 0)
+    ) {
+      alert(
+        "Preencha todos os campos de custo interno ( tabela de custo e centro de custo )"
+      );
       return;
     }
 
-    if ((tcle.length == 0 && tcce.length > 0) || (tcle.length > 0 && tcce.length == 0)) {
-      alert("Preencha todos os campos de custo externo ( tabela de custo e centro de custo )");
+    if (
+      (tcle.length == 0 && tcce.length > 0) ||
+      (tcle.length > 0 && tcce.length == 0)
+    ) {
+      alert(
+        "Preencha todos os campos de custo externo ( tabela de custo e centro de custo )"
+      );
       return;
     }
 
@@ -270,10 +291,7 @@ export default function GenerateProposal() {
       custosInternosDoProjeto: intCostsSum,
       custosExternosDoProjeto: extCostsSum,
       custosTotaisDoProjeto: intCostsSum + extCostsSum,
-      tabelaCusto: [
-        tabelaCustoInterno,
-        tabelaCustoExterno,
-      ],
+      tabelaCusto: [tabelaCustoInterno, tabelaCustoExterno],
     };
 
     const pdfProposal = {
@@ -293,31 +311,29 @@ export default function GenerateProposal() {
     console.log("Proposal", proposalToSave);
     console.log("PDF", pdfProposal);
 
-    ProposalService.updateProposal(formData, proposal.idProposta)
-      .then(res => {
+    ProposalService.updateProposal(formData, proposal.idProposta).then(
+      (res) => {
         console.log("finish", finish);
         if (finish && (res.status === 200 || res.status === 201)) {
-          const newDemandLog = {
-            tarefaHistoricoWorkflow: "APROVACAO_COMISSAO",
-            demandaHistorico: { idDemanda: demandId },
-            acaoFeitaHistorico: "Aprovar",
-            idResponsavel: { numeroCadastroUsuario: 72131 },
-          };
 
-          DemandLogService.createDemandLog(newDemandLog).then((response) => {
+          DemandLogService.createDemandLog("APROVACAO_COMISSAO", demandId, "Enviar", 72131).then((response) => {
             if (response.status == 200 || response.status == 201) {
               DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
-              navigate('/gerenciar-demandas');
+              navigate("/gerenciar-demandas");
             }
           });
         }
-      });
+      }
+    );
   };
 
   return (
     <div>
       <div className="grid items-center justify-center gap-5">
-        <h1 className="mt-5 flex items-center justify-center font-roboto text-2xl font-bold text-blue-weg">
+        <h1
+          style={{ fontSize: fonts.xl }}
+          className="mt-5 flex items-center justify-center font-roboto font-bold text-blue-weg"
+        >
           Gerando proposta da demanda:
         </h1>
         {demand && <DemandCard demand={demand} />}
@@ -325,7 +341,10 @@ export default function GenerateProposal() {
       <div className="grid items-center justify-center">
         <div className="grid items-center justify-start">
           <div className="grid items-center justify-center">
-            <h1 className="mt-5 flex items-center justify-start p-5 font-roboto text-xl font-bold">
+            <h1
+              style={{ fontSize: fonts.xl }}
+              className="mt-5 flex items-center justify-start p-5 font-roboto font-bold"
+            >
               Escopo do projeto
             </h1>
             <ReactQuill
@@ -338,7 +357,10 @@ export default function GenerateProposal() {
             />
           </div>
           <div className="grid items-center justify-center">
-            <h1 className="mt-10 flex items-center justify-start p-5 font-roboto text-xl font-bold">
+            <h1
+              style={{ fontSize: fonts.xl }}
+              className="mt-10 flex items-center justify-start p-5 font-roboto font-bold"
+            >
               Não faz parte do escopo do projeto
             </h1>
             <ReactQuill
@@ -352,7 +374,10 @@ export default function GenerateProposal() {
           </div>
         </div>
         <div className="mt-20">
-          <h1 className="mt-5 flex items-center justify-center font-roboto text-2xl font-bold text-blue-weg">
+          <h1
+            style={{ fontSize: fonts.xl }}
+            className="mt-5 flex items-center justify-center font-roboto font-bold text-blue-weg"
+          >
             Tabela de custos:{" "}
           </h1>
         </div>
@@ -391,7 +416,10 @@ export default function GenerateProposal() {
         <div className="mt-10 grid items-center justify-start">
           <div className="h-[5rem] w-[40rem] border-2 border-b-0 border-dashed border-blue-weg">
             <div className="flex h-full items-center justify-start">
-              <p className="ml-5 mr-8 font-roboto text-xl font-bold">
+              <p
+                style={{ fontSize: fonts.xl }}
+                className="ml-5 mr-8 font-roboto font-bold"
+              >
                 Custos totais do projeto
               </p>
               <TextField
@@ -403,7 +431,12 @@ export default function GenerateProposal() {
                 aria-readonly={true}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">R$</InputAdornment>
+                    <InputAdornment
+                      style={{ fontSize: fonts.xl }}
+                      position="start"
+                    >
+                      R$
+                    </InputAdornment>
                   ),
                 }}
               />
@@ -418,8 +451,9 @@ export default function GenerateProposal() {
             <div className="grid h-full items-center justify-start">
               <div className="flex h-full items-center justify-start">
                 <p
+                  style={{ fontSize: fonts.xl }}
                   className="
-          ml-5 mr-[5.6rem] font-roboto text-xl
+          ml-5 mr-[5.6rem] font-roboto
         "
                 >
                   Total de despesas (desembolso)
@@ -441,8 +475,9 @@ export default function GenerateProposal() {
               </div>
               <div className="flex h-full items-center justify-start">
                 <p
+                  style={{ fontSize: fonts.xl }}
                   className="
-          ml-5 mr-8 font-roboto text-xl
+          ml-5 mr-8 font-roboto
         "
                 >
                   Total de despesas com custos internos
@@ -456,7 +491,12 @@ export default function GenerateProposal() {
                   size="small"
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">R$</InputAdornment>
+                      <InputAdornment
+                        style={{ fontSize: fonts.xl }}
+                        position="start"
+                      >
+                        R$
+                      </InputAdornment>
                     ),
                   }}
                   sx={{ width: "9rem" }}
@@ -467,7 +507,9 @@ export default function GenerateProposal() {
         </div>
         <div className="mt-10 grid items-center justify-start gap-10">
           <div>
-            <p className="font-roboto text-lg font-bold">Payback</p>
+            <p style={{ fontSize: fonts.lg }} className="font-roboto font-bold">
+              Payback
+            </p>
             <EqualInput
               id="outlined-textarea"
               variant="outlined"
@@ -484,7 +526,10 @@ export default function GenerateProposal() {
           </div>
           <div className="grid gap-16">
             <div className="grid gap-4">
-              <p className="font-roboto text-lg font-bold">
+              <p
+                style={{ fontSize: fonts.lg }}
+                className="font-roboto font-bold"
+              >
                 Alternativas avaliadas da proposta
               </p>
               <ReactQuill
@@ -497,7 +542,10 @@ export default function GenerateProposal() {
               />
             </div>
             <div className="grid gap-4">
-              <p className="font-roboto text-lg font-bold">
+              <p
+                style={{ fontSize: fonts.lg }}
+                className="font-roboto font-bold"
+              >
                 Abrangência do projeto
               </p>
               <ReactQuill
@@ -510,7 +558,10 @@ export default function GenerateProposal() {
               />
             </div>
             <div className="grid gap-4">
-              <p className="font-roboto text-lg font-bold">
+              <p
+                style={{ fontSize: fonts.lg }}
+                className="font-roboto font-bold"
+              >
                 Principais riscos / Plano mitigação
               </p>
               <ReactQuill
@@ -523,10 +574,13 @@ export default function GenerateProposal() {
               />
             </div>
             <div>
-              <p className="font-roboto text-lg font-bold">
+              <p
+                style={{ fontSize: fonts.lg }}
+                className="font-roboto font-bold"
+              >
                 Período de execução
               </p>
-              <div className="flex gap-10">
+              <div className="flex gap-10 mt-4">
                 <DateInput
                   id="outlined-basic"
                   variant="outlined"
@@ -538,6 +592,7 @@ export default function GenerateProposal() {
                     startAdornment: <InputAdornment position="start" />,
                   }}
                   value={startDate}
+                  helperText="Data de início da execução da demanda"
                   onChange={(e) => setStartDate(e.target.value)}
                 />
                 <DateInput
@@ -551,12 +606,16 @@ export default function GenerateProposal() {
                     startAdornment: <InputAdornment position="start" />,
                   }}
                   value={endDate}
+                  helperText="Data de término da execução da demanda"
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </div>
             </div>
             <div>
-              <p className="font-roboto text-lg font-bold">
+              <p
+                style={{ fontSize: fonts.lg }}
+                className="font-roboto font-bold"
+              >
                 Responsável pelo negócio
               </p>
               <div className="flex gap-10">
@@ -598,6 +657,7 @@ export default function GenerateProposal() {
             onClick={saveProgress}
             variant="contained"
             color="primary"
+            style={{ fontSize: fonts.sm }}
             sx={{
               backgroundColor: "#727272c7",
               color: "#FFFFFF",
@@ -619,6 +679,7 @@ export default function GenerateProposal() {
             onClick={() => handlePutProposal(true)}
             variant="contained"
             color="primary"
+            style={{ fontSize: fonts.sm }}
             sx={{
               backgroundColor: "#0071AB",
               color: "#FFFFFF",

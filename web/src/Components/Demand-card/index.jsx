@@ -32,6 +32,7 @@ import ProposalService from "../../service/Proposal-Service";
 // Utils
 import DemandUtils from "../../utils/Demand-Utils";
 import UserUtils from "../../utils/User-Utils";
+import FontSizeUtils from "../../utils/FontSize-Utils";
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -99,6 +100,9 @@ export default function DemandCard(props) {
 
   //Modal delete draft
   const [openModalDeleteDraft, setOpen] = useState(false);
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
   const handleOpenModalDeleteDraft = () => setOpen(true);
   const handleCloseModalDeleteDraft = () => setOpen(false);
 
@@ -118,6 +122,10 @@ export default function DemandCard(props) {
   useEffect(() => {
     getLogs();
   }, []);
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   const handleOpenReasonOfCancellation = () =>
     setOpenReasonOfCancellation(true);
@@ -188,27 +196,21 @@ export default function DemandCard(props) {
     return `${value}°C`;
   }
 
-  function formatDemandStatus(type) {
+  function formatDemandStatus(tooltip = false) {
     const statusByRole = DemandUtils.getDemandStatusByRole(
       props.demand.statusDemanda,
       user.cargoUsuario
     );
-    const status =
-      statusByRole[0].toLocaleUpperCase() +
-      statusByRole.split("_").join(" ").toLocaleLowerCase().slice(1);
-
-    if (type === 1) {
-      if (status.length > 15) {
-        return status.slice(0, 15) + "...";
+    // If the status is too long, cuts it
+    if (!tooltip)
+      if (statusByRole.length > 15) {
+        return statusByRole.substr(0, 15) + "..."
       }
-    }
-    return status;
+    return statusByRole;
   }
 
   function getPercents() {
-    const percent = DemandUtils.getPercentageByStatus(
-      props.demand.statusDemanda
-    );
+    const percent = DemandUtils.getPercentageByStatus(props.demand.statusDemanda);
     return percent;
   }
 
@@ -242,6 +244,17 @@ export default function DemandCard(props) {
     }
   }
 
+  //Classname modificada para o card para quando a fonte aumenta ou diminui
+  let classNameGap = "grid p-2";
+
+  if (fonts.base < 15) {
+    classNameGap += " gap-12";
+  } else if (fonts.base > 18) {
+    classNameGap += " gap-3";
+  } else {
+    classNameGap += " gap-7";
+  }
+
   return (
     <div className="mb-7 grid items-center justify-center">
       {isDemandLoading ? (
@@ -253,7 +266,7 @@ export default function DemandCard(props) {
         />
       ) : (
         <Card
-          sx={{ width: 430, height: 180 }}
+          sx={{ width: fonts.sm > 14 ? 590 : 480, height: 180 }}
           style={{
             boxShadow: "1px 1px 5px 0px #808080db",
             borderLeft:
@@ -264,508 +277,545 @@ export default function DemandCard(props) {
               ),
           }}
         >
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <Tooltip title={props.demand.tituloDemanda}>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    color: "#023A67",
-                    fontWeight: "bold",
-                    fontSize: "1rem",
-                  }}
-                >
-                  {props.demand.tituloDemanda.length > 20
-                    ? props.demand.tituloDemanda.slice(0, 20) + "..."
-                    : props.demand.tituloDemanda}
-                </Typography>
-              </Tooltip>
-
-              <Typography
-                sx={{ mt: 1 }}
-                color="#675E5E"
-                fontWeight="bold"
-                className="flex"
-              >
-                <span className="mr-1 text-[0.95rem]">Status:</span>
-                <Tooltip title={formatDemandStatus(2)}>
-                  <span className="text-[0.95rem] font-medium text-black">
-                    {formatDemandStatus(1)}
-                  </span>
+          <div className={classNameGap}>
+            <div>
+              <div className="flex items-center justify-between">
+                <Tooltip title={props.demand.tituloDemanda}>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: "#023A67",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <span style={{ fontSize: fonts.base }}>
+                      {props.demand.tituloDemanda.length > 20
+                        ? props.demand.tituloDemanda.slice(0, 20) + "..."
+                        : props.demand.tituloDemanda}
+                    </span>
+                  </Typography>
                 </Tooltip>
-                {/* Select */}
-                {props.demand.statusDemanda === "RASCUNHO" && (
-                  <div className="ml-5 flex items-center justify-center">
-                    <Radio
-                      checked={isDraftSelected}
-                      onClick={handleSelectDrafts}
-                      sx={{
-                        color: "#0075B1",
-                        padding: 0,
-                        "&.Mui-checked": {
-                          color: "#0075B1",
-                        },
-                      }}
-                    />
-                  </div>
-                )}
-              </Typography>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="grid">
+
                 <Typography
                   sx={{ mt: 1 }}
                   color="#675E5E"
                   fontWeight="bold"
                   className="flex"
                 >
-                  <span className="mr-1 text-[0.95rem]">Score:</span>
-                  <span className="text-[0.95rem] font-medium text-black">
-                    {props.demand.scoreDemanda}
+                  <span style={{ fontSize: fonts.sm }} className="mr-1 ">
+                    Status:
                   </span>
-                </Typography>
-                <Typography
-                  sx={{ mb: 1.5 }}
-                  color="#675E5E"
-                  fontWeight="bold"
-                  className="flex"
-                >
-                  <span className="mr-1 text-[0.95rem]">Valor:</span>
-                  <span className="text-[0.95rem] font-medium text-black">
-                    {"R$10"}
-                  </span>
-                </Typography>
-              </div>
-              <div className="flex items-center justify-center">
-                <Typography
-                  sx={{ mb: 1.5 }}
-                  color="#675E5E"
-                  fontWeight="bold"
-                  className="flex"
-                >
-                  <span className="mr-1 flex items-center justify-center text-[0.95rem] text-black">
-                    Progresso:
-                  </span>
-                  <span className="grid">
-                    <Box className="flex items-center justify-center ">
-                      <Slider
-                        aria-label="Temperature"
-                        defaultValue={getPercents}
-                        getAriaValueText={valuetext}
-                        disabled
-                        style={{
-                          color: DemandUtils.getDemandStatusColorByRole(
-                            props.demand.statusDemanda,
-                            user.cargoUsuario
-                          ),
-                        }}
+                  <Tooltip title={formatDemandStatus(true)}>
+                    <span
+                      style={{ fontSize: fonts.sm }}
+                      className="font-medium text-black"
+                    >
+                      {formatDemandStatus()}
+                    </span>
+                  </Tooltip>
+                  {/* Select */}
+                  {props.demand.statusDemanda === "RASCUNHO" && (
+                    <div className="ml-5 flex items-center justify-center">
+                      <Radio
+                        checked={isDraftSelected}
+                        onClick={handleSelectDrafts}
                         sx={{
-                          height: 16,
-                          width: 120,
-                          color: DemandUtils.getDemandStatusColorByRole(
-                            props.demand.statusDemanda,
-                            user.cargoUsuario
-                          ),
-                          "& .MuiSlider-thumb": {
-                            display: "none",
+                          color: "#0075B1",
+                          padding: 0,
+                          "&.Mui-checked": {
+                            color: "#0075B1",
                           },
                         }}
                       />
-                    </Box>
-                  </span>
-                  <span className="ml-1 flex items-center justify-end text-xs text-black">
-                    {getPercents() + "%"}
-                  </span>
+                    </div>
+                  )}
                 </Typography>
               </div>
-            </div>
-          </CardContent>
-          <CardActions className="flex justify-between">
-            <div className="ml-1 mr-1 flex items-center justify-start gap-2">
-              <div className="flex">
-                <Typography color="#675E5E" fontWeight="bold" className="flex">
-                  <span className="text-[0.85rem]">De: </span>
-                </Typography>
-                <Typography color="black" fontWeight="bold" className="flex">
-                  <span className="ml-2 text-[0.85rem]">
-                    {firstLog ? firstLog : "- - - -"}
-                  </span>
-                </Typography>
-              </div>
-              <div className="flex">
-                <Typography color="#675E5E" fontWeight="bold" className="flex">
-                  <span className="text-[0.85rem]">Até: </span>
-                </Typography>
-                <Typography color="black" fontWeight="bold" className="flex">
-                  <span className="ml-2 text-[0.85rem]">- - - -</span>
-                </Typography>
-              </div>
-            </div>
-            <div className="mr-4 flex items-center justify-center gap-3">
-              {(props.demand.statusDemanda ===
-                "APROVADO_PELO_GERENTE_DA_AREA" ||
-                props.demand.statusDemanda === "PROPOSTA_EM_ELABORACAO") &&
-                user.cargoUsuario != "SOLICITANTE" && (
-                  <div>
-                    <Tooltip
-                      title={
-                        props.demand.statusDemanda ===
-                        "APROVADO_PELO_GERENTE_DA_AREA"
-                          ? "Gerar proposta"
-                          : "Acessar proposta"
-                      }
+              <div className="flex items-center justify-between">
+                <div className="grid">
+                  <Typography
+                    sx={{ mt: 1 }}
+                    color="#675E5E"
+                    fontWeight="bold"
+                    className="flex"
+                  >
+                    <span style={{ fontSize: fonts.sm }} className="mr-1 ">
+                      Score:
+                    </span>
+                    <span className="text-[0.95rem] font-medium text-black">
+                      {props.demand.scoreDemanda}
+                    </span>
+                  </Typography>
+                  <Typography
+                    sx={{ mb: 1.5 }}
+                    color="#675E5E"
+                    fontWeight="bold"
+                    className="flex"
+                  >
+                    <span style={{ fontSize: fonts.sm }} className="mr-1">
+                      Valor:
+                    </span>
+                    <span
+                      style={{ fontSize: fonts.sm }}
+                      className="font-medium text-black"
                     >
-                      <Button
-                        onClick={
+                      {"R$10"}
+                    </span>
+                  </Typography>
+                </div>
+                <div className="flex items-center justify-center">
+                  <Typography
+                    sx={{ mb: 1.5 }}
+                    color="#675E5E"
+                    fontWeight="bold"
+                    className="flex"
+                  >
+                    <span
+                      style={{ fontSize: fonts.sm }}
+                      className="mr-1 flex items-center justify-center  text-black"
+                    >
+                      Progresso:
+                    </span>
+                    <span className="grid">
+                      <Box className="flex items-center justify-center ">
+                        <Slider
+                          aria-label="Temperature"
+                          defaultValue={getPercents}
+                          getAriaValueText={valuetext}
+                          disabled
+                          style={{
+                            color: DemandUtils.getDemandStatusColorByRole(
+                              props.demand.statusDemanda,
+                              user.cargoUsuario
+                            ),
+                          }}
+                          sx={{
+                            height: 16,
+                            width: 120,
+                            color: DemandUtils.getDemandStatusColorByRole(
+                              props.demand.statusDemanda,
+                              user.cargoUsuario
+                            ),
+                            "& .MuiSlider-thumb": {
+                              display: "none",
+                            },
+                          }}
+                        />
+                      </Box>
+                    </span>
+                    <span
+                      style={{ fontSize: fonts.xs }}
+                      className="ml-1 flex items-center justify-end  text-black"
+                    >
+                      {getPercents() + "%"}
+                    </span>
+                  </Typography>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="ml-1 mr-1 flex items-center justify-start gap-2">
+                <div className="flex">
+                  <Typography
+                    color="#675E5E"
+                    fontWeight="bold"
+                    className="flex"
+                  >
+                    <span style={{ fontSize: fonts.sm }}>De: </span>
+                  </Typography>
+                  <Typography color="black" fontWeight="bold" className="flex">
+                    <span style={{ fontSize: fonts.sm }} className="ml-2 ">
+                      {firstLog ? firstLog : "- - - -"}
+                    </span>
+                  </Typography>
+                </div>
+                <div className="flex">
+                  <Typography
+                    color="#675E5E"
+                    fontWeight="bold"
+                    className="flex"
+                  >
+                    <span style={{ fontSize: fonts.sm }}>Até: </span>
+                  </Typography>
+                  <Typography color="black" fontWeight="bold" className="flex">
+                    <span style={{ fontSize: fonts.sm }} className="ml-2">
+                      - - - -
+                    </span>
+                  </Typography>
+                </div>
+              </div>
+              <div className="mr-4 flex items-center justify-center gap-3">
+                {(props.demand.statusDemanda ===
+                  "APROVADO_PELO_GERENTE_DA_AREA" ||
+                  props.demand.statusDemanda === "PROPOSTA_EM_ELABORACAO") &&
+                  user.cargoUsuario != "SOLICITANTE" && (
+                    <div>
+                      <Tooltip
+                        title={
                           props.demand.statusDemanda ===
-                          "APROVADO_PELO_GERENTE_DA_AREA"
-                            ? handleOpenGenerateProposal
-                            : handleAccessProposal
+                            "APROVADO_PELO_GERENTE_DA_AREA"
+                            ? "Gerar proposta"
+                            : "Acessar proposta"
                         }
+                      >
+                        <Button
+                          onClick={
+                            props.demand.statusDemanda ===
+                              "APROVADO_PELO_GERENTE_DA_AREA"
+                              ? handleOpenGenerateProposal
+                              : handleAccessProposal
+                          }
+                          variant="contained"
+                          style={{ fontSize: fonts.xs }}
+                          sx={{
+                            backgroundColor: "#FFF",
+                            color: "#0075B1",
+                            fontWeight: "bold",
+                            border: "#0075B1 solid 1px",
+
+                            "&:hover": {
+                              backgroundColor: "#f3f3f3",
+                            },
+                          }}
+                        >
+                          Proposta
+                        </Button>
+                      </Tooltip>
+                      <Modal
+                        open={openGenerateProposal}
+                        onClose={handleCloseGenerateProposal}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                      >
+                        <Box sx={styleModalGenerateProposal}>
+                          <div className="mb-5 flex h-14 w-full items-center justify-center rounded-t-lg bg-dark-blue-weg">
+                            <p
+                              style={{ fontSize: fonts.xl }}
+                              className="font-roboto font-bold text-[#FFF]"
+                            >
+                              Insira as seguintes informações
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-center font-roboto">
+                            <div className="flex gap-14">
+                              <div className="grid items-center justify-center gap-1">
+                                <p className="font-bold text-dark-blue-weg">
+                                  Prazo para a elaboração da proposta
+                                </p>
+                                <div className="grid items-center justify-center gap-10">
+                                  <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    placeholder="dd/mm/aaaa"
+                                    type="date"
+                                    label="De:"
+                                    size="small"
+                                    value={startDevDate}
+                                    onChange={(e) =>
+                                      setStartDevDate(e.target.value)
+                                    }
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start" />
+                                      ),
+                                    }}
+                                  />
+                                  <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    placeholder="dd/mm/aaaa"
+                                    type="date"
+                                    label="Até:"
+                                    size="small"
+                                    value={deadLineDate}
+                                    onChange={(e) =>
+                                      setDeadLineDate(e.target.value)
+                                    }
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start" />
+                                      ),
+                                    }}
+                                  />
+                                </div>
+                                <div className="grid items-center justify-center gap-4">
+                                  <p className="font-bold text-dark-blue-weg">
+                                    Link para EPIC do projeto no Jira
+                                  </p>
+                                  <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    placeholder="https://jira.weg.net/browse/EPIC-123"
+                                    type="text"
+                                    label="Link"
+                                    size="small"
+                                    value={jiraLink}
+                                    onChange={(e) =>
+                                      setJiraLink(e.target.value)
+                                    }
+                                  />
+                                </div>
+                              </div>
+                              <div className="h-[19rem] w-0.5 bg-dark-blue-weg" />
+                              <div>
+                                <div className="h-[16rem]">
+                                  <div className="ml-4 grid gap-4">
+                                    <p className="font-bold text-dark-blue-weg">
+                                      Código PPM
+                                    </p>
+                                    <TextField
+                                      sx={{
+                                        width: 100,
+                                      }}
+                                      id="outlined-basic"
+                                      variant="outlined"
+                                      placeholder="123"
+                                      type="number"
+                                      label="PPM"
+                                      size="small"
+                                      value={ppmCode}
+                                      onChange={(e) =>
+                                        setPpmCode(e.target.value)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex items-end justify-between gap-1">
+                                  <Button
+                                    onClick={handleCloseGenerateProposal}
+                                    variant="contained"
+                                    style={{ fontSize: fonts.xs }}
+                                    sx={{
+                                      backgroundColor: "#C2BEBE",
+                                      color: "#505050",
+                                      width: 80,
+
+                                      "&:hover": {
+                                        backgroundColor: "#C2BEBE",
+                                      },
+                                    }}
+                                  >
+                                    Cancelar
+                                  </Button>
+                                  <Button
+                                    onClick={handleCreateProposal}
+                                    variant="contained"
+                                    style={{ fontSize: fonts.xs }}
+                                    sx={{
+                                      backgroundColor: "#0075B1",
+                                      width: 80,
+                                      marginTop: 2,
+
+                                      "&:hover": {
+                                        backgroundColor: "#0075B1",
+                                      },
+                                    }}
+                                  >
+                                    Enviar
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Box>
+                      </Modal>
+                    </div>
+                  )}
+
+                {props.demand.statusDemanda === "CANCELADA" && (
+                  <div>
+                    <Tooltip title="Motivo da reprovação">
+                      <Button
+                        onClick={handleOpenReasonOfCancellation}
                         variant="contained"
+                        style={{ fontSize: fonts.xs }}
                         sx={{
                           backgroundColor: "#FFF",
                           color: "#0075B1",
                           fontWeight: "bold",
                           border: "#0075B1 solid 1px",
-                          fontSize: 12,
-                          width: 90,
+                          width: 85,
 
                           "&:hover": {
                             backgroundColor: "#f3f3f3",
                           },
                         }}
                       >
-                        Proposta
+                        Motivo
                       </Button>
                     </Tooltip>
                     <Modal
-                      open={openGenerateProposal}
-                      onClose={handleCloseGenerateProposal}
+                      open={openReasonOfCancellation}
+                      onClose={handleCloseReasonOfCancellation}
                       aria-labelledby="modal-modal-title"
                       aria-describedby="modal-modal-description"
                     >
-                      <Box sx={styleModalGenerateProposal}>
-                        <div className="mb-5 flex h-14 w-full items-center justify-center rounded-t-lg bg-dark-blue-weg">
-                          <p className="font-roboto text-xl font-bold text-[#FFF]">
-                            Insira as seguintes informações
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-center font-roboto">
-                          <div className="flex gap-14">
-                            <div className="grid items-center justify-center gap-1">
-                              <p className="font-bold text-dark-blue-weg">
-                                Prazo para a elaboração da proposta
-                              </p>
-                              <div className="grid items-center justify-center gap-10">
-                                <TextField
-                                  id="outlined-basic"
-                                  variant="outlined"
-                                  placeholder="dd/mm/aaaa"
-                                  type="date"
-                                  label="De:"
-                                  size="small"
-                                  value={startDevDate}
-                                  onChange={(e) =>
-                                    setStartDevDate(e.target.value)
-                                  }
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment position="start" />
-                                    ),
-                                  }}
-                                />
-                                <TextField
-                                  id="outlined-basic"
-                                  variant="outlined"
-                                  placeholder="dd/mm/aaaa"
-                                  type="date"
-                                  label="Até:"
-                                  size="small"
-                                  value={deadLineDate}
-                                  onChange={(e) =>
-                                    setDeadLineDate(e.target.value)
-                                  }
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment position="start" />
-                                    ),
-                                  }}
-                                />
-                              </div>
-                              <div className="grid items-center justify-center gap-4">
-                                <p className="font-bold text-dark-blue-weg">
-                                  Link para EPIC do projeto no Jira
-                                </p>
-                                <TextField
-                                  id="outlined-basic"
-                                  variant="outlined"
-                                  placeholder="https://jira.weg.net/browse/EPIC-123"
-                                  type="text"
-                                  label="Link"
-                                  size="small"
-                                  value={jiraLink}
-                                  onChange={(e) => setJiraLink(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="h-[19rem] w-0.5 bg-dark-blue-weg" />
-                            <div>
-                              <div className="h-[16rem]">
-                                <div className="ml-4 grid gap-4">
-                                  <p className="font-bold text-dark-blue-weg">
-                                    Código PPM
-                                  </p>
-                                  <TextField
-                                    sx={{
-                                      width: 100,
-                                    }}
-                                    id="outlined-basic"
-                                    variant="outlined"
-                                    placeholder="123"
-                                    type="number"
-                                    label="PPM"
-                                    size="small"
-                                    value={ppmCode}
-                                    onChange={(e) => setPpmCode(e.target.value)}
-                                  />
-                                </div>
-                              </div>
-                              <div className="flex items-end justify-between gap-1">
-                                <Button
-                                  onClick={handleCloseGenerateProposal}
-                                  variant="contained"
-                                  sx={{
-                                    backgroundColor: "#C2BEBE",
-                                    color: "#505050",
-                                    fontSize: 11.5,
-                                    width: 80,
-
-                                    "&:hover": {
-                                      backgroundColor: "#C2BEBE",
-                                    },
-                                  }}
-                                >
-                                  Cancelar
-                                </Button>
-                                <Button
-                                  onClick={handleCreateProposal}
-                                  variant="contained"
-                                  sx={{
-                                    backgroundColor: "#0075B1",
-                                    fontSize: 11.5,
-                                    width: 80,
-                                    marginTop: 2,
-
-                                    "&:hover": {
-                                      backgroundColor: "#0075B1",
-                                    },
-                                  }}
-                                >
-                                  Enviar
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <Box sx={styleModalReasonOfCancellation}>
+                        <Typography
+                          id="modal-modal-title"
+                          variant="h6"
+                          component="h2"
+                          sx={{
+                            color: "#0075B1",
+                            fontWeight: "bold",
+                            fontSize: 30,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          Motivo da reprovação da demanda
+                        </Typography>
+                        <Typography
+                          id="modal-modal-description"
+                          style={{ fontSize: fonts.lg }}
+                          sx={{
+                            mt: 5,
+                            fontWeight: 700,
+                            color: "#000000",
+                            display: "flex",
+                            columnGap: 0.5,
+                          }}
+                        >
+                          Motivo
+                          <span style={{ color: "#AD0D0D", fontWeight: 500 }}>
+                            *
+                          </span>
+                        </Typography>
+                        <TextField
+                          id="outlined-multiline-static"
+                          disabled
+                          multiline
+                          rows={4}
+                          value={"Motivo da reprovação da demanda"}
+                          variant="outlined"
+                          sx={{
+                            width: 500,
+                            height: 100,
+                            mt: 2,
+                            mb: 5,
+                            borderRadius: 5,
+                            borderColor: "#0075B1",
+                          }}
+                        />
+                        <span className="flex items-center justify-center gap-4">
+                          <Button
+                            onClick={handleCloseReasonOfCancellation}
+                            variant="contained"
+                            style={{
+                              backgroundColor: "#0075B1",
+                              color: "#FFFFFF",
+                              width: 100,
+                            }}
+                          >
+                            OK
+                          </Button>
+                        </span>
                       </Box>
                     </Modal>
                   </div>
                 )}
-
-              {props.demand.statusDemanda === "CANCELADA" && (
-                <div>
-                  <Tooltip title="Motivo da reprovação">
-                    <Button
-                      onClick={handleOpenReasonOfCancellation}
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#FFF",
-                        color: "#0075B1",
-                        fontWeight: "bold",
-                        border: "#0075B1 solid 1px",
-                        width: 85,
-                        fontSize: 12,
-
-                        "&:hover": {
-                          backgroundColor: "#f3f3f3",
-                        },
-                      }}
-                    >
-                      Motivo
-                    </Button>
-                  </Tooltip>
-                  <Modal
-                    open={openReasonOfCancellation}
-                    onClose={handleCloseReasonOfCancellation}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box sx={styleModalReasonOfCancellation}>
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                        sx={{
-                          color: "#0075B1",
-                          fontWeight: "bold",
-                          fontSize: 30,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        Motivo da reprovação da demanda
-                      </Typography>
-                      <Typography
-                        id="modal-modal-description"
-                        sx={{
-                          mt: 5,
-                          fontSize: 18,
-                          fontWeight: 700,
-                          color: "#000000",
-                          display: "flex",
-                          columnGap: 0.5,
-                        }}
-                      >
-                        Motivo
-                        <span style={{ color: "#AD0D0D", fontWeight: 500 }}>
-                          *
-                        </span>
-                      </Typography>
-                      <TextField
-                        id="outlined-multiline-static"
-                        disabled
-                        multiline
-                        rows={4}
-                        value={"Motivo da reprovação da demanda"}
-                        variant="outlined"
-                        sx={{
-                          width: 500,
-                          height: 100,
-                          mt: 2,
-                          mb: 5,
-                          borderRadius: 5,
-                          borderColor: "#0075B1",
-                        }}
-                      />
-                      <span className="flex items-center justify-center gap-4">
-                        <Button
-                          onClick={handleCloseReasonOfCancellation}
-                          variant="contained"
-                          style={{
-                            backgroundColor: "#0075B1",
-                            color: "#FFFFFF",
-                            width: 100,
-                          }}
-                        >
-                          OK
-                        </Button>
-                      </span>
-                    </Box>
-                  </Modal>
-                </div>
-              )}
-              {props.demand.statusDemanda === "RASCUNHO" && (
-                <div>
-                  <Tooltip title="Deletar rascunho">
-                    <IconButton onClick={handleOpenModalDeleteDraft}>
-                      <DeleteRoundedIcon
-                        sx={{
-                          color: "#C31700",
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-              )}
-              <Modal
-                open={openModalDeleteDraft}
-                onClose={handleCloseModalDeleteDraft}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={styleModalDeleteDraft}>
-                  <div className="grid h-full items-center justify-center">
-                    <div className="grid items-center justify-center">
-                      <div className="flex items-center justify-center">
-                        <WarningAmberRoundedIcon
+                {props.demand.statusDemanda === "RASCUNHO" && (
+                  <div>
+                    <Tooltip title="Deletar rascunho">
+                      <IconButton onClick={handleOpenModalDeleteDraft}>
+                        <DeleteRoundedIcon
                           sx={{
-                            fontSize: "5rem",
-                            color: "#0075B1",
+                            color: "#C31700",
                           }}
                         />
-                      </div>
-                      <DialogTitle style={{ color: "#0075B1" }}>
-                        <p className="text-center">
-                          Têm certeza que deseja deletar esse rascunho?
-                        </p>
-                      </DialogTitle>
-                      <div className="flex items-center justify-center gap-5">
-                        <Button
-                          onClick={handleCloseModalDeleteDraft}
-                          autoFocus
-                          sx={{
-                            backgroundColor: "#C2BEBE",
-                            color: "#fff",
-                            "&:hover": {
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                )}
+                <Modal
+                  open={openModalDeleteDraft}
+                  onClose={handleCloseModalDeleteDraft}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={styleModalDeleteDraft}>
+                    <div className="grid h-full items-center justify-center">
+                      <div className="grid items-center justify-center">
+                        <div className="flex items-center justify-center">
+                          <WarningAmberRoundedIcon
+                            sx={{
+                              fontSize: "5rem",
+                              color: "#0075B1",
+                            }}
+                          />
+                        </div>
+                        <DialogTitle style={{ color: "#0075B1" }}>
+                          <p className="text-center">
+                            Têm certeza que deseja deletar esse rascunho?
+                          </p>
+                        </DialogTitle>
+                        <div className="flex items-center justify-center gap-5">
+                          <Button
+                            onClick={handleCloseModalDeleteDraft}
+                            autoFocus
+                            sx={{
                               backgroundColor: "#C2BEBE",
-                            },
-                          }}
-                        >
-                          Cancelar
-                        </Button>
-                        <Button
-                          onClick={handleDeleteDraft}
-                          sx={{
-                            backgroundColor: "#0075B1",
-                            color: "#fff",
-                            "&:hover": {
+                              color: "#fff",
+                              "&:hover": {
+                                backgroundColor: "#C2BEBE",
+                              },
+                            }}
+                          >
+                            Cancelar
+                          </Button>
+                          <Button
+                            onClick={handleDeleteDraft}
+                            sx={{
                               backgroundColor: "#0075B1",
-                            },
-                          }}
-                        >
-                          Deletar
-                        </Button>
+                              color: "#fff",
+                              "&:hover": {
+                                backgroundColor: "#0075B1",
+                              },
+                            }}
+                          >
+                            Deletar
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Box>
-              </Modal>
-              {props.demand.statusDemanda === "RASCUNHO" && (
-                <Tooltip title="Continuar rascunho">
-                  <Link to={`/rascunhos/${props.demand.idDemanda}`}>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#0075B1",
-                        fontSize: 12,
-                        width: 90,
-                      }}
-                    >
-                      Continuar
-                    </Button>
-                  </Link>
-                </Tooltip>
-              )}
-              {props.demand.statusDemanda !== "RASCUNHO" && (
-                <Link to={`/demandas/${props.demand.idDemanda}`}>
-                  <Tooltip title="Visualizar demanda">
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#0075B1",
-                        fontSize: 12,
-                        width: 90,
-                      }}
-                    >
-                      Ver mais
-                    </Button>
+                  </Box>
+                </Modal>
+                {props.demand.statusDemanda === "RASCUNHO" && (
+                  <Tooltip title="Continuar rascunho">
+                    <Link to={`/rascunhos/${props.demand.idDemanda}`}>
+                      <Button
+                        variant="contained"
+                        style={{ fontSize: fonts.xs }}
+                        sx={{
+                          backgroundColor: "#0075B1",
+                          width: 90,
+                        }}
+                      >
+                        Continuar
+                      </Button>
+                    </Link>
                   </Tooltip>
-                </Link>
-              )}
+                )}
+                {props.demand.statusDemanda !== "RASCUNHO" && (
+                  <Link to={`/demandas/${props.demand.idDemanda}`}>
+                    <Tooltip title="Visualizar demanda">
+                      <Button
+                        variant="contained"
+                        style={{ fontSize: fonts.xs }}
+                        sx={{
+                          backgroundColor: "#0075B1",
+                          width: fonts.xs > 12 ? 110 : 90,
+                        }}
+                      >
+                        Ver mais
+                      </Button>
+                    </Tooltip>
+                  </Link>
+                )}
+              </div>
             </div>
-          </CardActions>
+          </div>
         </Card>
       )}
     </div>

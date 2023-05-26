@@ -19,6 +19,7 @@ import ProposalService from "../../../service/Proposal-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 const addToAPautaModalStyle = {
   position: "absolute",
@@ -53,6 +54,12 @@ export default function Proposals() {
   const [openAddToAPautaModal, setOpenAddToAPautaModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
+
   const handleOpenAddToAPautaModal = () => setOpenAddToAPautaModal(true);
   const handleCloseAddToAPautaModal = () => setOpenAddToAPautaModal(false);
 
@@ -60,11 +67,15 @@ export default function Proposals() {
     setIsLoading(true);
     Promise.all([PautaService.getPautas(), ProposalService.getReadyProposals()])
       .then(([pautasData, proposalsData]) => {
-        let pautas = pautasData.map((pauta) => ({
-          ...pauta,
-          dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
-        }));
-        setPautas(pautas);
+        console.warn("PAUTAS", pautasData);
+        if (Array.isArray(pautasData)) {
+          let pautas = pautasData.map((pauta) => ({
+            ...pauta,
+            dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
+          }));
+          setPautas(pautas);
+        }
+        console.warn("PROPOSALS", proposalsData);
         setProposals(proposalsData);
       })
       .catch((error) => {
@@ -132,11 +143,14 @@ export default function Proposals() {
           <div className="flex h-[71vh] items-center justify-around">
             <CircularProgress />
           </div>
-        ) : proposals.length === 0 ? (
+        ) : proposals && proposals.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
-            <NoContent isProposal={true}>Sem propostas!</NoContent>
+            <NoContent isProposal={true}>
+              <span style={{ fontSize: fonts.xl }}>Sem propostas!</span>
+            </NoContent>
           </div>
         ) : (
+          proposals &&
           proposals.map((proposal, i) => (
             <ProposalCard
               key={i}
