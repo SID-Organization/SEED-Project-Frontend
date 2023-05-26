@@ -868,7 +868,7 @@ export default function PrimarySearchAppBar() {
                   color="inherit"
                   onClick={handleNotificationsMenuOpen}
                 >
-                  <Badge badgeContent={17} color="error">
+                  <Badge badgeContent={notificationsReceivedByWS.length} color="error">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
