@@ -6,11 +6,12 @@ import Divider from "@mui/material/Divider";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import { Tooltip } from "@mui/material";
+import { InputAdornment, TextField, Tooltip } from "@mui/material";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Diversity3RoundedIcon from "@mui/icons-material/Diversity3Rounded";
+import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 
 // React chat elements
 import "react-chat-elements/dist/main.css";
@@ -96,7 +97,14 @@ export default function Chat() {
     }
   }, [stompClient]);
 
-  const [userData, setUserData] = useState(UserUtils.getLoggedUser());
+  const [userData, setUserData] = useState({
+    idUsuario: { numeroCadastroUsuario: UserUtils.getLoggedUserId() },
+    idChat: { idChat: chatId },
+    idDemanda: { idDemanda: 0 },
+    connected: false,
+    message: "",
+    file: fileState,
+  })
 
   useEffect(() => {
     ChatService.getChatByUserId(UserUtils.getLoggedUserId()).then(
@@ -490,22 +498,12 @@ export default function Chat() {
               >
                 <input
                   hidden
-                  accept="image/*"
+                  accept="*"
                   type="file"
-                  //get the file and set in the input
-
                   onChange={(e) => {
                     const file = e.target.files[0];
-                    console.log(e.target.files[0]);
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        setFileState(file);
-                        setPreview(reader.result);
-                        console.log("converteu");
-                      };
-                      reader.readAsDataURL(file);
-                    }
+                    setFileState(file);
+                    setPreview(URL.createObjectURL(file));
                   }}
                 />
                 <AttachFileIcon />
@@ -521,7 +519,7 @@ export default function Chat() {
               border-[#c9c9c9]
               px-5
               focus:outline-none
-              "
+            "
               type="text"
               placeholder="Digite uma mensagem"
               onKeyPress={(e) => {
@@ -549,11 +547,20 @@ export default function Chat() {
                   ? userData.file.name
                   : ""
               }
-            />
+              InputProps={{
+                startAdornment: fileState && (
+                  <InputAdornment position="start">
+                    <InsertDriveFileRoundedIcon />
+                  </InputAdornment>
+                ),
+              }}
+            /> 
             <Tooltip title="Enviar mensagem">
               <IconButton
                 onClick={
-                  userData.message !== ""
+                  userData.message !== "" || userData.file !== "" ||
+                  userData.file !== null ||
+                userData.file !== undefined
                     ? () => {
                         sendPrivateValue();
                         setMessage("");
