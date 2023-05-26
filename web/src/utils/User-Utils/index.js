@@ -11,7 +11,7 @@ const getLoggedUserId = () => {
   return user.numeroCadastroUsuario;
 };
 
-const getUserRole = () => {
+const getLoggedUserRole = () => {
   const user = getLoggedUser();
   return user.cargoUsuario;
 };
@@ -29,7 +29,7 @@ const getUserFromCookie = () => {
 export default {
   getLoggedUser,
   getLoggedUserId,
-  getUserRole,
+  getLoggedUserRole,
   logUserOut,
   getUserFromCookie,
 };

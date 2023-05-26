@@ -46,6 +46,8 @@ const statusColorForRequester = {
     PROPOSTA_FINALIZADA: "#00612E",
 }
 
+
+
 const statusPercentage = {
     ABERTA: 15,
     CLASSIFICADO_PELO_ANALISTA: 30,

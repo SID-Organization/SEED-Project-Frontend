@@ -28,6 +28,7 @@ import { Dialog, DialogActions, DialogTitle } from "@mui/material";
 
 // Tools
 import Draggable from "react-draggable";
+import DemandFilterUtils from "../../utils/DemandFilter-Utils";
 
 export default function DemandsPage(props) {
   /*
@@ -42,13 +43,25 @@ export default function DemandsPage(props) {
   //States para demandas
   const [demandsWLogs, setDemandsWLogs] = useState();
   const [dbDemands, setDbDemands] = useState([]);
-  const [sortedDemands, setSortedDemands] = useState([]);
   const [showingDemands, setShowingDemands] = useState([]);
   const [selectedDrafts, setSelectedDrafts] = useState([]);
 
   //States para filtro
-  const [filter, setFilter] = useState({ filterId: 0, filterType: "date" });
-  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState(
+    [
+      { filterBy: "nomeSolicitante", value: null, type: "text" },
+      { filterBy: "nomeGerenteResponsavelDemanda", value: null, type: "text" },
+      { filterBy: "nomeAnalistaResponsavel", value: null, type: "text" },
+      { filterBy: "codigoPPMDemanda", value: null, type: "number" },
+      { filterBy: "departamentoDemanda", value: null, type: "text" },
+      { filterBy: "forumDeAprovacaoDemanda", value: null, type: "text" },
+      { filterBy: "tamanhoDemanda", value: null, type: "text" },
+      { filterBy: "tituloDemanda", value: null, type: "text" },
+      { filterBy: "valorDemanda", value: null, type: "number" },
+      { filterBy: "scoreDemanda", value: null, type: "number" },
+      { filterBy: "idDemanda", value: null, type: "number" }
+    ]
+  );
 
   //Variáveis para o Pagination
   const [currentPage, setCurrentPage] = useState(1); // Define a página atual como 1
@@ -140,18 +153,22 @@ export default function DemandsPage(props) {
     }
   }, [dbDemands]);
 
+  // Verify if there are demands back from the DB and add the logs to them
   useEffect(() => {
     if (dbDemands) {
       getDemandsLogs();
     }
   }, [dbDemands]);
 
+  // Sort demands if there are filters
   useEffect(() => {
     if (demandsWLogs) {
-      updateDemandSort(search);
-
+      let sortedDemands = DemandFilterUtils.filterBy(demandsWLogs, filter);
+      console.warn("Called filter. SortedDemands: ", sortedDemands);
       if (sortedDemands) {
         setShowingDemands(sortedDemands);
+      } else {
+        setShowingDemands(demandsWLogs);
       }
     }
   }, [filter, demandsWLogs]);
@@ -167,14 +184,6 @@ export default function DemandsPage(props) {
     });
 
     setDemandsWLogs(await Promise.all(demandsHistoric));
-  };
-
-  const updateDemandSort = (search) => {
-    let sortedDemands;
-    if (demandsWLogs) {
-      sortedDemands = demandsWLogs;
-      setSortedDemands(sortedDemands);
-    }
   };
 
   //DRAFT THINGS
@@ -234,7 +243,7 @@ export default function DemandsPage(props) {
   };
 
   const deleteAllDrafts = () => {
-    DemandService.deleteAllDemands().then((response) => {
+    DemandService.deleteAllDrafts().then((response) => {
       if (response.status === 200) {
         window.location.reload();
       }
@@ -306,9 +315,6 @@ export default function DemandsPage(props) {
         <SubHeader
           setIsListFormat={setIsListFormat}
           isListFormat={isListFormat}
-          search={search}
-          setSearch={setSearch}
-          filter={filter}
           setFilter={setFilter}
         >
           {demandType == DemandType.DEMAND && <p>Minhas demandas</p>}
@@ -459,7 +465,7 @@ export default function DemandsPage(props) {
             </DialogActions>
           </Dialog>
           {/* FIM MODAL DELETAR TODOS OS RASCUNHOS SELECIONADOS */}
-          {dbDemands && dbDemands.length > 0 && (
+          {showingDemands && showingDemands.length > 0 && (
             <div className="mb-10 flex gap-10">
               <Button
                 style={{ fontSize: fonts.sm }}
@@ -507,9 +513,8 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
-                      selectedDrafts.length > 0 ? "opacity-100" : ""
-                    }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
+                      }`}
                   >
                     Deletar {"(" + selectedDrafts.length + ")"}{" "}
                     {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
@@ -523,7 +528,7 @@ export default function DemandsPage(props) {
 
       <div className="flex flex-wrap justify-around">
         {isLoaded ? (
-          dbDemands && dbDemands.length > 0 ? (
+          showingDemands && showingDemands.length > 0 ? (
             isListFormat ? (
               getDemandsList()
             ) : (
@@ -531,20 +536,16 @@ export default function DemandsPage(props) {
             )
           ) : (
             <div className="flex h-[71vh] items-center justify-around">
-              {!hasDemands ? (
                 <NoContent isManager={!(demandType == DemandType.MANAGER)}>
                   <div style={{ fontSize: fonts.xl }}>
                     {demandType == DemandType.DEMAND &&
-                      "Você ainda não possui demandas!"}
+                      "Nenhuma demanda encontrada!"}
                     {demandType == DemandType.DRAFT &&
-                      "Você não possui rascunhos!"}
+                      "Nenhum rascunho encontrado!"}
                     {demandType == DemandType.MANAGER &&
-                      "Não há demandas para gerenciar!"}
+                      "Nenhuma demanda para gerenciar!"}
                   </div>
                 </NoContent>
-              ) : (
-                <CircularProgress />
-              )}
             </div>
           )
         ) : (

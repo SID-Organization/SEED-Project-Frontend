@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // MUI
 import { Button, Popper } from "@mui/material";
@@ -16,7 +16,7 @@ import FilterComponent from "./FilterComponent";
 export default function Search(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  
+
   // Filters
   const [requester, setRequester] = useState("");
   const [value, setValue] = useState("");
@@ -35,9 +35,11 @@ export default function Search(props) {
     setIsFilterOpen(!isFilterOpen);
   }
 
-  function handleCloseFilter() {
-    setIsFilterOpen(false);
-    filterDemands();
+  function handleCloseAndFilter() {
+    if (isFilterOpen) {
+      setIsFilterOpen(false);
+      filterDemands();
+    }
   }
 
 
@@ -57,7 +59,6 @@ export default function Search(props) {
 
   // Quando algum campo de pesquisa é utilizado, atualiza o filter
   function filterDemands() {
-    setIsFilterOpen(false);
     props.setFilter([
       { filterBy: "nomeSolicitante", value: requester, type: "text" },
       { filterBy: "nomeGerenteResponsavelDemanda", value: responsibleManager, type: "text" },
@@ -73,8 +74,13 @@ export default function Search(props) {
     ])
   };
 
+  useEffect(() => {
+    if (title.length > 2 || title.length === 0) {
+      filterDemands();
+    }
+  }, [title])
   return (
-    <ClickAwayListener onClickAway={handleCloseFilter}>
+    <ClickAwayListener onClickAway={handleCloseAndFilter}>
       <div>
         <Paper
           component="form"
@@ -101,10 +107,9 @@ export default function Search(props) {
           <InputBase
             type={props.type}
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
-            placeholder="Procure aqui"
-            inputProps={{ "aria-label": "Procure aqui" }}
-            onChange={(e) => props.setSearch(e.target.value)}
-            value={props.search}
+            placeholder="Procure pelo título"
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -223,7 +228,7 @@ export default function Search(props) {
                   Limpar
                 </Button>
                 <Button
-                  onClick={filterDemands}
+                  onClick={handleCloseAndFilter}
                   variant="contained"
                   sx={{
                     width: "100%",

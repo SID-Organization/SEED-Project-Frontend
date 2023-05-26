@@ -1,12 +1,16 @@
 const filterBy = (demands, filters) => {
   let filteredDemands;
-
-  console.log("FILTERS", filters);
-  console.log("DEMANDS", demands);
   
+  /**
+   * Filters Template:
+   * [
+   *  { filterBy: 'fieldName', value: 'fieldValue', type: 'fieldType (number, text...)' }
+   * ]
+   */
+
   // Faz um for pelos filtros, verificando qual deles tem valor para ser filtrado
   for (let filter of filters) {
-    if (filter.value == "") continue;
+    if ([undefined, "", 0, null].includes(filter.value)) continue;
     // Caso tiver valor, ira filtrar pelo campo
     filteredDemands = demands.filter((item) => {
       if (item[filter.filterBy] == null) return false;

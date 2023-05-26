@@ -78,7 +78,7 @@ function App() {
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
             <Route path="pautas" element={<Pautas />} />
             <Route path="atas" element={<Atas isAtaForDG={false} />} />
-            <Route path="atas-dg" element={<Atas isAtaForDG={true}/>} />
+            <Route path="atas-dg" element={<Atas isAtaForDG={true} />} />
             <Route path="atas/gerar-ata-dg/:id" element={<GenerateAta isAtaForDG={true} />} />
 
             <Route path="propostas" element={<Proposals />} />

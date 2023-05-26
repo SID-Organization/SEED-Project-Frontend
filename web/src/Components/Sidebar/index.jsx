@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
 
 import MuiDrawer from "@mui/material/Drawer";
-import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
+import { styled } from "@mui/material/styles";
 
 // MUI
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 
 import HomeIcon from "@mui/icons-material/Home";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -24,7 +25,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ClassIcon from "@mui/icons-material/Class";
 import ClassOutlinedIcon from "@mui/icons-material/ClassOutlined";
 
-import { FolderOutlined, Folder } from "@mui/icons-material";
+import { Folder, FolderOutlined } from "@mui/icons-material";
 
 import DescriptionIcon from "@mui/icons-material/Description";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
@@ -85,6 +86,9 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Sidebar() {
+
+  const location = useLocation();
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarFixed, setIsSidebarFixed] = useState(false);
   const [selectedPage, setSelectedPage] = useState(1);
@@ -92,25 +96,10 @@ export default function Sidebar() {
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
-  const isRequester = user.cargoUsuario === "SOLICITANTE";
+  const isRoleRequester = user.cargoUsuario === "SOLICITANTE";
 
   const iconStyle = { color: "#fff", fontSize: "1.9rem", marginLeft: 1.1 };
   const openSidebarIconStyle = { color: "#fff", fontSize: "1.4rem" };
-
-
-
-
-  useEffect(() => {
-    window.addEventListener('popstate', () => {
-      console.warn("URL changed!");
-    });
-
-    return () => {
-      window.removeEventListener('popstate', () => {
-        console.warn("URL changed!");
-      });
-    }
-  }, [])
 
   const sideBarItems = [
     {
@@ -142,21 +131,21 @@ export default function Sidebar() {
       fullIcon: <ManageAccountsIcon sx={iconStyle} />,
       hasDivider: true,
       linkTo: "/gerenciar-demandas",
-      isActiveToUser: !isRequester,
+      isActiveToUser: !isRoleRequester,
     },
     {
       title: "Pautas",
       outlinedIcon: <CalendarMonthOutlinedIcon sx={iconStyle} />,
       fullIcon: <CalendarMonthIcon sx={iconStyle} />,
       linkTo: "/pautas",
-      isActiveToUser: !isRequester,
+      isActiveToUser: !isRoleRequester,
     },
     {
       title: "Atas",
       outlinedIcon: <ClassOutlinedIcon sx={iconStyle} />,
       fullIcon: <ClassIcon sx={iconStyle} />,
       linkTo: "/atas",
-      isActiveToUser: !isRequester,
+      isActiveToUser: !isRoleRequester,
     },
     {
       title: "Atas DG",
@@ -164,7 +153,7 @@ export default function Sidebar() {
       fullIcon: <Folder sx={iconStyle} />,
       linkTo: "/atas-dg",
       hasDivider: true,
-      isActiveToUser: !isRequester
+      isActiveToUser: !isRoleRequester
     },
     {
       title: "Propostas",
@@ -172,7 +161,7 @@ export default function Sidebar() {
       fullIcon: <DescriptionIcon sx={iconStyle} />,
       linkTo: "/propostas",
       hasDivider: true,
-      isActiveToUser: !isRequester,
+      isActiveToUser: !isRoleRequester,
     },
     {
       title: "Chat",
@@ -189,6 +178,12 @@ export default function Sidebar() {
       isActiveToUser: true,
     },
   ];
+
+  useEffect(() => {
+    const index = sideBarItems.findIndex(item => item.linkTo == location.pathname);
+    setSelectedPage(index);
+  }, [location])
+
 
   const getSideBarItems = () => {
     return sideBarItems

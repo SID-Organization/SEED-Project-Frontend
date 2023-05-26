@@ -1,18 +1,21 @@
-import * as React from "react";
-import { useState } from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
 
+// MUI
 import MuiBox from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
-import Tooltip from "@mui/material/Tooltip";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
+// MUI Styled
 import styled from "@emotion/styled";
-
-import { useEffect } from "react";
 
 // Services
 import DemandLogService from "../../service/DemandLog-Service";
+
+// Utils
+import DemandUtils from "../../utils/Demand-Utils";
+import UserUtils from "../../utils/User-Utils";
 
 const columns = [
   {
@@ -21,7 +24,11 @@ const columns = [
     width: 80,
     renderCell: (params) => (
       <Tooltip title={params.value}>
-        <SquareRoundedIcon sx={{ color: statusColor[params.value] }} />
+        <SquareRoundedIcon sx={
+          {
+            color: DemandUtils.getDemandStatusColorByRole(params.value, UserUtils.getLoggedUserRole())
+          }
+        } />
       </Tooltip>
     ),
     maxWidth: 80,
@@ -85,40 +92,6 @@ const columns = [
   },
 ];
 
-/**
- * Status:
- * 1 - Backlog (Aberta) - Cinza - #C2BEBE
- * 2 - Assesment (Classificado pelo analista de TI) - Azul claro - #64C3D5
- * 3 - Aprovado pelo gerente da área - Azul - #00579D
- * 4 - Aprovado pela comissão - Verde - #7EB61C
- * 5 - Proposta em execução - Laranja - #EF8300
- * 6 - Suporte - Amarelo - #FFD600
- * 7 - Concluída - Verde - #00612E
- * 8 - Cancelada - Vermelho - #C31700
- */
-
-const statusColor = {
-  CANCELADA: "#C31700",
-  APROVADO_PELA_COMISSAO: "#0076B8",
-  CLASSIFICADO_PELO_ANALISTA: "#696969",
-  ABERTA: "#C2BEBE",
-  RASCUNHO: "#D9D9D9",
-  APROVADO_PELO_GERENTE_DA_AREA: "#7EB61C",
-  PROPOSTA_EM_ELABORACAO: "#99D6D2",
-  PROPOSTA_EM_EXECUCAO: "#FFFF00",
-  PROPOSTA_EM_SUPORTE: "008080",
-  PROPOSTA_PRONTA: "#7AB7FF",
-  PROPOSTA_FINALIZADA: "006400",
-
-  BACKLOG: "#C2BEBE",
-  ASSESMENT: "#00579D",
-  BUSINESS_CASE: "#8862A2",
-  TO_DO: "#7EB61C",
-  DESIGN_AND_BUILD: "#EF8300",
-  SUPPORT: "#FFD600",
-  CANCELLED: "#C31700",
-  DONE: "#00612E",
-};
 
 const Box = styled(MuiBox)(() => ({
   height: 750,
@@ -129,7 +102,7 @@ const getDemandHistoric = async (demandId) => {
   const historic = await DemandLogService.getDemandLogs(demandId)
     .then(res => res.data)
     .catch(err => console.log(err));
-    
+
   return {
     version: historic[historic.length - 1].versaoHistorico,
     lastUpdate: new Date(

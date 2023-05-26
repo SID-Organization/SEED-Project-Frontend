@@ -19,7 +19,9 @@ export default function subHeader(props) {
         </div>
         <div className="flex flex-[1] justify-around gap-10">
           <div className="flex flex-1 items-center justify-end">
-            <Search filter={props.filter} setFilter={props.setFilter}/>
+            <Search
+              setFilter={props.setFilter}
+            />
           </div>
           <div className="flex flex-1 items-center justify-center">
             <div
