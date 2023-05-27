@@ -47,21 +47,7 @@ export default function DemandsPage(props) {
   const [selectedDrafts, setSelectedDrafts] = useState([]);
 
   //States para filtro
-  const [filter, setFilter] = useState(
-    [
-      { filterBy: "nomeSolicitante", value: null, type: "text" },
-      { filterBy: "nomeGerenteResponsavelDemanda", value: null, type: "text" },
-      { filterBy: "nomeAnalistaResponsavel", value: null, type: "text" },
-      { filterBy: "codigoPPMDemanda", value: null, type: "number" },
-      { filterBy: "departamentoDemanda", value: null, type: "text" },
-      { filterBy: "forumDeAprovacaoDemanda", value: null, type: "text" },
-      { filterBy: "tamanhoDemanda", value: null, type: "text" },
-      { filterBy: "tituloDemanda", value: null, type: "text" },
-      { filterBy: "valorDemanda", value: null, type: "number" },
-      { filterBy: "scoreDemanda", value: null, type: "number" },
-      { filterBy: "idDemanda", value: null, type: "number" }
-    ]
-  );
+  const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
 
   //Variáveis para o Pagination
   const [currentPage, setCurrentPage] = useState(1); // Define a página atual como 1
@@ -120,18 +106,13 @@ export default function DemandsPage(props) {
         .catch((error) => {
           console.error("Erro ao obter os rascunhos:", error);
         });
-    } else {
+    } else if(demandType === DemandType.MANAGER) {
       DemandService.getDemandsToManage(
         user.numeroCadastroUsuario,
         user.cargoUsuario
       )
         .then((data) => {
           let demandsToManage = data;
-          if (user.cargoUsuario === "GERENTE") {
-            demandsToManage = demandsToManage.filter(
-              (item) => item.statusDemanda === "CLASSIFICADO_PELO_ANALISTA"
-            );
-          }
           if (demandsToManage && demandsToManage.length > 0) {
             setDbDemands(demandsToManage);
             setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
@@ -163,7 +144,7 @@ export default function DemandsPage(props) {
   // Sort demands if there are filters
   useEffect(() => {
     if (demandsWLogs) {
-      let sortedDemands = DemandFilterUtils.filterBy(demandsWLogs, filter);
+      let sortedDemands = DemandFilterUtils.filterBy(demandsWLogs, filters);
       console.warn("Called filter. SortedDemands: ", sortedDemands);
       if (sortedDemands) {
         setShowingDemands(sortedDemands);
@@ -171,7 +152,7 @@ export default function DemandsPage(props) {
         setShowingDemands(demandsWLogs);
       }
     }
-  }, [filter, demandsWLogs]);
+  }, [filters, demandsWLogs]);
 
   const getDemandsLogs = async () => {
     let demandsHistoric = dbDemands.map(async (demand) => {
@@ -315,7 +296,7 @@ export default function DemandsPage(props) {
         <SubHeader
           setIsListFormat={setIsListFormat}
           isListFormat={isListFormat}
-          setFilter={setFilter}
+          setFilters={setFilters}
         >
           {demandType == DemandType.DEMAND && <p>Minhas demandas</p>}
           {demandType == DemandType.DRAFT && <p>Rascunhos</p>}

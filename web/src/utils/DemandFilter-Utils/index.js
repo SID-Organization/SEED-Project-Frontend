@@ -1,6 +1,6 @@
 const filterBy = (demands, filters) => {
   let filteredDemands;
-  
+
   /**
    * Filters Template:
    * [
@@ -28,7 +28,52 @@ const filterBy = (demands, filters) => {
   return filteredDemands;
 };
 
+const getEmptyFilter = () => [
+  { filterBy: "nomeSolicitante", value: null, type: "text" },
+  { filterBy: "nomeGerenteResponsavelDemanda", value: null, type: "text" },
+  { filterBy: "nomeAnalistaResponsavel", value: null, type: "text" },
+  { filterBy: "codigoPPMDemanda", value: null, type: "number" },
+  { filterBy: "departamentoDemanda", value: null, type: "text" },
+  { filterBy: "forumDeAprovacaoDemanda", value: null, type: "text" },
+  { filterBy: "tamanhoDemanda", value: null, type: "text" },
+  { filterBy: "tituloDemanda", value: null, type: "text" },
+  { filterBy: "valorDemanda", value: null, type: "number" },
+  { filterBy: "scoreDemanda", value: null, type: "number" },
+  { filterBy: "idDemanda", value: null, type: "number" }
+];
+
+const getUpdatedFilter =
+  (
+    requester,
+    responsibleManager,
+    responsibleAnalyst,
+    PPMCode,
+    department,
+    approvalForum,
+    demandSize,
+    title,
+    value,
+    score,
+    requestNumber
+  ) => [
+      { filterBy: "nomeSolicitante", value: requester, type: "text" },
+      { filterBy: "nomeGerenteResponsavelDemanda", value: responsibleManager, type: "text" },
+      { filterBy: "nomeAnalistaResponsavel", value: responsibleAnalyst, type: "text" },
+      { filterBy: "codigoPPMDemanda", value: PPMCode, type: "number" },
+      { filterBy: "departamentoDemanda", value: department, type: "text" },
+      { filterBy: "forumDeAprovacaoDemanda", value: approvalForum, type: "text" },
+      { filterBy: "tamanhoDemanda", value: demandSize, type: "text" },
+      { filterBy: "tituloDemanda", value: title, type: "text" },
+      { filterBy: "valorDemanda", value: value, type: "number" },
+      { filterBy: "scoreDemanda", value: score, type: "number" },
+      { filterBy: "idDemanda", value: requestNumber, type: "number" },
+    ]
+
+
+
 export default {
   filterBy,
+  getEmptyFilter,
+  getUpdatedFilter
   // filterTypes
 };

@@ -78,7 +78,7 @@ const getDemandsByStatus = async (status) => {
 const getDemandsByRequestorId = async (requestorId) => {
   return AxiosAPI.get(`${url}/solicitante/${requestorId}`)
     .then((response) => response)
-    .catch ((error) => error);
+    .catch((error) => error);
 };
 
 const getDraftsByRequestorId = async (requestorId) => {
@@ -105,6 +105,16 @@ const openDemandPDF = async (demandId) => {
   window.open(`${url}/pdf-demanda/${demandId}`, "_blank");
 };
 
+const returnOrCancel = async (demandId, reason, devolution) => {
+  const requestBody = {
+    motivoRecusaDemanda: reason,
+    statusDemanda: devolution ? "ABERTA" : "CANCELADA",
+    idResponsavel: { numeroCadastroUsuario: 72131 }
+  }
+  console.warn(requestBody);
+  return AxiosAPI.put(`${url}/devolucao-demanda/${demandId}`, requestBody)
+}
+
 export default {
   createDemand,
   updateDemand,
@@ -121,5 +131,6 @@ export default {
   getDraftsByRequestorId,
   deleteListDemands,
   deleteAllDrafts,
-  openDemandPDF
+  openDemandPDF,
+  returnOrCancel,
 };

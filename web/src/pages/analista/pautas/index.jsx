@@ -12,6 +12,7 @@ import PautaService from "../../../service/Pauta-Service";
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
+import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
 
 export default function Pautas() {
   const [pautas, setPautas] = useState([]);
@@ -20,7 +21,7 @@ export default function Pautas() {
   const [pautasMonths, setPautasMonths] = useState([]);
   const [pautasYear, setPautasYear] = useState([]);
 
-  const [filters, setFilters] = useState([{}]);
+  const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 

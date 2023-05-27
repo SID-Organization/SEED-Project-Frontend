@@ -8,7 +8,9 @@ export default function SubHeaderAtas(props) {
           Atas registradas {props.isAtaForDG && "DG"}
         </h1>
         <div className="flex mr-10 gap-16">
-          <Search />
+          <Search
+            setFilters={props.setFilters}
+          />
         </div>
       </div>
     </div>

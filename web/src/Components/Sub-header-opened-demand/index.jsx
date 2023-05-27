@@ -106,7 +106,7 @@ export default function subHeader({
   // Controle do botão de ações
   const [openActions, setOpenActions] = useState(false);
   // Controle do botão selecionado
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedKey, setSelectedKey] = useState(1);
 
   // Demanda buscada do banco de dados
   const [demand, setDemand] = useState();
@@ -121,8 +121,11 @@ export default function subHeader({
   const [businessUnits, setBusinessUnits] = useState([]);
   const [responsableITSections, setResponsableITSections] = useState([]);
 
-  // Motivo da devolução
-  const [openReasonOfDevolution, setOpenReasonOfDevolution] = useState(false);
+  // Motivo da devolução modal
+  const [isReasonOfModalOpen, setIsReasonOfModalOpen] = useState(false);
+
+  // Motivo da devolução variável
+  const [reasonOfReturnValue, setReasonOfReturnValue] = useState("");
 
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
@@ -136,11 +139,25 @@ export default function subHeader({
     });
   }, []);
 
-  const handleOpenReasonOfDevolution = () => setOpenReasonOfDevolution(true);
-
   const navigate = useNavigate();
 
-  const handleCloseReasonOfDevolution = () => setOpenReasonOfDevolution(false);
+  const handleOpenReasonOfModal = () => setIsReasonOfModalOpen(true);
+  const handleCloseReasonOfModal = () => {
+    setIsReasonOfModalOpen(false)
+    setReasonOfReturnValue("");
+  };
+
+  const sendReturnOrCancel = () => {
+    setIsReasonOfModalOpen(false);
+    DemandService.returnOrCancel(params.id, reasonOfReturnValue, getIsDevolution())
+    .then(res => console.warn("RESSS", res))
+    setReasonOfReturnValue("");
+  }
+
+  const getIsDevolution = () => {
+    return selectedKey == actionOptions.findIndex(o => o.text === 'Devolver') + 1
+  }
+
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -182,18 +199,11 @@ export default function subHeader({
       key: 2,
     },
     {
-      text: "Alterar status",
-      role: ["ANALISTA"],
-      demandStatus: ["TODAS"],
-      function: changeDemandStatus,
-      key: 3,
-    },
-    {
       text: "Acessar proposta",
       role: ["ANALISTA", "GESTOR_TI"],
       demandStatus: ["PROPOSTA_EM_ELABORACAO"],
       function: accessProposal,
-      key: 4,
+      key: 3,
     },
     {
       text: "Ver proposta",
@@ -206,21 +216,28 @@ export default function subHeader({
         "PROPOSTA_EM_SUPORTE",
         "BUSINESS_CASE",
       ],
-      key: 5,
+      key: 4,
     },
     {
       text: "Devolver",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
-      function: handleOpenReasonOfDevolution,
-      key: 6,
+      function: handleOpenReasonOfModal,
+      key: 5,
     },
 
     {
       text: "Recusar",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
-      function: handleOpenReasonOfDevolution,
+      function: handleOpenReasonOfModal,
+      key: 6,
+    },
+    {
+      text: "Alterar status",
+      role: ["ANALISTA"],
+      demandStatus: ["TODAS"],
+      function: changeDemandStatus,
       key: 7,
     },
   ];
@@ -380,8 +397,8 @@ export default function subHeader({
     <div>
       {/* Modal para inserir o motivo da reprovação */}
       <Modal
-        open={openReasonOfDevolution}
-        onClose={handleCloseReasonOfDevolution}
+        open={isReasonOfModalOpen}
+        onClose={handleCloseReasonOfModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -397,7 +414,7 @@ export default function subHeader({
               text-[#0075B1]
             "
           >
-            Motivo da {selectedIndex == 2 ? "devolução" : "recusação"} da
+            Motivo da {getIsDevolution() ? "devolução" : "recusação"} da
             demanda
           </h1>
           <p
@@ -419,6 +436,8 @@ export default function subHeader({
             multiline
             rows={4}
             variant="outlined"
+            value={reasonOfReturnValue}
+            onChange={(e) => setReasonOfReturnValue(e.target.value)}
             sx={{
               width: 500,
               height: 100,
@@ -430,7 +449,7 @@ export default function subHeader({
           />
           <span className="flex items-center justify-center gap-4">
             <Button
-              onClick={handleCloseReasonOfDevolution}
+              onClick={sendReturnOrCancel}
               variant="contained"
               style={{
                 backgroundColor: "#0075B1",
@@ -593,7 +612,7 @@ export default function subHeader({
                 Cancelar
               </Button>
               <Button
-                onClick={handleOpenReasonOfDevolution}
+                onClick={handleOpenReasonOfModal}
                 variant="outlined"
                 sx={{
                   backgroundColor: "#fff",
@@ -727,10 +746,9 @@ export default function subHeader({
                           <MenuItem
                             onClick={() => {
                               option.function();
-                              setSelectedIndex(index);
+                              setSelectedKey(option.key);
                             }}
                             key={option.key}
-                            selected={index === selectedIndex}
                           >
                             {option.text}
                           </MenuItem>

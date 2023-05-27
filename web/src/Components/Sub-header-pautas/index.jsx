@@ -10,7 +10,7 @@ export default function SubHeaderPautas(props) {
         </h1>
         <div className="mr-10 flex gap-16">
           <CreateNewPauta />
-          <Search filter={props.filters} setFilter={props.setFilters} />
+          <Search filters={props.filters} setFilters={props.setFilters} />
         </div>
       </div>
     </div>

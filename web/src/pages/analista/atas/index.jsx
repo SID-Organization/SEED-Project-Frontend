@@ -13,6 +13,7 @@ import AtaDGService from "../../../service/AtaDG-Service";
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
+import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
 
 const months = {
   "01": "Janeiro",
@@ -35,6 +36,9 @@ export default function Atas(props) {
   const [atasYears, setAtasYears] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter())
+
+  // Font size of the system
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   useEffect(() => {
@@ -42,13 +46,14 @@ export default function Atas(props) {
   }, [FontSizeUtils.getFontControl()]);
 
   const getAtasInMonth = (month, year) => {
-    return atas.filter(
-      (ata) =>
-        ata.dataReuniaoAta.split("/")[1] === month &&
-        ata.dataReuniaoAta.split("/")[2] === year
-    );
+    if (atas)
+      return atas.filter(
+        (ata) =>
+          ata.dataReuniaoAta.split("/")[1] === month &&
+          ata.dataReuniaoAta.split("/")[2] === year
+      );
+    return [];
   };
-
 
 
   useEffect(() => {
@@ -59,11 +64,13 @@ export default function Atas(props) {
         .then((res) => {
           console.log("ATAS", res.data);
           if (!res.error) {
-            const dbAtas = res.data.map((ata) => {
-              ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
-              return ata;
-            });
-            setAtas(dbAtas);
+            if (res.data) {
+              const dbAtas = res.data.map((ata) => {
+                ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
+                return ata;
+              });
+              setAtas(dbAtas);
+            }
           } else {
             alert("Erro ao buscar atas");
             console.log("Request", res);
@@ -77,7 +84,7 @@ export default function Atas(props) {
       AtaDGService.getAtasDG()
         .then((data) => {
           console.log("ATAS DG", data);
-          // setAtas(data);
+          setAtas(data);
         });
     }
   }, [props.isAtaForDG]);
@@ -101,7 +108,10 @@ export default function Atas(props) {
 
   return (
     <div>
-      <SubHeaderAtas isAtaForDG={props.isAtaForDG} />
+      <SubHeaderAtas
+        setFilters={setFilters}
+        isAtaForDG={props.isAtaForDG}
+      />
       <div className="mt-8 flex flex-col items-center justify-center gap-4">
         {isLoading ? (
           <div className="flex h-[71vh] items-center justify-around">

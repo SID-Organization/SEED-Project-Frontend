@@ -120,6 +120,7 @@ export default function DemandCard(props) {
   };
 
   useEffect(() => {
+    console.warn(props.demand)
     getLogs();
   }, []);
 
