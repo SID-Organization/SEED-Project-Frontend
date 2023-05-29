@@ -57,7 +57,6 @@ export default function openedDemand() {
   const [demandLogs, setDemandLogs] = useState();
 
   const [open, setOpen] = useState(false);
-  const [isEditEnabled, setIsEditEnabled] = useState(true);
 
   const [qualitativeBenefit, setQualitativeBenefit] = useState();
 
@@ -128,10 +127,7 @@ export default function openedDemand() {
 
   return (
     <>
-      <SubHeaderOpenedDemand
-        isEditEnabled={isEditEnabled}
-        setIsEditEnabled={setIsEditEnabled}
-      >
+      <SubHeaderOpenedDemand>
         Visualização Demanda {params.id}
       </SubHeaderOpenedDemand>
       <div className="grid items-center justify-center">
@@ -203,8 +199,8 @@ export default function openedDemand() {
                       >
                         {demandLogs
                           ? new Date(
-                              demandLogs[0].recebimentoHistorico
-                            ).toLocaleDateString()
+                            demandLogs[0].recebimentoHistorico
+                          ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>
@@ -382,10 +378,10 @@ export default function openedDemand() {
             <h1 style={{ fontSize: fonts.sm }} className="font-roboto">
               {demand?.centroCustoDemanda[0]
                 ? (
-                    demand.centroCustoDemanda[0].numeroCentroCusto +
-                    " - " +
-                    demand.centroCustoDemanda[0].nomeCentroCusto
-                  ).slice(0, 40)
+                  demand.centroCustoDemanda[0].numeroCentroCusto +
+                  " - " +
+                  demand.centroCustoDemanda[0].nomeCentroCusto
+                ).slice(0, 40)
                 : "Não indicado"}
             </h1>
           </div>
@@ -450,7 +446,7 @@ export default function openedDemand() {
                 className="border-1 h-20 w-[65rem] resize-none
                 rounded-[0.5rem] p-2 
               text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                disabled={isEditEnabled}
+                disabled
                 value={qualitativeBenefit}
                 onChange={(e) => setQualitativeBenefit(e.target.value)}
               />
