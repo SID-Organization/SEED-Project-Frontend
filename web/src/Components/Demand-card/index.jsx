@@ -685,10 +685,10 @@ export default function DemandCard(props) {
                         </Typography>
                         <TextField
                           id="outlined-multiline-static"
-                          disabled
                           multiline
+                          disabled
                           rows={4}
-                          value={"Motivo da reprovação da demanda"}
+                          value={props.demand.motivoRecusaDemanda}
                           variant="outlined"
                           sx={{
                             width: 500,

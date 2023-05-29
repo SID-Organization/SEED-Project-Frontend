@@ -2,6 +2,7 @@
 // Transform the user easier status to a more technical status (for analysts)
 const statusForAnalyst = {
     RASCUNHO: "RASCUNHO",
+    EM_EDICAO: "EM_EDICAO",
     ABERTA: "ABERTA",
     CLASSIFICADO_PELO_ANALISTA: "ABERTA",
     APROVADO_PELO_GERENTE_DA_AREA: "BACKLOG",
@@ -28,11 +29,13 @@ const statusColorForAnalyst = {
     CANCELLED: "#C31700",
     DONE: "#00612E",
     RASCUNHO: "#D9D9D9",
+    EM_EDICAO: "#D9D9D9",
 }
 
 const statusColorForRequester = {
     CANCELADA: "#C31700",
     RASCUNHO: "#D9D9D9",
+    EM_EDICAO: "#D9D9D9",
     ABERTA: "#C2BEBE",
     CLASSIFICADO_PELO_ANALISTA: "#AED6F1",
     APROVADO_PELO_GERENTE_DA_AREA: "#5499C7",
@@ -47,7 +50,7 @@ const statusColorForRequester = {
 }
 
 
-
+// Control the percentage of the progress bar
 const statusPercentage = {
     ABERTA: 15,
     CLASSIFICADO_PELO_ANALISTA: 30,
@@ -60,7 +63,8 @@ const statusPercentage = {
     PROPOSTA_EM_EXECUCAO: 90,
     PROPOSTA_EM_SUPORTE: 95,
     PROPOSTA_FINALIZADA: 100,
-    CANCELADA: 0,
+    CANCELADA: 100,
+    EM_EDICAO: 5,
     RASCUNHO: 1,
 }
 
@@ -79,6 +83,7 @@ const formatStatus = {
     PROPOSTA_FINALIZADA: "Proposta Finalizada",
     CANCELADA: "Cancelada",
     RASCUNHO: "Rascunho",
+    EM_EDICAO: "Em Edição",
 
     ASSESMENT: "Assesment",
     BACKLOG: "Backlog",
@@ -112,8 +117,55 @@ const getPercentageByStatus = (status) => {
     return statusPercentage[status]
 }
 
+function getBenefitCoin(coin) {
+    switch (coin) {
+        case "REAL":
+            return "R$";
+        case "DOLAR":
+            return "$";
+        case "EURO":
+            return "€";
+    }
+
+    switch (coin) {
+        case "R$":
+            return "REAL";
+        case "$":
+            return "DOLAR";
+        case "€":
+            return "EURO";
+        default:
+            "REAL";
+    }
+}
+
+function formatBenefit(benefit, benefitType, formatToCode = false) {
+    let tempBenefit;
+    if (!formatToCode) {
+        tempBenefit = {
+            moedaBeneficio: getBenefitCoin(benefit.coin),
+            memoriaCalculoBeneficio: removeHTML(benefit.descriptionHTML),
+            memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
+            valorBeneficio: benefit.value,
+            tipoBeneficio: benefitType,
+            idFront: benefit.idFront,
+        };
+        if (benefit.benefitId) tempBenefit["idBeneficio"] = benefit.benefitId;
+    } else if (formatToCode) {
+        tempBenefit = {
+            benefitId: benefit.idBeneficio,
+            value: benefit.valorBeneficio,
+            coin: getBenefitCoin(benefit.moedaBeneficio),
+            descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
+            idFront: benefit.idFront,
+        };
+    }
+    return tempBenefit;
+}
+
 export default {
     getDemandStatusByRole,
     getDemandStatusColorByRole,
     getPercentageByStatus,
+    formatBenefit
 }
