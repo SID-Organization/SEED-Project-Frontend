@@ -101,16 +101,14 @@ export default function Login(props) {
             <h1 className="text-5xl text-white">Welcome!</h1>
             <h1 className="text-3xl text-white">Bem-vindo!</h1>
           </div>
-          <div className="grid justify-start items-center">
+          <div className="grid justify-start items-center w-64">
             <div className="flex gap-1">
             <h1 className="text-3xl font-bold text-white items-center flex ">SEED</h1>
             <img className="brightness-[100] w-16" src={SeedLogo} alt="" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-300">
-              Sustainable System
-            </h1>
-            <h1 className="text-2xl font-bold text-slate-300">of IT Demands</h1>
-            <h1 className="text-2xl font-bold text-slate-300">Management</h1>
+            <h1 className="text-2xl font-bold text-slate-300 break-words">
+              Accessible and Sustainable System of IT Demands Management
+            </h1> 
           </div>
         </div>
         <Container
