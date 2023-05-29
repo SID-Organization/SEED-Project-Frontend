@@ -70,8 +70,9 @@ function App() {
 
             <Route path="demandas/:id" element={<OpenedDemand />} />
             <Route path="list" element={<DemandCardList />} />
-            <Route path="nova-demanda" element={<CreateDemand />} />
-            <Route path="rascunhos/:id" element={<CreateDemand />} />
+            <Route path="nova-demanda" element={<CreateDemand isEditting={false}/>} />
+            <Route path="rascunhos/:id" element={<CreateDemand isEditting={false}/>} />
+            <Route path="editar-demanda/:id" element={<CreateDemand isEditting={true}/>} />
             <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
             <Route
               path="/propostas/gerar-proposta/:id"
@@ -94,7 +95,7 @@ function App() {
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>
       </BrowserRouter>
-      <VLibras forceOnload={true}/>
+      <VLibras forceOnload={true} />
     </>
   );
 }
