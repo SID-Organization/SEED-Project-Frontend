@@ -149,8 +149,8 @@ export default function subHeader({
 
   const sendReturnOrCancel = () => {
     setIsReasonOfModalOpen(false);
-    DemandService.returnOrCancel(params.id, reasonOfReturnValue, getIsDevolution())
-    .then(res => console.warn("RESSS", res))
+    DemandService.returnOrCancel(params.id, reasonOfReturnValue, getIsDevolution(), UserUtils.getLoggedUserId())
+      .then(res => console.warn("RESSS", res))
     setReasonOfReturnValue("");
   }
 
@@ -169,7 +169,7 @@ export default function subHeader({
       handleManagerApproveDemand();
       const timeout = setTimeout(() => {
         navigate("/demandas");
-      }, 3000);
+      }, 1500);
       return () => clearTimeout(timeout);
     }
   };
@@ -210,9 +210,11 @@ export default function subHeader({
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: [
         "PROPOSTA_PRONTA",
-        "APROVADO_PELO_GERENTE_DA_AREA",
-        "PROPOSTA_EM_EXECUCAO",
         "PROPOSTA_FINALIZADA",
+        "EM_PAUTA",
+        "APROVADA_EM_COMISSAO",
+        "APROVADA_EM_DG",
+        "PROPOSTA_EM_EXECUCAO",
         "PROPOSTA_EM_SUPORTE",
         "BUSINESS_CASE",
       ],
@@ -308,13 +310,8 @@ export default function subHeader({
     setOpenActions(false);
   };
 
-  function editInput() {
-    setIsEditEnabled(!isEditEnabled);
-    if (isEditEnabled) {
-      notifyEditEnabledOn();
-    } else {
-      notifyEditEnabledOff();
-    }
+  function editDemand() {
+    navigate(`/editar-demanda/${params.id}`);
   }
 
   const handleChangeRequesterBu = (event) => {
@@ -380,16 +377,12 @@ export default function subHeader({
     if (classifyDemandSize == "5") return "MUITO_PEQUENA";
   };
 
-  function isToEdit() {
+  function ableToEdit() {
     if (demand) {
-      if (
+      return (
         user.cargoUsuario == "SOLICITANTE" &&
-        demand.statusDemanda == "ABERTA"
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+        demand.statusDemanda == "EM_EDICAO"
+      )
     }
   }
 
@@ -650,8 +643,8 @@ export default function subHeader({
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
           {children}
         </h1>
-        {/* aqiqqiuqiuqiq */}
-        {isToEdit() && (
+
+        {ableToEdit() && (
           <Button
             variant="contained"
             sx={{
@@ -660,7 +653,7 @@ export default function subHeader({
               width: 50,
               height: 40,
             }}
-            onClick={() => editInput()}
+            onClick={editDemand}
           >
             <Toaster
               position="top-center"
@@ -676,15 +669,9 @@ export default function subHeader({
                 },
               }}
             />
-            {isEditEnabled ? (
-              <Tooltip title="Editar">
-                <ModeEditIcon />
-              </Tooltip>
-            ) : (
-              <Tooltip title="Salvar alterações">
-                <DoneIcon />
-              </Tooltip>
-            )}
+            <Tooltip title="Editar">
+              <ModeEditIcon />
+            </Tooltip>
           </Button>
         )}
 
