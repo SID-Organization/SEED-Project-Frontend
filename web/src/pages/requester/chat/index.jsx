@@ -97,14 +97,7 @@ export default function Chat() {
     }
   }, [stompClient]);
 
-  const [userData, setUserData] = useState({
-    idUsuario: { numeroCadastroUsuario: UserUtils.getLoggedUserId() },
-    idChat: { idChat: chatId },
-    idDemanda: { idDemanda: 0 },
-    connected: false,
-    message: "",
-    file: fileState,
-  })
+  const [userData, setUserData] = useState(UserUtils.getLoggedUser());
 
   useEffect(() => {
     ChatService.getChatByUserId(UserUtils.getLoggedUserId()).then(

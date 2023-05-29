@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // Imgs
 import WegLogo from "../../assets/weg-logo.png";
+import SeedLogo from "../../assets/seedLogo.png"
 
 // MUI
 import Button from "@mui/material/Button";
@@ -100,8 +101,11 @@ export default function Login(props) {
             <h1 className="text-5xl text-white">Welcome!</h1>
             <h1 className="text-3xl text-white">Bem-vindo!</h1>
           </div>
-          <div className="grid">
-            <h1 className="text-3xl font-bold text-white">SEED</h1>
+          <div className="grid justify-start items-center">
+            <div className="flex gap-1">
+            <h1 className="text-3xl font-bold text-white items-center flex ">SEED</h1>
+            <img className="brightness-[100] w-16" src={SeedLogo} alt="" />
+            </div>
             <h1 className="text-2xl font-bold text-slate-300">
               Sustainable System
             </h1>
