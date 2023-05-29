@@ -90,15 +90,15 @@ export default function Atas(props) {
   }, [props.isAtaForDG]);
 
   useEffect(() => {
-    if (atas.length === 0) return;
+    if (atas && atas.length === 0) return;
     setAtasMonths(() =>
-      atas
+      atas && atas
         .map((ata) => ata.dataReuniaoAta.split("/")[1])
         .sort()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
     setAtasYears(() =>
-      atas
+      atas && atas
         .map((ata) => ata.dataReuniaoAta.split("/")[2])
         .sort()
         .reverse()
