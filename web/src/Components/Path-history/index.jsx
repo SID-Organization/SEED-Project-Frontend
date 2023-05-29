@@ -5,6 +5,23 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 // import Link from "@mui/material/Link";
 import { useLocation, Link } from "react-router-dom";
 
+
+// Recebe o nome da rota e retorna o nome com a primeira letra maiúscula
+const buscarPathName = (path) => {
+  const pathName = path.split("")[0].toUpperCase() + path.slice(1);
+  return pathName;
+};
+
+
+// Retorna o link correto para cada item do breadcrumb
+const buscarLink = (index) => {
+  let link = "";
+  for (let i = 0; i <= index; i++) {
+    link += "/" + location.pathname.substring(1).split("/")[i];
+  }
+  return link;
+};
+
 // Navegação por histórico de rotas
 export default function PathHistory() {
   const location = useLocation();
@@ -14,14 +31,6 @@ export default function PathHistory() {
     setPathHist(location.pathname.substring(1).split("/"));
   }, [location]);
 
-  // Retorna o link correto para cada item do breadcrumb
-  const buscarLink = (index) => {
-    let link = "";
-    for (let i = 0; i <= index; i++) {
-      link += "/" + location.pathname.substring(1).split("/")[i];
-    }
-    return link;
-  };
 
   return (
     <div role="presentation" className="bg-breadcrumb-bg">
@@ -58,8 +67,4 @@ export default function PathHistory() {
   );
 }
 
-// Recebe o nome da rota e retorna o nome com a primeira letra maiúscula
-const buscarPathName = (path) => {
-  const pathName = path.split("")[0].toUpperCase() + path.slice(1);
-  return pathName;
-};
+

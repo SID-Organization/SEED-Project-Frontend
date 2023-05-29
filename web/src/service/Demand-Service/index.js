@@ -21,8 +21,8 @@ const updateBenefitedBUs = async (demandId, updatedDemand) => {
   return AxiosAPI.put(`${url}/atualiza-bus-beneficiadas/${demandId}`, updatedDemand);
 };
 
-const updateDemandStatus = async (demandId, newStatus) => {
-  const status = { statusDemanda: newStatus };
+const updateDemandStatus = async (demandId, newStatus, isEditting) => {
+  const status = { statusDemanda: newStatus, acao: isEditting ? "EDITAR" : "SALVAR"};
   const contentType = "application/json";
 
   return AxiosAPI.put(`${url}/status/${demandId}`, status, contentType);
@@ -105,13 +105,13 @@ const openDemandPDF = async (demandId) => {
   window.open(`${url}/pdf-demanda/${demandId}`, "_blank");
 };
 
-const returnOrCancel = async (demandId, reason, devolution) => {
+const returnOrCancel = async (demandId, reason, devolution, responsableId) => {
   const requestBody = {
     motivoRecusaDemanda: reason,
-    statusDemanda: devolution ? "ABERTA" : "CANCELADA",
-    idResponsavel: { numeroCadastroUsuario: 72131 }
+    statusDemanda: devolution ? "EM_EDICAO" : "CANCELADA",
+    idResponsavel: { numeroCadastroUsuario: responsableId }
   }
-  console.warn(requestBody);
+  console.warn("ReturnCancel RB", requestBody);
   return AxiosAPI.put(`${url}/devolucao-demanda/${demandId}`, requestBody)
 }
 

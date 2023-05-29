@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 
+//Components
+import Notification from "../../Components/Notification";
+
 // MUI
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -21,7 +24,7 @@ import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Select from "@mui/material/Select";
-import { Badge, InputLabel } from "@mui/material";
+import { Badge, InputLabel, Typography } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
 import MuiAutocomplete from "@mui/material/Autocomplete";
 
@@ -31,6 +34,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 
 import "../../styles/index.css";
 
@@ -67,6 +71,21 @@ const styleModalReasonOfDevolution = {
   borderRadius: 2,
   boxShadow: 24,
   p: 4,
+};
+
+const styleApproveDemand = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "23rem",
+  height: "15rem",
+  backgroundColor: "#fff",
+  boxShadow: 0,
+  borderRadius: 2,
 };
 
 const TextField = styled(MuiTextField)({
@@ -130,6 +149,12 @@ export default function subHeader({
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
+  // Modal de aprovação da demanda
+  const [openApproveDemandModal, setOpenApproveDemandModal] = useState(false);
+
+  // Notificação confirmação demanda aprovada
+  const [openNotification, setOpenNotification] = useState(false);
+
   const anchorRef = React.useRef(null);
   const params = useParams();
 
@@ -143,45 +168,49 @@ export default function subHeader({
 
   const handleOpenReasonOfModal = () => setIsReasonOfModalOpen(true);
   const handleCloseReasonOfModal = () => {
-    setIsReasonOfModalOpen(false)
+    setIsReasonOfModalOpen(false);
     setReasonOfReturnValue("");
   };
 
   const sendReturnOrCancel = () => {
     setIsReasonOfModalOpen(false);
-    DemandService.returnOrCancel(params.id, reasonOfReturnValue, getIsDevolution())
-    .then(res => console.warn("RESSS", res))
+    DemandService.returnOrCancel(
+      params.id,
+      reasonOfReturnValue,
+      getIsDevolution(),
+      UserUtils.getLoggedUserId()
+    ).then((res) => console.warn("RESSS", res));
     setReasonOfReturnValue("");
-  }
+  };
 
   const getIsDevolution = () => {
-    return selectedKey == actionOptions.findIndex(o => o.text === 'Devolver') + 1
-  }
+    return (
+      selectedKey == actionOptions.findIndex((o) => o.text === "Devolver") + 1
+    );
+  };
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
+  const handleOpenApproveDemand = () => setOpenApproveDemandModal(true);
+
+  const handleCloseApproveDemand = () => {
+    setOpenApproveDemandModal(false);
+  };
+
   const handleApproveDemand = () => {
-    if (confirm("Deseja aprovar a demanda?")) {
-      toast.success("Demanda aprovada com sucesso!");
-      handleManagerApproveDemand();
-      const timeout = setTimeout(() => {
-        navigate("/demandas");
-      }, 3000);
-      return () => clearTimeout(timeout);
-    }
+    handleManagerApproveDemand();
   };
 
   const changeDemandStatus = () => {
     // CRIAR MODAL PARA MOSTRAR E TROCAR OS STATUS DA DEMANDA
-  }
+  };
 
   const accessProposal = () => {
     navigate(`/propostas/gerar-proposta/${demand.idDemanda}`);
-  }
-
+  };
 
   const actionOptions = [
     {
@@ -195,7 +224,7 @@ export default function subHeader({
       text: "Aprovar",
       role: ["GERENTE", "GESTOR_TI"],
       demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
-      function: handleApproveDemand,
+      function: handleOpenApproveDemand,
       key: 2,
     },
     {
@@ -210,9 +239,11 @@ export default function subHeader({
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: [
         "PROPOSTA_PRONTA",
-        "APROVADO_PELO_GERENTE_DA_AREA",
-        "PROPOSTA_EM_EXECUCAO",
         "PROPOSTA_FINALIZADA",
+        "EM_PAUTA",
+        "APROVADA_EM_COMISSAO",
+        "APROVADA_EM_DG",
+        "PROPOSTA_EM_EXECUCAO",
         "PROPOSTA_EM_SUPORTE",
         "BUSINESS_CASE",
       ],
@@ -294,8 +325,6 @@ export default function subHeader({
       .catch((err) => console.log("Erro ", err));
   }, []);
 
-
-
   const handleToggleActions = () => {
     setOpenActions((prevOpen) => !prevOpen);
   };
@@ -308,13 +337,8 @@ export default function subHeader({
     setOpenActions(false);
   };
 
-  function editInput() {
-    setIsEditEnabled(!isEditEnabled);
-    if (isEditEnabled) {
-      notifyEditEnabledOn();
-    } else {
-      notifyEditEnabledOff();
-    }
+  function editDemand() {
+    navigate(`/editar-demanda/${params.id}`);
   }
 
   const handleChangeRequesterBu = (event) => {
@@ -349,25 +373,40 @@ export default function subHeader({
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {
-
-          DemandLogService.createDemandLog("APROVACAO_GERENTE_AREA", demand.idDemanda, "Aprovar", 72132);
+          DemandLogService.createDemandLog(
+            "APROVACAO_GERENTE_AREA",
+            demand.idDemanda,
+            "Aprovar",
+            72132
+          );
         }
         return response;
       })
       .then((res) => {
-        if (res.status == 200)
-          navigate(-1);
+        if (res.status == 200) navigate(-1);
       });
   };
 
   const handleManagerApproveDemand = async () => {
-
-    DemandLogService.createDemandLog("ELABORACAO_PROPOSTA", demand.idDemanda, "Aprovar", 72131).then((response) => {
+    DemandLogService.createDemandLog(
+      "ELABORACAO_PROPOSTA",
+      demand.idDemanda,
+      "Aprovar",
+      72131
+    ).then((response) => {
       if (response.status == 200 || response.status == 201) {
         DemandService.updateDemandStatus(
           demand.idDemanda,
           "APROVADO_PELO_GERENTE_DA_AREA"
-        );
+        ).then((response) => {
+          if (response.status == 200 || response.status == 201) {
+            setOpenNotification(true);
+            const timeout = setTimeout(() => {
+              navigate("/demandas");
+            }, 1500);
+            return () => clearTimeout(timeout);
+          }
+        });
       }
     });
   };
@@ -380,21 +419,77 @@ export default function subHeader({
     if (classifyDemandSize == "5") return "MUITO_PEQUENA";
   };
 
-  function isToEdit() {
+  function ableToEdit() {
     if (demand) {
-      if (
+      return (
         user.cargoUsuario == "SOLICITANTE" &&
-        demand.statusDemanda == "ABERTA"
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+        demand.statusDemanda == "EM_EDICAO"
+      );
     }
   }
 
   return (
     <div>
+      {openNotification && (
+        <Notification message="Demanda aprovada com sucesso!" action={false} />
+      )}
+      {/* Modal para confirmar a demanda */}
+      <Modal
+        open={openApproveDemandModal}
+        onClose={handleCloseApproveDemand}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleApproveDemand}>
+          <div className="grid items-center justify-center gap-8">
+            <div className="grid items-center justify-center gap-2">
+              <div className="flex items-center justify-center">
+                <CheckCircleOutlineOutlinedIcon
+                  sx={{
+                    color: "#0075B1",
+                    fontSize: "5rem",
+                  }}
+                />
+              </div>
+              <h1 className="text-lg font-semibold text-light-blue-weg">
+                Deseja aprovar a demanda?
+              </h1>
+            </div>
+            <div className="flex items-center justify-around">
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#C2BEBE",
+                  color: "#fff",
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#C2BEBE",
+                  },
+                }}
+                onClick={handleCloseApproveDemand}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#0075B1",
+                  color: "#fff",
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#0075B1",
+                  },
+                }}
+                onClick={handleApproveDemand}
+              >
+                Aprovar
+              </Button>
+            </div>
+          </div>
+        </Box>
+      </Modal>
       {/* Modal para inserir o motivo da reprovação */}
       <Modal
         open={isReasonOfModalOpen}
@@ -414,8 +509,7 @@ export default function subHeader({
               text-[#0075B1]
             "
           >
-            Motivo da {getIsDevolution() ? "devolução" : "recusação"} da
-            demanda
+            Motivo da {getIsDevolution() ? "devolução" : "recusação"} da demanda
           </h1>
           <p
             className="
@@ -595,7 +689,7 @@ export default function subHeader({
               </div>
             </div>
 
-            <div className="mt-10 mb-5 flex items-center justify-evenly">
+            <div className="mb-5 mt-10 flex items-center justify-evenly">
               <Button
                 variant="contained"
                 sx={{
@@ -650,8 +744,8 @@ export default function subHeader({
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
           {children}
         </h1>
-        {/* aqiqqiuqiuqiq */}
-        {isToEdit() && (
+
+        {ableToEdit() && (
           <Button
             variant="contained"
             sx={{
@@ -660,7 +754,7 @@ export default function subHeader({
               width: 50,
               height: 40,
             }}
-            onClick={() => editInput()}
+            onClick={editDemand}
           >
             <Toaster
               position="top-center"
@@ -676,15 +770,9 @@ export default function subHeader({
                 },
               }}
             />
-            {isEditEnabled ? (
-              <Tooltip title="Editar">
-                <ModeEditIcon />
-              </Tooltip>
-            ) : (
-              <Tooltip title="Salvar alterações">
-                <DoneIcon />
-              </Tooltip>
-            )}
+            <Tooltip title="Editar">
+              <ModeEditIcon />
+            </Tooltip>
           </Button>
         )}
 

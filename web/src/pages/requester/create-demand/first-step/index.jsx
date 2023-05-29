@@ -11,13 +11,13 @@ import FontSizeUtils from "../../../../utils/FontSize-Utils";
 export default function FirstStep({ props }) {
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
-  const [textoSpeech, setTextoSpeech] = React.useState("");
-  const [textoAgora, setTextoAgora] = React.useState("");
-  const [textoInput, setTextoInput] = React.useState("");
+  const [textoSpeech, setTextoSpeech] = useState("");
+  const [textoAgora, setTextoAgora] = useState("");
+  const [textoInput, setTextoInput] = useState("");
 
-  const [textoSpeechObjetivo, setTextoSpeechObjetivo] = React.useState("");
-  const [textoAgoraObjetivo, setTextoAgoraObjetivo] = React.useState("");
-  const [textoInputObjetivo, setTextoInputObjetivo] = React.useState("");
+  const [textoSpeechObjetivo, setTextoSpeechObjetivo] = useState("");
+  const [textoAgoraObjetivo, setTextoAgoraObjetivo] = useState("");
+  const [textoInputObjetivo, setTextoInputObjetivo] = useState("");
 
   useEffect(() => {
     console.log("textoSpeech", textoSpeech);

@@ -23,10 +23,11 @@ import PdfDemandService from "../../../service/DemandPDF-Service";
 import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
+import DemandUtils from "../../../utils/Demand-Utils";
 
 const { removeHTML } = ReactQuillUtils;
 
-export default function CreateDemand() {
+export default function CreateDemand({ isEditting }) {
   const params = useParams();
 
   const [title, setTitle] = useState("");
@@ -71,7 +72,7 @@ export default function CreateDemand() {
 
   const [createDemandSucceed, setCreateDemandSucceed] = useState(true);
 
-  
+
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
@@ -116,7 +117,7 @@ export default function CreateDemand() {
           (benefit) => benefit.tipoBeneficio == "REAL"
         );
         return filteredRealBenefs.map((benefit) =>
-          formatBenefit(benefit, "REAL", true)
+          DemandUtils.formatBenefit(benefit, "REAL", true)
         );
       });
       setPotentialBenefits(() => {
@@ -124,7 +125,7 @@ export default function CreateDemand() {
           (benefit) => benefit.tipoBeneficio == "POTENCIAL"
         );
         return filteredPotBenefs.map((benefit) =>
-          formatBenefit(benefit, "POTENCIAL", true)
+          DemandUtils.formatBenefit(benefit, "POTENCIAL", true)
         );
       });
       setQualitativeBenefit(response.descricaoQualitativoDemanda);
@@ -145,62 +146,17 @@ export default function CreateDemand() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  function getBenefitCoin(coin) {
-    switch (coin) {
-      case "REAL":
-        return "R$";
-      case "DOLAR":
-        return "$";
-      case "EURO":
-        return "€";
-    }
-
-    switch (coin) {
-      case "R$":
-        return "REAL";
-      case "$":
-        return "DOLAR";
-      case "€":
-        return "EURO";
-      default:
-        "REAL";
-    }
-  }
-
-  function formatBenefit(benefit, benefitType, formatToCode = false) {
-    let tempBenefit;
-    if (!formatToCode) {
-      tempBenefit = {
-        moedaBeneficio: getBenefitCoin(benefit.coin),
-        memoriaCalculoBeneficio: removeHTML(benefit.descriptionHTML),
-        memoriaCalculoBeneficioHTML: benefit.descriptionHTML,
-        valorBeneficio: benefit.value,
-        tipoBeneficio: benefitType,
-        idFront: benefit.idFront,
-      };
-      if (benefit.benefitId) tempBenefit["idBeneficio"] = benefit.benefitId;
-    } else if (formatToCode) {
-      tempBenefit = {
-        benefitId: benefit.idBeneficio,
-        value: benefit.valorBeneficio,
-        coin: getBenefitCoin(benefit.moedaBeneficio),
-        descriptionHTML: benefit.memoriaCalculoBeneficioHTML,
-        idFront: benefit.idFront,
-      };
-    }
-    return tempBenefit;
-  }
 
   const handleCreateDemand = async (finish = false) => {
     try {
       // Benefício real
       const benefitsToSave = realBenefits.map((benefit) => {
-        const tempRBenef = formatBenefit(benefit, "REAL");
+        const tempRBenef = DemandUtils.formatBenefit(benefit, "REAL");
         return tempRBenef;
       });
       // Benefício potencial
       for (let benefit of potentialBenefits) {
-        const benefToSave = formatBenefit(benefit, "POTENCIAL");
+        const benefToSave = DemandUtils.formatBenefit(benefit, "POTENCIAL");
         benefitsToSave.push(benefToSave);
       }
       // Demanda
@@ -224,10 +180,12 @@ export default function CreateDemand() {
         situacaoAtualDemandaHTML: currentProblemHTML,
         frequenciaUsoDemandaHTML: frequencyOfUseHTML,
       };
+
       const formData = new FormData();
       // Adiciona a demanda e o PDF da deamnda ao FormData
       formData.append("demandaForm", JSON.stringify(demandToSave));
       formData.append("pdfDemandaForm", JSON.stringify(formDemandPDF));
+
       // Adiciona os arquivos selecionados ao FormData
       for (let i = 0; i < selectedFiles.length; i++) {
         formData.append("arquivosDemanda", selectedFiles[i]);
@@ -293,7 +251,7 @@ export default function CreateDemand() {
 
   const handleFinishDemand = (formData) => {
     DemandService.updateDemand(demandUpdateId, formData);
-    DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
+    DemandService.updateDemandStatus(demandUpdateId, "ABERTA", isEditting);
     if (createDemandSucceed === true) {
       setTimeout(() => {
         navigate("/demandas");
