@@ -34,7 +34,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 
 import "../../styles/index.css";
 
@@ -72,7 +72,6 @@ const styleModalReasonOfDevolution = {
   boxShadow: 24,
   p: 4,
 };
-
 
 const styleApproveDemand = {
   position: "absolute",
@@ -169,20 +168,26 @@ export default function subHeader({
 
   const handleOpenReasonOfModal = () => setIsReasonOfModalOpen(true);
   const handleCloseReasonOfModal = () => {
-    setIsReasonOfModalOpen(false)
+    setIsReasonOfModalOpen(false);
     setReasonOfReturnValue("");
   };
 
   const sendReturnOrCancel = () => {
     setIsReasonOfModalOpen(false);
-    DemandService.returnOrCancel(params.id, reasonOfReturnValue, getIsDevolution(), UserUtils.getLoggedUserId())
-      .then(res => console.warn("RESSS", res))
+    DemandService.returnOrCancel(
+      params.id,
+      reasonOfReturnValue,
+      getIsDevolution(),
+      UserUtils.getLoggedUserId()
+    ).then((res) => console.warn("RESSS", res));
     setReasonOfReturnValue("");
-  }
+  };
 
   const getIsDevolution = () => {
-    return selectedKey == actionOptions.findIndex(o => o.text === 'Devolver') + 1
-  }
+    return (
+      selectedKey == actionOptions.findIndex((o) => o.text === "Devolver") + 1
+    );
+  };
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
@@ -190,7 +195,7 @@ export default function subHeader({
   };
 
   const handleOpenApproveDemand = () => setOpenApproveDemandModal(true);
-  
+
   const handleCloseApproveDemand = () => {
     setOpenApproveDemandModal(false);
   };
@@ -201,12 +206,11 @@ export default function subHeader({
 
   const changeDemandStatus = () => {
     // CRIAR MODAL PARA MOSTRAR E TROCAR OS STATUS DA DEMANDA
-  }
+  };
 
   const accessProposal = () => {
     navigate(`/propostas/gerar-proposta/${demand.idDemanda}`);
-  }
-
+  };
 
   const actionOptions = [
     {
@@ -321,8 +325,6 @@ export default function subHeader({
       .catch((err) => console.log("Erro ", err));
   }, []);
 
-
-
   const handleToggleActions = () => {
     setOpenActions((prevOpen) => !prevOpen);
   };
@@ -371,19 +373,27 @@ export default function subHeader({
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {
-
-          DemandLogService.createDemandLog("APROVACAO_GERENTE_AREA", demand.idDemanda, "Aprovar", 72132);
+          DemandLogService.createDemandLog(
+            "APROVACAO_GERENTE_AREA",
+            demand.idDemanda,
+            "Aprovar",
+            72132
+          );
         }
         return response;
       })
       .then((res) => {
-        if (res.status == 200)
-          navigate(-1);
+        if (res.status == 200) navigate(-1);
       });
   };
 
   const handleManagerApproveDemand = async () => {
-    DemandLogService.createDemandLog("ELABORACAO_PROPOSTA", demand.idDemanda, "Aprovar", 72131).then((response) => {
+    DemandLogService.createDemandLog(
+      "ELABORACAO_PROPOSTA",
+      demand.idDemanda,
+      "Aprovar",
+      72131
+    ).then((response) => {
       if (response.status == 200 || response.status == 201) {
         DemandService.updateDemandStatus(
           demand.idDemanda,
@@ -396,8 +406,7 @@ export default function subHeader({
             }, 1500);
             return () => clearTimeout(timeout);
           }
-        })
-        ;
+        });
       }
     });
   };
@@ -415,17 +424,15 @@ export default function subHeader({
       return (
         user.cargoUsuario == "SOLICITANTE" &&
         demand.statusDemanda == "EM_EDICAO"
-      )
+      );
     }
   }
 
   return (
     <div>
-      {
-        openNotification && (    
-          <Notification message="Demanda aprovada com sucesso!" action={false} />
-        )
-      }
+      {openNotification && (
+        <Notification message="Demanda aprovada com sucesso!" action={false} />
+      )}
       {/* Modal para confirmar a demanda */}
       <Modal
         open={openApproveDemandModal}
@@ -434,9 +441,9 @@ export default function subHeader({
         aria-describedby="modal-modal-description"
       >
         <Box sx={styleApproveDemand}>
-          <div className="grid justify-center items-center gap-8">
-            <div className="grid justify-center items-center gap-2">
-              <div className="flex justify-center items-center">
+          <div className="grid items-center justify-center gap-8">
+            <div className="grid items-center justify-center gap-2">
+              <div className="flex items-center justify-center">
                 <CheckCircleOutlineOutlinedIcon
                   sx={{
                     color: "#0075B1",
@@ -444,11 +451,11 @@ export default function subHeader({
                   }}
                 />
               </div>
-              <h1 className="font-semibold text-light-blue-weg text-lg">
+              <h1 className="text-lg font-semibold text-light-blue-weg">
                 Deseja aprovar a demanda?
               </h1>
             </div>
-            <div className="flex justify-around items-center">
+            <div className="flex items-center justify-around">
               <Button
                 variant="contained"
                 sx={{
@@ -502,8 +509,7 @@ export default function subHeader({
               text-[#0075B1]
             "
           >
-            Motivo da {getIsDevolution() ? "devolução" : "recusação"} da
-            demanda
+            Motivo da {getIsDevolution() ? "devolução" : "recusação"} da demanda
           </h1>
           <p
             className="
@@ -683,7 +689,7 @@ export default function subHeader({
               </div>
             </div>
 
-            <div className="mt-10 mb-5 flex items-center justify-evenly">
+            <div className="mb-5 mt-10 flex items-center justify-evenly">
               <Button
                 variant="contained"
                 sx={{
