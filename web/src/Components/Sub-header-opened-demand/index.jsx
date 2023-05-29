@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 
+//Components
+import Notification from "../../Components/Notification";
+
 // MUI
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -21,7 +24,7 @@ import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Select from "@mui/material/Select";
-import { Badge, InputLabel } from "@mui/material";
+import { Badge, InputLabel, Typography } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
 import MuiAutocomplete from "@mui/material/Autocomplete";
 
@@ -31,6 +34,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 
 import "../../styles/index.css";
 
@@ -67,6 +71,22 @@ const styleModalReasonOfDevolution = {
   borderRadius: 2,
   boxShadow: 24,
   p: 4,
+};
+
+
+const styleApproveDemand = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "23rem",
+  height: "15rem",
+  backgroundColor: "#fff",
+  boxShadow: 0,
+  borderRadius: 2,
 };
 
 const TextField = styled(MuiTextField)({
@@ -130,6 +150,12 @@ export default function subHeader({
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
+  // Modal de aprovação da demanda
+  const [openApproveDemandModal, setOpenApproveDemandModal] = useState(false);
+
+  // Notificação confirmação demanda aprovada
+  const [openNotification, setOpenNotification] = useState(false);
+
   const anchorRef = React.useRef(null);
   const params = useParams();
 
@@ -163,15 +189,14 @@ export default function subHeader({
     setOpenModal(false);
   };
 
+  const handleOpenApproveDemand = () => setOpenApproveDemandModal(true);
+  
+  const handleCloseApproveDemand = () => {
+    setOpenApproveDemandModal(false);
+  };
+
   const handleApproveDemand = () => {
-    if (confirm("Deseja aprovar a demanda?")) {
-      toast.success("Demanda aprovada com sucesso!");
-      handleManagerApproveDemand();
-      const timeout = setTimeout(() => {
-        navigate("/demandas");
-      }, 3000);
-      return () => clearTimeout(timeout);
-    }
+    handleManagerApproveDemand();
   };
 
   const changeDemandStatus = () => {
@@ -195,7 +220,7 @@ export default function subHeader({
       text: "Aprovar",
       role: ["GERENTE", "GESTOR_TI"],
       demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
-      function: handleApproveDemand,
+      function: handleOpenApproveDemand,
       key: 2,
     },
     {
@@ -361,13 +386,21 @@ export default function subHeader({
   };
 
   const handleManagerApproveDemand = async () => {
-
     DemandLogService.createDemandLog("ELABORACAO_PROPOSTA", demand.idDemanda, "Aprovar", 72131).then((response) => {
       if (response.status == 200 || response.status == 201) {
         DemandService.updateDemandStatus(
           demand.idDemanda,
           "APROVADO_PELO_GERENTE_DA_AREA"
-        );
+        ).then((response) => {
+          if (response.status == 200 || response.status == 201) {
+            setOpenNotification(true);
+            const timeout = setTimeout(() => {
+              navigate("/demandas");
+            }, 1500);
+            return () => clearTimeout(timeout);
+          }
+        })
+        ;
       }
     });
   };
@@ -395,6 +428,68 @@ export default function subHeader({
 
   return (
     <div>
+      {
+        openNotification && (    
+          <Notification message="Demanda aprovada com sucesso!" action={false} />
+        )
+      }
+      {/* Modal para confirmar a demanda */}
+      <Modal
+        open={openApproveDemandModal}
+        onClose={handleCloseApproveDemand}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleApproveDemand}>
+          <div className="grid justify-center items-center gap-8">
+            <div className="grid justify-center items-center gap-2">
+              <div className="flex justify-center items-center">
+                <CheckCircleOutlineOutlinedIcon
+                  sx={{
+                    color: "#0075B1",
+                    fontSize: "5rem",
+                  }}
+                />
+              </div>
+              <h1 className="font-semibold text-light-blue-weg text-lg">
+                Deseja aprovar a demanda?
+              </h1>
+            </div>
+            <div className="flex justify-around items-center">
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#C2BEBE",
+                  color: "#fff",
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#C2BEBE",
+                  },
+                }}
+                onClick={handleCloseApproveDemand}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#0075B1",
+                  color: "#fff",
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#0075B1",
+                  },
+                }}
+                onClick={handleApproveDemand}
+              >
+                Aprovar
+              </Button>
+            </div>
+          </div>
+        </Box>
+      </Modal>
       {/* Modal para inserir o motivo da reprovação */}
       <Modal
         open={isReasonOfModalOpen}
