@@ -24,7 +24,7 @@ export default function TextToVoice() {
   const handleSpeak = () => {
     const voices = window.speechSynthesis.getVoices();
     console.log(voices)
-    const voice = voices.find((voice) => voice.name === 'Google português do Brasil');
+    const voice = voices.find((voice) => voice.name === 'Microsoft Maria - Portuguese (Brazil)');
     speak({ text: selectedText, voice });
   };
 
