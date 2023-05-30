@@ -11,54 +11,39 @@ import FontSizeUtils from "../../../../utils/FontSize-Utils";
 export default function FirstStep({ props }) {
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
-  const [textoSpeech, setTextoSpeech] = useState("");
-  const [textoAgora, setTextoAgora] = useState("");
-  const [textoInput, setTextoInput] = useState("");
+  const [titleSpeech, setTitleSpeech] = useState({ id: 1, text: "" });
+  const [proposalSpeech, setProposalSpeech] = useState({ id: 2, text: "" });
+  const [currentProblemSpeech, setCurrentProblemSpeech] = useState({ id: 3, text: "" });
+  const [frequencyOfUseSpeech, setFrequencyOfUseSpeech] = useState({ id: 4, text: "" });
 
-  const [textoSpeechObjetivo, setTextoSpeechObjetivo] = useState("");
-  const [textoAgoraObjetivo, setTextoAgoraObjetivo] = useState("");
-  const [textoInputObjetivo, setTextoInputObjetivo] = useState("");
-
-  useEffect(() => {
-    console.log("textoSpeech", textoSpeech);
-    if (textoSpeech !== "") {
-      if (props.title === "") {
-        props.setTitle(textoSpeech);
-      } else {
-        props.setTitle(props.title + " " + textoSpeech);
-      }
-    }
-    setTextoSpeech("");
-  }, [textoSpeech]);
-
-  useEffect(() => {
-    console.log(textoAgora);
-  }, [textoAgora]);
-
-  useEffect(() => {
-    console.log("textoInput", textoInput);
-    props.setTitle(textoInput);
-  }, [textoInput]);
-
-  useEffect(() => {
-    console.log("textoSpeech", textoSpeechObjetivo);
-    if (textoSpeechObjetivo !== "") {
-      if (props.proposalHTML === "") {
-        props.setProposalHTML(textoSpeechObjetivo);
-      } else {
-        props.setProposalHTML(props.proposalHTML + " " + textoSpeechObjetivo);
-      }
-    }
-    setTextoSpeechObjetivo("");
-  }, [textoSpeechObjetivo]);
-
-  useEffect(() => {
-    console.log(textoAgora);
-  }, [textoAgoraObjetivo]);
+  const [currentSpeechId, setCurrentSpeechId] = useState(1);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
+
+  // UseEffect para atualizar os estados quando for utilizado o voice speech
+  useEffect(() => {
+    if (titleSpeech.text != "") {
+      props.setTitle(ps => ps + titleSpeech.text);
+      setTitleSpeech({ ...titleSpeech, text: "" })
+    }
+
+    if (proposalSpeech.text != "") {
+      props.setProposalHTML(ps => ps + proposalSpeech.text);
+      setProposalSpeech({ ...proposalSpeech, text: "" })
+    }
+
+    if (currentProblemSpeech.text != "") {
+      props.setCurrentProblemHTML(ps => ps + currentProblemSpeech.text);
+      setCurrentProblemSpeech({ ...currentProblemSpeech, text: "" })
+    }
+
+    if (frequencyOfUseSpeech.text != "") {
+      props.setFrequencyOfUseHTML(ps => ps + frequencyOfUseSpeech.text);
+      setFrequencyOfUseSpeech({ ...frequencyOfUseSpeech, text: "" })
+    }
+  }, [titleSpeech, proposalSpeech, currentProblemSpeech, frequencyOfUseSpeech])
 
   const updateProposal = (e) => {
     props.setProposalHTML(e);
@@ -84,7 +69,9 @@ export default function FirstStep({ props }) {
             Título
           </h1>
           <div className="ml-12 h-[5px] w-40 rounded-full bg-blue-weg" />
-          <VoiceSpeech setTexto={setTextoSpeech} setTextoFalado={setTextoAgora} />
+          <div onClick={() => setCurrentSpeechId(titleSpeech.id)}>
+            <VoiceSpeech setTexto={setTitleSpeech} speechId={currentSpeechId} />
+          </div>
         </div>
         <MUISC.TextField
           id="outlined-textarea"
@@ -93,7 +80,7 @@ export default function FirstStep({ props }) {
           multiline
           maxRows={3}
           value={props.title}
-          onChange={(e) => setTextoInput(e.target.value)}
+          onChange={(e) => props.setTitle(e.target.value)}
           onBlur={props.handleCreateDemand}
           InputProps={{
             startAdornment: <InputAdornment position="start" />
@@ -112,10 +99,9 @@ export default function FirstStep({ props }) {
             Objetivo
           </h1>
           <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-          <VoiceSpeech
-            setTexto={setTextoSpeechObjetivo}
-            setTextoFalado={setTextoAgoraObjetivo}
-          />
+          <div onClick={() => setCurrentSpeechId(proposalSpeech.id)}>
+            <VoiceSpeech setTexto={setProposalSpeech} speechId={currentSpeechId} />
+          </div>
         </div>
         <ReactQuill
           value={props.proposalHTML}
@@ -136,6 +122,9 @@ export default function FirstStep({ props }) {
             Situação atual
           </h1>
           <div className="ml-3 h-[5px] w-40 rounded-full bg-blue-weg" />
+          <div onClick={() => setCurrentSpeechId(currentProblemSpeech.id)}>
+            <VoiceSpeech setTexto={setCurrentProblemSpeech} speechId={currentSpeechId} />
+          </div>
         </div>
         <ReactQuill
           value={props.currentProblemHTML}
@@ -156,6 +145,9 @@ export default function FirstStep({ props }) {
             Frequência de uso
           </h1>
           <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
+          <div onClick={() => setCurrentSpeechId(frequencyOfUseSpeech.id)}>
+            <VoiceSpeech setTexto={setFrequencyOfUseSpeech} speechId={currentSpeechId} />
+          </div>
         </div>
         <ReactQuill
           onBlur={props.handleCreateDemand}
