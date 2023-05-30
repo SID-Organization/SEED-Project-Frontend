@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import MessageIcon from "@mui/icons-material/Message";
-import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import { styled } from "@mui/material/styles";
 import MuiTextField from "@mui/material/TextField";
 import { InputAdornment } from "@mui/material";
@@ -111,14 +111,12 @@ export default function ProposalDetails() {
 
   useEffect(() => {
     if (params.idDemanda) {
-      DemandService.getDemandById(params.idDemanda)
-        .then((demand) => {
-          setDemand(demand);
-        });
-      DemandLogService.getDemandLogs(params.idDemanda)
-        .then((res) => {
-          setHistoric(res.data);
-        });
+      DemandService.getDemandById(params.idDemanda).then((demand) => {
+        setDemand(demand);
+      });
+      DemandLogService.getDemandLogs(params.idDemanda).then((res) => {
+        setHistoric(res.data);
+      });
     }
   }, []);
 
@@ -250,8 +248,8 @@ export default function ProposalDetails() {
                       <span className="font-normal">
                         {historic
                           ? new Date(
-                            historic[0].recebimentoHistorico
-                          ).toLocaleDateString()
+                              historic[0].recebimentoHistorico
+                            ).toLocaleDateString()
                           : "Indefinido"}
                       </span>
                     </div>
@@ -325,7 +323,7 @@ export default function ProposalDetails() {
             </div>
           </div>
           <div>
-            <Tooltip title="Abrir como documento">
+            <Tooltip title="Abrir como PDF">
               <Button
                 variant="contained"
                 sx={{
@@ -333,7 +331,7 @@ export default function ProposalDetails() {
                   height: 35,
                 }}
               >
-                <OpenInFullIcon />
+                <PictureAsPdfOutlinedIcon />
               </Button>
             </Tooltip>
           </div>
@@ -603,7 +601,7 @@ export default function ProposalDetails() {
                   multiline
                   placeholder={
                     getProposalDetails &&
-                      getProposalDetails.nomeResponsavelNegocio > 0
+                    getProposalDetails.nomeResponsavelNegocio > 0
                       ? getProposalDetails.nomeResponsavelNegocio
                       : "Não informado"
                   }
@@ -620,7 +618,7 @@ export default function ProposalDetails() {
                   multiline
                   placeholder={
                     getProposalDetails &&
-                      getProposalDetails.areaResponsavelNegocio > 0
+                    getProposalDetails.areaResponsavelNegocio > 0
                       ? getProposalDetails.areaResponsavelNegocio
                       : "Não informado"
                   }

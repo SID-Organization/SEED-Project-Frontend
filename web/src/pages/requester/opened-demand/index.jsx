@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import MessageIcon from "@mui/icons-material/Message";
-import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 
 // Components
 import SubHeaderOpenedDemand from "../../../Components/Sub-header-opened-demand";
@@ -333,7 +333,7 @@ export default function openedDemand() {
                   height: 35,
                 }}
               >
-                <OpenInFullIcon />
+                <PictureAsPdfOutlinedIcon />
               </Button>
             </Tooltip>
           </div>
