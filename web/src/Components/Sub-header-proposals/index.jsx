@@ -8,7 +8,7 @@ import CreateNewProposalButton from "../CreateNewProposal-Button";
 // Services
 import DemandService from "../../service/Demand-Service";
 
-export default function SubHeaderPautas() {
+export default function SubHeaderPautas(props) {
   const [demandsTitle, setDemandsTitle] = useState([]);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function SubHeaderPautas() {
         </h1>
         <div className="mr-10 flex gap-16">
           <CreateNewProposalButton demandsTitle={demandsTitle} />
-          <Search />
+          <Search filters={props.filters} setFilters={props.setFilters} />
         </div>
       </div>
     </div>

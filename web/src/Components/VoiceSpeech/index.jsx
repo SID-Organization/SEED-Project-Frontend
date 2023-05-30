@@ -103,7 +103,7 @@ export default function VoiceSpeech(props) {
       setAnchorEl(e.currentTarget);
       console.log("Audio ligado")
       resetTranscript();
-      SpeechRecognition.startListening({ continuous: true });
+      SpeechRecognition.startListening({ continuous: true, language: 'de-DE, en-US, pt-BR' });
       setIsListening(true);
     }
 

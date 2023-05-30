@@ -179,6 +179,7 @@ export default function subHeader({
       UserUtils.getLoggedUserId()
     ).then((res) => console.warn("RESSS", res));
     setReasonOfReturnValue("");
+    navigate('/gerenciar-demandas');
   };
 
   const getIsDevolution = () => {

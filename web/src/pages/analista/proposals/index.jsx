@@ -20,6 +20,7 @@ import ProposalService from "../../../service/Proposal-Service";
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
+import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
 
 const addToAPautaModalStyle = {
   position: "absolute",
@@ -53,6 +54,7 @@ export default function Proposals() {
   const [selectProposals, setSelectProposals] = useState([]);
   const [openAddToAPautaModal, setOpenAddToAPautaModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
@@ -118,7 +120,7 @@ export default function Proposals() {
         </Box>
       </Modal>
       <div className="mb-10">
-        <SubHeaderProposals />
+        <SubHeaderProposals filters={filters} setFilters={setFilters}/>
       </div>
       <div className="flex items-center justify-center">
         {selectProposals.length > 0 && (

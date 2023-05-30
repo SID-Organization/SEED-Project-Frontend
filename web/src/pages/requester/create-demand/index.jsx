@@ -15,6 +15,9 @@ import ThirdStep from "./third-step";
 import FourthStep from "./fourth-step";
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
 
+// Translate API
+import Translate from "../../../API/Translate";
+
 // Services
 import DemandService from "../../../service/Demand-Service";
 import PdfDemandService from "../../../service/DemandPDF-Service";
@@ -24,8 +27,8 @@ import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandUtils from "../../../utils/Demand-Utils";
-
 const { removeHTML } = ReactQuillUtils;
+
 
 export default function CreateDemand({ isEditting }) {
   const params = useParams();
@@ -407,12 +410,17 @@ export default function CreateDemand({ isEditting }) {
     handleFinishDemand,
   };
 
+  useEffect(() => {
+    console.warn("Translate");
+    Translate("Criar nova demanda").then(res => console.warn(res));
+  }, [])
+
   return (
     <div>
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-            Criar nova demanda
+            {"Criar nova demanda"}
           </h1>
         </div>
       </div>
