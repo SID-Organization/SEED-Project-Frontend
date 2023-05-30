@@ -29,11 +29,14 @@ import UserUtils from "./utils/User-Utils";
 
 import VLibras from "@djpfs/react-vlibras/dist/cjs/index.js";
 
+import TextToVoice from "./Components/SpeechSyntesis/index.jsx";
+
 function App() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   return (
     <>
+      <TextToVoice></TextToVoice>
       <BrowserRouter>
         <Routes>
           <Route path="" element={<Navigate to={"/login"} />} />

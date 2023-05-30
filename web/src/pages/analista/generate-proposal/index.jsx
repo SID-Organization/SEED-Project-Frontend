@@ -513,15 +513,15 @@ export default function GenerateProposal() {
             <EqualInput
               id="outlined-textarea"
               variant="outlined"
-              type="text"
+              type="number"
               multiline
               maxRows={3}
               value={payback}
               onBlur={saveProgress}
-              onChange={(e) => setPayback(e.target.value)}
               InputProps={{
                 startAdornment: <InputAdornment position="start" />,
               }}
+              readOnly={true}
             />
           </div>
           <div className="grid gap-16">

@@ -27,6 +27,7 @@ import ChatService from "../../../service/Chat-Service";
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
+import { Divider, IconButton } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -34,11 +35,12 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1200,
-  height: 700,
+  height: 635,
   bgcolor: "background.paper",
   borderRadius: 2,
+  borderLeft: "5px solid #00579D",
   boxShadow: 24,
-  p: 4,
+  padding: "1rem",
 };
 
 const htmlDivStyle =
@@ -159,106 +161,72 @@ export default function openedDemand() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <div className="mb-5 flex items-center justify-end">
-                <Tooltip title="Fechar">
-                  <CloseIcon
-                    onClick={handleClose}
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                  />
-                </Tooltip>
+              <div className="flex items-center justify-end">
+                <IconButton>
+                  <Tooltip title="Fechar">
+                    <CloseIcon
+                      onClick={handleClose}
+                      sx={{
+                        cursor: "pointer",
+                        color: "#00579D",
+                        fontSize: "1.5rem",
+                      }}
+                    />
+                  </Tooltip>
+                </IconButton>
               </div>
-              <div>
-                <div className="flex items-center justify-between text-lg">
-                  <div className="mt-[-5rem] flex">
-                    <h1
-                      style={{ fontSize: fonts.lg }}
-                      className="mr-2 font-bold"
-                    >
-                      Número de demanda:
-                    </h1>
-                    <span
-                      style={{ fontSize: fonts.lg }}
-                      className="font-normal"
-                    >
-                      {params.id}
-                    </span>
-                  </div>
-                  <div className="grid items-center justify-center">
-                    <div className="flex">
-                      <h1
-                        style={{ fontSize: fonts.lg }}
-                        className="mr-2 font-bold"
-                      >
-                        Iniciada em:
-                      </h1>
-                      <span
-                        style={{ fontSize: fonts.lg }}
-                        className="font-normal"
-                      >
-                        {demandLogs
-                          ? new Date(
-                            demandLogs[0].recebimentoHistorico
-                          ).toLocaleDateString()
-                          : "Indefinido"}
-                      </span>
-                    </div>
-                    <div className="flex">
-                      <h1
-                        style={{ fontSize: fonts.lg }}
-                        className="mr-2 font-bold"
-                      >
-                        Concluída em:
-                      </h1>
-                      <span
-                        style={{ fontSize: fonts.lg }}
-                        className="font-normal"
-                      >
-                        Indefinido
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4">
-                <div className="flex items-center justify-start gap-[7rem]">
-                  <div className="grid items-center justify-center">
+              <div className="grid gap-12">
+                <div className="flex gap-[16.8rem]">
+                  <div className="grid">
                     <h1
                       style={{ fontSize: fonts.base }}
-                      className="font-roboto font-bold"
+                      className="font-roboto font-bold text-blue-weg"
                     >
                       Solicitante
                     </h1>
                     <h1
                       style={{ fontSize: fonts.base }}
-                      className="font-roboto font-medium"
+                      className="font-roboto font-medium text-light-blue-weg"
                     >
                       {user?.nomeUsuario}
                     </h1>
                     <h1
-                      style={{ fontSize: fonts.sm }}
-                      className="text-sm text-[#5B5B5B]"
+                      style={{ fontSize: fonts.base }}
+                      className="text-light-blue-weg"
                     >
                       {user?.departamentoUsuario}
                     </h1>
                   </div>
-                  <div className="grid items-center justify-center">
+                  <h1
+                    style={{ fontSize: fonts.xl }}
+                    className="flex justify-center gap-2 text-blue-weg"
+                  >
+                    Número de demanda:{" "}
+                    <span
+                      style={{ fontSize: fonts.xl }}
+                      className="flex justify-center font-bold text-light-blue-weg"
+                    >
+                      {params.id}
+                    </span>
+                  </h1>
+                </div>
+                <div className="flex gap-[14.5rem]">
+                  <div className="grid">
                     <h1
                       style={{ fontSize: fonts.base }}
-                      className="font-roboto font-bold"
+                      className="font-roboto font-bold text-blue-weg"
                     >
                       Analista responsável
                     </h1>
                     <h1
                       style={{ fontSize: fonts.base }}
-                      className="font-roboto font-medium"
+                      className="font-roboto font-medium text-light-blue-weg"
                     >
                       {demand?.analistaResponsavelDemanda.nomeUsuario}
                     </h1>
                     <h1
-                      style={{ fontSize: fonts.sm }}
-                      className="text-sm text-[#5B5B5B]"
+                      style={{ fontSize: fonts.base }}
+                      className="text-light-blue-weg"
                     >
                       {
                         demand?.analistaResponsavelDemanda.departamentoUsuario
@@ -266,13 +234,53 @@ export default function openedDemand() {
                       }
                     </h1>
                   </div>
+                  <div className="grid items-center justify-center">
+                    <div className="flex items-center justify-between text-lg">
+                      <div className="flex items-center justify-center gap-12">
+                        <div className="grid items-center justify-center">
+                          <h1
+                            style={{ fontSize: fonts.lg }}
+                            className="flex items-center justify-center font-normal text-blue-weg"
+                          >
+                            Iniciada em:
+                          </h1>
+                          <span
+                            style={{ fontSize: fonts.lg }}
+                            className="flex items-center justify-center font-bold text-light-blue-weg"
+                          >
+                            {demandLogs
+                              ? new Date(
+                                  demandLogs[0].recebimentoHistorico
+                                ).toLocaleDateString()
+                              : "Indefinido"}
+                          </span>
+                        </div>
+                        <div className="h-16 w-[3.5px] bg-light-blue-weg" />
+                        <div className="grid items-center justify-center">
+                          <h1
+                            style={{ fontSize: fonts.lg }}
+                            className="flex items-center justify-center font-normal text-blue-weg"
+                          >
+                            Concluída em:
+                          </h1>
+                          <span
+                            style={{ fontSize: fonts.lg }}
+                            className="flex items-center justify-center font-bold text-light-blue-weg"
+                          >
+                            Indefinido
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+
               <div className="grid items-center">
                 <div className="flex items-center justify-start">
                   <h1
                     style={{ fontSize: fonts.lg }}
-                    className="mt-5 font-roboto text-lg font-bold"
+                    className="mt-5 font-roboto text-lg font-bold text-blue-weg"
                   >
                     Histórico
                   </h1>
@@ -378,10 +386,10 @@ export default function openedDemand() {
             <h1 style={{ fontSize: fonts.sm }} className="font-roboto">
               {demand?.centroCustoDemanda[0]
                 ? (
-                  demand.centroCustoDemanda[0].numeroCentroCusto +
-                  " - " +
-                  demand.centroCustoDemanda[0].nomeCentroCusto
-                ).slice(0, 40)
+                    demand.centroCustoDemanda[0].numeroCentroCusto +
+                    " - " +
+                    demand.centroCustoDemanda[0].nomeCentroCusto
+                  ).slice(0, 40)
                 : "Não indicado"}
             </h1>
           </div>
