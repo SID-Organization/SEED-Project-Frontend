@@ -148,6 +148,7 @@ export default function CreateDemand({ isEditting }) {
 
 
   const handleCreateDemand = async (finish = false) => {
+    if (!finish && isEditting) return;
     try {
       // Benefício real
       const benefitsToSave = realBenefits.map((benefit) => {
@@ -194,7 +195,7 @@ export default function CreateDemand({ isEditting }) {
       console.log("DEMAND TO SAVE", demandToSave);
       console.log("PDF TO SAVE", formDemandPDF);
 
-      if (!(finish === true)) {
+      if (!finish) {
         if (!demandUpdateId && title !== "") {
           DemandService.createDemand(formData).then((res) => {
             console.log("CREATE DEMAND", res);
@@ -250,9 +251,18 @@ export default function CreateDemand({ isEditting }) {
   };
 
   const handleFinishDemand = (formData) => {
-    DemandService.updateDemand(demandUpdateId, formData);
-    DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
-    if (createDemandSucceed === true) {
+    DemandService.updateDemand(demandUpdateId, formData)
+      .then(res => {
+        if ([200, 201].includes(res.status)) {
+          DemandService.updateDemandStatus(demandUpdateId, "ABERTA")
+            .then(res => {
+              if ([200, 201].includes(res.status)) {
+                setCreateDemandSucceed(true)
+              }
+            });
+        }
+      });
+    if (createDemandSucceed) {
       setTimeout(() => {
         navigate("/demandas");
       }, 1000);

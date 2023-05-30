@@ -81,7 +81,7 @@ export default function FirstStep({ props }) {
           maxRows={3}
           value={props.title}
           onChange={(e) => props.setTitle(e.target.value)}
-          onBlur={props.handleCreateDemand}
+          onBlur={() => props.handleCreateDemand()}
           InputProps={{
             startAdornment: <InputAdornment position="start" />
           }}
@@ -130,7 +130,7 @@ export default function FirstStep({ props }) {
           value={props.currentProblemHTML}
           onChange={updateCurrentProblem}
           placeholder="Descreva a situação atual da demanda."
-          onBlur={props.handleCreateDemand}
+          onBlur={() => props.handleCreateDemand()}
           modules={ReactQuillUtils.quillModules}
           style={ReactQuillUtils.quillStyle}
         />
@@ -150,7 +150,7 @@ export default function FirstStep({ props }) {
           </div>
         </div>
         <ReactQuill
-          onBlur={props.handleCreateDemand}
+          onBlur={() => props.handleCreateDemand()}
           value={props.frequencyOfUseHTML}
           onChange={updateFrequencyOfUse}
           placeholder="Descreva a frequência de uso da demanda."

@@ -71,7 +71,7 @@ export default function SecondStep({ props }) {
             >
               <ReactQuill
                 value={item.descriptionHTML}
-                onBlur={props.handleCreateDemand}
+                onBlur={() => props.handleCreateDemand()}
                 onChange={(e) => {
                   const newRealBenefits = [...props.realBenefits];
                   newRealBenefits[i].descriptionHTML = e;
@@ -128,7 +128,7 @@ export default function SecondStep({ props }) {
                 newPotentialBenefits[i].descriptionHTML = e;
                 props.setPotentialBenefits(newPotentialBenefits);
               }}
-              onBlur={props.handleCreateDemand}
+              onBlur={() => props.handleCreateDemand()}
               placeholder="Descreva o benefício."
             />
           </NewBenefitInsertion>
@@ -160,7 +160,7 @@ export default function SecondStep({ props }) {
           multiline
           maxRows={4}
           value={props.qualitativeBenefit}
-          onBlur={props.handleCreateDemand}
+          onBlur={() => props.handleCreateDemand()}
           onChange={(e) => props.setQualitativeBenefit(e.target.value)}
         />
         <div className="mr-16" />

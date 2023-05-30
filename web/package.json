@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "first_build": "npm i && yarn add react-speech-kit",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

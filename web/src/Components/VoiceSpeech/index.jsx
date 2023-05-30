@@ -86,6 +86,12 @@ export default function VoiceSpeech(props) {
     }
   }
 
+  const cancelAndStopListen = () => {
+    SpeechRecognition.stopListening();
+    setIsListening(false);
+    setAnchorEl(null);
+  }
+
   const handleStartListen = (e) => {
 
     if (!browserSupportsSpeechRecognition) {
@@ -93,17 +99,14 @@ export default function VoiceSpeech(props) {
       return <alert>Seu navegador não é compatível com SpeechRecognition.</alert>;
     }
 
-    if (!listening) {
+    if (!isListening) {
       setAnchorEl(e.currentTarget);
       console.log("Audio ligado")
       resetTranscript();
       SpeechRecognition.startListening({ continuous: true });
       setIsListening(true);
-    } else {
-      console.log("Audio desligado")
-      SpeechRecognition.stopListening();
-      setIsListening(false);
     }
+
   };
 
   const open = Boolean(anchorEl);
@@ -161,15 +164,21 @@ export default function VoiceSpeech(props) {
                 onChange={(e) => { setTranscriptState(e.target.value) }}
               />
             </div>
-            <div>
+            <div className="flex gap-8">
               <button
                 type="button"
-                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-weg text-base font-medium text-white hover:bg-blue-weg-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-weg-light sm:text-sm"
+                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-slate-400 text-base text-white sm:text-sm"
+                onClick={cancelAndStopListen}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-weg text-base font-medium text-white sm:text-sm"
                 onClick={stopsAndConfirm}
               >
                 {isListening ? "Parar" : "Confirmar"}
               </button>
-
             </div>
           </div>
         </div>

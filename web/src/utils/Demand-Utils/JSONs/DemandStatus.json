@@ -1,0 +1,107 @@
+{
+    "RASCUNHO": {
+        "ANALYST": "Rascunho",
+        "ANALYST_COLOR": "#D9D9D9",
+        "REQUESTER": "Rascunho",
+        "COLOR": "#D9D9D9",
+        "PERCENTAGE": 1
+    },
+    "EM_EDICAO": {
+        "ANALYST": "Em Edição",
+        "ANALYST_COLOR": "#D9D9D9",
+        "REQUESTER": "Em Edição",
+        "COLOR": "#D9D9D9",
+        "PERCENTAGE": 5
+    },
+    "ABERTA": {
+        "ANALYST": "Aberta",
+        "ANALYST_COLOR": "#C2BEBE",
+        "REQUESTER": "Aberta",
+        "COLOR": "#C2BEBE",
+        "PERCENTAGE": 15
+    },
+    "CLASSIFICADO_PELO_ANALISTA": {
+        "ANALYST": "Aberta",
+        "ANALYST_COLOR": "#C2BEBE",
+        "REQUESTER": "Classificado pelo Analista",
+        "COLOR": "#AED6F1",
+        "PERCENTAGE": 30
+    },
+    "APROVADO_PELO_GERENTE_DA_AREA": {
+        "ANALYST": "Backlog",
+        "ANALYST_COLOR": "#5499C7",
+        "REQUESTER": "Aprovado pelo Gerente da Área",
+        "COLOR": "#5499C7",
+        "PERCENTAGE": 40
+    },
+    "PROPOSTA_EM_ELABORACAO": {
+        "ANALYST": "Assesment",
+        "ANALYST_COLOR": "#2980B9",
+        "REQUESTER": "Proposta em Elaboração",
+        "COLOR": "#2980B9",
+        "PERCENTAGE": 45
+    },
+    "PROPOSTA_PRONTA": {
+        "ANALYST": "Assesment",
+        "ANALYST_COLOR": "#2980B9",
+        "REQUESTER": "Proposta Pronta",
+        "COLOR": "#2980B9",
+        "PERCENTAGE": 55
+    },
+    "EM_PAUTA": {
+        "ANALYST": "Assesment",
+        "ANALYST_COLOR": "#2980B9",
+        "REQUESTER": "Em Pauta",
+        "COLOR": "#1F618D",
+        "PERCENTAGE": 60
+    },
+    "APROVADA_EM_COMISSAO": {
+        "ANALYST": "To Do",
+        "ANALYST_COLOR": "#154360",
+        "REQUESTER": "Aprovada em Comissão",
+        "COLOR": "#154360",
+        "PERCENTAGE": 65
+    },
+    "APROVADA_EM_DG": {
+        "ANALYST": "To Do",
+        "ANALYST_COLOR": "#154360",
+        "REQUESTER": "Aprovada em DG",
+        "COLOR": "#041F37",
+        "PERCENTAGE": 80
+    },
+    "PROPOSTA_EM_EXECUCAO": {
+        "ANALYST": "Design and Build",
+        "ANALYST_COLOR": "#EF8300",
+        "REQUESTER": "Proposta em Execução",
+        "COLOR": "#FFFF00",
+        "PERCENTAGE": 90
+    },
+    "PROPOSTA_EM_SUPORTE": {
+        "ANALYST": "Support",
+        "ANALYST_COLOR": "#008080",
+        "REQUESTER": "Proposta em Suporte",
+        "COLOR": "#008080",
+        "PERCENTAGE": 95
+    },
+    "PROPOSTA_FINALIZADA": {
+        "ANALYST": "Done",
+        "ANALYST_COLOR": "#00612E",
+        "REQUESTER": "Proposta Finalizada",
+        "COLOR": "#00612E",
+        "PERCENTAGE": 100
+    },
+    "CANCELADA": {
+        "ANALYST": "Cancelada",
+        "ANALYST_COLOR": "#C31700",
+        "REQUESTER": "Cancelada",
+        "COLOR": "#C31700",
+        "PERCENTAGE": 100
+    },
+    "BUSINESS_CASE": {
+        "ANALYST": "Business Case",
+        "ANALYST_COLOR": "#8862A2",
+        "REQUESTER": "Business Case",
+        "COLOR": "#8862A2",
+        "PERCENTAGE": 100
+    }
+}
