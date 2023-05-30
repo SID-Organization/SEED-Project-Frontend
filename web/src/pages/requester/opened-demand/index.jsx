@@ -324,7 +324,7 @@ export default function openedDemand() {
             </div>
           </div>
           <div>
-            <Tooltip title="Abrir como documento">
+            <Tooltip title="Abrir como PDF">
               <Button
                 onClick={handleOpenDocument}
                 variant="contained"
