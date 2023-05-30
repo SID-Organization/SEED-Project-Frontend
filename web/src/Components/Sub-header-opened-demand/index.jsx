@@ -116,8 +116,6 @@ const Autocomplete = styled(MuiAutocomplete)({
 
 export default function subHeader({
   children,
-  isEditEnabled,
-  setIsEditEnabled,
 }) {
   // Controle de modal
   const [openModal, setOpenModal] = useState(false);

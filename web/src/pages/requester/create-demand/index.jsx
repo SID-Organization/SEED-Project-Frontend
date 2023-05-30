@@ -251,7 +251,7 @@ export default function CreateDemand({ isEditting }) {
 
   const handleFinishDemand = (formData) => {
     DemandService.updateDemand(demandUpdateId, formData);
-    DemandService.updateDemandStatus(demandUpdateId, "ABERTA", isEditting);
+    DemandService.updateDemandStatus(demandUpdateId, "ABERTA");
     if (createDemandSucceed === true) {
       setTimeout(() => {
         navigate("/demandas");

@@ -21,8 +21,8 @@ const updateBenefitedBUs = async (demandId, updatedDemand) => {
   return AxiosAPI.put(`${url}/atualiza-bus-beneficiadas/${demandId}`, updatedDemand);
 };
 
-const updateDemandStatus = async (demandId, newStatus, isEditting) => {
-  const status = { statusDemanda: newStatus, acao: isEditting ? "EDITAR" : "SALVAR"};
+const updateDemandStatus = async (demandId, newStatus) => {
+  const status = { statusDemanda: newStatus};
   const contentType = "application/json";
 
   return AxiosAPI.put(`${url}/status/${demandId}`, status, contentType);
