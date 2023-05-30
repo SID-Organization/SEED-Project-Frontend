@@ -186,12 +186,12 @@ export default function openedDemand() {
                     </h1>
                     <h1
                       style={{ fontSize: fonts.base }}
-                      className="font-roboto font-medium text-light-blue-weg"
+                      className="font-roboto text-light-blue-weg"
                     >
                       {user?.nomeUsuario}
                     </h1>
                     <h1
-                      style={{ fontSize: fonts.base }}
+                      style={{ fontSize: fonts.sm }}
                       className="text-light-blue-weg"
                     >
                       {user?.departamentoUsuario}
@@ -220,12 +220,12 @@ export default function openedDemand() {
                     </h1>
                     <h1
                       style={{ fontSize: fonts.base }}
-                      className="font-roboto font-medium text-light-blue-weg"
+                      className="font-roboto text-light-blue-weg"
                     >
                       {demand?.analistaResponsavelDemanda.nomeUsuario}
                     </h1>
                     <h1
-                      style={{ fontSize: fonts.base }}
+                      style={{ fontSize: fonts.sm }}
                       className="text-light-blue-weg"
                     >
                       {
