@@ -22,7 +22,10 @@ export default function TextToVoice() {
   };
 
   const handleSpeak = () => {
-    speak({ text: selectedText });
+    const voices = window.speechSynthesis.getVoices();
+    console.log(voices)
+    const voice = voices.find((voice) => voice.name === 'Google português do Brasil');
+    speak({ text: selectedText, voice });
   };
 
   return (
