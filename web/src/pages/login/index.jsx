@@ -17,6 +17,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SockJs from "sockjs-client/dist/sockjs";
 
+// Translation
+import AzureTranslate from "../../API/Translate";
+
 // Services
 import LoginService from "../../service/Login-Service";
 import UserUtils from "../../utils/User-Utils";
@@ -170,6 +173,7 @@ export default function Login(props) {
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleLogin();
+                          AzureTranslate("Teste", "en");
                         }
                       }}
                     />
@@ -184,7 +188,9 @@ export default function Login(props) {
                 </div>
                 <div className="grid items-center justify-center gap-4">
                   <Button
-                    onClick={handleLogin}
+                    onClick={() => {
+                      // handleLogin();
+                    }}
                     variant="contained"
                     sx={{
                       marginTop: "3rem",
