@@ -6,8 +6,6 @@ import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-import userImg from "../../assets/profile-pic.png";
-
 // interface NotificationCardProps {
 //   name: string;
 //   time: string;
@@ -24,21 +22,20 @@ export default function NotificationCard(props) {
           cursor: "pointer",
           transition: "0.2s",
           borderBottom: "1px solid #ababab57",
+          padding: "3px",
           "&:hover": {
             backgroundColor: "#e2e2e2",
           },
         }}
       >
-        <div
-          className="ml-5 mr-5 flex h-20 justify-center font-roboto"
-        >
+        <div className="ml-5 mr-5 flex justify-center font-roboto">
           <div className="flex w-[5rem] items-center">
             {props.type === "approved" ? (
               <Tooltip title="Aprovação">
                 <CheckCircleOutlineRoundedIcon
                   sx={{
                     color: "#023A67",
-                    fontSize: "2.5rem",
+                    fontSize: "2rem",
                   }}
                 />
               </Tooltip>
@@ -47,7 +44,7 @@ export default function NotificationCard(props) {
                 <HighlightOffRoundedIcon
                   sx={{
                     color: "#023A67",
-                    fontSize: "2.5rem",
+                    fontSize: "2rem",
                   }}
                 />
               </Tooltip>
@@ -56,7 +53,7 @@ export default function NotificationCard(props) {
                 <ReplayRoundedIcon
                   sx={{
                     color: "#023A67",
-                    fontSize: "2.5rem",
+                    fontSize: "2rem",
                   }}
                 />
               </Tooltip>
@@ -65,20 +62,31 @@ export default function NotificationCard(props) {
                 <EditRoundedIcon
                   sx={{
                     color: "#023A67",
-                    fontSize: "2.5rem",
+                    fontSize: "2rem",
                   }}
                 />
               </Tooltip>
             )}
           </div>
           <div className="grid w-[13rem] items-center">
-            <p className="font-bold">
-              {props.name &&
-              props.content &&
-              props.name.length + props.content.length > 80
-                ? props.name.slice(0, 70) + "..."
-                : props.name + " " + props.content}
-            </p>
+            <Tooltip
+              title={
+                props.name &&
+                props.content &&
+                (props.name.length + props.content.length > 71
+                  ? props.name + props.content
+                  : null)
+              }
+              placement="left"
+            >
+              <p className="font-medium">
+                {props.name &&
+                  props.content &&
+                  (props.name.length + props.content.length > 71
+                    ? (props.name + props.content).slice(0, 70) + "..."
+                    : props.name + props.content)}
+              </p>
+            </Tooltip>
             <p className="text-xs font-bold text-light-blue-weg">
               {props.time}
             </p>

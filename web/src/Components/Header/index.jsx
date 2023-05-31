@@ -695,11 +695,7 @@ export default function PrimarySearchAppBar() {
           </button>
         </div>
       </div>
-      <Divider
-        sx={{
-          marginBottom: "1rem",
-        }}
-      />
+      <Divider />
       <div
         className="
         h-[calc(100vh-19.8rem)]
