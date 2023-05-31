@@ -26,10 +26,11 @@ export default async function AzureTranslate(text, language) {
             'to': ['en', 'de']
         },
         data: [{
-            'text': 'Trying to use Azure Translator API!'
+            'text': 'Tentando utilizar a api externa de tradução do Azure!'
         }],
         responseType: 'json'
     }).then(function (response) {
-        console.log(JSON.stringify(response.data, null, 4));
+        console.warn("response", response.data);
+        console.warn(JSON.stringify(response.data, null, 4));
     })
 };

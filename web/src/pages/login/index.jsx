@@ -15,7 +15,6 @@ import Container from "@mui/material/Container";
 import { TextField } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import SockJs from "sockjs-client/dist/sockjs";
 
 // Translation
 import AzureTranslate from "../../API/Translate";
@@ -106,12 +105,12 @@ export default function Login(props) {
           </div>
           <div className="grid justify-start items-center w-64">
             <div className="flex gap-1">
-            <h1 className="text-3xl font-bold text-white items-center flex ">SEED</h1>
-            <img className="brightness-[100] w-16" src={SeedLogo} alt="" />
+              <h1 className="text-3xl font-bold text-white items-center flex ">SEED</h1>
+              <img className="brightness-[100] w-16" src={SeedLogo} alt="" />
             </div>
             <h1 className="text-2xl font-bold text-slate-300 break-words">
               Accessible and Sustainable System of IT Demands Management
-            </h1> 
+            </h1>
           </div>
         </div>
         <Container
@@ -173,7 +172,6 @@ export default function Login(props) {
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleLogin();
-                          AzureTranslate("Teste", "en");
                         }
                       }}
                     />
@@ -189,7 +187,8 @@ export default function Login(props) {
                 <div className="grid items-center justify-center gap-4">
                   <Button
                     onClick={() => {
-                      // handleLogin();
+                      handleLogin();
+                      // AzureTranslate("Teste", "en");
                     }}
                     variant="contained"
                     sx={{
