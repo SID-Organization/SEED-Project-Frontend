@@ -159,9 +159,7 @@ export default function GenerateProposal() {
       setStartDate(
         DateUtils.formatDateForDB(proposal.periodoExecucaoDemandaInicio)
       );
-      setEndDate(
-        DateUtils.formatDateForDB(proposal.periodoExecucaoDemandaFim)
-      );
+      setEndDate(DateUtils.formatDateForDB(proposal.periodoExecucaoDemandaFim));
       setPayback(proposal.paybackProposta);
     }
   }, [proposal]);
@@ -314,9 +312,14 @@ export default function GenerateProposal() {
     ProposalService.updateProposal(formData, proposal.idProposta).then(
       (res) => {
         console.log("finish", finish);
+        console.log("entrou res: ", res);
         if (finish && (res.status === 200 || res.status === 201)) {
-
-          DemandLogService.createDemandLog("APROVACAO_COMISSAO", demandId, "Enviar", 72131).then((response) => {
+          DemandLogService.createDemandLog(
+            "APROVACAO_COMISSAO",
+            demandId,
+            "Enviar",
+            72131
+          ).then((response) => {
             if (response.status == 200 || response.status == 201) {
               DemandService.updateDemandStatus(demandId, "PROPOSTA_PRONTA");
               navigate("/gerenciar-demandas");
@@ -580,7 +583,7 @@ export default function GenerateProposal() {
               >
                 Período de execução
               </p>
-              <div className="flex gap-10 mt-4">
+              <div className="mt-4 flex gap-10">
                 <DateInput
                   id="outlined-basic"
                   variant="outlined"

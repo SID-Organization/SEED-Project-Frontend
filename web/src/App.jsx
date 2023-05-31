@@ -54,6 +54,7 @@ function App() {
                 <DemandsPage key="demandas" DemandType={DemandType.DEMAND} />
               }
             />
+
             <Route
               path="gerenciar-demandas"
               element={
@@ -72,27 +73,53 @@ function App() {
             />
 
             <Route path="demandas/:id" element={<OpenedDemand />} />
+
             <Route path="list" element={<DemandCardList />} />
-            <Route path="nova-demanda" element={<CreateDemand isEditting={false} />} />
-            <Route path="rascunhos/:id" element={<CreateDemand  isEditting={false}/>} />
-            <Route path="editar-demanda/:id" element={<CreateDemand isEditting={true} />} />
+
+            <Route
+              path="nova-demanda"
+              element={<CreateDemand isEditting={false} />}
+            />
+
+            <Route
+              path="rascunhos/:id"
+              element={<CreateDemand isEditting={false} />}
+            />
+
+            <Route
+              path="editar-demanda/:id"
+              element={<CreateDemand isEditting={true} />}
+            />
+
             <Route path="pautas/gerar-ata/:id" element={<GenerateAta />} />
+
             <Route
               path="/propostas/gerar-proposta/:id"
               element={<GenerateProposal />}
             />
+
             <Route path="subheader" element={<SubHeaderOpenedDemand />} />
+
             <Route path="pautas" element={<Pautas />} />
+
             <Route path="atas" element={<Atas isAtaForDG={false} />} />
+
             <Route path="atas-dg" element={<Atas isAtaForDG={true} />} />
-            <Route path="atas/gerar-ata-dg/:id" element={<GenerateAta isAtaForDG={true} />} />
+
+            <Route
+              path="atas/gerar-ata-dg/:id"
+              element={<GenerateAta isAtaForDG={true} />}
+            />
 
             <Route path="propostas" element={<Proposals />} />
+
             <Route
               path="propostas/:idProposta/:idDemanda"
               element={<ProposalDetails />}
             />
+
             <Route path="perfil" element={<Profile />} />
+
             <Route path="chat" element={<Chat />} />
           </Route>
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
@@ -104,4 +131,3 @@ function App() {
 }
 
 export default App;
-
