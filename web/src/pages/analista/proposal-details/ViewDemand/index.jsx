@@ -149,187 +149,67 @@ export default function ViewDemand() {
   return (
     <div>
       <div className="grid items-center justify-center">
-        <div className="mt-5 flex items-center justify-around">
+        <div className="flex gap-2">
           <Tooltip title="Abrir workflow">
             <Button onClick={handleOpen} variant="contained">
               Workflow
             </Button>
           </Tooltip>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <div className="flex items-center justify-end">
-                <IconButton>
-                  <Tooltip title="Fechar">
-                    <CloseIcon
-                      onClick={handleClose}
-                      sx={{
-                        cursor: "pointer",
-                        color: "#00579D",
-                        fontSize: "1.5rem",
-                      }}
-                    />
-                  </Tooltip>
-                </IconButton>
-              </div>
-              <div className="grid gap-12">
-                <div className="flex gap-[16.8rem]">
-                  <div className="grid">
-                    <h1
-                      style={{ fontSize: fonts.base }}
-                      className="font-roboto font-bold text-blue-weg"
-                    >
-                      Solicitante
-                    </h1>
-                    <h1
-                      style={{ fontSize: fonts.base }}
-                      className="font-roboto text-light-blue-weg"
-                    >
-                      {user?.nomeUsuario}
-                    </h1>
-                    <h1
-                      style={{ fontSize: fonts.sm }}
-                      className="text-light-blue-weg"
-                    >
-                      {user?.departamentoUsuario}
-                    </h1>
-                  </div>
-                  <h1
-                    style={{ fontSize: fonts.xl }}
-                    className="flex justify-center gap-2 text-blue-weg"
-                  >
-                    Número de demanda:{" "}
-                    <span
-                      style={{ fontSize: fonts.xl }}
-                      className="flex justify-center font-bold text-light-blue-weg"
-                    >
-                      {params.idDemanda}
-                    </span>
-                  </h1>
-                </div>
-                <div className="flex gap-[14.5rem]">
-                  <div className="grid">
-                    <h1
-                      style={{ fontSize: fonts.base }}
-                      className="font-roboto font-bold text-blue-weg"
-                    >
-                      Analista responsável
-                    </h1>
-                    <h1
-                      style={{ fontSize: fonts.base }}
-                      className="font-roboto text-light-blue-weg"
-                    >
-                      {demand?.analistaResponsavelDemanda.nomeUsuario}
-                    </h1>
-                    <h1
-                      style={{ fontSize: fonts.sm }}
-                      className="text-light-blue-weg"
-                    >
-                      {
-                        demand?.analistaResponsavelDemanda.departamentoUsuario
-                          .nomeBusinessUnity
-                      }
-                    </h1>
-                  </div>
-                  <div className="grid items-center justify-center">
-                    <div className="flex items-center justify-between text-lg">
-                      <div className="flex items-center justify-center gap-12">
-                        <div className="grid items-center justify-center">
-                          <h1
-                            style={{ fontSize: fonts.lg }}
-                            className="flex items-center justify-center font-normal text-blue-weg"
-                          >
-                            Iniciada em:
-                          </h1>
-                          <span
-                            style={{ fontSize: fonts.lg }}
-                            className="flex items-center justify-center font-bold text-light-blue-weg"
-                          >
-                            {demandLogs
-                              ? new Date(
-                                  demandLogs[0].recebimentoHistorico
-                                ).toLocaleDateString()
-                              : "Indefinido"}
-                          </span>
-                        </div>
-                        <div className="h-16 w-[3.5px] bg-light-blue-weg" />
-                        <div className="grid items-center justify-center">
-                          <h1
-                            style={{ fontSize: fonts.lg }}
-                            className="flex items-center justify-center font-normal text-blue-weg"
-                          >
-                            Concluída em:
-                          </h1>
-                          <span
-                            style={{ fontSize: fonts.lg }}
-                            className="flex items-center justify-center font-bold text-light-blue-weg"
-                          >
-                            Indefinido
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid items-center">
-                <div className="flex items-center justify-start">
-                  <h1
-                    style={{ fontSize: fonts.lg }}
-                    className="mt-5 font-roboto text-lg font-bold text-blue-weg"
-                  >
-                    Histórico
-                  </h1>
-                </div>
-                <WorkflowTable demandId={params.idDemanda} />
-              </div>
-            </Box>
-          </Modal>
-          <div className="grid items-center justify-center">
-            <div className="flex items-center justify-center">
-              <div>
-                <h1 className="font-roboto text-xl font-bold text-light-blue-weg">
-                  {demand?.tituloDemanda}
-                </h1>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <h1 className="font-roboto font-semibold text-dark-blue-weg">
-                Score: {demand?.scoreDemanda}
-              </h1>
-            </div>
-          </div>
-          <div>
-            <Tooltip title="Abrir como PDF">
-              <PdfButton
-                variant="contained"
-                sx={{
-                  width: 40,
-                  height: 35,
-                }}
-              >
-                <PictureAsPdfOutlinedIcon />
-              </PdfButton>
-            </Tooltip>
-          </div>
+          <Tooltip title="Abrir como PDF">
+            <PdfButton
+              variant="contained"
+              sx={{
+                width: 40,
+                height: 35,
+              }}
+            >
+              <PictureAsPdfOutlinedIcon />
+            </PdfButton>
+          </Tooltip>
         </div>
-        <div className="mt-3 flex items-center justify-around">
-          <div className="grid items-center justify-center">
-            <h1 className="font-roboto text-base font-bold text-dark-blue-weg">
-              Solicitante
+        <div className="grid gap-6">
+          <div className="flex">
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold text-blue-weg"
+            >
+              Título:{" "}
             </h1>
-            <h1 className="font-roboto text-sm font-semibold">
+            <span
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold text-light-blue-weg"
+            >
+              {demand?.tituloDemanda}
+            </span>
+          </div>
+          <div className="flex">
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold text-blue-weg"
+            >
+              Solicitante:
+            </h1>
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-semibold"
+            >
               {user?.nomeUsuario.toUpperCase()}
             </h1>
-            <h1 className="font-roboto text-xs">
+            <h1 style={{ fontSize: fonts.base }} className="font-roboto">
               {user?.departamentoUsuario.toUpperCase()}
             </h1>
           </div>
+          <div className="flex">
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-semibold text-blue-weg"
+            >
+              Score: {demand?.scoreDemanda}
+            </h1>
+          </div>
+        </div>
+        <div className="mt-5 flex items-center justify-around"></div>
+        <div className="mt-3 flex items-center justify-around">
           <div className="flex items-center justify-center gap-5 text-sm">
             <h1 className="font-roboto font-bold">
               De: <span className="text-dark-blue-weg">10/05/2022</span>
@@ -412,6 +292,141 @@ export default function ViewDemand() {
         </div>
         <FilesTable files={fileRows} />
       </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <div className="flex items-center justify-end">
+            <IconButton>
+              <Tooltip title="Fechar">
+                <CloseIcon
+                  onClick={handleClose}
+                  sx={{
+                    cursor: "pointer",
+                    color: "#00579D",
+                    fontSize: "1.5rem",
+                  }}
+                />
+              </Tooltip>
+            </IconButton>
+          </div>
+          <div className="grid gap-12">
+            <div className="flex gap-[16.8rem]">
+              <div className="grid">
+                <h1
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto font-bold text-blue-weg"
+                >
+                  Solicitante
+                </h1>
+                <h1
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto text-light-blue-weg"
+                >
+                  {user?.nomeUsuario}
+                </h1>
+                <h1
+                  style={{ fontSize: fonts.sm }}
+                  className="text-light-blue-weg"
+                >
+                  {user?.departamentoUsuario}
+                </h1>
+              </div>
+              <h1
+                style={{ fontSize: fonts.xl }}
+                className="flex justify-center gap-2 text-blue-weg"
+              >
+                Número de demanda:{" "}
+                <span
+                  style={{ fontSize: fonts.xl }}
+                  className="flex justify-center font-bold text-light-blue-weg"
+                >
+                  {params.idDemanda}
+                </span>
+              </h1>
+            </div>
+            <div className="flex gap-[14.5rem]">
+              <div className="grid">
+                <h1
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto font-bold text-blue-weg"
+                >
+                  Analista responsável
+                </h1>
+                <h1
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto text-light-blue-weg"
+                >
+                  {demand?.analistaResponsavelDemanda.nomeUsuario}
+                </h1>
+                <h1
+                  style={{ fontSize: fonts.sm }}
+                  className="text-light-blue-weg"
+                >
+                  {
+                    demand?.analistaResponsavelDemanda.departamentoUsuario
+                      .nomeBusinessUnity
+                  }
+                </h1>
+              </div>
+              <div className="grid items-center justify-center">
+                <div className="flex items-center justify-between text-lg">
+                  <div className="flex items-center justify-center gap-12">
+                    <div className="grid items-center justify-center">
+                      <h1
+                        style={{ fontSize: fonts.lg }}
+                        className="flex items-center justify-center font-normal text-blue-weg"
+                      >
+                        Iniciada em:
+                      </h1>
+                      <span
+                        style={{ fontSize: fonts.lg }}
+                        className="flex items-center justify-center font-bold text-light-blue-weg"
+                      >
+                        {demandLogs
+                          ? new Date(
+                              demandLogs[0].recebimentoHistorico
+                            ).toLocaleDateString()
+                          : "Indefinido"}
+                      </span>
+                    </div>
+                    <div className="h-16 w-[3.5px] bg-light-blue-weg" />
+                    <div className="grid items-center justify-center">
+                      <h1
+                        style={{ fontSize: fonts.lg }}
+                        className="flex items-center justify-center font-normal text-blue-weg"
+                      >
+                        Concluída em:
+                      </h1>
+                      <span
+                        style={{ fontSize: fonts.lg }}
+                        className="flex items-center justify-center font-bold text-light-blue-weg"
+                      >
+                        Indefinido
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid items-center">
+            <div className="flex items-center justify-start">
+              <h1
+                style={{ fontSize: fonts.lg }}
+                className="mt-5 font-roboto text-lg font-bold text-blue-weg"
+              >
+                Histórico
+              </h1>
+            </div>
+            <WorkflowTable demandId={params.idDemanda} />
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 }
