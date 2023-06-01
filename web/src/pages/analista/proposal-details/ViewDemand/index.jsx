@@ -199,6 +199,51 @@ export default function ViewDemand() {
               {user?.departamentoUsuario.toUpperCase()}
             </h1>
           </div>
+          <div className="flex items-center">
+            <div className="flex items-center justify-center gap-5 text-sm">
+              <h1
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold text-blue-weg"
+              >
+                De:{" "}
+                <span
+                  style={{ fontSize: fonts.base }}
+                  className="text-blue-weg"
+                >
+                  10/05/2022
+                </span>
+              </h1>
+              <h1
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold text-blue-weg"
+              >
+                Até:{" "}
+                <span
+                  style={{ fontSize: fonts.base }}
+                  className="text-blue-weg"
+                >
+                  20/06/2022
+                </span>
+              </h1>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className="flex items-center">
+              <h1
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold text-blue-weg"
+              >
+                Centro de custo:
+              </h1>
+              <h1
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold"
+              >
+                {demand?.centroCustoDemanda[0].nomeCentroCusto ??
+                  "Não indicado"}
+              </h1>
+            </div>
+          </div>
           <div className="flex">
             <h1
               style={{ fontSize: fonts.base }}
@@ -208,75 +253,62 @@ export default function ViewDemand() {
             </h1>
           </div>
         </div>
-        <div className="mt-5 flex items-center justify-around"></div>
-        <div className="mt-3 flex items-center justify-around">
-          <div className="flex items-center justify-center gap-5 text-sm">
-            <h1 className="font-roboto font-bold">
-              De: <span className="text-dark-blue-weg">10/05/2022</span>
-            </h1>
-            <h1 className="font-roboto font-bold">
-              Até: <span className="text-dark-blue-weg">20/06/2022</span>
-            </h1>
-          </div>
-          <div className="grid items-center justify-center">
-            <h1 className="font-roboto text-base font-bold text-dark-blue-weg">
-              Centro de custo
-            </h1>
-            <h1 className="font-roboto text-sm">
-              {demand?.centroCustoDemanda[0].nomeCentroCusto ?? "Não indicado"}
-            </h1>
-          </div>
-        </div>
-        <div className="mt-10 flex flex-wrap items-center justify-center">
-          <div className="grid items-center justify-around gap-5">
-            <div className="grid items-center justify-center">
-              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
+
+        <div className="grid items-center">
+          <div className="grid items-center gap-5">
+            <div className="flex items-center">
+              <h1
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold text-blue-weg"
+              >
                 Objetivo:
               </h1>
-              <textarea
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                value={proposal}
-                onChange={(e) => setProposal(e.target.value)}
-              />
+              <p
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold"
+              >
+                {proposal}
+              </p>
             </div>
-            <div className="grid items-center justify-center">
-              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
+            <div className="flex items-center">
+              <h1
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold text-blue-weg"
+              >
                 Situação atual:
               </h1>
-              <textarea
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                value={currentSituation}
-                onChange={(e) => setCurrentSituation(e.target.value)}
-              />
+              <p
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold"
+              >
+                {currentSituation}
+              </p>
             </div>
 
-            <div className="grid items-center justify-center">
-              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
+            <div className="flex items-center">
+              <h1 className="font-roboto font-bold text-blue-weg">
                 Frequência de uso:
               </h1>
-              <textarea
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                value={usageFrequency}
-                onChange={(e) => setUsageFrequency(e.target.value)}
-              />
+              <p
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold"
+              >
+                {usageFrequency}
+              </p>
             </div>
-            <div className="grid items-center justify-center">
-              <h1 className="font-roboto text-lg font-bold text-dark-blue-weg">
+            <div className="flex items-center">
+              <h1
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold text-blue-weg"
+              >
                 Benefício qualitativo:
               </h1>
-              <textarea
-                className="border-1 h-20 w-[65rem] resize-none
-                rounded-[0.5rem] p-2 
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
-                value={qualitativeBenefit}
-                onChange={(e) => setQualitativeBenefit(e.target.value)}
-              />
+              <p
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold"
+              >
+                {qualitativeBenefit}
+              </p>
             </div>
           </div>
         </div>
