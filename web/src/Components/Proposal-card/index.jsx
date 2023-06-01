@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 // MUI
 import MuiCard from "@mui/material/Card";
@@ -14,6 +14,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
+import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 
 //Services
 import ProposalService from "../../service/Proposal-Service";
@@ -92,6 +93,10 @@ const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
 export default function ProposalCard(props) {
   const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 
+  const navigate = useNavigate();
+
+  console.log("PropostaSADASDSASASDA: ", props);
+
   // Components MUI styles
   const Card = styled(MuiCard)({
     width: props.newPauta ? "100%" : "100%",
@@ -118,6 +123,10 @@ export default function ProposalCard(props) {
 
   function openProposalPDF() {
     ProposalService.openProposalPDF(props.proposalId);
+  }
+
+  function openProposalDetails() {
+    navigate("/propostas/" + props.proposalId + "/" + props.referenceDemand);
   }
 
   return (
@@ -253,12 +262,12 @@ export default function ProposalCard(props) {
               </h1>
               {props.newPauta && (
                 <h1
-                  onClick={openProposalPDF}
+                  onClick={openProposalDetails}
                   className="flex w-[10rem] cursor-pointer items-center justify-center gap-1 text-sm font-bold text-light-blue-weg
                     hover:underline
                   "
                 >
-                  Link para a proposta
+                  Visualizar proposta
                   <OpenInNewRoundedIcon />
                 </h1>
               )}
@@ -306,9 +315,9 @@ export default function ProposalCard(props) {
                     </IconButtonDefault>
                   )}
                 </Tooltip>
-                <Tooltip title="Visualizar proposta">
+                <Tooltip title="Visualizar PDF da proposta">
                   <IconButton onClick={openProposalPDF}>
-                    <VisibilityIcon
+                    <PictureAsPdfOutlinedIcon
                       sx={{
                         color: "#0075B1",
                         height: "1.8rem",
