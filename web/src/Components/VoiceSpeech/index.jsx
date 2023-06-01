@@ -52,10 +52,12 @@ export default function VoiceSpeech(props) {
       console.log("Audio desligado");
       SpeechRecognition.stopListening();
       setIsListening(false);
+      if (transcript != "")
+        setTranscriptState(transcript[0].toUpperCase() + transcript.slice(1));
     } else {
       // Called confirm text
       props.setTexto((ps) => {
-        if (ps.id != props.speechId) return ps;
+        if (props.speechId && ps.id != props.speechId) return ps;
         if (transcriptState == "") return ps;
 
         const newText = { ...ps, text: "" };
@@ -64,6 +66,7 @@ export default function VoiceSpeech(props) {
         return newText;
       });
       resetTranscript();
+      props.setIsSpeaking(false);
       setAnchorEl(null);
     }
   };
@@ -71,6 +74,8 @@ export default function VoiceSpeech(props) {
   const cancelAndStopListen = () => {
     SpeechRecognition.stopListening();
     setIsListening(false);
+    resetTranscript();
+    props.setIsSpeaking(false);
     setAnchorEl(null);
   };
 
@@ -86,12 +91,14 @@ export default function VoiceSpeech(props) {
       setAnchorEl(e.currentTarget);
       console.log("Audio ligado");
       resetTranscript();
-      SpeechRecognition.startListening({ continuous: true, language: 'de-DE, en-US, pt-BR' });
+      SpeechRecognition.startListening({ continuous: true, language: ['pt-br', 'en-US'] }); // 'de-DE',
       setIsListening(true);
+      props.setIsSpeaking(true)
     } else {
       console.log("Audio desligado");
       SpeechRecognition.stopListening();
       setIsListening(false);
+      props.setIsSpeaking(false)
     }
   };
 
@@ -100,15 +107,15 @@ export default function VoiceSpeech(props) {
 
   return (
     <div>
-      <Tooltip title="Falar" placement="top">
-        <IconButton
-          aria-describedby={id}
-          type="button"
-          onClick={handleStartListen}
-        >
-          <MicRoundedIcon className="text-blue-weg" />
-        </IconButton>
-      </Tooltip>
+
+      <IconButton
+        aria-describedby={id}
+        type="button"
+        onClick={handleStartListen}
+      >
+        <MicRoundedIcon className="text-blue-weg" sx={{ fontSize: '1.4rem' }} />
+      </IconButton>
+
       <Popper id={id} open={open} anchorEl={anchorEl}>
         <div className="w-80 overflow-hidden rounded-lg border-l-4 border-blue-weg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           <div className="relative grid bg-white">
@@ -166,9 +173,9 @@ export default function VoiceSpeech(props) {
                 <TextField
                   sx={{
                     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                      {
-                        border: "none",
-                      },
+                    {
+                      border: "none",
+                    },
                     width: "100%",
                     height: "100%",
                     paddingLeft: "3px",

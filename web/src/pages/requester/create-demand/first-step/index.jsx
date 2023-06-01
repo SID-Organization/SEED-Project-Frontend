@@ -109,7 +109,7 @@ export default function FirstStep({ props }) {
           placeholder="Escreva a visão do negócio que vai resolver"
           modules={ReactQuillUtils.quillModules}
           style={ReactQuillUtils.quillStyle}
-          onBlur={props.handleCreateDemand}
+          onBlur={() => props.handleCreateDemand()}
         />
       </div>
       <div className="grid gap-1">

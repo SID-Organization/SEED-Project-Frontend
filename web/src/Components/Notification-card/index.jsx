@@ -68,7 +68,7 @@ export default function NotificationCard(props) {
               </Tooltip>
             )}
           </div>
-          <div className="grid w-[13rem] items-center">
+          <div className="grid w-[13rem] p-2 items-center">
             <Tooltip
               title={
                 props.name &&
@@ -79,11 +79,11 @@ export default function NotificationCard(props) {
               }
               placement="left"
             >
-              <p className="font-medium">
+              <p className="text-[12px]">
                 {props.name &&
                   props.content &&
-                  (props.name.length + props.content.length > 71
-                    ? (props.name + props.content).slice(0, 70) + "..."
+                  (props.name.length + props.content.length > 80
+                    ? (props.name + props.content).slice(0, 80) + "..."
                     : props.name + props.content)}
               </p>
             </Tooltip>

@@ -8,6 +8,7 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import Notification from "../../../../Components/Notification";
 import NewBenefitInsertion from "../../../../Components/New-benefit-insert";
 import ReactQuill from "react-quill";
+import VoiceSpeech from "../../../../Components/VoiceSpeech";
 
 // Styled Components
 import MUISC from "../../../../styles/Mui-Styled-Components";
@@ -20,6 +21,19 @@ import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
 export default function SecondStep({ props }) {
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  const [realBenefitSpeechId, setRealBenefitSpeechId] = useState(0);
+  const [potBenefitSpeechId, setPotBenefitSpeechId] = useState(0);
+  const [qualitativeSpeechId, setQualitativeSpeechId] = useState(0);
+  
+  const [qualitativeSpeech, setQualitativeSpeech] = useState({ id: 1, text: "" });
+
+  useEffect(() => {
+    if (qualitativeSpeech.text != "") {
+      props.setQualitativeBenefit(ps => ps + qualitativeSpeech.text);
+      setQualitativeSpeech({ ...qualitativeSpeech, text: "" })
+    }
+  }, [qualitativeSpeech])
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -67,6 +81,10 @@ export default function SecondStep({ props }) {
                 realBenefits: props.realBenefits,
                 setRealBenefits: props.setRealBenefits,
               }}
+              currentSpeech={{
+                id: realBenefitSpeechId,
+                setId: setRealBenefitSpeechId,
+              }}
               benefitIndex={i}
             >
               <ReactQuill
@@ -113,6 +131,10 @@ export default function SecondStep({ props }) {
             coin={item.coin}
             value={item.value}
             description={item.descriptionHTML}
+            currentSpeech={{
+              id: potBenefitSpeechId,
+              setId: setPotBenefitSpeechId,
+            }}
             benefitStates={{
               realBenefits: props.potentialBenefits,
               setRealBenefits: props.setPotentialBenefits,
@@ -163,6 +185,9 @@ export default function SecondStep({ props }) {
           onBlur={() => props.handleCreateDemand()}
           onChange={(e) => props.setQualitativeBenefit(e.target.value)}
         />
+        <div onClick={() => setQualitativeSpeechId(1)} className="mb-16">
+          <VoiceSpeech setTexto={setQualitativeSpeech} speechId={qualitativeSpeechId} />
+        </div>
         <div className="mr-16" />
       </div>
       {/* FIM BENEFICIO QUALITATIVO */}

@@ -4,11 +4,6 @@ import Snackbar from "@mui/material/Snackbar";
 import { Button, SnackbarContent } from "@mui/material";
 import { Link } from "react-router-dom";
 
-// interface messageProps {
-//   message: string;
-//   action: boolean;
-// }
-
 export default function PositionedSnackbar(props) {
   const [state, setState] = React.useState({
     open: true,

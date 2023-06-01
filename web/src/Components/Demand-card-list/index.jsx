@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 // MUI
 import MuiBox from "@mui/material/Box";
@@ -16,6 +17,8 @@ import DemandLogService from "../../service/DemandLog-Service";
 // Utils
 import DemandUtils from "../../utils/Demand-Utils";
 import UserUtils from "../../utils/User-Utils";
+import { Button } from "@mui/material";
+import { Logout } from "@mui/icons-material";
 
 const columns = [
   {
@@ -94,8 +97,8 @@ const columns = [
 
 
 const Box = styled(MuiBox)(() => ({
-  height: 750,
-  width: 890,
+  height: 690,
+  width: 1050,
 }));
 
 const getDemandHistoric = async (demandId) => {
@@ -114,6 +117,8 @@ const getDemandHistoric = async (demandId) => {
 
 export default function DemandsList(props) {
   const [rows, setRows] = useState([]);
+  const [pageSize, setPageSize] = useState(5);
+  const navigate = useNavigate();
 
   const getRows = async (demands) => {
     const tableRows = demands.map(async (demand) => {
@@ -132,13 +137,16 @@ export default function DemandsList(props) {
     setRows(await Promise.all(tableRows));
   };
 
+  const handleRowDoubleClick = (params) => {
+    navigate(`/demandas/${params.row.id}`);
+  };
+
   useEffect(() => {
     if (props.demands) {
       getRows(props.demands);
     }
   }, []);
 
-  const [pageSize, setPageSize] = useState(5);
 
   return (
     <Box>
@@ -148,6 +156,7 @@ export default function DemandsList(props) {
         rowsPerPageOptions={[5, 10, 25]}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        onRowDoubleClick={handleRowDoubleClick}
         components={{
           Toolbar: GridToolbar,
         }}

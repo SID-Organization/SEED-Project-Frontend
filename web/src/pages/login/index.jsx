@@ -16,9 +16,6 @@ import { TextField } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-// Translation
-import AzureTranslate from "../../API/Translate";
-
 // Services
 import LoginService from "../../service/Login-Service";
 import UserUtils from "../../utils/User-Utils";
@@ -174,7 +171,7 @@ export default function Login(props) {
                           handleLogin();
                         }
                       }}
-                    />
+                  />
                   </div>
                 </div>
                 <div className="mt-3 flex items-center justify-between">
@@ -188,7 +185,6 @@ export default function Login(props) {
                   <Button
                     onClick={() => {
                       handleLogin();
-                      // AzureTranslate("Teste", "en");
                     }}
                     variant="contained"
                     sx={{

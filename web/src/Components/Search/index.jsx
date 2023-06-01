@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 // MUI
-import { Button, Popper } from "@mui/material";
+import { Badge, Button, Popper } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
 import InputBase from "@mui/material/InputBase";
@@ -13,6 +13,9 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 // Components
 import FilterComponent from "./FilterComponent";
 import DemandFilterUtils from "../../utils/DemandFilter-Utils";
+
+// Voice Speech
+import VoiceSpeech from "../VoiceSpeech";
 
 export default function Search(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -31,6 +34,16 @@ export default function Search(props) {
   const [PPMCode, setPPMCode] = useState("");
   const [requestNumber, setRequestNumber] = useState("");
 
+  // Speech state
+  const [searchSpeech, setSearchSpeech] = useState({ id: 1, text: "" });
+
+  useEffect(() => {
+    if (searchSpeech.text != "") {
+      setTitle(ps => ps + searchSpeech.text);
+      setSearchSpeech({ ...searchSpeech, text: "" })
+    }
+  }, [searchSpeech])
+
   function handleOpenFilter(event) {
     setAnchorEl(event.currentTarget);
     setIsFilterOpen(!isFilterOpen);
@@ -43,6 +56,23 @@ export default function Search(props) {
     }
   }
 
+  function qtyUsedFilters() {
+    let qty = 0;
+
+    if (requester != "") qty++;
+    if (value != "") qty++;
+    if (score != "") qty++;
+    if (title != "") qty++;
+    if (responsibleAnalyst != "") qty++;
+    if (responsibleManager != "") qty++;
+    if (approvalForum != "") qty++;
+    if (department != "") qty++;
+    if (demandSize != "") qty++;
+    if (PPMCode != "") qty++;
+    if (requestNumber != "") qty++;
+
+    return qty;
+  }
 
   function cleanStates() {
     setRequester("");
@@ -62,18 +92,18 @@ export default function Search(props) {
   function filterDemands() {
     props.setFilters(
       DemandFilterUtils.getUpdatedFilter(
-      requester,
-      responsibleManager,
-      responsibleAnalyst,
-      PPMCode,
-      department,
-      approvalForum,
-      demandSize,
-      title,
-      value,
-      score,
-      requestNumber
-    ))
+        requester,
+        responsibleManager,
+        responsibleAnalyst,
+        PPMCode,
+        department,
+        approvalForum,
+        demandSize,
+        title,
+        value,
+        score,
+        requestNumber
+      ))
   };
 
   useEffect(() => {
@@ -81,6 +111,7 @@ export default function Search(props) {
       filterDemands();
     }
   }, [title])
+
   return (
     <ClickAwayListener onClickAway={handleCloseAndFilter}>
       <div>
@@ -118,18 +149,27 @@ export default function Search(props) {
               }
             }}
             endAdornment={
-              <IconButton
-                type="button"
-                sx={{ p: "10px" }}
-                aria-label="search"
-                onClick={handleOpenFilter}
-              >
-                <TuneRoundedIcon
-                  sx={{
-                    fontSize: "20px",
-                  }}
-                />
-              </IconButton>
+              <>
+                <VoiceSpeech setTexto={setSearchSpeech} speechId={searchSpeech.id} />
+                <IconButton
+                  type="button"
+                  sx={{ p: "10px" }}
+                  aria-label="search"
+                  onClick={handleOpenFilter}
+                >
+                  <Badge
+                    badgeContent={qtyUsedFilters()}
+                    color="error"
+                  >
+                    <TuneRoundedIcon
+                      sx={{
+                        fontSize: "20px",
+                      }}
+                    />
+                  </Badge>
+                </IconButton>
+
+              </>
             }
           />
         </Paper>

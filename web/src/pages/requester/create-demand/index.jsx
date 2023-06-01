@@ -15,9 +15,6 @@ import ThirdStep from "./third-step";
 import FourthStep from "./fourth-step";
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
 
-// Translate API
-import Translate from "../../../API/Translate";
-
 // Services
 import DemandService from "../../../service/Demand-Service";
 import PdfDemandService from "../../../service/DemandPDF-Service";
@@ -354,7 +351,7 @@ export default function CreateDemand({ isEditting }) {
         selectedFiles.map((file) => createFileRowData(file.name, file.size))
       );
       if (selectedFiles.length > 0) {
-        handleCreateDemand();
+        handleCreateDemand(false);
       }
     }
   }, [selectedFiles]);
@@ -409,11 +406,6 @@ export default function CreateDemand({ isEditting }) {
     handleCreateDemand,
     handleFinishDemand,
   };
-
-  useEffect(() => {
-    console.warn("Translate");
-    Translate("Criar nova demanda").then(res => console.warn(res));
-  }, [])
 
   return (
     <div>

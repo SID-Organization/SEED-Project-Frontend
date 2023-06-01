@@ -10,31 +10,11 @@ import { InputAdornment, IconButton, Tooltip } from "@mui/material";
 import { DeleteRounded } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
+// VoiceSpeech
+import VoiceSpeech from "../VoiceSpeech";
+
 //Services
 import BenefitService from "../../service/Benefit-Service";
-
-const TextField = styled(MuiTextField)({
-  width: "700px",
-  height: "3.5rem",
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      border: "1.5px solid #0075B1",
-    },
-    "&:hover fieldset": {
-      borderColor: "#0075B1",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#0075B1",
-    },
-  },
-  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "4px solid #0075B1",
-  },
-
-  "& .MuiOutlinedInput-input": {
-    padding: "5px 5px",
-  },
-});
 
 const TextFieldValue = styled(MuiTextField)({
   width: "15rem",
@@ -56,27 +36,29 @@ const TextFieldValue = styled(MuiTextField)({
   },
 });
 
-// interface INewBenefit {
-//   coin: string;
-//   value: number;
-//   description: string;
-//   benefitIndex: number;
-//   benefitStates: {
-//     realBenefits: INewBenefitInsert[];
-//     setRealBenefits: React.Dispatch<React.SetStateAction<INewBenefitInsert[]>>;
-//   };
-// }
-
-// interface INewBenefitInsert {
-//   coin: string;
-//   value: number;
-//   description: string;
-//   descriptionRef: React.RefObject<HTMLDivElement>;
-// }
 
 export default function NewBenefitInsertion(props) {
   const [coin, setCoin] = useState(props.coin);
   const [value, setValue] = useState(props.value);
+
+  const [benefitSpeech, setBenefitSpeech] = useState({ id: props.benefitIndex, text: "" });
+
+  // Updates the real state  when the speech is updated
+  useEffect(() => {
+    if (benefitSpeech.text != "") {
+      props.benefitStates.setRealBenefits(() => {
+        const newState = props.benefitStates.realBenefits.filter(
+          (item, index) => index !== props.benefitIndex
+        );
+        newState.splice(props.benefitIndex, 0, {
+          ...props.benefitStates.realBenefits[props.benefitIndex],
+          descriptionHTML: props.benefitStates.realBenefits[props.benefitIndex].descriptionHTML + benefitSpeech.text,
+        });
+        return newState;
+      });
+      setBenefitSpeech({ id: props.benefitIndex, text: "" })
+    }
+  }, [benefitSpeech])
 
   const updateState = () => {
     props.benefitStates.setRealBenefits(() => {
@@ -155,10 +137,18 @@ export default function NewBenefitInsertion(props) {
                     <MenuItem value={"€"}>EUR</MenuItem>
                   </Select>
                 </FormControl>
+
               </Box>
             </div>
 
-            <div className="flex items-center">{props.children}</div>
+            <div className="flex items-center">
+              {props.children}
+              {props.currentSpeech && (
+                <div onClick={() => props.currentSpeech.setId(props.benefitIndex)}>
+                  <VoiceSpeech setTexto={setBenefitSpeech} speechId={props.currentSpeech.id} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

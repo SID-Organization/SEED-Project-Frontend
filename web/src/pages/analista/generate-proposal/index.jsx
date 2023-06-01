@@ -279,7 +279,7 @@ export default function GenerateProposal() {
     const proposalToSave = {
       escopoProposta: removeHTML(quillHtmlScope),
       naoFazParteDoEscopoProposta: removeHTML(quillHtmlIsNotOnScope),
-      paybackProposta: payback,
+      // paybackProposta: payback,
       aprovadoWorkflowProposta: 1,
       periodoExecucaoDemandaInicio: startDate,
       periodoExecucaoDemandaFim: endDate,
