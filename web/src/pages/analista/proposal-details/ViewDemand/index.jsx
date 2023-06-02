@@ -129,134 +129,131 @@ export default function ViewDemand() {
     }
   }, [demand]);
 
-  function handleEnableChat() {
-    const chatToStart = {
-      ativoChat: 2,
-      idDemanda: { idDemanda: demand?.idDemanda },
-      usuarios: [
-        {
-          numeroCadastroUsuario:
-            demand?.solicitanteDemanda.numeroCadastroUsuario,
-        },
-        { numeroCadastroUsuario: user.numeroCadastroUsuario },
-      ],
-    };
-    ChatService.createChat(chatToStart).then(() => {
-      navigate("/chat");
-    });
-  }
+  const MyDivider = () => {
+    return <div className="h-[3px] w-6 bg-light-blue-weg" />;
+  };
 
   return (
     <div>
-      <div className="grid items-center justify-center">
-        <div className="flex gap-2">
-          <Tooltip title="Abrir workflow">
-            <Button onClick={handleOpen} variant="contained">
-              Workflow
-            </Button>
-          </Tooltip>
-          <Tooltip title="Abrir como PDF">
-            <PdfButton
-              variant="contained"
-              sx={{
-                width: 40,
-                height: 35,
-              }}
-            >
-              <PictureAsPdfOutlinedIcon />
-            </PdfButton>
-          </Tooltip>
-        </div>
-        <div className="grid gap-6">
-          <div className="flex">
-            <h1
-              style={{ fontSize: fonts.base }}
-              className="font-roboto font-bold text-blue-weg"
-            >
-              Título:{" "}
-            </h1>
-            <span
-              style={{ fontSize: fonts.base }}
-              className="font-roboto font-bold text-light-blue-weg"
-            >
-              {demand?.tituloDemanda}
-            </span>
+      <div className="grid items-center">
+        <div className="grid items-center gap-6">
+          <div className="flex gap-2">
+            <Tooltip title="Abrir workflow">
+              <Button onClick={handleOpen} variant="contained">
+                Workflow
+              </Button>
+            </Tooltip>
+            <Tooltip title="Abrir como PDF">
+              <PdfButton
+                variant="contained"
+                sx={{
+                  width: 40,
+                  height: 35,
+                }}
+              >
+                <PictureAsPdfOutlinedIcon />
+              </PdfButton>
+            </Tooltip>
           </div>
-          <div className="flex">
-            <h1
-              style={{ fontSize: fonts.base }}
-              className="font-roboto font-bold text-blue-weg"
-            >
-              Solicitante:
-            </h1>
-            <h1
-              style={{ fontSize: fonts.base }}
-              className="font-roboto font-semibold"
-            >
-              {user?.nomeUsuario.toUpperCase()}
-            </h1>
-            <h1 style={{ fontSize: fonts.base }} className="font-roboto">
-              {user?.departamentoUsuario.toUpperCase()}
-            </h1>
-          </div>
-          <div className="flex items-center">
-            <div className="flex items-center justify-center gap-5 text-sm">
+          <div className="grid gap-6">
+            <div className="flex gap-1">
               <h1
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
               >
-                De:{" "}
-                <span
-                  style={{ fontSize: fonts.base }}
-                  className="text-blue-weg"
-                >
-                  10/05/2022
-                </span>
+                Título:{" "}
               </h1>
+              <span
+                style={{ fontSize: fonts.base }}
+                className="font-roboto font-bold text-light-blue-weg"
+              >
+                {demand?.tituloDemanda}
+              </span>
+            </div>
+            <div className="flex items-center gap-1">
               <h1
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
               >
-                Até:{" "}
-                <span
+                Solicitante:
+              </h1>
+              <div className="flex items-center gap-2">
+                <h1
                   style={{ fontSize: fonts.base }}
-                  className="text-blue-weg"
+                  className="font-roboto font-semibold"
                 >
-                  20/06/2022
-                </span>
+                  {user?.nomeUsuario.toUpperCase()}
+                </h1>
+                <MyDivider />
+                <h1 style={{ fontSize: fonts.base }} className="font-roboto">
+                  {user?.departamentoUsuario.toUpperCase()}
+                </h1>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="flex items-center justify-center gap-2">
+                <h1
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto font-bold text-blue-weg"
+                >
+                  De:{" "}
+                  <span
+                    style={{ fontSize: fonts.base }}
+                    className="font-normal text-blue-weg"
+                  >
+                    10/05/2022
+                  </span>
+                </h1>
+                <MyDivider />
+                <h1
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto font-bold text-blue-weg"
+                >
+                  Até:{" "}
+                  <span
+                    style={{ fontSize: fonts.base }}
+                    className="font-normal text-blue-weg"
+                  >
+                    20/06/2022
+                  </span>
+                </h1>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="grid items-center gap-1">
+                <h1
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto font-bold text-blue-weg"
+                >
+                  Centro de custo:
+                </h1>
+                <h1
+                  style={{ fontSize: fonts.base }}
+                  className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+                >
+                  {demand?.centroCustoDemanda[0].nomeCentroCusto ??
+                    "Não indicado"}
+                </h1>
+              </div>
+            </div>
+            <div className="grid gap-1">
+              <h1
+                style={{ fontSize: fonts.base }}
+                className="grid gap-1 font-roboto font-semibold text-blue-weg"
+              >
+                Score:{" "}
+                {demand && demand.scoreDemanda ? (
+                  <p className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal">
+                    {demand.scoreDemanda}
+                  </p>
+                ) : (
+                  <p className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal text-[#6f6f6f]">
+                    Não indicado
+                  </p>
+                )}
               </h1>
             </div>
-          </div>
-          <div className="flex items-center">
-            <div className="flex items-center">
-              <h1
-                style={{ fontSize: fonts.base }}
-                className="font-roboto font-bold text-blue-weg"
-              >
-                Centro de custo:
-              </h1>
-              <h1
-                style={{ fontSize: fonts.base }}
-                className="font-roboto font-bold"
-              >
-                {demand?.centroCustoDemanda[0].nomeCentroCusto ??
-                  "Não indicado"}
-              </h1>
-            </div>
-          </div>
-          <div className="flex">
-            <h1
-              style={{ fontSize: fonts.base }}
-              className="font-roboto font-semibold text-blue-weg"
-            >
-              Score: {demand?.scoreDemanda}
-            </h1>
-          </div>
-        </div>
-
-        <div className="grid items-center">
-          <div className="grid items-center gap-5">
-            <div className="flex items-center">
+            <div className="gap items-center gap-1">
               <h1
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
@@ -265,12 +262,12 @@ export default function ViewDemand() {
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
-                className="font-roboto font-bold"
+                className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
               >
                 {proposal}
               </p>
             </div>
-            <div className="flex items-center">
+            <div className="grid items-center gap-1">
               <h1
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
@@ -279,24 +276,26 @@ export default function ViewDemand() {
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
-                className="font-roboto font-bold"
+                className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
               >
                 {currentSituation}
               </p>
             </div>
 
-            <div className="flex items-center">
+            <div className="grid items-center gap-1">
               <h1 className="font-roboto font-bold text-blue-weg">
                 Frequência de uso:
               </h1>
-              <p
-                style={{ fontSize: fonts.base }}
-                className="font-roboto font-bold"
-              >
-                {usageFrequency}
-              </p>
+              <div>
+                <p
+                  style={{ fontSize: fonts.base }}
+                  className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+                >
+                  {usageFrequency}
+                </p>
+              </div>
             </div>
-            <div className="flex items-center">
+            <div className="grid items-center gap-1">
               <h1
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
@@ -305,22 +304,22 @@ export default function ViewDemand() {
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
-                className="font-roboto font-bold"
+                className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
               >
                 {qualitativeBenefit}
               </p>
             </div>
           </div>
-        </div>
-        <div className="mt-12 flex items-start justify-between">
-          <BenefitsCard
-            title="Benefícios reais"
-            benefits={getBenefits("REAL")}
-          />
-          <BenefitsCard
-            title="Benefícios potenciais"
-            benefits={getBenefits("POTENCIAL")}
-          />
+          <div className="flex items-start gap-6">
+            <BenefitsCard
+              title="Benefícios reais"
+              benefits={getBenefits("REAL")}
+            />
+            <BenefitsCard
+              title="Benefícios potenciais"
+              benefits={getBenefits("POTENCIAL")}
+            />
+          </div>
         </div>
         <FilesTable files={fileRows} />
       </div>
