@@ -8,6 +8,7 @@ import MuiTextField from "@mui/material/TextField";
 
 // Services
 import ProposalService from "../../../../service/Proposal-Service";
+import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
 // Utils
 import DateUtils from "../../../../utils/Date-Utils";
@@ -60,6 +61,12 @@ export default function ViewProposal() {
   const params = useParams();
   const [getProposalDetails, setGetProposalDetails] = useState();
 
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
+
   useEffect(() => {
     if (params.idProposta) {
       ProposalService.getProposalById(params.idProposta).then((proposal) => {
@@ -71,30 +78,47 @@ export default function ViewProposal() {
   return (
     <div>
       <div>
-        <div className="mt-5 grid items-center justify-center">
+        <div className="grid items-center gap-1">
           <h1
-            className="
-          font-roboto text-xl font-bold text-black
-        "
+            style={{ fontSize: fonts.base }}
+            className="font-roboto font-bold text-blue-weg"
           >
-            Escopo do projeto
+            Escopo do projeto:
           </h1>
-          <p className="flex justify-center">
-            {getProposalDetails && getProposalDetails.escopoProposta}
+          <p
+            style={{ fontSize: fonts.base }}
+            className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+          >
+            {getProposalDetails && getProposalDetails.escopoProposta} asd
           </p>
         </div>
-        <div className="mt-5 grid items-center justify-center">
+        <div className="grid items-center gap-1">
           <h1
+            style={{ fontSize: fonts.base }}
+            className="font-roboto font-bold text-blue-weg"
+          >
+            Não faz parte do escopo do projeto:
+          </h1>
+          <p
+            style={{ fontSize: fonts.base }}
+            className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+          >
+            {getProposalDetails && getProposalDetails.escopoProposta}asdsa
+          </p>
+        </div>
+        <div className="grid items-center">
+          <h1
+            style={{ fontSize: fonts.base }}
             className="
-          flex justify-center font-roboto text-xl font-bold text-black
+          flex font-roboto font-bold text-blue-weg
         "
           >
             Tabela de custos
           </h1>
-          <p className="flex justify-center">**TABELA DE CUSTOS AQUI**</p>
+          <p style={{ fontSize: fonts.base }}>**TABELA DE CUSTOS AQUI**</p>
         </div>
         <div>
-          <div className="mt-10 grid items-center justify-center">
+          <div className="mt-10 grid items-center">
             <div
               className="
           h-[5rem] w-[40rem]
@@ -104,13 +128,17 @@ export default function ViewProposal() {
             >
               <div className="flex h-full items-center justify-start">
                 <p
+                  style={{ fontSize: fonts.base }}
                   className="
-              ml-5 mr-3 font-roboto text-xl font-bold
+              ml-5 mr-3 font-roboto font-bold
             "
                 >
                   Custos totais do projeto:
                 </p>
-                <p className="font-roboto text-xl font-bold text-blue-weg">
+                <p
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto font-bold text-blue-weg"
+                >
                   R${" "}
                   {getProposalDetails &&
                     getProposalDetails.custosTotaisDoProjeto}
@@ -126,13 +154,17 @@ export default function ViewProposal() {
               <div className="grid h-full items-center justify-start">
                 <div className="flex h-full items-center justify-start">
                   <p
+                    style={{ fontSize: fonts.base }}
                     className="
-          ml-5 mr-3 font-roboto text-xl
+          ml-5 mr-3 font-roboto
         "
                   >
                     Total de despesas (desembolso):
                   </p>
-                  <p className="font-roboto text-xl font-bold text-blue-weg">
+                  <p
+                    style={{ fontSize: fonts.base }}
+                    className="font-roboto font-bold text-blue-weg"
+                  >
                     R${" "}
                     {getProposalDetails &&
                       getProposalDetails.custosExternosDoProjeto}
@@ -140,13 +172,17 @@ export default function ViewProposal() {
                 </div>
                 <div className="flex h-full items-center justify-start">
                   <p
+                    style={{ fontSize: fonts.base }}
                     className="
-          ml-5 mr-3 font-roboto text-xl
+          ml-5 mr-3 font-roboto
         "
                   >
                     Total de despesas com custos internos
                   </p>
-                  <p className="font-roboto text-xl font-bold text-blue-weg">
+                  <p
+                    style={{ fontSize: fonts.base }}
+                    className="font-roboto font-bold text-blue-weg"
+                  >
                     R${" "}
                     {getProposalDetails &&
                       getProposalDetails.custosInternosDoProjeto}
@@ -156,66 +192,54 @@ export default function ViewProposal() {
             </div>
           </div>
         </div>
-        <div className="grid justify-center gap-10">
-          <div className="mt-5">
-            <p className="font-roboto text-lg font-bold">Payback</p>
-            <EqualInput
-              disabled
-              id="outlined-textarea"
-              variant="outlined"
-              placeholder={
-                getProposalDetails && getProposalDetails.paybackProposta
-              }
-              type="number"
-              multiline
-              maxRows={3}
-              InputProps={{
-                startAdornment: <InputAdornment position="start" />,
-              }}
-            />
+        <div className="grid">
+          <div className="flex items-center gap-1">
+            <p
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold text-blue-weg"
+            >
+              Payback:
+            </p>
+            <p className="font-roboto">
+              {getProposalDetails && getProposalDetails.paybackProposta} 223
+            </p>
           </div>
           <div>
-            <p className="font-roboto text-lg font-bold">Período de execução</p>
-            <div className="mt-2 flex gap-10">
-              <DateInput
-                disabled
-                id="outlined-basic"
-                variant="outlined"
-                placeholder={
-                  getProposalDetails &&
-                  DateUtils.formatDate(
-                    getProposalDetails.periodoExecucaoInicioProposta
-                  )
-                }
-                label="Início:"
-                type="text"
-                size="small"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start" />,
-                }}
-              />
+            <p
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold text-blue-weg"
+            >
+              Período de execução:
+            </p>
+            <div className="flex gap-10">
+              <div className="flex items-center gap-1">
+                <p className="font-roboto font-bold text-blue-weg">Início:</p>
+                <p className="font-roboto">
+                  12/04/2022
+                  {getProposalDetails &&
+                    DateUtils.formatDate(
+                      getProposalDetails.periodoExecucaoInicioProposta
+                    )}
+                </p>
+              </div>
 
-              <DateInput
-                disabled
-                id="outlined-basic"
-                variant="outlined"
-                placeholder={
-                  getProposalDetails &&
-                  DateUtils.formatDate(
-                    getProposalDetails.periodoExecucaoFimProposta
-                  )
-                }
-                label="Término:"
-                type="text"
-                size="small"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start" />,
-                }}
-              />
+              <div className="flex items-center gap-1">
+                <p className="font-roboto font-bold text-blue-weg">Término:</p>
+                <p className="font-roboto">
+                  16/05/2022
+                  {getProposalDetails &&
+                    DateUtils.formatDate(
+                      getProposalDetails.periodoExecucaoFimProposta
+                    )}
+                </p>
+              </div>
             </div>
           </div>
           <div>
-            <p className="font-roboto text-lg font-bold">
+            <p
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold"
+            >
               Responsável pelo negócio
             </p>
             <div className="mt-2 flex gap-10">
