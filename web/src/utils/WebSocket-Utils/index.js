@@ -9,6 +9,7 @@ const connect = (handleNotification) => {
     const user = UserUtils.getLoggedUser();
     let Sock = new SockJS("http://localhost:8443/ws");
     stompClient = over(Sock);
+    stompClient.debug = false;
     stompClient.connect({}, () => onConnected(user, handleNotification), onError);
 };
 

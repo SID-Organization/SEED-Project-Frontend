@@ -11,6 +11,7 @@ import SockJs from "sockjs-client/dist/sockjs";
 
 // Utils
 import UserUtils from "../../../utils/User-Utils";
+import { useEffect, useState } from "react";
 
 export default function homeDemands() {
   /*
@@ -28,7 +29,9 @@ export default function homeDemands() {
   const connect = () => {
     console.log("Conectando ao websocket");
     let Sock = new SockJs("http://localhost:8443/ws");
-    setStompClient(over(Sock));
+    let stomp = over(Sock);
+    stomp.debug = false;
+    setStompClient(stomp);
   };
 
   useEffect(() => {

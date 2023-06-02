@@ -75,7 +75,9 @@ export default function Chat() {
 
   const connect = () => {
     let Sock = new SockJs("http://localhost:8443/ws");
-    setStompClient(over(Sock));
+    let stomp = over(Sock);
+    stomp.debug = null
+    setStompClient(stomp);
   };
 
   useEffect(() => {
