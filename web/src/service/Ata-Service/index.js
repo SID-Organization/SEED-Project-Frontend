@@ -18,9 +18,9 @@ const getAtaById = async (id) => {
   .catch(err => err);
 };
 
-const openAtaPDF = async (ataId) => {
+const openAtaPDF = async (ataId, tipo) => {
   // Open in new tab
-  window.open(`${url}/pdf-ata/${ataId}`, "_blank");
+  window.open(`${url}/pdf-ata-${tipo}/${ataId}`, "_blank");
 };
 
 const updateProposalsLogs = async (proposalsLogs) => {

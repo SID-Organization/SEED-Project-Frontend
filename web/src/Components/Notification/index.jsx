@@ -4,7 +4,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { Button, SnackbarContent } from "@mui/material";
 import { Link } from "react-router-dom";
 
-export default function PositionedSnackbar(props) {
+export default function Notification(props) {
   const [state, setState] = React.useState({
     open: true,
     vertical: "top",
@@ -28,7 +28,7 @@ export default function PositionedSnackbar(props) {
     return (
       <Snackbar
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={handleClose}
         anchorOrigin={{ vertical, horizontal }}
       >

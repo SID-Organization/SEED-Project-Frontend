@@ -86,6 +86,7 @@ export default function Search(props) {
     setDemandSize("");
     setPPMCode("");
     setRequestNumber("");
+    setIsFilterOpen(false);
   }
 
   // Quando algum campo de pesquisa é utilizado, chama essa função e atualiza o filter
@@ -177,7 +178,6 @@ export default function Search(props) {
           open={isFilterOpen}
           anchorEl={anchorEl}
           placement="bottom-start"
-          style={{ zIndex: 1000 }}
         >
           <Paper
             sx={{

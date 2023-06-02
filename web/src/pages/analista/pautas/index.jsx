@@ -66,6 +66,10 @@ export default function Pautas() {
     );
   }, [pautas]);
 
+  useEffect(() => {
+    console.warn("Pautas", pautas);
+  }, [pautas])
+
   const getPautasInMonth = (month, year) => {
     return pautas.filter(
       (pauta) =>

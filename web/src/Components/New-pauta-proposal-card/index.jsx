@@ -13,13 +13,27 @@ const Checkbox = styled(MuiCheckbox)({
 });
 
 export default function NewPautaProposalCard(props) {
+  const [isAlreadyChecked, setIsAlreadyChecked] = useState();
   const [isCheckboxClicked, setIsCheckBoxClicked] = useState(false);
 
+  const isChecked = () => {
+    return props.selectedProposals.some(proposal => proposal.idProposta === props.proposal.idProposta);
+  };
+
   useEffect(() => {
-    if(isCheckboxClicked) {
-      props.setSelectedProposals(prevState => [...prevState, {idProposta: props.proposal.idProposta, idDemanda: props.proposal.idDemanda}]);
+    if (isChecked()) {
+      setIsAlreadyChecked(true);
+      setIsCheckBoxClicked(true);
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isCheckboxClicked) {
+      if (!isAlreadyChecked)
+        props.setSelectedProposals(prevState => [...prevState, { idProposta: props.proposal.idProposta, idDemanda: props.proposal.idDemanda }]);
     } else {
       props.setSelectedProposals(prevState => prevState.filter(proposal => proposal.idProposta !== props.proposal.idProposta));
+      setIsAlreadyChecked(false);
     }
   }, [isCheckboxClicked]);
 

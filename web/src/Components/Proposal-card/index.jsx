@@ -95,8 +95,6 @@ export default function ProposalCard(props) {
 
   const navigate = useNavigate();
 
-  console.log("PropostaSADASDSASASDA: ", props);
-
   // Components MUI styles
   const Card = styled(MuiCard)({
     width: props.newPauta ? "100%" : "100%",

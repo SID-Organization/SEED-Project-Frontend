@@ -33,6 +33,7 @@ import ProposalUtils from "../../../utils/Proposal-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 import DemandLogService from "../../../service/DemandLog-Service";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
+import VoiceSpeech from "../../../Components/VoiceSpeech";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
@@ -164,25 +165,6 @@ export default function GenerateProposal() {
     }
   }, [proposal]);
 
-  function sumInternalCosts() {
-    let sum = 0;
-    internalCosts.forEach((cost) => {
-      if (cost.totalExpenseCost !== "") {
-        sum += parseFloat(cost.totalExpenseCost);
-      }
-    });
-    return sum;
-  }
-
-  function sumExternalCosts() {
-    let sum = 0;
-    externalCosts.forEach((cost) => {
-      if (cost.totalExpenseCost !== "") {
-        sum += parseFloat(cost.totalExpenseCost);
-      }
-    });
-    return sum;
-  }
 
   const saveProgress = async () => {
     setButtonSavedClicked(true);
@@ -193,62 +175,26 @@ export default function GenerateProposal() {
     }, 1500);
   };
 
-  function formatCosts(costs) {
-    return costs
-      .map((cost) => {
-        const tempCost = {
-          perfilDespesaTabelaCustoLinha: cost.expenseProfile,
-          periodoExecucaoTabelaCusto: parseInt(cost.monthTimeExecution),
-          valorHoraTabelaCusto: parseInt(cost.costHour),
-          quantidadeHorasTabelaCusto: parseInt(cost.necessaryHours),
-        };
-
-        if (
-          Object.values(tempCost).includes("") ||
-          Object.values(tempCost).includes(0)
-        ) {
-          return null;
-        }
-
-        return tempCost;
-      })
-      .filter((item) => item != null);
-  }
-
-  function formatCCPS(CCPS) {
-    return CCPS.map((ccp) => {
-      const tempCcp = {
-        centroCusto: { idCentroCusto: ccp.costCenter },
-        porcentagemDespesa: ccp.percentage,
-      };
-
-      if (
-        tempCcp.centroCusto.idCentroCusto === "" ||
-        tempCcp.porcentagemDespesa === 0
-      ) {
-        return null;
-      }
-
-      return tempCcp;
-    }).filter((item) => item != null);
-  }
-
   const handlePutProposal = async (finish = false) => {
     const tabelaCustoInterno = {
       tipoDespesa: "INTERNA",
-      tabelaCustoLinha: formatCosts(internalCosts),
-      centroCustoTabelaCusto: formatCCPS(internalCostCenterPayers),
+      tabelaCustoLinha: ProposalUtils.formatCostsForDB(internalCosts),
+      centroCustoTabelaCusto: ProposalUtils.formatCCPsForDB(internalCostCenterPayers),
     };
 
     const tabelaCustoExterno = {
       tipoDespesa: "EXTERNA",
-      tabelaCustoLinha: formatCosts(externalCosts),
-      centroCustoTabelaCusto: formatCCPS(externalCostCenterPayers),
+      tabelaCustoLinha: ProposalUtils.formatCostsForDB(externalCosts),
+      centroCustoTabelaCusto: ProposalUtils.formatCCPsForDB(externalCostCenterPayers),
     };
 
+    // Tabela custo linha interno
     let tcli = tabelaCustoInterno.tabelaCustoLinha;
+    // Tabela centro de custo interno
     let tcci = tabelaCustoInterno.centroCustoTabelaCusto;
+    // Tabela custo linha externo
     let tcle = tabelaCustoExterno.tabelaCustoLinha;
+    // Tabela centro de custo externo
     let tcce = tabelaCustoExterno.centroCustoTabelaCusto;
 
     if (
@@ -330,6 +276,40 @@ export default function GenerateProposal() {
     );
   };
 
+  const [currentSpeechId, setCurrentSpeechId] = useState(0);
+  const [projectScopeSpeech, setProjectScopeSpeech] = useState({ id: 1, text: "" });
+  const [notInScopeSpeech, setNotInScopeSpeech] = useState({ id: 2, text: "" });
+  const [proposalAlternativesSpeech, setProposalAlternativesSpeech] = useState({ id: 3, text: "" });
+  const [mitigationPlanSpeech, setMitigationPlanSpeech] = useState({ id: 4, text: "" });
+  const [projectRangeSpeech, setProjectRangeSpeech] = useState({ id: 5, text: "" });
+
+  useEffect(() => {
+    if (projectScopeSpeech.text != "") {
+      setQuillHtmlScope(ps => ps + projectScopeSpeech.text);
+      setProjectScopeSpeech({ ...projectScopeSpeech, text: "" })
+    }
+
+    if (notInScopeSpeech.text != "") {
+      setQuillHtmlIsNotOnScope(ps => ps + notInScopeSpeech.text);
+      setNotInScopeSpeech({ ...notInScopeSpeech, text: "" })
+    }
+
+    if (proposalAlternativesSpeech.text != "") {
+      setQuillHtmlProposalAlternatives(ps => ps + proposalAlternativesSpeech.text);
+      setProposalAlternativesSpeech({ ...proposalAlternativesSpeech, text: "" })
+    }
+
+    if (mitigationPlanSpeech.text != "") {
+      setQuillHtmlProposalMitigationPlan(ps => ps + mitigationPlanSpeech.text);
+      setMitigationPlanSpeech({ ...mitigationPlanSpeech, text: "" })
+    }
+
+    if (projectRangeSpeech.text != "") {
+      setQuillValueProjectRange(ps => ps + projectRangeSpeech.text);
+      setProjectRangeSpeech({ ...projectRangeSpeech, text: "" })
+    }
+  }, [projectScopeSpeech, notInScopeSpeech, proposalAlternativesSpeech, mitigationPlanSpeech, projectRangeSpeech])
+
   return (
     <div>
       <div className="grid items-center justify-center gap-5">
@@ -344,12 +324,19 @@ export default function GenerateProposal() {
       <div className="grid items-center justify-center">
         <div className="grid items-center justify-start">
           <div className="grid items-center justify-center">
-            <h1
-              style={{ fontSize: fonts.xl }}
-              className="mt-5 flex items-center justify-start p-5 font-roboto font-bold"
-            >
-              Escopo do projeto
-            </h1>
+            <div className="flex items-center">
+              <div
+                style={{ fontSize: fonts.xl }}
+                className="mt-5 flex items-center justify-start p-5 font-roboto font-bold"
+              >
+                <p>
+                  Escopo do projeto
+                </p>
+                <div onClick={() => setCurrentSpeechId(projectScopeSpeech.id)}>
+                  <VoiceSpeech setTexto={setProjectScopeSpeech} speechId={currentSpeechId} />
+                </div>
+              </div>
+            </div>
             <ReactQuill
               value={quillHtmlScope}
               onChange={(e) => setQuillHtmlScope(e)}
@@ -360,12 +347,17 @@ export default function GenerateProposal() {
             />
           </div>
           <div className="grid items-center justify-center">
-            <h1
+            <div
               style={{ fontSize: fonts.xl }}
               className="mt-10 flex items-center justify-start p-5 font-roboto font-bold"
             >
-              Não faz parte do escopo do projeto
-            </h1>
+              <p>
+                Não faz parte do escopo do projeto
+              </p>
+              <div onClick={() => setCurrentSpeechId(notInScopeSpeech.id)}>
+                <VoiceSpeech setTexto={setNotInScopeSpeech} speechId={currentSpeechId} />
+              </div>
+            </div>
             <ReactQuill
               value={quillHtmlIsNotOnScope}
               onChange={(e) => setQuillHtmlIsNotOnScope(e)}
@@ -430,7 +422,7 @@ export default function GenerateProposal() {
                 variant="outlined"
                 size="small"
                 disabled
-                value={sumInternalCosts() + sumExternalCosts()}
+                value={ProposalUtils.sumCosts(internalCosts) + ProposalUtils.sumCosts(externalCosts)}
                 aria-readonly={true}
                 InputProps={{
                   startAdornment: (
@@ -466,7 +458,7 @@ export default function GenerateProposal() {
                   variant="outlined"
                   size="small"
                   disabled
-                  value={sumExternalCosts()}
+                  value={ProposalUtils.sumCosts(externalCosts)}
                   aria-readonly={true}
                   InputProps={{
                     startAdornment: (
@@ -489,7 +481,7 @@ export default function GenerateProposal() {
                   id="outlined-basic"
                   variant="outlined"
                   disabled
-                  value={sumInternalCosts()}
+                  value={ProposalUtils.sumCosts(internalCosts)}
                   aria-readonly={true}
                   size="small"
                   InputProps={{
@@ -529,12 +521,18 @@ export default function GenerateProposal() {
           </div>
           <div className="grid gap-16">
             <div className="grid gap-4">
-              <p
+              <div
+
                 style={{ fontSize: fonts.lg }}
-                className="font-roboto font-bold"
+                className="font-roboto font-bold flex items-center"
               >
-                Alternativas avaliadas da proposta
-              </p>
+                <p>
+                  Alternativas avaliadas da proposta
+                </p>
+                <div onClick={() => setCurrentSpeechId(proposalAlternativesSpeech.id)}>
+                  <VoiceSpeech setTexto={setProposalAlternativesSpeech} speechId={currentSpeechId} />
+                </div>
+              </div>
               <ReactQuill
                 value={quillHtmlProposalAlternatives}
                 placeholder="Escreva aqui as alternativas avaliadas da proposta"
@@ -545,12 +543,17 @@ export default function GenerateProposal() {
               />
             </div>
             <div className="grid gap-4">
-              <p
+              <div
                 style={{ fontSize: fonts.lg }}
-                className="font-roboto font-bold"
+                className="font-roboto font-bold flex items-center"
               >
-                Abrangência do projeto
-              </p>
+                <p>
+                  Abrangência do projeto
+                </p>
+                <div onClick={() => setCurrentSpeechId(projectRangeSpeech.id)}>
+                  <VoiceSpeech setTexto={setProjectRangeSpeech} speechId={currentSpeechId} />
+                </div>
+              </div>
               <ReactQuill
                 value={quillValueProjectRange}
                 placeholder="Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."
@@ -561,12 +564,17 @@ export default function GenerateProposal() {
               />
             </div>
             <div className="grid gap-4">
-              <p
+              <div
                 style={{ fontSize: fonts.lg }}
-                className="font-roboto font-bold"
+                className="font-roboto font-bold flex items-center"
               >
-                Principais riscos / Plano mitigação
-              </p>
+                <p>
+                  Principais riscos / Plano mitigação
+                </p>
+                <div onClick={() => setCurrentSpeechId(mitigationPlanSpeech.id)}>
+                  <VoiceSpeech setTexto={setMitigationPlanSpeech} speechId={currentSpeechId} />
+                </div>
+              </div>
               <ReactQuill
                 value={quillHtmlProposalMitigationPlan}
                 placeholder="Escreva aqui os principais riscos e o plano de mitigação"

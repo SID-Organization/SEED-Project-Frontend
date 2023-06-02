@@ -83,8 +83,8 @@ export default function Atas(props) {
       // Busca as atas já passadas pela DG
       AtaDGService.getAtasDG()
         .then((data) => {
-          console.log("ATAS DG", data);
-          setAtas(data);
+          if (data)
+            setAtas(data);
         });
     }
   }, [props.isAtaForDG]);
@@ -105,6 +105,10 @@ export default function Atas(props) {
         .filter((value, index, self) => self.indexOf(value) === index)
     );
   }, [atas]);
+
+  useEffect(() => {
+    console.warn("atas", atas);
+  }, [atas])
 
   return (
     <div>

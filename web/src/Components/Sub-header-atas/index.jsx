@@ -1,3 +1,4 @@
+import AtaFilter from "../AtaFilter";
 import Search from "../Search";
 
 export default function SubHeaderAtas(props) {
@@ -8,9 +9,7 @@ export default function SubHeaderAtas(props) {
           Atas registradas {props.isAtaForDG && "DG"}
         </h1>
         <div className="flex mr-10 gap-16">
-          <Search
-            setFilters={props.setFilters}
-          />
+          <AtaFilter setFilters={props.setFilters} />
         </div>
       </div>
     </div>

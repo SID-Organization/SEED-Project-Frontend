@@ -66,7 +66,8 @@ export default function VoiceSpeech(props) {
         return newText;
       });
       resetTranscript();
-      props.setIsSpeaking(false);
+      if (props.setIsSpeaking)
+        props.setIsSpeaking(false);
       setAnchorEl(null);
     }
   };
@@ -75,7 +76,8 @@ export default function VoiceSpeech(props) {
     SpeechRecognition.stopListening();
     setIsListening(false);
     resetTranscript();
-    props.setIsSpeaking(false);
+    if (props.setIsSpeaking)
+      props.setIsSpeaking(false);
     setAnchorEl(null);
   };
 
@@ -93,12 +95,14 @@ export default function VoiceSpeech(props) {
       resetTranscript();
       SpeechRecognition.startListening({ continuous: true, language: ['pt-br', 'en-US'] }); // 'de-DE',
       setIsListening(true);
-      props.setIsSpeaking(true)
+      if (props.setIsSpeaking)
+        props.setIsSpeaking(true)
     } else {
       console.log("Audio desligado");
       SpeechRecognition.stopListening();
       setIsListening(false);
-      props.setIsSpeaking(false)
+      if (props.setIsSpeaking)
+        props.setIsSpeaking(false)
     }
   };
 
@@ -107,7 +111,6 @@ export default function VoiceSpeech(props) {
 
   return (
     <div>
-
       <IconButton
         aria-describedby={id}
         type="button"

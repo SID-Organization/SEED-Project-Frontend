@@ -25,6 +25,8 @@ import PautaService from "../../service/Pauta-Service";
 // Utils
 import UserUtils from "../../utils/User-Utils";
 import FontSizeUtils from "../../utils/FontSize-Utils";
+import VoiceSpeech from "../VoiceSpeech";
+import Notification from "../Notification";
 
 const TextField = styled(MuiTextField)({
   width: "14rem",
@@ -80,7 +82,8 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
 export default function CreateNewPauta(props) {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [notifyCreation, setNotifyCreation] = useState(false);
+
   const [foruns, setForuns] = useState([]);
   const [selectedForum, setSelectedForum] = useState("");
   const [comissoes, setComissoes] = useState([]);
@@ -92,6 +95,7 @@ export default function CreateNewPauta(props) {
 
   // Search for title in create pauta
   const [searchTitle, setSearchTitle] = useState("");
+  const [searchByTitleSpeech, setSearchByTitleSpeech] = useState({ id: 1, text: "" });
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
@@ -99,8 +103,13 @@ export default function CreateNewPauta(props) {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  // Updates the variable when the speech is used
+  useEffect(() => {
+    if (searchByTitleSpeech.text != "") {
+      setSearchTitle(ps => ps + searchByTitleSpeech.text);
+      setSearchByTitleSpeech({ ...searchByTitleSpeech, text: "" })
+    }
+  }, [searchByTitleSpeech]);
 
   useEffect(() => {
     ProposalService.getReadyProposals().then((data) => {
@@ -163,16 +172,28 @@ export default function CreateNewPauta(props) {
         alert("Erro ao criar pauta\n" + res.error);
         return;
       } else {
-        alert("Pauta criada com sucesso");
-        handleCloseModal();
+        setNotifyCreation(true)
+        setIsModalOpen(false);
         selectedProposals.forEach((proposal) => {
           console.log("ProposalIdDemanda", proposal);
           DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
         });
       }
     });
-
   };
+
+  useEffect(() => {
+    if (notifyCreation) {
+      const timeout = setTimeout(() => {
+        setNotifyCreation(false)
+      }, 4000)
+      return () => clearTimeout(timeout)
+    }
+  }, [notifyCreation])
+
+  useEffect(() => {
+    console.warn("Selected proposals", selectedProposals);
+  }, [selectedProposals])
 
   return (
     <div>
@@ -181,7 +202,7 @@ export default function CreateNewPauta(props) {
           style={{ fontSize: fonts.sm }}
           variant="outlined"
           startIcon={<AddBoxIcon />}
-          onClick={handleOpenModal}
+          onClick={() => setIsModalOpen(true)}
         >
           Crie uma pauta
         </ButtonIsPauta>
@@ -189,15 +210,17 @@ export default function CreateNewPauta(props) {
         <Button
           style={{ fontSize: fonts.sm }}
           variant="contained"
-          onClick={handleOpenModal}
+          onClick={() => setIsModalOpen(true)}
         >
           <AddRoundedIcon />
           Criar nova pauta
         </Button>
       )}
+      {notifyCreation && <Notification message={"Pauta criada com sucesso"} />}
       <Modal
+        style={{ zIndex: 1 }}
         open={isModalOpen}
-        onClose={handleCloseModal}
+        onClose={() => setIsModalOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -276,11 +299,15 @@ export default function CreateNewPauta(props) {
               </div>
               <TextField
                 id="outlined-basic"
-                label="Procurar proposta por título"
+                label="Procurar por título"
                 variant="outlined"
                 value={searchTitle}
+                InputProps={{
+                  endAdornment: <VoiceSpeech setTexto={setSearchByTitleSpeech} speechId={1} />
+                }}
                 onChange={(e) => setSearchTitle(e.target.value)}
               />
+
             </div>
             <div className="grid gap-2">
               <div className="flex items-center justify-center gap-5">
@@ -301,6 +328,7 @@ export default function CreateNewPauta(props) {
                   }).map((item, i) => (
                     <NewPautaProposalCard
                       key={i}
+                      selectedProposals={selectedProposals}
                       setSelectedProposals={setSelectedProposals}
                       proposal={item}
                     />

@@ -29,8 +29,8 @@ export default function PautasCard(props) {
 
   const navigate = useNavigate();
 
-  const openAtaPDF = () => {
-    AtaService.openAtaPDF(props.idAta);
+  const openAtaPDF = (tipo) => {
+    AtaService.openAtaPDF(props.idAta, tipo);
   }
 
   const generateAtaDG = () => {
@@ -99,7 +99,7 @@ export default function PautasCard(props) {
                 <p className="font-bold">Visualizar Ata: </p>
                 <Tooltip title="Publicada">
                   <IconButton
-                    onClick={openAtaPDF}
+                    onClick={() => openAtaPDF("publicada")}
                     sx={{
                       padding: "0px",
                     }}
@@ -118,7 +118,7 @@ export default function PautasCard(props) {
                 </Tooltip>
                 <Tooltip title="Não publicada">
                   <IconButton
-                    onClick={openAtaPDF}
+                    onClick={() => openAtaPDF("nao-publicada")}
                     sx={{
                       padding: "0",
                     }}

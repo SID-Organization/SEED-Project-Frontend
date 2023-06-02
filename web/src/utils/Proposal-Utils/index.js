@@ -28,6 +28,46 @@ const formatCCPsFromDB = (costsTable) => {
     return tbRowArr;
 }
 
+function formatCostsForDB(costs) {
+    return costs
+      .map((cost) => {
+        const tempCost = {
+          perfilDespesaTabelaCustoLinha: cost.expenseProfile,
+          periodoExecucaoTabelaCusto: parseInt(cost.monthTimeExecution),
+          valorHoraTabelaCusto: parseInt(cost.costHour),
+          quantidadeHorasTabelaCusto: parseInt(cost.necessaryHours),
+        };
+
+        if (
+          Object.values(tempCost).includes("") ||
+          Object.values(tempCost).includes(0)
+        ) {
+          return null;
+        }
+
+        return tempCost;
+      })
+      .filter((item) => item != null);
+  }
+
+  function formatCCPsForDB(CCPS) {
+    return CCPS.map((ccp) => {
+      const tempCcp = {
+        centroCusto: { idCentroCusto: ccp.costCenter },
+        porcentagemDespesa: ccp.percentage,
+      };
+
+      if (
+        tempCcp.centroCusto.idCentroCusto === "" ||
+        tempCcp.porcentagemDespesa === 0
+      ) {
+        return null;
+      }
+
+      return tempCcp;
+    }).filter((item) => item != null);
+  }
+
 const sumCosts = (costs) => {
     let sum = 0;
     costs.forEach((cost) => {
@@ -54,6 +94,8 @@ const formatLogProposalsToProposals = (logProposals) => {
 export default {
     formatCostsFromDB,
     formatCCPsFromDB,
+    formatCostsForDB,
+    formatCCPsForDB,
     sumCosts,
     formatLogProposalsToProposals
 }
