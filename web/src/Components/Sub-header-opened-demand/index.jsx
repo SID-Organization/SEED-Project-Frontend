@@ -46,6 +46,8 @@ import RespITSectionService from "../../service/ResponsableITSection-Service";
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
+import TranslationJSON from "../../API/Translate/translations.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
 
 // Componentes estilizados
 const styleModal = {
@@ -117,6 +119,11 @@ const Autocomplete = styled(MuiAutocomplete)({
 export default function subHeader({
   children,
 }) {
+
+  const translate = TranslationJSON.components.subHeaderOpenedDemands;
+  const childrenText = TranslateUtils.getChildrenText(props.children);
+  const language = TranslateUtils.getLanguage();
+
   // Controle de modal
   const [openModal, setOpenModal] = useState(false);
 
@@ -213,28 +220,28 @@ export default function subHeader({
 
   const actionOptions = [
     {
-      text: "Classificar demanda",
+      text: translate["Classificar demanda"][language],
       role: ["ANALISTA"],
       demandStatus: ["ABERTA"],
       function: handleOpenModal,
       key: 1,
     },
     {
-      text: "Aprovar",
+      text: translate["Aprovar"][language],
       role: ["GERENTE", "GESTOR_TI"],
       demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
       function: handleOpenApproveDemand,
       key: 2,
     },
     {
-      text: "Acessar proposta",
+      text: translate["Acessar proposta"][language],
       role: ["ANALISTA", "GESTOR_TI"],
       demandStatus: ["PROPOSTA_EM_ELABORACAO"],
       function: accessProposal,
       key: 3,
     },
     {
-      text: "Ver proposta",
+      text: translate["Ver proposta"][language],
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: [
         "PROPOSTA_PRONTA",
@@ -249,7 +256,7 @@ export default function subHeader({
       key: 4,
     },
     {
-      text: "Devolver",
+      text: translate["Devolver"][language],
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       function: handleOpenReasonOfModal,
@@ -257,14 +264,14 @@ export default function subHeader({
     },
 
     {
-      text: "Recusar",
+      text: translate["Recusar"][language],
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       function: handleOpenReasonOfModal,
       key: 6,
     },
     {
-      text: "Alterar status",
+      text: translate["Alterar status"][language],
       role: ["ANALISTA"],
       demandStatus: ["TODAS"],
       function: changeDemandStatus,
@@ -274,27 +281,27 @@ export default function subHeader({
 
   const demandSizes = [
     {
-      text: "Muito grande",
+      text: translate["Muito grande"][language],
       description: "Acima de 3000h",
       key: 1,
     },
     {
-      text: "Grande",
+      text: translate["Grande"][language],
       description: "Entre 1001h e 3000h",
       key: 2,
     },
     {
-      text: "Média",
+      text: translate["Média"][language],
       description: "Entre 301h e 1000h",
       key: 3,
     },
     {
-      text: "Pequena",
+      text: translate["Pequena"][language],
       description: "Entre 41h e 300h",
       key: 4,
     },
     {
-      text: "Muito pequena",
+      text: translate["Muito pequena"][language],
       description: "Entre 1h - 40h",
       key: 5,
     },
@@ -430,7 +437,7 @@ export default function subHeader({
   return (
     <div>
       {openNotification && (
-        <Notification message="Demanda aprovada com sucesso!" action={false} />
+        <Notification message={translate["Demanda aprovada com sucesso!"][language]} action={false} />
       )}
       {/* Modal para confirmar a demanda */}
       <Modal
@@ -451,7 +458,7 @@ export default function subHeader({
                 />
               </div>
               <h1 className="text-lg font-semibold text-light-blue-weg">
-                Deseja aprovar a demanda?
+                {translate["Deseja aprovar a demanda?"][language]}
               </h1>
             </div>
             <div className="flex items-center justify-around">
@@ -468,7 +475,7 @@ export default function subHeader({
                 }}
                 onClick={handleCloseApproveDemand}
               >
-                Cancelar
+                {translate["Cancelar"][language]}
               </Button>
               <Button
                 variant="contained"
@@ -483,7 +490,7 @@ export default function subHeader({
                 }}
                 onClick={handleApproveDemand}
               >
-                Aprovar
+                {translate["Aprovar"][language]}
               </Button>
             </div>
           </div>

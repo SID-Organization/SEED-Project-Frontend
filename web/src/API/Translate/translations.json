@@ -14,6 +14,47 @@
                     "en-us": "Internal CC payers"
                 }
             }
+        },
+        "subHeaderAtas": {
+            "Atas Registradas": {
+                "pt-br": "Atas Registradas",
+                "en-us": "Registered Minutes"
+            }
+        },
+        "subHeaderOpenedDemands": {
+            "Deseja aprovar a demanda?": {
+                "pt-br": "Deseja aprovar a demanda?",
+                "en-us": "Do you want to approve the demand?"
+            },
+            "Demanda aprovada com sucesso!": {
+                "pt-br": "Demanda aprovada com sucesso!",
+                "en-us": "Demand successfully approved!"
+            },
+            "Cancelar": {
+                "pt-br": "Cancelar",
+                "en-us": "Cancel"
+            },
+            "Aprovar": {
+                "pt-br": "Aprovar",
+                "en-us": "Approve"
+            },
+            "Motivo da": {
+                "pt-br": "Motivo da",
+                "en-us": "Reason for"
+            },
+            "devolução": {
+                "pt-br": "devolução",
+                "en-us": "return"
+            },
+            "recusação": {
+                "pt-br": "recusação",
+                "en-us": "refusal"
+            },
+            "da demanda": {
+                "pt-br": "da demanda",
+                "en-us": "of demand"
+            },
+            }
         }
     }
 }
