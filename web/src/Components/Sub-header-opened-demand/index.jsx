@@ -121,7 +121,6 @@ export default function subHeader({
 }) {
 
   const translate = TranslationJSON.components.subHeaderOpenedDemands;
-  const childrenText = TranslateUtils.getChildrenText(props.children);
   const language = TranslateUtils.getLanguage();
 
   // Controle de modal
@@ -519,6 +518,7 @@ export default function subHeader({
               text-[#0075B1]
             "
           >
+            //se getIsDevolution()
             Motivo da {getIsDevolution() ? "devolução" : "recusação"} da demanda
           </h1>
           <p

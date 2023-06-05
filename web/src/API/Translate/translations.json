@@ -1,60 +1,96 @@
 {
-    "pages": {},
-    "components": {
-        "subHeader": {
-            "Minhas demandas": {
-                "pt-br": "Minhas demandas",
-                "en-us": "My demands"
-            }
-        },
-        "costCenterComponents": {
-            "cost-center-payers": {
-                "CC pagantes (interno)": {
-                    "pt-br": "CC pagantes interno",
-                    "en-us": "Internal CC payers"
-                }
-            }
-        },
-        "subHeaderAtas": {
-            "Atas Registradas": {
-                "pt-br": "Atas Registradas",
-                "en-us": "Registered Minutes"
-            }
-        },
-        "subHeaderOpenedDemands": {
-            "Deseja aprovar a demanda?": {
-                "pt-br": "Deseja aprovar a demanda?",
-                "en-us": "Do you want to approve the demand?"
-            },
-            "Demanda aprovada com sucesso!": {
-                "pt-br": "Demanda aprovada com sucesso!",
-                "en-us": "Demand successfully approved!"
-            },
-            "Cancelar": {
-                "pt-br": "Cancelar",
-                "en-us": "Cancel"
-            },
-            "Aprovar": {
-                "pt-br": "Aprovar",
-                "en-us": "Approve"
-            },
-            "Motivo da": {
-                "pt-br": "Motivo da",
-                "en-us": "Reason for"
-            },
-            "devolução": {
-                "pt-br": "devolução",
-                "en-us": "return"
-            },
-            "recusação": {
-                "pt-br": "recusação",
-                "en-us": "refusal"
-            },
-            "da demanda": {
-                "pt-br": "da demanda",
-                "en-us": "of demand"
-            },
-            }
+  "pages": {},
+  "components": {
+    "subHeader": {
+      "Minhas demandas": {
+        "pt-br": "Minhas demandas",
+        "en-us": "My demands"
+      }
+    },
+    "costCenterComponents": {
+      "cost-center-payers": {
+        "CC pagantes (interno)": {
+          "pt-br": "CC pagantes interno",
+          "en-us": "Internal CC payers"
         }
+      }
+    },
+    "subHeaderAtas": {
+      "Atas Registradas": {
+        "pt-br": "Atas Registradas",
+        "en-us": "Registered Minutes"
+      }
+    },
+    "subHeaderOpenedDemands": {
+      "Deseja aprovar a demanda?": {
+        "pt-br": "Deseja aprovar a demanda?",
+        "en-us": "Do you want to approve the demand?"
+      },
+      "Demanda aprovada com sucesso!": {
+        "pt-br": "Demanda aprovada com sucesso!",
+        "en-us": "Demand successfully approved!"
+      },
+      "Cancelar": {
+        "pt-br": "Cancelar",
+        "en-us": "Cancel"
+      },
+      "Aprovar": {
+        "pt-br": "Aprovar",
+        "en-us": "Approve"
+      },
+      "Motivo da devolução da demanda": {
+        "pt-br": "Motivo da devolução da demanda",
+        "en-us": "Reason for returning the demand"
+      },
+      "Motivo da recusação da demanda": {
+        "pt-br": "Motivo da recusação da demanda",
+        "en-us": "Reason for refusing the demand"
+      },
+      "Muito grande": {
+        "pt-br": "Muito grande",
+        "en-us": "Too big"
+      },
+      "Grande": {
+        "pt-br": "Grande",
+        "en-us": "Big"
+      },
+      "Média": {
+        "pt-br": "Média",
+        "en-us": "Medium"
+      },
+      "Pequena": {
+        "pt-br": "Pequena",
+        "en-us": "Small"
+      },
+      "Muito pequena": {
+        "pt-br": "Muito pequena",
+        "en-us": "Very small"
+      },
+      "Classificar demanda": {
+        "pt-br": "Classificar demanda",
+        "en-us": "Classify demand"
+      },
+      "Acessar proposta": {
+        "pt-br": "Acessar proposta",
+        "en-us": "Access proposal"
+      },
+      "Ver proposta": {
+        "pt-br": "Ver proposta",
+        "en-us": "See proposal"
+      },
+      "Devolver": {
+        "pt-br": "Devolver",
+        "en-us": "Return"
+      },
+      "Recusar": {
+        "pt-br": "Recusar",
+        "en-us": "Refuse"
+      },
+      "Alterar status": {
+        "pt-br": "Alterar status",
+        "en-us": "Change status"
+      }
     }
+  }
 }
+
