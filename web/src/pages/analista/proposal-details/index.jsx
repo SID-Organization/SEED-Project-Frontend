@@ -8,6 +8,7 @@ import { styled } from "@mui/material/styles";
 //Components
 import ViewProposal from "./ViewProposal";
 import ViewDemand from "./ViewDemand";
+import { Box, Card, CardContent, Divider } from "@mui/material";
 
 const Button = styled(MuiButton)({
   width: "5rem",
@@ -28,16 +29,47 @@ export default function ProposalDetails() {
           Visualização da proposta {params.idProposta}
         </h1>
       </div>
-      <div>
-        <div className={h1Style}>
-          <h1>Informações da proposta</h1>
-        </div>
-        <ViewProposal />
-        <div className={h1Style}>
-          <h1>Informações da demada</h1>
-        </div>
-        <ViewDemand />
+      <div className="flex items-center justify-center">
+        {" "}
+        <Card
+          sx={{
+            width: "60rem",
+            height: "100%",
+            marginTop: "2rem",
+            marginBottom: "2rem",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            borderRadius: "3px",
+          }}
+        >
+          <CardContent>
+            <div className="grid gap-7 p-10">
+              <div className="grid items-center justify-center">
+                <div className="grid gap-3">
+                  <div className={h1Style}>
+                    <h1>Informações da proposta</h1>
+                  </div>
+                  <ViewProposal />
+                </div>
+                <Divider
+                  sx={{
+                    width: "100%",
+                    height: "0.5rem",
+                    marginTop: "2rem",
+                    marginBottom: "2rem",
+                  }}
+                />
+                <div className="grid gap-3">
+                  <div className={h1Style}>
+                    <h1 className="mb-5 mt-5">Informações da demada</h1>
+                  </div>
+                  <ViewDemand />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
       <div className="mt-10 flex items-center justify-center">
         <Button
           variant="contained"

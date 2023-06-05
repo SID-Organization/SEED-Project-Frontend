@@ -64,15 +64,16 @@ export default function CostTable(props) {
         </tr>
       </thead>
       <tbody>
-        {props.costs.map((cost, index) => (
-          <CostTableRow
-            key={index}
-            index={index}
-            totalCost={cost}
-            setCostList={props.setCosts}
-            costList={props.costs}
-          />
-        ))}
+        {props.costs &&
+          props.costs.map((cost, index) => (
+            <CostTableRow
+              key={index}
+              index={index}
+              totalCost={cost}
+              setCostList={props.setCosts}
+              costList={props.costs}
+            />
+          ))}
       </tbody>
     </div>
   );
