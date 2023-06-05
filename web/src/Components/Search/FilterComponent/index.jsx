@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 //MUI
 import MuiTextField from "@mui/material/TextField";
+import MuiSelected from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import { InputAdornment } from "@mui/material";
 
@@ -9,6 +10,10 @@ import { InputAdornment } from "@mui/material";
 import VoiceSpeech from "../../VoiceSpeech";
 
 const TextField = styled(MuiTextField)({
+  width: "80%",
+});
+
+const Select = styled(MuiSelected)({
   width: "80%",
 });
 

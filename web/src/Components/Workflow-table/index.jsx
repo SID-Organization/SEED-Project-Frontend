@@ -1,18 +1,22 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+
+// MUI
 import Box from "@mui/material/Box";
+import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
 import {
   DataGrid,
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
-import { Tooltip } from "@mui/material";
-import { useState, useEffect } from "react";
+import { Button, Tooltip } from "@mui/material";
 
 // Services
 import DemandLogService from "../../service/DemandLog-Service";
 
 // Utils
 import DateUtils from "../../utils/Date-Utils";
+import ReturnReasonService from "../../service/ReturnReason-Service";
 
 // Renderizador de células normais
 const renderCellTooltip = (params) => (
@@ -93,13 +97,12 @@ const columns = [
     headerName: "Status",
     renderCell: (params) => (
       <p
-        className={`text-[11px] ${
-          params.value === "Concluído"
-            ? "text-green-700"
-            : params.value === "Em andamento"
+        className={`text-[11px] ${params.value === "Concluído"
+          ? "text-green-700"
+          : params.value === "Em andamento"
             ? "text-dark-blue-weg"
             : "text-red-700"
-        }`}
+          }`}
       >
         {params.value}
       </p>
@@ -112,8 +115,22 @@ const columns = [
     renderCell: renderCellTooltip,
     align: "center",
     headerAlign: "center",
-    width: 90,
+    width: 80,
   },
+  {
+    field: "observacao",
+    headerName: "Obs.",
+    renderCell: (params) => {
+      if (params.value)
+        return  <Button onClick={() => { alert(params.value) }}>
+                  <TextSnippetRoundedIcon />
+                </Button>
+      return <p className="text-[11px]">-</p>
+    },
+    align: "center",
+    headerAlign: "center",
+    width: 80,
+  }
 ];
 
 export default function WorkflowTable({ demandId }) {
@@ -129,13 +146,15 @@ export default function WorkflowTable({ demandId }) {
     });
   }, []);
 
+
   // Seta as linhas da tabela de workflow
   useEffect(() => {
     if (!workFlowData) return;
-    setWorkFlowRows(
-      workFlowData.map((wfdata, index) => {
+    setWorkFlowRows(() =>
+      workFlowData.map( (wfdata, index) => {
+
         return {
-          id: index + 1,
+          id: wfdata.idHistoricoWorkflow,
           recebimento: wfdata.recebimentoHistorico,
           conclusao: wfdata.conclusaoHistorico,
           prazo: wfdata.prazoHistorico,
@@ -144,10 +163,15 @@ export default function WorkflowTable({ demandId }) {
           acao: wfdata.acaoFeitaHistorico ?? "- - - - -",
           status: wfdata.statusWorkflow,
           versao: wfdata.versaoHistorico,
+          observacao: wfdata.motivoDevolucaoHistorico,
         };
       })
     );
   }, [workFlowData]);
+
+  useEffect(() => {
+    console.log("WorkFlowRows", workFlowRows);
+  }, [workFlowRows])
 
   return (
     <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
