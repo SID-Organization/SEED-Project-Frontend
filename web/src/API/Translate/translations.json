@@ -1,0 +1,13 @@
+{
+    "pages": {},
+    "components": {
+        "cost-center-components": {
+            "cost-center-payers": {
+                "CC pagantes interno": {
+                    "pt-br": "CC pagantes interno",
+                    "en-us": "Internal CC payers"
+                }
+            }
+        }
+    }
+}
