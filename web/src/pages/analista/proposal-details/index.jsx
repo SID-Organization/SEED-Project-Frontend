@@ -37,7 +37,7 @@ export default function ProposalDetails() {
             height: "100%",
             marginTop: "2rem",
             marginBottom: "2rem",
-            boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.25)",
+            boxShadow: "3px 3px 8px 4px #d4d4d4c7",
             borderRadius: "3px",
             borderLeft: "#0075B1 solid 5px",
           }}

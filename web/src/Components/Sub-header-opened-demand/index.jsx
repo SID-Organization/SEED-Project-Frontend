@@ -119,6 +119,14 @@ const Autocomplete = styled(MuiAutocomplete)({
 
 export default function subHeader({children}) {
 
+  let phrase = children[0].trim()
+
+  useEffect(() => {
+    console.log(children[0])
+    //no final de children[0] possui um espaço em branco, remova-o
+    console.log("JSON", TranslationJSON.components.subHeaderOpenedDemands[phrase]["en-us"])
+  })
+
   const translate = TranslationJSON.components.subHeaderOpenedDemands;
   const language = TranslateUtils.getLanguage();
 
@@ -505,13 +513,13 @@ export default function subHeader({children}) {
           <div className="font-roboto">
             <div className="mb-5 flex h-20 w-full items-center justify-center rounded-t-sm bg-dark-blue-weg">
               <h1 className="text-2xl font-bold text-white">
-                Insira as seguintes informações
+                {translate["Insira as seguintes informações"][language] ?? "Insira as seguintes informações"}
               </h1>
             </div>
             <div className="mb-6 flex items-center justify-evenly">
               <div className="grid items-center justify-center gap-2">
                 <p className="font-bold text-dark-blue-weg">
-                  Seção da TI responsável
+                  {translate["Seção da TI responsável"][language] ?? "Seção da TI responsável"}
                 </p>
                 <FormControl variant="outlined" size="small">
                   <Autocomplete
@@ -531,7 +539,9 @@ export default function subHeader({children}) {
                 </FormControl>
               </div>
               <div className="grid items-center justify-center gap-2">
-                <p className="font-bold text-dark-blue-weg">BU solicitante</p>
+                <p className="font-bold text-dark-blue-weg">
+                  {translate["BU solicitante"][language] ?? "BU solicitante"}
+                </p>
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label">BU</InputLabel>
                   <Select
@@ -551,7 +561,7 @@ export default function subHeader({children}) {
                 </FormControl>
               </div>
               <div className="grid items-center justify-center gap-2">
-                <p className="font-bold text-dark-blue-weg">BUs beneficiadas</p>
+                <p className="font-bold text-dark-blue-weg">{translate["BUs beneficiadas"][language] ?? "BUs beneficiadas"}</p>
                 <FormControl fullWidth size="small">
                   <Autocomplete
                     sx={{
@@ -576,11 +586,11 @@ export default function subHeader({children}) {
               </div>
               <div className="mr-20 grid items-center justify-center gap-2">
                 <p className="font-bold text-dark-blue-weg">
-                  Classificação de tamanho
+                  {translate["Classificação de tamanho"][language] ?? "Classificação de tamanho"}
                 </p>
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label">
-                    Classifique um tamanho
+                    {translate["Classifique um tamanho"][language] ?? "Classifique um tamanho"}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
@@ -638,7 +648,7 @@ export default function subHeader({children}) {
                 }}
                 onClick={handleCloseModal}
               >
-                Cancelar
+                {translate["Cancelar"][language] ?? "Cancelar"}
               </Button>
               <Button
                 onClick={() => setIsReasonOfModalOpen(true)}
@@ -653,7 +663,7 @@ export default function subHeader({children}) {
                   }
                 }}
               >
-                Devolver
+                {translate["Devolver"][language] ?? "Devolver"}
               </Button>
               <Button
                 variant="contained"
@@ -668,7 +678,7 @@ export default function subHeader({children}) {
                 }}
                 onClick={handleAnalystClassifyDemand}
               >
-                Enviar
+                {translate["Enviar"][language] ?? "Enviar"}
               </Button>
             </div>
           </div>
@@ -677,7 +687,7 @@ export default function subHeader({children}) {
       {/* Fim modal para inserir informações */}
       <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-          {children}
+          {translate[phrase][language] + " " + children[1] ?? children}
         </h1>
 
         {ableToEdit() && (
@@ -731,7 +741,7 @@ export default function subHeader({children}) {
               }}
               onClick={handleToggleActions}
             >
-              Ações
+              {translate["Ações"][language] ?? "Ações"}
               {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
             </Button>
           </ButtonGroup>
@@ -809,8 +819,8 @@ export default function subHeader({children}) {
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           <InputBase
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
-            placeholder="Procure aqui"
-            inputProps={{ "aria-label": "Procure aqui" }}
+            placeholder={translate["Procure aqui"][language] ?? "Procure aqui"}
+            inputProps={{ "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"}` }}
           />
         </Paper>
       </div>

@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
+import { IconButton, InputAdornment } from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import { styled } from "@mui/material/styles";
@@ -76,7 +73,7 @@ export default function CostTableRow(props) {
   return (
     <>
       <tr>
-        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-r-0 border-t-0 border-blue-weg">
           <TableInput
             id="outlined-basic"
             variant="outlined"
@@ -86,9 +83,10 @@ export default function CostTableRow(props) {
               setExpenseProfile(e.target.value);
             }}
             onBlur={updateTable}
+            disabled={props.page === "viewProposal"}
           />
         </td>
-        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-r-0 border-t-0 border-blue-weg">
           <TableInput
             id="outlined-basic"
             variant="outlined"
@@ -99,9 +97,10 @@ export default function CostTableRow(props) {
                 setMonthTimeExecution(e.target.value);
             }}
             onBlur={updateTable}
+            disabled={props.page === "viewProposal"}
           />
         </td>
-        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-r-0 border-t-0 border-blue-weg">
           <div className="flex items-center justify-center">
             <TableInput
               id="outlined-basic"
@@ -110,15 +109,16 @@ export default function CostTableRow(props) {
               type="number"
               value={necessaryHours}
               onChange={(e) => {
-                const numValue = (e.target.value);
+                const numValue = e.target.value;
                 if (isNaN(numValue)) return;
                 if (numValue >= 0) setNecessaryHours(e.target.value);
               }}
               onBlur={updateTable}
+              disabled={props.page === "viewProposal"}
             />
           </div>
         </td>
-        <td className="border-[1px] border-b-[1px] border-t-0 border-blue-weg">
+        <td className="border-[1px] border-b-[1px] border-r-0 border-t-0 border-blue-weg">
           <div className="flex items-center justify-center">
             <TableInput
               id="outlined-basic"
@@ -127,7 +127,7 @@ export default function CostTableRow(props) {
               type="number"
               value={costHour}
               onChange={(e) => {
-                const numValue = (e.target.value);
+                const numValue = e.target.value;
                 if (isNaN(numValue)) return;
                 if (e.target.value >= 0) setCostHour(e.target.value);
               }}
@@ -137,6 +137,7 @@ export default function CostTableRow(props) {
                 ),
               }}
               onBlur={updateTable}
+              disabled={props.page === "viewProposal"}
             />
           </div>
         </td>
@@ -148,25 +149,27 @@ export default function CostTableRow(props) {
               size="small"
               type="number"
               value={totalExpenseCost}
-              disabled
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">R$</InputAdornment>
                 ),
               }}
               onBlur={updateTable}
+              disabled
             />
           </div>
         </td>
 
         <div>
-          <IconButton onClick={deleteRow}>
-            <DeleteRoundedIcon
-              sx={{
-                color: "#0175B2",
-              }}
-            />
-          </IconButton>
+          {props.page !== "viewProposal" && (
+            <IconButton onClick={deleteRow}>
+              <DeleteRoundedIcon
+                sx={{
+                  color: "#0175B2",
+                }}
+              />
+            </IconButton>
+          )}
         </div>
       </tr>
     </>

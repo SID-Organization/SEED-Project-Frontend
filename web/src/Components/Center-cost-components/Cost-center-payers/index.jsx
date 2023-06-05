@@ -48,9 +48,11 @@ export default function CostCenterPayers(props) {
             <h1 className="flex justify-center font-roboto text-lg font-bold text-blue-weg">
               {`CC pagantes (${props.typeTitle}) - ${paymentPercentage}%`}
             </h1>
-            <IconButton onClick={addNewCCP}>
-              <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "1.4rem" }} />
-            </IconButton>
+            {props.page !== "viewProposal" && (
+              <IconButton onClick={addNewCCP}>
+                <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "1.4rem" }} />
+              </IconButton>
+            )}
           </div>
           {props.totalCostCenterPayers.map((CCP, index) => {
             return (
@@ -62,6 +64,7 @@ export default function CostCenterPayers(props) {
                 setTotalCostCenterPayers={props.setTotalCostCenterPayers}
                 paymentPercent={paymentPercentage}
                 setPaymentPercent={setPaymentPercentage}
+                page={props.page}
               />
             );
           })}
