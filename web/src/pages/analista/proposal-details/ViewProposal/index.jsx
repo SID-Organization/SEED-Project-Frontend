@@ -113,6 +113,7 @@ export default function ViewProposal() {
                   typeTitle="Interno"
                   costs={internalCosts}
                   setCosts={setInternalCosts}
+                  page="viewProposal"
                 />
                 <CostCenterPayers
                   typeTitle="interno"
@@ -125,6 +126,7 @@ export default function ViewProposal() {
                   typeTitle="Externo"
                   costs={externalCosts}
                   setCosts={setExternalCosts}
+                  page="viewProposal"
                 />
                 <CostCenterPayers
                   typeTitle="externo"

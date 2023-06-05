@@ -31,11 +31,13 @@ export default function CostTable(props) {
             {props.typeTitle}
           </h1>
         }
-        <Tooltip title="Adicionar linha">
-          <IconButton onClick={addTotalCoasts}>
-            <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
-          </IconButton>
-        </Tooltip>
+        {props.page !== "viewProposal" && (
+          <Tooltip title="Adicionar linha">
+            <IconButton onClick={addTotalCoasts}>
+              <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
+            </IconButton>
+          </Tooltip>
+        )}
       </div>
       <thead>
         <tr>
