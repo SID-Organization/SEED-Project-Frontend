@@ -32,13 +32,19 @@ export default function BenefitsCard(props) {
       </div>
       <div className="border-2 border-gray-300">
         <div className="m-2 border-slate-500">
-          <table className="border-collapse">
+          <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th style={{ fontSize: fonts.base }} className="border p-4">
+                <th
+                  style={{ fontSize: fonts.base }}
+                  className=" border p-4 text-left"
+                >
                   Valor mensal
                 </th>
-                <th style={{ fontSize: fonts.base }} className="border p-4">
+                <th
+                  style={{ fontSize: fonts.base }}
+                  className="border p-4 text-left"
+                >
                   Descrição
                 </th>
               </tr>
@@ -61,7 +67,7 @@ export default function BenefitsCard(props) {
                       dangerouslySetInnerHTML={{
                         __html: benefit.memoriaCalculoBeneficioHTML,
                       }}
-                    ></td>
+                    />
                   </tr>
                 );
               })}

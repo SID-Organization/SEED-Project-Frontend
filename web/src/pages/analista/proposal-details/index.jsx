@@ -39,6 +39,7 @@ export default function ProposalDetails() {
             marginBottom: "2rem",
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             borderRadius: "3px",
+            borderLeft: "#0075B1 solid 5px",
           }}
         >
           <CardContent>

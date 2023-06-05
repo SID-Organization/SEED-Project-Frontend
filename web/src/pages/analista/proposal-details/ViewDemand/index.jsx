@@ -311,7 +311,7 @@ export default function ViewDemand() {
               </p>
             </div>
           </div>
-          <div className="flex items-start gap-6">
+          <div className="grid items-start gap-6">
             <BenefitsCard
               title="Benefícios reais"
               benefits={getBenefits("REAL")}
