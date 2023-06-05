@@ -125,6 +125,7 @@ export default function WorkflowTable({ demandId }) {
   useEffect(() => {
     DemandLogService.getDemandLogs(demandId).then((res) => {
       setWorkFlowData(res.data);
+      console.log("Workflow RES", res.data);
     });
   }, []);
 
