@@ -230,6 +230,7 @@ export default function subHeader({
       text: translate["Aprovar"][language] ?? "Aprovar",
       role: ["GERENTE", "GESTOR_TI"],
       demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
+      notDemandStatus: [""],
       function: handleOpenApproveDemand,
       key: 2
     },
@@ -237,6 +238,7 @@ export default function subHeader({
       text: translate["Acessar proposta"][language] ?? "Acessar proposta",
       role: ["ANALISTA", "GESTOR_TI"],
       demandStatus: ["PROPOSTA_EM_ELABORACAO"],
+      notDemandStatus: [""],
       function: accessProposal,
       key: 3
     },
@@ -253,6 +255,7 @@ export default function subHeader({
         "PROPOSTA_EM_SUPORTE",
         "BUSINESS_CASE"
       ],
+      notDemandStatus: [""],
       key: 4
     },
     {

@@ -36,7 +36,7 @@ const renderDateCell = (params) => {
 };
 
 
-function CustomToolbar() {
+const CustomToolbar = () => {
   return (
     <GridToolbarContainer>
       <GridToolbarExport />
@@ -44,99 +44,24 @@ function CustomToolbar() {
   );
 }
 
-const columns = [
-  {
-    field: "id",
-    headerName: "ID",
-    renderCell: renderCellTooltip,
-    align: "center",
-    headerAlign: "center",
-    width: 40,
-  },
-  {
-    field: "recebimento",
-    headerName: "Recebimento",
-    type: "date",
-    renderCell: renderDateCell,
-    width: 130,
-  },
-  {
-    field: "conclusao",
-    headerName: "Conclusão",
-    type: "date",
-    renderCell: renderDateCell,
-    width: 130,
-  },
-  {
-    field: "prazo",
-    headerName: "Prazo",
-    type: "date",
-    renderCell: renderDateCell,
-    width: 140,
-  },
-  {
-    field: "tarefa",
-    headerName: "Tarefa",
-    renderCell: renderCellTooltip,
-    minWidth: 220,
-  },
-  {
-    field: "responsavel",
-    headerName: "Responsável",
-    renderCell: renderCellTooltip,
-    minWidth: 150,
-  },
-  {
-    field: "acao",
-    headerName: "Ação",
-    renderCell: renderCellTooltip,
-    width: 90,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    renderCell: (params) => (
-      <p
-        className={`text-[11px] ${params.value === "Concluído"
-          ? "text-green-700"
-          : params.value === "Em andamento"
-            ? "text-dark-blue-weg"
-            : "text-red-700"
-          }`}
-      >
-        {params.value}
-      </p>
-    ),
-    width: 90,
-  },
-  {
-    field: "versao",
-    headerName: "Versão",
-    renderCell: renderCellTooltip,
-    align: "center",
-    headerAlign: "center",
-    width: 80,
-  },
-  {
-    field: "observacao",
-    headerName: "Obs.",
-    renderCell: (params) => {
-      if (params.value)
-        return  <Button onClick={() => { alert(params.value) }}>
-                  <TextSnippetRoundedIcon />
-                </Button>
-      return <p className="text-[11px]">-</p>
-    },
-    align: "center",
-    headerAlign: "center",
-    width: 80,
+const getStatusColor = (status) => {
+  switch (status) {
+    case "Concluído":
+      return "text-green-700";
+    case "Em andamento":
+      return "text-dark-blue-weg";
+    default:
+      return "text-red-700";
   }
-];
+}
+
+
 
 export default function WorkflowTable({ demandId }) {
   const [pageSize, setPageSize] = useState(5);
   const [workFlowData, setWorkFlowData] = useState([]);
   const [workFlowRows, setWorkFlowRows] = useState([]);
+  const [returnReason, setReturnReason] = useState("");
 
   // Busca os dados do workflow da demanda
   useEffect(() => {
@@ -154,7 +79,7 @@ export default function WorkflowTable({ demandId }) {
       workFlowData.map( (wfdata, index) => {
 
         return {
-          id: wfdata.idHistoricoWorkflow,
+          id: index + 1,
           recebimento: wfdata.recebimentoHistorico,
           conclusao: wfdata.conclusaoHistorico,
           prazo: wfdata.prazoHistorico,
@@ -169,9 +94,91 @@ export default function WorkflowTable({ demandId }) {
     );
   }, [workFlowData]);
 
-  useEffect(() => {
-    console.log("WorkFlowRows", workFlowRows);
-  }, [workFlowRows])
+  // Columns
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      renderCell: renderCellTooltip,
+      align: "center",
+      headerAlign: "center",
+      width: 40,
+    },
+    {
+      field: "recebimento",
+      headerName: "Recebimento",
+      type: "date",
+      renderCell: renderDateCell,
+      width: 130,
+    },
+    {
+      field: "conclusao",
+      headerName: "Conclusão",
+      type: "date",
+      renderCell: renderDateCell,
+      width: 130,
+    },
+    {
+      field: "prazo",
+      headerName: "Prazo",
+      type: "date",
+      renderCell: renderDateCell,
+      width: 140,
+    },
+    {
+      field: "tarefa",
+      headerName: "Tarefa",
+      renderCell: renderCellTooltip,
+      minWidth: 220,
+    },
+    {
+      field: "responsavel",
+      headerName: "Responsável",
+      renderCell: renderCellTooltip,
+      minWidth: 150,
+    },
+    {
+      field: "acao",
+      headerName: "Ação",
+      renderCell: renderCellTooltip,
+      width: 90,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      renderCell: (params) => (
+        <p
+          className={`text-[11px] ${getStatusColor(params.value)}`}
+        >
+          {params.value}
+        </p>
+      ),
+      width: 90,
+    },
+    {
+      field: "versao",
+      headerName: "Versão",
+      renderCell: renderCellTooltip,
+      align: "center",
+      headerAlign: "center",
+      width: 80,
+    },
+    {
+      field: "observacao",
+      headerName: "Obs.",
+      renderCell: (params) => {
+        if (params.value)
+          return  <Button onClick={() => {setIsReturnReason(params.value)}}>
+                    <TextSnippetRoundedIcon />
+                  </Button>
+        return <p className="text-[11px]">-</p>
+      },
+      align: "center",
+      headerAlign: "center",
+      width: 80,
+    }
+  ];
+  
 
   return (
     <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
