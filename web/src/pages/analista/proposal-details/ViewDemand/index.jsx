@@ -133,6 +133,10 @@ export default function ViewDemand() {
     return <div className="h-[3px] w-6 bg-light-blue-weg" />;
   };
 
+  const handleOpenDocument = () => {
+    DemandService.openDemandPDF(params.idDemanda);
+  };
+
   return (
     <div>
       <div className="grid items-center">
@@ -145,6 +149,7 @@ export default function ViewDemand() {
             </Tooltip>
             <Tooltip title="Abrir como PDF">
               <PdfButton
+                onClick={handleOpenDocument}
                 variant="contained"
                 sx={{
                   width: 40,

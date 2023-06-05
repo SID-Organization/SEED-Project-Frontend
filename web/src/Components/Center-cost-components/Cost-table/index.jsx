@@ -1,15 +1,24 @@
 //React
-import { useState } from "react";
-
-//Components
-import CostTableRow from "../Cost-table-rows";
+import { useEffect, useState } from "react";
 
 //MUI
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { IconButton, Tooltip } from "@mui/material";
 
+//Components
+import CostTableRow from "../Cost-table-rows";
+
+//Utils
+import FontSizeUtils from "../../../utils/FontSize-Utils";
+
 //Props: type(interno, externo)
 export default function CostTable(props) {
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
+
   function addTotalCoasts() {
     props.setCosts([
       ...props.costs,
@@ -27,7 +36,10 @@ export default function CostTable(props) {
     <div>
       <div className="flex items-center justify-between">
         {
-          <h1 className="font-roboto text-2xl font-bold text-blue-weg">
+          <h1
+            style={{ fontSize: fonts.xl }}
+            className="font-roboto font-bold text-blue-weg"
+          >
             {props.typeTitle}
           </h1>
         }
@@ -42,23 +54,42 @@ export default function CostTable(props) {
       <thead>
         <tr>
           <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-[#00579D]">
-            <p className="font-roboto text-base font-bold ">
+            <p
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold "
+            >
               Perfil de despesa
             </p>
           </th>
           <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
-            <p className="font-roboto text-base font-bold ">Mês de execução</p>
+            <p
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold "
+            >
+              Mês de execução
+            </p>
           </th>
           <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
-            <p className="font-roboto text-base font-bold ">
+            <p
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold "
+            >
               Horas necessárias
             </p>
           </th>
           <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
-            <p className="font-roboto text-base font-bold ">Custo por hora</p>
+            <p
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold "
+            >
+              Custo por hora
+            </p>
           </th>
-          <th className="w-48 border-[1px] border-b-[1px] border-r-2 border-blue-weg">
-            <p className="font-roboto text-base font-bold ">
+          <th className="border-r-1 w-48 border-[1px] border-b-[1px] border-blue-weg">
+            <p
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold "
+            >
               Custo total da despesa
             </p>
           </th>
@@ -74,6 +105,7 @@ export default function CostTable(props) {
               totalCost={cost}
               setCostList={props.setCosts}
               costList={props.costs}
+              page={props.page}
             />
           ))}
       </tbody>

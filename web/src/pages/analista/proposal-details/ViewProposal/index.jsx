@@ -119,6 +119,7 @@ export default function ViewProposal() {
                   typeTitle="interno"
                   totalCostCenterPayers={internalCostCenterPayers}
                   setTotalCostCenterPayers={setInternalCostCenterPayers}
+                  page="viewProposal"
                 />
               </div>
               <div className="grid items-center gap-6">
@@ -132,6 +133,7 @@ export default function ViewProposal() {
                   typeTitle="externo"
                   totalCostCenterPayers={externalCostCenterPayers}
                   setTotalCostCenterPayers={setExternalCostCenterPayers}
+                  page="viewProposal"
                 />
               </div>
             </div>
