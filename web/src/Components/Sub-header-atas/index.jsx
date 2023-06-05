@@ -1,10 +1,9 @@
 import AtaFilter from "../AtaFilter";
-import Search from "../Search";
-import TranslationJSON from "../../API/Translate/translations.json";
+import TranslationJSON from "../../API/Translate/components/subHeaderAtas.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 
 export default function SubHeaderAtas(props) {
-  const translate = TranslationJSON.components.subHeader;
+  const translate = TranslationJSON;
   // const childrenText = TranslateUtils.getChildrenText(props.children);
   const language = TranslateUtils.getLanguage();
 

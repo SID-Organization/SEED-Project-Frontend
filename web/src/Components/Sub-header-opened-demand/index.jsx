@@ -46,7 +46,7 @@ import RespITSectionService from "../../service/ResponsableITSection-Service";
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
-import TranslationJSON from "../../API/Translate/translations.json";
+import TranslationJSON from "../../API/Translate/components/subHeaderOpenedDemand.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import ReturnReasonModal from "../ReturnReason-Modal";
 
@@ -60,20 +60,6 @@ const styleModal = {
   bgcolor: "background.paper",
   borderRadius: "0.125rem",
   boxShadow: 24
-};
-
-const styleModalReasonOfDevolution = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 580,
-  height: 405,
-  bgcolor: "background.paper",
-  borderTop: "8px solid #0075B1",
-  borderRadius: 2,
-  boxShadow: 24,
-  p: 4
 };
 
 const styleApproveDemand = {
@@ -121,13 +107,8 @@ export default function subHeader({children}) {
 
   let phrase = children[0].trim()
 
-  useEffect(() => {
-    console.log(children[0])
-    //no final de children[0] possui um espaço em branco, remova-o
-    console.log("JSON", TranslationJSON.components.subHeaderOpenedDemands[phrase]["en-us"])
-  })
-
-  const translate = TranslationJSON.components.subHeaderOpenedDemands;
+  const translate = TranslationJSON;
+  
   const language = TranslateUtils.getLanguage();
 
   // Controle de modal
@@ -153,9 +134,6 @@ export default function subHeader({children}) {
 
   // Motivo da devolução modal
   const [isReasonOfModalOpen, setIsReasonOfModalOpen] = useState(false);
-
-  // Motivo da devolução variável
-  const [reasonOfReturnValue, setReasonOfReturnValue] = useState("");
 
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());

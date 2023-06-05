@@ -8,7 +8,7 @@ import { Box, Button, Modal, TextField } from "@mui/material";
 import DemandService from "../../service/Demand-Service";
 
 // Translation
-import TranslationJSON from "../../API/Translate/translations.json"
+import TranslationJSON from "../../API/Translate/components/returnReasonModal.json";
 import TranslateUtils from "../../utils/Translate-Utils";
 
 // Utils
@@ -39,7 +39,7 @@ export default function ReturnReasonModal(props) {
 
   const navigate = useNavigate();
 
-  const translate = TranslationJSON.components.returnReasonModal;
+  const translate = TranslationJSON;
   const language = TranslateUtils.getLanguage();
 
   const sendReturnOrCancel = () => {

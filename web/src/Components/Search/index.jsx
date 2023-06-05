@@ -10,16 +10,23 @@ import IconButton from "@mui/material/IconButton";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
+// Translation
+import TranslationJSON from "../../API/Translate/components/demandFilter.json";
+
 // Components
 import FilterComponent from "./FilterComponent";
 import DemandFilterUtils from "../../utils/DemandFilter-Utils";
 
 // Voice Speech
 import VoiceSpeech from "../VoiceSpeech";
+import TranslateUtils from "../../utils/Translate-Utils";
 
 export default function Search(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const translate = TranslationJSON;
+  const language = TranslateUtils.getLanguage();
 
   // Filters
   const [requester, setRequester] = useState("");
@@ -143,7 +150,7 @@ export default function Search(props) {
           <InputBase
             type={props.type}
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
-            placeholder="Procure pelo título"
+            placeholder={translate['Procure pelo título'][language]}
             onChange={(e) => setTitle(e.target.value)}
             value={title}
             onKeyDown={(e) => {
