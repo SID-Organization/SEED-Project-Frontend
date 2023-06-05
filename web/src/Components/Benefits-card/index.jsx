@@ -22,11 +22,7 @@ export default function BenefitsCard(props) {
 
   return (
     <div>
-      <div
-        className="flex h-10 items-center justify-center
-        rounded-t
-        bg-light-blue-weg"
-      >
+      <div className="flex h-10 items-center justify-center rounded-t bg-light-blue-weg">
         <h1
           style={{ fontSize: fonts.lg }}
           className="font-roboto font-bold text-white"
