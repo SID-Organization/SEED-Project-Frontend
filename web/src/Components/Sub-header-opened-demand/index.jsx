@@ -223,6 +223,7 @@ export default function subHeader({
       text: translate["Classificar demanda"][language],
       role: ["ANALISTA"],
       demandStatus: ["ABERTA"],
+      notDemandStatus: [""],
       function: handleOpenModal,
       key: 1,
     },
@@ -259,6 +260,7 @@ export default function subHeader({
       text: translate["Devolver"][language],
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
+      notDemandStatus: ["EM_EDICAO", "CANCELADA"],
       function: handleOpenReasonOfModal,
       key: 5,
     },
@@ -267,6 +269,7 @@ export default function subHeader({
       text: translate["Recusar"][language],
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
+      notDemandStatus: ["EM_EDICAO", "CANCELADA"],
       function: handleOpenReasonOfModal,
       key: 6,
     },
@@ -274,6 +277,7 @@ export default function subHeader({
       text: translate["Alterar status"][language],
       role: ["ANALISTA"],
       demandStatus: ["TODAS"],
+      notDemandStatus: [""],
       function: changeDemandStatus,
       key: 7,
     },
@@ -783,31 +787,29 @@ export default function subHeader({
         )}
 
         {user.cargoUsuario != "SOLICITANTE" && (
-          <Tooltip title="Ações">
-            <ButtonGroup
-              variant="contained"
-              ref={anchorRef}
-              aria-label="split button"
+          <ButtonGroup
+            variant="contained"
+            ref={anchorRef}
+            aria-label="split button"
+          >
+            <Button
+              size="small"
+              aria-controls={openActions ? "split-button-menu" : undefined}
+              aria-expanded={openActions ? "true" : undefined}
+              aria-label="select merge strategy"
+              aria-haspopup="menu"
+              sx={{
+                backgroundColor: "#00579D",
+                width: 100,
+                height: 40,
+                fontSize: 14,
+              }}
+              onClick={handleToggleActions}
             >
-              <Button
-                size="small"
-                aria-controls={openActions ? "split-button-menu" : undefined}
-                aria-expanded={openActions ? "true" : undefined}
-                aria-label="select merge strategy"
-                aria-haspopup="menu"
-                sx={{
-                  backgroundColor: "#00579D",
-                  width: 100,
-                  height: 40,
-                  fontSize: 14,
-                }}
-                onClick={handleToggleActions}
-              >
-                Ações
-                {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-              </Button>
-            </ButtonGroup>
-          </Tooltip>
+              Ações
+              {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+            </Button>
+          </ButtonGroup>
         )}
         <Popper
           sx={{
@@ -834,7 +836,7 @@ export default function subHeader({
                       if (
                         option.role.includes(user.cargoUsuario) &&
                         (option.demandStatus.includes(demand.statusDemanda) ||
-                          option.demandStatus.includes("TODAS"))
+                          option.demandStatus.includes("TODAS")) && !option.notDemandStatus.includes(demand.statusDemanda)
                       ) {
                         return (
                           <MenuItem

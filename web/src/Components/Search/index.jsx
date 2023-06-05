@@ -23,6 +23,7 @@ export default function Search(props) {
 
   // Filters
   const [requester, setRequester] = useState("");
+  const [demandStatus, setDemandStatus] = useState([]);
   const [value, setValue] = useState("");
   const [score, setScore] = useState("");
   const [title, setTitle] = useState("");
@@ -76,6 +77,7 @@ export default function Search(props) {
 
   function cleanStates() {
     setRequester("");
+    setDemandStatus([]);
     setValue("");
     setScore("");
     setTitle("");
@@ -210,6 +212,12 @@ export default function Search(props) {
                 type="text"
                 value={title}
                 setValue={setTitle}
+              />
+              <FilterComponent
+                title="Status da demanda"
+                type="text"
+                value={demandStatus}
+                setValue={setDemandStatus}
               />
               <FilterComponent
                 title="Analista responsável"

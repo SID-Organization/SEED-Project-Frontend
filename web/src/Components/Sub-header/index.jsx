@@ -7,7 +7,7 @@ import GridOnIcon from "@mui/icons-material/GridOn";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 
 // Translation
-import TranslationJSON from "../../API/Translate/translations.json"
+import TranslationJSON from "../../API/Translate/translations.json";
 import TranslateUtils from "../../utils/Translate-Utils";
 
 // Components
@@ -15,7 +15,6 @@ import Search from "../Search";
 
 // Subheader de todo o sistema
 export default function subHeader(props) {
-
   const translate = TranslationJSON.components.subHeader;
   const childrenText = TranslateUtils.getChildrenText(props.children);
   const language = TranslateUtils.getLanguage();
@@ -25,14 +24,13 @@ export default function subHeader(props) {
       <div className="flex h-[5rem] items-center shadow-page-title-shadow">
         <div className="flex-[2] text-center">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-            {translate[childrenText][language]}
+            {/* {translate[childrenText][language]} */}
+            {props.children}
           </h1>
         </div>
         <div className="flex flex-[1] justify-around gap-10">
           <div className="flex flex-1 items-center justify-end">
-            <Search
-              setFilters={props.setFilters}
-            />
+            <Search setFilters={props.setFilters} />
           </div>
           <div className="flex flex-1 items-center justify-center">
             <div

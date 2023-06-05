@@ -1,67 +1,31 @@
-import { InputAdornment } from "@mui/material";
-import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-//MUI
-import { styled } from "@mui/material/styles";
-import MuiTextField from "@mui/material/TextField";
 
 // Services
 import ProposalService from "../../../../service/Proposal-Service";
 import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
+//Components
+import CostTable from "../../../../Components/Center-cost-components/Cost-table";
+import CostCenterPayers from "../../../../Components/Center-cost-components/Cost-center-payers";
+
 // Utils
 import DateUtils from "../../../../utils/Date-Utils";
-
-const DateInput = styled(MuiTextField)({
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      border: "1.5px solid #0075B1",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#0075B1",
-    },
-  },
-  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "4px solid #0075B1",
-  },
-
-  "& .MuiOutlinedInput-input": {
-    padding: "5px 5px",
-  },
-});
-
-const NameAreaInput = styled(MuiTextField)({
-  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "3px solid #0075B1",
-  },
-});
-
-const EqualInput = styled(MuiTextField)({
-  width: "700px",
-  height: "3.5rem",
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      border: "1.5px solid #0075B1",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#0075B1",
-    },
-  },
-  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "4px solid #0075B1",
-  },
-
-  "& .MuiOutlinedInput-input": {
-    padding: "5px 5px",
-  },
-});
+import ProposalUtils from "../../../../utils/Proposal-Utils";
 
 export default function ViewProposal() {
-  const params = useParams();
+  const [proposal, setProposal] = useState("");
   const [getProposalDetails, setGetProposalDetails] = useState();
+  const [internalCosts, setInternalCosts] = useState([]);
+  const [externalCosts, setExternalCosts] = useState([]);
+
+  const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([]);
+  const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([]);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  const params = useParams();
+  let demandId = params.idDemanda;
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -75,63 +39,112 @@ export default function ViewProposal() {
     }
   }, []);
 
+  useEffect(() => {
+    ProposalService.getProposalByDemandId(demandId).then((proposal) => {
+      const lastProposal = proposal[proposal.length - 1];
+      console.log("PROPOSAL", lastProposal);
+      setProposal(lastProposal);
+      return lastProposal.idProposta;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (proposal) {
+      const intTable = proposal.tabelaCusto.find(
+        (tc) => tc.tipoDespesa == "INTERNA"
+      );
+      const extTable = proposal.tabelaCusto.find(
+        (tc) => tc.tipoDespesa == "EXTERNA"
+      );
+
+      setInternalCosts(ProposalUtils.formatCostsFromDB(intTable));
+      setExternalCosts(ProposalUtils.formatCostsFromDB(extTable));
+      setInternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(intTable));
+      setExternalCostCenterPayers(ProposalUtils.formatCCPsFromDB(extTable));
+    }
+  }, [proposal]);
+
+  const MyDivider = () => {
+    return <div className="h-[3px] w-6 bg-light-blue-weg" />;
+  };
+
   return (
     <div>
       <div>
-        <div className="grid items-center gap-1">
-          <h1
-            style={{ fontSize: fonts.base }}
-            className="font-roboto font-bold text-blue-weg"
-          >
-            Escopo do projeto:
-          </h1>
-          <p
-            style={{ fontSize: fonts.base }}
-            className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
-          >
-            {getProposalDetails && getProposalDetails.escopoProposta} asd
-          </p>
+        <div className="grid gap-5">
+          <div className="grid items-center gap-1">
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold text-blue-weg"
+            >
+              Escopo do projeto:
+            </h1>
+            <p
+              style={{ fontSize: fonts.base }}
+              className="whitespace-pre-wrap break-all pr-10 font-roboto font-normal"
+            >
+              {getProposalDetails && getProposalDetails.escopoProposta} asd
+            </p>
+          </div>
+          <div className="grid items-center gap-1">
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="font-roboto font-bold text-blue-weg"
+            >
+              Não faz parte do escopo do projeto:
+            </h1>
+            <p
+              style={{ fontSize: fonts.base }}
+              className="whitespace-pre-wrap break-all pr-10 font-roboto font-normal"
+            >
+              {getProposalDetails && getProposalDetails.escopoProposta}asdsa
+            </p>
+          </div>
+          <div className="grid items-center">
+            <h1
+              style={{ fontSize: fonts.base }}
+              className="flex font-roboto font-bold text-blue-weg"
+            >
+              Tabela de custos
+            </h1>
+            <div className="grid items-center gap-9">
+              <div className="grid items-center gap-6">
+                <CostTable
+                  typeTitle="Interno"
+                  costs={internalCosts}
+                  setCosts={setInternalCosts}
+                  page="viewProposal"
+                />
+                <CostCenterPayers
+                  typeTitle="interno"
+                  totalCostCenterPayers={internalCostCenterPayers}
+                  setTotalCostCenterPayers={setInternalCostCenterPayers}
+                />
+              </div>
+              <div className="grid items-center gap-6">
+                <CostTable
+                  typeTitle="Externo"
+                  costs={externalCosts}
+                  setCosts={setExternalCosts}
+                  page="viewProposal"
+                />
+                <CostCenterPayers
+                  typeTitle="externo"
+                  totalCostCenterPayers={externalCostCenterPayers}
+                  setTotalCostCenterPayers={setExternalCostCenterPayers}
+                />
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="grid items-center gap-1">
-          <h1
-            style={{ fontSize: fonts.base }}
-            className="font-roboto font-bold text-blue-weg"
-          >
-            Não faz parte do escopo do projeto:
-          </h1>
-          <p
-            style={{ fontSize: fonts.base }}
-            className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
-          >
-            {getProposalDetails && getProposalDetails.escopoProposta}asdsa
-          </p>
-        </div>
-        <div className="grid items-center">
-          <h1
-            style={{ fontSize: fonts.base }}
-            className="
-          flex font-roboto font-bold text-blue-weg
-        "
-          >
-            Tabela de custos
-          </h1>
-          <p style={{ fontSize: fonts.base }}>**TABELA DE CUSTOS AQUI**</p>
-        </div>
+
         <div>
           <div className="mt-10 grid items-center">
-            <div
-              className="
-          h-[5rem] w-[40rem]
-          border-2 border-b-0 border-dashed
-          border-blue-weg
-        "
-            >
+            <div className="h-[3rem] w-[25rem] border-2 border-b-0 border-dashed border-blue-weg">
               <div className="flex h-full items-center justify-start">
                 <p
                   style={{ fontSize: fonts.base }}
-                  className="
-              ml-5 mr-3 font-roboto font-bold
-            "
+                  className="ml-5 mr-3 font-roboto font-bold"
                 >
                   Custos totais do projeto:
                 </p>
@@ -145,19 +158,12 @@ export default function ViewProposal() {
                 </p>
               </div>
             </div>
-            <div
-              className="
-          h-[10rem] w-[40rem]
-          border-2 border-dashed border-blue-weg
-        "
-            >
+            <div className="h-[6rem] w-[25rem] border-2 border-dashed border-blue-weg">
               <div className="grid h-full items-center justify-start">
                 <div className="flex h-full items-center justify-start">
                   <p
                     style={{ fontSize: fonts.base }}
-                    className="
-          ml-5 mr-3 font-roboto
-        "
+                    className=" ml-5 mr-3 font-roboto"
                   >
                     Total de despesas (desembolso):
                   </p>
@@ -173,9 +179,7 @@ export default function ViewProposal() {
                 <div className="flex h-full items-center justify-start">
                   <p
                     style={{ fontSize: fonts.base }}
-                    className="
-          ml-5 mr-3 font-roboto
-        "
+                    className="ml-5 mr-3 font-roboto"
                   >
                     Total de despesas com custos internos
                   </p>
@@ -192,7 +196,7 @@ export default function ViewProposal() {
             </div>
           </div>
         </div>
-        <div className="grid">
+        <div className="mt-5 grid gap-5">
           <div className="flex items-center gap-1">
             <p
               style={{ fontSize: fonts.base }}
@@ -200,7 +204,7 @@ export default function ViewProposal() {
             >
               Payback:
             </p>
-            <p className="font-roboto">
+            <p style={{ fontSize: fonts.base }} className="font-roboto">
               {getProposalDetails && getProposalDetails.paybackProposta} 223
             </p>
           </div>
@@ -211,22 +215,36 @@ export default function ViewProposal() {
             >
               Período de execução:
             </p>
-            <div className="flex gap-10">
+            <div className="flex items-center gap-2">
               <div className="flex items-center gap-1">
-                <p className="font-roboto font-bold text-blue-weg">Início:</p>
-                <p className="font-roboto">
-                  12/04/2022
+                <p
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto font-bold text-blue-weg"
+                >
+                  Início:
+                </p>
+                <p
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto text-blue-weg"
+                >
                   {getProposalDetails &&
                     DateUtils.formatDate(
                       getProposalDetails.periodoExecucaoInicioProposta
                     )}
                 </p>
               </div>
-
+              <MyDivider />
               <div className="flex items-center gap-1">
-                <p className="font-roboto font-bold text-blue-weg">Término:</p>
-                <p className="font-roboto">
-                  16/05/2022
+                <p
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto font-bold text-blue-weg"
+                >
+                  Término:
+                </p>
+                <p
+                  style={{ fontSize: fonts.base }}
+                  className="font-roboto text-blue-weg"
+                >
                   {getProposalDetails &&
                     DateUtils.formatDate(
                       getProposalDetails.periodoExecucaoFimProposta
@@ -235,49 +253,32 @@ export default function ViewProposal() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="flex items-center gap-1">
             <p
               style={{ fontSize: fonts.base }}
-              className="font-roboto font-bold"
+              className="font-roboto font-bold text-blue-weg"
             >
-              Responsável pelo negócio
+              Responsável pelo negócio:
             </p>
-            <div className="mt-2 flex gap-10">
-              <NameAreaInput
-                disabled
-                id="outlined-textarea"
-                variant="outlined"
-                type="text"
-                multiline
-                placeholder={
-                  getProposalDetails &&
-                  getProposalDetails.nomeResponsavelNegocio > 0
-                    ? getProposalDetails.nomeResponsavelNegocio
-                    : "Não informado"
-                }
-                maxRows={3}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start" />,
-                }}
-              />
-              <NameAreaInput
-                disabled
-                id="outlined-textarea"
-                variant="outlined"
-                type="text"
-                multiline
-                placeholder={
-                  getProposalDetails &&
-                  getProposalDetails.areaResponsavelNegocio > 0
-                    ? getProposalDetails.areaResponsavelNegocio
-                    : "Não informado"
-                }
-                maxRows={3}
-                onChange={(e) => setAreaBusinessResponsible(e.target.value)}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start" />,
-                }}
-              />
+            <div className="flex items-center gap-2">
+              <p style={{ fontSize: fonts.base }} className="font-roboto">
+                {/* {getProposalDetails &&
+                getProposalDetails.nomeResponsavelNegocio > 0
+                  ? getProposalDetails.nomeResponsavelNegocio
+                  : "Não informado"} */}
+                Henrique Cole
+              </p>
+              <MyDivider />
+              <p
+                style={{ fontSize: fonts.base }}
+                className="font-roboto text-[#6e6e6e]"
+              >
+                {/* {getProposalDetails &&
+                getProposalDetails.areaResponsavelNegocio > 0
+                  ? getProposalDetails.areaResponsavelNegocio
+                  : "Não informado"} */}
+                WEG TI
+              </p>
             </div>
           </div>
         </div>
