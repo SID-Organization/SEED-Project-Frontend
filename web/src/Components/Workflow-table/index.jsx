@@ -16,7 +16,7 @@ import DemandLogService from "../../service/DemandLog-Service";
 
 // Utils
 import DateUtils from "../../utils/Date-Utils";
-import ReturnReasonService from "../../service/ReturnReason-Service";
+import ReturnReasonModal from "../ReturnReason-Modal";
 
 // Renderizador de células normais
 const renderCellTooltip = (params) => (
@@ -61,8 +61,10 @@ export default function WorkflowTable({ demandId }) {
   const [pageSize, setPageSize] = useState(5);
   const [workFlowData, setWorkFlowData] = useState([]);
   const [workFlowRows, setWorkFlowRows] = useState([]);
+  
   const [returnReason, setReturnReason] = useState("");
-
+  const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
+  
   // Busca os dados do workflow da demanda
   useEffect(() => {
     DemandLogService.getDemandLogs(demandId).then((res) => {
@@ -168,7 +170,7 @@ export default function WorkflowTable({ demandId }) {
       headerName: "Obs.",
       renderCell: (params) => {
         if (params.value)
-          return  <Button onClick={() => {setIsReturnReason(params.value)}}>
+          return  <Button onClick={() => {setReturnReason(params.value); setIsReturnModalOpen(true)}}>
                     <TextSnippetRoundedIcon />
                   </Button>
         return <p className="text-[11px]">-</p>
@@ -179,6 +181,10 @@ export default function WorkflowTable({ demandId }) {
     }
   ];
   
+  useEffect(() => {
+    console.log("returnReason", returnReason);
+  }, [returnReason])
+
 
   return (
     <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
@@ -198,6 +204,13 @@ export default function WorkflowTable({ demandId }) {
           },
         }}
         disableSelectionOnClick
+      />
+      <ReturnReasonModal
+        isReasonOfModalOpen={isReturnModalOpen}
+        setIsReasonOfModalOpen={setIsReturnModalOpen}
+        getIsDevolution={() => true}
+        disabled={true}
+        reasonOfReturn={returnReason}
       />
     </Box>
   );

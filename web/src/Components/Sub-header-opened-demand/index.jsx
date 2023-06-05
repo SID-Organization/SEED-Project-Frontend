@@ -48,6 +48,7 @@ import RespITSectionService from "../../service/ResponsableITSection-Service";
 import UserUtils from "../../utils/User-Utils";
 import TranslationJSON from "../../API/Translate/translations.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import ReturnReasonModal from "../ReturnReason-Modal";
 
 // Componentes estilizados
 const styleModal = {
@@ -116,9 +117,7 @@ const Autocomplete = styled(MuiAutocomplete)({
  * @param setIsEditEnabled
  */
 
-export default function subHeader({
-                                    children
-                                  }) {
+export default function subHeader({children}) {
 
   const translate = TranslationJSON.components.subHeaderOpenedDemands;
   const language = TranslateUtils.getLanguage();
@@ -170,23 +169,6 @@ export default function subHeader({
 
   const navigate = useNavigate();
 
-  const handleOpenReasonOfModal = () => setIsReasonOfModalOpen(true);
-  const handleCloseReasonOfModal = () => {
-    setIsReasonOfModalOpen(false);
-    setReasonOfReturnValue("");
-  };
-
-  const sendReturnOrCancel = () => {
-    setIsReasonOfModalOpen(false);
-    DemandService.returnOrCancel(
-      params.id,
-      reasonOfReturnValue,
-      getIsDevolution(),
-      UserUtils.getLoggedUserId()
-    ).then((res) => console.warn("RESSS", res));
-    setReasonOfReturnValue("");
-    navigate("/gerenciar-demandas");
-  };
 
   const getIsDevolution = () => {
     return (
@@ -263,7 +245,7 @@ export default function subHeader({
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: ["EM_EDICAO", "CANCELADA"],
-      function: handleOpenReasonOfModal,
+      function: () => setIsReasonOfModalOpen(true),
       key: 5
     },
 
@@ -272,7 +254,7 @@ export default function subHeader({
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: ["EM_EDICAO", "CANCELADA"],
-      function: handleOpenReasonOfModal,
+      function: () => setIsReasonOfModalOpen(true),
       key: 6
     },
     {
@@ -504,72 +486,12 @@ export default function subHeader({
         </Box>
       </Modal>
       {/* Modal para inserir o motivo da reprovação */}
-      <Modal
-        open={isReasonOfModalOpen}
-        onClose={handleCloseReasonOfModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styleModalReasonOfDevolution}>
-          <h1
-            className="
-              flex
-              items-center
-              justify-center
-              font-roboto
-              text-2xl
-              font-bold
-              text-[#0075B1]
-            "
-          >
-            {translate[`Motivo da ${getIsDevolution() ? "devolução" : "recusação"}`][language]}
-          </h1>
-          <p
-            className="
-              mt-5
-              flex
-              gap-1
-              font-roboto
-              text-lg
-              font-bold
-              text-[#000000]
-            "
-          >
-            {translate["Insira o motivo"][language]}
-            <span style={{ color: "#AD0D0D", fontWeight: 500 }}>*</span>
-          </p>
-          <TextField
-            id="outlined-multiline-static"
-            multiline
-            rows={4}
-            variant="outlined"
-            value={reasonOfReturnValue}
-            onChange={(e) => setReasonOfReturnValue(e.target.value)}
-            sx={{
-              width: 500,
-              height: 100,
-              mt: 2,
-              mb: 5,
-              borderRadius: 5,
-              borderColor: "#0075B1"
-            }}
-          />
-          <span className="flex items-center justify-center gap-4">
-            <Button
-              onClick={sendReturnOrCancel}
-              variant="contained"
-              style={{
-                backgroundColor: "#0075B1",
-                color: "#FFFFFF",
-                width: 100,
-                marginTop: 20
-              }}
-            >
-              {translate["Enviar"][language]}
-            </Button>
-          </span>
-        </Box>
-      </Modal>
+      <ReturnReasonModal
+        isReasonOfModalOpen={isReasonOfModalOpen}
+        setIsReasonOfModalOpen={setIsReasonOfModalOpen}
+        getIsDevolution={getIsDevolution}
+        demandId={params.id}
+      />
       {/* Fim modal para inserir motivo da reprovação */}
 
       {/* Modal para inserir as informações da demanda */}
@@ -719,7 +641,7 @@ export default function subHeader({
                 Cancelar
               </Button>
               <Button
-                onClick={handleOpenReasonOfModal}
+                onClick={() => setIsReasonOfModalOpen(true)}
                 variant="outlined"
                 sx={{
                   backgroundColor: "#fff",
