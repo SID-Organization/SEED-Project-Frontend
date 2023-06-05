@@ -38,11 +38,11 @@
         "pt-br": "Aprovar",
         "en-us": "Approve"
       },
-      "Motivo da devolução da demanda": {
+      "Motivo da devolução": {
         "pt-br": "Motivo da devolução",
         "en-us": "Reason of returning"
       },
-      "Motivo da recusação da demanda": {
+      "Motivo da recusação": {
         "pt-br": "Motivo da recusação",
         "en-us": "Reason of refusing"
       },
@@ -97,6 +97,42 @@
       "Enviar": {
         "pt-br": "Enviar",
         "en-us": "Send"
+      },
+      "Insira as seguintes informações": {
+        "pt-br": "Insira as seguintes informações",
+        "en-us": "Insert the following information"
+      },
+      "Seção da TI responsável": {
+        "pt-br": "Seção da TI responsável",
+        "en-us": "Responsible IT section"
+      },
+      "BU solicitante": {
+        "pt-br": "BU solicitante",
+        "en-us": "Requesting BU"
+      },
+      "BUs beneficiadas": {
+        "pt-br": "BUs beneficiadas",
+        "en-us": "Benefited BUs"
+      },
+      "Classificação de tamanho": {
+        "pt-br": "Classificação de tamanho",
+        "en-us": "Size classification"
+      },
+      "Classifique um tamanho": {
+        "pt-br": "Classifique um tamanho",
+        "en-us": "Classify a size"
+      },
+      "Visualização Demanda": {
+        "pt-br": "Visualização Demanda",
+        "en-us": "Demand Visualization"
+      },
+      "Ações": {
+        "pt-br": "Ações",
+        "en-us": "Actions"
+      },
+      "Procure aqui": {
+        "pt-br": "Procure aqui",
+        "en-us": "Search here"
       }
     }
   }
