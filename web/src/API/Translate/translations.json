@@ -1,9 +1,15 @@
 {
     "pages": {},
     "components": {
-        "cost-center-components": {
+        "subHeader": {
+            "Minhas demandas": {
+                "pt-br": "Minhas demandas",
+                "en-us": "My demands"
+            }
+        },
+        "costCenterComponents": {
             "cost-center-payers": {
-                "CC pagantes interno": {
+                "CC pagantes (interno)": {
                     "pt-br": "CC pagantes interno",
                     "en-us": "Internal CC payers"
                 }

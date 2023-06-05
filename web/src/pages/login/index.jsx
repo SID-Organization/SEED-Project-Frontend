@@ -61,7 +61,7 @@ export default function Login(props) {
         if (!auth) return;
         const loggedUser = UserUtils.getUserFromCookie();
         localStorage.setItem("user", JSON.stringify(loggedUser));
-
+        localStorage.setItem("configs", JSON.stringify({ language: "pt-br" }));
         FontSizeUtils.setFontSize();
         props.setUser(loggedUser);
       });
@@ -171,7 +171,7 @@ export default function Login(props) {
                           handleLogin();
                         }
                       }}
-                  />
+                    />
                   </div>
                 </div>
                 <div className="mt-3 flex items-center justify-between">
