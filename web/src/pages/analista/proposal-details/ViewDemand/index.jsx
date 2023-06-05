@@ -229,10 +229,11 @@ export default function ViewDemand() {
                 </h1>
                 <h1
                   style={{ fontSize: fonts.base }}
-                  className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+                  className="whitespace-pre-wrap break-all font-roboto font-normal"
                 >
-                  {demand?.centroCustoDemanda[0].nomeCentroCusto ??
-                    "Não indicado"}
+                  {demand &&
+                    demand.centroCustoDemanda.lenght > 0 &&
+                    demand.centroCustoDemanda.nomeCentroCusto}
                 </h1>
               </div>
             </div>
@@ -243,11 +244,11 @@ export default function ViewDemand() {
               >
                 Score:{" "}
                 {demand && demand.scoreDemanda ? (
-                  <p className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal">
+                  <p className="whitespace-pre-wrap break-all font-roboto font-normal">
                     {demand.scoreDemanda}
                   </p>
                 ) : (
-                  <p className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal text-[#6f6f6f]">
+                  <p className="whitespace-pre-wrap break-all font-roboto font-normal text-[#6f6f6f]">
                     Não indicado
                   </p>
                 )}
@@ -262,7 +263,7 @@ export default function ViewDemand() {
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
-                className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+                className="whitespace-pre-wrap break-all font-roboto font-normal"
               >
                 {proposal}
               </p>
@@ -276,7 +277,7 @@ export default function ViewDemand() {
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
-                className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+                className="whitespace-pre-wrap break-all font-roboto font-normal"
               >
                 {currentSituation}
               </p>
@@ -289,7 +290,7 @@ export default function ViewDemand() {
               <div>
                 <p
                   style={{ fontSize: fonts.base }}
-                  className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+                  className="whitespace-pre-wrap break-all font-roboto font-normal"
                 >
                   {usageFrequency}
                 </p>
@@ -304,13 +305,13 @@ export default function ViewDemand() {
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
-                className="whitespace-pre-wrap break-all pl-10 pr-10 font-roboto font-normal"
+                className="whitespace-pre-wrap break-all font-roboto font-normal"
               >
                 {qualitativeBenefit}
               </p>
             </div>
           </div>
-          <div className="flex items-start gap-6">
+          <div className="grid items-start gap-6">
             <BenefitsCard
               title="Benefícios reais"
               benefits={getBenefits("REAL")}

@@ -41,7 +41,7 @@ export default function CostCenterPayers(props) {
   return (
     <div>
       {" "}
-      <div className="grid items-center justify-center">
+      <div className="grid items-center justify-start">
         <div className="  rounded border-[1px] border-dark-blue-weg">
           {" "}
           <div className="mb-5 flex items-center justify-center">
