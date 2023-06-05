@@ -58,7 +58,7 @@ const styleModal = {
   width: 1150,
   bgcolor: "background.paper",
   borderRadius: "0.125rem",
-  boxShadow: 24,
+  boxShadow: 24
 };
 
 const styleModalReasonOfDevolution = {
@@ -72,7 +72,7 @@ const styleModalReasonOfDevolution = {
   borderTop: "8px solid #0075B1",
   borderRadius: 2,
   boxShadow: 24,
-  p: 4,
+  p: 4
 };
 
 const styleApproveDemand = {
@@ -87,25 +87,25 @@ const styleApproveDemand = {
   height: "15rem",
   backgroundColor: "#fff",
   boxShadow: 0,
-  borderRadius: 2,
+  borderRadius: 2
 };
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "3px solid #0075B1",
-  },
+    borderLeft: "3px solid #0075B1"
+  }
 });
 
 const FormControl = styled(MuiFormControl)({
   width: 250,
 
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "3px solid #0075B1",
-  },
+    borderLeft: "3px solid #0075B1"
+  }
 });
 
 const Autocomplete = styled(MuiAutocomplete)({
-  width: 250,
+  width: 250
 });
 
 /**
@@ -117,8 +117,8 @@ const Autocomplete = styled(MuiAutocomplete)({
  */
 
 export default function subHeader({
-  children,
-}) {
+                                    children
+                                  }) {
 
   const translate = TranslationJSON.components.subHeaderOpenedDemands;
   const language = TranslateUtils.getLanguage();
@@ -185,7 +185,7 @@ export default function subHeader({
       UserUtils.getLoggedUserId()
     ).then((res) => console.warn("RESSS", res));
     setReasonOfReturnValue("");
-    navigate('/gerenciar-demandas');
+    navigate("/gerenciar-demandas");
   };
 
   const getIsDevolution = () => {
@@ -219,29 +219,29 @@ export default function subHeader({
 
   const actionOptions = [
     {
-      text: translate["Classificar demanda"][language],
+      text: translate["Classificar demanda"][language] ?? "Classificar demanda",
       role: ["ANALISTA"],
       demandStatus: ["ABERTA"],
       notDemandStatus: [""],
       function: handleOpenModal,
-      key: 1,
+      key: 1
     },
     {
-      text: translate["Aprovar"][language],
+      text: translate["Aprovar"][language] ?? "Aprovar",
       role: ["GERENTE", "GESTOR_TI"],
       demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
       function: handleOpenApproveDemand,
-      key: 2,
+      key: 2
     },
     {
-      text: translate["Acessar proposta"][language],
+      text: translate["Acessar proposta"][language] ?? "Acessar proposta",
       role: ["ANALISTA", "GESTOR_TI"],
       demandStatus: ["PROPOSTA_EM_ELABORACAO"],
       function: accessProposal,
-      key: 3,
+      key: 3
     },
     {
-      text: translate["Ver proposta"][language],
+      text: translate["Ver proposta"][language] ?? "Ver proposta",
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: [
         "PROPOSTA_PRONTA",
@@ -251,63 +251,63 @@ export default function subHeader({
         "APROVADA_EM_DG",
         "PROPOSTA_EM_EXECUCAO",
         "PROPOSTA_EM_SUPORTE",
-        "BUSINESS_CASE",
+        "BUSINESS_CASE"
       ],
-      key: 4,
+      key: 4
     },
     {
-      text: translate["Devolver"][language],
+      text: translate["Devolver"][language] ?? "Devolver",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: ["EM_EDICAO", "CANCELADA"],
       function: handleOpenReasonOfModal,
-      key: 5,
+      key: 5
     },
 
     {
-      text: translate["Recusar"][language],
+      text: translate["Recusar"][language] ?? "Recusar",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: ["EM_EDICAO", "CANCELADA"],
       function: handleOpenReasonOfModal,
-      key: 6,
+      key: 6
     },
     {
-      text: translate["Alterar status"][language],
+      text: translate["Alterar status"][language] ?? "Alterar status",
       role: ["ANALISTA"],
       demandStatus: ["TODAS"],
       notDemandStatus: [""],
       function: changeDemandStatus,
-      key: 7,
-    },
+      key: 7
+    }
   ];
 
   const demandSizes = [
     {
-      text: translate["Muito grande"][language],
+      text: translate["Muito grande"][language] ?? "Muito grande",
       description: "Acima de 3000h",
-      key: 1,
+      key: 1
     },
     {
-      text: translate["Grande"][language],
+      text: translate["Grande"][language] ?? "Grande",
       description: "Entre 1001h e 3000h",
-      key: 2,
+      key: 2
     },
     {
-      text: translate["Média"][language],
+      text: translate["Média"][language] ?? "Média",
       description: "Entre 301h e 1000h",
-      key: 3,
+      key: 3
     },
     {
-      text: translate["Pequena"][language],
+      text: translate["Pequena"][language] ?? "Pequena",
       description: "Entre 41h e 300h",
-      key: 4,
+      key: 4
     },
     {
-      text: translate["Muito pequena"][language],
+      text: translate["Muito pequena"][language] ?? "Muito pequena",
       description: "Entre 1h - 40h",
-      key: 5,
-    },
+      key: 5
+    }
   ];
 
   useEffect(() => {
@@ -315,7 +315,7 @@ export default function subHeader({
       setBusinessUnits(
         data.map((item) => ({
           text: item.siglaBusinessUnity + " - " + item.nomeBusinessUnity,
-          key: item.idBusinessUnity,
+          key: item.idBusinessUnity
         }))
       );
     });
@@ -327,7 +327,7 @@ export default function subHeader({
               item.siglaSecaoTIResponsavel +
               " - " +
               item.nomeSecaoTIResponsavel,
-            key: item.idSecaoTIResponsavel,
+            key: item.idSecaoTIResponsavel
           }))
         );
       })
@@ -361,22 +361,22 @@ export default function subHeader({
   const handleAnalystClassifyDemand = async () => {
     // Formatting data to send to the backend
     const busBeneficiadas = benefitedBus.map((item) => ({
-      idBusinessUnity: item.key,
+      idBusinessUnity: item.key
     }));
     const buSolicitante = {
       idBusinessUnity: businessUnits.find((item) => item.key == requesterBu)
-        ?.key,
+        ?.key
     };
     const secaoTiResponsavel = {
       idSecaoTIResponsavel: responsableITSections.find(
         (item) => item.text == responsableSection
-      )?.key,
+      )?.key
     };
     const updatedDemand = {
       busBeneficiadasDemanda: busBeneficiadas,
       buSolicitanteDemanda: buSolicitante,
       secaoTIResponsavelDemanda: secaoTiResponsavel,
-      tamanhoDemanda: getDemandSize(),
+      tamanhoDemanda: getDemandSize()
     };
 
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
@@ -440,7 +440,8 @@ export default function subHeader({
   return (
     <div>
       {openNotification && (
-        <Notification message={translate["Demanda aprovada com sucesso!"][language]} action={false} />
+        <Notification message={translate["Demanda aprovada com sucesso!"][language] ?? "Demanda aprovada com sucesso"}
+                      action={false} />
       )}
       {/* Modal para confirmar a demanda */}
       <Modal
@@ -456,7 +457,7 @@ export default function subHeader({
                 <CheckCircleOutlineOutlinedIcon
                   sx={{
                     color: "#0075B1",
-                    fontSize: "5rem",
+                    fontSize: "5rem"
                   }}
                 />
               </div>
@@ -473,8 +474,8 @@ export default function subHeader({
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#C2BEBE",
-                  },
+                    backgroundColor: "#C2BEBE"
+                  }
                 }}
                 onClick={handleCloseApproveDemand}
               >
@@ -488,8 +489,8 @@ export default function subHeader({
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#0075B1",
-                  },
+                    backgroundColor: "#0075B1"
+                  }
                 }}
                 onClick={handleApproveDemand}
               >
@@ -518,8 +519,7 @@ export default function subHeader({
               text-[#0075B1]
             "
           >
-            //se getIsDevolution()
-            Motivo da {getIsDevolution() ? "devolução" : "recusação"} da demanda
+            {translate[`Motivo da ${getIsDevolution() ? "devolução" : "recusação"}`][language]}
           </h1>
           <p
             className="
@@ -532,7 +532,7 @@ export default function subHeader({
               text-[#000000]
             "
           >
-            Insira o motivo
+            {translate["Insira o motivo"][language]}
             <span style={{ color: "#AD0D0D", fontWeight: 500 }}>*</span>
           </p>
           <TextField
@@ -548,7 +548,7 @@ export default function subHeader({
               mt: 2,
               mb: 5,
               borderRadius: 5,
-              borderColor: "#0075B1",
+              borderColor: "#0075B1"
             }}
           />
           <span className="flex items-center justify-center gap-4">
@@ -559,10 +559,10 @@ export default function subHeader({
                 backgroundColor: "#0075B1",
                 color: "#FFFFFF",
                 width: 100,
-                marginTop: 20,
+                marginTop: 20
               }}
             >
-              Enviar
+              {translate["Enviar"][language]}
             </Button>
           </span>
         </Box>
@@ -630,7 +630,7 @@ export default function subHeader({
                 <FormControl fullWidth size="small">
                   <Autocomplete
                     sx={{
-                      width: 250,
+                      width: 250
                     }}
                     size="small"
                     multiple
@@ -665,7 +665,7 @@ export default function subHeader({
                     onChange={handleChangeClassifyDemandSize}
                     sx={{
                       display: "grid",
-                      width: 320,
+                      width: 320
                     }}
                   >
                     {demandSizes.map((item, i) => (
@@ -675,7 +675,7 @@ export default function subHeader({
                           color="primary"
                           anchorOrigin={{
                             vertical: "top",
-                            horizontal: "right",
+                            horizontal: "right"
                           }}
                           sx={{
                             "& .MuiBadge-badge": {
@@ -686,8 +686,8 @@ export default function subHeader({
                               top: "12px",
                               justifyContent: "center",
                               alignItems: "center",
-                              width: "8rem",
-                            },
+                              width: "8rem"
+                            }
                           }}
                         >
                           {item.text}
@@ -708,8 +708,8 @@ export default function subHeader({
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#C2BEBE",
-                  },
+                    backgroundColor: "#C2BEBE"
+                  }
                 }}
                 onClick={handleCloseModal}
               >
@@ -724,8 +724,8 @@ export default function subHeader({
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#fff",
-                  },
+                    backgroundColor: "#fff"
+                  }
                 }}
               >
                 Devolver
@@ -738,8 +738,8 @@ export default function subHeader({
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#0075B1",
-                  },
+                    backgroundColor: "#0075B1"
+                  }
                 }}
                 onClick={handleAnalystClassifyDemand}
               >
@@ -762,7 +762,7 @@ export default function subHeader({
               backgroundColor: "#00579D",
               columnGap: 2,
               width: 50,
-              height: 40,
+              height: 40
             }}
             onClick={editDemand}
           >
@@ -772,12 +772,12 @@ export default function subHeader({
                 success: {
                   iconTheme: {
                     primary: "#7EB61C",
-                    secondary: "white",
-                  },
+                    secondary: "white"
+                  }
                 },
                 style: {
-                  fontSize: "14px",
-                },
+                  fontSize: "14px"
+                }
               }}
             />
             <Tooltip title="Editar">
@@ -802,7 +802,7 @@ export default function subHeader({
                 backgroundColor: "#00579D",
                 width: 100,
                 height: 40,
-                fontSize: 14,
+                fontSize: 14
               }}
               onClick={handleToggleActions}
             >
@@ -813,7 +813,7 @@ export default function subHeader({
         )}
         <Popper
           sx={{
-            zIndex: 1,
+            zIndex: 1
           }}
           open={openActions}
           anchorEl={anchorRef.current}
@@ -826,7 +826,7 @@ export default function subHeader({
               {...TransitionProps}
               style={{
                 transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
+                  placement === "bottom" ? "center top" : "center bottom"
               }}
             >
               <Paper>
@@ -868,16 +868,16 @@ export default function subHeader({
             alignItems: "center",
             width: 240,
             height: 40,
-            marginRight: "1rem",
+            marginRight: "1rem"
           }}
           style={{
-            boxShadow: "#bdbdbd 0px 1px 5px 1px",
+            boxShadow: "#bdbdbd 0px 1px 5px 1px"
           }}
         >
           <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
             <SearchIcon
               sx={{
-                fontSize: "20px",
+                fontSize: "20px"
               }}
             />
           </IconButton>

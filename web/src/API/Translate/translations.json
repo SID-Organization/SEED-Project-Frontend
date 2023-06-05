@@ -39,12 +39,12 @@
         "en-us": "Approve"
       },
       "Motivo da devolução da demanda": {
-        "pt-br": "Motivo da devolução da demanda",
-        "en-us": "Reason for returning the demand"
+        "pt-br": "Motivo da devolução",
+        "en-us": "Reason of returning"
       },
       "Motivo da recusação da demanda": {
-        "pt-br": "Motivo da recusação da demanda",
-        "en-us": "Reason for refusing the demand"
+        "pt-br": "Motivo da recusação",
+        "en-us": "Reason of refusing"
       },
       "Muito grande": {
         "pt-br": "Muito grande",
@@ -89,6 +89,14 @@
       "Alterar status": {
         "pt-br": "Alterar status",
         "en-us": "Change status"
+      },
+      "Insira o motivo": {
+        "pt-br": "Insira o motivo",
+        "en-us": "Insert the reason"
+      },
+      "Enviar": {
+        "pt-br": "Enviar",
+        "en-us": "Send"
       }
     }
   }
