@@ -1,0 +1,46 @@
+{
+  "Proposta publicada": {
+    "pt-br": "Proposta publicada",
+    "en-us": "Proposal published"
+  },
+  "Proposta não publicada": {
+    "pt-br": "Proposta não publicada",
+    "en-us": "Proposal not published"
+  },
+  "horas": {
+    "pt-br": "horas",
+    "en-us": "hours"
+  },
+  "Valor": {
+    "pt-br": "Valor",
+    "en-us": "Value"
+  },
+  "Demanda de referência": {
+    "pt-br": "Demanda de referência",
+    "en-us": "Reference demand"
+  },
+  "Visualizar Proposta": {
+    "pt-br": "Visualizar Proposta",
+    "en-us": "View Proposal"
+  },
+  "Remover Proposta": {
+    "pt-br": "Remover Proposta",
+    "en-us": "Remove Proposal"
+  },
+  "Selecionar proposta": {
+    "pt-br": "Selecionar proposta",
+    "en-us": "Select proposal"
+  },
+  "Visualizar PDF da proposta": {
+    "pt-br": "Visualizar PDF da proposta",
+    "en-us": "View proposal PDF"
+  },
+  "Tempo de execução": {
+    "pt-br": "Tempo de execução",
+    "en-us": "Execution time"
+  },
+  "Parecer da comissão": {
+    "pt-br": "Parecer da comissão",
+    "en-us": "Commission opinion"
+  }
+}
