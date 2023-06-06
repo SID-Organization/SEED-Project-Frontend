@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import { Box, CircularProgress, Modal } from "@mui/material";
 import { useEffect } from "react";
+
+//MUI
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Modal,
+  Tooltip,
+} from "@mui/material";
+import EventRoundedIcon from "@mui/icons-material/EventRounded";
 
 // Components
 import PautasCard from "../../../Components/Pautas-card";
@@ -52,7 +61,7 @@ export default function Pautas() {
     });
   }, []);
 
-  console.log("PAUTAS: ", pautas)
+  console.log("PAUTAS: ", pautas);
 
   useEffect(() => {
     if (pautas.length === 0) return;
@@ -113,7 +122,7 @@ export default function Pautas() {
     transform: "translate(-50%, -50%)",
     width: 800,
     bgcolor: "background.paper",
-    borderLeft: "4px solid #0075B1",
+    borderLeft: "5px solid #00579D",
     boxShadow: 24,
     p: 4,
     borderRadius: "10px",
@@ -122,12 +131,14 @@ export default function Pautas() {
   return (
     <div>
       <SubHeaderPautas filters={filters} setFilters={setFilters} />
-      <button onClick={handleModalOpen}>Abrir Calendário</button>
-      <Modal open={isModalOpen} onClose={handleModalClose}>
-        <Box sx={calendarModalStyle}>
-          <Calendar />
-        </Box>
-      </Modal>
+
+      <div className="flex items-center justify-start">
+        <Tooltip title="Ver reuniões agendadas">
+          <IconButton onClick={handleModalOpen}>
+            <EventRoundedIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
       <div className="mb-20 mt-12 flex flex-col items-center justify-center gap-10">
         {isLoading ? (
           <div className="flex h-[71vh] items-center justify-around">
@@ -171,6 +182,11 @@ export default function Pautas() {
           </div>
         )}
       </div>
+      <Modal open={isModalOpen} onClose={handleModalClose}>
+        <Box sx={calendarModalStyle}>
+          <Calendar pautas={pautas} />
+        </Box>
+      </Modal>
     </div>
   );
 }
