@@ -11,7 +11,15 @@ import RestoreRoundedIcon from "@mui/icons-material/RestoreRounded";
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/profileRow.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 export default function ProfileRow(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [phoneNumber, setPhoneNumber] = useState("+55 (47) 99123-2134");
   const [isEditOn, setIsEditOn] = useState(false);
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
@@ -74,7 +82,7 @@ export default function ProfileRow(props) {
               <div className="flex justify-end">
                 <IconButton onClick={() => setIsEditOn(!isEditOn)}>
                   {isEditOn ? (
-                    <Tooltip title="Salvar alterações">
+                    <Tooltip title={translate["Salvar alterações"][language] ?? "Salvar alterações"}>
                       <CheckRoundedIcon
                         className="cursor-pointer"
                         sx={{
@@ -87,7 +95,7 @@ export default function ProfileRow(props) {
                       />
                     </Tooltip>
                   ) : (
-                    <Tooltip title="Editar telefone">
+                    <Tooltip title={translate["Editar telefone"][language] ?? "Editar telefone"}>
                       <EditRoundedIcon
                         className="cursor-pointer"
                         sx={{
@@ -115,7 +123,7 @@ export default function ProfileRow(props) {
           {props.increaseFontSize == true && (
             <div className="flex items-center justify-center gap-4">
               <>
-                <Tooltip title="Diminuir fonte">
+                <Tooltip title={translate["Diminuir fonte"][language] ?? "Diminuir fonte"}>
                   <IconButton onClick={decreaseValue}>
                     <RemoveRoundedIcon
                       className="cursor-pointer"
@@ -126,7 +134,7 @@ export default function ProfileRow(props) {
               </>
 
               <>
-                <Tooltip title="Aumentar fonte">
+                <Tooltip title={translate["Aumentar fonte"][language] ?? "Aumentar fonte"}>
                   <IconButton onClick={increaseValue}>
                     <AddRoundedIcon
                       className="cursor-pointer"
@@ -137,7 +145,7 @@ export default function ProfileRow(props) {
               </>
 
               <>
-                <Tooltip title="Fonte padrão">
+                <Tooltip title={translate["Fonte padrão"][language] ?? "Fonte padrão"}>
                   <IconButton onClick={defaultFont}>
                     <RestoreRoundedIcon
                       className="cursor-pointer"
