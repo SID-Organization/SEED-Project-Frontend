@@ -103,13 +103,11 @@ export default function PautasCard(props) {
 
   const [proposals, setProposals] = useState([]);
 
-  const editPauta = () => {
-
-  }
+  const editPauta = () => {};
 
   useEffect(() => {
     PautaService.getPautaProposalsById(props.pautaId).then((proposals) => {
-      console.log("Proposals", proposals)
+      console.log("Proposals", proposals);
       setProposals(proposals);
     });
   }, []);
@@ -118,12 +116,12 @@ export default function PautasCard(props) {
     <div className="mt-5">
       {props.isInTheModalAddToAPauta ? (
         <div
-          className="h-[7rem] w-[40rem] cursor-pointer rounded-md border-2 border-light-blue-weg bg-[#FFF]
-          shadow-xl transition hover:bg-[#F5F5F5]
+          className="hover:bg-[#F5F5F5] h-[7rem] w-[40rem] cursor-pointer rounded-md border-2 border-light-blue-weg
+          bg-[#FFF] shadow-xl transition
         "
         >
           <div className="grid h-max font-roboto">
-            <div className="mt-2 flex justify-between pr-6 pl-6">
+            <div className="mt-2 flex justify-between pl-6 pr-6">
               <h1 className="font-bold">{props.pautaName}</h1>
               <h1 className="font-bold">
                 Qtd. Propostas:{" "}
@@ -208,7 +206,7 @@ export default function PautasCard(props) {
                     <VisibilityRoundedIcon />
                   </Tooltip>
                   <Tooltip title="Editar pauta">
-                      <EditRoundedIcon onClick={editPauta} />
+                    <EditRoundedIcon onClick={editPauta} />
                   </Tooltip>
                   <Tooltip title="Gerar ATA">
                     <Link to={`gerar-ata/${props.pautaId}`}>
@@ -344,7 +342,8 @@ export default function PautasCard(props) {
           <Divider />
           <AccordionDetails>
             <div className="grid gap-5">
-              {(proposals && Array.isArray(proposals)) &&
+              {proposals &&
+                Array.isArray(proposals) &&
                 proposals.map((proposal, i) => (
                   <ProposalCard
                     key={i}
