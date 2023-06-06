@@ -2,5 +2,29 @@
   "Seu navegador não é compatível com SpeechRecognition.": {
     "pt-br": "Seu navegador não é compatível com SpeechRecognition.",
     "en-us": "Your browser is not compatible with SpeechRecognition."
+  },
+  "Ouvindo ...": {
+    "pt-br": "Ouvindo ...",
+    "en-us": "Listening ..."
+  },
+  "Edite seu texto como preferir": {
+    "pt-br": "Edite seu texto como preferir",
+    "en-us": "Edit your text as you prefer"
+  },
+  "Fale pausadamente e com clareza.": {
+    "pt-br": "Fale pausadamente e com clareza.",
+    "en-us": "Speak slowly and clearly."
+  },
+  "Cancelar": {
+    "pt-br": "Cancelar",
+    "en-us": "Cancel"
+  },
+  "Parar": {
+    "pt-br": "Parar",
+    "en-us": "Stop"
+  },
+  "Confirmar": {
+    "pt-br": "Confirmar",
+    "en-us": "Confirm"
   }
 }
