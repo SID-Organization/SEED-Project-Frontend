@@ -70,10 +70,29 @@ const getUpdatedFilter =
     ]
 
 
+const getDemandStatusOptions = () => [
+  { value: "RASCUNHO", label: "Rascunho" },
+  { value: "EM_EDICAO", label: "Em Edição" },
+  { value: "ABERTA", label: "Aberta" },
+  { value: "CLASSIFICADO_PELO_ANALISTA", label: "Classificado pelo Analista" },
+  { value: "APROVADO_PELO_GERENTE_DA_AREA", label: "Aprovado pelo Gerente da Área" },
+  { value: "PROPOSTA_EM_ELABORACAO", label: "Proposta em Elaboração" },
+  { value: "PROPOSTA_PRONTA", label: "Proposta Pronta" },
+  { value: "EM_PAUTA", label: "Em Pauta" },
+  { value: "APROVADA_EM_COMISSAO", label: "Aprovada em Comissão" },
+  { value: "APROVADA_EM_DG", label: "Aprovada em DG" },
+  { value: "PROPOSTA_EM_EXECUCAO", label: "Proposta em Execução" },
+  { value: "PROPOSTA_EM_SUPORTE", label: "Proposta em Suporte" },
+  { value: "PROPOSTA_FINALIZADA", label: "Proposta Finalizada" },
+  { value: "CANCELADA", label: "Cancelada" },
+  { value: "BUSINESS_CASE", label: "Business Case" },
+];
+
 
 export default {
   filterBy,
   getEmptyFilter,
-  getUpdatedFilter
+  getUpdatedFilter,
+  getDemandStatusOptions,
   // filterTypes
 };

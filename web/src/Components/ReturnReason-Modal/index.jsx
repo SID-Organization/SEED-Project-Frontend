@@ -75,7 +75,6 @@ export default function ReturnReasonModal(props) {
         >
           {translate[`Motivo da ${props.getIsDevolution() ? "devolução" : "recusação"}`][language]}
         </h1>
-        {!props.disabled && (
           <p
             className="
             mt-5
@@ -87,10 +86,9 @@ export default function ReturnReasonModal(props) {
             text-[#000000]
           "
           >
-            {translate["Insira o motivo"][language]}
+            {translate["Motivo"][language]}
             <span style={{ color: "#AD0D0D", fontWeight: 500 }}>*</span>
           </p>
-        )}
         <TextField
           id="outlined-multiline-static"
           multiline
