@@ -17,6 +17,9 @@ import DemandLogService from "../../service/DemandLog-Service";
 // Utils
 import DateUtils from "../../utils/Date-Utils";
 import ReturnReasonModal from "../ReturnReason-Modal";
+import TranslationJson from "../../API/Translate/components/workflowTable.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import translateUtils from "../../utils/Translate-Utils/index.js";
 
 // Renderizador de células normais
 const renderCellTooltip = (params) => (
@@ -27,7 +30,10 @@ const renderCellTooltip = (params) => (
 
 // Renderizador de células de data
 const renderDateCell = (params) => {
-  const date = params.value ? DateUtils.formatDateTime(params.value) : "Indefinido";
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
+  const date = params.value ? DateUtils.formatDateTime(params.value) : translate["Indefinido"][language] ?? "Indefinido";
   return (
     <Tooltip title={date} enterDelay={820}>
       <p className="text-[11px]">{date}</p>
@@ -58,6 +64,10 @@ const getStatusColor = (status) => {
 
 
 export default function WorkflowTable({ demandId }) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [pageSize, setPageSize] = useState(5);
   const [workFlowData, setWorkFlowData] = useState([]);
   const [workFlowRows, setWorkFlowRows] = useState([]);
@@ -80,14 +90,16 @@ export default function WorkflowTable({ demandId }) {
     setWorkFlowRows(() =>
       workFlowData.map( (wfdata, index) => {
 
+        console.log("WF DATA", wfdata.acaoFeitaHistorico)
+
         return {
           id: index + 1,
           recebimento: wfdata.recebimentoHistorico,
           conclusao: wfdata.conclusaoHistorico,
           prazo: wfdata.prazoHistorico,
-          tarefa: wfdata.tarefaHistoricoWorkflow,
+          tarefa: translate[wfdata.tarefaHistoricoWorkflow][language] ?? wfdata.tarefaHistoricoWorkflow,
           responsavel: wfdata.nomeResponsavel,
-          acao: wfdata.acaoFeitaHistorico ?? "- - - - -",
+          acao: translate[wfdata.acaoFeitaHistorico][language] ?? wfdata.acaoFeitaHistorico,
           status: wfdata.statusWorkflow,
           versao: wfdata.versaoHistorico,
           observacao: wfdata.motivoDevolucaoHistorico,
@@ -108,40 +120,40 @@ export default function WorkflowTable({ demandId }) {
     },
     {
       field: "recebimento",
-      headerName: "Recebimento",
+      headerName: translate["Recebimento"][language] ?? "Recebimento",
       type: "date",
       renderCell: renderDateCell,
       width: 130,
     },
     {
       field: "conclusao",
-      headerName: "Conclusão",
+      headerName: translate["Conclusão"][language] ?? "Conclusão",
       type: "date",
       renderCell: renderDateCell,
       width: 130,
     },
     {
       field: "prazo",
-      headerName: "Prazo",
+      headerName: translate["Prazo"][language] ?? "Prazo",
       type: "date",
       renderCell: renderDateCell,
       width: 140,
     },
     {
       field: "tarefa",
-      headerName: "Tarefa",
+      headerName: translate["Tarefa"][language] ?? "Tarefa",
       renderCell: renderCellTooltip,
       minWidth: 220,
     },
     {
       field: "responsavel",
-      headerName: "Responsável",
+      headerName: translate["Responsável"][language] ?? "Responsável",
       renderCell: renderCellTooltip,
       minWidth: 150,
     },
     {
       field: "acao",
-      headerName: "Ação",
+      headerName: translate["Ação"][language] ?? "Ação",
       renderCell: renderCellTooltip,
       width: 90,
     },
@@ -152,14 +164,14 @@ export default function WorkflowTable({ demandId }) {
         <p
           className={`text-[11px] ${getStatusColor(params.value)}`}
         >
-          {params.value}
+          {translate[params.value][language] ?? params.value}
         </p>
       ),
       width: 90,
     },
     {
       field: "versao",
-      headerName: "Versão",
+      headerName: translate["Versão"][language] ?? "Versão",
       renderCell: renderCellTooltip,
       align: "center",
       headerAlign: "center",
