@@ -1,7 +1,7 @@
 import "regenerator-runtime/runtime";
 import React, { useEffect, useState } from "react";
 import SpeechRecognition, {
-  useSpeechRecognition,
+  useSpeechRecognition
 } from "react-speech-recognition";
 
 // MUI
@@ -11,17 +11,19 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 // Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
+import TranslationJson from "../../API/Translate/components/voiceSpeech.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
 
 const commands = [
   {
     command: "sidney limpar tela",
-    callback: ({ resetTranscript }) => resetTranscript(),
+    callback: ({ resetTranscript }) => resetTranscript()
   },
   {
     command: "sidney pesquisar sobre * no google",
     callback: (site) => {
       window.open(`https://www.google.com/search?q=${site}`);
-    },
+    }
   },
   {
     command: "sidney cor *",
@@ -30,11 +32,17 @@ const commands = [
       if (cor === "Black")
         document.getElementById("h1-text").style.color = "white";
       else document.getElementById("h1-text").style.color = "black";
-    },
-  },
+    }
+  }
 ];
 
 export default function VoiceSpeech(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
+  console.log(translate["Ouvindo ..."]["en-us"]);
+
   const [isListening, setIsListening] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
@@ -85,7 +93,7 @@ export default function VoiceSpeech(props) {
     if (!browserSupportsSpeechRecognition) {
       console.log("Seu navegador não é compatível com SpeechRecognition.");
       return (
-        <alert>Seu navegador não é compatível com SpeechRecognition.</alert>
+        <alert>{translate["Seu navegador não é compatível com SpeechRecognition."][language] ?? "Seu navegador não é compatível com SpeechRecognition"}</alert>
       );
     }
 
@@ -93,16 +101,16 @@ export default function VoiceSpeech(props) {
       setAnchorEl(e.currentTarget);
       console.log("Audio ligado");
       resetTranscript();
-      SpeechRecognition.startListening({ continuous: true, language: ['pt-br', 'en-US'] }); // 'de-DE',
+      SpeechRecognition.startListening({ continuous: true, language: ["pt-br", "en-US"] }); // 'de-DE',
       setIsListening(true);
       if (props.setIsSpeaking)
-        props.setIsSpeaking(true)
+        props.setIsSpeaking(true);
     } else {
       console.log("Audio desligado");
       SpeechRecognition.stopListening();
       setIsListening(false);
       if (props.setIsSpeaking)
-        props.setIsSpeaking(false)
+        props.setIsSpeaking(false);
     }
   };
 
@@ -116,11 +124,12 @@ export default function VoiceSpeech(props) {
         type="button"
         onClick={handleStartListen}
       >
-        <MicRoundedIcon className="text-blue-weg" sx={{ fontSize: '1.4rem' }} />
+        <MicRoundedIcon className="text-blue-weg" sx={{ fontSize: "1.4rem" }} />
       </IconButton>
 
       <Popper id={id} open={open} anchorEl={anchorEl}>
-        <div className="w-80 overflow-hidden rounded-lg border-l-4 border-blue-weg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+        <div
+          className="w-80 overflow-hidden rounded-lg border-l-4 border-blue-weg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           <div className="relative grid bg-white">
             <div className="flex flex-col items-center justify-center">
               {isListening ? (
@@ -150,7 +159,7 @@ export default function VoiceSpeech(props) {
                       style={{ fontSize: fonts.sm }}
                       className="font-bold text-blue-weg"
                     >
-                      Ouvindo...
+                      {translate["Ouvindo ..."][language] ?? "Ouvindo ..."}
                     </p>
                   </div>
                 </div>
@@ -161,7 +170,7 @@ export default function VoiceSpeech(props) {
                       className="text-blue-weg"
                       fontSize="small"
                     />
-                    <p>Edite seu texto como preferir</p>
+                    <p>{translate["Edite seu texto como preferir"][language] ?? "Edite seu texto como preferir"}</p>
                   </div>
                 </div>
               )}
@@ -169,19 +178,19 @@ export default function VoiceSpeech(props) {
                 {isListening == true && (
                   <div className="flex flex-col pl-4">
                     <p style={{ fontSize: fonts.sm }} className="text-gray-500">
-                      Fale pausadamente e com clareza.
+                      {translate["Fale pausadamente e com clareza."][language] ?? "Fale pausadamente e com clareza."}
                     </p>
                   </div>
                 )}
                 <TextField
                   sx={{
                     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                    {
-                      border: "none",
-                    },
+                      {
+                        border: "none"
+                      },
                     width: "100%",
                     height: "100%",
-                    paddingLeft: "3px",
+                    paddingLeft: "3px"
                   }}
                   multiline
                   maxRows={10}
@@ -199,26 +208,26 @@ export default function VoiceSpeech(props) {
                   backgroundColor: "#adadad",
 
                   "&:hover": {
-                    backgroundColor: "#adadad",
-                  },
+                    backgroundColor: "#adadad"
+                  }
                 }}
                 variant="contained"
                 type="button"
                 className="inline-flex w-full justify-center rounded-md border border-transparent bg-slate-400 px-4 py-2 text-base text-white shadow-sm sm:text-sm"
                 onClick={cancelAndStopListen}
               >
-                Cancelar
+                {translate["Cancelar"][language] ?? "Cancelar"}
               </Button>
               <Button
                 sx={{
-                  backgroundColor: "#0075b1",
+                  backgroundColor: "#0075b1"
                 }}
                 variant="contained"
                 type="button"
                 className="hover:bg-blue-weg-light focus:ring-blue-weg-light inline-flex w-full justify-center rounded-md border border-transparent bg-blue-weg px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm"
                 onClick={stopsAndConfirm}
               >
-                {isListening ? "Parar" : "Confirmar"}
+                {isListening ? translate["Parar"][language] ?? "Parar" : translate["Confirmar"][language] ?? "Confirmar"}
               </Button>
             </div>
           </div>
