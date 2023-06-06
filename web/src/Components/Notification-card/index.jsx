@@ -5,6 +5,8 @@ import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlin
 import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+
+//Translation
 import TranslationJson from "../../API/Translate/components/notificationCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 
