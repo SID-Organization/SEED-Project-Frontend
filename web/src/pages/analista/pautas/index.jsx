@@ -1,10 +1,12 @@
-import { CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Box, CircularProgress, Modal } from "@mui/material";
+import { useEffect } from "react";
 
 // Components
 import PautasCard from "../../../Components/Pautas-card";
 import SubHeaderPautas from "../../../Components/Sub-header-pautas";
 import NoContent from "../../../Components/No-content";
+import Calendar from "../../../Components/Calendar";
 
 // Services
 import PautaService from "../../../service/Pauta-Service";
@@ -24,17 +26,18 @@ export default function Pautas() {
   const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
-    setIsLoading(true); // Define o estado de carregamento como verdadeiro
+    setIsLoading(true);
     PautaService.getPautas().then((data) => {
       if (!data || typeof data !== "object") {
-        setPautas([]); // Define a lista de pautas como vazia
-        setIsLoading(false); // Define o estado de carregamento como falso
+        setPautas([]);
+        setIsLoading(false);
         return;
       }
 
@@ -45,9 +48,11 @@ export default function Pautas() {
       }));
 
       setPautas(pautas);
-      setIsLoading(false); // Define o estado de carregamento como falso quando os dados são carregados
+      setIsLoading(false);
     });
   }, []);
+
+  console.log("PAUTAS: ", pautas)
 
   useEffect(() => {
     if (pautas.length === 0) return;
@@ -68,7 +73,7 @@ export default function Pautas() {
 
   useEffect(() => {
     console.warn("Pautas", pautas);
-  }, [pautas])
+  }, [pautas]);
 
   const getPautasInMonth = (month, year) => {
     return pautas.filter(
@@ -93,9 +98,36 @@ export default function Pautas() {
     12: "Dezembro",
   };
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const calendarModalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    bgcolor: "background.paper",
+    borderLeft: "4px solid #0075B1",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+  };
+
   return (
     <div>
       <SubHeaderPautas filters={filters} setFilters={setFilters} />
+      <button onClick={handleModalOpen}>Abrir Calendário</button>
+      <Modal open={isModalOpen} onClose={handleModalClose}>
+        <Box sx={calendarModalStyle}>
+          <Calendar />
+        </Box>
+      </Modal>
       <div className="mb-20 mt-12 flex flex-col items-center justify-center gap-10">
         {isLoading ? (
           <div className="flex h-[71vh] items-center justify-around">
