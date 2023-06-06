@@ -1,0 +1,102 @@
+{
+  "Recebimento": {
+    "pt-br": "Recebimento",
+    "en-us": "Receipt"
+  },
+  "Conclusão": {
+    "pt-br": "Conclusão",
+    "en-us": "Conclusion"
+  },
+  "Prazo": {
+    "pt-br": "Prazo",
+    "en-us": "Deadline"
+  },
+  "Tarefa": {
+    "pt-br": "Tarefa",
+    "en-us": "Task"
+  },
+  "Responsável": {
+    "pt-br": "Responsável",
+    "en-us": "Responsible"
+  },
+  "Ação": {
+    "pt-br": "Ação",
+    "en-us": "Action"
+  },
+  "Versão": {
+    "pt-br": "Versão",
+    "en-us": "Version"
+  },
+  "Indefinido": {
+    "pt-br": "Indefinido",
+    "en-us": "Undefined"
+  },
+  "Em andamento": {
+    "pt-br": "Em andamento",
+    "en-us": "In progress"
+  },
+  "Concluído": {
+    "pt-br": "Concluído",
+    "en-us": "Completed"
+  },
+  "Atrasado": {
+    "pt-br": "Atrasado",
+    "en-us": "Delayed"
+  },
+  "Cancelado": {
+    "pt-br": "Cancelado",
+    "en-us": "Canceled"
+  },
+  "Preencher Demanda": {
+    "pt-br": "Preencher Demanda",
+    "en-us": "Fill Demand"
+  },
+  "Classificação e Aprovação": {
+    "pt-br": "Classificação e Aprovação",
+    "en-us": "Classification and Approval"
+  },
+  "Editar Demanda": {
+    "pt-br": "Editar Demanda",
+    "en-us": "Edit Demand"
+  },
+  "Aprovação Gerente da Área": {
+    "pt-br": "Aprovação Gerente da Área",
+    "en-us": "Area Manager Approval"
+  },
+  "Elaboração da Proposta": {
+    "pt-br": "Elaboração da Proposta",
+    "en-us": "Proposal Elaboration"
+  },
+  "Aprovação Comissão": {
+    "pt-br": "Aprovação Comissão",
+    "en-us": "Commission Approval"
+  },
+  "Aprovação DG": {
+    "pt-br": "Aprovação DG",
+    "en-us": "DG Approval"
+  },
+  "Execução da Proposta": {
+    "pt-br": "Execução da Proposta",
+    "en-us": "Proposal Execution"
+  },
+  "Enviar":{
+    "pt-br": "Enviar",
+    "en-us": "Send"
+  },
+  "Aprovar": {
+    "pt-br": "Aprovar",
+    "en-us": "Approve"
+  },
+  "Devolver": {
+    "pt-br": "Devolver",
+    "en-us": "Return"
+  },
+  "Recusar": {
+    "pt-br": "Recusar",
+    "en-us": "Refuse"
+  },
+  "null": {
+    "pt-br": "- - - - -",
+    "en-us": "- - - - -"
+  }
+}

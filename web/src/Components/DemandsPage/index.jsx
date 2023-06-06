@@ -106,7 +106,7 @@ export default function DemandsPage(props) {
         .catch((error) => {
           console.error("Erro ao obter os rascunhos:", error);
         });
-    } else if(demandType === DemandType.MANAGER) {
+    } else if (demandType === DemandType.MANAGER) {
       DemandService.getDemandsToManage(
         user.numeroCadastroUsuario,
         user.cargoUsuario
@@ -494,8 +494,9 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
-                      }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
+                      selectedDrafts.length > 0 ? "opacity-100" : ""
+                    }`}
                   >
                     Deletar {"(" + selectedDrafts.length + ")"}{" "}
                     {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
@@ -516,17 +517,17 @@ export default function DemandsPage(props) {
               getDemandsGrid()
             )
           ) : (
-            <div className="flex h-[71vh] items-center justify-around">
-                <NoContent isManager={!(demandType == DemandType.MANAGER)}>
-                  <div style={{ fontSize: fonts.xl }}>
-                    {demandType == DemandType.DEMAND &&
-                      "Nenhuma demanda encontrada!"}
-                    {demandType == DemandType.DRAFT &&
-                      "Nenhum rascunho encontrado!"}
-                    {demandType == DemandType.MANAGER &&
-                      "Nenhuma demanda para gerenciar!"}
-                  </div>
-                </NoContent>
+            <div className="flex h-[65vh] items-center justify-around">
+              <NoContent isManager={!(demandType == DemandType.MANAGER)}>
+                <div style={{ fontSize: fonts.xl }}>
+                  {demandType == DemandType.DEMAND &&
+                    "Nenhuma demanda encontrada!"}
+                  {demandType == DemandType.DRAFT &&
+                    "Nenhum rascunho encontrado!"}
+                  {demandType == DemandType.MANAGER &&
+                    "Nenhuma demanda para gerenciar!"}
+                </div>
+              </NoContent>
             </div>
           )
         ) : (

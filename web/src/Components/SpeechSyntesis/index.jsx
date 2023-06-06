@@ -9,6 +9,8 @@ import { styled } from "@mui/material/styles";
 import { Tooltip } from "@mui/material";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import DoneRoundedIcon from "@mui/icons-material/DoneRounded";
+import TranslationJson from "../../API/Translate/components/SpeechSyntesis.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
 
 const IconButton = styled(MuiIconButton)(() => ({
   display: "flex",
@@ -32,6 +34,10 @@ const IconButton = styled(MuiIconButton)(() => ({
 }));
 
 export default function TextToVoice() {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const { speak } = useSpeechSynthesis();
   const [selectedText, setSelectedText] = useState("");
   const [showButton, setShowButton] = useState(false);
@@ -54,7 +60,7 @@ export default function TextToVoice() {
     const voices = window.speechSynthesis.getVoices();
     console.log(voices);
     const voice = voices.find(
-      (voice) => voice.name === "Microsoft Maria - Portuguese (Brazil)"
+      (voice) => voice.lang === "Microsoft Maria - Portuguese (Brazil)"
     );
     speak({ text: selectedText, voice });
     setIsButtonClicked(true);
@@ -68,7 +74,7 @@ export default function TextToVoice() {
     <div className="fixed right-5 top-1/2 z-50 -translate-y-1/2 transform">
       {showButton && (
         <Tooltip
-          title={isButtonClicked ? "Lendo texto..." : "Ler texto"}
+          title={isButtonClicked ? translate["Lendo texto..."][language] ?? "Lendo texto..." : translate["Ler texto"][language] ?? "Ler texto"}
           placement="left"
         >
           <IconButton onClick={handleSpeak}>

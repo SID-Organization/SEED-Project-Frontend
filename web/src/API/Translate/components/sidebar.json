@@ -1,0 +1,38 @@
+{
+  "Nova demanda": {
+    "pt-br": "Nova demanda",
+    "en-us": "New demand"
+  },
+  "Minhas demandas": {
+    "pt-br": "Minhas demandas",
+    "en-us": "My demands"
+  },
+  "Rascunhos":{
+    "pt-br": "Rascunhos",
+    "en-us": "Drafts"
+  },
+  "Gerenciar demandas": {
+    "pt-br": "Gerenciar demandas",
+    "en-us": "Manage demands"
+  },
+  "Pautas": {
+    "pt-br": "Pautas",
+    "en-us": "Agenda"
+  },
+  "Atas": {
+    "pt-br": "Atas",
+    "en-us": "Minutes"
+  },
+  "Atas DG": {
+    "pt-br": "Atas DG",
+    "en-us": "DG Minutes"
+  },
+  "Propostas": {
+    "pt-br": "Propostas",
+    "en-us": "Proposals"
+  },
+  "Sair": {
+    "pt-br": "Sair",
+    "en-us": "Logout"
+  }
+}
