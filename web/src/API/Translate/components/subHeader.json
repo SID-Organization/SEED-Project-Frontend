@@ -2,5 +2,13 @@
  "Minhas demandas": {
   "pt-br": "Minhas demandas",
   "en-us": "My demands"
+ },
+ "Gerenciar demandas": {
+  "pt-br": "Gerenciar demandas",
+  "en-us": "Manage demands"
+ },
+ "Rascunhos": {
+  "pt-br": "Rascunhos",
+  "en-us": "Drafts"
  }
 }
