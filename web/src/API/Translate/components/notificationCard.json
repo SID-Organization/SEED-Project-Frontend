@@ -1,0 +1,18 @@
+{
+  "Aprovação": {
+    "pt-br": "Aprovação",
+    "en-us": "Approval"
+  },
+  "Rejeição": {
+    "pt-br": "Rejeição",
+    "en-us": "Rejection"
+  },
+  "Devolução": {
+    "pt-br": "Devolução",
+    "en-us": "Return"
+  },
+  "Edição": {
+    "pt-br": "Edição",
+    "en-us": "Edition"
+  }
+}
