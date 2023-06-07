@@ -1,0 +1,38 @@
+{
+  "Aprovado": {
+    "pt-br": "Aprovado",
+    "en-us": "Approved"
+  },
+  "Reprovado": {
+    "pt-br": "Reprovado",
+    "en-us": "Disapproved"
+  },
+  "Mais informações": {
+    "pt-br": "Mais informações",
+    "en-us": "More information"
+  },
+  "Parecer da DG": {
+    "pt-br": "Parecer da DG",
+    "en-us": "DG's opinion"
+  },
+  "Parecer da comissão": {
+    "pt-br": "Parecer da comissão",
+    "en-us": "Commission's opinion"
+  },
+  "Considerações": {
+    "pt-br": "Considerações",
+    "en-us": "Considerations"
+  },
+  "Assunto registrado em ata": {
+    "pt-br": "Assunto registrado em ata",
+    "en-us": "Subject registered in minutes"
+  },
+  "Publicada": {
+    "pt-br": "Publicada",
+    "en-us": "Published"
+  },
+  "Não publicada": {
+    "pt-br": "Não publicada",
+    "en-us": "Not published"
+  }
+}

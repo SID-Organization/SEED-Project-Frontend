@@ -14,9 +14,15 @@ import ProposalCard from "../Proposal-card";
 
 // Utils
 import ReactQuillUtils from "../../utils/ReactQuill-Utils";
+import TranslationJson from "../../API/Translate/components/generateAtaProposal.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
 export default function fsdGenerateAtaProposal(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [parecerComissao, setParecerComissao] = useState("");
   const [publicada, setPublicada] = useState(false);
   const [naoPublicada, setNaoPublicada] = useState(false);
@@ -55,13 +61,13 @@ export default function fsdGenerateAtaProposal(props) {
 
   const actionsComission = [
     {
-      action: "Aprovado",
+      action: translate["Aprovado"][language] ?? "Aprovado",
     },
     {
-      action: "Reprovado",
+      action: translate["Reprovado"][language] ?? "Reprovado",
     },
     {
-      action: "Mais informações",
+      action: translate["Mais informações"][language] ?? "Mais informações",
     },
     {
       action: "Business Case",
@@ -70,10 +76,10 @@ export default function fsdGenerateAtaProposal(props) {
 
   const actionsDG = [
     {
-      action: "Aprovado",
+      action: translate["Aprovado"][language] ?? "Aprovado",
     },
     {
-      action: "Reprovado",
+      action: translate["Reprovado"][language] ?? "Reprovado",
     },
   ]
 
@@ -84,9 +90,9 @@ export default function fsdGenerateAtaProposal(props) {
 
   const getBadgeColor = (action) => {
     switch (action) {
-      case 'Aprovado': return 'success'
-      case 'Reprovado': return 'error'
-      case 'Mais informações': return 'warning'
+      case translate["Aprovado"][language] ?? "Aprovado": return 'success'
+      case translate["Reprovado"][language] ?? "Reprovado": return 'error'
+      case translate["Mais informações"][language] ?? "Mais informações": return 'warning'
       default: return 'info'
     }
   }
@@ -118,7 +124,7 @@ export default function fsdGenerateAtaProposal(props) {
         "
         >
           <div className="grid">
-            <p className="font-roboto font-bold">Parecer da {props.isAtaForDG ? "DG" : "comissão"}</p>
+            <p className="font-roboto font-bold">{translate[`Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`][language] ?? `Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`}</p>
             <Box sx={{ minWidth: 120 }}>
               <FormControl
                 fullWidth
@@ -153,7 +159,7 @@ export default function fsdGenerateAtaProposal(props) {
             </Box>
           </div>
           <div className="grid">
-            <p className="font-roboto font-bold">Considerações</p>
+            <p className="font-roboto font-bold">{translate["Considerações"][language] ?? "Considerações"}</p>
             <ReactQuill
               value={quillHtmlConsideration}
               onChange={(e) => setQuillHtmlConsideration(e)}
@@ -164,7 +170,7 @@ export default function fsdGenerateAtaProposal(props) {
           </div>
           {!props.isAtaForDG ? <div className="grid">
             <p className="font-roboto font-bold mb-2">
-              Assunto registrado em ata
+              {translate["Assunto registrado em ata"][language] ?? "Assunto registrado em ata"}
             </p>
             <div className="flex gap-2 mb-10">
               <Button
@@ -188,7 +194,7 @@ export default function fsdGenerateAtaProposal(props) {
                   <PublicIcon sx={{ color: publicada ? "#fff" : "#000" }} />
                 }
               >
-                Publicada
+                {translate["Publicada"][language] ?? "Publicada"}
               </Button>
               <Button
                 onClick={() => {
@@ -213,7 +219,7 @@ export default function fsdGenerateAtaProposal(props) {
                   />
                 }
               >
-                Não publicada
+                {translate["Não publicada"][language] ?? "Não publicada"}
               </Button>
             </div>
           </div>
