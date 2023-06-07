@@ -16,6 +16,10 @@ import { useEffect, useState } from "react";
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/noContent.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 const Button = styled(MuiButton)(() => ({
   color: "#0075B1",
   fontWeight: "bold",
@@ -36,6 +40,10 @@ const FolderOffOutlinedIcon = styled(MuiFolderOffOutlinedIcon)(() => ({
 }));
 
 export default function noContent(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   useEffect(() => {
@@ -62,7 +70,7 @@ export default function noContent(props) {
                 variant="outlined"
                 startIcon={<AddBoxIcon />}
               >
-                Crie uma demanda
+                {translate["Crie uma demanda"][language] ?? "Crie uma demanda"}
               </Button>
             </Link>
           </div>
