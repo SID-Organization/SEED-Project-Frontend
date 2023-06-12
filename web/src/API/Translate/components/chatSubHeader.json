@@ -1,0 +1,46 @@
+{
+  "Informações":{
+    "pt-br": "Informações",
+    "en-us": "Information"
+  },
+  "Demanda": {
+    "pt-br": "Demanda",
+    "en-us": "Demand"
+  },
+  "Departamento": {
+    "pt-br": "Departamento",
+    "en-us": "Department"
+  },
+  "Seção": {
+    "pt-br": "Seção",
+    "en-us": "Section"
+  },
+  "Telefone": {
+    "pt-br": "Telefone",
+    "en-us": "Phone"
+  },
+  "Fechar": {
+    "pt-br": "Fechar",
+    "en-us": "Close"
+  },
+  "E-mail copiado para a área de transferência!": {
+    "pt-br": "E-mail copiado para a área de transferência!",
+    "en-us": "E-mail copied to clipboard!"
+  },
+  "Telefone copiado para a área de transferência!": {
+    "pt-br": "Telefone copiado para a área de transferência!",
+    "en-us": "Phone copied to clipboard!"
+  },
+  "Solicitante": {
+    "pt-br": "Solicitante",
+    "en-us": "Requester"
+  },
+  "Analistas": {
+    "pt-br": "Analistas",
+    "en-us": "Analysts"
+  },
+  "Informações do usuário": {
+    "pt-br": "Informações do usuário",
+    "en-us": "User information"
+  }
+}
