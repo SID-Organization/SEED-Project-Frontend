@@ -3,33 +3,39 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
 export default function Calendar(props) {
-  const [meetings, setMeetings] = useState([
-    {
-      title: "Event 1",
-      start: "2023-06-06T10:30:00",
-      end: "2023-06-06T12:30:00",
-      extendedProps: {
-        pautaId: 1,
-      },
-    },
-    {
-      title: "Event 2",
-      start: "2023-06-09T10:30:00",
-      end: "2023-06-09T12:30:00",
-      extendedProps: {
-        pautaId: 2,
-      },
-    },
-  ]);
-
+  const [meetings, setMeetings] = useState();
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  const { pautas } = props;
+
   useEffect(() => {
-    console.log("meetings: ", meetings);
+    const convertedMeetings = pautas.map((pauta) => ({
+      title: `Pauta - ${pauta.idPauta}`,
+      start: `${convertDateFormat(pauta.dataReuniao)}T${pauta.horaReuniao}`,
+      end: `${convertDateFormat(pauta.dataReuniao)}T${
+        pauta.horaTerminoReuniao
+      }`,
+      extendedProps: {
+        pautaId: pauta.idPauta,
+      },
+    }));
+
+    setMeetings(convertedMeetings);
+  }, [pautas]);
+
+  useEffect(() => {
+    console.log("MEETINGS NECESSARY: ", meetings);
   }, [meetings]);
 
   const handleEventClick = (info) => {
-    setSelectedEvent(info.event.extendedProps);
+    const { pautaId } = info.event.extendedProps;
+    setSelectedEvent(pautaId);
+    console.log("PAUTA ID: ", pautaId);
+  };
+
+  const convertDateFormat = (date) => {
+    const [day, month, year] = date.split("/");
+    return `${year}-${month}-${day}`;
   };
 
   return (
