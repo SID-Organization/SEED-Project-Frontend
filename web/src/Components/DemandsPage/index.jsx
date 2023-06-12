@@ -122,7 +122,7 @@ export default function DemandsPage(props) {
         .then((data) => {
           let demandsToManage = data;
           if (demandsToManage && demandsToManage.length > 0) {
-            setDbDemands(demandsToManage);
+            setDbDemands(demandsToManage.filter(d => d.statusDemanda != "RASCUNHO"));
             setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);

@@ -1,56 +1,56 @@
 {
- "Procure pelo título": {
-  "pt-br": "Procure pelo título",
-  "en-us": "Search by title"
- },
- "filterComponents": {
-  "Solicitante": {
-   "pt-br": "Solicitante",
-   "en-us": "Requester"
-  },
-  "Valor": {
-   "pt-br": "Valor",
-   "en-us": "Value"
-  },
-  "Score": {
-   "pt-br": "Score",
-   "en-us": "Score"
-  },
-  "Título": {
-   "pt-br": "Título",
-   "en-us": "Title"
-  },
-  "Status da demanda": {
-   "pt-br": "Status da demanda",
-   "en-us": "Demand Status"
-  },
-  "Analista responsável": {
-   "pt-br": "Analista responsável",
-   "en-us": "Responsible Analyst"
-  },
-  "Gerente responsável": {
-   "pt-br": "Gerente responsável",
-   "en-us": "Responsible Manager"
-  },
-  "Fórum de aprovação": {
-   "pt-br": "Fórum de aprovação",
-   "en-us": "Approval Forum"
-  },
-  "Departamento": {
-   "pt-br": "Departamento",
-   "en-us": "Department"
-  },
-  "Tamanho da demanda": {
-   "pt-br": "Tamanho da demanda",
-   "en-us": "Demand Size"
-  },
-  "Código PPM": {
-   "pt-br": "Código PPM",
-   "en-us": "PPM Code"
-  },
-  "Número da solicitação": {
-   "pt-br": "Número da solicitação",
-   "en-us": "Request Number"
-  }
- }
+    "Procure pelo título": {
+        "pt-br": "Procure pelo título",
+        "en-us": "Search by title"
+    },
+    "filterComponents": {
+        "Solicitante": {
+            "pt-br": "Solicitante",
+            "en-us": "Requester"
+        },
+        "Valor": {
+            "pt-br": "Valor",
+            "en-us": "Value"
+        },
+        "Score": {
+            "pt-br": "Score",
+            "en-us": "Score"
+        },
+        "Título": {
+            "pt-br": "Título",
+            "en-us": "Title"
+        },
+        "Status da demanda": {
+            "pt-br": "Status da demanda",
+            "en-us": "Demand Status"
+        },
+        "Analista responsável": {
+            "pt-br": "Analista responsável",
+            "en-us": "Responsible Analyst"
+        },
+        "Gerente responsável": {
+            "pt-br": "Gerente responsável",
+            "en-us": "Responsible Manager"
+        },
+        "Fórum de aprovação": {
+            "pt-br": "Fórum de aprovação",
+            "en-us": "Approval Forum"
+        },
+        "Departamento": {
+            "pt-br": "Departamento",
+            "en-us": "Department"
+        },
+        "Tamanho da demanda": {
+            "pt-br": "Tamanho da demanda",
+            "en-us": "Demand Size"
+        },
+        "Código PPM": {
+            "pt-br": "Código PPM",
+            "en-us": "PPM Code"
+        },
+        "Número da solicitação": {
+            "pt-br": "Número da solicitação",
+            "en-us": "Request Number"
+        }
+    }
 }
