@@ -155,7 +155,7 @@ export default function Search(props) {
           <InputBase
             type={props.type}
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
-            placeholder={translate['Procure pelo título'][language]}
+            placeholder={translate['Procure pelo título']?.[language]}
             onChange={(e) => setTitle(e.target.value)}
             value={title}
             onKeyDown={(e) => {
@@ -202,25 +202,25 @@ export default function Search(props) {
           >
             <div className="grid gap-3">
               <FilterComponent
-                title={componentTranslate["Solicitante"][language]}
+                title={componentTranslate["Solicitante"]?.[language]}
                 type="text"
                 value={requester}
                 setValue={setRequester}
               />
               <FilterComponent
-                title={componentTranslate["Valor"][language]}
+                title={componentTranslate["Valor"]?.[language]}
                 type="number"
                 value={value}
                 setValue={setValue}
               />
               <FilterComponent
-                title={componentTranslate["Score"][language]}
+                title={componentTranslate["Score"]?.[language]}
                 type="number"
                 value={score}
                 setValue={setScore}
               />
               <FilterComponent
-                title={componentTranslate["Título"][language]}
+                title={componentTranslate["Título"]?.[language]}
                 type="text"
                 value={title}
                 setValue={setTitle}
@@ -229,7 +229,7 @@ export default function Search(props) {
                 ref={selectRef}
               >
                 <FilterComponent
-                  title={componentTranslate["Status da demanda"][language]}
+                  title={componentTranslate["Status da demanda"]?.[language]}
                   type="select"
                   options={DemandFilterUtils.getDemandStatusOptions()}
                   value={demandStatus}
@@ -237,43 +237,43 @@ export default function Search(props) {
                 />
               </div>
               <FilterComponent
-                title={componentTranslate["Analista responsável"][language]}
+                title={componentTranslate["Analista responsável"]?.[language]}
                 type="text"
                 value={responsibleAnalyst}
                 setValue={setResponsibleAnalyst}
               />
               <FilterComponent
-                title={componentTranslate["Gerente responsável"][language]}
+                title={componentTranslate["Gerente responsável"]?.[language]}
                 type="text"
                 value={responsibleManager}
                 setValue={setResponsibleManager}
               />
               <FilterComponent
-                title={componentTranslate["Fórum de aprovação"][language]}
+                title={componentTranslate["Fórum de aprovação"]?.[language]}
                 type="text"
                 value={approvalForum}
                 setValue={setApprovalForum}
               />
               <FilterComponent
-                title={componentTranslate["Departamento"][language]}
+                title={componentTranslate["Departamento"]?.[language]}
                 type="text"
                 value={department}
                 setValue={setDepartment}
               />
               <FilterComponent
-                title={componentTranslate["Tamanho da demanda"][language]}
+                title={componentTranslate["Tamanho da demanda"]?.[language]}
                 type="text"
                 value={demandSize}
                 setValue={setDemandSize}
               />
               <FilterComponent
-                title={componentTranslate["Código PPM"][language]}
+                title={componentTranslate["Código PPM"]?.[language]}
                 type="number"
                 value={PPMCode}
                 setValue={setPPMCode}
               />
               <FilterComponent
-                title={componentTranslate["Número da solicitação"][language]}
+                title={componentTranslate["Número da solicitação"]?.[language]}
                 type="number"
                 value={requestNumber}
                 setValue={setRequestNumber}

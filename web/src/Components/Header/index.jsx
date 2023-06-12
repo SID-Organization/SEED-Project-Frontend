@@ -260,7 +260,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleCloseMenu}
     >
       <Link to="/perfil">
-        <MenuItem onClick={handleCloseMenu}>{translate["Seu perfil"][language] ?? "Seu perfil"}</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>{translate["Seu perfil"]?.[language] ?? "Seu perfil"}</MenuItem>
       </Link>
       <Accordion
         sx={{
@@ -274,7 +274,7 @@ export default function PrimarySearchAppBar() {
           id="panel1a-header"
           className="font-roboto"
         >
-          <h1 className="font-roboto">{translate["Idioma"][language] ?? "Idioma"}</h1>
+          <h1 className="font-roboto">{translate["Idioma"]?.[language] ?? "Idioma"}</h1>
         </AccordionSummary>
         {flags.map((flag, i) => (
           <AccordionDetails key={i}>
@@ -291,14 +291,14 @@ export default function PrimarySearchAppBar() {
                   />
                 </div>
                 <div className="text-start">
-                  <h1 className="ml-1">{translate[flag.label][language]}</h1>
+                  <h1 className="ml-1">{translate[flag.label]?.[language]}</h1>
                 </div>
               </div>
             </Button>
           </AccordionDetails>
         ))}
       </Accordion>
-      <MenuItem onClick={handleSystemExit}>{translate["Sair"][language] ?? "Sair"}</MenuItem>
+      <MenuItem onClick={handleSystemExit}>{translate["Sair"]?.[language] ?? "Sair"}</MenuItem>
       <MenuItem
         sx={{
           display: "flex",
@@ -503,7 +503,7 @@ export default function PrimarySearchAppBar() {
         text-blue-weg
       "
       >
-        {translate["Mensagens"][language] ?? "Mensagens"}
+        {translate["Mensagens"]?.[language] ?? "Mensagens"}
       </p>
       <Divider />
       <Paper
@@ -523,7 +523,7 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder={translate["Procure por usuários ou demandas"][language] ?? "Procure por usuários ou demandas"}
+          placeholder={translate["Procure por usuários ou demandas"]?.[language] ?? "Procure por usuários ou demandas"}
           inputProps={{ "aria-label": "search google maps" }}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -615,9 +615,9 @@ export default function PrimarySearchAppBar() {
         text-blue-weg
       "
           >
-            {translate["Notificações"][language] ?? "Notificações"}
+            {translate["Notificações"]?.[language] ?? "Notificações"}
           </p>
-          <Tooltip title={translate["Marcar todas como lidas"][language] ?? "Marcar todas como lidas"}>
+          <Tooltip title={translate["Marcar todas como lidas"]?.[language] ?? "Marcar todas como lidas"}>
             <IconButton
               sx={{
                 marginRight: "1rem",
@@ -661,7 +661,7 @@ export default function PrimarySearchAppBar() {
                 `
             }
           >
-            {translate["Tudo"][language] ?? "Tudo"}
+            {translate["Tudo"]?.[language] ?? "Tudo"}
           </button>
           <button
             onClick={() => {
@@ -695,7 +695,7 @@ export default function PrimarySearchAppBar() {
             `
             }
           >
-            {translate["Não lidas"][language] ?? "Não lidas"}
+            {translate["Não lidas"]?.[language] ?? "Não lidas"}
           </button>
         </div>
       </div>
@@ -763,7 +763,7 @@ export default function PrimarySearchAppBar() {
             />
           </div>
           <p className="cursor-default font-roboto tracking-wide text-[#BDBDBD]">
-            {translate["Nenhum usuário encontrado"][language] ?? "Nenhum usuário encontrado"}
+            {translate["Nenhum usuário encontrado"]?.[language] ?? "Nenhum usuário encontrado"}
           </p>
         </div>
       );
@@ -846,7 +846,7 @@ export default function PrimarySearchAppBar() {
                   )}
                 </IconButton>
               </Box>
-              <Tooltip title={translate["Mensagens"][language] ?? "Mensagens"}>
+              <Tooltip title={translate["Mensagens"]?.[language] ?? "Mensagens"}>
                 <IconButton
                   size="large"
                   aria-label="show 4 new mails"
@@ -861,7 +861,7 @@ export default function PrimarySearchAppBar() {
                   </Badge>
                 </IconButton>
               </Tooltip>
-              <Tooltip title={translate["Notificações"][language] ?? "Notificações"}>
+              <Tooltip title={translate["Notificações"]?.[language] ?? "Notificações"}>
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"

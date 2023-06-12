@@ -93,7 +93,7 @@ export default function VoiceSpeech(props) {
     if (!browserSupportsSpeechRecognition) {
       console.log("Seu navegador não é compatível com SpeechRecognition.");
       return (
-        <alert>{translate["Seu navegador não é compatível com SpeechRecognition."][language] ?? "Seu navegador não é compatível com SpeechRecognition"}</alert>
+        <alert>{translate["Seu navegador não é compatível com SpeechRecognition."]?.[language] ?? "Seu navegador não é compatível com SpeechRecognition"}</alert>
       );
     }
 
@@ -159,7 +159,7 @@ export default function VoiceSpeech(props) {
                       style={{ fontSize: fonts.sm }}
                       className="font-bold text-blue-weg"
                     >
-                      {translate["Ouvindo ..."][language] ?? "Ouvindo ..."}
+                      {translate["Ouvindo ..."]?.[language] ?? "Ouvindo ..."}
                     </p>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ export default function VoiceSpeech(props) {
                       className="text-blue-weg"
                       fontSize="small"
                     />
-                    <p>{translate["Edite seu texto como preferir"][language] ?? "Edite seu texto como preferir"}</p>
+                    <p>{translate["Edite seu texto como preferir"]?.[language] ?? "Edite seu texto como preferir"}</p>
                   </div>
                 </div>
               )}
@@ -178,7 +178,7 @@ export default function VoiceSpeech(props) {
                 {isListening == true && (
                   <div className="flex flex-col pl-4">
                     <p style={{ fontSize: fonts.sm }} className="text-gray-500">
-                      {translate["Fale pausadamente e com clareza."][language] ?? "Fale pausadamente e com clareza."}
+                      {translate["Fale pausadamente e com clareza."]?.[language] ?? "Fale pausadamente e com clareza."}
                     </p>
                   </div>
                 )}
@@ -216,7 +216,7 @@ export default function VoiceSpeech(props) {
                 className="inline-flex w-full justify-center rounded-md border border-transparent bg-slate-400 px-4 py-2 text-base text-white shadow-sm sm:text-sm"
                 onClick={cancelAndStopListen}
               >
-                {translate["Cancelar"][language] ?? "Cancelar"}
+                {translate["Cancelar"]?.[language] ?? "Cancelar"}
               </Button>
               <Button
                 sx={{
@@ -227,7 +227,7 @@ export default function VoiceSpeech(props) {
                 className="hover:bg-blue-weg-light focus:ring-blue-weg-light inline-flex w-full justify-center rounded-md border border-transparent bg-blue-weg px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm"
                 onClick={stopsAndConfirm}
               >
-                {isListening ? translate["Parar"][language] ?? "Parar" : translate["Confirmar"][language] ?? "Confirmar"}
+                {isListening ? translate["Parar"]?.[language] ?? "Parar" : translate["Confirmar"][language] ?? "Confirmar"}
               </Button>
             </div>
           </div>

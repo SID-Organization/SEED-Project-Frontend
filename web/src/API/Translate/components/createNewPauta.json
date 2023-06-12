@@ -1,0 +1,62 @@
+{
+  "Preencha todos os campos": {
+    "pt-br": "Preencha todos os campos",
+    "en-us": "Fill in all fields"
+  },
+  "O horário de término deve ser maior que o horário de início": {
+    "pt-br": "O horário de término deve ser maior que o horário de início",
+    "en-us": "The end time must be greater than the start time"
+  },
+  "Selecione pelo menos uma proposta": {
+    "pt-br": "Selecione pelo menos uma proposta",
+    "en-us": "Select at least one proposal"
+  },
+  "Erro ao criar pauta": {
+    "pt-br": "Erro ao criar pauta",
+    "en-us": "Error creating schedule"
+  },
+  "Pauta criada com sucesso": {
+    "pt-br": "Pauta criada com sucesso",
+    "en-us": "Schedule created successfully"
+  },
+  "Crie uma pauta": {
+    "pt-br": "Crie uma pauta",
+    "en-us": "Create an schedule"
+  },
+  "Data da reunião": {
+    "pt-br": "Data da reunião",
+    "en-us": "Meeting date"
+  },
+  "Criar pauta": {
+    "pt-br": "Criar pauta",
+    "en-us": "Create schedule"
+  },
+  "Horário:": {
+    "pt-br": "Horário:",
+    "en-us": "Time:"
+  },
+  "Comissão": {
+    "pt-br": "Comissão",
+    "en-us": "Commission"
+  },
+  "Procurar por título": {
+    "pt-br": "Procurar por título",
+    "en-us": "Search by title"
+  },
+  "Selecione as propostas": {
+    "pt-br": "Selecione as propostas",
+    "en-us": "Select proposals"
+  },
+  "Término": {
+    "pt-br": "Término",
+    "en-us": "End"
+  },
+  "Início": {
+    "pt-br": "Início",
+    "en-us": "Start"
+  },
+  "Criar nova pauta": {
+    "pt-br": "Criar nova pauta",
+    "en-us": "Create new schedule"
+  }
+}

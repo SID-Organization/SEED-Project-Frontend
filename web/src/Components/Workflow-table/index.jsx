@@ -33,7 +33,7 @@ const renderDateCell = (params) => {
   const translate = TranslationJson;
   let language = TranslateUtils.getLanguage();
 
-  const date = params.value ? DateUtils.formatDateTime(params.value) : translate["Indefinido"][language] ?? "Indefinido";
+  const date = params.value ? DateUtils.formatDateTime(params.value) : translate["Indefinido"]?.[language] ?? "Indefinido";
   return (
     <Tooltip title={date} enterDelay={820}>
       <p className="text-[11px]">{date}</p>
@@ -97,9 +97,9 @@ export default function WorkflowTable({ demandId }) {
           recebimento: wfdata.recebimentoHistorico,
           conclusao: wfdata.conclusaoHistorico,
           prazo: wfdata.prazoHistorico,
-          tarefa: translate[wfdata.tarefaHistoricoWorkflow][language] ?? wfdata.tarefaHistoricoWorkflow,
+          tarefa: translate[wfdata.tarefaHistoricoWorkflow]?.[language] ?? wfdata.tarefaHistoricoWorkflow,
           responsavel: wfdata.nomeResponsavel,
-          acao: translate[wfdata.acaoFeitaHistorico][language] ?? wfdata.acaoFeitaHistorico,
+          acao: translate[wfdata.acaoFeitaHistorico]?.[language] ?? wfdata.acaoFeitaHistorico,
           status: wfdata.statusWorkflow,
           versao: wfdata.versaoHistorico,
           observacao: wfdata.motivoDevolucaoHistorico,
@@ -120,40 +120,40 @@ export default function WorkflowTable({ demandId }) {
     },
     {
       field: "recebimento",
-      headerName: translate["Recebimento"][language] ?? "Recebimento",
+      headerName: translate["Recebimento"]?.[language] ?? "Recebimento",
       type: "date",
       renderCell: renderDateCell,
       width: 130,
     },
     {
       field: "conclusao",
-      headerName: translate["Conclusão"][language] ?? "Conclusão",
+      headerName: translate["Conclusão"]?.[language] ?? "Conclusão",
       type: "date",
       renderCell: renderDateCell,
       width: 130,
     },
     {
       field: "prazo",
-      headerName: translate["Prazo"][language] ?? "Prazo",
+      headerName: translate["Prazo"]?.[language] ?? "Prazo",
       type: "date",
       renderCell: renderDateCell,
       width: 140,
     },
     {
       field: "tarefa",
-      headerName: translate["Tarefa"][language] ?? "Tarefa",
+      headerName: translate["Tarefa"]?.[language] ?? "Tarefa",
       renderCell: renderCellTooltip,
       minWidth: 220,
     },
     {
       field: "responsavel",
-      headerName: translate["Responsável"][language] ?? "Responsável",
+      headerName: translate["Responsável"]?.[language] ?? "Responsável",
       renderCell: renderCellTooltip,
       minWidth: 150,
     },
     {
       field: "acao",
-      headerName: translate["Ação"][language] ?? "Ação",
+      headerName: translate["Ação"]?.[language] ?? "Ação",
       renderCell: renderCellTooltip,
       width: 90,
     },
@@ -164,14 +164,14 @@ export default function WorkflowTable({ demandId }) {
         <p
           className={`text-[11px] ${getStatusColor(params.value)}`}
         >
-          {translate[params.value][language] ?? params.value}
+          {translate[params.value]?.[language] ?? params.value}
         </p>
       ),
       width: 90,
     },
     {
       field: "versao",
-      headerName: translate["Versão"][language] ?? "Versão",
+      headerName: translate["Versão"]?.[language] ?? "Versão",
       renderCell: renderCellTooltip,
       align: "center",
       headerAlign: "center",

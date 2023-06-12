@@ -108,7 +108,7 @@ export default function Sidebar() {
 
   const sideBarItems = [
     {
-      title: translate["Nova demanda"][language] ?? "Nova demanda",
+      title: translate["Nova demanda"]?.[language] ?? "Nova demanda",
       outlinedIcon: <AddBoxOutlinedIcon sx={iconStyle} />,
       fullIcon: <AddBoxIcon sx={iconStyle} />,
       linkTo: "/nova-demanda",
@@ -116,14 +116,14 @@ export default function Sidebar() {
       isActiveToUser: true,
     },
     {
-      title: translate["Minhas demandas"][language] ?? "Minhas demandas",
+      title: translate["Minhas demandas"]?.[language] ?? "Minhas demandas",
       outlinedIcon: <HomeOutlinedIcon sx={iconStyle} />,
       fullIcon: <HomeIcon sx={iconStyle} />,
       linkTo: "/demandas",
       isActiveToUser: true,
     },
     {
-      title: translate["Rascunhos"][language] ?? "Rascunhos",
+      title: translate["Rascunhos"]?.[language] ?? "Rascunhos",
       outlinedIcon: <NoteAltOutlinedIcon sx={iconStyle} />,
       fullIcon: <NoteAltIcon sx={iconStyle} />,
       linkTo: "/rascunhos",
@@ -131,7 +131,7 @@ export default function Sidebar() {
       isActiveToUser: true,
     },
     {
-      title: translate["Gerenciar demandas"][language] ?? "Gerenciar demandas",
+      title: translate["Gerenciar demandas"]?.[language] ?? "Gerenciar demandas",
       outlinedIcon: <ManageAccountsOutlinedIcon sx={iconStyle} />,
       fullIcon: <ManageAccountsIcon sx={iconStyle} />,
       hasDivider: true,
@@ -139,21 +139,21 @@ export default function Sidebar() {
       isActiveToUser: !isRoleRequester,
     },
     {
-      title: translate["Pautas"][language] ?? "Pautas",
+      title: translate["Pautas"]?.[language] ?? "Pautas",
       outlinedIcon: <CalendarMonthOutlinedIcon sx={iconStyle} />,
       fullIcon: <CalendarMonthIcon sx={iconStyle} />,
       linkTo: "/pautas",
       isActiveToUser: !isRoleRequester,
     },
     {
-      title: translate["Atas"][language] ?? "Atas",
+      title: translate["Atas"]?.[language] ?? "Atas",
       outlinedIcon: <ClassOutlinedIcon sx={iconStyle} />,
       fullIcon: <ClassIcon sx={iconStyle} />,
       linkTo: "/atas",
       isActiveToUser: !isRoleRequester,
     },
     {
-      title: translate["Atas DG"][language] ?? "Atas DG",
+      title: translate["Atas DG"]?.[language] ?? "Atas DG",
       outlinedIcon: <FolderOutlined sx={iconStyle} />,
       fullIcon: <Folder sx={iconStyle} />,
       linkTo: "/atas-dg",
@@ -161,7 +161,7 @@ export default function Sidebar() {
       isActiveToUser: !isRoleRequester
     },
     {
-      title: translate["Propostas"][language] ?? "Propostas",
+      title: translate["Propostas"]?.[language] ?? "Propostas",
       outlinedIcon: <DescriptionOutlinedIcon sx={iconStyle} />,
       fullIcon: <DescriptionIcon sx={iconStyle} />,
       linkTo: "/propostas",
@@ -176,7 +176,7 @@ export default function Sidebar() {
       isActiveToUser: true,
     },
     {
-      title: translate["Sair"][language] ?? "Sair",
+      title: translate["Sair"]?.[language] ?? "Sair",
       outlinedIcon: <LogoutRoundedIcon sx={iconStyle} />,
       fullIcon: <LogoutRoundedIcon sx={iconStyle} />,
       linkTo: "/login",

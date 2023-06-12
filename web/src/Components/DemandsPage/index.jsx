@@ -347,7 +347,7 @@ export default function DemandsPage(props) {
                   text-center
                 "
                 >
-                  {translate["Têm certeza que deseja deletar todos os rascunhos?"][language] ?? "Têm certeza que deseja deletar todos os rascunhos?"}
+                  {translate["Têm certeza que deseja deletar todos os rascunhos?"]?.[language] ?? "Têm certeza que deseja deletar todos os rascunhos?"}
                 </p>
               </DialogTitle>
             </div>
@@ -364,7 +364,7 @@ export default function DemandsPage(props) {
                     },
                   }}
                 >
-                  {translate["Cancelar"][language] ?? "Cancelar"}
+                  {translate["Cancelar"]?.[language] ?? "Cancelar"}
                 </Button>
                 <Button
                   onClick={deleteAllDrafts}
@@ -377,7 +377,7 @@ export default function DemandsPage(props) {
                     },
                   }}
                 >
-                  {translate["Deletar tudo"][language] ?? "Deletar tudo"}
+                  {translate["Deletar tudo"]?.[language] ?? "Deletar tudo"}
                 </Button>
               </div>
             </DialogActions>
@@ -415,10 +415,10 @@ export default function DemandsPage(props) {
                   text-center
                 "
                 >
-                  {translate["Têm certeza que deseja deletar"][language] ?? "Têm certeza que deseja deletar"}{" "}
+                  {translate["Têm certeza que deseja deletar"]?.[language] ?? "Têm certeza que deseja deletar"}{" "}
                   {selectedDrafts.length > 1
-                    ? translate["esses rascunhos?"][language] ?? "esses rascunhos?"
-                    : translate["esse rascunho?"][language] ?? "esse rascunho?"}
+                    ? translate["esses rascunhos?"]?.[language] ?? "esses rascunhos?"
+                    : translate["esse rascunho?"]?.[language] ?? "esse rascunho?"}
                 </p>
               </DialogTitle>
             </div>
@@ -435,7 +435,7 @@ export default function DemandsPage(props) {
                     },
                   }}
                 >
-                  {translate["Cancelar"][language] ?? "Cancelar"}
+                  {translate["Cancelar"]?.[language] ?? "Cancelar"}
                 </Button>
                 <Button
                   onClick={deleteSelectedDrafts}
@@ -448,7 +448,7 @@ export default function DemandsPage(props) {
                     },
                   }}
                 >
-                  {translate["Deletar"][language] ?? "Deletar"}
+                  {translate["Deletar"]?.[language] ?? "Deletar"}
                 </Button>
               </div>
             </DialogActions>
@@ -478,7 +478,7 @@ export default function DemandsPage(props) {
                   />
                 }
               >
-                {translate["Deletar tudo"][language] ?? "Deletar tudo"}
+                {translate["Deletar tudo"]?.[language] ?? "Deletar tudo"}
               </Button>
               {selectedDrafts.length > 0 && (
                 <Fade
@@ -506,7 +506,7 @@ export default function DemandsPage(props) {
                       selectedDrafts.length > 0 ? "opacity-100" : ""
                     }`}
                   >
-                    {translate["Deletar"][language] ?? "Deletar"} {"(" + selectedDrafts.length + ")"}{" "}
+                    {translate["Deletar"]?.[language] ?? "Deletar"} {"(" + selectedDrafts.length + ")"}{" "}
                     {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
                   </ButtonAddSelected>
                 </Fade>
@@ -529,11 +529,11 @@ export default function DemandsPage(props) {
               <NoContent isManager={!(demandType == DemandType.MANAGER)}>
                 <div style={{ fontSize: fonts.xl }}>
                   {demandType == DemandType.DEMAND &&
-                    translate["Nenhuma demanda encontrada!"][language]}
+                    translate["Nenhuma demanda encontrada!"]?.[language]}
                   {demandType == DemandType.DRAFT &&
-                    translate["Nenhum rascunho encontrado!"][language]}
+                    translate["Nenhum rascunho encontrado!"]?.[language]}
                   {demandType == DemandType.MANAGER &&
-                    translate["Nenhuma demanda para gerenciar!"][language]}
+                    translate["Nenhuma demanda para gerenciar!"]?.[language]}
                 </div>
               </NoContent>
             </div>

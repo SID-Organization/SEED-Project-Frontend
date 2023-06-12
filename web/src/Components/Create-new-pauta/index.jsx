@@ -28,6 +28,10 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 import VoiceSpeech from "../VoiceSpeech";
 import Notification from "../Notification";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/createNewPauta.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 const TextField = styled(MuiTextField)({
   width: "14rem",
   marginBottom: "1rem",
@@ -80,6 +84,10 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
 });
 
 export default function CreateNewPauta(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifyCreation, setNotifyCreation] = useState(false);
@@ -139,15 +147,15 @@ export default function CreateNewPauta(props) {
 
   const handleCreatePauta = () => {
     if (!meetingDate || !meetingStartTime || !meetingEndTime) {
-      alert("Preencha todos os campos");
+      alert(translate["Preencha todos os campos"][language] ?? "Preencha todos os campos");
       return;
     }
     if (meetingEndTime < meetingStartTime) {
-      alert("O horário de término deve ser maior que o horário de início");
+      alert(translate["O horário de término deve ser maior que o horário de início"][language] ?? "O horário de término deve ser maior que o horário de início");
       return;
     }
     if (selectedProposals.length === 0) {
-      alert("Selecione pelo menos uma proposta");
+      alert(translate["Selecione pelo menos uma proposta"][language] ?? "Selecione pelo menos uma proposta");
       return;
     }
     const pautaJson = {
@@ -169,7 +177,7 @@ export default function CreateNewPauta(props) {
 
     PautaService.createPauta(pautaJson).then((res) => {
       if (res.error) {
-        alert("Erro ao criar pauta\n" + res.error);
+        alert(translate["Erro ao criar pauta"]?.[language] + "\n" + res.error);
         return;
       } else {
         setNotifyCreation(true)
@@ -204,7 +212,7 @@ export default function CreateNewPauta(props) {
           startIcon={<AddBoxIcon />}
           onClick={() => setIsModalOpen(true)}
         >
-          Crie uma pauta
+          {translate["Crie uma pauta"]?.[language] ?? "Crie uma pauta"}
         </ButtonIsPauta>
       ) : (
         <Button
@@ -213,10 +221,10 @@ export default function CreateNewPauta(props) {
           onClick={() => setIsModalOpen(true)}
         >
           <AddRoundedIcon />
-          Criar nova pauta
+          {translate["Criar nova pauta"]?.[language] ?? "Criar nova pauta"}
         </Button>
       )}
-      {notifyCreation && <Notification message={"Pauta criada com sucesso"} />}
+      {notifyCreation && <Notification message={translate["Pauta criada com sucesso"]?.[language]} />}
       <Modal
         style={{ zIndex: 1 }}
         open={isModalOpen}
@@ -229,7 +237,7 @@ export default function CreateNewPauta(props) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-5">
                 <h1 style={{ fontSize: fonts.base }} className="font-bold">
-                  Data da reunião:{" "}
+                  {translate["Data da reunião"]?.[language]}:{" "}
                 </h1>
                 <DatePicker
                   searchValue={meetingDate}
@@ -243,18 +251,18 @@ export default function CreateNewPauta(props) {
                 endIcon={<CheckRoundedIcon />}
                 onClick={handleCreatePauta}
               >
-                Criar pauta
+                {translate["Criar pauta"]?.[language] ?? "Criar pauta"}
               </Button>
             </div>
             <div className="flex items-center justify-between gap-12">
               <div className="flex items-center gap-20">
                 <div className="flex items-center gap-5">
                   <h1 style={{ fontSize: fonts.base }} className="font-bold">
-                    Horário:
+                    {translate["Horário:"]?.[language] ?? "Horário:"}
                   </h1>
                   <TextField
                     id="outlined-basic"
-                    label="Início"
+                    label={translate["Início"]?.[language] ?? "Início"}
                     variant="outlined"
                     type="time"
                     value={meetingStartTime}
@@ -269,7 +277,7 @@ export default function CreateNewPauta(props) {
                   />
                   <TextField
                     id="outlined-basic"
-                    label="Término"
+                    label={translate["Término"]?.[language] ?? "Término"}
                     variant="outlined"
                     type="time"
                     value={meetingEndTime}
@@ -293,13 +301,13 @@ export default function CreateNewPauta(props) {
                   }}
                   sx={{ width: 300 }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Comissão" />
+                    <TextField {...params} label={translate["Comissão"]?.[language] ?? "Comissão"} />
                   )}
                 />
               </div>
               <TextField
                 id="outlined-basic"
-                label="Procurar por título"
+                label={translate["Procurar por título"][language] ?? "Procurar por título"}
                 variant="outlined"
                 value={searchTitle}
                 InputProps={{
@@ -313,7 +321,7 @@ export default function CreateNewPauta(props) {
               <div className="flex items-center justify-center gap-5">
                 <div className="flex items-center justify-center gap-5">
                   <div className="h-[1.5px] w-10 rounded-full bg-light-blue-weg" />
-                  <h1 style={{ fontSize: fonts.xl }}>Selecione as propostas</h1>
+                  <h1 style={{ fontSize: fonts.xl }}>{translate["Selecione as propostas"]?.[language] ?? "Selecione as propostas"}</h1>
                   <div className="h-[1.5px] w-10 rounded-full bg-light-blue-weg" />
                 </div>
               </div>
