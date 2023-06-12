@@ -20,6 +20,13 @@ import UserUtils from "../../utils/User-Utils";
 import { Button } from "@mui/material";
 import { Logout } from "@mui/icons-material";
 
+//Translations
+import TranslationJson from "../../API/Translate/components/demandCardList.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
+const translate = TranslationJson;
+let language = TranslateUtils.getLanguage();
+
 const columns = [
   {
     field: "status",
@@ -36,11 +43,11 @@ const columns = [
     ),
     maxWidth: 80,
     align: "center",
-    headerAlign: "center",
+    headerAlign: "center"
   },
   {
     field: "titulo",
-    headerName: "Título",
+    headerName: translate["Título"][language],
     headerAlign: "left",
     type: "string",
     width: 200,
@@ -52,27 +59,27 @@ const columns = [
             : params.value}
         </Typography>
       </Tooltip>
-    ),
+    )
   },
   {
     field: "solicitante",
-    headerName: "Solicitante",
+    headerName: translate["Solicitante"][language],
     width: 180,
     renderCell: (params) => (
       <Tooltip title={params.value}>
         <Typography variant="body2">{params.value}</Typography>
       </Tooltip>
-    ),
+    )
   },
   {
     field: "ultimaAtualizacao",
-    headerName: "Última atualização",
+    headerName: translate["Última atualização"][language],
     width: 210,
     renderCell: (params) => (
       <Tooltip title={params.value}>
         <Typography variant="body2">{params.value}</Typography>
       </Tooltip>
-    ),
+    )
   },
   {
     field: "score",
@@ -80,25 +87,25 @@ const columns = [
     align: "center",
     headerAlign: "center",
     type: "number",
-    width: 120,
+    width: 120
   },
   {
     field: "versao",
-    headerName: "Versão",
+    headerName: translate["Versão"][language],
     align: "center",
     headerAlign: "center",
     type: "number",
     width: 120,
     renderCell: (params) => (
       <Typography variant="body2">{params.value}</Typography>
-    ),
-  },
+    )
+  }
 ];
 
 
 const Box = styled(MuiBox)(() => ({
   height: 690,
-  width: 1050,
+  width: 1050
 }));
 
 const getDemandHistoric = async (demandId) => {
@@ -111,11 +118,12 @@ const getDemandHistoric = async (demandId) => {
     lastUpdate: new Date(
       historic[historic.length - 2].recebimentoHistorico
     ).toLocaleDateString(),
-    responsable: historic[historic.length - 2].nomeResponsavel,
+    responsable: historic[historic.length - 2].nomeResponsavel
   };
 };
 
 export default function DemandsList(props) {
+
   const [rows, setRows] = useState([]);
   const [pageSize, setPageSize] = useState(5);
   const navigate = useNavigate();
@@ -130,7 +138,7 @@ export default function DemandsList(props) {
         score: demand.scoreDemanda,
         titulo: demand.tituloDemanda,
         versao: historic.version,
-        ultimaAtualizacao: historic.lastUpdate + " - " + historic.responsable,
+        ultimaAtualizacao: historic.lastUpdate + " - " + historic.responsable
       };
     });
 
@@ -158,12 +166,12 @@ export default function DemandsList(props) {
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         onRowDoubleClick={handleRowDoubleClick}
         components={{
-          Toolbar: GridToolbar,
+          Toolbar: GridToolbar
         }}
         sx={{
           color: "#023A67",
           fontWeight: "bold",
-          border: "none",
+          border: "none"
         }}
       />
     </Box>

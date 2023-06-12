@@ -5,6 +5,10 @@ import { Button, Modal } from '@mui/material';
 import { Box } from '@mui/material';
 import { styled } from "@mui/material/styles";
 
+//Translations
+import TranslationJson from "../../../API/Translate/components/createOrAcessalProposal.json";
+import TranslateUtils from "../../../utils/Translate-Utils/index.js";
+
 const TextField = styled(MuiTextField)({
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
         borderLeft: "3px solid #0075B1",
@@ -26,6 +30,9 @@ const styleModalGenerateProposal = {
 
 export default function CreateOrAccessProposal(props) {
 
+    const translate = TranslationJson;
+    let language = TranslateUtils.getLanguage();
+
     const generateOrAccess = () => {
         if (props.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA"
             && props.cargoUsuario === "ANALISTA")
@@ -43,8 +50,8 @@ export default function CreateOrAccessProposal(props) {
                         title={
                             props.statusDemanda ===
                                 "APROVADO_PELO_GERENTE_DA_AREA"
-                                ? "Gerar proposta"
-                                : "Acessar proposta"
+                                ? translate["Gerar proposta"][language]
+                                : translate["Acessar proposta"][language]
                         }
                     >
                         <Button
@@ -64,7 +71,7 @@ export default function CreateOrAccessProposal(props) {
                                 },
                             }}
                         >
-                            Proposta
+                            {translate["Proposta"][language] ?? "Proposta"}
                         </Button>
                     </Tooltip>
                     <Modal
@@ -79,14 +86,14 @@ export default function CreateOrAccessProposal(props) {
                                     style={{ fontSize: props.fonts.xl }}
                                     className="font-roboto font-bold text-[#FFF]"
                                 >
-                                    Insira as seguintes informações
+                                    {translate["Insira as seguintes informações"][language] ?? "Insira as seguintes informações"}
                                 </p>
                             </div>
                             <div className="flex items-center justify-center font-roboto">
                                 <div className="flex gap-14">
                                     <div className="grid items-center justify-center gap-1">
                                         <p className="font-bold text-dark-blue-weg">
-                                            Prazo para a elaboração da proposta
+                                            {translate["Prazo para a elaboração da proposta"][language] ?? "Prazo para a elaboração da proposta"}
                                         </p>
                                         <div className="grid items-center justify-center gap-10">
                                             <TextField
@@ -126,7 +133,7 @@ export default function CreateOrAccessProposal(props) {
                                         </div>
                                         <div className="grid items-center justify-center gap-4">
                                             <p className="font-bold text-dark-blue-weg">
-                                                Link para EPIC do projeto no Jira
+                                                {translate["Link para EPIC do projeto no Jira"][language] ?? "Link para EPIC do projeto no Jira"}
                                             </p>
                                             <TextField
                                                 id="outlined-basic"
@@ -147,7 +154,7 @@ export default function CreateOrAccessProposal(props) {
                                         <div className="h-[16rem]">
                                             <div className="ml-4 grid gap-4">
                                                 <p className="font-bold text-dark-blue-weg">
-                                                    Código PPM
+                                                    {translate["Código PPM"][language] ?? "Código PPM"}
                                                 </p>
                                                 <TextField
                                                     sx={{
@@ -181,7 +188,7 @@ export default function CreateOrAccessProposal(props) {
                                                     },
                                                 }}
                                             >
-                                                Cancelar
+                                                {translate["Cancelar"][language]  ?? "Cancelar"}
                                             </Button>
                                             <Button
                                                 onClick={props.handleCreateProposal}
@@ -197,7 +204,7 @@ export default function CreateOrAccessProposal(props) {
                                                     },
                                                 }}
                                             >
-                                                Enviar
+                                                {translate["Enviar"][language] ?? "Enviar"}
                                             </Button>
                                         </div>
                                     </div>

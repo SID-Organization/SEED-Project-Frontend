@@ -1,0 +1,66 @@
+{
+  "Minhas demandas": {
+    "pt-br": "Minhas demandas",
+    "en-us": "My demands"
+  },
+  "Rascunhos": {
+    "pt-br": "Rascunhos",
+    "en-us": "Drafts"
+  },
+  "Gerenciar demandas": {
+    "pt-br": "Gerenciar demandas",
+    "en-us": "Manage demands"
+  },
+  "Têm certeza que deseja deletar todos os rascunhos?": {
+    "pt-br": "Têm certeza que deseja deletar todos os rascunhos?",
+    "en-us": "Are you sure you want to delete all drafts?"
+  },
+  "Cancelar": {
+    "pt-br": "Cancelar",
+    "en-us": "Cancel"
+  },
+  "Deletar tudo": {
+    "pt-br": "Deletar tudo",
+    "en-us": "Delete all"
+  },
+  "Têm certeza que deseja deletar": {
+    "pt-br": "Têm certeza que deseja deletar",
+    "en-us": "Are you sure you want to delete"
+  },
+  "esses rascunhos?": {
+    "pt-br": "esses rascunhos?",
+    "en-us": "these drafts?"
+  },
+  "esse rascunho?": {
+    "pt-br": "esse rascunho?",
+    "en-us": "this draft?"
+  },
+  "Deletar": {
+    "pt-br": "Deletar",
+    "en-us": "Delete"
+  },
+  "rascunhos": {
+    "pt-br": "rascunhos",
+    "en-us": "drafts"
+  },
+  "rascunho": {
+    "pt-br": "rascunho",
+    "en-us": "draft"
+  },
+  "Nenhuma demanda encontrada!": {
+    "pt-br": "Nenhuma demanda encontrada!",
+    "en-us": "No demand found!"
+  },
+  "Nenhum rascunho encontrado!": {
+    "pt-br": "Nenhum rascunho encontrado!",
+    "en-us": "No draft found!"
+  },
+  "Nenhuma demanda para gerenciar!": {
+    "pt-br": "Nenhuma demanda para gerenciar!",
+    "en-us": "No demand to manage!"
+  },
+  "Rascunhos": {
+    "pt-br": "Rascunhos",
+    "en-us": "Drafts"
+  }
+}

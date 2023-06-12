@@ -30,7 +30,15 @@ import { Dialog, DialogActions, DialogTitle } from "@mui/material";
 import Draggable from "react-draggable";
 import DemandFilterUtils from "../../utils/DemandFilter-Utils";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/demandsPage.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 export default function DemandsPage(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   /*
     Estão sendo utilizadas 3 variáveis para armazenar as demandas:
     - dbDemands: armazena as demandas que foram buscadas no banco de dados
@@ -114,7 +122,7 @@ export default function DemandsPage(props) {
         .then((data) => {
           let demandsToManage = data;
           if (demandsToManage && demandsToManage.length > 0) {
-            setDbDemands(demandsToManage);
+            setDbDemands(demandsToManage.filter(d => d.statusDemanda != "RASCUNHO"));
             setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);
@@ -339,7 +347,7 @@ export default function DemandsPage(props) {
                   text-center
                 "
                 >
-                  Têm certeza que deseja deletar todos os rascunhos?
+                  {translate["Têm certeza que deseja deletar todos os rascunhos?"][language] ?? "Têm certeza que deseja deletar todos os rascunhos?"}
                 </p>
               </DialogTitle>
             </div>
@@ -356,7 +364,7 @@ export default function DemandsPage(props) {
                     },
                   }}
                 >
-                  Cancelar
+                  {translate["Cancelar"][language] ?? "Cancelar"}
                 </Button>
                 <Button
                   onClick={deleteAllDrafts}
@@ -369,7 +377,7 @@ export default function DemandsPage(props) {
                     },
                   }}
                 >
-                  Deletar tudo
+                  {translate["Deletar tudo"][language] ?? "Deletar tudo"}
                 </Button>
               </div>
             </DialogActions>
@@ -407,10 +415,10 @@ export default function DemandsPage(props) {
                   text-center
                 "
                 >
-                  Têm certeza que deseja deletar{" "}
+                  {translate["Têm certeza que deseja deletar"][language] ?? "Têm certeza que deseja deletar"}{" "}
                   {selectedDrafts.length > 1
-                    ? "esses rascunhos?"
-                    : "esse rascunho?"}
+                    ? translate["esses rascunhos?"][language] ?? "esses rascunhos?"
+                    : translate["esse rascunho?"][language] ?? "esse rascunho?"}
                 </p>
               </DialogTitle>
             </div>
@@ -427,7 +435,7 @@ export default function DemandsPage(props) {
                     },
                   }}
                 >
-                  Cancelar
+                  {translate["Cancelar"][language] ?? "Cancelar"}
                 </Button>
                 <Button
                   onClick={deleteSelectedDrafts}
@@ -440,7 +448,7 @@ export default function DemandsPage(props) {
                     },
                   }}
                 >
-                  Deletar
+                  {translate["Deletar"][language] ?? "Deletar"}
                 </Button>
               </div>
             </DialogActions>
@@ -470,7 +478,7 @@ export default function DemandsPage(props) {
                   />
                 }
               >
-                Deletar tudo
+                {translate["Deletar tudo"][language] ?? "Deletar tudo"}
               </Button>
               {selectedDrafts.length > 0 && (
                 <Fade
@@ -498,7 +506,7 @@ export default function DemandsPage(props) {
                       selectedDrafts.length > 0 ? "opacity-100" : ""
                     }`}
                   >
-                    Deletar {"(" + selectedDrafts.length + ")"}{" "}
+                    {translate["Deletar"][language] ?? "Deletar"} {"(" + selectedDrafts.length + ")"}{" "}
                     {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
                   </ButtonAddSelected>
                 </Fade>
@@ -521,11 +529,11 @@ export default function DemandsPage(props) {
               <NoContent isManager={!(demandType == DemandType.MANAGER)}>
                 <div style={{ fontSize: fonts.xl }}>
                   {demandType == DemandType.DEMAND &&
-                    "Nenhuma demanda encontrada!"}
+                    translate["Nenhuma demanda encontrada!"][language]}
                   {demandType == DemandType.DRAFT &&
-                    "Nenhum rascunho encontrado!"}
+                    translate["Nenhum rascunho encontrado!"][language]}
                   {demandType == DemandType.MANAGER &&
-                    "Nenhuma demanda para gerenciar!"}
+                    translate["Nenhuma demanda para gerenciar!"][language]}
                 </div>
               </NoContent>
             </div>

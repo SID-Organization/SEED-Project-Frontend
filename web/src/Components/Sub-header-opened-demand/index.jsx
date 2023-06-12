@@ -158,7 +158,7 @@ export default function subHeader({children}) {
 
   const getIsDevolution = () => {
     return (
-      selectedKey == actionOptions.findIndex((o) => o.text === "Devolver") + 1
+      selectedKey == actionOptions.findIndex((o) => o.text === translate["Devolver"][language]) + 1
     );
   };
 

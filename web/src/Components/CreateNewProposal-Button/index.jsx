@@ -16,6 +16,10 @@ import DemandCardProposalModal from "../DemandCardProposalModal";
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
 
+//Translations
+import TranslationJson from "../../API/Translate/components/createNewProposalButton.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 const ButtonProposalSubHeader = styled(MuiButton)({
   backgroundColor: "#0075B1",
   display: "flex",
@@ -57,6 +61,10 @@ const modalDemandsStyle = {
 };
 
 export default function createNewProposalButton(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [openModalDemands, setOpenModalDemands] = useState(false);
   const handleOpenModalDemands = () => setOpenModalDemands(true);
   const handleCloseModalDemands = () => setOpenModalDemands(false);
@@ -76,7 +84,7 @@ export default function createNewProposalButton(props) {
           startIcon={<AddBoxIcon />}
           onClick={handleOpenModalDemands}
         >
-          Crie uma proposta
+          {translate["Crie uma proposta"][language] ?? "Crie uma proposta"}
         </ButtonPage>
       ) : (
         <ButtonProposalSubHeader
@@ -85,7 +93,7 @@ export default function createNewProposalButton(props) {
           onClick={handleOpenModalDemands}
         >
           <AddRoundedIcon />
-          Criar nova proposta
+          {translate["Criar nova proposta"][language] ?? "Criar nova proposta"}
         </ButtonProposalSubHeader>
       )}
       <Modal
@@ -106,7 +114,7 @@ export default function createNewProposalButton(props) {
                 fontWeight: "bold",
               }}
             >
-              Selecione uma demanda abaixo
+              {translate["Selecione uma demanda abaixo"][language] ?? "Selecione uma demanda abaixo"}
             </Typography>
             <div className="flex items-center justify-center">
               <div
@@ -143,7 +151,7 @@ export default function createNewProposalButton(props) {
                         style={{ fontSize: fonts.base }}
                         className="mt-2 font-roboto font-bold text-[#b3b3b3]"
                       >
-                        Nenhuma demanda cadastrada!
+                        {translate["Nenhuma demanda cadastrada!"][language] ?? "Nenhuma demanda cadastrada!"}
                       </p>
                     </div>
                   )

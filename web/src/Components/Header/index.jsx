@@ -37,6 +37,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BrazilFlag from "../../assets/countries-flags/brazil.png";
 import UnitedStatesFlag from "../../assets/countries-flags/united-states.png";
 import SpainFlag from "../../assets/countries-flags/spain.png";
+import GermanyFlag from "../../assets/countries-flags/germany.png";
 import ChinaFlag from "../../assets/countries-flags/china.png";
 import WegLogo from "../../assets/weg-logo.png";
 
@@ -110,13 +111,37 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const language = TranslateUtils.getLanguage();
 
   // Usa react router para navegar entre as páginas dentro de funções.
   const navigate = useNavigate();
 
   // Estado que armazena o usuário logado.
   const [user, setUser] = useState(UserUtils.getLoggedUser());
+
+  // Flags variable
+  const [flags, setFlags] = useState([
+    {
+      src: BrazilFlag,
+      alt: "Brazil Flag",
+      label: "Português",
+    },
+    {
+      src: UnitedStatesFlag,
+      alt: "USA Flag",
+      label: "Inglês",
+    },
+    {
+      src: GermanyFlag,
+      alt: "German Flag",
+      label: "Alemão",
+    },
+    {
+      src: ChinaFlag,
+      alt: "China Flag",
+      label: "Chinês",
+    },
+  ]);
 
   // Função que retorna o avatar do usuário (Imagem ou letras).
   const userAvatar = () => {
@@ -242,66 +267,24 @@ export default function PrimarySearchAppBar() {
         >
           <h1 className="font-roboto">{translate["Idioma"][language] ?? "Idioma"}</h1>
         </AccordionSummary>
-        <AccordionDetails>
-          <Button variant="contained">
-            <div className="flex items-center justify-center gap-5">
-              <img
-                className="
-                  h-7
-                  w-7
-              "
-                src={BrazilFlag}
-                alt=""
-              />
-              {translate["Português"][language] ?? "Português"}
-            </div>
-          </Button>
-        </AccordionDetails>
-        <AccordionDetails>
-          <Button variant="contained">
-            <div className="flex items-center justify-center gap-5">
-              <img
-                className="
-                  h-7
-                  w-7
-              "
-                src={UnitedStatesFlag}
-                alt=""
-              />
-              <h1 className="ml-1 mr-6">{translate["Inglês"][language] ?? "Inglês"}</h1>
-            </div>
-          </Button>
-        </AccordionDetails>
-        <AccordionDetails>
-          <Button variant="contained">
-            <div className="flex items-center justify-center gap-5">
-              <img
-                className="
-                  h-7
-                  w-7
-              "
-                src={SpainFlag}
-                alt=""
-              />
-              <h1 className="ml-1">{translate["Espanhol"][language] ?? "Espanhol"}</h1>
-            </div>
-          </Button>
-        </AccordionDetails>
-        <AccordionDetails>
-          <Button variant="contained">
-            <div className="flex items-center justify-center gap-5">
-              <img
-                className="
-                  h-7
-                  w-7
-              "
-                src={ChinaFlag}
-                alt=""
-              />
-              <h1 className="ml-1 mr-[0.9rem]">{translate["Chinês"][language] ?? "Chinês"}</h1>
-            </div>
-          </Button>
-        </AccordionDetails>
+        {flags.map((flag, i) => (
+          <AccordionDetails key={i}>
+            <Button variant="contained">
+              <div className="flex items-center w-full">
+                <div className="mr-4">
+                  <img
+                    className="w-7"
+                    src={flag.src}
+                    alt={flag.alt}
+                  />
+                </div>
+                <div className="text-start">
+                  <h1 className="ml-1">{translate[flag.label][language]}</h1>
+                </div>
+              </div>
+            </Button>
+          </AccordionDetails>
+        ))}
       </Accordion>
       <MenuItem onClick={handleSystemExit}>{translate["Sair"][language] ?? "Sair"}</MenuItem>
       <MenuItem
@@ -544,46 +527,46 @@ export default function PrimarySearchAppBar() {
       >
         {search === ""
           ? users
-              .sort((a, b) => {
-                if (a.unreadMessages && !b.unreadMessages) return -1;
-                if (!a.unreadMessages && b.unreadMessages) return 1;
-                return 0;
-              })
-              .map((user, i) => {
-                return (
-                  <div
-                    key={i}
-                    onClick={() => {
-                      const userName = user.name;
-                      const userDemand = user.userDemand;
-                      setChatUserId(user.idUsuario);
-                      setUserNameCard(userName);
-                      setUserDemandCard(userDemand);
-                      setChatId(user.idChat);
-                      setUserData({
-                        idUsuario: {
-                          numeroCadastroUsuario: user.idUsuario,
-                        },
-                        idChat: { idChat: user.idChat },
-                        idDemanda: { idDemanda: user.idDemanda },
-                        connected: false,
-                        message: "",
-                      });
-                      connect();
-                    }}
-                  >
-                    <UserMessageCard
-                      picture={user.picture}
-                      name={user.name}
-                      userDemand={user.userDemand}
-                      lastMessage={user.lastMessage}
-                      time={user.time}
-                      unreadMessages={user.unreadMessages}
-                      isOnline={user.isOnline}
-                    />
-                  </div>
-                );
-              })
+            .sort((a, b) => {
+              if (a.unreadMessages && !b.unreadMessages) return -1;
+              if (!a.unreadMessages && b.unreadMessages) return 1;
+              return 0;
+            })
+            .map((user, i) => {
+              return (
+                <div
+                  key={i}
+                  onClick={() => {
+                    const userName = user.name;
+                    const userDemand = user.userDemand;
+                    setChatUserId(user.idUsuario);
+                    setUserNameCard(userName);
+                    setUserDemandCard(userDemand);
+                    setChatId(user.idChat);
+                    setUserData({
+                      idUsuario: {
+                        numeroCadastroUsuario: user.idUsuario,
+                      },
+                      idChat: { idChat: user.idChat },
+                      idDemanda: { idDemanda: user.idDemanda },
+                      connected: false,
+                      message: "",
+                    });
+                    connect();
+                  }}
+                >
+                  <UserMessageCard
+                    picture={user.picture}
+                    name={user.name}
+                    userDemand={user.userDemand}
+                    lastMessage={user.lastMessage}
+                    time={user.time}
+                    unreadMessages={user.unreadMessages}
+                    isOnline={user.isOnline}
+                  />
+                </div>
+              );
+            })
           : returnedUserSearch()}
       </div>
     </Menu>

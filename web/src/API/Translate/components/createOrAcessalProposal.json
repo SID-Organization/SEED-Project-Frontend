@@ -1,0 +1,38 @@
+{
+  "Gerar proposta": {
+    "pt-br": "Gerar proposta",
+    "en-us": "Generate proposal"
+  },
+  "Acessar proposta": {
+    "pt-br": "Acessar proposta",
+    "en-us": "Access proposal"
+  },
+  "Proposta": {
+    "pt-br": "Proposta",
+    "en-us": "Proposal"
+  },
+  "Insira as seguintes informações": {
+    "pt-br": "Insira as seguintes informações",
+    "en-us": "Enter the following information"
+  },
+  "Link para EPIC do projeto no Jira": {
+    "pt-br": "Link para EPIC do projeto no Jira",
+    "en-us": "Link to EPIC of the project in Jira"
+  },
+  "Código PPM": {
+    "pt-br": "Código PPM",
+    "en-us": "PPM code"
+  },
+  "Cancelar": {
+    "pt-br": "Cancelar",
+    "en-us": "Cancel"
+  },
+  "Enviar": {
+    "pt-br": "Enviar",
+    "en-us": "Send"
+  },
+  "Prazo para a elaboração da proposta": {
+    "pt-br": "Prazo para a elaboração da proposta",
+    "en-us": "Deadline for the preparation of the proposal"
+  }
+}
