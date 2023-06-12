@@ -35,7 +35,7 @@ export default function ReturnReasonModal(props) {
   useEffect(() => {
     setReturnReason(props.reasonOfReturn);
   }, [props.reasonOfReturn])
-  
+
 
   const navigate = useNavigate();
 
@@ -75,8 +75,8 @@ export default function ReturnReasonModal(props) {
         >
           {translate[`Motivo da ${props.getIsDevolution() ? "devolução" : "recusação"}`][language]}
         </h1>
-          <p
-            className="
+        <p
+          className="
             mt-5
             flex
             gap-1
@@ -85,10 +85,10 @@ export default function ReturnReasonModal(props) {
             font-bold
             text-[#000000]
           "
-          >
-            {translate["Motivo"][language]}
-            <span style={{ color: "#AD0D0D", fontWeight: 500 }}>*</span>
-          </p>
+        >
+          {translate["Motivo"][language]}
+          <span style={{ color: "#AD0D0D", fontWeight: 500 }}>*</span>
+        </p>
         <TextField
           id="outlined-multiline-static"
           multiline

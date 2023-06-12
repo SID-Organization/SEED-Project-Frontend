@@ -37,6 +37,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BrazilFlag from "../../assets/countries-flags/brazil.png";
 import UnitedStatesFlag from "../../assets/countries-flags/united-states.png";
 import SpainFlag from "../../assets/countries-flags/spain.png";
+import GermanyFlag from "../../assets/countries-flags/germany.png"
 import ChinaFlag from "../../assets/countries-flags/china.png";
 import WegLogo from "../../assets/weg-logo.png";
 
@@ -272,10 +273,10 @@ export default function PrimarySearchAppBar() {
                   h-7
                   w-7
               "
-                src={SpainFlag}
+                src={GermanyFlag}
                 alt=""
               />
-              <h1 className="ml-1">Espanhol</h1>
+              <h1 className="ml-1">Alemão</h1>
             </div>
           </Button>
         </AccordionDetails>
