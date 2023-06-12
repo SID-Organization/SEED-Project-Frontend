@@ -1,7 +1,11 @@
+// React
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "../../styles/index.css";
+
+// Context
+import { TranslateContext } from "../../contexts/translate";
 
 // MUI
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -59,7 +63,6 @@ import SockJs from "sockjs-client/dist/sockjs";
 
 //Translations
 import TranslationJson from "../../API/Translate/components/header.json";
-import TranslateUtils from "../../utils/Translate-Utils/index.js";
 
 const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -108,10 +111,31 @@ const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
+const AccordionDetails = styled(MuiAccordionDetails)({
+  padding: "0",
+});
+
+const Button = styled(MuiButton)({
+  backgroundColor: "transparent",
+  color: "#000",
+  textTransform: "none",
+  fontSize: "0.875rem",
+  fontFamily: "Roboto",
+  boxShadow: "none",
+  width: "100%",
+  height: "3rem",
+  fontWeight: "normal",
+
+  "&:hover": {
+    backgroundColor: "transparent",
+    color: "#000",
+  },
+});
+
 export default function PrimarySearchAppBar() {
 
   const translate = TranslationJson;
-  const language = TranslateUtils.getLanguage();
+  const [language, updateLanguage] = useContext(TranslateContext);
 
   // Usa react router para navegar entre as páginas dentro de funções.
   const navigate = useNavigate();
@@ -125,21 +149,25 @@ export default function PrimarySearchAppBar() {
       src: BrazilFlag,
       alt: "Brazil Flag",
       label: "Português",
+      languageCode: "pt-br",
     },
     {
       src: UnitedStatesFlag,
       alt: "USA Flag",
       label: "Inglês",
+      languageCode: "en-us",
     },
     {
       src: GermanyFlag,
       alt: "German Flag",
       label: "Alemão",
+      languageCode: "de",
     },
     {
       src: ChinaFlag,
       alt: "China Flag",
       label: "Chinês",
+      languageCode: "zh-cn",
     },
   ]);
 
@@ -179,26 +207,7 @@ export default function PrimarySearchAppBar() {
   const isMessagesOpen = Boolean(messagesAnchoeEl);
   const isNotificationsOpen = Boolean(notificationsAnchoeEl);
 
-  const AccordionDetails = styled(MuiAccordionDetails)({
-    padding: "0",
-  });
 
-  const Button = styled(MuiButton)({
-    backgroundColor: "transparent",
-    color: "#000",
-    textTransform: "none",
-    fontSize: "0.875rem",
-    fontFamily: "Roboto",
-    boxShadow: "none",
-    width: "100%",
-    height: "3rem",
-    fontWeight: "normal",
-
-    "&:hover": {
-      backgroundColor: "transparent",
-      color: "#000",
-    },
-  });
 
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -269,7 +278,10 @@ export default function PrimarySearchAppBar() {
         </AccordionSummary>
         {flags.map((flag, i) => (
           <AccordionDetails key={i}>
-            <Button variant="contained">
+            <Button
+              variant="contained"
+              onClick={() => updateLanguage(flag.languageCode)}
+            >
               <div className="flex items-center w-full">
                 <div className="mr-4">
                   <img
@@ -305,6 +317,7 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+  //  Chat
   const [chatUsers, setChatUsers] = useState([]);
   const [users, setUsers] = useState([]);
 
