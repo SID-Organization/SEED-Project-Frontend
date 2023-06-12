@@ -14,7 +14,15 @@ import UserIMG from "../../../assets/profile-pic.png";
 import { useState } from "react";
 import { IconButton, SnackbarContent, Tooltip } from "@mui/material";
 
+//Translations
+import TranslationJson from "../../../API/Translate/components/chatSubHeader.json";
+import TranslateUtils from "../../../utils/Translate-Utils/index.js";
+
 export default function ChatSubHeader(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   console.log("HEADER: ", props);
 
   const [drawerState, setDrawerState] = useState({
@@ -104,7 +112,7 @@ export default function ChatSubHeader(props) {
     >
       <div className="mt-3">
         <div className="mb-5 flex items-center justify-center">
-          <h1 className="text-2xl font-bold text-dark-blue-weg">Informações</h1>
+          <h1 className="text-2xl font-bold text-dark-blue-weg">{translate["Informações"]?.[language] ?? "Informações"}</h1>
         </div>
         <Divider />
         <div className="mt-5 grid items-center justify-center gap-2">
@@ -117,7 +125,7 @@ export default function ChatSubHeader(props) {
         </div>
         <div className="ml-3 mt-5 grid items-center justify-start gap-3 font-roboto">
           <p className="mr-3 text-justify text-lg font-bold">
-            Demanda:{" "}
+            {translate["Demanda"]?.[language] ?? "Demanda"}:{" "}
             <span className="font-normal text-[#222222] ">
               {props.userDemand && props.userDemand.length > 35
                 ? props.userDemand.slice(0, 35) + "..."
@@ -138,13 +146,13 @@ export default function ChatSubHeader(props) {
             </span>
           </p>
           <p className="mr-3 text-lg font-bold">
-            Departamento:{" "}
+            {translate["Departamento"]?.[language] ?? "Departamento"}:{" "}
             <span className="font-normal text-[#222222]">
               {userInformations.department}
             </span>
           </p>
           <p className="mr-3 text-justify text-lg font-bold">
-            Seção:{" "}
+            {translate["Seção"]?.[language] ?? "Seção"}:{" "}
             <span className="font-normal text-[#222222]">
               {userInformations.section.length > 35
                 ? userInformations.section.slice(0, 35) + "..."
@@ -152,7 +160,7 @@ export default function ChatSubHeader(props) {
             </span>
           </p>
           <p className="mr-3 text-justify text-lg font-bold">
-            Telefone:{" "}
+            {translate["Telefone"]?.[language] ?? "Telefone"}:{" "}
             <span
               className="cursor-pointer font-normal text-[#222222] hover:underline"
               onClick={() => {
@@ -178,7 +186,7 @@ export default function ChatSubHeader(props) {
               },
             }}
           >
-            Fechar
+            {translate["Fechar"]?.[language] ?? "Fechar"}
           </Button>
         </div>
       </div>
@@ -201,8 +209,8 @@ export default function ChatSubHeader(props) {
           }}
           message={
             notificationTypeMessage
-              ? "E-mail copiado para a área de transferência!"
-              : "Telefone copiado para a área de transferência!"
+              ? translate["E-mail copiado para a área de transferência!"]?.[language]
+              : translate["Telefone copiado para a área de transferência!"]?.[language]
           }
         />
       </Snackbar>
@@ -220,7 +228,7 @@ export default function ChatSubHeader(props) {
                 setAnalystButtonActive(false);
               }}
             >
-              Solicitante
+              {translate["Solicitante"]?.[language] ?? "Solicitante"}
             </FilterChatRequesterButton>
           </Tooltip>
           <Tooltip title="Conversar com os analistas">
@@ -232,12 +240,12 @@ export default function ChatSubHeader(props) {
                 setRequesterButtonActive(false);
               }}
             >
-              Analistas
+              {translate["Analistas"]?.[language] ?? "Analistas"}
             </FilterChatAnalystButton>
           </Tooltip>
         </div>
         <React.Fragment key={"right"}>
-          <Tooltip title="Informações do usuário">
+          <Tooltip title={translate["Informações do usuário"]?.[language] ?? "Informações do usuário"}>
             <IconButton
               onClick={toggleDrawer("right", true)}
               sx={{
