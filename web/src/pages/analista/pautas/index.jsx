@@ -131,57 +131,67 @@ export default function Pautas() {
   return (
     <div>
       <SubHeaderPautas filters={filters} setFilters={setFilters} />
+      <div className="grid items-center justify-center">
+        <div className="mt-5 flex items-center justify-start">
+          <Tooltip title="Ver reuniões agendadas" placement="right">
+            <IconButton onClick={handleModalOpen}>
+              <EventRoundedIcon
+                sx={{
+                  color: "#00579D",
+                  fontSize: "30px",
+                  "&:hover": {
+                    color: "#00579D",
+                  },
+                }}
+              />
+            </IconButton>
+          </Tooltip>
+        </div>
+        <div className="mb-20 mt-4 flex flex-col items-center justify-center gap-10">
+          {isLoading ? (
+            <div className="flex h-[71vh] items-center justify-around">
+              <CircularProgress />
+            </div>
+          ) : pautas.length > 0 ? (
+            pautasYear.map((year) => (
+              <>
+                {pautasMonths.map((month) => (
+                  <>
+                    {getPautasInMonth(month, year).length > 0 && (
+                      <div key={`${year}-${month}`}>
+                        <h1
+                          style={{ fontSize: fonts.xl }}
+                          className="font-bold text-dark-blue-weg"
+                        >
+                          {months[month] + " - " + year}
+                        </h1>
+                        {getPautasInMonth(month, year).map((pauta) => (
+                          <PautasCard
+                            key={pauta.idPauta}
+                            pautaName={"ID da pauta: " + pauta.idPauta}
+                            pautaId={pauta.idPauta}
+                            qtyProposals={pauta.qtdPropostas}
+                            meetingDate={pauta.dataReuniao}
+                            meetingTime={pauta.horaReuniao.substring(0, 5)}
+                            responsibleAnalyst={pauta.analistaResponsavel}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ))}
+              </>
+            ))
+          ) : (
+            <div className="flex h-[71vh] items-center justify-around">
+              <NoContent isPauta={true}>
+                <span style={{ fontSize: fonts.xl }}>Sem pautas!</span>
+              </NoContent>
+            </div>
+          )}
+        </div>
+      </div>
 
-      <div className="flex items-center justify-start">
-        <Tooltip title="Ver reuniões agendadas">
-          <IconButton onClick={handleModalOpen}>
-            <EventRoundedIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
-      <div className="mb-20 mt-12 flex flex-col items-center justify-center gap-10">
-        {isLoading ? (
-          <div className="flex h-[71vh] items-center justify-around">
-            <CircularProgress />
-          </div>
-        ) : pautas.length > 0 ? (
-          pautasYear.map((year) => (
-            <>
-              {pautasMonths.map((month) => (
-                <>
-                  {getPautasInMonth(month, year).length > 0 && (
-                    <div key={`${year}-${month}`}>
-                      <h1
-                        style={{ fontSize: fonts.xl }}
-                        className="font-bold text-dark-blue-weg"
-                      >
-                        {months[month] + " - " + year}
-                      </h1>
-                      {getPautasInMonth(month, year).map((pauta) => (
-                        <PautasCard
-                          key={pauta.idPauta}
-                          pautaName={"ID da pauta: " + pauta.idPauta}
-                          pautaId={pauta.idPauta}
-                          qtyProposals={pauta.qtdPropostas}
-                          meetingDate={pauta.dataReuniao}
-                          meetingTime={pauta.horaReuniao.substring(0, 5)}
-                          responsibleAnalyst={pauta.analistaResponsavel}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </>
-              ))}
-            </>
-          ))
-        ) : (
-          <div className="flex h-[71vh] items-center justify-around">
-            <NoContent isPauta={true}>
-              <span style={{ fontSize: fonts.xl }}>Sem pautas!</span>
-            </NoContent>
-          </div>
-        )}
-      </div>
       <Modal open={isModalOpen} onClose={handleModalClose}>
         <Box sx={calendarModalStyle}>
           <Calendar pautas={pautas} />
