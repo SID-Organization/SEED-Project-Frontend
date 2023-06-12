@@ -49,6 +49,8 @@ import UserUtils from "../../utils/User-Utils";
 import TranslationJSON from "../../API/Translate/components/subHeaderOpenedDemand.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import ReturnReasonModal from "../ReturnReason-Modal";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate";
 
 // Componentes estilizados
 const styleModal = {
@@ -103,13 +105,13 @@ const Autocomplete = styled(MuiAutocomplete)({
  * @param setIsEditEnabled
  */
 
-export default function subHeader({children}) {
+export default function subHeader({ children }) {
 
   let phrase = children[0].trim()
 
   const translate = TranslationJSON;
-  
-  const language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
+
 
   // Controle de modal
   const [openModal, setOpenModal] = useState(false);
@@ -412,7 +414,7 @@ export default function subHeader({children}) {
     <div>
       {openNotification && (
         <Notification message={translate["Demanda aprovada com sucesso!"][language] ?? "Demanda aprovada com sucesso"}
-                      action={false} />
+          action={false} />
       )}
       {/* Modal para confirmar a demanda */}
       <Modal
