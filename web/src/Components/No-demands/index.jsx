@@ -8,7 +8,14 @@ import { Link } from "react-router-dom";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/noDemands.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 export default function noDemands(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
   
   return (
     <div>
@@ -43,7 +50,7 @@ export default function noDemands(props) {
                     />
                   }
                 >
-                  Criar uma demanda
+                  {translate["Criar uma demanda"][language] ?? "Criar uma demanda"}
                 </Button>
               </Link>
             </Stack>

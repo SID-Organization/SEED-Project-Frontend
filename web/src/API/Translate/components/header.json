@@ -1,0 +1,58 @@
+{
+  "Seu perfil": {
+    "pt-br": "Seu perfil",
+    "en-us": "Your profile"
+  },
+  "Idioma": {
+    "pt-br": "Idioma",
+    "en-us": "Language"
+  },
+  "Português": {
+    "pt-br": "Português",
+    "en-us": "Portuguese"
+  },
+  "Inglês": {
+    "pt-br": "Inglês",
+    "en-us": "English"
+  },
+  "Espanhol": {
+    "pt-br": "Espanhol",
+    "en-us": "Spanish"
+  },
+  "Chinês": {
+    "pt-br": "Chinês",
+    "en-us": "Chinese"
+  },
+  "Sair": {
+    "pt-br": "Sair",
+    "en-us": "Logout"
+  },
+  "Mensagens": {
+    "pt-br": "Mensagens",
+    "en-us": "Messages"
+  },
+  "Procure por usuários ou demandas": {
+    "pt-br": "Procure por usuários ou demandas",
+    "en-us": "Search for users or demands"
+  },
+  "Notificações": {
+    "pt-br": "Notificações",
+    "en-us": "Notifications"
+  },
+  "Marcar todas como lidas": {
+    "pt-br": "Marcar todas como lidas",
+    "en-us": "Mark all as read"
+  },
+  "Tudo": {
+    "pt-br": "Tudo",
+    "en-us": "All"
+  },
+  "Não lidas": {
+    "pt-br": "Não lidas",
+    "en-us": "Unread"
+  },
+  "Nenhum usuário encontrado": {
+    "pt-br": "Nenhum usuário encontrado",
+    "en-us": "No user found"
+  }
+}

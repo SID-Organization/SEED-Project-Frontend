@@ -1,0 +1,30 @@
+{
+  "Arquivos anexados": {
+    "pt-br": "Arquivos anexados",
+    "en-us": "Attached files"
+  },
+  "Arquivo": {
+    "pt-br": "Arquivo",
+    "en-us": "File"
+  },
+  "Anexado em": {
+    "pt-br": "Anexado em",
+    "en-us": "Attached at"
+  },
+  "Baixar arquivo": {
+    "pt-br": "Baixar arquivo",
+    "en-us": "Download file"
+  },
+  "Deletar arquivo": {
+    "pt-br": "Deletar arquivo",
+    "en-us": "Delete file"
+  },
+  "Adicionar arquivo": {
+    "pt-br": "Adicionar arquivo",
+    "en-us": "Add file"
+  },
+  "Anexar arquivo": {
+    "pt-br": "Anexar arquivo",
+    "en-us": "Attach file"
+  }
+}

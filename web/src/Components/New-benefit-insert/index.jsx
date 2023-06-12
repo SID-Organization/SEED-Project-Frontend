@@ -16,6 +16,10 @@ import VoiceSpeech from "../VoiceSpeech";
 //Services
 import BenefitService from "../../service/Benefit-Service";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/newBenefitInsert.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 const TextFieldValue = styled(MuiTextField)({
   width: "15rem",
   height: "3.5rem",
@@ -38,6 +42,10 @@ const TextFieldValue = styled(MuiTextField)({
 
 
 export default function NewBenefitInsertion(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [coin, setCoin] = useState(props.coin);
   const [value, setValue] = useState(props.value);
 
@@ -99,7 +107,7 @@ export default function NewBenefitInsertion(props) {
             <div className="mb-3 mt-5 flex gap-4">
               <TextFieldValue
                 id="outlined-textarea"
-                label="Valor mensal"
+                label={translate["Valor mensal"][language] ?? "Valor mensal"}
                 onBlur={updateState}
                 variant="outlined"
                 type="number"
@@ -118,12 +126,12 @@ export default function NewBenefitInsertion(props) {
               />
               <Box sx={{ minWidth: 100 }}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Moeda</InputLabel>
+                  <InputLabel id="demo-simple-select-label">{translate["Moeda"][language] ?? "Moeda"}</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={coin}
-                    label="Valor"
+                    label={translate["Valor"][language] ?? "Valor"}
                     onChange={handleChangeCoinIcon}
                     style={{
                       borderRadius: "0.5rem",
@@ -154,7 +162,7 @@ export default function NewBenefitInsertion(props) {
       </div>
       {props.benefitIndex === props.benefitStates.realBenefits.length - 1 &&
         props.benefitIndex !== 0 && (
-          <Tooltip title="Remover benefício" enterDelay={820} leaveDelay={200}>
+          <Tooltip title={translate["Remover benefício"][language] ?? "Remover benefício"} enterDelay={820} leaveDelay={200}>
             <IconButton
               sx={{
                 marginLeft: "1rem",

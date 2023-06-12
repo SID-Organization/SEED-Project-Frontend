@@ -1,0 +1,46 @@
+{
+  "Qtd. Propostas": {
+    "pt-br": "Qtd. Propostas",
+    "en-us": "Proposals Qty."
+  },
+  "Data da reunião": {
+    "pt-br": "Data da reunião",
+    "en-us": "Meeting date"
+  },
+  "Analista responsável": {
+    "pt-br": "Analista responsável",
+    "en-us": "Responsible analyst"
+  },
+  "Horário": {
+    "pt-br": "Horário",
+    "en-us": "Time"
+  },
+  "Compartilhar pauta": {
+    "pt-br": "Compartilhar pauta",
+    "en-us": "Share schedule"
+  },
+  "Visualizar pauta": {
+    "pt-br": "Visualizar pauta",
+    "en-us": "View schedule"
+  },
+  "Editar pauta": {
+    "pt-br": "Editar pauta",
+    "en-us": "Edit schedule"
+  },
+  "Gerar ATA": {
+    "pt-br": "Gerar ATA",
+    "en-us": "Generate minutes"
+  },
+  "Compartilhar via...": {
+    "pt-br": "Compartilhar via...",
+    "en-us": "Share via..."
+  },
+  "Copiar link": {
+    "pt-br": "Copiar link",
+    "en-us": "Copy link"
+  },
+  "Baixar PDF": {
+    "pt-br": "Baixar PDF",
+    "en-us": "Download PDF"
+  }
+}

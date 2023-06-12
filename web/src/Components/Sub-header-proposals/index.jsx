@@ -7,13 +7,13 @@ import CreateNewProposalButton from "../CreateNewProposal-Button";
 
 // Services
 import DemandService from "../../service/Demand-Service";
-import TranslationJson from "../../API/Translate/components/subHeaderPautas.json";
+import TranslationJson from "../../API/Translate/components/subHeaderProposals.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 
 export default function SubHeaderPautas(props) {
 
   const translate = TranslationJson;
-  const language = TranslateUtils().getLanguage();
+  let language = TranslateUtils.getLanguage();
 
   const [demandsTitle, setDemandsTitle] = useState([]);
 

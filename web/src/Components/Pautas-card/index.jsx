@@ -28,6 +28,10 @@ import ProposalCard from "../Proposal-card";
 // Services
 import PautaService from "../../service/Pauta-Service";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/pautasCard.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 const EditRoundedIcon = styled(MuiEditRoundedIcon)({
   color: "#707070",
   cursor: "pointer",
@@ -97,19 +101,21 @@ const Button = styled(MuiButton)(() => ({
 }));
 
 export default function PautasCard(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [shareModal, setShareModal] = useState(false);
   const handleOpenShareModal = () => setShareModal(true);
   const handleCloseShareModal = () => setShareModal(false);
 
   const [proposals, setProposals] = useState([]);
 
-  const editPauta = () => {
-
-  }
+  const editPauta = () => {};
 
   useEffect(() => {
     PautaService.getPautaProposalsById(props.pautaId).then((proposals) => {
-      console.log("Proposals", proposals)
+      console.log("Proposals", proposals);
       setProposals(proposals);
     });
   }, []);
@@ -118,21 +124,21 @@ export default function PautasCard(props) {
     <div className="mt-5">
       {props.isInTheModalAddToAPauta ? (
         <div
-          className="h-[7rem] w-[40rem] cursor-pointer rounded-md border-2 border-light-blue-weg bg-[#FFF]
-          shadow-xl transition hover:bg-[#F5F5F5]
+          className="hover:bg-[#F5F5F5] h-[7rem] w-[40rem] cursor-pointer rounded-md border-2 border-light-blue-weg
+          bg-[#FFF] shadow-xl transition
         "
         >
           <div className="grid h-max font-roboto">
-            <div className="mt-2 flex justify-between pr-6 pl-6">
+            <div className="mt-2 flex justify-between pl-6 pr-6">
               <h1 className="font-bold">{props.pautaName}</h1>
               <h1 className="font-bold">
-                Qtd. Propostas:{" "}
+                {translate["Qtd. Propostas"][language] ?? "Qtd. Propostas"}:{" "}
                 <span className="font-normal text-[#707070]">
                   {props.qtyProposals}
                 </span>
               </h1>
               <h1 className="font-bold">
-                Data da reunião:{" "}
+                {translate["Data da reunião"][language] ?? "Data da reunião"}:{" "}
                 <span className="font-normal text-[#707070]">
                   {props.meetingDate}
                 </span>
@@ -141,7 +147,7 @@ export default function PautasCard(props) {
             <div className="flex justify-between">
               <div className="mt-11 flex items-center justify-center pl-6">
                 <h1 className="font-bold">
-                  Analista responsável:{" "}
+                  {translate["Analista responsável"][language] ?? "Analista responsável"}:{" "}
                   <span className="font-normal text-[#707070]">
                     {props.responsibleAnalyst}
                   </span>
@@ -161,19 +167,19 @@ export default function PautasCard(props) {
               <div className="flex justify-center gap-28">
                 <h1 className="font-bold">{props.pautaName}</h1>
                 <h1 className="font-bold">
-                  Qtd. Propostas:{" "}
+                  {translate["Qtd. Propostas"][language] ?? "Qtd. Propostas"}:{" "}
                   <span className="font-normal text-[#707070]">
                     {props.qtyProposals}
                   </span>
                 </h1>
                 <h1 className="font-bold">
-                  Data da reunião:{" "}
+                  {translate["Data da reunião"][language] ?? "Data da reunião"}:{" "}
                   <span className="font-normal text-[#707070]">
                     {props.meetingDate}
                   </span>
                 </h1>
                 <h1 className="font-bold">
-                  Horário:{" "}
+                  {translate["Horário"][language] ?? "Horário"}:{" "}
                   <span className="font-normal text-[#707070]">
                     {props.meetingTime}
                   </span>
@@ -182,7 +188,7 @@ export default function PautasCard(props) {
               <div className="flex justify-between">
                 <div className="flex items-center justify-center">
                   <h1 className="mt-5 font-bold">
-                    Analista responsável:{" "}
+                    {translate["Analista responsável"][language] ?? "Analista responsável"}:{" "}
                     <span className="font-normal text-[#707070]">
                       {props.responsibleAnalyst}
                     </span>
@@ -199,20 +205,20 @@ export default function PautasCard(props) {
                       onClick={handleOpenShareModal}
                     >
                       <div className="flex items-center justify-center">
-                        Compartilhar pauta
+                        {translate["Compartilhar pauta"][language] ?? "Compartilhar pauta"}
                         <ReplyRoundedIcon />
                       </div>
                     </h1>
                   </Tooltip>
-                  <Tooltip title="Visualizar pauta">
+                  <Tooltip title={translate["Visualizar pauta"][language] ?? "Visualizar pauta"}>
                     <VisibilityRoundedIcon />
                   </Tooltip>
-                  <Tooltip title="Editar pauta">
-                      <EditRoundedIcon onClick={editPauta} />
+                  <Tooltip title={translate["Editar pauta"][language] ?? "Editar pauta"}>
+                    <EditRoundedIcon onClick={editPauta} />
                   </Tooltip>
-                  <Tooltip title="Gerar ATA">
+                  <Tooltip title={translate["Gerar ATA"][language] ?? "Gerar ATA"}>
                     <Link to={`gerar-ata/${props.pautaId}`}>
-                      <Button variant="contained">Gerar ATA</Button>
+                      <Button variant="contained">{translate["Gerar ATA"][language] ?? "Gerar ATA"}</Button>
                     </Link>
                   </Tooltip>
                 </div>
@@ -229,7 +235,7 @@ export default function PautasCard(props) {
             <Box sx={modalStyleShare}>
               <div className="grid items-center text-[0.8rem]">
                 <div>
-                  <h1 className="text-xl">Compartilhar via...</h1>
+                  <h1 className="text-xl">{translate["Compartilhar via..."][language] ?? "Compartilhar via..."}</h1>
                 </div>
                 <div className="mt-4 flex items-center justify-center gap-8">
                   <div className="grid gap-2">
@@ -307,7 +313,7 @@ export default function PautasCard(props) {
                       </div>
                     </div>
                     <div className="flex items-center justify-center">
-                      <h1>Copiar link</h1>
+                      <h1>{translate["Copiar link"][language] ?? "Copiar link"}</h1>
                     </div>
                   </div>
                   <div className="grid gap-2">
@@ -333,7 +339,7 @@ export default function PautasCard(props) {
                       </div>
                     </div>
                     <div className="flex items-center justify-center">
-                      <h1>Baixar PDF</h1>
+                      <h1>{translate["Baixar PDF"][language] ?? "Baixar PDF"}</h1>
                     </div>
                   </div>
                 </div>
@@ -344,7 +350,8 @@ export default function PautasCard(props) {
           <Divider />
           <AccordionDetails>
             <div className="grid gap-5">
-              {(proposals && Array.isArray(proposals)) &&
+              {proposals &&
+                Array.isArray(proposals) &&
                 proposals.map((proposal, i) => (
                   <ProposalCard
                     key={i}

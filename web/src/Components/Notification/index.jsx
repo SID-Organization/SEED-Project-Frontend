@@ -4,7 +4,15 @@ import Snackbar from "@mui/material/Snackbar";
 import { Button, SnackbarContent } from "@mui/material";
 import { Link } from "react-router-dom";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/notification.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 export default function Notification(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [state, setState] = React.useState({
     open: true,
     vertical: "top",
@@ -19,7 +27,7 @@ export default function Notification(props) {
   const action = (
     <Link to="/nova-demanda">
       <Button color="secondary" size="small">
-        Criar demanda
+        {translate["Criar demanda"][language] ?? "Criar demanda"}
       </Button>
     </Link>
   );

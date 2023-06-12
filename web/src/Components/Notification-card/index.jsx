@@ -6,6 +6,10 @@ import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/notificationCard.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 // interface NotificationCardProps {
 //   name: string;
 //   time: string;
@@ -15,6 +19,10 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 // }
 
 export default function NotificationCard(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   return (
     <>
       <Box
@@ -31,7 +39,7 @@ export default function NotificationCard(props) {
         <div className="ml-5 mr-5 flex justify-center font-roboto">
           <div className="flex w-[5rem] items-center">
             {props.type === "approved" ? (
-              <Tooltip title="Aprovação">
+              <Tooltip title={translate["Aprovação"][language] ?? "Aprovação"}>
                 <CheckCircleOutlineRoundedIcon
                   sx={{
                     color: "#023A67",
@@ -40,7 +48,7 @@ export default function NotificationCard(props) {
                 />
               </Tooltip>
             ) : props.type === "rejected" ? (
-              <Tooltip title="Rejeição">
+              <Tooltip title={translate["Rejeição"][language] ?? "Rejeição"}>
                 <HighlightOffRoundedIcon
                   sx={{
                     color: "#023A67",
@@ -49,7 +57,7 @@ export default function NotificationCard(props) {
                 />
               </Tooltip>
             ) : props.type === "returned" ? (
-              <Tooltip title="Devolução">
+              <Tooltip title={translate["Devolução"][language] ?? "Devolução"}>
                 <ReplayRoundedIcon
                   sx={{
                     color: "#023A67",
@@ -58,7 +66,7 @@ export default function NotificationCard(props) {
                 />
               </Tooltip>
             ) : (
-              <Tooltip title="Edição">
+              <Tooltip title={translate["Edição"][language] ?? "Edição"}>
                 <EditRoundedIcon
                   sx={{
                     color: "#023A67",

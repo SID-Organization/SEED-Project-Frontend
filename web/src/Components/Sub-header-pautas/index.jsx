@@ -7,7 +7,7 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 export default function SubHeaderPautas(props) {
 
   const translate = TranslationJson;
-  const language = TranslateUtils().getLanguage();
+  let language = TranslateUtils.getLanguage();
 
   return (
     <div>
