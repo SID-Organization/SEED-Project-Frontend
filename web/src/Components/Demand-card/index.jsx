@@ -653,13 +653,13 @@ export default function DemandCard(props) {
                 )}
                 {props.demand.statusDemanda !== "RASCUNHO" && (
                   <Link to={`/demandas/${props.demand.idDemanda}`}>
-                    <Tooltip title="Visualizar demanda">
+                    <Tooltip title={translate["Visualizar demanda"]?.[language] ?? "Visualizar demanda"}>
                       <Button
                         variant="contained"
                         style={{ fontSize: fonts.xs }}
                         sx={{
                           backgroundColor: "#0075B1",
-                          width: fonts.xs > 12 ? 110 : 90,
+                          width: fonts.xs > 12 ? 120 : 100,
                         }}
                       >
                         {translate["Ver mais"]?.[language] ?? "Ver mais"}

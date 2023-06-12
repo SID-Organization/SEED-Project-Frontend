@@ -41,8 +41,6 @@ export default function VoiceSpeech(props) {
   const translate = TranslationJson;
   let language = TranslateUtils.getLanguage();
 
-  console.log(translate["Ouvindo ..."]["en-us"]);
-
   const [isListening, setIsListening] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());

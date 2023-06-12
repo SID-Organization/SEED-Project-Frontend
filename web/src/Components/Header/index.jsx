@@ -291,7 +291,7 @@ export default function PrimarySearchAppBar() {
                   />
                 </div>
                 <div className="text-start">
-                  <h1 className="ml-1">{translate[flag.label]?.[language]}</h1>
+                  <h1 className="ml-1">{translate[flag.label]?.[language] ?? flag.label}</h1>
                 </div>
               </div>
             </Button>
