@@ -1,5 +1,5 @@
 const getLanguage = () => {
-    return JSON.parse(localStorage.getItem("configs")).language || "pt-br";
+    return JSON.parse(localStorage.getItem("configs"))?.language || "pt-br";
 }
 
 const getChildrenText = (children) => {
