@@ -50,8 +50,8 @@ export default function CreateOrAccessProposal(props) {
                         title={
                             props.statusDemanda ===
                                 "APROVADO_PELO_GERENTE_DA_AREA"
-                                ? translate["Gerar proposta"][language]
-                                : translate["Acessar proposta"][language]
+                                ? translate["Gerar proposta"]?.[language]
+                                : translate["Acessar proposta"]?.[language]
                         }
                     >
                         <Button
@@ -71,7 +71,7 @@ export default function CreateOrAccessProposal(props) {
                                 },
                             }}
                         >
-                            {translate["Proposta"][language] ?? "Proposta"}
+                            {translate["Proposta"]?.[language] ?? "Proposta"}
                         </Button>
                     </Tooltip>
                     <Modal
@@ -86,7 +86,7 @@ export default function CreateOrAccessProposal(props) {
                                     style={{ fontSize: props.fonts.xl }}
                                     className="font-roboto font-bold text-[#FFF]"
                                 >
-                                    {translate["Insira as seguintes informações"][language] ?? "Insira as seguintes informações"}
+                                    {translate["Insira as seguintes informações"]?.[language] ?? "Insira as seguintes informações"}
                                 </p>
                             </div>
                             <div className="flex items-center justify-center font-roboto">

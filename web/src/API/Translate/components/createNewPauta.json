@@ -1,0 +1,14 @@
+{
+  "Preencha todos os campos": {
+    "pt-br": "Preencha todos os campos",
+    "en-us": "Fill in all fields"
+  },
+  "O horário de término deve ser maior que o horário de início": {
+    "pt-br": "O horário de término deve ser maior que o horário de início",
+    "en-us": "The end time must be greater than the start time"
+  },
+  "Selecione pelo menos uma proposta": {
+    "pt-br": "Selecione pelo menos uma proposta",
+    "en-us": "Select at least one proposal"
+  }
+}

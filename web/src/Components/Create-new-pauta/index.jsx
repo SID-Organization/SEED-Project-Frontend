@@ -28,6 +28,10 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 import VoiceSpeech from "../VoiceSpeech";
 import Notification from "../Notification";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/createNewPauta.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 const TextField = styled(MuiTextField)({
   width: "14rem",
   marginBottom: "1rem",
@@ -80,6 +84,10 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
 });
 
 export default function CreateNewPauta(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifyCreation, setNotifyCreation] = useState(false);
@@ -139,15 +147,15 @@ export default function CreateNewPauta(props) {
 
   const handleCreatePauta = () => {
     if (!meetingDate || !meetingStartTime || !meetingEndTime) {
-      alert("Preencha todos os campos");
+      alert(translate["Preencha todos os campos"][language] ?? "Preencha todos os campos");
       return;
     }
     if (meetingEndTime < meetingStartTime) {
-      alert("O horário de término deve ser maior que o horário de início");
+      alert(translate["O horário de término deve ser maior que o horário de início"][language] ?? "O horário de término deve ser maior que o horário de início");
       return;
     }
     if (selectedProposals.length === 0) {
-      alert("Selecione pelo menos uma proposta");
+      alert(translate["Selecione pelo menos uma proposta"][language] ?? "Selecione pelo menos uma proposta");
       return;
     }
     const pautaJson = {

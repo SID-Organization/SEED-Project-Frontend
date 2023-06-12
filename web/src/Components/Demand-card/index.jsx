@@ -358,7 +358,7 @@ export default function DemandCard(props) {
                     className="flex"
                   >
                     <span style={{ fontSize: fonts.sm }} className="mr-1">
-                      {translate["Valor:"][language] ?? "Valor:"}
+                      {translate["Valor:"]?.[language] ?? "Valor:"}
                     </span>
                     <span
                       style={{ fontSize: fonts.sm }}
@@ -379,7 +379,7 @@ export default function DemandCard(props) {
                       style={{ fontSize: fonts.sm }}
                       className="mr-1 flex items-center justify-center  text-black"
                     >
-                      {translate["Progresso:"][language] ?? "Progresso:"}
+                      {translate["Progresso:"]?.[language] ?? "Progresso:"}
                     </span>
                     <span className="grid">
                       <Box className="flex items-center justify-center ">
@@ -426,7 +426,7 @@ export default function DemandCard(props) {
                     fontWeight="bold"
                     className="flex"
                   >
-                    <span style={{ fontSize: fonts.sm }}>{translate["De:"][language] ?? "De:"} </span>
+                    <span style={{ fontSize: fonts.sm }}>{translate["De:"]?.[language] ?? "De:"} </span>
                   </Typography>
                   <Typography color="black" fontWeight="bold" className="flex">
                     <span style={{ fontSize: fonts.sm }} className="ml-1">
@@ -440,7 +440,7 @@ export default function DemandCard(props) {
                     fontWeight="bold"
                     className="flex"
                   >
-                    <span style={{ fontSize: fonts.sm }}>{translate["Até:"][language] ?? "Até:"} </span>
+                    <span style={{ fontSize: fonts.sm }}>{translate["Até:"]?.[language] ?? "Até:"} </span>
                   </Typography>
                   <Typography color="black" fontWeight="bold" className="flex">
                     <span style={{ fontSize: fonts.sm }} className="ml-1">
@@ -478,7 +478,7 @@ export default function DemandCard(props) {
 
                 {props.demand.statusDemanda === "CANCELADA" && (
                   <div>
-                    <Tooltip title={translate["Motivo da reprovação"][language] ?? "Motivo da reprovação"}>
+                    <Tooltip title={translate["Motivo da reprovação"]?.[language] ?? "Motivo da reprovação"}>
                       <Button
                         onClick={handleOpenReasonOfCancellation}
                         variant="contained"
@@ -495,7 +495,7 @@ export default function DemandCard(props) {
                           },
                         }}
                       >
-                        {translate["Motivo"][language] ?? "Motivo"}
+                        {translate["Motivo"]?.[language] ?? "Motivo"}
                       </Button>
                     </Tooltip>
                     <Modal
@@ -518,7 +518,7 @@ export default function DemandCard(props) {
                             alignItems: "center",
                           }}
                         >
-                          {translate["Motivo da reprovação da demanda"][language] ?? "Motivo da reprovação da demanda"}
+                          {translate["Motivo da reprovação da demanda"]?.[language] ?? "Motivo da reprovação da demanda"}
                         </Typography>
                         <Typography
                           id="modal-modal-description"
@@ -531,7 +531,7 @@ export default function DemandCard(props) {
                             columnGap: 0.5,
                           }}
                         >
-                          {translate["Motivo"][language] ?? "Motivo"}
+                          {translate["Motivo"]?.[language] ?? "Motivo"}
                           <span style={{ color: "#AD0D0D", fontWeight: 500 }}>
                             *
                           </span>
@@ -601,7 +601,7 @@ export default function DemandCard(props) {
                         </div>
                         <DialogTitle style={{ color: "#0075B1" }}>
                           <p className="text-center">
-                            {translate["Têm certeza que deseja deletar esse rascunho?"][language] ?? "Têm certeza que deseja deletar esse rascunho?"}
+                            {translate["Têm certeza que deseja deletar esse rascunho?"]?.[language] ?? "Têm certeza que deseja deletar esse rascunho?"}
                           </p>
                         </DialogTitle>
                         <div className="flex items-center justify-center gap-5">
@@ -616,7 +616,7 @@ export default function DemandCard(props) {
                               },
                             }}
                           >
-                            {translate["Cancelar"][language] ?? "Cancelar"}
+                            {translate["Cancelar"]?.[language] ?? "Cancelar"}
                           </Button>
                           <Button
                             onClick={handleDeleteDraft}
@@ -628,7 +628,7 @@ export default function DemandCard(props) {
                               },
                             }}
                           >
-                            {translate["Deletar"][language] ?? "Deletar"}
+                            {translate["Deletar"]?.[language] ?? "Deletar"}
                           </Button>
                         </div>
                       </div>
@@ -646,7 +646,7 @@ export default function DemandCard(props) {
                           width: 90,
                         }}
                       >
-                        {translate["Continuar"][language] ?? "Continuar"}
+                        {translate["Continuar"]?.[language] ?? "Continuar"}
                       </Button>
                     </Link>
                   </Tooltip>
@@ -662,7 +662,7 @@ export default function DemandCard(props) {
                           width: fonts.xs > 12 ? 110 : 90,
                         }}
                       >
-                        {translate["Ver mais"][language] ?? "Ver mais"}
+                        {translate["Ver mais"]?.[language] ?? "Ver mais"}
                       </Button>
                     </Tooltip>
                   </Link>

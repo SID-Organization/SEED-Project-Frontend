@@ -24,7 +24,7 @@ export default function subHeader(props) {
       <div className="flex h-[5rem] items-center shadow-page-title-shadow">
         <div className="flex-[2] text-center">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-            {translate[childrenText][language]}
+            {translate[childrenText]?.[language]}
           </h1>
         </div>
         <div className="flex flex-[1] justify-around gap-10">

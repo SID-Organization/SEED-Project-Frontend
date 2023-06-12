@@ -70,7 +70,7 @@ export default function noContent(props) {
                 variant="outlined"
                 startIcon={<AddBoxIcon />}
               >
-                {translate["Crie uma demanda"][language] ?? "Crie uma demanda"}
+                {translate["Crie uma demanda"]?.[language] ?? "Crie uma demanda"}
               </Button>
             </Link>
           </div>

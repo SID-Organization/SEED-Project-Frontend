@@ -64,7 +64,7 @@ export default function FilesTable({ files }) {
           style={{ fontSize: fonts.xl }}
           className="mb-5 font-roboto font-bold text-dark-blue-weg"
         >
-          {translate["Arquivos anexados"][language] ?? "Arquivos anexados"}
+          {translate["Arquivos anexados"]?.[language] ?? "Arquivos anexados"}
         </h1>
       </div>
       <div>
@@ -91,7 +91,7 @@ export default function FilesTable({ files }) {
                     },
                   }}
                 >
-                  {translate["Arquivo"][language] ?? "Arquivo"}
+                  {translate["Arquivo"]?.[language] ?? "Arquivo"}
                 </StyledTableCell>
                 <StyledTableCell
                   style={{ fontSize: fonts.xl }}
@@ -105,7 +105,7 @@ export default function FilesTable({ files }) {
                     },
                   }}
                 >
-                  {translate["Anexado em"][language] ?? "Anexado em"}
+                  {translate["Anexado em"]?.[language] ?? "Anexado em"}
                 </StyledTableCell>
               </TableRow>
             </TableHead>
@@ -118,7 +118,7 @@ export default function FilesTable({ files }) {
                         href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`}
                         download={fileRow.nomeArquivo.split(".")[0]}
                       >
-                        <Tooltip title={translate["Baixar arquivo"][language] ?? "Baixar arquivo"}>
+                        <Tooltip title={translate["Baixar arquivo"]?.[language] ?? "Baixar arquivo"}>
                           <Description className="mr-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
                         </Tooltip>
                       </a>
@@ -130,7 +130,7 @@ export default function FilesTable({ files }) {
                           fileRow.dataRegistroArquivo
                         ).toLocaleDateString()}
                       </StyledTableCell>
-                      <Tooltip title={translate["Deletar arquivo"][language] ?? "Deletar arquivo"}>
+                      <Tooltip title={translate["Deletar arquivo"]?.[language] ?? "Deletar arquivo"}>
                         <Delete className="ml-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
                       </Tooltip>
                     </div>
@@ -139,7 +139,7 @@ export default function FilesTable({ files }) {
             </TableBody>
           </Table>
           <div className="mb-5 mt-5 flex items-center justify-center">
-            <Tooltip title={translate["Adicionar arquivo"][language] ?? "Adicionar arquivo"}>
+            <Tooltip title={translate["Adicionar arquivo"]?.[language] ?? "Adicionar arquivo"}>
               <Button
                 variant="contained"
                 component="label"
@@ -148,7 +148,7 @@ export default function FilesTable({ files }) {
                 }}
               >
                 <InsertDriveFileOutlined className="mr-5 flex cursor-pointer items-center justify-center text-white" />
-                <span style={{ fontSize: fonts.sm }}>{translate["Anexar arquivo"][language] ?? "Anexar arquivo"}</span>
+                <span style={{ fontSize: fonts.sm }}>{translate["Anexar arquivo"]?.[language] ?? "Anexar arquivo"}</span>
                 <input hidden accept="file/*" multiple type="file" />
               </Button>
             </Tooltip>
