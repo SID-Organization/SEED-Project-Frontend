@@ -1,0 +1,18 @@
+{
+  "Título": {
+    "pt-br": "Título",
+    "en-us": "Title"
+  },
+  "Solicitante": {
+    "pt-br": "Solicitante",
+    "en-us": "Requester"
+  },
+  "Última atualização": {
+    "pt-br": "Última atualização",
+    "en-us": "Last update"
+  },
+  "Versão": {
+    "pt-br": "Versão",
+    "en-us": "Version"
+  }
+}

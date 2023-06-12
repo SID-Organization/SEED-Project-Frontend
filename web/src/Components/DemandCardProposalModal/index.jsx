@@ -1,7 +1,14 @@
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
+//Translations
+import TranslationJson from "../../API/Translate/components/demandCardProposalModal.json";
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 export default function DemandCardProposalModal(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
 
   const demandId = props.id;
 
@@ -32,7 +39,7 @@ export default function DemandCardProposalModal(props) {
             },
           }}
         >
-          Selecionar
+          {translate["Selecionar"][language] ?? "Selecionar"}
         </Button>
       </Link>
     </div>
