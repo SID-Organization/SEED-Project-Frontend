@@ -1,6 +1,8 @@
 import userImg from "../../../assets/profile-pic.png";
 import { Badge, Box, Divider, Tooltip } from "@mui/material";
 import { useEffect } from "react";
+import TranslationJson from "../../../API/Translate/components/userMessageCard.json";
+import TranslateUtils from "../../../utils/Translate-Utils/index.js";
 
 /**
  * Function that returns a card with the user's name and the last message sent
@@ -8,6 +10,10 @@ import { useEffect } from "react";
  */
 
 export default function UserMessageCard(props) {
+
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
   useEffect(() => {
     console.log("User: ", props);
   }, []);
@@ -57,7 +63,7 @@ export default function UserMessageCard(props) {
         </div>
         <div className="grid w-[13rem] items-center">
           <Tooltip
-            title={props.name + " • Demanda - " + props.userDemand}
+            title={props.name + " • " + translate["Demanda"]?.[language] +" - " + props.userDemand}
             placement="top-start"
           >
             <p className="flex gap-2 text-base font-bold">
@@ -84,7 +90,7 @@ export default function UserMessageCard(props) {
               )
             ) : (
               <>
-                <span className="font-bold italic">Chat iniciado!</span>
+                <span className="font-bold italic">{translate["Chat iniciado!"]?.[language] ?? "Chat iniciado!"}</span>
               </>
             )}
           </p>
