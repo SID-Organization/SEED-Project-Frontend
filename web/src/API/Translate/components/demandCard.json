@@ -1,0 +1,50 @@
+{
+  "Valor:": {
+    "pt-br": "Valor:",
+    "en-us": "Value:"
+  },
+  "Progresso:": {
+    "pt-br": "Progresso:",
+    "en-us": "Progress:"
+  },
+  "Motivo da reprovação": {
+    "pt-br": "Motivo da reprovação",
+    "en-us": "Rejection reason"
+  },
+  "Motivo": {
+    "pt-br": "Motivo",
+    "en-us": "Reason"
+  },
+  "Motivo da reprovação da demanda": {
+    "pt-br": "Motivo da reprovação da demanda",
+    "en-us": "Demand rejection reason"
+  },
+  "Têm certeza que deseja deletar esse rascunho?": {
+    "pt-br": "Têm certeza que deseja deletar esse rascunho?",
+    "en-us": "Are you sure you want to delete this draft?"
+  },
+  "Cancelar": {
+    "pt-br": "Cancelar",
+    "en-us": "Cancel"
+  },
+  "Deletar": {
+    "pt-br": "Deletar",
+    "en-us": "Delete"
+  },
+  "Continuar": {
+    "pt-br": "Continuar",
+    "en-us": "Continue"
+  },
+  "Ver mais": {
+    "pt-br": "Ver mais",
+    "en-us": "See more"
+  },
+  "De:": {
+    "pt-br": "De:",
+    "en-us": "From:"
+  },
+  "Até:": {
+    "pt-br": "Até:",
+    "en-us": "To:"
+  }
+}
