@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 // MUI
-import { Badge, Button, Popper, Typography } from "@mui/material";
+import { Badge, Button, Modal, Popper, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
 import InputBase from "@mui/material/InputBase";
@@ -108,7 +108,7 @@ export default function AtaFilter(props) {
                         </IconButton>
                     </>
                 </Paper>
-                <Popper
+                <Modal
                     open={isFilterOpen}
                     anchorEl={anchorEl}
                     placement="bottom-start"
@@ -156,7 +156,7 @@ export default function AtaFilter(props) {
                             </div>
                         </div>
                     </Paper>
-                </Popper>
+                </Modal>
             </div>
         </ClickAwayListener>
     );

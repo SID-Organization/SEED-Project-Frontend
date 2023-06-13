@@ -25,11 +25,9 @@ import TranslateUtils from "../../utils/Translate-Utils";
 export default function Search(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  // Used to not active clickaway
-  const selectRef = useRef(null);
 
   const translate = TranslationJSON;
-  const componentTranslate = TranslationJSON.filterComponents;
+  const filterTranslate = TranslationJSON.filterComponents;
   const language = TranslateUtils.getLanguage();
 
   // Filters
@@ -61,7 +59,10 @@ export default function Search(props) {
     setIsFilterOpen(!isFilterOpen);
   }
 
-  function handleCloseAndFilter() {
+  function handleCloseAndFilter(e) {
+    // If the clicked target is a select, don't close the filter (It's comming as body)
+    if (e.target.tagName === "SELECT") return;
+    if (e.target.tagName === "BODY") return;
     if (isFilterOpen) {
       setIsFilterOpen(false);
       filterDemands();
@@ -82,13 +83,14 @@ export default function Search(props) {
     if (demandSize != "") qty++;
     if (PPMCode != "") qty++;
     if (requestNumber != "") qty++;
+    if (demandStatus !=  "") qty++;
 
     return qty;
   }
 
   function cleanStates() {
     setRequester("");
-    setDemandStatus([]);
+    setDemandStatus("");
     setValue("");
     setScore("");
     setTitle("");
@@ -104,21 +106,21 @@ export default function Search(props) {
 
   // Quando algum campo de pesquisa é utilizado, chama essa função e atualiza o filter
   function filterDemands() {
-    console.log('StatusDemanda', demandStatus);
-    // props.setFilters(
-    //   DemandFilterUtils.getUpdatedFilter(
-    //     requester,
-    //     responsibleManager,
-    //     responsibleAnalyst,
-    //     PPMCode,
-    //     department,
-    //     approvalForum,
-    //     demandSize,
-    //     title,
-    //     value,
-    //     score,
-    //     requestNumber
-    //   ))
+    props.setFilters(
+      DemandFilterUtils.getUpdatedFilter(
+        requester,
+        responsibleManager,
+        responsibleAnalyst,
+        PPMCode,
+        department,
+        approvalForum,
+        demandSize,
+        title,
+        demandStatus,
+        value,
+        score,
+        requestNumber
+      ))
   };
 
   useEffect(() => {
@@ -202,78 +204,74 @@ export default function Search(props) {
           >
             <div className="grid gap-3">
               <FilterComponent
-                title={componentTranslate["Solicitante"]?.[language]}
+                title={filterTranslate["Solicitante"]?.[language]}
                 type="text"
                 value={requester}
                 setValue={setRequester}
               />
               <FilterComponent
-                title={componentTranslate["Valor"]?.[language]}
+                title={filterTranslate["Valor"]?.[language]}
                 type="number"
                 value={value}
                 setValue={setValue}
               />
               <FilterComponent
-                title={componentTranslate["Score"]?.[language]}
+                title={filterTranslate["Score"]?.[language]}
                 type="number"
                 value={score}
                 setValue={setScore}
               />
               <FilterComponent
-                title={componentTranslate["Título"]?.[language]}
+                title={filterTranslate["Título"]?.[language]}
                 type="text"
                 value={title}
                 setValue={setTitle}
               />
-              <div
-                ref={selectRef}
-              >
-                <FilterComponent
-                  title={componentTranslate["Status da demanda"]?.[language]}
-                  type="select"
-                  options={DemandFilterUtils.getDemandStatusOptions()}
-                  value={demandStatus}
-                  setValue={setDemandStatus}
-                />
-              </div>
               <FilterComponent
-                title={componentTranslate["Analista responsável"]?.[language]}
+                title={filterTranslate["Status da demanda"]?.[language]}
+                type="select"
+                options={DemandFilterUtils.getDemandStatusOptions()}
+                value={demandStatus}
+                setValue={setDemandStatus}
+              />
+              <FilterComponent
+                title={filterTranslate["Analista responsável"]?.[language]}
                 type="text"
                 value={responsibleAnalyst}
                 setValue={setResponsibleAnalyst}
               />
               <FilterComponent
-                title={componentTranslate["Gerente responsável"]?.[language]}
+                title={filterTranslate["Gerente responsável"]?.[language]}
                 type="text"
                 value={responsibleManager}
                 setValue={setResponsibleManager}
               />
               <FilterComponent
-                title={componentTranslate["Fórum de aprovação"]?.[language]}
+                title={filterTranslate["Fórum de aprovação"]?.[language]}
                 type="text"
                 value={approvalForum}
                 setValue={setApprovalForum}
               />
               <FilterComponent
-                title={componentTranslate["Departamento"]?.[language]}
+                title={filterTranslate["Departamento"]?.[language]}
                 type="text"
                 value={department}
                 setValue={setDepartment}
               />
               <FilterComponent
-                title={componentTranslate["Tamanho da demanda"]?.[language]}
+                title={filterTranslate["Tamanho da demanda"]?.[language]}
                 type="text"
                 value={demandSize}
                 setValue={setDemandSize}
               />
               <FilterComponent
-                title={componentTranslate["Código PPM"]?.[language]}
+                title={filterTranslate["Código PPM"]?.[language]}
                 type="number"
                 value={PPMCode}
                 setValue={setPPMCode}
               />
               <FilterComponent
-                title={componentTranslate["Número da solicitação"]?.[language]}
+                title={filterTranslate["Número da solicitação"]?.[language]}
                 type="number"
                 value={requestNumber}
                 setValue={setRequestNumber}

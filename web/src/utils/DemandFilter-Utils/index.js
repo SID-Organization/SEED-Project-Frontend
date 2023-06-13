@@ -37,6 +37,7 @@ const getEmptyFilter = () => [
   { filterBy: "forumDeAprovacaoDemanda", value: null, type: "text" },
   { filterBy: "tamanhoDemanda", value: null, type: "text" },
   { filterBy: "tituloDemanda", value: null, type: "text" },
+  { filterBy: "statusDemanda", value: null, type: "text" },
   { filterBy: "valorDemanda", value: null, type: "number" },
   { filterBy: "scoreDemanda", value: null, type: "number" },
   { filterBy: "idDemanda", value: null, type: "number" }
@@ -52,6 +53,7 @@ const getUpdatedFilter =
     approvalForum,
     demandSize,
     title,
+    status,
     value,
     score,
     requestNumber
@@ -64,6 +66,7 @@ const getUpdatedFilter =
       { filterBy: "forumDeAprovacaoDemanda", value: approvalForum, type: "text" },
       { filterBy: "tamanhoDemanda", value: demandSize, type: "text" },
       { filterBy: "tituloDemanda", value: title, type: "text" },
+      { filterBy: "statusDemanda", value: status, type: "text" },
       { filterBy: "valorDemanda", value: value, type: "number" },
       { filterBy: "scoreDemanda", value: score, type: "number" },
       { filterBy: "idDemanda", value: requestNumber, type: "number" },
