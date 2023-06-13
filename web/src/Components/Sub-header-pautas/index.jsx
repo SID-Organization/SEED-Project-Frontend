@@ -105,7 +105,7 @@ export default function SubHeaderPautas(props) {
                   },
                 }}
               />
-              Ver reuniões
+              {translate["Ver reuniões"]?.[language] ?? "Ver reuniões"}
             </Button>
           </div>
           <CreateNewPauta />
