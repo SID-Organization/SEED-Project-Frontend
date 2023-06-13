@@ -69,7 +69,6 @@ export default function Proposals() {
     setIsLoading(true);
     Promise.all([PautaService.getPautas(), ProposalService.getReadyProposals()])
       .then(([pautasData, proposalsData]) => {
-        console.warn("PAUTAS", pautasData);
         if (Array.isArray(pautasData)) {
           let pautas = pautasData.map((pauta) => ({
             ...pauta,
