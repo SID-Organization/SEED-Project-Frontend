@@ -1,6 +1,11 @@
 {
   "Propostas": {
     "pt-br": "Propostas",
-    "en-us": "Proposals"
+    "en-us": "Proposals",
+    "de": "Vorschläge",
+    "zh-cn": "提案",
+    "es": "Propuestas",
+    "fr": "Propositions",
+    "it": "Proposte"
   }
 }

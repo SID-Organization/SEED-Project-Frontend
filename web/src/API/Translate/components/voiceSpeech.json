@@ -1,30 +1,65 @@
 {
   "Seu navegador não é compatível com SpeechRecognition.": {
     "pt-br": "Seu navegador não é compatível com SpeechRecognition.",
-    "en-us": "Your browser is not compatible with SpeechRecognition."
+    "en-us": "Your browser is not compatible with SpeechRecognition.",
+    "de": "Ihr Browser ist nicht mit SpeechRecognition kompatibel.",
+    "zh-cn": "您的浏览器不支持语音识别。",
+    "es": "Tu navegador no es compatible con SpeechRecognition.",
+    "fr": "Votre navigateur n'est pas compatible avec SpeechRecognition.",
+    "it": "Il tuo browser non è compatibile con SpeechRecognition."
   },
   "Ouvindo ...": {
     "pt-br": "Ouvindo ...",
-    "en-us": "Listening ..."
+    "en-us": "Listening ...",
+    "de": "Hören ...",
+    "zh-cn": "正在倾听...",
+    "es": "Escuchando...",
+    "fr": "En écoute...",
+    "it": "Ascoltando..."
   },
   "Edite seu texto como preferir": {
     "pt-br": "Edite seu texto como preferir",
-    "en-us": "Edit your text as you prefer"
+    "en-us": "Edit your text as you prefer",
+    "de": "Bearbeiten Sie Ihren Text nach Ihren Wünschen",
+    "zh-cn": "按您的喜好编辑文本",
+    "es": "Edita tu texto como prefieras",
+    "fr": "Modifiez votre texte selon vos préférences",
+    "it": "Modifica il tuo testo come preferisci"
   },
   "Fale pausadamente e com clareza.": {
     "pt-br": "Fale pausadamente e com clareza.",
-    "en-us": "Speak slowly and clearly."
+    "en-us": "Speak slowly and clearly.",
+    "de": "Sprechen Sie langsam und deutlich.",
+    "zh-cn": "说话时请慢慢说，并且清晰明了。",
+    "es": "Habla despacio y claramente.",
+    "fr": "Parlez lentement et clairement.",
+    "it": "Parla lentamente e chiaramente."
   },
   "Cancelar": {
     "pt-br": "Cancelar",
-    "en-us": "Cancel"
+    "en-us": "Cancel",
+    "de": "Abbrechen",
+    "zh-cn": "取消",
+    "es": "Cancelar",
+    "fr": "Annuler",
+    "it": "Annulla"
   },
   "Parar": {
     "pt-br": "Parar",
-    "en-us": "Stop"
+    "en-us": "Stop",
+    "de": "Stop",
+    "zh-cn": "停止",
+    "es": "Detener",
+    "fr": "Arrêter",
+    "it": "Stop"
   },
   "Confirmar": {
     "pt-br": "Confirmar",
-    "en-us": "Confirm"
+    "en-us": "Confirm",
+    "de": "Bestätigen",
+    "zh-cn": "确认",
+    "es": "Confirmar",
+    "fr": "Confirmer",
+    "it": "Conferma"
   }
 }

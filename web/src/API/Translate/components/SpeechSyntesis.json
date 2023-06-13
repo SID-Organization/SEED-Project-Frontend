@@ -1,10 +1,20 @@
 {
   "Lendo texto...": {
     "pt-br": "Lendo texto...",
-    "en-us": "Reading text..."
+    "en-us": "Reading text...",
+    "de": "Text wird vorgelesen...",
+    "zh-cn": "正在阅读文本...",
+    "es": "Leyendo texto...",
+    "fr": "Lecture du texte...",
+    "it": "Lettura del testo..."
   },
   "Ler texto": {
     "pt-br": "Ler texto",
-    "en-us": "Read text"
+    "en-us": "Read text",
+    "de": "Text lesen",
+    "zh-cn": "阅读文本",
+    "es": "Leer texto",
+    "fr": "Lire le texte",
+    "it": "Leggi il testo"
   }
 }

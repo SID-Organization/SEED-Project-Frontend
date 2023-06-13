@@ -1,6 +1,11 @@
 {
   "Pautas": {
     "pt-br": "Pautas",
-    "en-us": "Schedule"
+    "en-us": "Schedule",
+    "de": "Zeitplan",
+    "zh-cn": "日程安排",
+    "es": "Programación",
+    "fr": "Programme",
+    "it": "Programma"
   }
 }

@@ -1,6 +1,11 @@
 {
  "Atas Registradas": {
   "pt-br": "Atas Registradas",
-  "en-us": "Registered Minutes"
+  "en-us": "Registered Minutes",
+  "de": "Registrierte Protokolle",
+  "zh-cn": "注册会议记录",
+  "es": "Actas registradas",
+  "fr": "Procès-verbaux enregistrés",
+  "it": "Verbali registrati"
  }
 }
