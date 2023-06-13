@@ -155,14 +155,14 @@ export default function Sidebar() {
       linkTo: "/atas",
       isActiveToUser: !isRoleRequester,
     },
-    {
-      title: translate["Atas DG"]?.[language] ?? "Atas DG",
-      outlinedIcon: <FolderOutlined sx={iconStyle} />,
-      fullIcon: <Folder sx={iconStyle} />,
-      linkTo: "/atas-dg",
-      hasDivider: true,
-      isActiveToUser: !isRoleRequester
-    },
+    // {
+    //   title: translate["Atas DG"]?.[language] ?? "Atas DG",
+    //   outlinedIcon: <FolderOutlined sx={iconStyle} />,
+    //   fullIcon: <Folder sx={iconStyle} />,
+    //   linkTo: "/atas-dg",
+    //   hasDivider: true,
+    //   isActiveToUser: !isRoleRequester
+    // },
     {
       title: translate["Propostas"]?.[language] ?? "Propostas",
       outlinedIcon: <DescriptionOutlinedIcon sx={iconStyle} />,

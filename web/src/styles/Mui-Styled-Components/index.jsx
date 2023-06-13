@@ -50,8 +50,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+
 export default {
     TextField,
     StyledTableCell,
-    StyledTableRow
+    StyledTableRow,
 }

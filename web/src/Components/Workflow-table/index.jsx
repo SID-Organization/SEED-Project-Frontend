@@ -66,7 +66,7 @@ const getStatusColor = (status) => {
 
 
 export default function WorkflowTable({ demandId }) {
-
+  
   const translate = TranslationJson;
   const [ language ] = useContext(TranslateContext);
 
