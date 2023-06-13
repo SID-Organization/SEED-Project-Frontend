@@ -30,9 +30,6 @@ export default function FilterComponent(props) {
     }
   }, [filterSpeech])
 
-  if (props.type == "select")
-    console.log("Options", props.options);
-
   return (
     <>
       <div className="flex items-center gap-10"

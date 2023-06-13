@@ -90,11 +90,11 @@ export default function NotificationCard(props) {
               placement="left"
             >
               <p className="text-[12px]">
-                {props.name &&
+                {props.name && 
                   props.content &&
-                  (props.name.length + props.content.length > 71
+                  (props.name.length + " " + props.content.length > 71
                     ? (props.name + props.content).slice(0, 70) + "..."
-                    : props.name + props.content)}
+                    : props.name + " " + props.content)}
               </p>
             </Tooltip>
             <p className="text-xs font-bold text-light-blue-weg">
