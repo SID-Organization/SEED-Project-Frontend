@@ -1,0 +1,20 @@
+{
+  "Valor mensal": {
+    "pt-br": "Valor mensal",
+    "en-us": "Monthly value",
+    "de": "Monatlicher Wert",
+    "zh-cn": "每月价值",
+    "es": "Valor mensual",
+    "fr": "Valeur mensuelle",
+    "it": "Valore mensile"
+  },
+  "Descrição": {
+    "pt-br": "Descrição",
+    "en-us": "Description",
+    "de": "Beschreibung",
+    "zh-cn": "描述",
+    "es": "Descripción",
+    "fr": "La description",
+    "it": "Descrizione"
+  }
+}

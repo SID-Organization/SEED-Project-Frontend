@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // MUI
 import { Badge, Button, Popper, Typography } from "@mui/material";
@@ -10,11 +10,19 @@ import IconButton from "@mui/material/IconButton";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/ataFilter.json";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
+
 // Components
 // import FilterComponent from "./FilterComponent";
 
 
 export default function AtaFilter(props) {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -85,7 +93,7 @@ export default function AtaFilter(props) {
                             width: "25px",
                         }}
                     >
-                        Filtro
+                      {translate["Filtro"]?.[language] ?? "Filtro"}
                     </Typography>
                     <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                     <>
@@ -136,7 +144,7 @@ export default function AtaFilter(props) {
                                     }}
                                     onClick={cleanStates}
                                 >
-                                    Limpar
+                                  {translate["Limpar"]?.[language] ?? "Limpar"}
                                 </Button>
                                 <Button
                                     onClick={handleCloseAndFilter}
@@ -151,7 +159,7 @@ export default function AtaFilter(props) {
                                         },
                                     }}
                                 >
-                                    Filtrar
+                                  {translate["Filtrar"]?.[language] ?? "Filtrar"}
                                 </Button>
                             </div>
                         </div>

@@ -1,0 +1,74 @@
+{
+  "Qtd. Propostas": {
+    "pt-br": "Qtd. Propostas",
+    "en-us": "Proposals Qty.",
+    "de": "Anzahl der Vorschläge",
+    "zh-cn": "提案数量",
+    "es": "Cantidad de propuestas",
+    "fr": "Nombre de propositions",
+    "it": "Numero di proposte"
+  },
+  "Data da reunião": {
+    "pt-br": "Data da reunião",
+    "en-us": "Meeting date",
+    "de": "Datum des Treffens",
+    "zh-cn": "会议日期",
+    "es": "Fecha de la reunión",
+    "fr": "Date de la réunion",
+    "it": "Data della riunione"
+  },
+  "Horário": {
+    "pt-br": "Horário",
+    "en-us": "Time",
+    "de": "Zeit",
+    "zh-cn": "时间",
+    "es": "Hora",
+    "fr": "Temps",
+    "it": "Tempo"
+  },
+  "Analista responsável": {
+    "pt-br": "Analista responsável",
+    "en-us": "Responsible analyst",
+    "de": "Verantwortlicher Analyst",
+    "zh-cn": "负责分析师",
+    "es": "Analista responsable",
+    "fr": "Analyste responsable",
+    "it": "Analista responsabile"
+  },
+  "Gerar Ata DG": {
+    "pt-br": "Gerar Ata DG",
+    "en-us": "Generate DG Minutes",
+    "de": "DG-Minuten generieren",
+    "zh-cn": "生成DG分钟",
+    "es": "Generar Minutos DG",
+    "fr": "Générer les minutes DG",
+    "it": "Genera i minuti DG"
+  },
+  "Visualizar Ata:": {
+    "pt-br": "Visualizar Ata:",
+    "en-us": "View Minutes:",
+    "de": "Protokoll anzeigen:",
+    "zh-cn": "查看分钟：",
+    "es": "Ver Minutos:",
+    "fr": "Voir les minutes:",
+    "it": "Visualizza i minuti:"
+  },
+  "Publicada": {
+    "pt-br": "Publicada",
+    "en-us": "Published",
+    "de": "Veröffentlicht",
+    "zh-cn": "已发布",
+    "es": "Publicado",
+    "fr": "Publié",
+    "it": "Pubblicato"
+  },
+  "Não publicada": {
+    "pt-br": "Não publicada",
+    "en-us": "Not published",
+    "de": "Nicht veröffentlicht",
+    "zh-cn": "未发布",
+    "es": "No publicado",
+    "fr": "Non publié",
+    "it": "Non pubblicato"
+  }
+}

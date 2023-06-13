@@ -1,9 +1,17 @@
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+
+//Translation
+import TranslationJson from "../../API/Translate/components/benefitsCard.json";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function BenefitsCard(props) {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   useEffect(() => {
@@ -39,13 +47,13 @@ export default function BenefitsCard(props) {
                   style={{ fontSize: fonts.base }}
                   className=" border p-4 text-left"
                 >
-                  Valor mensal
+                  {translate["Valor mensal"]?.[language] ?? "Valor mensal"}
                 </th>
                 <th
                   style={{ fontSize: fonts.base }}
                   className="border p-4 text-left"
                 >
-                  Descrição
+                  {translate["Descrição"]?.[language] ?? "Descrição"}
                 </th>
               </tr>
             </thead>

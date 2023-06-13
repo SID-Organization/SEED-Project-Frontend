@@ -1,3 +1,11 @@
 {
-
+  "Pauta":{
+    "pt-br": "Pauta",
+    "en-us": "Schedule",
+    "de": "Zeitplan",
+    "zh-cn": "时间表",
+    "es": "Programa",
+    "fr": "Programme",
+    "it": "Programma"
+  }
 }
