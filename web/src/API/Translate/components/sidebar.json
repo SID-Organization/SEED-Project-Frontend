@@ -1,38 +1,91 @@
 {
-  "Nova demanda": {
-    "pt-br": "Nova demanda",
-    "en-us": "New demand"
-  },
-  "Minhas demandas": {
-    "pt-br": "Minhas demandas",
-    "en-us": "My demands"
-  },
-  "Rascunhos":{
-    "pt-br": "Rascunhos",
-    "en-us": "Drafts"
-  },
-  "Gerenciar demandas": {
-    "pt-br": "Gerenciar demandas",
-    "en-us": "Manage demands"
-  },
-  "Pautas": {
-    "pt-br": "Pautas",
-    "en-us": "Schedule"
-  },
-  "Atas": {
-    "pt-br": "Atas",
-    "en-us": "Minutes"
-  },
-  "Atas DG": {
-    "pt-br": "Atas DG",
-    "en-us": "DG Minutes"
-  },
-  "Propostas": {
-    "pt-br": "Propostas",
-    "en-us": "Proposals"
-  },
-  "Sair": {
-    "pt-br": "Sair",
-    "en-us": "Logout"
-  }
+    "Nova demanda": {
+        "pt-br": "Nova demanda",
+        "en-us": "New demand",
+        "de": "Neue Nachfrage",
+        "zh-cn": "新需求",
+        "es": "Nueva demanda",
+        "fr": "Nouvelle demande",
+        "it": "Nuova domanda"
+    },
+    "Minhas demandas": {
+        "pt-br": "Minhas demandas",
+        "en-us": "My demands",
+        "de": "Meine Anfragen",
+        "zh-cn": "我的需求",
+        "es": "Mis demandas",
+        "fr": "Mes demandes",
+        "it": "Le mie richieste"
+    },
+    "Rascunhos": {
+        "pt-br": "Rascunhos",
+        "en-us": "Drafts",
+        "de": "Entwürfe",
+        "zh-cn": "草稿",
+        "es": "Borradores",
+        "fr": "Brouillons",
+        "it": "Bozze"
+    },
+    "Gerenciar demandas": {
+        "pt-br": "Gerenciar demandas",
+        "en-us": "Manage demands",
+        "de": "Nachfragen verwalten",
+        "zh-cn": "管理需求",
+        "es": "Administrar demandas",
+        "fr": "Gérer les demandes"
+    },
+    "Pautas": {
+        "pt-br": "Pautas",
+        "en-us": "Schedule",
+        "de": "Tagesordnung",
+        "zh-cn": "议程",
+        "es": "Agenda",
+        "fr": "Ordre du jour",
+        "it": "Ordine del giorno"
+    },
+    "Atas": {
+        "pt-br": "Atas",
+        "en-us": "Minutes",
+        "de": "Protokolle",
+        "zh-cn": "分钟",
+        "es": "Actas",
+        "fr": "Procès-verbaux",
+        "it": "Verbali"
+    },
+    "Atas DG": {
+        "pt-br": "Atas DG",
+        "en-us": "DG Minutes",
+        "de": "DG-Protokolle",
+        "zh-cn": "DG分钟",
+        "es": "Actas DG",
+        "fr": "Procès-verbaux DG",
+        "it": "Verbali DG"
+    },
+    "Propostas": {
+        "pt-br": "Propostas",
+        "en-us": "Proposals",
+        "de": "Vorschläge",
+        "zh-cn": "建议",
+        "es": "Propuestas",
+        "fr": "Propositions",
+        "it": "Proposte"
+    },
+    "Chat": {
+      "pt-br": "Chat",
+      "en-us": "Chat",
+      "de": "Chat",
+      "zh-cn": "聊天",
+      "es": "Chat",
+      "fr": "Chat",
+      "it": "Chat"
+    },
+    "Sair": {
+        "pt-br": "Sair",
+        "en-us": "Logout",
+        "de": "Ausloggen",
+        "zh-cn": "登出",
+        "es": "Salir",
+        "fr": "Se déconnecter",
+        "it": "Esci"
+    }
 }
