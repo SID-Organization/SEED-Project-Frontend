@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/calendar.json";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
+
 export default function Calendar(props) {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [meetings, setMeetings] = useState();
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -10,7 +18,7 @@ export default function Calendar(props) {
 
   useEffect(() => {
     const convertedMeetings = pautas.map((pauta) => ({
-      title: `Pauta - ${pauta.idPauta}`,
+      title: `${translate["Pauta"]?.[language] ?? "Pauta"} - ${pauta.idPauta}`,
       start: `${convertDateFormat(pauta.dataReuniao)}T${pauta.horaReuniao}`,
       end: `${convertDateFormat(pauta.dataReuniao)}T${
         pauta.horaTerminoReuniao

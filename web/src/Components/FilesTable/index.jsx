@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   Table,
@@ -25,6 +25,7 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 //Translation
 import TranslationJson from "../../API/Translate/components/filesTable.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,7 +50,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function FilesTable({ files }) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 

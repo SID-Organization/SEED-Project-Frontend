@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 // MUI
@@ -7,12 +7,13 @@ import { Box, Button, Modal, TextField } from "@mui/material";
 // Service
 import DemandService from "../../service/Demand-Service";
 
+// Utils
+import UserUtils from "../../utils/User-Utils";
+
 // Translation
 import TranslationJSON from "../../API/Translate/components/returnReasonModal.json";
 import TranslateUtils from "../../utils/Translate-Utils";
-
-// Utils
-import UserUtils from "../../utils/User-Utils";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const styleModalReasonOfDevolution = {
   position: "absolute",
@@ -40,7 +41,7 @@ export default function ReturnReasonModal(props) {
   const navigate = useNavigate();
 
   const translate = TranslationJSON;
-  const language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const sendReturnOrCancel = () => {
     props.setIsReasonOfModalOpen(false);

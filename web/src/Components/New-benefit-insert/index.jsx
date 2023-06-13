@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -19,6 +19,7 @@ import BenefitService from "../../service/Benefit-Service";
 //Translation
 import TranslationJson from "../../API/Translate/components/newBenefitInsert.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const TextFieldValue = styled(MuiTextField)({
   width: "15rem",
@@ -44,7 +45,7 @@ const TextFieldValue = styled(MuiTextField)({
 export default function NewBenefitInsertion(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [coin, setCoin] = useState(props.coin);
   const [value, setValue] = useState(props.value);

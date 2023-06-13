@@ -4,6 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
 
+// Contexts
+import { TranslateContext } from "./contexts/translate";
+
 // Components
 import Atas from "./pages/analista/atas";
 import Chat from "./pages/requester/chat";
@@ -30,12 +33,19 @@ import UserUtils from "./utils/User-Utils";
 import VLibras from "@djpfs/react-vlibras/dist/cjs/index.js";
 
 import TextToVoice from "./Components/SpeechSyntesis/index.jsx";
+import TranslateUtils from "./utils/Translate-Utils/index.js";
 
 function App() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
+  const [language, setLanguage] = useState(TranslateUtils.getLanguage() ?? "pt-br");
+
+  const updateLanguage = (languageCode) => {
+    TranslateUtils.setLanguage(languageCode);
+    setLanguage(languageCode);
+  }
 
   return (
-    <>
+    <TranslateContext.Provider value={[language, updateLanguage]}>
       <TextToVoice></TextToVoice>
       <BrowserRouter>
         <Routes>
@@ -126,7 +136,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <VLibras forceOnload={true} />
-    </>
+    </TranslateContext.Provider>
   );
 }
 

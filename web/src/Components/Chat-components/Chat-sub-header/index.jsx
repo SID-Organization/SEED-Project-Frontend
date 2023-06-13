@@ -11,17 +11,18 @@ import { styled } from "@mui/material/styles";
 
 import UserIMG from "../../../assets/profile-pic.png";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IconButton, SnackbarContent, Tooltip } from "@mui/material";
 
 //Translations
 import TranslationJson from "../../../API/Translate/components/chatSubHeader.json";
 import TranslateUtils from "../../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
 export default function ChatSubHeader(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   console.log("HEADER: ", props);
 

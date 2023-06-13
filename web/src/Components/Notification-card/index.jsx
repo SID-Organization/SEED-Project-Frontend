@@ -9,6 +9,8 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 //Translation
 import TranslationJson from "../../API/Translate/components/notificationCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // interface NotificationCardProps {
 //   name: string;
@@ -21,7 +23,7 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 export default function NotificationCard(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   return (
     <>

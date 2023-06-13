@@ -1,5 +1,5 @@
 import { Badge, Box, Divider, FormControl, MenuItem } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 
 // MUI
@@ -16,12 +16,13 @@ import ProposalCard from "../Proposal-card";
 import ReactQuillUtils from "../../utils/ReactQuill-Utils";
 import TranslationJson from "../../API/Translate/components/generateAtaProposal.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
 export default function fsdGenerateAtaProposal(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [parecerComissao, setParecerComissao] = useState("");
   const [publicada, setPublicada] = useState(false);

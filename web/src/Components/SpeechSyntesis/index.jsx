@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { MdVolumeUp } from "react-icons/md";
 import { useSpeechSynthesis } from "react-speech-kit";
 import "./TextToVoice.css";
@@ -9,8 +9,11 @@ import { styled } from "@mui/material/styles";
 import { Tooltip } from "@mui/material";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import DoneRoundedIcon from "@mui/icons-material/DoneRounded";
+
+//Translation
 import TranslationJson from "../../API/Translate/components/SpeechSyntesis.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const IconButton = styled(MuiIconButton)(() => ({
   display: "flex",
@@ -36,7 +39,7 @@ const IconButton = styled(MuiIconButton)(() => ({
 export default function TextToVoice() {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const { speak } = useSpeechSynthesis();
   const [selectedText, setSelectedText] = useState("");
@@ -74,7 +77,7 @@ export default function TextToVoice() {
     <div className="fixed right-5 top-1/2 z-50 -translate-y-1/2 transform">
       {showButton && (
         <Tooltip
-          title={isButtonClicked ? translate["Lendo texto..."]?.[language] ?? "Lendo texto..." : translate["Ler texto"][language] ?? "Ler texto"}
+          title={isButtonClicked ? (translate["Lendo texto..."]?.[language] ?? "Lendo texto...") : (translate["Ler texto"]?.[language] ?? "Ler texto")}
           placement="left"
         >
           <IconButton onClick={handleSpeak}>

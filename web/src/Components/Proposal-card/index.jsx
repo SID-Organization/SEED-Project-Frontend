@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 // MUI
@@ -23,6 +23,7 @@ import ProposalService from "../../service/Proposal-Service";
 //Translation
 import TranslationJson from "../../API/Translate/components/proposalCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 
 const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
@@ -99,7 +100,7 @@ const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
 export default function ProposalCard(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 

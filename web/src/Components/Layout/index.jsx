@@ -15,15 +15,9 @@ import PathHistory from "../Path-history";
 
 export default function Layout() {
 
-  const [language, setLanguage] = useState(TranslateUtils.getLanguage());
 
-  const updateLanguage = (languageCode) => {
-    TranslateUtils.setLanguage(languageCode);
-    setLanguage(languageCode);
-  }
 
   return (
-    <TranslateContext.Provider value={[language, updateLanguage]}>
       <div>
         <Header />
         <div className="flex">
@@ -34,6 +28,5 @@ export default function Layout() {
           </div>
         </div>
       </div>
-    </TranslateContext.Provider>
   );
 }

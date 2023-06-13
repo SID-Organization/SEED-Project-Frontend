@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 // MUI
 import Box from "@mui/material/Box";
@@ -17,9 +17,11 @@ import DemandLogService from "../../service/DemandLog-Service";
 // Utils
 import DateUtils from "../../utils/Date-Utils";
 import ReturnReasonModal from "../ReturnReason-Modal";
+
+//Translation
 import TranslationJson from "../../API/Translate/components/workflowTable.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
-import translateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Renderizador de células normais
 const renderCellTooltip = (params) => (
@@ -65,8 +67,8 @@ const getStatusColor = (status) => {
 
 export default function WorkflowTable({ demandId }) {
 
-  const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const translate = TranslationJSON;
+  const [ language ] = useContext(TranslateContext);
 
   const [pageSize, setPageSize] = useState(5);
   const [workFlowData, setWorkFlowData] = useState([]);

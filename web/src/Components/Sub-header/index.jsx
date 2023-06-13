@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import "../../styles/index.css";
 
@@ -9,15 +9,17 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 // Translation
 import TranslationJSON from "../../API/Translate/components/subHeader.json";
 import TranslateUtils from "../../utils/Translate-Utils";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Components
 import Search from "../Search";
+
 
 // Subheader de todo o sistema
 export default function subHeader(props) {
   const translate = TranslationJSON;
   const childrenText = TranslateUtils.getChildrenText(props.children);
-  const language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   return (
     <div className="mb-10">
