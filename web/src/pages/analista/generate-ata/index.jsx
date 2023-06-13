@@ -134,7 +134,7 @@ export default function GenerateAta(props) {
 
   }
 
-  const formatStatusToDemand = (status, isForDG) => {
+  const formatParecerToDemandStatus = (status, isForDG) => {
     switch (status) {
       case "APROVADO":
         return isForDG ? "APROVADA_EM_DG" : "APROVADA_EM_COMISSAO";
@@ -158,7 +158,7 @@ export default function GenerateAta(props) {
       if (!isForDG) {
         DemandLogService.createDemandLog("APROVACAO_DG", demandId, "Aprovar", 72131).then(res => {
           if (res.status == 201 || res.status == 200) {
-            DemandService.updateDemandStatus(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog, isForDG));
+            DemandService.updateDemandStatus(demandId, formatParecerToDemandStatus(fd.parecerComissaoPropostaLog, isForDG));
           }
         })
       } else {
@@ -166,7 +166,7 @@ export default function GenerateAta(props) {
         // console.log(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog, isForDG));
         DemandLogService.createDemandLog("EXECUCAO_PROPOSTA", demandId, "Aprovar", 72131).then(res => {
           if (res.status == 201 || res.status == 200) {
-            DemandService.updateDemandStatus(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog, isForDG));
+            DemandService.updateDemandStatus(demandId, formatParecerToDemandStatus(fd.parecerComissaoPropostaLog, isForDG));
           }
         })
       }

@@ -116,7 +116,7 @@ export default function AtaFilter(props) {
                         </IconButton>
                     </>
                 </Paper>
-                <Modal
+                <Popper
                     open={isFilterOpen}
                     anchorEl={anchorEl}
                     placement="bottom-start"
@@ -164,7 +164,7 @@ export default function AtaFilter(props) {
                             </div>
                         </div>
                     </Paper>
-                </Modal>
+                </Popper>
             </div>
         </ClickAwayListener>
     );
