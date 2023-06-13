@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // MUI
 import MuiButton from "@mui/material/Button";
@@ -31,6 +31,7 @@ import Notification from "../Notification";
 //Translation
 import TranslationJson from "../../API/Translate/components/createNewPauta.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const TextField = styled(MuiTextField)({
   width: "14rem",
@@ -86,7 +87,7 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
 export default function CreateNewPauta(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [isModalOpen, setIsModalOpen] = useState(false);

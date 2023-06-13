@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 //Translations
 import TranslationJson from "../../API/Translate/components/demandCardProposalModal.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function DemandCardProposalModal(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const demandId = props.id;
 

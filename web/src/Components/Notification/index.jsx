@@ -7,11 +7,13 @@ import { Link } from "react-router-dom";
 //Translation
 import TranslationJson from "../../API/Translate/components/notification.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function Notification(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [state, setState] = React.useState({
     open: true,

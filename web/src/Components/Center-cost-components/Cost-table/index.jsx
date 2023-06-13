@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //MUI
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -11,8 +11,16 @@ import CostTableRow from "../Cost-table-rows";
 //Utils
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 
+//Translation
+import TranslationJson from "../../../API/Translate/components/costTable.json";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
+
 //Props: type(interno, externo)
 export default function CostTable(props) {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   useEffect(() => {
@@ -44,7 +52,7 @@ export default function CostTable(props) {
           </h1>
         }
         {props.page !== "viewProposal" && (
-          <Tooltip title="Adicionar linha">
+          <Tooltip title={translate["Adicionar linha"]?.[language] ?? "Adicionar linha"}>
             <IconButton onClick={addTotalCoasts}>
               <AddRoundedIcon sx={{ color: "#0075B1", fontSize: "2rem" }} />
             </IconButton>
@@ -58,7 +66,7 @@ export default function CostTable(props) {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold "
             >
-              Perfil de despesa
+              {translate["Perfil de despesa"]?.[language] ?? "Perfil de despesa"}
             </p>
           </th>
           <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
@@ -66,7 +74,7 @@ export default function CostTable(props) {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold "
             >
-              Mês de execução
+              {translate["Mês de execução"]?.[language] ?? "Mês de execução"}
             </p>
           </th>
           <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
@@ -74,7 +82,7 @@ export default function CostTable(props) {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold "
             >
-              Horas necessárias
+              {translate["Horas necessárias"]?.[language] ?? "Horas necessárias"}
             </p>
           </th>
           <th className="w-48 border-[1px] border-b-[1px] border-r-0 border-blue-weg">
@@ -82,7 +90,7 @@ export default function CostTable(props) {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold "
             >
-              Custo por hora
+              {translate["Custo hora"]?.[language] ?? "Custo hora"}
             </p>
           </th>
           <th className="border-r-1 w-48 border-[1px] border-b-[1px] border-blue-weg">
@@ -90,7 +98,7 @@ export default function CostTable(props) {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold "
             >
-              Custo total da despesa
+              {translate["Custo total da despesa"]?.[language] ?? "Custo total da despesa"}
             </p>
           </th>
           <th className="w-10"></th>

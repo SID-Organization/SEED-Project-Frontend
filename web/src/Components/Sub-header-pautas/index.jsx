@@ -1,13 +1,16 @@
 import Search from "../Search";
 import CreateNewPauta from "../Create-new-pauta";
 
+//Translation
 import TranslationJson from "../../API/Translate/components/subHeaderPautas.json"
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function SubHeaderPautas(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   return (
     <div>

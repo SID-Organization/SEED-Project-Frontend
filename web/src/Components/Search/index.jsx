@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // MUI
 import { Badge, Button, Popper } from "@mui/material";
@@ -10,10 +10,6 @@ import IconButton from "@mui/material/IconButton";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
-// Translation
-import TranslationJSON from "../../API/Translate/components/demandFilter.json";
-
-
 // Components
 import FilterComponent from "./FilterComponent";
 import DemandFilterUtils from "../../utils/DemandFilter-Utils";
@@ -21,6 +17,11 @@ import DemandFilterUtils from "../../utils/DemandFilter-Utils";
 // Voice Speech
 import VoiceSpeech from "../VoiceSpeech";
 import TranslateUtils from "../../utils/Translate-Utils";
+
+// Translation
+import TranslationJSON from "../../API/Translate/components/demandFilter.json";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
+
 
 export default function Search(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -30,7 +31,7 @@ export default function Search(props) {
 
   const translate = TranslationJSON;
   const componentTranslate = TranslationJSON.filterComponents;
-  const language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   // Filters
   const [requester, setRequester] = useState("");

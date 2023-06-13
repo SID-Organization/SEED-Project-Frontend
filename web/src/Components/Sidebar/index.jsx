@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 
 import MuiDrawer from "@mui/material/Drawer";
@@ -43,8 +43,11 @@ import SidebarLink from "./SidebarItem";
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
+
+//Translation
 import TranslationJson from "../../API/Translate/components/sidebar.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const openDrawerWidth = 230;
 
@@ -104,7 +107,7 @@ export default function Sidebar() {
   const openSidebarIconStyle = { color: "#fff", fontSize: "1.4rem" };
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const sideBarItems = [
     {

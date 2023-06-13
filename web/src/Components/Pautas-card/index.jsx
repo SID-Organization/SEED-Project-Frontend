@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 //MUI
 import Box from "@mui/material/Box";
@@ -31,6 +31,7 @@ import PautaService from "../../service/Pauta-Service";
 //Translation
 import TranslationJson from "../../API/Translate/components/pautasCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const EditRoundedIcon = styled(MuiEditRoundedIcon)({
   color: "#707070",
@@ -103,7 +104,7 @@ const Button = styled(MuiButton)(() => ({
 export default function PautasCard(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [shareModal, setShareModal] = useState(false);
   const handleOpenShareModal = () => setShareModal(true);

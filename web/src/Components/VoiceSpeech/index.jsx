@@ -1,5 +1,5 @@
 import "regenerator-runtime/runtime";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition
 } from "react-speech-recognition";
@@ -11,8 +11,11 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 // Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
+
+//Translation
 import TranslationJson from "../../API/Translate/components/voiceSpeech.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const commands = [
   {
@@ -39,7 +42,7 @@ const commands = [
 export default function VoiceSpeech(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   console.log(translate["Ouvindo ..."]["en-us"]);
 

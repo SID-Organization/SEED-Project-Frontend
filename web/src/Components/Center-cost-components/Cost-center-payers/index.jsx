@@ -4,10 +4,18 @@ import { IconButton } from "@mui/material";
 
 // Components
 import PayerRow from "./Payers-row";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+
+//Translation
+import TranslationJson from "../../../API/Translate/components/payersRow.json";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
 //Props: type(interno, externo)
 export default function CostCenterPayers(props) {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [paymentPercentage, setPaymentPercentage] = useState(0);
 
   const addNewCCP = () => {
@@ -46,7 +54,7 @@ export default function CostCenterPayers(props) {
           {" "}
           <div className="mb-5 flex items-center justify-center">
             <h1 className="flex justify-center font-roboto text-lg font-bold text-blue-weg">
-              {`CC pagantes (${props.typeTitle}) - ${paymentPercentage}%`}
+              {`${translate["CC pagantes"]?.[language] ?? "CC pagantes"} (${props.typeTitle}) - ${paymentPercentage}%`}
             </h1>
             {props.page !== "viewProposal" && (
               <IconButton onClick={addNewCCP}>
