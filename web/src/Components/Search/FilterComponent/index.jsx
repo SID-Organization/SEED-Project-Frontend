@@ -6,6 +6,9 @@ import MuiSelected from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import { InputAdornment, MenuItem } from "@mui/material";
 
+// Demand status JSON
+import DemandStatusJSON from "../../../utils/Demand-Utils/JSONs/DemandStatus.json"
+
 // Components
 import VoiceSpeech from "../../VoiceSpeech";
 
@@ -69,7 +72,9 @@ export default function FilterComponent(props) {
             >
               {props.options.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+                  <div className="h-6 pl-2" style={{ borderLeft: `3px solid ${DemandStatusJSON[option.value]?.["COLOR"]}` }}>
+                    {option.label}
+                  </div>
                 </MenuItem>
               ))}
             </Select>

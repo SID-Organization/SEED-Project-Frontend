@@ -16,6 +16,8 @@ import DemandFilterUtils from "../../utils/DemandFilter-Utils";
 
 // Voice Speech
 import VoiceSpeech from "../VoiceSpeech";
+
+// Utils
 import TranslateUtils from "../../utils/Translate-Utils";
 
 // Translation
@@ -102,7 +104,7 @@ export default function Search(props) {
     setDemandSize("");
     setPPMCode("");
     setRequestNumber("");
-    setIsFilterOpen(false);
+    props.setFilters(DemandFilterUtils.getEmptyFilter());
   }
 
   // Quando algum campo de pesquisa é utilizado, chama essa função e atualiza o filter
