@@ -74,6 +74,7 @@ const getUpdatedFilter =
 
 
 const getDemandStatusOptions = () => [
+  { value: "", label: "" },
   { value: "RASCUNHO", label: "Rascunho" },
   { value: "EM_EDICAO", label: "Em Edição" },
   { value: "ABERTA", label: "Aberta" },
