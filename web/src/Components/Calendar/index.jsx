@@ -7,9 +7,8 @@ import TranslationJson from "../../API/Translate/components/calendar.json";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function Calendar(props) {
-
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [meetings, setMeetings] = useState();
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -55,6 +54,7 @@ export default function Calendar(props) {
         events={meetings}
         dayMaxEventRows={3}
         eventClick={handleEventClick}
+        locale={language}
       />
     </div>
   );

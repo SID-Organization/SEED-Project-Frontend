@@ -356,6 +356,11 @@
   "resolved" "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.17.19.tgz"
   "version" "0.17.19"
 
+"@fullcalendar/bootstrap5@^6.1.8":
+  "integrity" "sha512-/u8VlfZ8gXld29OrKtwbz8DrpzidGdHmXVlO8ZxlsHFC/PNGOnYd2YQZ6QtTuQFAI2bJUOw+9OVcydSoJixsGA=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/bootstrap5/-/bootstrap5-6.1.8.tgz"
+  "version" "6.1.8"
+
 "@fullcalendar/core@^6.1.8", "@fullcalendar/core@~6.1.8":
   "integrity" "sha512-i8JBIvZCWGO9dsMEDcx9bnsQZ9PtGSJdOXGgWbhLaGq2iq41OBdp9g9gM4b/Otv2oK8bL5Gl6CsMmb/HkDtA6Q=="
   "resolved" "https://registry.npmjs.org/@fullcalendar/core/-/core-6.1.8.tgz"
@@ -698,6 +703,16 @@
   "integrity" "sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA=="
   "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
   "version" "2.2.0"
+
+"bootstrap-icons@^1.10.5":
+  "integrity" "sha512-oSX26F37V7QV7NCE53PPEL45d7EGXmBgHG3pDpZvcRaKVzWMqIRL9wcqJUyEha1esFtM3NJzvmxFXDxjJYD0jQ=="
+  "resolved" "https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.10.5.tgz"
+  "version" "1.10.5"
+
+"bootstrap@^5.3.0":
+  "integrity" "sha512-UnBV3E3v4STVNQdms6jSGO2CvOkjUMdDAVR2V5N4uCMdaIkaQjbcEAMqRimDHIs4uqBYzDAKCQwCB+97tJgHQw=="
+  "resolved" "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.0.tgz"
+  "version" "5.3.0"
 
 "brace-expansion@^1.1.7":
   "integrity" "sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA=="
