@@ -125,7 +125,7 @@ export default function GenerateAta(props) {
 
       AtaService.updateProposalsLogs(decisions).then(res => {
         if (res.status == 201)
-        AtaDGService.generatePDFAtaDG(res.data.idAtaDG);
+          AtaDGService.generatePDFAtaDG(res.data.idAtaDG);
         updateEachDemand(true)
       });
 
@@ -221,30 +221,34 @@ export default function GenerateAta(props) {
           <p className="mt-4 text-blue-weg">{props.isAtaForDG ? "Ata" : "Pauta"} referência: {params.id}</p>
         </div>
         <div className="flex flex-1 items-end">
-          <p className="text-light-blue-weg">Número ata DG:</p>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            size="small"
-            type="number"
-            disabled={props.isAtaForDG}
-            value={numDgAta}
-            placeholder="000"
-            onChange={(e) => {
-              const value = e.target.value;
+          {props.isAtaForDG && (
+            <>
+              <p className="text-light-blue-weg">Número ata DG:</p>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                size="small"
+                type="number"
+                disabled={props.isAtaForDG}
+                value={numDgAta}
+                placeholder="000"
+                onChange={(e) => {
+                  const value = e.target.value;
 
-              if (isNaN(value) || value == "")
-                setNumDgAta("");
+                  if (isNaN(value) || value == "")
+                    setNumDgAta("");
 
-              if (e.target.value.match(/^[0-9]+$/))
-                setNumDgAta(e.target.value)
-            }}
-            sx={{
-              width: "5rem",
-              height: "2.5rem",
-              marginLeft: "0.5rem",
-            }}
-          />
+                  if (e.target.value.match(/^[0-9]+$/))
+                    setNumDgAta(e.target.value)
+                }}
+                sx={{
+                  width: "5rem",
+                  height: "2.5rem",
+                  marginLeft: "0.5rem",
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
       <div className="grid">
