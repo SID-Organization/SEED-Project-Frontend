@@ -9,6 +9,8 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 //Translation
 import TranslationJson from "../../API/Translate/components/notificationCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import UserUtils from "../../utils/User-Utils";
+import { useEffect } from "preact/hooks";
 
 // interface NotificationCardProps {
 //   name: string;
@@ -22,6 +24,12 @@ export default function NotificationCard(props) {
 
   const translate = TranslationJson;
   let language = TranslateUtils.getLanguage();
+
+  const user = UserUtils.getLoggedUser();
+
+  useEffect(() => {
+    console.log(user)
+  }, [user]);
 
   return (
     <>
@@ -90,9 +98,9 @@ export default function NotificationCard(props) {
               <p className="text-[12px]">
                 {props.name && 
                   props.content &&
-                  (props.name.length + " " + props.content.length > 71
-                    ? (props.name + props.content).slice(0, 70) + "..."
-                    : props.name + " " + props.content)}
+                  (user.name.length + " " + props.content.length > 71
+                    ? (user.name + props.content).slice(0, 70) + "..."
+                    : user.name + " " + props.content)}
               </p>
             </Tooltip>
             <p className="text-xs font-bold text-light-blue-weg">
