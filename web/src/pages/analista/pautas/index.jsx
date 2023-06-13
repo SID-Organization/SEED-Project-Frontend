@@ -9,13 +9,11 @@ import {
   Modal,
   Tooltip,
 } from "@mui/material";
-import EventRoundedIcon from "@mui/icons-material/EventRounded";
 
 // Components
 import PautasCard from "../../../Components/Pautas-card";
 import SubHeaderPautas from "../../../Components/Sub-header-pautas";
 import NoContent from "../../../Components/No-content";
-import Calendar from "../../../Components/Calendar";
 
 // Services
 import PautaService from "../../../service/Pauta-Service";
@@ -35,7 +33,6 @@ export default function Pautas() {
   const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -107,46 +104,10 @@ export default function Pautas() {
     12: "Dezembro",
   };
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const calendarModalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 800,
-    bgcolor: "background.paper",
-    borderLeft: "5px solid #00579D",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: "10px",
-  };
-
   return (
     <div>
       <SubHeaderPautas filters={filters} setFilters={setFilters} />
       <div className="grid items-center justify-center">
-        <div className="mt-5 flex items-center justify-start">
-          <Tooltip title="Ver reuniões agendadas" placement="right">
-            <IconButton onClick={handleModalOpen}>
-              <EventRoundedIcon
-                sx={{
-                  color: "#00579D",
-                  fontSize: "30px",
-                  "&:hover": {
-                    color: "#00579D",
-                  },
-                }}
-              />
-            </IconButton>
-          </Tooltip>
-        </div>
         <div className="mb-20 mt-4 flex flex-col items-center justify-center gap-10">
           {isLoading ? (
             <div className="flex h-[71vh] items-center justify-around">
@@ -191,12 +152,6 @@ export default function Pautas() {
           )}
         </div>
       </div>
-
-      <Modal open={isModalOpen} onClose={handleModalClose}>
-        <Box sx={calendarModalStyle}>
-          <Calendar pautas={pautas} />
-        </Box>
-      </Modal>
     </div>
   );
 }
