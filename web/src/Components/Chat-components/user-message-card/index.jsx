@@ -1,8 +1,9 @@
 import userImg from "../../../assets/profile-pic.png";
 import { Badge, Box, Divider, Tooltip } from "@mui/material";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import TranslationJson from "../../../API/Translate/components/userMessageCard.json";
 import TranslateUtils from "../../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
 /**
  * Function that returns a card with the user's name and the last message sent
@@ -12,7 +13,7 @@ import TranslateUtils from "../../../utils/Translate-Utils/index.js";
 export default function UserMessageCard(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   useEffect(() => {
     console.log("User: ", props);

@@ -1,114 +1,254 @@
 {
- "Deseja aprovar a demanda?": {
-  "pt-br": "Deseja aprovar a demanda?",
-  "en-us": "Do you want to approve the demand?"
- },
- "Demanda aprovada com sucesso!": {
-  "pt-br": "Demanda aprovada com sucesso!",
-  "en-us": "Demand successfully approved!"
- },
- "Cancelar": {
-  "pt-br": "Cancelar",
-  "en-us": "Cancel"
- },
- "Aprovar": {
-  "pt-br": "Aprovar",
-  "en-us": "Approve"
- },
- "Motivo da devolução": {
-  "pt-br": "Motivo da devolução",
-  "en-us": "Reason of returning"
- },
- "Motivo da recusação": {
-  "pt-br": "Motivo da recusação",
-  "en-us": "Reason of refusing"
- },
- "Muito grande": {
-  "pt-br": "Muito grande",
-  "en-us": "Too big"
- },
- "Grande": {
-  "pt-br": "Grande",
-  "en-us": "Big"
- },
- "Média": {
-  "pt-br": "Média",
-  "en-us": "Medium"
- },
- "Pequena": {
-  "pt-br": "Pequena",
-  "en-us": "Small"
- },
- "Muito pequena": {
-  "pt-br": "Muito pequena",
-  "en-us": "Very small"
- },
- "Classificar demanda": {
-  "pt-br": "Classificar demanda",
-  "en-us": "Classify demand"
- },
- "Acessar proposta": {
-  "pt-br": "Acessar proposta",
-  "en-us": "Access proposal"
- },
- "Ver proposta": {
-  "pt-br": "Ver proposta",
-  "en-us": "See proposal"
- },
- "Devolver": {
-  "pt-br": "Devolver",
-  "en-us": "Return"
- },
- "Recusar": {
-  "pt-br": "Recusar",
-  "en-us": "Refuse"
- },
- "Alterar status": {
-  "pt-br": "Alterar status",
-  "en-us": "Change status"
- },
- "Insira o motivo": {
-  "pt-br": "Insira o motivo",
-  "en-us": "Insert the reason"
- },
- "Enviar": {
-  "pt-br": "Enviar",
-  "en-us": "Send"
- },
- "Insira as seguintes informações": {
-  "pt-br": "Insira as seguintes informações",
-  "en-us": "Insert the following information"
- },
- "Seção da TI responsável": {
-  "pt-br": "Seção da TI responsável",
-  "en-us": "Responsible IT section"
- },
- "BU solicitante": {
-  "pt-br": "BU solicitante",
-  "en-us": "Requesting BU"
- },
- "BUs beneficiadas": {
-  "pt-br": "BUs beneficiadas",
-  "en-us": "Benefited BUs"
- },
- "Classificação de tamanho": {
-  "pt-br": "Classificação de tamanho",
-  "en-us": "Size classification"
- },
- "Classifique um tamanho": {
-  "pt-br": "Classifique um tamanho",
-  "en-us": "Classify a size"
- },
- "Visualização Demanda": {
-  "pt-br": "Visualização Demanda",
-  "en-us": "Demand Visualization"
- },
- "Ações": {
-  "pt-br": "Ações",
-  "en-us": "Actions"
- },
- "Procure aqui": {
-  "pt-br": "Procure aqui",
-  "en-us": "Search here"
- }
+  "Deseja aprovar a demanda?": {
+    "pt-br": "Deseja aprovar a demanda?",
+    "en-us": "Do you want to approve the demand?",
+    "de": "Möchten Sie die Nachfrage genehmigen?",
+    "zh-cn": "您是否要批准该需求？",
+    "es": "¿Desea aprobar la demanda?",
+    "fr": "Voulez-vous approuver la demande ?",
+    "it": "Vuoi approvare la domanda?"
+  },
+  "Demanda aprovada com sucesso!": {
+    "pt-br": "Demanda aprovada com sucesso!",
+    "en-us": "Demand successfully approved!",
+    "de": "Nachfrage erfolgreich genehmigt!",
+    "zh-cn": "需求已成功批准！",
+    "es": "¡Demanda aprobada exitosamente!",
+    "fr": "Demande approuvée avec succès !",
+    "it": "Domanda approvata con successo!"
+  },
+  "Cancelar": {
+    "pt-br": "Cancelar",
+    "en-us": "Cancel",
+    "de": "Abbrechen",
+    "zh-cn": "取消",
+    "es": "Cancelar",
+    "fr": "Annuler",
+    "it": "Annulla"
+  },
+  "Aprovar": {
+    "pt-br": "Aprovar",
+    "en-us": "Approve",
+    "de": "Genehmigen",
+    "zh-cn": "批准",
+    "es": "Aprobar",
+    "fr": "Approuver",
+    "it": "Approva"
+  },
+  "Motivo da devolução": {
+    "pt-br": "Motivo da devolução",
+    "en-us": "Reason of returning",
+    "de": "Rückgabegrund",
+    "zh-cn": "退回原因",
+    "es": "Motivo de devolución",
+    "fr": "Motif de retour",
+    "it": "Motivo del reso"
+  },
+  "Motivo da recusação": {
+    "pt-br": "Motivo da recusação",
+    "en-us": "Reason of refusing",
+    "de": "Ablehnungsgrund",
+    "zh-cn": "拒绝原因",
+    "es": "Motivo de rechazo",
+    "fr": "Motif de refus",
+    "it": "Motivo del rifiuto"
+  },
+  "Muito grande": {
+    "pt-br": "Muito grande",
+    "en-us": "Too big",
+    "de": "Zu groß",
+    "zh-cn": "太大",
+    "es": "Demasiado grande",
+    "fr": "Trop grand",
+    "it": "Troppo grande"
+  },
+  "Grande": {
+    "pt-br": "Grande",
+    "en-us": "Big",
+    "de": "Groß",
+    "zh-cn": "大",
+    "es": "Grande",
+    "fr": "Grand",
+    "it": "Grande"
+  },
+  "Média": {
+    "pt-br": "Média",
+    "en-us": "Medium",
+    "de": "Mittel",
+    "zh-cn": "中",
+    "es": "Medio",
+    "fr": "Moyen",
+    "it": "Media"
+  },
+  "Pequena": {
+    "pt-br": "Pequena",
+    "en-us": "Small",
+    "de": "Klein",
+    "zh-cn": "小",
+    "es": "Pequeña",
+    "fr": "Petit",
+    "it": "Piccola"
+  },
+  "Muito pequena": {
+    "pt-br": "Muito pequena",
+    "en-us": "Very small",
+    "de": "Sehr klein",
+    "zh-cn": "非常小",
+    "es": "Muy pequeña",
+    "fr": "Très petite",
+    "it": "Molto piccola"
+  },
+  "Classificar demanda": {
+    "pt-br": "Classificar demanda",
+    "en-us": "Classify demand",
+    "de": "Nachfrage klassifizieren",
+    "zh-cn": "分类需求",
+    "es": "Clasificar demanda",
+    "fr": "Classer la demande",
+    "it": "Classifica la domanda"
+  },
+  "Acessar proposta": {
+    "pt-br": "Acessar proposta",
+    "en-us": "Access proposal",
+    "de": "Vorschlag zugreifen",
+    "zh-cn": "访问提案",
+    "es": "Acceder a la propuesta",
+    "fr": "Accéder à la proposition",
+    "it": "Accedi alla proposta"
+  },
+  "Ver proposta": {
+    "pt-br": "Ver proposta",
+    "en-us": "See proposal",
+    "de": "Vorschlag anzeigen",
+    "zh-cn": "查看提案",
+    "es": "Ver propuesta",
+    "fr": "Voir la proposition",
+    "it": "Vedi proposta"
+  },
+  "Devolver": {
+    "pt-br": "Devolver",
+    "en-us": "Return",
+    "de": "Zurückgeben",
+    "zh-cn": "返回",
+    "es": "Devolver",
+    "fr": "Retourner",
+    "it": "Restituire"
+  },
+  "Recusar": {
+    "pt-br": "Recusar",
+    "en-us": "Refuse",
+    "de": "Ablehnen",
+    "zh-cn": "拒绝",
+    "es": "Rechazar",
+    "fr": "Refuser",
+    "it": "Rifiuta"
+  },
+  "Alterar status": {
+    "pt-br": "Alterar status",
+    "en-us": "Change status",
+    "de": "Status ändern",
+    "zh-cn": "更改状态",
+    "es": "Cambiar estado",
+    "fr": "Changer de statut",
+    "it": "Cambia stato"
+  },
+  "Insira o motivo": {
+    "pt-br": "Insira o motivo",
+    "en-us": "Insert the reason",
+    "de": "Grund einfügen",
+    "zh-cn": "插入原因",
+    "es": "Inserta el motivo",
+    "fr": "Insérez la raison",
+    "it": "Inserisci il motivo"
+  },
+  "Enviar": {
+    "pt-br": "Enviar",
+    "en-us": "Send",
+    "de": "Senden",
+    "zh-cn": "发送",
+    "es": "Enviar",
+    "fr": "Envoyer",
+    "it": "Invia"
+  },
+  "Insira as seguintes informações": {
+    "pt-br": "Insira as seguintes informações",
+    "en-us": "Insert the following information",
+    "de": "Geben Sie die folgenden Informationen ein",
+    "zh-cn": "插入以下信息",
+    "es": "Inserta la siguiente información",
+    "fr": "Insérez les informations suivantes",
+    "it": "Inserisci le seguenti informazioni"
+  },
+  "Seção da TI responsável": {
+    "pt-br": "Seção da TI responsável",
+    "en-us": "Responsible IT section",
+    "de": "Verantwortliche IT-Abteilung",
+    "zh-cn": "负责的IT部门",
+    "es": "Sección de TI responsable",
+    "fr": "Section informatique responsable",
+    "it": "Sezione IT responsabile"
+  },
+  "BU solicitante": {
+    "pt-br": "BU solicitante",
+    "en-us": "Requesting BU",
+    "de": "Anfordernde BU",
+    "zh-cn": "请求BU",
+    "es": "BU solicitante",
+    "fr": "BU demandeur",
+    "it": "BU richiedente"
+  },
+  "BUs beneficiadas": {
+    "pt-br": "BUs beneficiadas",
+    "en-us": "Benefited BUs",
+    "de": "Profitierende BUs",
+    "zh-cn": "受益BU",
+    "es": "BUs beneficiadas",
+    "fr": "BU bénéficiaires",
+    "it": "BU beneficiarie"
+  },
+  "Classificação de tamanho": {
+    "pt-br": "Classificação de tamanho",
+    "en-us": "Size classification",
+    "de": "Größenklassifizierung",
+    "zh-cn": "大小分类",
+    "es": "Clasificación de tamaño",
+    "fr": "Classification de la taille",
+    "it": "Classificazione delle dimensioni"
+  },
+  "Classifique um tamanho": {
+    "pt-br": "Classifique um tamanho",
+    "en-us": "Classify a size",
+    "de": "Klassifizieren Sie eine Größe",
+    "zh-cn": "分类尺寸",
+    "es": "Clasificar un tamaño",
+    "fr": "Classer une taille",
+    "it": "Classifica una dimensione"
+  },
+  "Visualização Demanda": {
+    "pt-br": "Visualização Demanda",
+    "en-us": "Demand Visualization",
+    "de": "Nachfragevisualisierung",
+    "zh-cn": "需求可视化",
+    "es": "Visualización de demanda",
+    "fr": "Visualisation de la demande",
+    "it": "Visualizzazione della domanda"
+  },
+  "Ações": {
+    "pt-br": "Ações",
+    "en-us": "Actions",
+    "de": "Aktionen",
+    "zh-cn": "操作",
+    "es": "Acciones",
+    "fr": "Actions",
+    "it": "Azioni"
+  },
+  "Procure aqui": {
+    "pt-br": "Procure aqui",
+    "en-us": "Search here",
+    "de": "Hier suchen",
+    "zh-cn": "在此处搜索",
+    "es": "Buscar aquí",
+    "fr": "Rechercher ici",
+    "it": "Cerca qui"
+  }
 }

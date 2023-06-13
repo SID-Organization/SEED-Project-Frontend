@@ -1,10 +1,20 @@
 {
   "Demanda": {
     "pt-br": "Demanda",
-    "en-us": "Demand"
+    "en-us": "Demand",
+    "de": "Nachfrage",
+    "zh-cn": "需求",
+    "es": "Demanda",
+    "fr": "Demande",
+    "it": "Domanda"
   },
   "Chat iniciado!": {
     "pt-br": "Chat iniciado!",
-    "en-us": "Chat started!"
+    "en-us": "Chat started!",
+    "de": "Chat gestartet!",
+    "zh-cn": "聊天已开始！",
+    "es": "¡Chat iniciado!",
+    "fr": "Chat démarré !",
+    "it": "Chat iniziata!"
   }
 }

@@ -18,6 +18,11 @@ import AtaService from "../../service/Ata-Service";
 import ProposalCard from "../Proposal-card";
 import { useNavigate } from "react-router";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/atasCard.json";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
+
 // MUI Styled Components
 const Accordion = styled(MuiAccordion)(() => ({
   width: "62.5rem",
@@ -26,6 +31,9 @@ const Accordion = styled(MuiAccordion)(() => ({
 }));
 
 export default function PautasCard(props) {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
 
   const navigate = useNavigate();
 
@@ -49,19 +57,19 @@ export default function PautasCard(props) {
             <div className="flex gap-32">
               <h1 className="font-bold">{"ATA " + props.idAta}</h1>
               <h1 className="font-bold">
-                Qtd. Propostas:{" "}
+                {translate["Qtd. Propostas"]?.[language] ?? "Qtd. Propostas"}:{" "}
                 <span className="font-normal text-[#707070]">
                   {props.qtyProposals}
                 </span>
               </h1>
               <h1 className="font-bold">
-                Data da reunião:{" "}
+                {translate["Data da reunião"]?.[language] ?? "Data da reunião"}:{" "}
                 <span className="font-normal text-[#707070]">
                   {props.meetingDate}
                 </span>
               </h1>
               <h1 className="font-bold">
-                Horário:{" "}
+                {translate["Horário"]?.[language] ?? "Horário"}:{" "}
                 <span className="font-normal text-[#707070]">
                   {props.meetingTime}
                 </span>
@@ -70,7 +78,7 @@ export default function PautasCard(props) {
             <div className="flex justify-between">
               <div className="flex items-center justify-center">
                 <p className="mt-5 font-bold">
-                  Analista responsável:{" "}
+                  {translate["Analista responsável"]?.[language] ?? "Analista responsável"}:{" "}
                   <span className="font-normal text-[#707070]">
                     {props.responsibleAnalyst}
                   </span>
@@ -92,12 +100,12 @@ export default function PautasCard(props) {
                     },
                   }}
                 >
-                  Gerar ATA DG
+                  {translate["Gerar Ata DG"]?.[language] ?? "Gerar Ata DG"}
                 </Button>
               </div>
               <div className="flex items-end justify-center gap-3">
-                <p className="font-bold">Visualizar Ata: </p>
-                <Tooltip title="Publicada">
+                <p className="font-bold">{translate["Visualizar Ata:"]?.[language] ?? "Visualizar Ata:"} </p>
+                <Tooltip title={translate["Publicada"]?.[language] ?? "Publicada"}>
                   <IconButton
                     onClick={() => openAtaPDF("publicada")}
                     sx={{
@@ -116,7 +124,7 @@ export default function PautasCard(props) {
                     />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Não publicada">
+                <Tooltip title={translate["Não publicada"]?.[language] ?? "Não publicada"}>
                   <IconButton
                     onClick={() => openAtaPDF("nao-publicada")}
                     sx={{

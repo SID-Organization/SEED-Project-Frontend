@@ -1,0 +1,29 @@
+{
+  "Filtro": {
+    "pt-br": "Filtro",
+    "en-us": "Filter",
+    "de": "Filter",
+    "zh-cn": "过滤器",
+    "es": "Filtro",
+    "fr": "Filtre",
+    "it": "Filtro"
+  },
+  "Limpar": {
+    "pt-br": "Limpar",
+    "en-us": "Clear",
+    "de": "Löschen",
+    "zh-cn": "清除",
+    "es": "Limpiar",
+    "fr": "Effacer",
+    "it": "Cancella"
+  },
+  "Filtrar": {
+    "pt-br": "Filtrar",
+    "en-us": "Filter",
+    "de": "Filter",
+    "zh-cn": "过滤",
+    "es": "Filtrar",
+    "fr": "Filtrer",
+    "it": "Filtro"
+  }
+}

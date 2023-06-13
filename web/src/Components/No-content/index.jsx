@@ -11,7 +11,7 @@ import MuiFolderOffOutlinedIcon from "@mui/icons-material/FolderOffOutlined";
 import MuiButton from "@mui/material/Button";
 import MuiAddBoxIcon from "@mui/icons-material/AddBox";
 import { styled } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
@@ -19,6 +19,7 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 //Translation
 import TranslationJson from "../../API/Translate/components/noContent.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const Button = styled(MuiButton)(() => ({
   color: "#0075B1",
@@ -42,7 +43,7 @@ const FolderOffOutlinedIcon = styled(MuiFolderOffOutlinedIcon)(() => ({
 export default function noContent(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 

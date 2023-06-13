@@ -9,8 +9,8 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 //Translation
 import TranslationJson from "../../API/Translate/components/notificationCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
-import UserUtils from "../../utils/User-Utils";
-import { useEffect } from "preact/hooks";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // interface NotificationCardProps {
 //   name: string;
@@ -23,13 +23,7 @@ import { useEffect } from "preact/hooks";
 export default function NotificationCard(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
-
-  const user = UserUtils.getLoggedUser();
-
-  useEffect(() => {
-    console.log(user)
-  }, [user]);
+  const [ language ] = useContext(TranslateContext);
 
   return (
     <>

@@ -46,5 +46,11 @@
   "Até:": {
     "pt-br": "Até:",
     "en-us": "To:"
+  },
+  "Visualizar demanda": {
+    "pt-br": "Visualizar demanda",
+    "en-us": "View demand",
+    "de": "Nachfrage anzeigen",
+    "zh-cn": "查看需求"
   }
 }

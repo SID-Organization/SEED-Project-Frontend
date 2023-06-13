@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //MUI
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -19,6 +19,7 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 //Translations
 import TranslationJson from "../../API/Translate/components/createNewProposalButton.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const ButtonProposalSubHeader = styled(MuiButton)({
   backgroundColor: "#0075B1",
@@ -63,7 +64,7 @@ const modalDemandsStyle = {
 export default function createNewProposalButton(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [openModalDemands, setOpenModalDemands] = useState(false);
   const handleOpenModalDemands = () => setOpenModalDemands(true);

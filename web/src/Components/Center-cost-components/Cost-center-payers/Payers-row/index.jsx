@@ -1,5 +1,5 @@
 //Hooks
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -17,12 +17,20 @@ import Select from "@mui/material/Select";
 // Services
 import CostCenterService from "../../../../service/CostCenter-Service";
 
+//Translation
+import TranslationJson from "../../../../API/Translate/components/payersRowChild.json";
+import { TranslateContext } from "../../../../contexts/translate/index.jsx";
+
 const CCInput = styled(MuiTextField)({
   width: "8rem",
 });
 
 // CCP - Cost Center Payer
 export default function PayerRow(props) {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [newCCP, setNewCCP] = useState({
     costCenter: props.CCP.costCenter,
     percentage: props.CCP.percentage,
@@ -124,7 +132,7 @@ export default function PayerRow(props) {
       <CCInput
         variant="standard"
         error={error}
-        label="Porcentagem"
+        label={translate["Porcentagem"]?.[language] ?? "Porcentagem"}
         type="number"
         value={percent}
         onChange={(e) => setPercent(e.target.value)}

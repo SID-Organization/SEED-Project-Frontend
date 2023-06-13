@@ -11,11 +11,13 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 //Translation
 import TranslationJson from "../../API/Translate/components/noDemands.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function noDemands(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
   
   return (
     <div>

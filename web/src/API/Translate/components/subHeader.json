@@ -1,14 +1,29 @@
 {
  "Minhas demandas": {
   "pt-br": "Minhas demandas",
-  "en-us": "My demands"
+  "en-us": "My demands",
+  "de": "Meine Anfragen",
+  "zh-cn": "我的需求",
+  "es": "Mis demandas",
+  "fr": "Mes demandes",
+  "it": "Le mie richieste"
  },
  "Gerenciar demandas": {
   "pt-br": "Gerenciar demandas",
-  "en-us": "Manage demands"
+  "en-us": "Manage demands",
+  "de": "Anfragen verwalten",
+  "zh-cn": "管理需求",
+  "es": "Gestionar demandas",
+  "fr": "Gérer les demandes",
+  "it": "Gestisci richieste"
  },
  "Rascunhos": {
   "pt-br": "Rascunhos",
-  "en-us": "Drafts"
+  "en-us": "Drafts",
+  "de": "Entwürfe",
+  "zh-cn": "草稿",
+  "es": "Borradores",
+  "fr": "Brouillons",
+  "it": "Bozze"
  }
 }

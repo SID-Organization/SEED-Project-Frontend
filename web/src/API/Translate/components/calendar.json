@@ -1,10 +1,10 @@
 {
-  "Pautas": {
-    "pt-br": "Pautas",
+  "Pauta":{
+    "pt-br": "Pauta",
     "en-us": "Schedule",
     "de": "Zeitplan",
-    "zh-cn": "日程安排",
-    "es": "Programación",
+    "zh-cn": "时间表",
+    "es": "Programa",
     "fr": "Programme",
     "it": "Programma"
   }

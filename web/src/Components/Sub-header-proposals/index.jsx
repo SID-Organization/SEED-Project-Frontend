@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 // Components
 import Search from "../Search";
@@ -7,13 +7,16 @@ import CreateNewProposalButton from "../CreateNewProposal-Button";
 
 // Services
 import DemandService from "../../service/Demand-Service";
+
+//Translation
 import TranslationJson from "../../API/Translate/components/subHeaderProposals.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function SubHeaderPautas(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [demandsTitle, setDemandsTitle] = useState([]);
 

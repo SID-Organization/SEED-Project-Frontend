@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DemandType from "./DemandType-ENUM";
 
 //Services
@@ -33,11 +33,12 @@ import DemandFilterUtils from "../../utils/DemandFilter-Utils";
 //Translation
 import TranslationJson from "../../API/Translate/components/demandsPage.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function DemandsPage(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   /*
     Estão sendo utilizadas 3 variáveis para armazenar as demandas:

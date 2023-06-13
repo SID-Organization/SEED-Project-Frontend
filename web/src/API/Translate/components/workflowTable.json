@@ -1,102 +1,227 @@
 {
   "Recebimento": {
     "pt-br": "Recebimento",
-    "en-us": "Receipt"
+    "en-us": "Receipt",
+    "de": "Empfang",
+    "zh-cn": "收据",
+    "es": "Recibo",
+    "fr": "Reçu",
+    "it": "Ricevuta"
   },
   "Conclusão": {
     "pt-br": "Conclusão",
-    "en-us": "Conclusion"
+    "en-us": "Conclusion",
+    "de": "Abschluss",
+    "zh-cn": "结论",
+    "es": "Conclusión",
+    "fr": "Conclusion",
+    "it": "Conclusioni"
   },
   "Prazo": {
     "pt-br": "Prazo",
-    "en-us": "Deadline"
+    "en-us": "Deadline",
+    "de": "Frist",
+    "zh-cn": "截止日期",
+    "es": "Fecha límite",
+    "fr": "Date limite",
+    "it": "Scadenza"
   },
   "Tarefa": {
     "pt-br": "Tarefa",
-    "en-us": "Task"
+    "en-us": "Task",
+    "de": "Aufgabe",
+    "zh-cn": "任务",
+    "es": "Tarea",
+    "fr": "Tâche",
+    "it": "Compito"
   },
   "Responsável": {
     "pt-br": "Responsável",
-    "en-us": "Responsible"
+    "en-us": "Responsible",
+    "de": "Verantwortlich",
+    "zh-cn": "负责人",
+    "es": "Responsable",
+    "fr": "Responsable",
+    "it": "Responsabile"
   },
   "Ação": {
     "pt-br": "Ação",
-    "en-us": "Action"
+    "en-us": "Action",
+    "de": "Aktion",
+    "zh-cn": "行动",
+    "es": "Acción",
+    "fr": "Action",
+    "it": "Azione"
   },
   "Versão": {
     "pt-br": "Versão",
-    "en-us": "Version"
+    "en-us": "Version",
+    "de": "Version",
+    "zh-cn": "版本",
+    "es": "Versión",
+    "fr": "Version",
+    "it": "Versione"
   },
   "Indefinido": {
     "pt-br": "Indefinido",
-    "en-us": "Undefined"
+    "en-us": "Undefined",
+    "de": "Undefiniert",
+    "zh-cn": "未定义",
+    "es": "Indefinido",
+    "fr": "Non défini",
+    "it": "Indefinito"
   },
   "Em andamento": {
     "pt-br": "Em andamento",
-    "en-us": "In progress"
+    "en-us": "In progress",
+    "de": "In Bearbeitung",
+    "zh-cn": "进行中",
+    "es": "En progreso",
+    "fr": "En cours",
+    "it": "In corso"
   },
   "Concluído": {
     "pt-br": "Concluído",
-    "en-us": "Completed"
+    "en-us": "Completed",
+    "de": "Abgeschlossen",
+    "zh-cn": "已完成",
+    "es": "Completado",
+    "fr": "Terminé",
+    "it": "Completato"
   },
   "Atrasado": {
     "pt-br": "Atrasado",
-    "en-us": "Delayed"
+    "en-us": "Delayed",
+    "de": "Verzögert",
+    "zh-cn": "延迟",
+    "es": "Retrasado",
+    "fr": "En retard",
+    "it": "In ritardo"
   },
   "Cancelado": {
     "pt-br": "Cancelado",
-    "en-us": "Canceled"
+    "en-us": "Canceled",
+    "de": "Abgesagt",
+    "zh-cn": "已取消",
+    "es": "Cancelado",
+    "fr": "Annulé",
+    "it": "Annullato"
   },
   "Preencher Demanda": {
     "pt-br": "Preencher Demanda",
-    "en-us": "Fill Demand"
+    "en-us": "Fill Demand",
+    "de": "Nachfrage ausfüllen",
+    "zh-cn": "填写需求",
+    "es": "Llenar Demanda",
+    "fr": "Remplir la demande",
+    "it": "Compila la domanda"
   },
   "Classificação e Aprovação": {
     "pt-br": "Classificação e Aprovação",
-    "en-us": "Classification and Approval"
+    "en-us": "Classification and Approval",
+    "de": "Klassifizierung und Genehmigung",
+    "zh-cn": "分类和批准",
+    "es": "Clasificación y Aprobación",
+    "fr": "Classification et approbation",
+    "it": "Classificazione e approvazione"
   },
   "Editar Demanda": {
     "pt-br": "Editar Demanda",
-    "en-us": "Edit Demand"
+    "en-us": "Edit Demand",
+    "de": "Nachfrage bearbeiten",
+    "zh-cn": "编辑需求",
+    "es": "Editar Demanda",
+    "fr": "Modifier la demande",
+    "it": "Modifica domanda"
   },
   "Aprovação Gerente da Área": {
     "pt-br": "Aprovação Gerente da Área",
-    "en-us": "Area Manager Approval"
+    "en-us": "Area Manager Approval",
+    "de": "Bereichsleitergenehmigung",
+    "zh-cn": "区域经理批准",
+    "es": "Aprobación del Gerente de Área",
+    "fr": "Approbation du responsable de zone",
+    "it": "Approvazione del responsabile di area"
   },
   "Elaboração da Proposta": {
     "pt-br": "Elaboração da Proposta",
-    "en-us": "Proposal Elaboration"
+    "en-us": "Proposal Elaboration",
+    "de": "Ausarbeitung des Vorschlags",
+    "zh-cn": "提案制定",
+    "es": "Elaboración de propuestas",
+    "fr": "Élaboration de la proposition",
+    "it": "Elaborazione della proposta"
   },
   "Aprovação Comissão": {
     "pt-br": "Aprovação Comissão",
-    "en-us": "Commission Approval"
+    "en-us": "Commission Approval",
+    "de": "Kommissionsgenehmigung",
+    "zh-cn": "委员会批准",
+    "es": "Aprobación de la comisión",
+    "fr": "Approbation de la commission",
+    "it": "Approvazione della commissione"
   },
   "Aprovação DG": {
     "pt-br": "Aprovação DG",
-    "en-us": "DG Approval"
+    "en-us": "DG Approval",
+    "de": "DG-Genehmigung",
+    "zh-cn": "DG批准",
+    "es": "Aprobación de DG",
+    "fr": "Approbation DG",
+    "it": "Approvazione DG"
   },
   "Execução da Proposta": {
     "pt-br": "Execução da Proposta",
-    "en-us": "Proposal Execution"
+    "en-us": "Proposal Execution",
+    "de": "Vorschlagsausführung",
+    "zh-cn": "提案执行",
+    "es": "Ejecución de la propuesta",
+    "fr": "Exécution de la proposition",
+    "it": "Esecuzione della proposta"
   },
   "Enviar":{
     "pt-br": "Enviar",
-    "en-us": "Send"
+    "en-us": "Send",
+    "de": "Senden",
+    "zh-cn": "发送",
+    "es": "Enviar",
+    "fr": "Envoyer",
+    "it": "Invia"
   },
   "Aprovar": {
     "pt-br": "Aprovar",
-    "en-us": "Approve"
+    "en-us": "Approve",
+    "de": "Genehmigen",
+    "zh-cn": "批准",
+    "es": "Aprobar",
+    "fr": "Approuver",
+    "it": "Approva"
   },
   "Devolver": {
     "pt-br": "Devolver",
-    "en-us": "Return"
+    "en-us": "Return",
+    "de": "Zurückgeben",
+    "zh-cn": "退回",
+    "es": "Devolver",
+    "fr": "Retourner",
+    "it": "Restituisci"
   },
   "Recusar": {
     "pt-br": "Recusar",
-    "en-us": "Refuse"
+    "en-us": "Refuse",
+    "de": "Ablehnen",
+    "zh-cn": "拒绝",
+    "es": "Rechazar",
+    "fr": "Refuser",
+    "it": "Rifiuta"
   },
   "null": {
     "pt-br": "- - - - -",
-    "en-us": "- - - - -"
+    "en-us": "- - - - -",
+    "de": "- - - - -",
+    "zh-cn": "- - - - -",
+    "es": "- - - - -",
+    "fr": "- - - - -",
+    "it": "- - - - -"
   }
 }

@@ -1,0 +1,65 @@
+{
+  "Adicionar linha": {
+    "pt-br": "Adicionar linha",
+    "en-us": "Add row",
+    "de": "Zeile hinzufügen",
+    "zh-cn": "添加行",
+    "es": "Agregar fila",
+    "fr": "Ajouter une ligne",
+    "it": "Aggiungi riga"
+  },
+  "Perfil de despesa": {
+    "pt-br": "Perfil de despesa",
+    "en-us": "Expense profile",
+    "de": "Ausgabenprofil",
+    "zh-cn": "费用配置文件",
+    "es": "Perfil de gastos",
+    "fr": "Profil de dépenses",
+    "it": "Profilo di spesa"
+  },
+  "Mês de execução": {
+    "pt-br": "Mês de execução",
+    "en-us": "Execution month",
+    "de": "Ausführungsmonat",
+    "zh-cn": "执行月",
+    "es": "Mes de ejecución",
+    "fr": "Mois d'exécution",
+    "it": "Mese di esecuzione"
+  },
+  "Horas necessárias": {
+    "pt-br": "Horas necessárias",
+    "en-us": "Required hours",
+    "de": "Erforderliche Stunden",
+    "zh-cn": "所需小时",
+    "es": "Horas requeridas",
+    "fr": "Heures requises",
+    "it": "Ore richieste"
+  },
+  "Custo por hora": {
+    "pt-br": "Custo por hora",
+    "en-us": "Cost per hour",
+    "de": "Kosten pro Stunde",
+    "zh-cn": "每小时费用",
+    "es": "Costo por hora",
+    "fr": "Coût par heure",
+    "it": "Costo per ora"
+  },
+  "Custo total da despesa": {
+    "pt-br": "Custo total da despesa",
+    "en-us": "Total expense cost",
+    "de": "Gesamtkosten der Ausgaben",
+    "zh-cn": "总费用",
+    "es": "Costo total del gasto",
+    "fr": "Coût total des dépenses",
+    "it": "Costo totale delle spese"
+  },
+  "Custo hora": {
+    "pt-br": "Custo hora",
+    "en-us": "Cost hour",
+    "de": "Kostenstunde",
+    "zh-cn": "成本小时",
+    "es": "Costo hora",
+    "fr": "Coût heure",
+    "it": "Costo ora"
+  }
+}

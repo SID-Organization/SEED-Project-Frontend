@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 //MUI
 import { IconButton, Tooltip } from "@mui/material";
@@ -14,11 +14,12 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 //Translation
 import TranslationJson from "../../API/Translate/components/profileRow.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function ProfileRow(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [phoneNumber, setPhoneNumber] = useState("+55 (47) 99123-2134");
   const [isEditOn, setIsEditOn] = useState(false);

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // MUI
 import Box from "@mui/material/Box";
@@ -37,6 +37,7 @@ import CreateOrAccessProposal from "./CreateOrAccessProposal";
 //Translations
 import TranslationJson from "../../API/Translate/components/demandCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -77,7 +78,7 @@ const styleModalDeleteDraft = {
 export default function DemandCard(props) {
 
   const translate = TranslationJson;
-  let language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
@@ -653,13 +654,13 @@ export default function DemandCard(props) {
                 )}
                 {props.demand.statusDemanda !== "RASCUNHO" && (
                   <Link to={`/demandas/${props.demand.idDemanda}`}>
-                    <Tooltip title="Visualizar demanda">
+                    <Tooltip title={translate["Visualizar demanda"]?.[language] ?? "Visualizar demanda"}>
                       <Button
                         variant="contained"
                         style={{ fontSize: fonts.xs }}
                         sx={{
                           backgroundColor: "#0075B1",
-                          width: fonts.xs > 12 ? 110 : 90,
+                          width: fonts.xs > 12 ? 120 : 100,
                         }}
                       >
                         {translate["Ver mais"]?.[language] ?? "Ver mais"}

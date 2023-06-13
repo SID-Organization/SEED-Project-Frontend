@@ -1,10 +1,14 @@
 import AtaFilter from "../AtaFilter";
+
+//Translation
 import TranslationJSON from "../../API/Translate/components/subHeaderAtas.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function SubHeaderAtas(props) {
   const translate = TranslationJSON;
-  const language = TranslateUtils.getLanguage();
+  const [ language ] = useContext(TranslateContext);
 
   return (
     <div>

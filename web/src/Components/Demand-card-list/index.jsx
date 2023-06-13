@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // MUI
@@ -23,84 +23,9 @@ import { Logout } from "@mui/icons-material";
 //Translations
 import TranslationJson from "../../API/Translate/components/demandCardList.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
 
-const translate = TranslationJson;
-let language = TranslateUtils.getLanguage();
 
-const columns = [
-  {
-    field: "status",
-    headerName: "Status",
-    width: 80,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <SquareRoundedIcon sx={
-          {
-            color: DemandUtils.getDemandStatusColorByRole(params.value, UserUtils.getLoggedUserRole())
-          }
-        } />
-      </Tooltip>
-    ),
-    maxWidth: 80,
-    align: "center",
-    headerAlign: "center"
-  },
-  {
-    field: "titulo",
-    headerName: translate["Título"][language],
-    headerAlign: "left",
-    type: "string",
-    width: 200,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <Typography variant="body2">
-          {params.value.length > 27
-            ? params.value.substring(0, 27) + "..."
-            : params.value}
-        </Typography>
-      </Tooltip>
-    )
-  },
-  {
-    field: "solicitante",
-    headerName: translate["Solicitante"][language],
-    width: 180,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <Typography variant="body2">{params.value}</Typography>
-      </Tooltip>
-    )
-  },
-  {
-    field: "ultimaAtualizacao",
-    headerName: translate["Última atualização"][language],
-    width: 210,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <Typography variant="body2">{params.value}</Typography>
-      </Tooltip>
-    )
-  },
-  {
-    field: "score",
-    headerName: "Score",
-    align: "center",
-    headerAlign: "center",
-    type: "number",
-    width: 120
-  },
-  {
-    field: "versao",
-    headerName: translate["Versão"][language],
-    align: "center",
-    headerAlign: "center",
-    type: "number",
-    width: 120,
-    renderCell: (params) => (
-      <Typography variant="body2">{params.value}</Typography>
-    )
-  }
-];
 
 
 const Box = styled(MuiBox)(() => ({
@@ -127,6 +52,84 @@ export default function DemandsList(props) {
   const [rows, setRows] = useState([]);
   const [pageSize, setPageSize] = useState(5);
   const navigate = useNavigate();
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
+  const columns = [
+    {
+      field: "status",
+      headerName: "Status",
+      width: 80,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <SquareRoundedIcon sx={
+            {
+              color: DemandUtils.getDemandStatusColorByRole(params.value, UserUtils.getLoggedUserRole())
+            }
+          } />
+        </Tooltip>
+      ),
+      maxWidth: 80,
+      align: "center",
+      headerAlign: "center"
+    },
+    {
+      field: "titulo",
+      headerName: translate["Título"][language],
+      headerAlign: "left",
+      type: "string",
+      width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <Typography variant="body2">
+            {params.value.length > 27
+              ? params.value.substring(0, 27) + "..."
+              : params.value}
+          </Typography>
+        </Tooltip>
+      )
+    },
+    {
+      field: "solicitante",
+      headerName: translate["Solicitante"][language],
+      width: 180,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <Typography variant="body2">{params.value}</Typography>
+        </Tooltip>
+      )
+    },
+    {
+      field: "ultimaAtualizacao",
+      headerName: translate["Última atualização"][language],
+      width: 210,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <Typography variant="body2">{params.value}</Typography>
+        </Tooltip>
+      )
+    },
+    {
+      field: "score",
+      headerName: "Score",
+      align: "center",
+      headerAlign: "center",
+      type: "number",
+      width: 120
+    },
+    {
+      field: "versao",
+      headerName: translate["Versão"][language],
+      align: "center",
+      headerAlign: "center",
+      type: "number",
+      width: 120,
+      renderCell: (params) => (
+        <Typography variant="body2">{params.value}</Typography>
+      )
+    }
+  ];
 
   const getRows = async (demands) => {
     const tableRows = demands.map(async (demand) => {
