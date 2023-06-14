@@ -1,18 +1,38 @@
 {
   "Crie uma proposta": {
     "pt-br": "Crie uma proposta",
-    "en-us": "Create a proposal"
+    "en-us": "Create a proposal",
+    "de": "Erstellen Sie einen Vorschlag",
+    "zh-cn": "创建一个提案",
+    "es": "Crear una propuesta",
+    "fr": "Créer une proposition",
+    "it": "Crea una proposta"
   },
   "Criar nova proposta": {
     "pt-br": "Criar nova proposta",
-    "en-us": "Create new proposal"
+    "en-us": "Create new proposal",
+    "de": "Neuen Vorschlag erstellen",
+    "zh-cn": "创建新提案",
+    "es": "Crear una nueva propuesta",
+    "fr": "Créer une nouvelle proposition",
+    "it": "Crea una nuova proposta"
   },
   "Selecione uma demanda abaixo": {
     "pt-br": "Selecione uma demanda abaixo",
-    "en-us": "Select a demand below"
+    "en-us": "Select a demand below",
+    "de": "Wählen Sie eine Nachfrage unten aus",
+    "zh-cn": "在下面选择一个需求",
+    "es": "Seleccione una demanda a continuación",
+    "fr": "Sélectionnez une demande ci-dessous",
+    "it": "Seleziona una richiesta di seguito"
   },
   "Nenhuma demanda cadastrada!": {
     "pt-br": "Nenhuma demanda cadastrada!",
-    "en-us": "No demand registered!"
+    "en-us": "No demand registered!",
+    "de": "Keine Nachfrage registriert!",
+    "zh-cn": "没有注册的需求！",
+    "es": "¡Ninguna demanda registrada!",
+    "fr": "Aucune demande enregistrée !",
+    "it": "Nessuna richiesta registrata!"
   }
 }

@@ -1,0 +1,119 @@
+{
+  "Escopo do projeto": {
+    "pt-br": "Escopo do projeto",
+    "en-us": "Project scope",
+    "de": "Projektumfang",
+    "zh-cn": "项目范围",
+    "es": "Alcance del proyecto",
+    "fr": "Portée du projet",
+    "it": "Ambito del progetto"
+  },
+  "Não faz parte do escopo do projeto": {
+    "pt-br": "Não faz parte do escopo do projeto",
+    "en-us": "Not part of the project scope",
+    "de": "Kein Teil des Projektumfangs",
+    "zh-cn": "不是项目范围的一部分",
+    "es": "No forma parte del alcance del proyecto",
+    "fr": "Pas partie de la portée du projet",
+    "it": "Non fa parte dello scopo del progetto"
+  },
+  "Tabela de custos": {
+    "pt-br": "Tabela de custos",
+    "en-us": "Cost table",
+    "de": "Kostentabelle",
+    "zh-cn": "成本表",
+    "es": "Tabla de costos",
+    "fr": "Table des coûts",
+    "it": "Tabella dei costi"
+  },
+  "Interno": {
+    "pt-br": "Interno",
+    "en-us": "Internal",
+    "de": "Intern",
+    "zh-cn": "内部",
+    "es": "Interno",
+    "fr": "Interne",
+    "it": "Interno"
+  },
+  "Externo": {
+    "pt-br": "Externo",
+    "en-us": "External",
+    "de": "Extern",
+    "zh-cn": "外部",
+    "es": "Externo",
+    "fr": "Externe",
+    "it": "Esterno"
+  },
+  "Custos totais do projeto": {
+    "pt-br": "Custos totais do projeto",
+    "en-us": "Total project costs",
+    "de": "Gesamtkosten des Projekts",
+    "zh-cn": "项目总成本",
+    "es": "Costos totales del proyecto",
+    "fr": "Coûts totaux du projet",
+    "it": "Costi totali del progetto"
+  },
+  "Total de despesas (desembolso)": {
+    "pt-br": "Total de despesas (desembolso)",
+    "en-us": "Total expenses (disbursement)",
+    "de": "Gesamtausgaben (Auszahlung)",
+    "zh-cn": "总费用（支出）",
+    "es": "Gastos totales (desembolso)",
+    "fr": "Dépenses totales (déboursement)",
+    "it": "Spese totali (disborsamento)"
+  },
+  "Total de despesas com custos internos": {
+    "pt-br": "Total de despesas com custos internos",
+    "en-us": "Total expenses with internal costs",
+    "de": "Gesamtausgaben mit internen Kosten",
+    "zh-cn": "总费用与内部成本",
+    "es": "Gastos totales con costos internos",
+    "fr": "Dépenses totales avec coûts internes",
+    "it": "Spese totali con costi interni"
+  },
+  "Payback": {
+    "pt-br": "Payback",
+    "en-us": "Payback",
+    "de": "Payback",
+    "zh-cn": "回本",
+    "es": "Payback",
+    "fr": "Payback",
+    "it": "Payback"
+  },
+  "Período de execução": {
+    "pt-br": "Período de execução",
+    "en-us": "Execution period",
+    "de": "Ausführungszeitraum",
+    "zh-cn": "执行期",
+    "es": "Período de ejecución",
+    "fr": "Période d'exécution",
+    "it": "Periodo di esecuzione"
+  },
+  "Início": {
+    "pt-br": "Início",
+    "en-us": "Start",
+    "de": "Start",
+    "zh-cn": "开始",
+    "es": "Comienzo",
+    "fr": "Début",
+    "it": "Inizio"
+  },
+  "Término": {
+    "pt-br": "Término",
+    "en-us": "End",
+    "de": "Ende",
+    "zh-cn": "结束",
+    "es": "Fin",
+    "fr": "Fin",
+    "it": "Fine"
+  },
+  "Responsável pelo negócio": {
+    "pt-br": "Responsável pelo negócio",
+    "en-us": "Business responsible",
+    "de": "Geschäftsverantwortlicher",
+    "zh-cn": "业务负责人",
+    "es": "Responsable de negocios",
+    "fr": "Responsable commercial",
+    "it": "Responsabile commerciale"
+  }
+}

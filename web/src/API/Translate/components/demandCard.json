@@ -1,56 +1,137 @@
 {
   "Valor:": {
     "pt-br": "Valor:",
-    "en-us": "Value:"
+    "en-us": "Value:",
+    "de": "Wert:",
+    "zh-cn": "价值：",
+    "es": "Valor:",
+    "fr": "Valeur :",
+    "it": "Valore:"
+  },
+  "Score": {
+    "pt-br": "Score",
+    "en-us": "Score",
+    "de": "Score",
+    "zh-cn": "分数",
+    "es": "Puntuación",
+    "fr": "Score",
+    "it": "Punteggio"
+  },
+  "Status": {
+    "pt-br": "Status",
+    "en-us": "Status",
+    "de": "Status",
+    "zh-cn": "状态",
+    "es": "Estado",
+    "fr": "Statut",
+    "it": "Stato"
   },
   "Progresso:": {
     "pt-br": "Progresso:",
-    "en-us": "Progress:"
+    "en-us": "Progress:",
+    "de": "Fortschritt:",
+    "zh-cn": "进度：",
+    "es": "Progreso:",
+    "fr": "Progression :",
+    "it": "Progresso:"
   },
   "Motivo da reprovação": {
     "pt-br": "Motivo da reprovação",
-    "en-us": "Rejection reason"
+    "en-us": "Rejection reason",
+    "de": "Ablehnungsgrund",
+    "zh-cn": "拒绝原因",
+    "es": "Motivo de rechazo",
+    "fr": "Motif de rejet",
+    "it": "Motivo di rifiuto"
   },
   "Motivo": {
     "pt-br": "Motivo",
-    "en-us": "Reason"
+    "en-us": "Reason",
+    "de": "Grund",
+    "zh-cn": "原因",
+    "es": "Motivo",
+    "fr": "Motif",
+    "it": "Motivo"
   },
   "Motivo da reprovação da demanda": {
     "pt-br": "Motivo da reprovação da demanda",
-    "en-us": "Demand rejection reason"
+    "en-us": "Demand rejection reason",
+    "de": "Grund für die Ablehnung der Anforderung",
+    "zh-cn": "需求被拒绝的原因",
+    "es": "Motivo de rechazo de la demanda",
+    "fr": "Motif de rejet de la demande",
+    "it": "Motivo di rifiuto della richiesta"
   },
   "Têm certeza que deseja deletar esse rascunho?": {
     "pt-br": "Têm certeza que deseja deletar esse rascunho?",
-    "en-us": "Are you sure you want to delete this draft?"
+    "en-us": "Are you sure you want to delete this draft?",
+    "de": "Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?",
+    "zh-cn": "您确定要删除此草稿吗？",
+    "es": "¿Estás seguro de que quieres eliminar este borrador?",
+    "fr": "Êtes-vous sûr de vouloir supprimer ce brouillon ?",
+    "it": "Sei sicuro di voler eliminare questa bozza?"
   },
   "Cancelar": {
     "pt-br": "Cancelar",
-    "en-us": "Cancel"
+    "en-us": "Cancel",
+    "de": "Abbrechen",
+    "zh-cn": "取消",
+    "es": "Cancelar",
+    "fr": "Annuler",
+    "it": "Annulla"
   },
   "Deletar": {
     "pt-br": "Deletar",
-    "en-us": "Delete"
+    "en-us": "Delete",
+    "de": "Löschen",
+    "zh-cn": "删除",
+    "es": "Eliminar",
+    "fr": "Supprimer",
+    "it": "Elimina"
   },
   "Continuar": {
     "pt-br": "Continuar",
-    "en-us": "Continue"
+    "en-us": "Continue",
+    "de": "Weiter",
+    "zh-cn": "继续",
+    "es": "Continuar",
+    "fr": "Continuer",
+    "it": "Continua"
   },
   "Ver mais": {
     "pt-br": "Ver mais",
-    "en-us": "See more"
+    "en-us": "See more",
+    "de": "Mehr anzeigen",
+    "zh-cn": "查看更多",
+    "es": "Ver más",
+    "fr": "Voir plus",
+    "it": "Vedi di più"
   },
   "De:": {
     "pt-br": "De:",
-    "en-us": "From:"
+    "en-us": "From:",
+    "de": "Von:",
+    "zh-cn": "从：",
+    "es": "De:",
+    "fr": "De :",
+    "it": "Da:"
   },
   "Até:": {
     "pt-br": "Até:",
-    "en-us": "To:"
+    "en-us": "To:",
+    "de": "Bis:",
+    "zh-cn": "至：",
+    "es": "Hasta:",
+    "fr": "Jusqu'à :",
+    "it": "A:"
   },
   "Visualizar demanda": {
     "pt-br": "Visualizar demanda",
     "en-us": "View demand",
     "de": "Nachfrage anzeigen",
-    "zh-cn": "查看需求"
+    "zh-cn": "查看需求",
+    "es": "Ver demanda",
+    "fr": "Voir la demande",
+    "it": "Visualizza richiesta"
   }
 }

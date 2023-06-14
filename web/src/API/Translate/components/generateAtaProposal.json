@@ -1,38 +1,83 @@
 {
   "Aprovado": {
     "pt-br": "Aprovado",
-    "en-us": "Approved"
+    "en-us": "Approved",
+    "de": "Genehmigt",
+    "zh-cn": "已批准",
+    "es": "Aprobado",
+    "fr": "Approuvé",
+    "it": "Approvato"
   },
   "Reprovado": {
     "pt-br": "Reprovado",
-    "en-us": "Disapproved"
+    "en-us": "Disapproved",
+    "de": "Abgelehnt",
+    "zh-cn": "未批准",
+    "es": "Desaprobado",
+    "fr": "Désapprouvé",
+    "it": "Respinto"
   },
   "Mais informações": {
     "pt-br": "Mais informações",
-    "en-us": "More information"
+    "en-us": "More information",
+    "de": "Weitere Informationen",
+    "zh-cn": "更多信息",
+    "es": "Más información",
+    "fr": "Plus d'informations",
+    "it": "Ulteriori informazioni"
   },
   "Parecer da DG": {
     "pt-br": "Parecer da DG",
-    "en-us": "DG's opinion"
+    "en-us": "DG's opinion",
+    "de": "Meinung des Generaldirektors",
+    "zh-cn": "总监的意见",
+    "es": "Opinión del DG",
+    "fr": "Avis du DG",
+    "it": "Parere del DG"
   },
   "Parecer da comissão": {
     "pt-br": "Parecer da comissão",
-    "en-us": "Commission's opinion"
+    "en-us": "Commission's opinion",
+    "de": "Meinung der Kommission",
+    "zh-cn": "委员会的意见",
+    "es": "Opinión de la comisión",
+    "fr": "Avis de la commission",
+    "it": "Parere della commissione"
   },
   "Considerações": {
     "pt-br": "Considerações",
-    "en-us": "Considerations"
+    "en-us": "Considerations",
+    "de": "Erwägungen",
+    "zh-cn": "注意事项",
+    "es": "Consideraciones",
+    "fr": "Considérations",
+    "it": "Considerazioni"
   },
   "Assunto registrado em ata": {
     "pt-br": "Assunto registrado em ata",
-    "en-us": "Subject registered in minutes"
+    "en-us": "Subject registered in minutes",
+    "de": "In den Protokollen registriertes Thema",
+    "zh-cn": "在会议记录中注册的主题",
+    "es": "Asunto registrado en actas",
+    "fr": "Sujet enregistré dans les procès-verbaux",
+    "it": "Argomento registrato nei verbali"
   },
   "Publicada": {
     "pt-br": "Publicada",
-    "en-us": "Published"
+    "en-us": "Published",
+    "de": "Veröffentlicht",
+    "zh-cn": "已发布",
+    "es": "Publicado",
+    "fr": "Publié",
+    "it": "Pubblicato"
   },
   "Não publicada": {
     "pt-br": "Não publicada",
-    "en-us": "Not published"
+    "en-us": "Not published",
+    "de": "Nicht veröffentlicht",
+    "zh-cn": "未发布",
+    "es": "No publicado",
+    "fr": "Non publié",
+    "it": "Non pubblicato"
   }
 }

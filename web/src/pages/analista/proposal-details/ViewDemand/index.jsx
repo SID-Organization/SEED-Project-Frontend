@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // MUI
@@ -26,6 +26,10 @@ import UserUtils from "../../../../utils/User-Utils";
 import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
 import { IconButton } from "@mui/material";
+
+//Translation
+import TranslationJson from "../../../../API/Translate/pages/proposalDetailsViewDemand.json";
+import { TranslateContext } from "../../../../contexts/translate/index.jsx";
 
 const style = {
   position: "absolute",
@@ -60,6 +64,10 @@ const PdfButton = styled(MuiButton)({
 });
 
 export default function ViewDemand() {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const params = useParams();
   const navigate = useNavigate();
 
@@ -144,7 +152,7 @@ export default function ViewDemand() {
           <div className="flex gap-2">
             <Tooltip title="Abrir workflow">
               <Button onClick={handleOpen} variant="contained">
-                Workflow
+                {translate["Workflow"]?.[language] ?? "Workflow"}
               </Button>
             </Tooltip>
             <Tooltip title="Abrir como PDF">
@@ -166,7 +174,7 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
               >
-                Título:{" "}
+                {translate["Título"]?.[language] ?? "Título"}:{" "}
               </h1>
               <span
                 style={{ fontSize: fonts.base }}
@@ -180,7 +188,7 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
               >
-                Solicitante:
+                {translate["Solicitante"]?.[language] ?? "Solicitante"}:
               </h1>
               <div className="flex items-center gap-2">
                 <h1
@@ -201,7 +209,7 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  De:{" "}
+                  {translate["De"]?.[language] ?? "De"}:{" "}
                   <span
                     style={{ fontSize: fonts.base }}
                     className="font-normal text-blue-weg"
@@ -214,7 +222,7 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  Até:{" "}
+                  {translate["Até"]?.[language] ?? "Até"}:{" "}
                   <span
                     style={{ fontSize: fonts.base }}
                     className="font-normal text-blue-weg"
@@ -230,7 +238,7 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  Centro de custo:
+                  {translate["Centro de custo"]?.[language] ?? "Centro de custo"}:
                 </h1>
                 <h1
                   style={{ fontSize: fonts.base }}
@@ -247,14 +255,14 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.base }}
                 className="grid gap-1 font-roboto font-semibold text-blue-weg"
               >
-                Score:{" "}
+                {translate["Score"]?.[language] ?? "Score"}:{" "}
                 {demand && demand.scoreDemanda ? (
                   <p className="whitespace-pre-wrap break-all font-roboto font-normal">
                     {demand.scoreDemanda}
                   </p>
                 ) : (
                   <p className="whitespace-pre-wrap break-all font-roboto font-normal text-[#6f6f6f]">
-                    Não indicado
+                    {translate["Não indicado"]?.[language] ?? "Não indicado"}
                   </p>
                 )}
               </h1>
@@ -264,7 +272,7 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
               >
-                Objetivo:
+                {translate["Objetivo"]?.[language] ?? "Objetivo"}:
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
@@ -278,7 +286,7 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
               >
-                Situação atual:
+                {translate["Situação atual"]?.[language] ?? "Situação atual"}:
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
@@ -290,7 +298,7 @@ export default function ViewDemand() {
 
             <div className="grid items-center gap-1">
               <h1 className="font-roboto font-bold text-blue-weg">
-                Frequência de uso:
+                {translate["Frequência de uso"]?.[language] ?? "Frequência de uso"}:
               </h1>
               <div>
                 <p
@@ -306,7 +314,7 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
               >
-                Benefício qualitativo:
+                {translate["Benefício qualitativo"]?.[language] ?? "Benefício qualitativo"}:
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
@@ -318,11 +326,11 @@ export default function ViewDemand() {
           </div>
           <div className="grid items-start gap-6">
             <BenefitsCard
-              title="Benefícios reais"
+              title={translate["Benefícios reais"]?.[language] ?? "Benefícios reais"}
               benefits={getBenefits("REAL")}
             />
             <BenefitsCard
-              title="Benefícios potenciais"
+              title={translate["Benefícios potenciais"]?.[language] ?? "Benefícios potenciais"}
               benefits={getBenefits("POTENCIAL")}
             />
           </div>
@@ -338,7 +346,7 @@ export default function ViewDemand() {
         <Box sx={style}>
           <div className="flex items-center justify-end">
             <IconButton>
-              <Tooltip title="Fechar">
+              <Tooltip title={translate["Fechar"]?.[language] ?? "Fechar"}>
                 <CloseIcon
                   onClick={handleClose}
                   sx={{
@@ -357,7 +365,7 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  Solicitante
+                  {translate["Solicitante"]?.[language] ?? "Solicitante"}:
                 </h1>
                 <h1
                   style={{ fontSize: fonts.base }}
@@ -376,7 +384,7 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.xl }}
                 className="flex justify-center gap-2 text-blue-weg"
               >
-                Número de demanda:{" "}
+                {translate["Número de demanda"]?.[language] ?? "Número de demanda"}:{" "}
                 <span
                   style={{ fontSize: fonts.xl }}
                   className="flex justify-center font-bold text-light-blue-weg"
@@ -391,7 +399,7 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  Analista responsável
+                  {translate["Analista responsável"]?.[language] ?? "Analista responsável"}
                 </h1>
                 <h1
                   style={{ fontSize: fonts.base }}
@@ -417,7 +425,7 @@ export default function ViewDemand() {
                         style={{ fontSize: fonts.lg }}
                         className="flex items-center justify-center font-normal text-blue-weg"
                       >
-                        Iniciada em:
+                        {translate["Iniciada em"]?.[language] ?? "Iniciada em"}:
                       </h1>
                       <span
                         style={{ fontSize: fonts.lg }}
@@ -436,13 +444,13 @@ export default function ViewDemand() {
                         style={{ fontSize: fonts.lg }}
                         className="flex items-center justify-center font-normal text-blue-weg"
                       >
-                        Concluída em:
+                        {translate["Concluída em"]?.[language] ?? "Concluída em"}:
                       </h1>
                       <span
                         style={{ fontSize: fonts.lg }}
                         className="flex items-center justify-center font-bold text-light-blue-weg"
                       >
-                        Indefinido
+                        {translate["Indefinido"]?.[language] ?? "Indefinido"}
                       </span>
                     </div>
                   </div>
@@ -457,7 +465,7 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.lg }}
                 className="mt-5 font-roboto text-lg font-bold text-blue-weg"
               >
-                Histórico
+                {translate["Histórico"]?.[language] ?? "Histórico"}
               </h1>
             </div>
             <WorkflowTable demandId={params.idDemanda} />

@@ -309,7 +309,7 @@ export default function DemandCard(props) {
                   className="flex"
                 >
                   <span style={{ fontSize: fonts.sm }} className="mr-1 ">
-                    Status:
+                    {translate["Status"]?.[language] ?? "Status"}:
                   </span>
                   <Tooltip title={formatDemandStatus(true)}>
                     <span
@@ -346,7 +346,7 @@ export default function DemandCard(props) {
                     className="flex"
                   >
                     <span style={{ fontSize: fonts.sm }} className="mr-1 ">
-                      Score:
+                      {translate["Score"]?.[language] ?? "Score"}:
                     </span>
                     <span className="text-[0.95rem] font-medium text-black">
                       {props.demand.scoreDemanda}

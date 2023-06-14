@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 
 //MUI
@@ -25,7 +25,15 @@ import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
 
+//Translation
+import TranslationJson from "../../../API/Translate/pages/pautas.json";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
+
 export default function Pautas() {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [pautas, setPautas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -93,18 +101,18 @@ export default function Pautas() {
   };
 
   const months = {
-    "01": "Janeiro",
-    "02": "Fevereiro",
-    "03": "Março",
-    "04": "Abril",
-    "05": "Maio",
-    "06": "Junho",
-    "07": "Julho",
-    "08": "Agosto",
-    "09": "Setembro",
-    10: "Outubro",
-    11: "Novembro",
-    12: "Dezembro",
+    "01": translate["Janeiro"]?.[language],
+    "02": translate["Fevereiro"]?.[language],
+    "03": translate["Março"]?.[language],
+    "04": translate["Abril"]?.[language],
+    "05": translate["Maio"]?.[language],
+    "06": translate["Junho"]?.[language],
+    "07": translate["Julho"]?.[language],
+    "08": translate["Agosto"]?.[language],
+    "09": translate["Setembro"]?.[language],
+    10: translate["Outubro"]?.[language],
+    11: translate["Novembro"]?.[language],
+    12: translate["Dezembro"]?.[language],
   };
 
   const handleModalOpen = () => {
@@ -168,7 +176,7 @@ export default function Pautas() {
                         {getPautasInMonth(month, year).map((pauta) => (
                           <PautasCard
                             key={pauta.idPauta}
-                            pautaName={"ID da pauta: " + pauta.idPauta}
+                            pautaName={translate["ID da pauta: "]?.[language] + pauta.idPauta}
                             pautaId={pauta.idPauta}
                             qtyProposals={pauta.qtdPropostas}
                             meetingDate={pauta.dataReuniao}
@@ -185,7 +193,7 @@ export default function Pautas() {
           ) : (
             <div className="flex h-[71vh] items-center justify-around">
               <NoContent isPauta={true}>
-                <span style={{ fontSize: fonts.xl }}>Sem pautas!</span>
+                <span style={{ fontSize: fonts.xl }}>{translate["Sem pautas!"]?.[language] ?? "Sem pautas!"}</span>
               </NoContent>
             </div>
           )}

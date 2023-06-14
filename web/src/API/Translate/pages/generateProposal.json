@@ -1,0 +1,254 @@
+{
+    "Gerando proposta da demanda": {
+        "pt-br": "Gerando proposta da demanda",
+        "en-us": "Generating demand proposal",
+        "de": "Generierung der Nachfrage Vorschlag",
+        "zh-cn": "生成需求建议",
+        "es": "Generación de propuesta de la demanda",
+        "fr": "Génération de proposition de la demande",
+        "it": "Generazione di proposta di domanda"
+    },
+    "Escopo do projeto": {
+        "pt-br": "Escopo do projeto",
+        "en-us": "Project scope",
+        "de": "Projektumfang",
+        "zh-cn": "项目范围",
+        "es": "Alcance del proyecto",
+        "fr": "Portée du projet",
+        "it": "Ambito del progetto"
+    },
+    "Não faz parte do escopo do projeto": {
+        "pt-br": "Não faz parte do escopo do projeto",
+        "en-us": "Not part of the project scope",
+        "de": "Nicht Teil des Projektumfangs",
+        "zh-cn": "不是项目范围的一部分",
+        "es": "No forma parte del alcance del proyecto",
+        "fr": "Ne fait pas partie de la portée du projet",
+        "it": "Non fa parte del campo di applicazione del progetto"
+    },
+    "Escreva aqui o que não faz parte do escopo do projeto (não deve ser gasto tempo com)": {
+        "pt-br": "Escreva aqui o que não faz parte do escopo do projeto (não deve ser gasto tempo com)",
+        "en-us": "Write here what is not part of the project scope (should not be spent time with)",
+        "de": "Schreiben Sie hier, was nicht Teil des Projektumfangs ist (sollte nicht Zeit mit verbracht werden)",
+        "zh-cn": "在这里写下不属于项目范围的内容（不应该花时间）",
+        "es": "Escriba aquí lo que no forma parte del alcance del proyecto (no debe gastarse tiempo con)",
+        "fr": "Écrivez ici ce qui ne fait pas partie de la portée du projet (ne devrait pas être passé du temps avec)",
+        "it": "Scrivi qui ciò che non fa parte del campo di applicazione del progetto (non dovrebbe essere speso tempo con)"
+    },
+    "Tabela de custos": {
+        "pt-br": "Tabela de custos",
+        "en-us": "Cost table",
+        "de": "Kostentabelle",
+        "zh-cn": "成本表",
+        "es": "Tabla de costos",
+        "fr": "Tableau des coûts",
+        "it": "Tabella dei costi"
+    },
+    "Interno": {
+        "pt-br": "Interno",
+        "en-us": "Internal",
+        "de": "Intern",
+        "zh-cn": "内部",
+        "es": "Interno",
+        "fr": "Interne",
+        "it": "Interno"
+    },
+    "Externo": {
+        "pt-br": "Externo",
+        "en-us": "External",
+        "de": "Extern",
+        "zh-cn": "外部",
+        "es": "Externo",
+        "fr": "Externe",
+        "it": "Esterno"
+    },
+    "Custos totais do projeto": {
+        "pt-br": "Custos totais do projeto",
+        "en-us": "Total project costs",
+        "de": "Gesamtkosten des Projekts",
+        "zh-cn": "项目总成本",
+        "es": "Costos totales del proyecto",
+        "fr": "Coûts totaux du projet",
+        "it": "Costi totali del progetto"
+    },
+    "Total de despesas (desembolso)": {
+        "pt-br": "Total de despesas (desembolso)",
+        "en-us": "Total expenses (disbursement)",
+        "de": "Gesamtausgaben (Auszahlung)",
+        "zh-cn": "总费用（支出）",
+        "es": "Gastos totales (desembolso)",
+        "fr": "Dépenses totales (déboursement)",
+        "it": "Spese totali (disborsamento)"
+    },
+    "Total de despesas com custos internos": {
+        "pt-br": "Total de despesas com custos internos",
+        "en-us": "Total expenses with internal costs",
+        "de": "Gesamtausgaben mit internen Kosten",
+        "zh-cn": "内部成本的总费用",
+        "es": "Gastos totales con costos internos",
+        "fr": "Dépenses totales avec des coûts internes",
+        "it": "Spese totali con costi interni"
+    },
+    "Payback": {
+        "pt-br": "Payback",
+        "en-us": "Payback",
+        "de": "Payback",
+        "zh-cn": "回本",
+        "es": "Payback",
+        "fr": "Payback",
+        "it": "Payback"
+    },
+    "Alternativas avaliadas da proposta": {
+        "pt-br": "Alternativas avaliadas da proposta",
+        "en-us": "Evaluated alternatives of the proposal",
+        "de": "Bewertete Alternativen des Vorschlags",
+        "zh-cn": "提案的评估替代方案",
+        "es": "Alternativas evaluadas de la propuesta",
+        "fr": "Alternatives évaluées de la proposition",
+        "it": "Alternative valutate della proposta"
+    },
+    "Escreva aqui as alternativas avaliadas da proposta": {
+        "pt-br": "Escreva aqui as alternativas avaliadas da proposta",
+        "en-us": "Write here the evaluated alternatives of the proposal",
+        "de": "Schreiben Sie hier die bewerteten Alternativen des Vorschlags",
+        "zh-cn": "在这里写下提案的评估替代方案",
+        "es": "Escriba aquí las alternativas evaluadas de la propuesta",
+        "fr": "Écrivez ici les alternatives évaluées de la proposition",
+        "it": "Scrivi qui le alternative valutate della proposta"
+    },
+    "Abrangência do projeto": {
+        "pt-br": "Abrangência do projeto",
+        "en-us": "Project scope",
+        "de": "Projektumfang",
+        "zh-cn": "项目范围",
+        "es": "Alcance del proyecto",
+        "fr": "Portée du projet",
+        "it": "Ambito del progetto"
+    },
+    "Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc.": {
+        "pt-br": "Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc.",
+        "en-us": "Write here the scope of the project, such as: which areas will be impacted, etc.",
+        "de": "Schreiben Sie hier den Umfang des Projekts, z. B .: welche Bereiche werden beeinflusst usw.",
+        "zh-cn": "在此处编写项目范围，例如：哪些区域将受到影响等",
+        "es": "Escriba aquí el alcance del proyecto, como: qué áreas se verán afectadas, etc.",
+        "fr": "Écrivez ici la portée du projet, par exemple: quelles zones seront impactées, etc.",
+        "it": "Scrivi qui l'ambito del progetto, ad esempio: quali aree saranno interessate, ecc."
+    },
+    "Principais riscos / Plano mitigação": {
+        "pt-br": "Principais riscos / Plano mitigação",
+        "en-us": "Main risks / Mitigation plan",
+        "de": "Hauptgefahren / Minderungsplan",
+        "zh-cn": "主要风险/缓解计划",
+        "es": "Principales riesgos / Plan de mitigación",
+        "fr": "Principaux risques / Plan d'atténuation",
+        "it": "Principali rischi / Piano di mitigazione"
+    },
+    "Escreva aqui os principais riscos e o plano de mitigação": {
+        "pt-br": "Escreva aqui os principais riscos e o plano de mitigação",
+        "en-us": "Write here the main risks and the mitigation plan",
+        "de": "Schreiben Sie hier die Hauptgefahren und den Minderungsplan",
+        "zh-cn": "在此处编写主要风险和缓解计划",
+        "es": "Escriba aquí los principales riesgos y el plan de mitigación",
+        "fr": "Écrivez ici les principaux risques et le plan d'atténuation",
+        "it": "Scrivi qui i principali rischi e il piano di mitigazione"
+    },
+    "Período de execução": {
+        "pt-br": "Período de execução",
+        "en-us": "Execution period",
+        "de": "Ausführungszeitraum",
+        "zh-cn": "执行期",
+        "es": "Período de ejecución",
+        "fr": "Période d'exécution",
+        "it": "Periodo di esecuzione"
+    },
+    "Início:": {
+        "pt-br": "Início:",
+        "en-us": "Start:",
+        "de": "Start:",
+        "zh-cn": "开始：",
+        "es": "Comienzo:",
+        "fr": "Début:",
+        "it": "Inizio:"
+    },
+    "Data de início da execução da demanda": {
+        "pt-br": "Data de início da execução da demanda",
+        "en-us": "Start date of demand execution",
+        "de": "Startdatum der Nachfrageausführung",
+        "zh-cn": "需求执行的开始日期",
+        "es": "Fecha de inicio de la ejecución de la demanda",
+        "fr": "Date de début de l'exécution de la demande",
+        "it": "Data di inizio dell'esecuzione della domanda"
+    },
+    "Término:": {
+        "pt-br": "Término:",
+        "en-us": "End:",
+        "de": "Ende:",
+        "zh-cn": "结束：",
+        "es": "Fin:",
+        "fr": "Fin:",
+        "it": "Fine:"
+    },
+    "Data de término da execução da demanda": {
+        "pt-br": "Data de término da execução da demanda",
+        "en-us": "End date of demand execution",
+        "de": "Enddatum der Nachfrageausführung",
+        "zh-cn": "需求执行的结束日期",
+        "es": "Fecha de finalización de la ejecución de la demanda",
+        "fr": "Date de fin de l'exécution de la demande",
+        "it": "Data di fine dell'esecuzione della domanda"
+    },
+    "Responsável pelo negócio": {
+        "pt-br": "Responsável pelo negócio",
+        "en-us": "Business responsible",
+        "de": "Geschäftsverantwortlicher",
+        "zh-cn": "业务负责人",
+        "es": "Responsable de negocios",
+        "fr": "Responsable commercial",
+        "it": "Responsabile commerciale"
+    },
+    "Nome": {
+        "pt-br": "Nome",
+        "en-us": "Name",
+        "de": "Name",
+        "zh-cn": "名称",
+        "es": "Nombre",
+        "fr": "Nom",
+        "it": "Nome"
+    },
+    "Área": {
+        "pt-br": "Área",
+        "en-us": "Area",
+        "de": "Bereich",
+        "zh-cn": "区域",
+        "es": "Área",
+        "fr": "Zone",
+        "it": "Zona"
+    },
+    "Salvando...": {
+        "pt-br": "Salvando...",
+        "en-us": "Saving...",
+        "de": "Speichern...",
+        "zh-cn": "保存中...",
+        "es": "Guardando...",
+        "fr": "Sauvegarde...",
+        "it": "Salvataggio..."
+    },
+    "Salvar": {
+        "pt-br": "Salvar",
+        "en-us": "Save",
+        "de": "Speichern",
+        "zh-cn": "保存",
+        "es": "Salvar",
+        "fr": "Sauvegarder",
+        "it": "Salvare"
+    },
+    "Concluir proposta": {
+        "pt-br": "Concluir proposta",
+        "en-us": "Finish proposal",
+        "de": "Vorschlag beenden",
+        "zh-cn": "完成提案",
+        "es": "Terminar propuesta",
+        "fr": "Terminer la proposition",
+        "it": "Termina la proposta"
+    }
+}

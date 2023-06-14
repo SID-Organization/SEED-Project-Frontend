@@ -1,66 +1,146 @@
 {
   "Minhas demandas": {
     "pt-br": "Minhas demandas",
-    "en-us": "My demands"
+    "en-us": "My demands",
+    "de": "Meine Anfragen",
+    "zh-cn": "我的需求",
+    "es": "Mis demandas",
+    "fr": "Mes demandes",
+    "it": "Le mie richieste"
   },
   "Rascunhos": {
     "pt-br": "Rascunhos",
-    "en-us": "Drafts"
+    "en-us": "Drafts",
+    "de": "Entwürfe",
+    "zh-cn": "草稿",
+    "es": "Borradores",
+    "fr": "Brouillons",
+    "it": "Bozze"
   },
   "Gerenciar demandas": {
     "pt-br": "Gerenciar demandas",
-    "en-us": "Manage demands"
+    "en-us": "Manage demands",
+    "de": "Nachfragen verwalten",
+    "zh-cn": "管理需求",
+    "es": "Administrar demandas",
+    "fr": "Gérer les demandes",
+    "it": "Gestisci richieste"
   },
   "Têm certeza que deseja deletar todos os rascunhos?": {
     "pt-br": "Têm certeza que deseja deletar todos os rascunhos?",
-    "en-us": "Are you sure you want to delete all drafts?"
+    "en-us": "Are you sure you want to delete all drafts?",
+    "de": "Möchten Sie wirklich alle Entwürfe löschen?",
+    "zh-cn": "您确定要删除所有草稿吗？",
+    "es": "¿Estás seguro de que quieres borrar todos los borradores?",
+    "fr": "Êtes-vous sûr de vouloir supprimer tous les brouillons ?",
+    "it": "Sei sicuro di voler eliminare tutte le bozze?"
   },
   "Cancelar": {
     "pt-br": "Cancelar",
-    "en-us": "Cancel"
+    "en-us": "Cancel",
+    "de": "Abbrechen",
+    "zh-cn": "取消",
+    "es": "Cancelar",
+    "fr": "Annuler",
+    "it": "Annulla"
   },
   "Deletar tudo": {
     "pt-br": "Deletar tudo",
-    "en-us": "Delete all"
+    "en-us": "Delete all",
+    "de": "Alles löschen",
+    "zh-cn": "删除全部",
+    "es": "Borrar todo",
+    "fr": "Supprimer tout",
+    "it": "Elimina tutto"
   },
   "Têm certeza que deseja deletar": {
     "pt-br": "Têm certeza que deseja deletar",
-    "en-us": "Are you sure you want to delete"
+    "en-us": "Are you sure you want to delete",
+    "de": "Möchten Sie wirklich löschen",
+    "zh-cn": "您确定要删除",
+    "es": "¿Estás seguro de que quieres borrar",
+    "fr": "Êtes-vous sûr de vouloir supprimer",
+    "it": "Sei sicuro di voler eliminare"
   },
   "esses rascunhos?": {
     "pt-br": "esses rascunhos?",
-    "en-us": "these drafts?"
+    "en-us": "these drafts?",
+    "de": "diese Entwürfe?",
+    "zh-cn": "这些草稿？",
+    "es": "estos borradores?",
+    "fr": "ces brouillons ?",
+    "it": "queste bozze?"
   },
   "esse rascunho?": {
     "pt-br": "esse rascunho?",
-    "en-us": "this draft?"
+    "en-us": "this draft?",
+    "de": "diesen Entwurf?",
+    "zh-cn": "这个草稿？",
+    "es": "este borrador?",
+    "fr": "ce brouillon ?",
+    "it": "questa bozza?"
   },
   "Deletar": {
     "pt-br": "Deletar",
-    "en-us": "Delete"
+    "en-us": "Delete",
+    "de": "Löschen",
+    "zh-cn": "删除",
+    "es": "Borrar",
+    "fr": "Supprimer",
+    "it": "Elimina"
   },
   "rascunhos": {
     "pt-br": "rascunhos",
-    "en-us": "drafts"
+    "en-us": "drafts",
+    "de": "Entwürfe",
+    "zh-cn": "草稿",
+    "es": "borradores",
+    "fr": "brouillons",
+    "it": "bozze"
   },
   "rascunho": {
     "pt-br": "rascunho",
-    "en-us": "draft"
+    "en-us": "draft",
+    "de": "Entwurf",
+    "zh-cn": "草稿",
+    "es": "borrador",
+    "fr": "brouillon",
+    "it": "bozza"
   },
   "Nenhuma demanda encontrada!": {
     "pt-br": "Nenhuma demanda encontrada!",
-    "en-us": "No demand found!"
+    "en-us": "No demand found!",
+    "de": "Keine Anfrage gefunden!",
+    "zh-cn": "找不到需求！",
+    "es": "¡No se encontró ninguna demanda!",
+    "fr": "Aucune demande trouvée !",
+    "it": "Nessuna richiesta trovata!"
   },
   "Nenhum rascunho encontrado!": {
     "pt-br": "Nenhum rascunho encontrado!",
-    "en-us": "No draft found!"
+    "en-us": "No draft found!",
+    "de": "Kein Entwurf gefunden!",
+    "zh-cn": "找不到草稿！",
+    "es": "¡No se encontró ningún borrador!",
+    "fr": "Aucun brouillon trouvé !",
+    "it": "Nessuna bozza trovata!"
   },
   "Nenhuma demanda para gerenciar!": {
     "pt-br": "Nenhuma demanda para gerenciar!",
-    "en-us": "No demand to manage!"
+    "en-us": "No demand to manage!",
+    "de": "Keine Anfrage zu verwalten!",
+    "zh-cn": "没有需求需要管理！",
+    "es": "¡No hay demandas para gestionar!",
+    "fr": "Aucune demande à gérer !",
+    "it": "Nessuna richiesta da gestire!"
   },
   "Rascunhos": {
     "pt-br": "Rascunhos",
-    "en-us": "Drafts"
+    "en-us": "Drafts",
+    "de": "Entwürfe",
+    "zh-cn": "草稿",
+    "es": "Borradores",
+    "fr": "Brouillons",
+    "it": "Bozze"
   }
 }

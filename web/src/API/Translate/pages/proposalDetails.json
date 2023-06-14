@@ -1,0 +1,38 @@
+{
+  "Visualização da proposta": {
+    "pt-br": "Visualização da proposta",
+    "en-us": "Proposal visualization",
+    "de": "Vorschlag Visualisierung",
+    "zh-cn": "提案可视化",
+    "es": "Visualización de propuestas",
+    "fr": "Visualisation de la proposition",
+    "it": "Visualizzazione della proposta"
+  },
+  "Informações da proposta": {
+    "pt-br": "Informações da proposta",
+    "en-us": "Proposal information",
+    "de": "Vorschlag Informationen",
+    "zh-cn": "提案信息",
+    "es": "Información de la propuesta",
+    "fr": "Informations sur la proposition",
+    "it": "Informazioni sulla proposta"
+  },
+  "Informações da demada": {
+    "pt-br": "Informações da demada",
+    "en-us": "Demand information",
+    "de": "Nachfrageinformationen",
+    "zh-cn": "需求信息",
+    "es": "Información de la demanda",
+    "fr": "Informations sur la demande",
+    "it": "Informazioni sulla domanda"
+  },
+  "Ok": {
+    "pt-br": "Ok",
+    "en-us": "Ok",
+    "de": "Ok",
+    "zh-cn": "好",
+    "es": "Ok",
+    "fr": "Ok",
+    "it": "Ok"
+  }
+}

@@ -1,22 +1,47 @@
 {
   "Salvar alterações": {
     "pt-br": "Salvar alterações",
-    "en-us": "Save changes"
+    "en-us": "Save changes",
+    "de": "Änderungen speichern",
+    "zh-cn": "保存更改",
+    "es": "Guardar cambios",
+    "fr": "Enregistrer les modifications",
+    "it": "Salva modifiche"
   },
   "Editar telefone": {
     "pt-br": "Editar telefone",
-    "en-us": "Edit phone number"
+    "en-us": "Edit phone number",
+    "de": "Telefonnummer bearbeiten",
+    "zh-cn": "编辑电话号码",
+    "es": "Editar número de teléfono",
+    "fr": "Modifier le numéro de téléphone",
+    "it": "Modifica numero di telefono"
   },
   "Diminuir fonte": {
     "pt-br": "Diminuir fonte",
-    "en-us": "Decrease font size"
+    "en-us": "Decrease font size",
+    "de": "Schriftgröße verringern",
+    "zh-cn": "减小字体大小",
+    "es": "Disminuir tamaño de fuente",
+    "fr": "Diminuer la taille de la police",
+    "it": "Riduci dimensione del font"
   },
   "Aumentar fonte": {
     "pt-br": "Aumentar fonte",
-    "en-us": "Increase font size"
+    "en-us": "Increase font size",
+    "de": "Schriftgröße erhöhen",
+    "zh-cn": "增大字体大小",
+    "es": "Aumentar tamaño de fuente",
+    "fr": "Augmenter la taille de la police",
+    "it": "Aumenta dimensione del font"
   },
   "Fonte padrão": {
     "pt-br": "Fonte padrão",
-    "en-us": "Default font size"
+    "en-us": "Default font size",
+    "de": "Standard Schriftgröße",
+    "zh-cn": "默认字体大小",
+    "es": "Tamaño de fuente predeterminado",
+    "fr": "Taille de police par défaut",
+    "it": "Dimensione del font predefinita"
   }
 }

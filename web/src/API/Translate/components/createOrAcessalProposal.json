@@ -1,38 +1,83 @@
 {
   "Gerar proposta": {
     "pt-br": "Gerar proposta",
-    "en-us": "Generate proposal"
+    "en-us": "Generate proposal",
+    "de": "Vorschlag generieren",
+    "zh-cn": "生成提案",
+    "es": "Generar propuesta",
+    "fr": "Générer une proposition",
+    "it": "Genera proposta"
   },
   "Acessar proposta": {
     "pt-br": "Acessar proposta",
-    "en-us": "Access proposal"
+    "en-us": "Access proposal",
+    "de": "Vorschlag aufrufen",
+    "zh-cn": "访问提案",
+    "es": "Acceder a la propuesta",
+    "fr": "Accéder à la proposition",
+    "it": "Accedi alla proposta"
   },
   "Proposta": {
     "pt-br": "Proposta",
-    "en-us": "Proposal"
+    "en-us": "Proposal",
+    "de": "Vorschlag",
+    "zh-cn": "提案",
+    "es": "Propuesta",
+    "fr": "Proposition",
+    "it": "Proposta"
   },
   "Insira as seguintes informações": {
     "pt-br": "Insira as seguintes informações",
-    "en-us": "Enter the following information"
+    "en-us": "Enter the following information",
+    "de": "Geben Sie die folgenden Informationen ein",
+    "zh-cn": "输入以下信息",
+    "es": "Ingrese la siguiente información",
+    "fr": "Saisissez les informations suivantes",
+    "it": "Inserisci le seguenti informazioni"
   },
   "Link para EPIC do projeto no Jira": {
     "pt-br": "Link para EPIC do projeto no Jira",
-    "en-us": "Link to EPIC of the project in Jira"
+    "en-us": "Link to EPIC of the project in Jira",
+    "de": "Link zum EPIC des Projekts in Jira",
+    "zh-cn": "连接到Jira中项目的EPIC",
+    "es": "Enlace al EPIC del proyecto en Jira",
+    "fr": "Lien vers l'EPIC du projet dans Jira",
+    "it": "Collegamento all'EPIC del progetto in Jira"
   },
   "Código PPM": {
     "pt-br": "Código PPM",
-    "en-us": "PPM code"
+    "en-us": "PPM code",
+    "de": "PPM-Code",
+    "zh-cn": "PPM代码",
+    "es": "Código PPM",
+    "fr": "Code PPM",
+    "it": "Codice PPM"
   },
   "Cancelar": {
     "pt-br": "Cancelar",
-    "en-us": "Cancel"
+    "en-us": "Cancel",
+    "de": "Abbrechen",
+    "zh-cn": "取消",
+    "es": "Cancelar",
+    "fr": "Annuler",
+    "it": "Annulla"
   },
   "Enviar": {
     "pt-br": "Enviar",
-    "en-us": "Send"
+    "en-us": "Send",
+    "de": "Senden",
+    "zh-cn": "发送",
+    "es": "Enviar",
+    "fr": "Envoyer",
+    "it": "Invia"
   },
   "Prazo para a elaboração da proposta": {
     "pt-br": "Prazo para a elaboração da proposta",
-    "en-us": "Deadline for the preparation of the proposal"
+    "en-us": "Deadline for the preparation of the proposal",
+    "de": "Frist für die Erstellung des Vorschlags",
+    "zh-cn": "准备提案的截止日期",
+    "es": "Fecha límite para la elaboración de la propuesta",
+    "fr": "Date limite pour la préparation de la proposition",
+    "it": "Scadenza per la preparazione della proposta"
   }
 }

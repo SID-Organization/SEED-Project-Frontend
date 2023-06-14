@@ -2,7 +2,12 @@
  "cost-center-payers": {
   "CC pagantes (interno)": {
    "pt-br": "CC pagantes interno",
-   "en-us": "Internal CC payers"
+   "en-us": "Internal CC payers",
+   "de": "Interne CC-Zahler",
+   "zh-cn": "内部成本中心支付者",
+   "es": "Pagadores internos de centro de costos",
+   "fr": "Payeurs internes du centre de coûts",
+   "it": "Pagatori interni del centro di costo"
   }
  }
 }

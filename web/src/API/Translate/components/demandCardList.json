@@ -1,18 +1,38 @@
 {
   "Título": {
     "pt-br": "Título",
-    "en-us": "Title"
+    "en-us": "Title",
+    "de": "Titel",
+    "zh-cn": "标题",
+    "es": "Título",
+    "fr": "Titre",
+    "it": "Titolo"
   },
   "Solicitante": {
     "pt-br": "Solicitante",
-    "en-us": "Requester"
+    "en-us": "Requester",
+    "de": "Antragsteller",
+    "zh-cn": "请求者",
+    "es": "Solicitante",
+    "fr": "Demandeur",
+    "it": "Richiedente"
   },
   "Última atualização": {
     "pt-br": "Última atualização",
-    "en-us": "Last update"
+    "en-us": "Last update",
+    "de": "Letzte Aktualisierung",
+    "zh-cn": "最后更新",
+    "es": "Última actualización",
+    "fr": "Dernière mise à jour",
+    "it": "Ultimo aggiornamento"
   },
   "Versão": {
     "pt-br": "Versão",
-    "en-us": "Version"
+    "en-us": "Version",
+    "de": "Version",
+    "zh-cn": "版本",
+    "es": "Versión",
+    "fr": "Version",
+    "it": "Versione"
   }
 }

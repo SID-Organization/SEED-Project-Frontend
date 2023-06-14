@@ -10,6 +10,11 @@ import ViewProposal from "./ViewProposal";
 import ViewDemand from "./ViewDemand";
 import { Box, Card, CardContent, Divider } from "@mui/material";
 
+//Translation
+import TranslationJson from "../../../API/Translate/pages/proposalDetails.json";
+import { useContext } from "react";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
+
 const Button = styled(MuiButton)({
   width: "5rem",
   height: "2.5rem",
@@ -17,6 +22,10 @@ const Button = styled(MuiButton)({
 });
 
 export default function ProposalDetails() {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const params = useParams();
 
   const h1Style =
@@ -26,7 +35,7 @@ export default function ProposalDetails() {
     <>
       <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-          Visualização da proposta {params.idProposta}
+          {translate["Visualização da proposta"]?.[language] ?? "Visualização da proposta"} {params.idProposta}
         </h1>
       </div>
       <div className="flex items-center justify-center">
@@ -47,7 +56,7 @@ export default function ProposalDetails() {
               <div className="grid items-center justify-center">
                 <div className="grid gap-3">
                   <div className={h1Style}>
-                    <h1>Informações da proposta</h1>
+                    <h1>{translate["Informações da proposta"]?.[language] ?? "Informações da proposta"}</h1>
                   </div>
                   <ViewProposal />
                 </div>
@@ -61,7 +70,7 @@ export default function ProposalDetails() {
                 />
                 <div className="grid gap-3">
                   <div className={h1Style}>
-                    <h1 className="mb-5 mt-5">Informações da demada</h1>
+                    <h1 className="mb-5 mt-5">{translate["Informações da demada"]?.[language] ?? "Informações da demada"}</h1>
                   </div>
                   <ViewDemand />
                 </div>
@@ -76,7 +85,7 @@ export default function ProposalDetails() {
           variant="contained"
           className="font-roboto text-lg font-bold text-white"
         >
-          Ok
+          {translate["Ok"]?.[language] ?? "Ok"}
         </Button>
       </div>
     </>

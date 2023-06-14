@@ -1,18 +1,37 @@
 {
  "Motivo da devolução": {
   "pt-br": "Motivo da devolução",
-  "en-us": "Reason of returning"
+  "en-us": "Reason of returning",
+  "de": "Rückgabegrund",
+  "zh-cn": "退货原因",
+  "es": "Motivo de devolución",
+  "fr": "Raison du retour",
+  "it": "Motivo del reso"
  },
  "Motivo da recusação": {
   "pt-br": "Motivo da recusação",
-  "en-us": "Reason of refusing"
+  "en-us": "Reason of refusing",
+  "de": "Ablehnungsgrund",
+  "zh-cn": "拒绝原因",
+  "es": "Motivo de rechazo",
+  "fr": "Raison du refus"
  },
  "Motivo": {
   "pt-br": "Motivo",
-  "en-us": "Reason"
+  "en-us": "Reason",
+  "de": "Grund",
+  "zh-cn": "原因",
+  "es": "Motivo",
+  "fr": "Raison",
+  "it": "Motivo"
  },
  "Enviar": {
   "pt-br": "Enviar",
-  "en-us": "Send"
+  "en-us": "Send",
+  "de": "Senden",
+  "zh-cn": "发送",
+  "es": "Enviar",
+  "fr": "Envoyer",
+  "it": "Invia"
  }
 }

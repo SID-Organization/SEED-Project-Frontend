@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // MUI
 import Modal from "@mui/material/Modal";
@@ -21,6 +21,10 @@ import ProposalService from "../../../service/Proposal-Service";
 import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
+
+//Translation
+import TranslationJson from "../../../API/Translate/pages/proposalPage.json";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
 const addToAPautaModalStyle = {
   position: "absolute",
@@ -49,6 +53,10 @@ const ButtonAddSelected = styled(MuiButton)({
 });
 
 export default function Proposals() {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [proposals, setProposals] = useState([]);
   const [pautas, setPautas] = useState([]);
   const [selectProposals, setSelectProposals] = useState([]);
@@ -97,7 +105,7 @@ export default function Proposals() {
       >
         <Box sx={addToAPautaModalStyle}>
           <h1 className="mb-3 text-center text-2xl font-bold text-dark-blue-weg">
-            Adicionar à uma pauta
+            {translate["Adicionar à uma pauta"]?.[language] ?? "Adicionar à uma pauta"}
           </h1>
           <div className="flex items-center justify-center">
             <CreateNewPauta />
@@ -130,10 +138,10 @@ export default function Proposals() {
               size="large"
               onClick={handleOpenAddToAPautaModal}
             >
-              Adicionar à pauta (
+              {translate["Adicionar à pauta"]?.[language] ?? "Adicionar à pauta"} (
               {selectProposals.length > 1
                 ? selectProposals.length + " propostas"
-                : "1 proposta"}
+                : translate["1 proposta"]?.[language]}
               )
             </ButtonAddSelected>
           </div>
@@ -147,7 +155,7 @@ export default function Proposals() {
         ) : proposals && proposals.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isProposal={true}>
-              <span style={{ fontSize: fonts.xl }}>Sem propostas!</span>
+              <span style={{ fontSize: fonts.xl }}>{translate["Sem propostas!"]?.[language] ?? "Sem propostas!"}</span>
             </NoContent>
           </div>
         ) : (
