@@ -25,5 +25,59 @@
     "es": "Filtrar",
     "fr": "Filtrer",
     "it": "Filtro"
+  },
+  "Data da Reunião": {
+    "pt-br": "Data da Reunião",
+    "en-us": "Meeting Date",
+    "de": "Besprechungsdatum",
+    "zh-cn": "会议日期",
+    "es": "Fecha de la reunión",
+    "fr": "Date de la réunion",
+    "it": "Data della riunione"
+  },
+  "Horário Início": {
+    "pt-br": "Horário Início",
+    "en-us": "Start Time",
+    "de": "Startzeit",
+    "zh-cn": "开始时间",
+    "es": "Hora de inicio",
+    "fr": "Heure de début",
+    "it": "Ora di inizio"
+  },
+  "Horário Término": {
+    "pt-br": "Horário Término",
+    "en-us": "End Time",
+    "de": "Endzeit",
+    "zh-cn": "结束时间",
+    "es": "Hora de finalización",
+    "fr": "Heure de fin",
+    "it": "Ora di fine"
+  },
+  "Qtd. de Propostas": {
+    "pt-br": "Qtd. de Propostas",
+    "en-us": "Number of Proposals",
+    "de": "Anzahl der Vorschläge",
+    "zh-cn": "提案数量",
+    "es": "Número de propuestas",
+    "fr": "Nombre de propositions",
+    "it": "Numero di proposte"
+  },
+  "Fórum de Aprovação": {
+    "pt-br": "Fórum de Aprovação",
+    "en-us": "Approval Forum",
+    "de": "Genehmigungsforum",
+    "zh-cn": "批准论坛",
+    "es": "Foro de aprobación",
+    "fr": "Forum d'approbation",
+    "it": "Forum di approvazione"
+  },
+  "Analista Responsável": {
+    "pt-br": "Analista Responsável",
+    "en-us": "Responsible Analyst",
+    "de": "Verantwortlicher Analyst",
+    "zh-cn": "负责分析师",
+    "es": "Analista responsable",
+    "fr": "Analyste responsable",
+    "it": "Analista responsabile"
   }
 }

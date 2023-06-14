@@ -85,9 +85,8 @@ const AddRoundedIcon = styled(MuiAddRoundedIcon)({
 });
 
 export default function CreateNewPauta(props) {
-
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [user, setUser] = useState(UserUtils.getLoggedUser());
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,7 +103,10 @@ export default function CreateNewPauta(props) {
 
   // Search for title in create pauta
   const [searchTitle, setSearchTitle] = useState("");
-  const [searchByTitleSpeech, setSearchByTitleSpeech] = useState({ id: 1, text: "" });
+  const [searchByTitleSpeech, setSearchByTitleSpeech] = useState({
+    id: 1,
+    text: "",
+  });
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
@@ -115,8 +117,8 @@ export default function CreateNewPauta(props) {
   // Updates the variable when the speech is used
   useEffect(() => {
     if (searchByTitleSpeech.text != "") {
-      setSearchTitle(ps => ps + searchByTitleSpeech.text);
-      setSearchByTitleSpeech({ ...searchByTitleSpeech, text: "" })
+      setSearchTitle((ps) => ps + searchByTitleSpeech.text);
+      setSearchByTitleSpeech({ ...searchByTitleSpeech, text: "" });
     }
   }, [searchByTitleSpeech]);
 
@@ -148,15 +150,26 @@ export default function CreateNewPauta(props) {
 
   const handleCreatePauta = () => {
     if (!meetingDate || !meetingStartTime || !meetingEndTime) {
-      alert(translate["Preencha todos os campos"][language] ?? "Preencha todos os campos");
+      alert(
+        translate["Preencha todos os campos"][language] ??
+          "Preencha todos os campos"
+      );
       return;
     }
     if (meetingEndTime < meetingStartTime) {
-      alert(translate["O horário de término deve ser maior que o horário de início"][language] ?? "O horário de término deve ser maior que o horário de início");
+      alert(
+        translate[
+          "O horário de término deve ser maior que o horário de início"
+        ][language] ??
+          "O horário de término deve ser maior que o horário de início"
+      );
       return;
     }
     if (selectedProposals.length === 0) {
-      alert(translate["Selecione pelo menos uma proposta"][language] ?? "Selecione pelo menos uma proposta");
+      alert(
+        translate["Selecione pelo menos uma proposta"][language] ??
+          "Selecione pelo menos uma proposta"
+      );
       return;
     }
     const pautaJson = {
@@ -164,7 +177,9 @@ export default function CreateNewPauta(props) {
       forumPauta: {
         idForum: selectedForum.id,
       },
-      propostasPauta: selectedProposals.map(({ idProposta, ...rest }) => ({ idProposta })),
+      propostasPauta: selectedProposals.map(({ idProposta, ...rest }) => ({
+        idProposta,
+      })),
       horarioInicioPauta: meetingStartTime,
       horarioTerminoPauta: meetingEndTime,
       analistaResponsavelPauta: {
@@ -181,7 +196,7 @@ export default function CreateNewPauta(props) {
         alert(translate["Erro ao criar pauta"]?.[language] + "\n" + res.error);
         return;
       } else {
-        setNotifyCreation(true)
+        setNotifyCreation(true);
         setIsModalOpen(false);
         selectedProposals.forEach((proposal) => {
           console.log("ProposalIdDemanda", proposal);
@@ -194,15 +209,19 @@ export default function CreateNewPauta(props) {
   useEffect(() => {
     if (notifyCreation) {
       const timeout = setTimeout(() => {
-        setNotifyCreation(false)
-      }, 4000)
-      return () => clearTimeout(timeout)
+        setNotifyCreation(false);
+      }, 4000);
+      return () => clearTimeout(timeout);
     }
-  }, [notifyCreation])
+  }, [notifyCreation]);
 
   useEffect(() => {
     console.warn("Selected proposals", selectedProposals);
-  }, [selectedProposals])
+  }, [selectedProposals]);
+
+  const getTranslate = (text) => {
+    return translate[text]?.[language] ?? text;
+  };
 
   return (
     <div>
@@ -225,7 +244,11 @@ export default function CreateNewPauta(props) {
           {translate["Criar nova pauta"]?.[language] ?? "Criar nova pauta"}
         </Button>
       )}
-      {notifyCreation && <Notification message={translate["Pauta criada com sucesso"]?.[language]} />}
+      {notifyCreation && (
+        <Notification
+          message={translate["Pauta criada com sucesso"]?.[language]}
+        />
+      )}
       <Modal
         style={{ zIndex: 1 }}
         open={isModalOpen}
@@ -302,27 +325,34 @@ export default function CreateNewPauta(props) {
                   }}
                   sx={{ width: 300 }}
                   renderInput={(params) => (
-                    <TextField {...params} label={translate["Comissão"]?.[language] ?? "Comissão"} />
+                    <TextField {...params} label={getTranslate("Comissão")} />
                   )}
                 />
               </div>
               <TextField
                 id="outlined-basic"
-                label={translate["Procurar por título"][language] ?? "Procurar por título"}
+                label={getTranslate("Procurar por título")}
                 variant="outlined"
                 value={searchTitle}
                 InputProps={{
-                  endAdornment: <VoiceSpeech setTexto={setSearchByTitleSpeech} speechId={1} />
+                  endAdornment: (
+                    <VoiceSpeech
+                      setTexto={setSearchByTitleSpeech}
+                      speechId={1}
+                    />
+                  ),
                 }}
                 onChange={(e) => setSearchTitle(e.target.value)}
               />
-
             </div>
             <div className="grid gap-2">
               <div className="flex items-center justify-center gap-5">
                 <div className="flex items-center justify-center gap-5">
                   <div className="h-[1.5px] w-10 rounded-full bg-light-blue-weg" />
-                  <h1 style={{ fontSize: fonts.xl }}>{translate["Selecione as propostas"]?.[language] ?? "Selecione as propostas"}</h1>
+                  <h1 style={{ fontSize: fonts.xl }}>
+                    {translate["Selecione as propostas"]?.[language] ??
+                      "Selecione as propostas"}
+                  </h1>
                   <div className="h-[1.5px] w-10 rounded-full bg-light-blue-weg" />
                 </div>
               </div>
@@ -331,17 +361,21 @@ export default function CreateNewPauta(props) {
                 scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
               >
                 {readyProposals.length > 0 &&
-                  readyProposals.filter(item => {
-                    if (!searchTitle || searchTitle.length < 3) return true;
-                    return item.demandaPropostaTitulo.toLowerCase().includes(searchTitle.toLowerCase());
-                  }).map((item, i) => (
-                    <NewPautaProposalCard
-                      key={i}
-                      selectedProposals={selectedProposals}
-                      setSelectedProposals={setSelectedProposals}
-                      proposal={item}
-                    />
-                  ))}
+                  readyProposals
+                    .filter((item) => {
+                      if (!searchTitle || searchTitle.length < 3) return true;
+                      return item.demandaPropostaTitulo
+                        .toLowerCase()
+                        .includes(searchTitle.toLowerCase());
+                    })
+                    .map((item, i) => (
+                      <NewPautaProposalCard
+                        key={i}
+                        selectedProposals={selectedProposals}
+                        setSelectedProposals={setSelectedProposals}
+                        proposal={item}
+                      />
+                    ))}
               </div>
             </div>
           </div>

@@ -69,6 +69,8 @@ export default function Atas() {
 
   useEffect(() => {
     setIsLoading(true);
+    setAtasYears([]);
+    setAtasMonths([]);
     if (!isAtaForDG) {
       // Get Atas passadas pela comissão
       AtaService.getAtas()
@@ -76,6 +78,7 @@ export default function Atas() {
           console.log("ATAS", res.data);
           if (!res.error) {
             if (res.data) {
+              // Formata a data de reunião de cada ata para filtrar
               const dbAtas = res.data.map((ata) => {
                 ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
                 return ata;
@@ -92,34 +95,42 @@ export default function Atas() {
         });
     } else {
       // Busca as atas já passadas pela DG
-      AtaDGService.getAtasDG()
+      AtaService.getAtasDG()
         .then((data) => {
-          if (data)
-            setAtas(data);
-        });
+          if (data) {
+            const dbAtas = data.map((ata) => {
+              // Formata a data de reunião de cada ata para filtrar
+              ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
+              return ata;
+            });
+            setAtas(dbAtas);
+          }
+        }).finally(() => {
+          setIsLoading(false);
+        })
     }
+
   }, [isAtaForDG]);
 
+  // Separa as atas em seus respectivos meses e anos
   useEffect(() => {
     if (atas && atas.length === 0) return;
     setAtasMonths(() =>
       atas && atas
+      // Pega o mês de reunião de cada ata
         .map((ata) => ata.dataReuniaoAta.split("/")[1])
         .sort()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
     setAtasYears(() =>
       atas && atas
+      // Pega o ano de reunião de cada ata
         .map((ata) => ata.dataReuniaoAta.split("/")[2])
         .sort()
         .reverse()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
   }, [atas]);
-
-  useEffect(() => {
-    console.warn("atas", atas);
-  }, [atas])
 
   return (
     <div>
@@ -133,7 +144,7 @@ export default function Atas() {
           <div className="flex h-[71vh] items-center justify-around">
             <CircularProgress />
           </div>
-        ) : atasYears.length === 0 ? (
+        ) : atas.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isAta={true}>
               <span style={{ fontSize: fonts.xl }}>{translate["Sem atas!"]?.[language] ?? "Sem atas!"}</span>
@@ -156,6 +167,7 @@ export default function Atas() {
                         <AtasCard
                           key={ata.idAta}
                           idAta={ata.idAta}
+                          isAtaForDG={isAtaForDG}
                           qtyProposals={ata.qtdPropostas}
                           meetingDate={ata.dataReuniaoAta}
                           meetingTime={ata.horarioInicioAta}
