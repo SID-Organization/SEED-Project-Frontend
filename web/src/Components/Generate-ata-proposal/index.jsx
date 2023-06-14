@@ -19,7 +19,7 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
-export default function fsdGenerateAtaProposal(props) {
+export default function GenerateAtaProposal(props) {
 
   const translate = TranslationJson;
   const [ language ] = useContext(TranslateContext);
@@ -56,7 +56,7 @@ export default function fsdGenerateAtaProposal(props) {
 
   useEffect(() => {
     updateDecision();
-  }, [parecerComissao, publicada, naoPublicada, quillHtmlConsideration]);
+  }, [parecerComissao, publicada, naoPublicada]);
 
   const style = { height: 100, width: 500 };
 
@@ -164,7 +164,7 @@ export default function fsdGenerateAtaProposal(props) {
             <ReactQuill
               value={quillHtmlConsideration}
               onChange={(e) => setQuillHtmlConsideration(e)}
-              // onBlur={updateDecision}
+              onBlur={updateDecision}
               modules={quillModules}
               style={style}
             />

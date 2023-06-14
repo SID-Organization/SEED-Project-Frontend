@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect, useContext } from "react";
 
 // Components
-import Search from "../Search";
+import DemandFilter from "../DemandFilter";
 import CreateNewProposalButton from "../CreateNewProposal-Button";
 
 // Services
@@ -10,7 +10,6 @@ import DemandService from "../../service/Demand-Service";
 
 //Translation
 import TranslationJson from "../../API/Translate/components/subHeaderProposals.json";
-import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function SubHeaderPautas(props) {
@@ -37,7 +36,7 @@ export default function SubHeaderPautas(props) {
         </h1>
         <div className="mr-10 flex gap-16">
           <CreateNewProposalButton demandsTitle={demandsTitle} />
-          <Search filters={props.filters} setFilters={props.setFilters} />
+          <DemandFilter filters={props.filters} setFilters={props.setFilters} />
         </div>
       </div>
     </div>
