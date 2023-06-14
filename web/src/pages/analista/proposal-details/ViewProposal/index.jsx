@@ -14,7 +14,7 @@ import DateUtils from "../../../../utils/Date-Utils";
 import ProposalUtils from "../../../../utils/Proposal-Utils";
 
 //Translation
-import TranslationJson from "../../../../API/Translate/pages/proposalDetailsViewProposal.json";
+import TranslationJson from "../../../../API/Translate/pages/analista/proposalDetailsViewProposal.json";
 import { TranslateContext } from "../../../../contexts/translate/index.jsx";
 
 export default function ViewProposal() {

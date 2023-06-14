@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, useContext } from "react";
 
 // MUI
 import { CircularProgress } from "@mui/material";
@@ -17,23 +17,30 @@ import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
 
-
-const months = {
-  "01": "Janeiro",
-  "02": "Fevereiro",
-  "03": "Março",
-  "04": "Abril",
-  "05": "Maio",
-  "06": "Junho",
-  "07": "Julho",
-  "08": "Agosto",
-  "09": "Setembro",
-  10: "Outubro",
-  11: "Novembro",
-  12: "Dezembro",
-};
+//Translation
+import TranslationJson from "../../../API/Translate/pages/analista/atas.json";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
 export default function Atas() {
+  
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
+  const months = {
+    "01": translate["Janeiro"]?.[language] ?? "Janeiro",
+    "02": translate["Fevereiro"]?.[language] ?? "Fevereiro",
+    "03": translate["Março"]?.[language] ?? "Março",
+    "04": translate["Abril"]?.[language] ?? "Abril",
+    "05": translate["Maio"]?.[language] ?? "Maio",
+    "06": translate["Junho"]?.[language] ?? "Junho",
+    "07": translate["Julho"]?.[language] ?? "Julho",
+    "08": translate["Agosto"]?.[language] ?? "Agosto",
+    "09": translate["Setembro"]?.[language] ?? "Setembro",
+    10: translate["Outubro"]?.[language] ?? "Outubro",
+    11: translate["Novembro"]?.[language] ?? "Novembro",
+    12: translate["Dezembro"]?.[language] ?? "Dezembro",
+  };
+
   const [atas, setAtas] = useState([]);
   const [atasMonths, setAtasMonths] = useState([]);
   const [atasYears, setAtasYears] = useState([]);
@@ -76,7 +83,7 @@ export default function Atas() {
               setAtas(dbAtas);
             }
           } else {
-            alert("Erro ao buscar atas");
+            alert(translate["Erro ao buscar atas"]?.[language] ?? "Erro ao buscar atas");
             console.log("Request", res);
           }
         })
@@ -129,7 +136,7 @@ export default function Atas() {
         ) : atasYears.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isAta={true}>
-              <span style={{ fontSize: fonts.xl }}>Sem atas!</span>
+              <span style={{ fontSize: fonts.xl }}>{translate["Sem atas!"]?.[language] ?? "Sem atas!"}</span>
             </NoContent>
           </div>
         ) : (

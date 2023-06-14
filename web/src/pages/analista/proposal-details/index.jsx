@@ -11,7 +11,7 @@ import ViewDemand from "./ViewDemand";
 import { Box, Card, CardContent, Divider } from "@mui/material";
 
 //Translation
-import TranslationJson from "../../../API/Translate/pages/proposalDetails.json";
+import TranslationJson from "../../../API/Translate/pages/analista/proposalDetails.json";
 import { useContext } from "react";
 import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
