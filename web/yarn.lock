@@ -361,7 +361,7 @@
   "resolved" "https://registry.npmjs.org/@fullcalendar/bootstrap5/-/bootstrap5-6.1.8.tgz"
   "version" "6.1.8"
 
-"@fullcalendar/core@~6.1.8":
+"@fullcalendar/core@^6.1.8", "@fullcalendar/core@~6.1.8":
   "integrity" "sha512-i8JBIvZCWGO9dsMEDcx9bnsQZ9PtGSJdOXGgWbhLaGq2iq41OBdp9g9gM4b/Otv2oK8bL5Gl6CsMmb/HkDtA6Q=="
   "resolved" "https://registry.npmjs.org/@fullcalendar/core/-/core-6.1.8.tgz"
   "version" "6.1.8"
