@@ -33,7 +33,7 @@ const Accordion = styled(MuiAccordion)(() => ({
 export default function PautasCard(props) {
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const navigate = useNavigate();
 
@@ -84,25 +84,27 @@ export default function PautasCard(props) {
                   </span>
                 </p>
               </div>
-              <div className="flex items-end">
-                <Button
-                  onClick={generateAtaDG}
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#FFF",
-                    color: "#0075B1",
-                    fontWeight: "bold",
-                    border: "#0075B1 solid 1px",
-                    fontSize: 10,
+              {!props.isAtaForDG && (
+                <div className="flex items-end">
+                  <Button
+                    onClick={generateAtaDG}
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#FFF",
+                      color: "#0075B1",
+                      fontWeight: "bold",
+                      border: "#0075B1 solid 1px",
+                      fontSize: 10,
 
-                    "&:hover": {
-                      backgroundColor: "#f3f3f3",
-                    },
-                  }}
-                >
-                  {translate["Gerar Ata DG"]?.[language] ?? "Gerar Ata DG"}
-                </Button>
-              </div>
+                      "&:hover": {
+                        backgroundColor: "#f3f3f3",
+                      },
+                    }}
+                  >
+                    {translate["Gerar Ata DG"]?.[language] ?? "Gerar Ata DG"}
+                  </Button>
+                </div>
+              )}
               <div className="flex items-end justify-center gap-3">
                 <p className="font-bold">{translate["Visualizar Ata:"]?.[language] ?? "Visualizar Ata:"} </p>
                 <Tooltip title={translate["Publicada"]?.[language] ?? "Publicada"}>

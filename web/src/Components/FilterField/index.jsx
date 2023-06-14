@@ -7,10 +7,10 @@ import { styled } from "@mui/material/styles";
 import { InputAdornment, MenuItem } from "@mui/material";
 
 // Demand status JSON
-import DemandStatusJSON from "../../../utils/Demand-Utils/JSONs/DemandStatus.json"
+import DemandStatusJSON from "../../utils/Demand-Utils/JSONs/DemandStatus.json"
 
 // Components
-import VoiceSpeech from "../../VoiceSpeech";
+import VoiceSpeech from "../VoiceSpeech";
 
 const TextField = styled(MuiTextField)({
   width: "80%",
@@ -40,7 +40,7 @@ export default function FilterComponent(props) {
         onMouseLeave={() => setIsHovering(false)}
       >
         <p className="w-[20rem] text-base text-light-blue-weg">{props.title}</p>
-        {props.type != "select" ? (
+        {props.type == "text" || props.type == "number" ? (
           <>
             {/* TEXTFIELD component */}
             <TextField
@@ -62,7 +62,7 @@ export default function FilterComponent(props) {
               onChange={(e) => props.setValue(e.target.value)}
             />
           </>
-        ) : (
+        ) : props.type == "select" ? (
           <>
             {/* SELECT component */}
             <Select
@@ -79,7 +79,22 @@ export default function FilterComponent(props) {
               ))}
             </Select>
           </>
-        )}
+        ) : (
+          <>
+            {/* DATE | TIME component */}
+            <TextField
+              id="datetime"
+              type={props.type}
+              value={props.value}
+              onChange={(e) => props.setValue(e.target.value)}
+              variant="standard"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </>
+        )
+        }
       </div>
     </>
   );

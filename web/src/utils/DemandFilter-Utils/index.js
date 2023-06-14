@@ -12,7 +12,8 @@ const filterBy = (demands, filters) => {
   for (let filter of filters) {
     if ([undefined, "", 0, null].includes(filter.value)) continue;
     // Caso tiver valor, ira filtrar pelo campo
-    filteredDemands = demands.filter((item) => {
+    if (!filteredDemands) filteredDemands = demands;
+    filteredDemands = filteredDemands.filter((item) => {
       if (item[filter.filterBy] == null) return false;
 
       // Se o tipo do campo for um número, não utiliza o toLowerCase()

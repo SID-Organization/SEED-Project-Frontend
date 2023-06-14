@@ -119,9 +119,8 @@ export default function GenerateAta(props) {
       })
 
       AtaService.updateProposalsLogs(decisions).then(res => {
-        if (res.status == 201)
-          AtaDGService.generatePDFAtaDG(res.data.idAtaDG);
-        updateEachDemand(true)
+        if ([200, 201].includes(res.status))
+          updateEachDemand(true)
       });
 
     }

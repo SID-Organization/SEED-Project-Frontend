@@ -12,7 +12,7 @@ import { Box, Button, IconButton, Modal, Tooltip } from "@mui/material";
 
 //Components
 import Calendar from "../../Components/Calendar";
-import Search from "../Search";
+import DemandFilter from "../DemandFilter";
 import CreateNewPauta from "../Create-new-pauta";
 import { useEffect } from "react";
 import PautaService from "../../service/Pauta-Service";
@@ -109,7 +109,7 @@ export default function SubHeaderPautas(props) {
             </Button>
           </div>
           <CreateNewPauta />
-          <Search filters={props.filters} setFilters={props.setFilters} />
+          <DemandFilter filters={props.filters} setFilters={props.setFilters} />
         </div>
       </div>
       <Modal open={isModalOpen} onClose={handleModalClose}>

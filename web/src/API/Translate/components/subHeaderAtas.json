@@ -1,11 +1,29 @@
 {
- "Atas Registradas": {
-  "pt-br": "Atas Registradas",
-  "en-us": "Registered Minutes",
-  "de": "Registrierte Protokolle",
-  "zh-cn": "注册会议记录",
-  "es": "Actas registradas",
-  "fr": "Procès-verbaux enregistrés",
-  "it": "Verbali registrati"
- }
+    "Atas Registradas": {
+        "pt-br": "Atas Registradas",
+        "en-us": "Registered Minutes",
+        "de": "Registrierte Protokolle",
+        "zh-cn": "注册会议记录",
+        "es": "Actas registradas",
+        "fr": "Procès-verbaux enregistrés",
+        "it": "Verbali registrati"
+    },
+    "Atas": {
+        "pt-br": "Atas",
+        "en-us": "Minutes",
+        "de": "Protokolle",
+        "zh-cn": "会议记录",
+        "es": "Actas",
+        "fr": "Procès-verbaux",
+        "it": "Verbali"
+    },
+    "Atas DG": {
+        "pt-br": "Atas DG",
+        "en-us": "DG Minutes",
+        "de": "DG Protokolle",
+        "zh-cn": "DG会议记录",
+        "es": "Actas DG",
+        "fr": "Procès-verbaux DG",
+        "it": "Verbali DG"
+    }
 }

@@ -18,10 +18,8 @@ export default function SubHeaderAtas(props) {
   const Button = styled(MuiButton)(() => ({
     backgroundColor: "#0075B1",
     height: "2.2rem",
-    width: "6rem",
-    "&:hover": {
-      backgroundColor: "#0075B1",
-    },
+    width: "9rem",
+
     color: "#FFF",
     fontWeight: "demibold",
   }));
@@ -35,18 +33,26 @@ export default function SubHeaderAtas(props) {
 
         <div className="mr-10 flex gap-16">
           <div className="flex justify-end">
-            <div className="flex justify-between items-center w-56">
+            <div className="flex justify-between items-center w-80">
               <Button
-              onClick={() => {props.setIsAtaForDG(false)}}
-                sx={{ backgroundColor: props.isAtaForDG ? "lightgray" : "" }}
+                onClick={() => { props.setIsAtaForDG(false) }}
+                sx={{
+                  backgroundColor: props.isAtaForDG ? "lightgray" : "", "&:hover": {
+                    backgroundColor: props.isAtaForDG ? "gray" : "#0075B1",
+                  },
+                }}
               >
-                <p>Atas</p>
+                <p>{translate['Atas']?.[language] ?? 'Atas'}</p>
               </Button>
               <Button
-                onClick={() => {props.setIsAtaForDG(true)}}
-                sx={{ backgroundColor: !props.isAtaForDG ? "lightgray" : "" }}
+                onClick={() => { props.setIsAtaForDG(true) }}
+                sx={{
+                  backgroundColor: !props.isAtaForDG ? "lightgray" : "", "&:hover": {
+                    backgroundColor: !props.isAtaForDG ? "gray" : "#0075B1",
+                  },
+                }}
               >
-                <p>Atas DG</p>
+                <p>{translate['Atas DG']?.[language] ?? "Atas DG"}</p>
               </Button>
             </div>
           </div>

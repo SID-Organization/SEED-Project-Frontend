@@ -12,7 +12,7 @@ import TranslateUtils from "../../utils/Translate-Utils";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Components
-import Search from "../Search";
+import DemandFilter from "../DemandFilter";
 
 
 // Subheader de todo o sistema
@@ -31,7 +31,7 @@ export default function subHeader(props) {
         </div>
         <div className="flex flex-[1] justify-around gap-10">
           <div className="flex flex-1 items-center justify-end">
-            <Search setFilters={props.setFilters} />
+            <DemandFilter setFilters={props.setFilters} />
           </div>
           <div className="flex flex-1 items-center justify-center">
             <div
