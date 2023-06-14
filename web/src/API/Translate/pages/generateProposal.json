@@ -250,5 +250,14 @@
         "es": "Terminar propuesta",
         "fr": "Terminer la proposition",
         "it": "Termina la proposta"
+    },
+    "Escreva aqui o objetivo e o escopo do projeto": {
+        "pt-br": "Escreva aqui o objetivo e o escopo do projeto",
+        "en-us": "Write here the objective and scope of the project",
+        "de": "Schreiben Sie hier das Ziel und den Umfang des Projekts",
+        "zh-cn": "在此处编写项目的目标和范围",
+        "es": "Escriba aquí el objetivo y el alcance del proyecto",
+        "fr": "Écrivez ici l'objectif et la portée du projet",
+        "it": "Scrivi qui l'obiettivo e lo scopo del progetto"
     }
 }

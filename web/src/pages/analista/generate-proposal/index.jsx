@@ -36,7 +36,7 @@ import FontSizeUtils from "../../../utils/FontSize-Utils";
 import VoiceSpeech from "../../../Components/VoiceSpeech";
 
 //Translation
-import TranslationJson from "../../../API/Translate/pages/pautas.json";
+import TranslationJson from "../../../API/Translate/pages/generateProposal.json";
 import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
 
@@ -350,7 +350,7 @@ export default function GenerateProposal() {
             <ReactQuill
               value={quillHtmlScope}
               onChange={(e) => setQuillHtmlScope(e)}
-              placeholder="Escreva aqui o objetivo e o escopo do projeto"
+              placeholder={translate["Escreva aqui o objetivo e o escopo do projeto"]?.[language] ?? "Escreva aqui o objetivo e o escopo do projeto"}
               onBlur={saveProgress}
               modules={quillModules}
               style={{ width: "50rem", height: "10rem" }}
