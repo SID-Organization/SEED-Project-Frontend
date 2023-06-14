@@ -1,5 +1,7 @@
-import { CircularProgress } from "@mui/material";
 import { useEffect, useState, Fragment } from "react";
+
+// MUI
+import { CircularProgress } from "@mui/material";
 
 // Components
 import AtasCard from "../../../Components/Atas-card";
@@ -14,6 +16,7 @@ import AtaDGService from "../../../service/AtaDG-Service";
 import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
+
 
 const months = {
   "01": "Janeiro",
@@ -30,11 +33,12 @@ const months = {
   12: "Dezembro",
 };
 
-export default function Atas(props) {
+export default function Atas() {
   const [atas, setAtas] = useState([]);
   const [atasMonths, setAtasMonths] = useState([]);
   const [atasYears, setAtasYears] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAtaForDG, setIsAtaForDG] = useState(false);
 
   const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter())
 
@@ -58,7 +62,7 @@ export default function Atas(props) {
 
   useEffect(() => {
     setIsLoading(true);
-    if (!props.isAtaForDG) {
+    if (!isAtaForDG) {
       // Get Atas passadas pela comissão
       AtaService.getAtas()
         .then((res) => {
@@ -87,7 +91,7 @@ export default function Atas(props) {
             setAtas(data);
         });
     }
-  }, [props.isAtaForDG]);
+  }, [isAtaForDG]);
 
   useEffect(() => {
     if (atas && atas.length === 0) return;
@@ -114,7 +118,8 @@ export default function Atas(props) {
     <div>
       <SubHeaderAtas
         setFilters={setFilters}
-        isAtaForDG={props.isAtaForDG}
+        isAtaForDG={isAtaForDG}
+        setIsAtaForDG={setIsAtaForDG}
       />
       <div className="mt-8 flex flex-col items-center justify-center gap-4">
         {isLoading ? (

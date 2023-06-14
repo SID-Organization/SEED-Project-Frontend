@@ -54,7 +54,7 @@ export default function GenerateAta(props) {
   function formatFinalDecisionToAtaDG(finalDecision) {
     const newFinalDecision = {
       idAta: params.id,
-      idDemanda: finalDecision.idDemanda,
+      numeroAtaDG: numDgAta,
       idPropostaLog: finalDecision.propostaPropostaLog.idProposta,
       parecerDGPropostaLog: finalDecision.parecerComissaoPropostaLog,
       consideracoesParecerDGPropostaLog: finalDecision.consideracoesPropostaLog,
@@ -90,16 +90,11 @@ export default function GenerateAta(props) {
 
     // Creates ata JSON, and removes idDemanda from finalDecisions
     const ata = {
-      numeroDgAta: numDgAta,
       pautaAta: {
         idPauta: params.id,
       },
-      propostasLog: finalDecisions.map(fd => { const obj = { ...fd }; delete obj.idDemanda; return obj; }),
+      propostasLog: finalDecisions,
     };
-
-    const ataDG = {
-      ataAtaDg: { idAta: params.id }
-    }
 
     const form = new FormData();
 
@@ -229,7 +224,6 @@ export default function GenerateAta(props) {
                 variant="outlined"
                 size="small"
                 type="number"
-                disabled={props.isAtaForDG}
                 value={numDgAta}
                 placeholder="000"
                 onChange={(e) => {

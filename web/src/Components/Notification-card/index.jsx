@@ -9,8 +9,11 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 //Translation
 import TranslationJson from "../../API/Translate/components/notificationCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
+
+//Utils
+import UserUtils from "../../utils/User-Utils";
 
 // interface NotificationCardProps {
 //   name: string;
@@ -24,6 +27,8 @@ export default function NotificationCard(props) {
 
   const translate = TranslationJson;
   const [ language ] = useContext(TranslateContext);
+
+  const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   return (
     <>
@@ -83,8 +88,8 @@ export default function NotificationCard(props) {
               title={
                 props.name &&
                 props.content &&
-                (props.name.length + props.content.length > 71
-                  ? props.name + props.content
+                (user.nomeUsuario.length + props.content.length > 71
+                  ? user.nomeUsuario + props.content
                   : null)
               }
               placement="left"
@@ -92,9 +97,9 @@ export default function NotificationCard(props) {
               <p className="text-[12px]">
                 {props.name && 
                   props.content &&
-                  (props.name.length + " " + props.content.length > 71
-                    ? (props.name + props.content).slice(0, 70) + "..."
-                    : props.name + " " + props.content)}
+                  (user.nomeUsuario.length + " " + props.content.length > 71
+                    ? (user.nomeUsuario + props.content).slice(0, 70) + "..."
+                    : user.nomeUsuario + " " + props.content)}
               </p>
             </Tooltip>
             <p className="text-xs font-bold text-light-blue-weg">

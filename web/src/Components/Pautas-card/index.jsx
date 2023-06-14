@@ -33,6 +33,17 @@ import TranslationJson from "../../API/Translate/components/pautasCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
+const Button = styled(MuiButton)(() => ({
+  backgroundColor: "#0075B1",
+  height: "2rem",
+  "&:hover": {
+    backgroundColor: "#0075B1",
+  },
+  color: "#FFF",
+  fontWeight: "demibold",
+}));
+
+
 const EditRoundedIcon = styled(MuiEditRoundedIcon)({
   color: "#707070",
   cursor: "pointer",
@@ -93,13 +104,6 @@ const IconButton = styled(MuiIconButton)(() => ({
   height: "100%",
 }));
 
-const Button = styled(MuiButton)(() => ({
-  backgroundColor: "#0075B1",
-  height: "2rem",
-  "&:hover": {
-    backgroundColor: "#0075B1",
-  },
-}));
 
 export default function PautasCard(props) {
 
@@ -219,7 +223,7 @@ export default function PautasCard(props) {
                   </Tooltip>
                   <Tooltip title={translate["Gerar ATA"][language] ?? "Gerar ATA"}>
                     <Link to={`gerar-ata/${props.pautaId}`}>
-                      <Button variant="contained">{translate["Gerar ATA"][language] ?? "Gerar ATA"}</Button>
+                      <Button>{translate["Gerar ATA"][language] ?? "Gerar ATA"}</Button>
                     </Link>
                   </Tooltip>
                 </div>
