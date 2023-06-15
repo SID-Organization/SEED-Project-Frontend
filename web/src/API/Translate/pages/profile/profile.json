@@ -1,0 +1,92 @@
+{
+    "Meu perfil": {
+        "pt-br": "Meu perfil",
+        "en-us": "My profile",
+        "de": "Mein Profil",
+        "zh-cn": "我的个人资料",
+        "es": "Mi perfil",
+        "fr": "Mon profil",
+        "it": "Il mio profilo"
+    },
+    "Enviar imagem": {
+        "pt-br": "Enviar imagem",
+        "en-us": "Send image",
+        "de": "Bild senden",
+        "zh-cn": "发送图片",
+        "es": "Enviar imagen",
+        "fr": "Envoyer une image",
+        "it": "Invia immagine"
+    },
+    "Dados pessoais": {
+        "pt-br": "Dados pessoais",
+        "en-us": "Personal data",
+        "de": "Persönliche Daten",
+        "zh-cn": "个人资料",
+        "es": "Datos personales",
+        "fr": "Données personnelles",
+        "it": "Dati personali"
+    },
+    "Dados da empresa - WEG": {
+        "pt-br": "Dados da empresa - WEG",
+        "en-us": "Company data - WEG",
+        "de": "Firmendaten - WEG",
+        "zh-cn": "公司数据 - WEG",
+        "es": "Datos de la empresa - WEG",
+        "fr": "Données de l'entreprise - WEG",
+        "it": "Dati aziendali - WEG"
+    },
+    "Acessibilidade": {
+        "pt-br": "Acessibilidade",
+        "en-us": "Accessibility",
+        "de": "Barrierefreiheit",
+        "zh-cn": "无障碍",
+        "es": "Accesibilidad",
+        "fr": "Accessibilité",
+        "it": "Accessibilità"
+    },
+    "Setor": {
+        "pt-br": "Setor",
+        "en-us": "Sector",
+        "de": "Sektor",
+        "zh-cn": "区",
+        "es": "Sector",
+        "fr": "Secteur",
+        "it": "Settore"
+    },
+    "Departamento": {
+        "pt-br": "Departamento",
+        "en-us": "Department",
+        "de": "Abteilung",
+        "zh-cn": "部门",
+        "es": "Departamento",
+        "fr": "Département",
+        "it": "Dipartimento"
+    },
+    "Tamanho da fonte": {
+        "pt-br": "Tamanho da fonte",
+        "en-us": "Font size",
+        "de": "Schriftgröße",
+        "zh-cn": "字体大小",
+        "es": "Tamaño de fuente",
+        "fr": "Taille de police",
+        "it": "Dimensione del carattere"
+    },
+    "Nome": {
+        "pt-br": "Nome",
+        "en-us": "Name",
+        "de": "Name",
+        "zh-cn": "名称",
+        "es": "Nombre",
+        "fr": "Nom",
+        "it": "Nome"
+    },
+    "Telefone": {
+        "pt-br": "Telefone",
+        "en-us": "Phone",
+        "de": "Telefon",
+        "zh-cn": "电话",
+        "es": "Teléfono",
+        "fr": "Téléphone",
+        "it": "Telefono"
+    }
+}

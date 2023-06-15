@@ -24,7 +24,7 @@ import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
 
 //Translation
-import TranslationJson from "../../../API/Translate/pages/pautas.json";
+import TranslationJson from "../../../API/Translate/pages/analista/pautas.json";
 import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
 export default function Pautas() {

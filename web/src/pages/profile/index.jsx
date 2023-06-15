@@ -1,5 +1,5 @@
 import ProfilePic from "../../assets/profile-pic.png";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 //MUI
 import { Avatar } from "@mui/material";
@@ -14,6 +14,11 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 import ProfileRow from "../../Components/Profile-row";
 
 import "../../styles/index.css";
+
+//Translation
+import TranslationJson from "../../API/Translate/pages/profile/profile.json"
+import { TranslateContext } from "../../contexts/translate/index";
+import { Launch } from "@mui/icons-material";
 
 const Button = styled(MuiButton)(() => ({
   background: "transparent",
@@ -30,7 +35,12 @@ const Button = styled(MuiButton)(() => ({
   },
 }));
 
+
 export default function Perfil() {
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+  
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
@@ -58,7 +68,7 @@ export default function Perfil() {
     <div>
       <div className="flex h-[5rem] items-center justify-start shadow-page-title-shadow">
         <h1 className="ml-7 mt-2 font-roboto text-3xl font-bold text-[#023A67]">
-          Meu perfil
+          {translate["Meu perfil"]?.[language] ?? "Meu perfil"}
         </h1>
       </div>
       <div className="ml-10 mt-10 flex gap-10 font-roboto">
@@ -83,38 +93,38 @@ export default function Perfil() {
             variant="outlined"
             component="label"
           >
-            Enviar imagem
+            {translate["Enviar imagem"]?.[language] ?? "Enviar imagem"}
             <input hidden accept="image/*" multiple type="file" />
           </Button>
         </div>
         <div className="grid w-[50vw] gap-16">
           <div>
             <h1 style={{ fontSize: fonts.base }} className="mb-2 font-semibold">
-              Dados pessoais
+              {translate["Dados pessoais"]?.[language] ?? "Dados pessoais"}
             </h1>
             <ProfileRow
               topLine={true}
-              topic={"Nome"}
+              topic={translate["Nome"]?.[language] ?? "Nome"}
               content={user.nomeUsuario}
             />
-            <ProfileRow topLine={false} topic={"Telefone"} phone={true} />
+            <ProfileRow topLine={false} topic={translate["Telefone"]?.[language] ?? "Telefone"} phone={true} />
           </div>
           <div>
             <h1
               style={{ fontSize: fonts.base }}
               className="mb-2 mt-5 font-semibold"
             >
-              Dados da empresa - WEG
+              {translate["Dados da empresa - WEG"]?.[language] ?? "Dados da empresa - WEG"}
             </h1>
             <ProfileRow
               topLine={true}
-              topic={"Departamento"}
+              topic={translate["Departamento"]?.[language] ?? "Departamento"}
               content={user.departamentoUsuario}
             />
             <ProfileRow
               topLine={false}
-              topic={"Setor"}
-              content={user.businessUnity}
+              topic={translate["Setor"]?.[language] ?? "Setor"}
+              content={user.businessUnity.replace(/\+/g, ' ')}
             />
           </div>
           <div>
@@ -122,11 +132,11 @@ export default function Perfil() {
               style={{ fontSize: fonts.base }}
               className="mb-2 mt-5 font-semibold"
             >
-              Acessibilidade
+              {translate["Acessibilidade"]?.[language] ?? "Acessibilidade"} 
             </h1>
             <ProfileRow
               topLine={true}
-              topic={"Tamanho da fonte"}
+              topic={translate["Tamanho da fonte"]?.[language] ?? "Tamanho da fonte"}
               increaseFontSize={true}
             />
           </div>

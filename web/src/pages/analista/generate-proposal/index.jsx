@@ -36,7 +36,7 @@ import FontSizeUtils from "../../../utils/FontSize-Utils";
 import VoiceSpeech from "../../../Components/VoiceSpeech";
 
 //Translation
-import TranslationJson from "../../../API/Translate/pages/generateProposal.json";
+import TranslationJson from "../../../API/Translate/pages/analista/generateProposal.json";
 import { TranslateContext } from "../../../contexts/translate/index.jsx";
 
 
@@ -396,7 +396,7 @@ export default function GenerateProposal() {
               />
               <div className="flex items-center justify-start">
                 <CostCenterPayers
-                  typeTitle="interno"
+                  typeTitle={translate["interno"]?.[language] ?? "interno"}
                   totalCostCenterPayers={internalCostCenterPayers}
                   setTotalCostCenterPayers={setInternalCostCenterPayers}
                 />
@@ -410,7 +410,7 @@ export default function GenerateProposal() {
               />
               <div className="flex items-center justify-start">
                 <CostCenterPayers
-                  typeTitle="externo"
+                  typeTitle={translate["externo"]?.[language] ?? "externo"}
                   totalCostCenterPayers={externalCostCenterPayers}
                   setTotalCostCenterPayers={setExternalCostCenterPayers}
                 />

@@ -28,7 +28,7 @@ import FontSizeUtils from "../../../../utils/FontSize-Utils";
 import { IconButton } from "@mui/material";
 
 //Translation
-import TranslationJson from "../../../../API/Translate/pages/proposalDetailsViewDemand.json";
+import TranslationJson from "../../../../API/Translate/pages/analista/proposalDetailsViewDemand.json";
 import { TranslateContext } from "../../../../contexts/translate/index.jsx";
 
 const style = {

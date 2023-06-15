@@ -259,5 +259,23 @@
         "es": "Escriba aquí el objetivo y el alcance del proyecto",
         "fr": "Écrivez ici l'objectif et la portée du projet",
         "it": "Scrivi qui l'obiettivo e lo scopo del progetto"
+    },
+    "interno": {
+        "pt-br": "interno",
+        "en-us": "internal",
+        "de": "intern",
+        "zh-cn": "内部",
+        "es": "interno",
+        "fr": "interne",
+        "it": "interno"
+    },
+    "externo": {
+        "pt-br": "externo",
+        "en-us": "external",
+        "de": "extern",
+        "zh-cn": "外部",
+        "es": "externo",
+        "fr": "externe",
+        "it": "esterno"
     }
 }
