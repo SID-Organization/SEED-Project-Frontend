@@ -19,6 +19,8 @@ import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Components
 import FilterField from "../FilterField";
+import AtasFilterUtils from "../../utils/AtasFilter-Utils";
+import ForumService from "../../service/Forum-Service";
 
 
 export default function AtaFilter(props) {
@@ -26,40 +28,45 @@ export default function AtaFilter(props) {
     const translate = TranslationJson;
     const [language] = useContext(TranslateContext);
 
-
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
-    /**
-     *  - Data da reunião (<, >, =, Between (talvez))
-        - Horario início (<, >, =, Between (talvez))
-        - Horario termino (<, >, =, Between (talvez))
-        - Forum ata (mais de 1)
-        - Analista responsável
-        - Qtd de propostas (<, >, =, Between (talvez))
-     * 
-     */
-
     const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+    // Filters
+    const [meetingDate, setMeetingDate] = useState("");
+    const [meetingTimeStart, setMeetingTimeStart] = useState("");
+    const [meetingTimeEnd, setMeetingTimeEnd] = useState("");
+    const [qtyProposals, setQtyProposals] = useState("");
+    const [approvalForum, setApprovalForum] = useState("");
+    const [responsibleAnalyst, setResponsibleAnalyst] = useState("");
+    const [forunsOptions, setForunsOptions] = useState([]);
 
     useEffect(() => {
         setFonts(FontSizeUtils.getFontSizes());
     }, [FontSizeUtils.getFontControl()])
 
-    // Filters
-    const [meetingDate, setMeetingDate] = useState();
-    const [meetingTimeStart, setMeetingTimeStart] = useState();
-    const [meetingTimeEnd, setMeetingTimeEnd] = useState();
-    const [qtyProposals, setQtyProposals] = useState();
-    const [approvalForum, setApprovalForum] = useState();
-    const [responsibleAnalyst, setResponsibleAnalyst] = useState();
+    useEffect(() => {
+        ForumService.getForuns().then((response) => {
+            const foruns = response;
+            const forunsOptions = [];
+            for (let forum of foruns) {
+                forunsOptions.push({ value: forum.comissaoForum.nomeComissao, label: forum.comissaoForum.nomeComissao })
+            }
+            return forunsOptions;
+        })
+        .then(forunsOptions => {
+            setForunsOptions(forunsOptions);
+        });
+    }, [])
 
     function handleOpenFilter(event) {
         setAnchorEl(event.currentTarget);
         setIsFilterOpen(!isFilterOpen);
     }
 
-    function handleCloseAndFilter() {
+    function handleCloseAndFilter(e) {
+        if (e.target.tagName == "BODY") return;
         if (isFilterOpen) {
             setIsFilterOpen(false);
             filterAtas();
@@ -68,18 +75,37 @@ export default function AtaFilter(props) {
 
     function qtyUsedFilters() {
         let qty = 0;
-
-
+        if (meetingDate != "") qty++;
+        if (meetingTimeStart != "") qty++;
+        if (meetingTimeEnd != "") qty++;
+        if (qtyProposals != "") qty++;
+        if (approvalForum != "") qty++;
+        if (responsibleAnalyst != "") qty++;
         return qty;
     }
 
     function cleanStates() {
-        setIsFilterOpen(false);
+        setMeetingDate("");
+        setMeetingTimeStart("");
+        setMeetingTimeEnd("");
+        setQtyProposals("");
+        setApprovalForum("");
+        setResponsibleAnalyst("");
     }
 
     // Quando algum campo de pesquisa é utilizado, chama essa função e atualiza o filter
     function filterAtas() {
+        props.setFilters(AtasFilterUtils.getUpdatedFilter(
+            responsibleAnalyst,
+            meetingDate,
+            meetingTimeStart,
+            meetingTimeEnd,
+            qtyProposals,
+            approvalForum
+        ))
     };
+
+
 
     return (
         <ClickAwayListener onClickAway={handleCloseAndFilter}>
@@ -149,9 +175,10 @@ export default function AtaFilter(props) {
                             />
                             <FilterField
                                 title={translate["Fórum de Aprovação"]?.[language] ?? "Fórum de Aprovação"}
-                                type="text"
+                                type="select"
                                 value={approvalForum}
                                 setValue={setApprovalForum}
+                                options={forunsOptions}
                             />
                             <FilterField
                                 title={translate["Analista Responsável"]?.[language] ?? "Analista Responsável"}

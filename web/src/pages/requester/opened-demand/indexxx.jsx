@@ -332,7 +332,7 @@ export default function openedDemand() {
             </div>
           </div>
           <div>
-            <Tooltip title="Abrir como PDF">
+            <Tooltip title={translate["Abrir como PDF"]?.[language] ?? "Abrir como PDF"}>
               <Button
                 onClick={handleOpenDocument}
                 variant="contained"
@@ -471,11 +471,11 @@ export default function openedDemand() {
         </div>
         <div className="mt-12 flex items-start justify-between">
           <BenefitsCard
-            title={translate["Benefícios reais"]?.[language] ?? "Benefícios reais"}
+            title="Benefícios reais"
             benefits={getBenefits("REAL")}
           />
           <BenefitsCard
-            title={translate["Benefícios potenciais"]?.[language] ?? "Benefícios potenciais"}
+            title="Benefícios potenciais"
             benefits={getBenefits("POTENCIAL")}
           />
         </div>
@@ -492,7 +492,7 @@ export default function openedDemand() {
             }}
             className="font-roboto font-bold text-white"
           >
-            {translate["Ok"]?.[language] ?? "Ok"}
+            Ok
           </Button>
         </div>
       </div>

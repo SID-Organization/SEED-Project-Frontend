@@ -118,12 +118,7 @@ export default function DemandCard(props) {
   };
 
   useEffect(() => {
-    console.warn(props.demand);
-    getLogs();
-  }, []);
-
-  useEffect(() => {
-    setFonts(FontSizeUtils.getFontSizes());
+  setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
 
   const handleOpenReasonOfCancellation = () =>
