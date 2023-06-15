@@ -1,0 +1,58 @@
+{
+    "Benefícios reais": {
+        "pt-br": "Benefícios reais",
+        "de": "Echte Vorteile",
+        "zh-cn": "真正的好处",
+        "es": "Beneficios reales",
+        "fr": "Avantages réels",
+        "it": "Benefici reali"
+    },
+    "Benefício adicionado com sucesso!": {
+        "pt-br": "Benefício adicionado com sucesso!",
+        "de": "Vorteil erfolgreich hinzugefügt!",
+        "zh-cn": "成功添加了好处！",
+        "es": "¡Beneficio agregado con éxito!",
+        "fr": "Avantage ajouté avec succès!",
+        "it": "Beneficio aggiunto con successo!"
+    },
+    "Benefício removido com sucesso!": {
+        "pt-br": "Benefício removido com sucesso!",
+        "de": "Vorteil erfolgreich entfernt!",
+        "zh-cn": "成功删除了好处！",
+        "es": "¡Beneficio eliminado con éxito!",
+        "fr": "Avantage supprimé avec succès!",
+        "it": "Beneficio rimosso con successo!"
+    },
+    "Adicionar mais benefícios reais": {
+        "pt-br": "Adicionar mais benefícios reais",
+        "de": "Fügen Sie weitere echte Vorteile hinzu",
+        "zh-cn": "添加更多真正的好处",
+        "es": "Agregar más beneficios reales",
+        "fr": "Ajouter plus d'avantages réels",
+        "it": "Aggiungi altri benefici reali"
+    },
+    "Descreva o benefício.": {
+        "pt-br": "Descreva o benefício.",
+        "de": "Beschreiben Sie den Vorteil.",
+        "zh-cn": "描述好处。",
+        "es": "Describe el beneficio.",
+        "fr": "Décrivez l'avantage.",
+        "it": "Descrivi il beneficio."
+    },
+    "Benefício qualitativo": {
+        "pt-br": "Benefício qualitativo",
+        "de": "Qualitativer Vorteil",
+        "zh-cn": "定性好处",
+        "es": "Beneficio cualitativo",
+        "fr": "Avantage qualitatif",
+        "it": "Beneficio qualitativo"
+    },
+    "Benefícios potenciais": {
+        "pt-br": "Benefícios potenciais",
+        "de": "Potenzielle Vorteile",
+        "zh-cn": "潜在好处",
+        "es": "Beneficios potenciales",
+        "fr": "Avantages potentiels",
+        "it": "Benefici potenziali"
+    }
+}

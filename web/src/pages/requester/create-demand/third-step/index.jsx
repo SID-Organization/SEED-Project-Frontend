@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 // MUI
 import {
@@ -24,7 +24,15 @@ import MUISC from "../../../../styles/Mui-Styled-Components";
 //Utils
 import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
+//Translation
+import TranslationJson from "../../../../API/Translate/pages/requester/createDemandThirdStep.json"
+import { TranslateContext } from "../../../../contexts/translate/index";
+
 export default function ThirdStep({ props }) {
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   useEffect(() => {
@@ -35,7 +43,7 @@ export default function ThirdStep({ props }) {
     <div>
       <div className="mb-10 grid">
         <div className="flex items-center justify-center">
-          <h1 className="text-3xl text-light-blue-weg">UPLOAD DE ARQUIVOS</h1>
+          <h1 className="text-3xl text-light-blue-weg">{translate["UPLOAD DE ARQUIVOS"]?.[language] ?? "UPLOAD DE ARQUIVOS"}</h1>
         </div>
         <div className="grid h-[380px] w-[830px] shadow-2xl">
           <div className="flex items-center justify-center">
@@ -63,7 +71,7 @@ export default function ThirdStep({ props }) {
                           },
                         }}
                       >
-                        Arquivo
+                        {translate["Arquivo"]?.[language] ?? "Arquivo"}
                       </MUISC.StyledTableCell>
                       <MUISC.StyledTableCell
                         align="center"
@@ -77,7 +85,7 @@ export default function ThirdStep({ props }) {
                           },
                         }}
                       >
-                        Tamanho
+                        {translate["Tamanho"]?.[language] ?? "Tamanho"}
                       </MUISC.StyledTableCell>
                     </TableRow>
                   </TableHead>
@@ -140,7 +148,7 @@ export default function ThirdStep({ props }) {
                 </div>
                 <div className="flex items-center justify-center">
                   <h1 style={{ fontSize: fonts.xl }} className="font-bold">
-                    Escolha um arquivo ou arraste aqui
+                    {translate["Escolha um arquivo ou arraste aqui"]?.[language] ?? "Escolha um arquivo ou arraste aqui"}
                   </h1>
                 </div>
               </div>
@@ -160,7 +168,7 @@ export default function ThirdStep({ props }) {
                 }}
                 component="label"
               >
-                Escolher arquivo
+                {translate["Escolher arquivo"]?.[language] ?? "Escolher arquivo"}
                 <input
                   type="file"
                   id="upload-photo"

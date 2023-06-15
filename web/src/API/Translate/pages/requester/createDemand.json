@@ -1,0 +1,58 @@
+{
+    "Dados gerais": {
+        "pt-br": "Dados gerais",
+        "de": "Allgemeine Daten",
+        "zh-cn": "常规数据",
+        "es": "Datos generales",
+        "fr": "Données générales",
+        "it": "Dati generali"
+    },
+    "Benefícios": {
+        "pt-br": "Benefícios",
+        "de": "Vorteile",
+        "zh-cn": "好处",
+        "es": "Beneficios",
+        "fr": "Avantages",
+        "it": "Benefici"
+    },
+    "Arquivos": {
+        "pt-br": "Arquivos",
+        "de": "Dateien",
+        "zh-cn": "文件",
+        "es": "Archivos",
+        "fr": "Des dossiers",
+        "it": "File"
+    },
+    "Voltar": {
+        "pt-br": "Voltar",
+        "de": "Zurück",
+        "zh-cn": "返回",
+        "es": "Volver",
+        "fr": "Retour",
+        "it": "Indietro"
+    },
+    "Finalizar": {
+        "pt-br": "Finalizar",
+        "de": "Fertig",
+        "zh-cn": "完成",
+        "es": "Finalizar",
+        "fr": "Terminer",
+        "it": "Fine"
+    },
+    "Próximo": {
+        "pt-br": "Próximo",
+        "de": "Nächster",
+        "zh-cn": "下一个",
+        "es": "Próximo",
+        "fr": "Prochain",
+        "it": "Prossimo"
+    },
+    "Criar nova demanda": {
+        "pt-br": "Criar nova demanda",
+        "de": "Neue Nachfrage schaffen",
+        "zh-cn": "创建新的需求",
+        "es": "Crear nueva demanda",
+        "fr": "Créer une nouvelle demande",
+        "it": "Crea nuova domanda"
+    }
+}

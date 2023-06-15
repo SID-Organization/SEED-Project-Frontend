@@ -1,0 +1,65 @@
+{
+    "Todos os passos foram completados!": {
+        "pt-br": "Todos os passos foram completados!",
+        "en-us": "All steps were completed!",
+        "de": "Alle Schritte wurden abgeschlossen!",
+        "zh-cn": "所有步骤都已完成！",
+        "es": "¡Se completaron todos los pasos!",
+        "fr": "Toutes les étapes ont été complétées!",
+        "it": "Tutti i passaggi sono stati completati!"
+    },
+    "Resetar": {
+        "pt-br": "Resetar",
+        "en-us": "Reset",
+        "de": "Zurücksetzen",
+        "zh-cn": "重启",
+        "es": "Reiniciar",
+        "fr": "Réinitialiser",
+        "it": "Ripristina"
+    },
+    "Passo":{
+        "pt-br": "Passo",
+        "en-us": "Step",
+        "de": "Schritt",
+        "zh-cn": "步",
+        "es": "Paso",
+        "fr": "Étape",
+        "it": "Passo"
+    },
+    "Voltar": {
+        "pt-br": "Voltar",
+        "en-us": "Back",
+        "de": "Zurück",
+        "zh-cn": "背部",
+        "es": "Espalda",
+        "fr": "Retour",
+        "it": "Indietro"
+    },
+    "Pular": {
+        "pt-br": "Pular",
+        "en-us": "Skip",
+        "de": "Überspringen",
+        "zh-cn": "跳跃",
+        "es": "Saltar",
+        "fr": "Sauter",
+        "it": "Salta"
+    },
+    "Finalizar": {
+        "pt-br": "Finalizar",
+        "en-us": "Finish",
+        "de": "Fertig",
+        "zh-cn": "完",
+        "es": "Terminar",
+        "fr": "Terminer",
+        "it": "Finire"
+    },
+    "Próximo": {
+        "pt-br": "Próximo",
+        "en-us": "Next",
+        "de": "Nächster",
+        "zh-cn": "下一个",
+        "es": "Próximo",
+        "fr": "Prochain",
+        "it": "Il prossimo"
+    }
+}

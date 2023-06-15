@@ -1,5 +1,5 @@
 import "regenerator-runtime/runtime";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { InputAdornment } from "@mui/material";
 import ReactQuill from "react-quill";
 import MUISC from "../../../../styles/Mui-Styled-Components";
@@ -8,7 +8,15 @@ import ReactQuillUtils from "../../../../utils/ReactQuill-Utils";
 import VoiceSpeech from "../../../../Components/VoiceSpeech/index.jsx";
 import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
+//Translation
+import TranslationJson from "../../../../API/Translate/pages/requester/createDemandFirstStep.json"
+import { TranslateContext } from "../../../../contexts/translate/index";
+
 export default function FirstStep({ props }) {
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   const [titleSpeech, setTitleSpeech] = useState({ id: 1, text: "" });
@@ -66,7 +74,7 @@ export default function FirstStep({ props }) {
             style={{ fontSize: fonts.xl }}
             className="flex items-center justify-center font-roboto font-bold text-[#343434]"
           >
-            Título
+            {translate["Título"]?.[language] ?? "Título"}
           </h1>
           <div className="ml-12 h-[5px] w-40 rounded-full bg-blue-weg" />
           <div onClick={() => setCurrentSpeechId(titleSpeech.id)}>
@@ -85,7 +93,7 @@ export default function FirstStep({ props }) {
           InputProps={{
             startAdornment: <InputAdornment position="start" />
           }}
-          helperText={props.title.length == 0 ? "O título é obrigatório" : props.title.length > 100}
+          helperText={props.title.length == 0 ? (translate["O título é obrigatório"]?.[language] ?? "O título é obrigatório") : props.title.length > 100}
           error={props.title.length == 0 || props.title.length > 100}
         />
       </div>
@@ -96,7 +104,7 @@ export default function FirstStep({ props }) {
             style={{ fontSize: fonts.xl }}
             className="flex items-center justify-center font-roboto font-bold text-[#343434]"
           >
-            Objetivo
+            {translate["Objetivo"]?.[language] ?? "Objetivo"}
           </h1>
           <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           <div onClick={() => setCurrentSpeechId(proposalSpeech.id)}>
@@ -106,7 +114,7 @@ export default function FirstStep({ props }) {
         <ReactQuill
           value={props.proposalHTML}
           onChange={updateProposal}
-          placeholder="Escreva a visão do negócio que vai resolver"
+          placeholder={translate["Escreva a visão do negócio que vai resolver"]?.[language] ?? "Escreva a visão do negócio que vai resolver"}
           modules={ReactQuillUtils.quillModules}
           style={ReactQuillUtils.quillStyle}
           onBlur={() => props.handleCreateDemand()}
@@ -119,7 +127,7 @@ export default function FirstStep({ props }) {
             style={{ fontSize: fonts.xl }}
             className="flex items-center justify-center font-roboto font-bold text-[#343434]"
           >
-            Situação atual
+            {translate["Situação atual"]?.[language] ?? "Situação atual"}
           </h1>
           <div className="ml-3 h-[5px] w-40 rounded-full bg-blue-weg" />
           <div onClick={() => setCurrentSpeechId(currentProblemSpeech.id)}>
@@ -129,7 +137,7 @@ export default function FirstStep({ props }) {
         <ReactQuill
           value={props.currentProblemHTML}
           onChange={updateCurrentProblem}
-          placeholder="Descreva a situação atual da demanda."
+          placeholder={translate["Descreva a situação atual da demanda."]?.[language] ?? "Descreva a situação atual da demanda."}
           onBlur={() => props.handleCreateDemand()}
           modules={ReactQuillUtils.quillModules}
           style={ReactQuillUtils.quillStyle}
@@ -142,7 +150,7 @@ export default function FirstStep({ props }) {
             style={{ fontSize: fonts.xl }}
             className="flex items-center justify-center font-roboto font-bold text-[#343434]"
           >
-            Frequência de uso
+            {translate["Frequência de uso"]?.[language] ?? "Frequência de uso"}
           </h1>
           <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
           <div onClick={() => setCurrentSpeechId(frequencyOfUseSpeech.id)}>
@@ -153,7 +161,7 @@ export default function FirstStep({ props }) {
           onBlur={() => props.handleCreateDemand()}
           value={props.frequencyOfUseHTML}
           onChange={updateFrequencyOfUse}
-          placeholder="Descreva a frequência de uso da demanda."
+          placeholder={translate["Descreva a frequência de uso da demanda."]?.[language] ?? "Descreva a frequência de uso da demanda."}
           modules={ReactQuillUtils.quillModules}
           style={ReactQuillUtils.quillStyle}
         />
