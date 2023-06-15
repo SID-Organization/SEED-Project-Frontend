@@ -6,12 +6,20 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
 
+//Translation
+import TranslationJson from "../../API/Translate/components/stepperDemand.json";
+import { TranslateContext } from "../../contexts/translate/index";
+
 export default function HorizontalLinearStepper(props) {
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+  
   const [skipped, setSkipped] = React.useState(new Set());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
@@ -69,19 +77,19 @@ export default function HorizontalLinearStepper(props) {
       {props.activeStep === props.steps.length ? (
         <React.Fragment>
           <Typography style={{ fontSize: fonts.base }} sx={{ mt: 2, mb: 1 }}>
-            Todos os passos foram completados!
+            {translate["Todos os passos foram completados!"]?.[language] ?? "Todos os passos foram completados!"}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
             <Button style={{ fontSize: fonts.sm }} onClick={handleReset}>
-              Resetar
+              {translate["Resetar"]?.[language] ?? "Resetar"}
             </Button>
           </Box>
         </React.Fragment>
       ) : (
         <React.Fragment>
           <Typography style={{ fontSize: fonts.base }} sx={{ mt: 2, mb: 1 }}>
-            Passo {props.activeStep + 1}
+            {translate["Passo"]?.[language] ?? "Passo"} {props.activeStep + 1}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
@@ -91,7 +99,7 @@ export default function HorizontalLinearStepper(props) {
               onClick={props.handleBack}
               sx={{ mr: 1 }}
             >
-              Voltar
+              {translate["Voltar"]?.[language] ?? "Voltar"}
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {isStepOptional(props.activeStep) && (
@@ -101,7 +109,7 @@ export default function HorizontalLinearStepper(props) {
                 onClick={handleSkip}
                 sx={{ mr: 1 }}
               >
-                Pular
+                {translate["Pular"]?.[language] ?? "Pular"}
               </Button>
             )}
             <Button
@@ -110,8 +118,8 @@ export default function HorizontalLinearStepper(props) {
               disabled={props.title == 0}
             >
               {props.activeStep === props.steps.length - 1
-                ? "Finalizar"
-                : "Próximo"}
+                ? translate["Finalizar"]?.[language] ?? "Finalizar"
+                : translate["Próximo"]?.[language] ?? "Próximo"}
             </Button>
           </Box>
         </React.Fragment>

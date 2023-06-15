@@ -667,7 +667,7 @@ export default function subHeader({ children }) {
       {/* Fim modal para inserir informações */}
       <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-          {translate[phrase][language] + " " + children[1] ?? children}
+          {translate[phrase]?.[language] ? translate[phrase]?.[language] +  " " + children[1] : children}
         </h1>
 
         {ableToEdit() && (

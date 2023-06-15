@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 // MUI
 import Paper from "@mui/material/Paper";
@@ -34,7 +34,15 @@ import UserUtils from "../../../utils/User-Utils";
 import fileToByteArray from "../../../utils/ChatUtils/chatUtil.js";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 
+//Translation
+import TranslationJson from "../../../API/Translate/pages/requester/chat.json"
+import { TranslateContext } from "../../../contexts/translate/index";
+
 export default function Chat() {
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
   const [temporaryMessages, setTemporaryMessages] = useState([]);
   const [messagesReceivedByWS, setMessagesReceivedByWS] = useState([]);
   const [chatUserId, setChatUserId] = useState();
@@ -343,7 +351,7 @@ export default function Chat() {
             <Divider sx={{ height: "50%", m: 0.5 }} orientation="vertical" />
             <InputBase
               sx={{ ml: 1, flex: 1, color: "#020202" }}
-              placeholder="Procure por um usuário ou demanda"
+              placeholder={translate["Procure por um usuário ou demanda"]?.[language] ?? "Procure por um usuário ou demanda"}
               inputProps={{ "aria-label": "search google maps" }}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -418,7 +426,7 @@ export default function Chat() {
               style={{ fontSize: fonts.xl }}
               className="cursor-default font-roboto font-bold tracking-wide text-blue-weg"
             >
-              Selecione um usuário para iniciar uma conversa
+              {translate["Selecione um usuário para iniciar uma conversa"]?.[language] ?? "Selecione um usuário para iniciar uma conversa"}
             </p>
           </div>
         </div>
@@ -472,7 +480,7 @@ export default function Chat() {
             bg-[#ffffff]
             "
           >
-            <Tooltip title="Adicionar anexo">
+            <Tooltip title={translate["Adicionar anexo"]?.[language] ?? "Adicionar anexo"}>
               <IconButton
                 color="primary"
                 aria-label="upload picture"
@@ -516,7 +524,7 @@ export default function Chat() {
               focus:outline-none
             "
               type="text"
-              placeholder="Digite uma mensagem"
+              placeholder={translate["Digite uma mensagem"]?.[language] ?? "Digite uma mensagem"}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   if (
@@ -550,7 +558,7 @@ export default function Chat() {
                 ),
               }}
             /> 
-            <Tooltip title="Enviar mensagem">
+            <Tooltip title={translate["Enviar mensagem"]?.[language] ?? "Enviar mensagem"}>
               <IconButton
                 onClick={
                   userData.message !== "" || userData.file !== "" ||

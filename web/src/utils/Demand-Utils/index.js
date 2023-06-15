@@ -1,12 +1,15 @@
 import DEMAND_STATUS from "./JSONs/DemandStatus.json"
 import ReactQuillUtils from "../ReactQuill-Utils"
 
+//Translations
+import TranslateUtils from "../../utils/Translate-Utils/index.js";
+
 const getDemandStatusByRole = (rawStatus, role = "SOLICITANTE") => {
     let status;
     if (["ANALISTA", "GERENTE", "GESTOR_TI"].includes(role)) {
-        status = DEMAND_STATUS[rawStatus].ANALYST
+        status = DEMAND_STATUS[rawStatus].ANALYST[TranslateUtils.getLanguage()]
     } else {
-        status = DEMAND_STATUS[rawStatus].REQUESTER
+        status = DEMAND_STATUS[rawStatus].REQUESTER[TranslateUtils.getLanguage()]
     }
     return status
 }

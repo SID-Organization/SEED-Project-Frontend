@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // Styles
@@ -24,10 +24,19 @@ import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandUtils from "../../../utils/Demand-Utils";
+
+//Translation
+import TranslationJson from "../../../API/Translate/pages/requester/createDemand.json"
+import { TranslateContext } from "../../../contexts/translate/index";
+
 const { removeHTML } = ReactQuillUtils;
 
 
 export default function CreateDemand({ isEditting }) {
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
   const params = useParams();
 
   const [title, setTitle] = useState("");
@@ -363,7 +372,7 @@ export default function CreateDemand({ isEditting }) {
     return { name, size: fileSize };
   }
 
-  const steps = ["Dados gerais", "Benefícios", "Arquivos"];
+  const steps = [(translate["Dados gerais"]?.[language] ?? "Dados gerais"), (translate["Benefícios"]?.[language] ?? "Benefícios"), (translate["Arquivos"]?.[language] ?? "Arquivos")];
 
   const firstStepProps = {
     title,
@@ -412,7 +421,7 @@ export default function CreateDemand({ isEditting }) {
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-            {"Criar nova demanda"}
+            {translate['Criar nova demanda']?.[language] ?? "Criar nova demanda"}
           </h1>
         </div>
       </div>
@@ -441,14 +450,14 @@ export default function CreateDemand({ isEditting }) {
             onClick={handleBack}
             sx={{ mr: 1 }}
           >
-            Voltar
+            {translate["Voltar"]?.[language] ?? "Voltar"}
           </Button>
           <Button
             style={{ fontSize: fonts.sm }}
             onClick={handleNext}
             disabled={title.length == 0}
           >
-            {activeStep === steps.length - 1 ? "Finalizar" : "Próximo"}
+            {activeStep === steps.length - 1 ? (translate["Finalizar"]?.[language]) : (translate["Próximo"]?.[language])}
           </Button>
         </div>
       </div>

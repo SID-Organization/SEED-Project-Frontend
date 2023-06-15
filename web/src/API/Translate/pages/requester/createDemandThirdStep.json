@@ -1,0 +1,47 @@
+{
+    "UPLOAD DE ARQUIVOS": {
+        "pt-br": "UPLOAD DE ARQUIVOS",
+        "en-us": "UPLOAD FILES",
+        "de": "DATEIEN HOCHLADEN",
+        "zh-cn": "上传文件",
+        "es": "SUBIR ARCHIVOS",
+        "fr": "TÉLÉCHARGER DES FICHIERS",
+        "it": "CARICA FILE"
+    },
+    "Arquivo": {
+        "pt-br": "Arquivo",
+        "en-us": "File",
+        "de": "Datei",
+        "zh-cn": "文件",
+        "es": "Archivo",
+        "fr": "Fichier",
+        "it": "File"
+    },
+    "Tamanho": {
+        "pt-br": "Tamanho",
+        "en-us": "Size",
+        "de": "Größe",
+        "zh-cn": "大小",
+        "es": "Tamaño",
+        "fr": "Taille",
+        "it": "Dimensione"
+    },
+    "Escolha um arquivo ou arraste aqui": {
+        "pt-br": "Escolha um arquivo ou arraste aqui",
+        "en-us": "Choose a file or drag it here",
+        "de": "Wählen Sie eine Datei aus oder ziehen Sie sie hierher",
+        "zh-cn": "选择一个文件或将其拖到此处",
+        "es": "Elija un archivo o arrástrelo aquí",
+        "fr": "Choisissez un fichier ou faites-le glisser ici",
+        "it": "Scegli un file o trascinalo qui"
+    },
+    "Escolher arquivo": {
+        "pt-br": "Escolher arquivo",
+        "en-us": "Choose file",
+        "de": "Datei auswählen",
+        "zh-cn": "选择文件",
+        "es": "Elegir archivo",
+        "fr": "Choisir le fichier",
+        "it": "Scegli il file"
+    }
+}
