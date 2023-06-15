@@ -118,7 +118,7 @@ export default function DemandCard(props) {
   };
 
   useEffect(() => {
-    setFonts(FontSizeUtils.getFontSizes());
+  setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
 
   const handleOpenReasonOfCancellation = () =>

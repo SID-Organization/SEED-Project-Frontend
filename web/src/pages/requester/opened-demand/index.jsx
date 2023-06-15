@@ -250,8 +250,8 @@ export default function openedDemand() {
                           >
                             {demandLogs
                               ? new Date(
-                                  demandLogs[0].recebimentoHistorico
-                                ).toLocaleDateString()
+                                demandLogs[0].recebimentoHistorico
+                              ).toLocaleDateString()
                               : "Indefinido"}
                           </span>
                         </div>
@@ -324,18 +324,20 @@ export default function openedDemand() {
             </div>
           </div>
           <div>
-            <Tooltip title="Abrir como PDF">
-              <Button
-                onClick={handleOpenDocument}
-                variant="contained"
-                sx={{
-                  width: 40,
-                  height: 35,
-                }}
-              >
-                <PictureAsPdfOutlinedIcon />
-              </Button>
-            </Tooltip>
+            {demand?.statusDemanda != "ABERTA" && (
+              <Tooltip title="Abrir como PDF">
+                <Button
+                  onClick={handleOpenDocument}
+                  variant="contained"
+                  sx={{
+                    width: 40,
+                    height: 35,
+                  }}
+                >
+                  <PictureAsPdfOutlinedIcon />
+                </Button>
+              </Tooltip>
+            )}
           </div>
         </div>
         <div className="mt-3 flex items-center justify-around">
@@ -386,10 +388,10 @@ export default function openedDemand() {
             <h1 style={{ fontSize: fonts.sm }} className="font-roboto">
               {demand?.centroCustoDemanda[0]
                 ? (
-                    demand.centroCustoDemanda[0].numeroCentroCusto +
-                    " - " +
-                    demand.centroCustoDemanda[0].nomeCentroCusto
-                  ).slice(0, 40)
+                  demand.centroCustoDemanda[0].numeroCentroCusto +
+                  " - " +
+                  demand.centroCustoDemanda[0].nomeCentroCusto
+                ).slice(0, 40)
                 : "Não indicado"}
             </h1>
           </div>

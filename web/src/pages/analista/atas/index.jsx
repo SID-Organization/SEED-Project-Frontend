@@ -20,9 +20,10 @@ import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
 //Translation
 import TranslationJson from "../../../API/Translate/pages/analista/atas.json";
 import { TranslateContext } from "../../../contexts/translate/index.jsx";
+import AtasFilterUtils from "../../../utils/AtasFilter-Utils";
 
 export default function Atas() {
-  
+
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -36,25 +37,24 @@ export default function Atas() {
     "07": translate["Julho"]?.[language] ?? "Julho",
     "08": translate["Agosto"]?.[language] ?? "Agosto",
     "09": translate["Setembro"]?.[language] ?? "Setembro",
-    10: translate["Outubro"]?.[language] ?? "Outubro",
-    11: translate["Novembro"]?.[language] ?? "Novembro",
-    12: translate["Dezembro"]?.[language] ?? "Dezembro",
+    "10": translate["Outubro"]?.[language] ?? "Outubro",
+    "11": translate["Novembro"]?.[language] ?? "Novembro",
+    "12": translate["Dezembro"]?.[language] ?? "Dezembro",
   };
 
+  const [atasDb, setAtasDb] = useState([]);
   const [atas, setAtas] = useState([]);
   const [atasMonths, setAtasMonths] = useState([]);
   const [atasYears, setAtasYears] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isAtaForDG, setIsAtaForDG] = useState(false);
 
-  const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter())
+  const [filters, setFilters] = useState(AtasFilterUtils.getEmptyFilter())
+  const [usedFilters, setUsedFilters] = useState([])
 
   // Font size of the system
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
-  useEffect(() => {
-    setFonts(FontSizeUtils.getFontSizes());
-  }, [FontSizeUtils.getFontControl()]);
 
   const getAtasInMonth = (month, year) => {
     if (atas)
@@ -83,7 +83,7 @@ export default function Atas() {
                 ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
                 return ata;
               });
-              setAtas(dbAtas);
+              setAtasDb(dbAtas);
             }
           } else {
             alert(translate["Erro ao buscar atas"]?.[language] ?? "Erro ao buscar atas");
@@ -97,13 +97,14 @@ export default function Atas() {
       // Busca as atas já passadas pela DG
       AtaService.getAtasDG()
         .then((data) => {
+          console.log("ATAS DG", data);
           if (data) {
             const dbAtas = data.map((ata) => {
               // Formata a data de reunião de cada ata para filtrar
               ata.dataReuniaoAta = DateUtils.formatDate(ata.dataReuniaoAta);
               return ata;
             });
-            setAtas(dbAtas);
+            setAtasDb(dbAtas);
           }
         }).finally(() => {
           setIsLoading(false);
@@ -116,21 +117,41 @@ export default function Atas() {
   useEffect(() => {
     if (atas && atas.length === 0) return;
     setAtasMonths(() =>
-      atas && atas
-      // Pega o mês de reunião de cada ata
+      atas
+        // Pega o mês de reunião de cada ata
         .map((ata) => ata.dataReuniaoAta.split("/")[1])
         .sort()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
     setAtasYears(() =>
-      atas && atas
-      // Pega o ano de reunião de cada ata
+      atas
+        // Pega o ano de reunião de cada ata
         .map((ata) => ata.dataReuniaoAta.split("/")[2])
         .sort()
         .reverse()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
   }, [atas]);
+
+
+  // Filtra as atas
+  useEffect(() => {
+    if (atasDb) {
+      const filteredAtas = AtasFilterUtils.filterBy(atasDb, filters);
+
+      console.log("ATAS DB", atasDb)
+      console.log("FILTERED ATAS", filteredAtas)
+      console.log("USED FILTERS", usedFilters)
+
+      if (filteredAtas) {
+        console.log("ENTRA IF");
+        setAtas(filteredAtas);
+      } else {
+        setAtas(atasDb);
+      }
+    };
+
+  }, [filters, atasDb]);
 
   return (
     <div>
@@ -144,7 +165,7 @@ export default function Atas() {
           <div className="flex h-[71vh] items-center justify-around">
             <CircularProgress />
           </div>
-        ) : atas.length === 0 ? (
+        ) : atasDb.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isAta={true}>
               <span style={{ fontSize: fonts.xl }}>{translate["Sem atas!"]?.[language] ?? "Sem atas!"}</span>
