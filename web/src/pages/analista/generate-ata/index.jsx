@@ -93,7 +93,7 @@ export default function GenerateAta(props) {
       pautaAta: {
         idPauta: params.id,
       },
-      propostasLog: finalDecisions,
+      propostasLog: finalDecisions.map((fd) => { delete fd.idDemanda; return fd; }),
     };
 
     const form = new FormData();
