@@ -51,6 +51,7 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import ReturnReasonModal from "../ReturnReason-Modal";
 import { useContext } from "react";
 import { TranslateContext } from "../../contexts/translate";
+import ProposalService from "../../service/Proposal-Service";
 
 // Componentes estilizados
 const styleModal = {
@@ -187,6 +188,10 @@ export default function subHeader({ children }) {
     navigate(`/propostas/gerar-proposta/${demand.idDemanda}`);
   };
 
+  const accessProposalDetails = async () => {
+    navigate(`/propostas/${params.id}`)
+  }
+
   const actionOptions = [
     {
       text: translate["Classificar demanda"][language] ?? "Classificar demanda",
@@ -226,6 +231,7 @@ export default function subHeader({ children }) {
         "BUSINESS_CASE"
       ],
       notDemandStatus: [""],
+      function: accessProposalDetails,
       key: 4
     },
     {

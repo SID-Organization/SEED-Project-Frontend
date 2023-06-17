@@ -15,7 +15,7 @@ import MUISC from "../../../../styles/Mui-Styled-Components";
 
 // Utils
 import ReactQuillUtils from "../../../../utils/ReactQuill-Utils";
-const { quillModules } = ReactQuillUtils;
+const { quillModules, quillStyle } = ReactQuillUtils;
 
 //Translation
 import TranslationJson from "../../../../API/Translate/pages/requester/createDemandSecondStep.json"
@@ -105,6 +105,7 @@ export default function SecondStep({ props }) {
                 }}
                 placeholder={translate["Descreva o benefício."]?.[language] ?? "Descreva o benefício."}
                 modules={quillModules}
+                style={quillStyle}
               />
             </NewBenefitInsertion>
             {(i < props.realBenefits.length - 1 || i === 0) && (

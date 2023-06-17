@@ -223,5 +223,14 @@
         "es": "Ok",
         "fr": "D'accord",
         "it": "Ok"
+    },
+    "Nenhum arquivo anexado": {
+        "pt-br": "Nenhum arquivo anexado",
+        "en-us": "No file attached",
+        "de": "Keine Datei angehängt",
+        "zh-cn": "没有附加文件",
+        "es": "Ningún archivo adjunto",
+        "fr": "Aucun fichier joint",
+        "it": "Nessun file allegato"
     }
 }

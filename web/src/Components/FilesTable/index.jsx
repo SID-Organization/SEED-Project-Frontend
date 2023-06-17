@@ -47,11 +47,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function FilesTable({ files }) {
+export default function FilesTable({ disabled, files }) {
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
-
+  const [language] = useContext(TranslateContext);
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   useEffect(() => {
@@ -115,14 +114,16 @@ export default function FilesTable({ files }) {
                 files?.map((fileRow, i) => (
                   <StyledTableRow key={i}>
                     <StyledTableCell component="th" scope="row" align="center">
-                      <a
-                        href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`}
-                        download={fileRow.nomeArquivo.split(".")[0]}
-                      >
-                        <Tooltip title={translate["Baixar arquivo"]?.[language] ?? "Baixar arquivo"}>
-                          <Description className="mr-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
-                        </Tooltip>
-                      </a>
+                      {fileRow.arquivo && (
+                        <a
+                          href={`data:${fileRow.tipoArquivo};base64,${fileRow.arquivo}`}
+                          download={fileRow.nomeArquivo.split(".")[0]}
+                        >
+                          <Tooltip title={translate["Baixar arquivo"]?.[language] ?? "Baixar arquivo"}>
+                            <Description className="mr-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
+                          </Tooltip>
+                        </a>
+                      )}
                       {fileRow.nomeArquivo}
                     </StyledTableCell>
                     <div className="flex items-center justify-center">
@@ -131,29 +132,37 @@ export default function FilesTable({ files }) {
                           fileRow.dataRegistroArquivo
                         ).toLocaleDateString()}
                       </StyledTableCell>
-                      <Tooltip title={translate["Deletar arquivo"]?.[language] ?? "Deletar arquivo"}>
-                        <Delete className="ml-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
-                      </Tooltip>
+                      {
+                        !disabled && (
+                          <Tooltip title={translate["Deletar arquivo"]?.[language] ?? "Deletar arquivo"}>
+                            <Delete className="ml-5 flex cursor-pointer items-center justify-center text-light-blue-weg" />
+                          </Tooltip>
+                        )
+                      }
                     </div>
                   </StyledTableRow>
                 ))}
             </TableBody>
           </Table>
-          <div className="mb-5 mt-5 flex items-center justify-center">
-            <Tooltip title={translate["Adicionar arquivo"]?.[language] ?? "Adicionar arquivo"}>
-              <Button
-                variant="contained"
-                component="label"
-                sx={{
-                  backgroundColor: "#0075B1",
-                }}
-              >
-                <InsertDriveFileOutlined className="mr-5 flex cursor-pointer items-center justify-center text-white" />
-                <span style={{ fontSize: fonts.sm }}>{translate["Anexar arquivo"]?.[language] ?? "Anexar arquivo"}</span>
-                <input hidden accept="file/*" multiple type="file" />
-              </Button>
-            </Tooltip>
-          </div>
+          {
+            !disabled && (
+              <div className="mb-5 mt-5 flex items-center justify-center">
+                <Tooltip title={translate["Adicionar arquivo"]?.[language] ?? "Adicionar arquivo"}>
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{
+                      backgroundColor: "#0075B1",
+                    }}
+                  >
+                    <InsertDriveFileOutlined className="mr-5 flex cursor-pointer items-center justify-center text-white" />
+                    <span style={{ fontSize: fonts.sm }}>{translate["Anexar arquivo"]?.[language] ?? "Anexar arquivo"}</span>
+                    <input hidden accept="file/*" multiple type="file" />
+                  </Button>
+                </Tooltip>
+              </div>
+            )
+          }
         </TableContainer>
       </div>
     </div>

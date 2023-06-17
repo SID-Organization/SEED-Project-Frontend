@@ -1,0 +1,65 @@
+{
+  "Existem campos vazios!": {
+    "pt-br": "Existem campos vazios!",
+    "en-us": "There are empty fields!",
+    "de": "Es gibt leere Felder!",
+    "zh-cn": "有空字段！",
+    "es": "¡Hay campos vacíos!",
+    "fr": "Il y a des champs vides!",
+    "it": "Ci sono campi vuoti!"
+  },
+  "Deseja prosseguir?": {
+    "pt-br": "Deseja prosseguir?",
+    "en-us": "Do you want to proceed?",
+    "de": "Möchten Sie fortfahren?",
+    "zh-cn": "你想继续吗？",
+    "es": "¿Quieres proceder?",
+    "fr": "Voulez-vous continuer?",
+    "it": "Vuoi procedere?"
+  },
+  "Têm certeza que deseja": {
+    "pt-br": "Têm certeza que deseja",
+    "en-us": "Are you sure you want to",
+    "de": "Bist du sicher, dass du willst",
+    "zh-cn": "你确定要",
+    "es": "¿Estás seguro de que quieres",
+    "fr": "Êtes-vous sûr de vouloir",
+    "it": "Sei sicuro di voler"
+  },
+  "criar uma nova demanda?": {
+    "pt-br": "criar uma nova demanda?",
+    "en-us": "create a new demand?",
+    "de": "eine neue Nachfrage schaffen?",
+    "zh-cn": "创建一个新的需求？",
+    "es": "crear una nueva demanda?",
+    "fr": "créer une nouvelle demande?",
+    "it": "creare una nuova domanda?"
+  },
+  "Cancelar": {
+    "pt-br": "Cancelar",
+    "en-us": "Cancel",
+    "de": "Stornieren",
+    "zh-cn": "取消",
+    "es": "Cancelar",
+    "fr": "Annuler",
+    "it": "Annulla"
+  },
+  "Prosseguir": {
+    "pt-br": "Prosseguir",
+    "en-us": "Proceed",
+    "de": "Fortfahren",
+    "zh-cn": "继续",
+    "es": "Continuar",
+    "fr": "Continuer",
+    "it": "Continua"
+  },
+  "Criar demanda": {
+    "pt-br": "Criar demanda",
+    "en-us": "Create demand",
+    "de": "Nachfrage schaffen",
+    "zh-cn": "创建需求",
+    "es": "Crear demanda",
+    "fr": "Créer une demande",
+    "it": "Crea domanda"
+  }
+}
