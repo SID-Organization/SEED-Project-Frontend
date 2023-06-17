@@ -14,6 +14,7 @@ import SecondStep from "./second-step";
 import ThirdStep from "./third-step";
 import FourthStep from "./fourth-step";
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
+import Notification from "../../../Components/Notification";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
@@ -88,6 +89,8 @@ export default function CreateDemand({ isEditting }) {
   const [confirmDemand, setConfirmDemand] = useState(false);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  const [notifyConfirm, setNotifyConfirm] = useState(false);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -200,6 +203,7 @@ export default function CreateDemand({ isEditting }) {
       console.log("DEMAND TO SAVE", demandToSave);
       console.log("PDF TO SAVE", formDemandPDF);
 
+      //here
       if (!finish) {
         if (!demandUpdateId && title !== "") {
           DemandService.createDemand(formData).then((res) => {
@@ -214,6 +218,7 @@ export default function CreateDemand({ isEditting }) {
           });
         }
       } else {
+        setNotifyConfirm(true);
         console.log("FINISH DEMAND CALLED");
         handleFinishDemand(formData);
       }
@@ -418,6 +423,9 @@ export default function CreateDemand({ isEditting }) {
 
   return (
     <div>
+      {notifyConfirm === false && (
+        <Notification message="Demanda criada com sucesso!" />
+      )}
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
