@@ -36,7 +36,7 @@ const Button = styled(MuiButton)(() => ({
 }));
 
 
-export default function Perfil() {
+export default function Perfil({switchChange}) {
 
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
@@ -138,6 +138,12 @@ export default function Perfil() {
               topLine={true}
               topic={translate["Tamanho da fonte"]?.[language] ?? "Tamanho da fonte"}
               increaseFontSize={true}
+            />
+            <ProfileRow
+                topLine={true}
+                topic={translate["Tradutor de Libras"]?.[language] ?? "Tradutor de Libras"}
+                librasTranslate={true}
+                handleSwitchChange={switchChange}
             />
           </div>
         </div>

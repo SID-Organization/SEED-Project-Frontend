@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useContext} from "react";
 
 // MUI
 import { Dialog, DialogTitle, DialogActions, Button } from "@mui/material";
+
+//Translation
+import TranslationJson from "../../../../API/Translate/pages/requester/createDemandFourthStep.json"
+import { TranslateContext } from "../../../../contexts/translate/index.jsx";
 
 // Icons
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 
 export default function FourthStep({ props }) {
+
+    const translate = TranslationJson;
+    const [language] = useContext(TranslateContext);
+
   return (
     <div>
       <Dialog
@@ -37,16 +45,16 @@ export default function FourthStep({ props }) {
           <DialogTitle style={{ color: "#0075B1" }}>
             {props.anyEmptyField ? (
               <>
-                <span>Existem campos vazios!</span>
+                <span>{translate["Existem campos vazios!"]?.[language] ?? "Existem campos vazios!"}</span>
                 <br />
                 <span className="flex items-center justify-center">
-                  Deseja prosseguir?
+                  {translate["Deseja prosseguir?"]?.[language] ?? "Deseja prosseguir?"}
                 </span>
               </>
             ) : (
               <>
-                Têm certeza que deseja <br />
-                <span>criar uma nova demanda?</span>
+                  {translate["Têm certeza que deseja"]?.[language] ?? "Têm certeza que deseja"} <br />
+                <span>{translate["criar uma nova demanda?"]?.[language] ?? "criar uma nova demanda?"}</span>
               </>
             )}
           </DialogTitle>
@@ -64,7 +72,7 @@ export default function FourthStep({ props }) {
                 },
               }}
             >
-              Cancelar
+                {translate["Cancelar"]?.[language] ?? "Cancelar"}
             </Button>
             {/* <Link to="/minhas-demandas"> */}
             <Button
@@ -79,7 +87,7 @@ export default function FourthStep({ props }) {
             >
               {
                 <span className="flex items-center justify-center">
-                  {props.anyEmptyField ? "Prosseguir" : "Criar demanda"}
+                  {props.anyEmptyField ? (translate["Prosseguir"]?.[language] ?? "Prosseguir") : (translate["Criar demanda"]?.[language] ?? "Criar demanda")}
                 </span>
               }
             </Button>
