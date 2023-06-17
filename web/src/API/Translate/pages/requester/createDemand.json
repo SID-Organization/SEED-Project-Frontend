@@ -25,6 +25,7 @@
     },
     "Voltar": {
         "pt-br": "Voltar",
+        "en-us": "Back",
         "de": "Zurück",
         "zh-cn": "返回",
         "es": "Volver",
@@ -41,6 +42,7 @@
     },
     "Próximo": {
         "pt-br": "Próximo",
+        "en-us": "Next",
         "de": "Nächster",
         "zh-cn": "下一个",
         "es": "Próximo",
