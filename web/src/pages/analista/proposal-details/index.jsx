@@ -33,10 +33,13 @@ export default function ProposalDetails() {
 
   return (
     <>
-      <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
-        <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-          {translate["Visualização da proposta"]?.[language] ?? "Visualização da proposta"} {params.idProposta}
+      <div className="flex h-[5rem] items-center justify-center shadow-page-title-shadow">
+        <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg mr-4">
+          {translate["Visualização da proposta"]?.[language] ?? "Visualização da proposta"}
         </h1>
+        <p className="font-roboto text-base font-bold text-dark-blue-weg">
+          ({translate["Demanda"]?.[language] ?? "Demanda"} {params.idDemanda})
+        </p>
       </div>
       <div className="flex items-center justify-center">
         {" "}

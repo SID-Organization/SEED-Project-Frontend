@@ -209,12 +209,14 @@ export default function CreateDemand({ isEditting }) {
           DemandService.createDemand(formData).then((res) => {
             console.log("CREATE DEMAND", res);
             setDemandUpdateId(res.idDemanda);
-            updateBenefits(res.beneficiosDemanda);
+            if (res.beneficiosDemanda)
+              updateBenefits(res.beneficiosDemanda);
           });
         } else if (demandUpdateId && title !== "") {
           DemandService.updateDemand(demandUpdateId, formData).then((res) => {
             console.log("UPDATE DEMAND", res.data);
-            updateBenefits(res.data.beneficiosDemanda);
+            if (res.data.beneficiosDemanda)
+              updateBenefits(res.data.beneficiosDemanda);
           });
         }
       } else {
