@@ -26,14 +26,12 @@ import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandUtils from "../../../utils/Demand-Utils";
 
 //Translation
-import TranslationJson from "../../../API/Translate/pages/requester/createDemand.json"
+import TranslationJson from "../../../API/Translate/pages/requester/createDemand.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 
 const { removeHTML } = ReactQuillUtils;
 
-
 export default function CreateDemand({ isEditting }) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -80,7 +78,6 @@ export default function CreateDemand({ isEditting }) {
   const [demandUpdateId, setDemandUpdateId] = useState("");
 
   const [createDemandSucceed, setCreateDemandSucceed] = useState(true);
-
 
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
@@ -155,7 +152,6 @@ export default function CreateDemand({ isEditting }) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-
   const handleCreateDemand = async (finish = false) => {
     if (!finish && isEditting) return;
     try {
@@ -209,12 +205,14 @@ export default function CreateDemand({ isEditting }) {
           DemandService.createDemand(formData).then((res) => {
             console.log("CREATE DEMAND", res);
             setDemandUpdateId(res.idDemanda);
-            updateBenefits(res.beneficiosDemanda);
+            if (res.beneficiosDemanda)
+              updateBenefits(res.beneficiosDemanda);
           });
         } else if (demandUpdateId && title !== "") {
           DemandService.updateDemand(demandUpdateId, formData).then((res) => {
             console.log("UPDATE DEMAND", res.data);
-            updateBenefits(res.data.beneficiosDemanda);
+            if (res.data.beneficiosDemanda)
+              updateBenefits(res.data.beneficiosDemanda);
           });
         }
       } else {
@@ -260,17 +258,17 @@ export default function CreateDemand({ isEditting }) {
   };
 
   const handleFinishDemand = (formData) => {
-    DemandService.updateDemand(demandUpdateId, formData)
-      .then(res => {
-        if ([200, 201].includes(res.status)) {
-          DemandService.updateDemandStatus(demandUpdateId, "ABERTA")
-            .then(res => {
-              if ([200, 201].includes(res.status)) {
-                setCreateDemandSucceed(true)
-              }
-            });
-        }
-      });
+    DemandService.updateDemand(demandUpdateId, formData).then((res) => {
+      if ([200, 201].includes(res.status)) {
+        DemandService.updateDemandStatus(demandUpdateId, "ABERTA").then(
+          (res) => {
+            if ([200, 201].includes(res.status)) {
+              setCreateDemandSucceed(true);
+            }
+          }
+        );
+      }
+    });
     if (createDemandSucceed) {
       setTimeout(() => {
         navigate("/demandas");
@@ -372,7 +370,11 @@ export default function CreateDemand({ isEditting }) {
     return { name, size: fileSize };
   }
 
-  const steps = [(translate["Dados gerais"]?.[language] ?? "Dados gerais"), (translate["Benefícios"]?.[language] ?? "Benefícios"), (translate["Arquivos"]?.[language] ?? "Arquivos")];
+  const steps = [
+    translate["Dados gerais"]?.[language] ?? "Dados gerais",
+    translate["Benefícios"]?.[language] ?? "Benefícios",
+    translate["Arquivos"]?.[language] ?? "Arquivos",
+  ];
 
   const firstStepProps = {
     title,
@@ -421,7 +423,8 @@ export default function CreateDemand({ isEditting }) {
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-            {translate['Criar nova demanda']?.[language] ?? "Criar nova demanda"}
+            {translate["Criar nova demanda"]?.[language] ??
+              "Criar nova demanda"}
           </h1>
         </div>
       </div>
@@ -457,7 +460,9 @@ export default function CreateDemand({ isEditting }) {
             onClick={handleNext}
             disabled={title.length == 0}
           >
-            {activeStep === steps.length - 1 ? (translate["Finalizar"]?.[language]) : (translate["Próximo"]?.[language])}
+            {activeStep === steps.length - 1
+              ? translate["Finalizar"]?.[language] ?? "Finalizar"
+              : translate["Próximo"]?.[language] ?? "Próximo"}
           </Button>
         </div>
       </div>

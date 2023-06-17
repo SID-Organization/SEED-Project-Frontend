@@ -129,7 +129,7 @@ function App() {
             <Route path="propostas" element={<Proposals />} />
 
             <Route
-              path="propostas/:idProposta/:idDemanda"
+              path="propostas/:idDemanda"
               element={<ProposalDetails />}
             />
 

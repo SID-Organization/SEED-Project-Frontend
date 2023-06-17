@@ -135,7 +135,7 @@ export default function ProposalCard(props) {
   }
 
   function openProposalDetails() {
-    navigate("/propostas/" + props.proposalId + "/" + props.referenceDemand);
+    navigate("/propostas/" + props.referenceDemand);
   }
 
   return (
