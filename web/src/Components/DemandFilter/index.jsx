@@ -36,14 +36,22 @@ export default function DemandFilter(props) {
   // Filters
   const [requester, setRequester] = useState("");
   const [demandStatus, setDemandStatus] = useState("");
+  // Demand value
   const [value, setValue] = useState("");
+  const [endValue, setEndValue] = useState("");
+  // Score
   const [score, setScore] = useState("");
+  const [endScore, setEndScore] = useState("");
+
   const [title, setTitle] = useState("");
   const [responsibleAnalyst, setResponsibleAnalyst] = useState("");
   const [responsibleManager, setResponsibleManager] = useState("");
   const [approvalForum, setApprovalForum] = useState("");
   const [department, setDepartment] = useState("");
+  // Demand size
   const [demandSize, setDemandSize] = useState("");
+  const [endDemandSize, setEndDemandSize] = useState("");
+
   const [PPMCode, setPPMCode] = useState("");
   const [requestNumber, setRequestNumber] = useState("");
 
@@ -63,7 +71,7 @@ export default function DemandFilter(props) {
   }
 
   function handleCloseAndFilter(e) {
-    // If the clicked target is a select, don't close the filter (It's comming as body)
+    // If the clicked target is a select, don't close the filter (Comes as body)
     if (e.target.tagName === "SELECT") return;
     if (e.target.tagName === "BODY") return;
     if (isFilterOpen) {
@@ -96,6 +104,7 @@ export default function DemandFilter(props) {
     setDemandStatus("");
     setValue("");
     setScore("");
+    setEndScore("");
     setTitle("");
     setResponsibleAnalyst("");
     setResponsibleManager("");
@@ -121,7 +130,7 @@ export default function DemandFilter(props) {
         title,
         demandStatus,
         value,
-        score,
+        {score, endScore},
         requestNumber
       ))
   };
@@ -220,9 +229,11 @@ export default function DemandFilter(props) {
               />
               <FilterField
                 title={filterTranslate["Score"]?.[language]}
-                type="number"
+                type="between"
                 value={score}
                 setValue={setScore}
+                endValue={endScore}
+                setEndValue={setEndScore}
               />
               <FilterField
                 title={filterTranslate["Título"]?.[language]}

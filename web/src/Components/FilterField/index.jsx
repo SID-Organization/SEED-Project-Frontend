@@ -13,11 +13,11 @@ import DemandStatusJSON from "../../utils/Demand-Utils/JSONs/DemandStatus.json"
 import VoiceSpeech from "../VoiceSpeech";
 
 const TextField = styled(MuiTextField)({
-  width: "80%",
+  width: "60%",
 });
 
 const Select = styled(MuiSelected)({
-  width: "80%",
+  width: "60%",
 });
 
 export default function FilterComponent(props) {
@@ -33,55 +33,48 @@ export default function FilterComponent(props) {
     }
   }, [filterSpeech])
 
-  return (
-    <>
-      <div className="flex items-center gap-10"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <p className="w-[20rem] text-base text-light-blue-weg">{props.title}</p>
-        {props.type == "text" || props.type == "number" ? (
-          <>
-            {/* TEXTFIELD component */}
-            <TextField
-              id="standard-basic"
-              variant="standard"
-              type={props.type}
-              value={props.value}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {isHovering || isSpeaking ?
-                      <VoiceSpeech setIsSpeaking={setIsSpeaking} setTexto={setFilterSpeech} />
-                      :
-                      <div className="w-10" />
-                    }
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(e) => props.setValue(e.target.value)}
-            />
-          </>
-        ) : props.type == "select" ? (
-          <>
-            {/* SELECT component */}
-            <Select
-              value={props.value}
-              onChange={(e) => props.setValue(e.target.value)}
-              variant="standard"
-            >
-              {props.options.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  <div className="h-6 pl-2" style={{ borderLeft: `3px solid ${DemandStatusJSON[option.value]?.["COLOR"]}` }}>
-                    {option.label}
-                  </div>
-                </MenuItem>
-              ))}
-            </Select>
-          </>
-        ) : (
-          <>
-            {/* DATE | TIME component */}
+  const getInput = () => {
+    if (["text", "number"].includes(props.type)) {
+      return (
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          type={props.type}
+          value={props.value}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {isHovering || isSpeaking ?
+                  <VoiceSpeech setIsSpeaking={setIsSpeaking} setTexto={setFilterSpeech} />
+                  :
+                  <div className="w-10" />
+                }
+              </InputAdornment>
+            ),
+          }}
+          onChange={(e) => props.setValue(e.target.value)}
+        />
+      )
+    } else
+      if (props.type == "select") {
+        return (
+          <Select
+            value={props.value}
+            onChange={(e) => props.setValue(e.target.value)}
+            variant="standard"
+          >
+            {props.options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                <div className="h-6 pl-2" style={{ borderLeft: `3px solid ${DemandStatusJSON[option.value]?.["COLOR"]}` }}>
+                  {option.label}
+                </div>
+              </MenuItem>
+            ))}
+          </Select>
+        )
+      } else
+        if (props.type == "date") {
+          return (
             <TextField
               id="datetime"
               type={props.type}
@@ -92,9 +85,41 @@ export default function FilterComponent(props) {
                 shrink: true,
               }}
             />
-          </>
-        )
-        }
+          )
+        } else
+          if (props.type == "between") {
+            return (
+              <>
+                <TextField
+                  id="standard-basic"
+                  variant="standard"
+                  type="number"
+                  sx={{ width: "27%" }}
+                  value={props.value}
+                  onChange={(e) => props.setValue(e.target.value)}
+                />
+                <p className="text-sm text-light-blue-weg ml-2 mr-2">até</p>
+                <TextField
+                  id="standard-basic"
+                  variant="standard"
+                  type="number"
+                  sx={{ width: "27%" }}
+                  value={props.endValue}
+                  onChange={(e) => props.setEndValue(e.target.value)}
+                />
+              </>
+            )
+          }
+  }
+
+  return (
+    <>
+      <div className="flex items-center"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
+        <p className="w-[20rem] text-base text-light-blue-weg">{props.title}</p>
+          {getInput()}
       </div>
     </>
   );

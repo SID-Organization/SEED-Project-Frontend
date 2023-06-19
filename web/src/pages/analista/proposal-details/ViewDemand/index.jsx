@@ -37,7 +37,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1200,
-  height: 635,
+  height: "auto",
   bgcolor: "background.paper",
   borderRadius: 2,
   borderLeft: "5px solid #00579D",
@@ -459,7 +459,7 @@ export default function ViewDemand() {
             </div>
           </div>
 
-          <div className="grid items-center">
+          <div className="grid items-center h-96">
             <div className="flex items-center justify-start">
               <h1
                 style={{ fontSize: fonts.lg }}

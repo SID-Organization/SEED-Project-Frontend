@@ -151,6 +151,11 @@ export default function Login(props) {
                           setUserID(e.target.value);
                         }
                       }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleLogin();
+                        }
+                      }}
                     />
                   </div>
                   <div className="flex items-center justify-center">

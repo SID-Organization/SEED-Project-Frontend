@@ -472,7 +472,6 @@ export default function PrimarySearchAppBar() {
   };
 
   const onError = (error) => {
-    console.log(error);
   };
 
   useEffect(() => {
@@ -731,10 +730,6 @@ export default function PrimarySearchAppBar() {
                 if (a.unreadNotification && !b.unreadNotification) return -1;
                 if (!a.unreadNotification && b.unreadNotification) return 1;
               }
-              console.log(
-                "notificationsReceivedByWS",
-                notificationsReceivedByWS
-              );
               const dateA = moment(
                 a.tempoNotificacao,
                 "HH:mm - DD/MM/YYYY"
@@ -743,7 +738,6 @@ export default function PrimarySearchAppBar() {
                 b.tempoNotificacao,
                 "HH:mm - DD/MM/YYYY"
               ).toDate();
-              console.log("DATES: ", dateA, dateB);
               return dateB - dateA; // sort by descending order of time
             })
 
