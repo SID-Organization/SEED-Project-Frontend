@@ -110,6 +110,15 @@ export default function CreateNewPauta(props) {
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
+  const [fillAllFieldsNotification, setFillAllFieldsNotification] =
+    useState(false);
+
+  const [timerNotification, setTimerNotification] = useState(false);
+  const [selectProposalNotification, setSelectProposalNotification] =
+    useState(false);
+  const [errorCreatePautaNotification, setErrorCreatePautaNotification] =
+    useState(false);
+
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
@@ -150,27 +159,25 @@ export default function CreateNewPauta(props) {
 
   const handleCreatePauta = () => {
     if (!meetingDate || !meetingStartTime || !meetingEndTime) {
-      alert(
-        translate["Preencha todos os campos"][language] ??
-          "Preencha todos os campos"
-      );
-      return;
+      setFillAllFieldsNotification(true);
+      const timer = setTimeout(() => {
+        setFillAllFieldsNotification(false);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
     if (meetingEndTime < meetingStartTime) {
-      alert(
-        translate[
-          "O horário de término deve ser maior que o horário de início"
-        ][language] ??
-          "O horário de término deve ser maior que o horário de início"
-      );
-      return;
+      setTimerNotification(true);
+      const timer = setTimeout(() => {
+        setTimerNotification(false);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
     if (selectedProposals.length === 0) {
-      alert(
-        translate["Selecione pelo menos uma proposta"][language] ??
-          "Selecione pelo menos uma proposta"
-      );
-      return;
+      setSelectProposalNotification(true);
+      const timer = setTimeout(() => {
+        setSelectProposalNotification(false);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
     const pautaJson = {
       dataReuniaoPauta: meetingDate,
@@ -193,7 +200,11 @@ export default function CreateNewPauta(props) {
 
     PautaService.createPauta(pautaJson).then((res) => {
       if (res.error) {
-        alert(translate["Erro ao criar pauta"]?.[language] + "\n" + res.error);
+        setErrorCreatePautaNotification(true);
+        const timer = setTimeout(() => {
+          setErrorCreatePautaNotification(false);
+        }, 3000);
+        return () => clearTimeout(timer);
         return;
       } else {
         setNotifyCreation(true);
@@ -225,6 +236,43 @@ export default function CreateNewPauta(props) {
 
   return (
     <div>
+      {errorCreatePautaNotification && (
+        <Notification
+          message={
+            translate["Erro ao criar pauta"]?.[language] + "\n" + res.error
+          }
+          severity={"error"}
+        />
+      )}
+      {selectProposalNotification && (
+        <Notification
+          message={
+            translate["Selecione pelo menos uma proposta"][language] ??
+            "Selecione pelo menos uma proposta"
+          }
+          severity={"warning"}
+        />
+      )}
+      {timerNotification && (
+        <Notification
+          message={
+            translate[
+              "O horário de término deve ser maior que o horário de início"
+            ][language] ??
+            "O horário de término deve ser maior que o horário de início"
+          }
+          severity={"warning"}
+        />
+      )}
+      {fillAllFieldsNotification && (
+        <Notification
+          message={
+            translate["Preencha todos os campos!"]?.[language] ??
+            "Preencha todos os campos"
+          }
+          severity={"warning"}
+        />
+      )}
       {props.isPauta ? (
         <ButtonIsPauta
           style={{ fontSize: fonts.sm }}
@@ -247,6 +295,7 @@ export default function CreateNewPauta(props) {
       {notifyCreation && (
         <Notification
           message={translate["Pauta criada com sucesso"]?.[language]}
+          severity={"success"}
         />
       )}
       <Modal

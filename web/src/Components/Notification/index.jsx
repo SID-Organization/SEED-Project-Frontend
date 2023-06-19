@@ -10,6 +10,8 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { useContext } from "react";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
+import Alert from "@mui/material/Alert";
+
 export default function Notification(props) {
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
@@ -77,16 +79,18 @@ export default function Notification(props) {
       onClose={handleClose}
       anchorOrigin={{ vertical, horizontal }}
     >
-      <SnackbarContent
+      <Alert
+        severity={props.severity}
+        sx={{ width: "100%" }}
         style={{
-          backgroundColor: "#FFF",
           color: "#023A67",
           fontWeight: "bold",
           position: "relative",
           overflow: "hidden",
         }}
-        message={handleReturn()}
-      ></SnackbarContent>
+      >
+        {handleReturn()}
+      </Alert>
     </Snackbar>
   );
 }

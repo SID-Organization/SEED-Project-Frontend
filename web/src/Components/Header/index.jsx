@@ -3,7 +3,7 @@ import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import "../../styles/index.css";
-
+import moment from "moment";
 // Context
 import { TranslateContext } from "../../contexts/translate";
 
@@ -133,7 +133,6 @@ const Button = styled(MuiButton)({
 });
 
 export default function PrimarySearchAppBar() {
-
   const translate = TranslationJson;
   const [language, updateLanguage] = useContext(TranslateContext);
 
@@ -261,7 +260,9 @@ export default function PrimarySearchAppBar() {
       onClose={handleCloseMenu}
     >
       <Link to="/perfil">
-        <MenuItem onClick={handleCloseMenu}>{translate["Seu perfil"]?.[language] ?? "Seu perfil"}</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>
+          {translate["Seu perfil"]?.[language] ?? "Seu perfil"}
+        </MenuItem>
       </Link>
       <Accordion
         sx={{
@@ -277,7 +278,9 @@ export default function PrimarySearchAppBar() {
           id="panel1a-header"
           className="font-roboto"
         >
-          <h1 className="font-roboto">{translate["Idioma"]?.[language] ?? "Idioma"}</h1>
+          <h1 className="font-roboto">
+            {translate["Idioma"]?.[language] ?? "Idioma"}
+          </h1>
         </AccordionSummary>
         {flags.map((flag, i) => (
           <AccordionDetails key={i}>
@@ -285,23 +288,23 @@ export default function PrimarySearchAppBar() {
               variant="contained"
               onClick={() => updateLanguage(flag.languageCode)}
             >
-              <div className="flex items-center w-full">
+              <div className="flex w-full items-center">
                 <div className="mr-4">
-                  <img
-                    className="w-7"
-                    src={flag.src}
-                    alt={flag.alt}
-                  />
+                  <img className="w-7" src={flag.src} alt={flag.alt} />
                 </div>
                 <div className="text-start">
-                  <h1 className="ml-1">{translate[flag.label]?.[language] ?? flag.label}</h1>
+                  <h1 className="ml-1">
+                    {translate[flag.label]?.[language] ?? flag.label}
+                  </h1>
                 </div>
               </div>
             </Button>
           </AccordionDetails>
         ))}
       </Accordion>
-      <MenuItem onClick={handleSystemExit}>{translate["Sair"]?.[language] ?? "Sair"}</MenuItem>
+      <MenuItem onClick={handleSystemExit}>
+        {translate["Sair"]?.[language] ?? "Sair"}
+      </MenuItem>
       <MenuItem
         sx={{
           display: "flex",
@@ -526,7 +529,10 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder={translate["Procure por usuários ou demandas"]?.[language] ?? "Procure por usuários ou demandas"}
+          placeholder={
+            translate["Procure por usuários ou demandas"]?.[language] ??
+            "Procure por usuários ou demandas"
+          }
           inputProps={{ "aria-label": "search google maps" }}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -543,46 +549,46 @@ export default function PrimarySearchAppBar() {
       >
         {search === ""
           ? users
-            .sort((a, b) => {
-              if (a.unreadMessages && !b.unreadMessages) return -1;
-              if (!a.unreadMessages && b.unreadMessages) return 1;
-              return 0;
-            })
-            .map((user, i) => {
-              return (
-                <div
-                  key={i}
-                  onClick={() => {
-                    const userName = user.name;
-                    const userDemand = user.userDemand;
-                    setChatUserId(user.idUsuario);
-                    setUserNameCard(userName);
-                    setUserDemandCard(userDemand);
-                    setChatId(user.idChat);
-                    setUserData({
-                      idUsuario: {
-                        numeroCadastroUsuario: user.idUsuario,
-                      },
-                      idChat: { idChat: user.idChat },
-                      idDemanda: { idDemanda: user.idDemanda },
-                      connected: false,
-                      message: "",
-                    });
-                    connect();
-                  }}
-                >
-                  <UserMessageCard
-                    picture={user.picture}
-                    name={user.name}
-                    userDemand={user.userDemand}
-                    lastMessage={user.lastMessage}
-                    time={user.time}
-                    unreadMessages={user.unreadMessages}
-                    isOnline={user.isOnline}
-                  />
-                </div>
-              );
-            })
+              .sort((a, b) => {
+                if (a.unreadMessages && !b.unreadMessages) return -1;
+                if (!a.unreadMessages && b.unreadMessages) return 1;
+                return 0;
+              })
+              .map((user, i) => {
+                return (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      const userName = user.name;
+                      const userDemand = user.userDemand;
+                      setChatUserId(user.idUsuario);
+                      setUserNameCard(userName);
+                      setUserDemandCard(userDemand);
+                      setChatId(user.idChat);
+                      setUserData({
+                        idUsuario: {
+                          numeroCadastroUsuario: user.idUsuario,
+                        },
+                        idChat: { idChat: user.idChat },
+                        idDemanda: { idDemanda: user.idDemanda },
+                        connected: false,
+                        message: "",
+                      });
+                      connect();
+                    }}
+                  >
+                    <UserMessageCard
+                      picture={user.picture}
+                      name={user.name}
+                      userDemand={user.userDemand}
+                      lastMessage={user.lastMessage}
+                      time={user.time}
+                      unreadMessages={user.unreadMessages}
+                      isOnline={user.isOnline}
+                    />
+                  </div>
+                );
+              })
           : returnedUserSearch()}
       </div>
     </Menu>
@@ -620,7 +626,12 @@ export default function PrimarySearchAppBar() {
           >
             {translate["Notificações"]?.[language] ?? "Notificações"}
           </p>
-          <Tooltip title={translate["Marcar todas como lidas"]?.[language] ?? "Marcar todas como lidas"}>
+          <Tooltip
+            title={
+              translate["Marcar todas como lidas"]?.[language] ??
+              "Marcar todas como lidas"
+            }
+          >
             <IconButton
               sx={{
                 marginRight: "1rem",
@@ -720,16 +731,20 @@ export default function PrimarySearchAppBar() {
                 if (a.unreadNotification && !b.unreadNotification) return -1;
                 if (!a.unreadNotification && b.unreadNotification) return 1;
               }
-
-              // const timeA = new Date(a.time.split(":")[0], a.time.split(":")[1]);
-              // const timeB = new Date(b.time.split(":")[0], b.time.split(":")[1]);
-              // if (timeA > timeB) {
-              //   return -1;
-              // }
-              // if (timeA < timeB) {
-              //   return 1;
-              // }
-              // return 0;
+              console.log(
+                "notificationsReceivedByWS",
+                notificationsReceivedByWS
+              );
+              const dateA = moment(
+                a.tempoNotificacao,
+                "HH:mm - DD/MM/YYYY"
+              ).toDate();
+              const dateB = moment(
+                b.tempoNotificacao,
+                "HH:mm - DD/MM/YYYY"
+              ).toDate();
+              console.log("DATES: ", dateA, dateB);
+              return dateB - dateA; // sort by descending order of time
             })
 
             .map((notification, i) => (
@@ -766,7 +781,8 @@ export default function PrimarySearchAppBar() {
             />
           </div>
           <p className="cursor-default font-roboto tracking-wide text-[#BDBDBD]">
-            {translate["Nenhum usuário encontrado"]?.[language] ?? "Nenhum usuário encontrado"}
+            {translate["Nenhum usuário encontrado"]?.[language] ??
+              "Nenhum usuário encontrado"}
           </p>
         </div>
       );
@@ -849,7 +865,9 @@ export default function PrimarySearchAppBar() {
                   )}
                 </IconButton>
               </Box>
-              <Tooltip title={translate["Mensagens"]?.[language] ?? "Mensagens"}>
+              <Tooltip
+                title={translate["Mensagens"]?.[language] ?? "Mensagens"}
+              >
                 <IconButton
                   size="large"
                   aria-label="show 4 new mails"
@@ -864,7 +882,9 @@ export default function PrimarySearchAppBar() {
                   </Badge>
                 </IconButton>
               </Tooltip>
-              <Tooltip title={translate["Notificações"]?.[language] ?? "Notificações"}>
+              <Tooltip
+                title={translate["Notificações"]?.[language] ?? "Notificações"}
+              >
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"

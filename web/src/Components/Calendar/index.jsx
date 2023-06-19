@@ -92,6 +92,9 @@ export default function Calendar(props) {
         dayMaxEventRows={3}
         eventClick={handleEventClick}
         locale={language}
+        eventMouseEnter={(info) => {
+          info.el.style.cursor = "pointer";
+        }}
       />
     </div>
   );
