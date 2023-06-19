@@ -205,7 +205,6 @@ export default function CreateNewPauta(props) {
           setErrorCreatePautaNotification(false);
         }, 3000);
         return () => clearTimeout(timer);
-        return;
       } else {
         setNotifyCreation(true);
         setIsModalOpen(false);

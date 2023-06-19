@@ -54,7 +54,7 @@ export default function ModalPauta(props) {
       }
       setPauta(data);
     });
-    console.log("PAUTA DATASDASDASDA: ", pauta);
+    console.log("PAUTA DATA: ", pauta);
   }, [props.pautaId]);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function ModalPauta(props) {
               </h1>
               <DatePicker
                 searchValue={convertDateToInput(
-                  DateUtils.formatDate(pauta.dataReuniaoPauta)
+                  DateUtils.formatDate(pauta.dataReuniao)
                 )}
                 disabled={props.disabled}
               />
@@ -100,7 +100,7 @@ export default function ModalPauta(props) {
                   label={translate["Início"]?.[language] ?? "Início"}
                   variant="outlined"
                   type="time"
-                  value={pauta.horarioInicioPauta}
+                  value={pauta.horaReuniao}
                   disabled={props.disabled}
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
@@ -115,7 +115,7 @@ export default function ModalPauta(props) {
                   label={translate["Término"]?.[language] ?? "Término"}
                   variant="outlined"
                   type="time"
-                  value={pauta.horarioTerminoPauta}
+                  value={pauta.horaTerminoReuniao}
                   disabled={props.disabled}
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
@@ -125,16 +125,13 @@ export default function ModalPauta(props) {
                     height: "3rem",
                   }}
                 />
-                <Tooltip
-                  title={pauta?.forumPauta?.comissaoForum?.nomeComissao}
-                  placement="top"
-                >
+                <Tooltip title={pauta?.nomeComissao} placement="top">
                   <TextField
                     id="outlined-basic"
                     label={translate["Comissão"]?.[language] ?? "Comissão"}
                     variant="outlined"
                     type="text"
-                    value={pauta?.forumPauta?.comissaoForum?.nomeComissao}
+                    value={pauta?.nomeComissao}
                     disabled={props.disabled}
                     InputProps={{
                       startAdornment: <InputAdornment position="start" />,
@@ -178,9 +175,9 @@ export default function ModalPauta(props) {
               className="grid max-h-[21rem] gap-5 overflow-y-scroll scrollbar-thin
               scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
             >
-              {pauta.propostasPauta &&
-                pauta.propostasPauta.length > 0 &&
-                pauta.propostasPauta
+              {pauta.propostaResumidas &&
+                pauta.propostaResumidas.length > 0 &&
+                pauta.propostaResumidas
                   .filter((item) => {
                     if (!searchTitle || searchTitle.length < 3) return true;
                     return item.demandaPropostaTitulo
@@ -190,7 +187,7 @@ export default function ModalPauta(props) {
                   .map((item, i) => (
                     <ProposalCard
                       key={i}
-                      title={item.demandaProposta}
+                      title={item.demandaPropostaTitulo}
                       executionTime={item.tempoDeExecucaoDemanda}
                       value={item.valorDemanda}
                       referenceDemand={item.idDemanda}
