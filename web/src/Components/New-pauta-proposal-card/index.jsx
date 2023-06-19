@@ -17,7 +17,12 @@ export default function NewPautaProposalCard(props) {
   const [isCheckboxClicked, setIsCheckBoxClicked] = useState(false);
 
   const isChecked = () => {
-    return props.selectedProposals.some(proposal => proposal.idProposta === props.proposal.idProposta);
+    if (props.selectedProposals) {
+      return props.selectedProposals.some(
+        (proposal) => proposal.idProposta === props.proposal.idProposta
+      );
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -25,32 +30,45 @@ export default function NewPautaProposalCard(props) {
       setIsAlreadyChecked(true);
       setIsCheckBoxClicked(true);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (isCheckboxClicked) {
-      if (!isAlreadyChecked)
-        props.setSelectedProposals(prevState => [...prevState, { idProposta: props.proposal.idProposta, idDemanda: props.proposal.idDemanda }]);
+      if (!isAlreadyChecked && props.selectedProposals)
+        props.setSelectedProposals((prevState) => [
+          ...prevState,
+          {
+            idProposta: props.proposal.idProposta,
+            idDemanda: props.proposal.idDemanda,
+          },
+        ]);
     } else {
-      props.setSelectedProposals(prevState => prevState.filter(proposal => proposal.idProposta !== props.proposal.idProposta));
+      if (props.selectedProposals) {
+        props.setSelectedProposals((prevState) =>
+          prevState.filter(
+            (proposal) => proposal.idProposta !== props.proposal.idProposta
+          )
+        );
+      }
       setIsAlreadyChecked(false);
     }
   }, [isCheckboxClicked]);
 
   return (
     <div
-      className="flex justify-around items-center cursor-pointer"
+      className="flex cursor-pointer items-center justify-around"
       onClick={() => setIsCheckBoxClicked(!isCheckboxClicked)}
     >
       <Checkbox checked={isCheckboxClicked} />
       <div className="relative">
         <div
-          className={`${isCheckboxClicked && "bg-[#d9d9d9]/40"
-            } w-full h-full absolute rounded-[5px]`}
+          className={`${
+            isCheckboxClicked && "bg-[#d9d9d9]/40"
+          } absolute h-full w-full rounded-[5px]`}
         />
         <ProposalCard
           newPauta={true}
-          title={props.proposal.demandaPropostaTitulo}
+          title={props.proposal.demandaPropostaTitulo || props.title}
           executionTime={props.proposal.tempoDeExecucaoDemanda}
           value={props.proposal.valorDemanda}
           referenceDemand={props.proposal.idDemanda}

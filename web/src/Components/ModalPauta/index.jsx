@@ -18,6 +18,9 @@ import VoiceSpeech from "../VoiceSpeech";
 
 import PautaService from "../../service/Pauta-Service";
 
+import NewPautaProposalCard from "../../Components/New-pauta-proposal-card";
+import ProposalCard from "../Proposal-card";
+
 const modalStyled = {
   position: "absolute",
   top: "50%",
@@ -51,7 +54,7 @@ export default function ModalPauta(props) {
       }
       setPauta(data);
     });
-    console.log("PAUTA DATA: ", pauta);
+    console.log("PAUTA DATASDASDASDA: ", pauta);
   }, [props.pautaId]);
 
   useEffect(() => {
@@ -175,8 +178,9 @@ export default function ModalPauta(props) {
               className="grid max-h-[21rem] gap-5 overflow-y-scroll scrollbar-thin
               scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
             >
-              {/* {readyProposals.length > 0 &&
-                readyProposals
+              {pauta.propostasPauta &&
+                pauta.propostasPauta.length > 0 &&
+                pauta.propostasPauta
                   .filter((item) => {
                     if (!searchTitle || searchTitle.length < 3) return true;
                     return item.demandaPropostaTitulo
@@ -184,13 +188,16 @@ export default function ModalPauta(props) {
                       .includes(searchTitle.toLowerCase());
                   })
                   .map((item, i) => (
-                    <NewPautaProposalCard
+                    <ProposalCard
                       key={i}
-                      selectedProposals={selectedProposals}
-                      setSelectedProposals={setSelectedProposals}
-                      proposal={item}
+                      title={item.demandaProposta}
+                      executionTime={item.tempoDeExecucaoDemanda}
+                      value={item.valorDemanda}
+                      referenceDemand={item.idDemanda}
+                      proposalId={item.idProposta}
+                      newPauta={true}
                     />
-                  ))} */}
+                  ))}
             </div>
           </div>
         </div>

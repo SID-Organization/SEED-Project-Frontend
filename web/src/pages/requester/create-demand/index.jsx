@@ -276,7 +276,7 @@ export default function CreateDemand({ isEditting }) {
     if (createDemandSucceed) {
       setTimeout(() => {
         navigate("/demandas");
-      }, 1000);
+      }, 2000);
     }
   };
 
@@ -424,7 +424,7 @@ export default function CreateDemand({ isEditting }) {
 
   return (
     <div>
-      {notifyConfirm === false && (
+      {notifyConfirm === true && (
         <Notification message="Demanda criada com sucesso!" />
       )}
       <div className="mb-7">

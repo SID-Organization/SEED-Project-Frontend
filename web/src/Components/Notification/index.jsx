@@ -35,10 +35,14 @@ export default function Notification(props) {
           clearInterval(timer); // Stop the timer when progress reaches 100%
           return oldProgress;
         }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
+        return oldProgress + 3; // Increase progress by 20 every 50 milliseconds
       });
-    }, 30);
+    }, 50); // Run every 50 milliseconds
+
+    setTimeout(() => {
+      clearInterval(timer);
+      setProgress(100); // Set progress to 100 after 5 seconds
+    }, 3000); // 5 seconds in milliseconds
 
     return () => {
       clearInterval(timer);
@@ -50,7 +54,17 @@ export default function Notification(props) {
       <>
         <div>{props.message}</div>
         <div>
-          <LinearProgress variant="determinate" value={progress} />{" "}
+          <LinearProgress
+            sx={{
+              width: "100%",
+              borderRadius: "10px",
+              position: "absolute",
+              bottom: "0",
+              left: "0",
+            }}
+            variant="determinate"
+            value={progress}
+          />{" "}
         </div>
       </>
     );
@@ -59,7 +73,7 @@ export default function Notification(props) {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={6000}
+      autoHideDuration={2000}
       onClose={handleClose}
       anchorOrigin={{ vertical, horizontal }}
     >

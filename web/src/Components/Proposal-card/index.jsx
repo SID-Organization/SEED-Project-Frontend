@@ -18,7 +18,6 @@ import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 
 //Services
 import ProposalService from "../../service/Proposal-Service";
-
 // Utils
 import CurrencyUtils from "../../utils/Currency-Utils";
 
@@ -26,7 +25,6 @@ import CurrencyUtils from "../../utils/Currency-Utils";
 import TranslationJson from "../../API/Translate/components/proposalCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
-
 
 const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
   color: "#00A3FF",
@@ -100,9 +98,8 @@ const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
 });
 
 export default function ProposalCard(props) {
-
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 
@@ -145,16 +142,14 @@ export default function ProposalCard(props) {
       <Card>
         <div className="flex items-center justify-around gap-16">
           <div
-            className={`grid gap-7 font-roboto ${
-              !props.newPauta && "w-[48rem]"
-            }`}
+            className={`grid gap-7 font-roboto ${!props.newPauta && "w-[48rem]"
+              }`}
           >
             <div
               className={`
-                ${
-                  props.newPauta
-                    ? "ml-4 flex items-center justify-between"
-                    : "flex items-center justify-around "
+                ${props.newPauta
+                  ? "ml-4 flex items-center justify-between"
+                  : "flex items-center justify-around "
                 }
               `}
             >
@@ -165,24 +160,28 @@ export default function ProposalCard(props) {
               >
                 <Tooltip title={props.title}>
                   <h1
-                    className={`${
-                      props.newPauta
+                    className={`${props.newPauta
                         ? "text-base font-bold"
                         : "text-sm font-bold"
-                    }`}
+                      }`}
                   >
-                    {props.title.length > 25
+                    {props.title?.length > 25
                       ? props.proposalId +
-                        " - " +
-                        props.title.substring(0, 25) +
-                        "..."
+                      " - " +
+                      props.title.substring(0, 25) +
+                      "..."
                       : props.proposalId + " - " + props.title}
                   </h1>
                 </Tooltip>
                 {props.atasCard && (
                   <div className="mr-5 flex items-center">
                     {props.published === "PUBLICADA" ? (
-                      <Tooltip title={translate["Proposta publicada"][language] ?? "Proposta publicada"}>
+                      <Tooltip
+                        title={
+                          translate["Proposta publicada"][language] ??
+                          "Proposta publicada"
+                        }
+                      >
                         <PublicIcon
                           sx={{
                             color: "#0075B1",
@@ -190,7 +189,12 @@ export default function ProposalCard(props) {
                         />
                       </Tooltip>
                     ) : (
-                      <Tooltip title={translate["Proposta não publicada"][language] ?? "Proposta não publicada"}>
+                      <Tooltip
+                        title={
+                          translate["Proposta não publicada"][language] ??
+                          "Proposta não publicada"
+                        }
+                      >
                         <PublicOffIcon
                           sx={{
                             color: "#0075B1",
@@ -202,15 +206,17 @@ export default function ProposalCard(props) {
                 )}
               </div>
               <div className="flex items-center justify-center gap-5">
-                <div className="w-[14rem]">
+                <div className="w-[21rem]">
                   <h1
                     className={`
                   ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}
                 `}
                   >
-                    {translate["Tempo de execução"][language] ?? "Tempo de execução"}:{" "}
+                    {translate["Tempo de execução"][language] ??
+                      "Tempo de execução"}
+                    :{" "}
                     <span className="font-normal text-gray-500">
-                      {props.executionTime +" "+ translate["horas"][language]}
+                      {props.executionTime + " " + translate["horas"][language]}
                     </span>
                   </h1>
                 </div>
@@ -231,7 +237,9 @@ export default function ProposalCard(props) {
                   ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}
                 `}
                     >
-                      {translate["Parecer da comissão"][language] ?? "Parecer da comissão"}:{" "}
+                      {translate["Parecer da comissão"][language] ??
+                        "Parecer da comissão"}
+                      :{" "}
                       <span className="font-normal text-gray-500">
                         {" "}
                         {props.parecerComissao}
@@ -244,29 +252,27 @@ export default function ProposalCard(props) {
             <div className="flex items-center">
               <h1
                 className={`
-                ${
-                  props.newPauta
+                ${props.newPauta
                     ? "ml-4 w-[49rem] font-bold"
                     : "text-sm font-bold"
-                }
+                  }
                 `}
               >
                 {translate["Demanda de referência"][language]}:{" "}
                 <Tooltip title={props.referenceDemand + " - " + props.title}>
                   <span
                     className={`
-                    ${
-                      props.newPauta
+                    ${props.newPauta
                         ? "cursor-default text-sm font-normal text-gray-500"
                         : "cursor-default font-normal text-gray-500"
-                    }
+                      }
                     `}
                   >
                     {props.referenceDemand + " - " + props.title > 70
                       ? (props.referenceDemand + " - " + props.title).substring(
-                          0,
-                          70
-                        ) + "..."
+                        0,
+                        70
+                      ) + "..."
                       : props.referenceDemand + " - " + props.title}
                   </span>
                 </Tooltip>
@@ -292,7 +298,13 @@ export default function ProposalCard(props) {
             {props.newPauta ? (
               ""
             ) : (
-              <Tooltip title={translate["Visualizar Proposta"]?.[language] ?? "Visualizar Proposta"} onClick={openProposalPDF}>
+              <Tooltip
+                title={
+                  translate["Visualizar Proposta"][language] ??
+                  "Visualizar Proposta"
+                }
+                onClick={openProposalPDF}
+              >
                 {props.newPauta === "card" ? (
                   <VisibilityRoundedIcon />
                 ) : (
@@ -312,8 +324,10 @@ export default function ProposalCard(props) {
                 <Tooltip
                   title={
                     isButtonAddClicked
-                      ? translate["Remover Proposta"]?.[language] ?? "Remover Proposta"
-                      : translate["Selecionar proposta"]?.[language] ?? "Selecionar proposta"
+                      ? translate["Remover Proposta"][language] ??
+                      "Remover Proposta"
+                      : translate["Selecionar proposta"][language] ??
+                      "Selecionar proposta"
                   }
                 >
                   {isButtonAddClicked ? (
@@ -326,7 +340,13 @@ export default function ProposalCard(props) {
                     </IconButtonDefault>
                   )}
                 </Tooltip>
-                <Tooltip title={translate["Visualizar PDF da proposta"]?.[language] ?? "Visualizar PDF da proposta"}>
+
+                <Tooltip
+                  title={
+                    translate["Visualizar PDF da proposta"][language] ??
+                    "Visualizar PDF da proposta"
+                  }
+                >
                   <IconButton onClick={openProposalPDF}>
                     <PictureAsPdfOutlinedIcon
                       sx={{
