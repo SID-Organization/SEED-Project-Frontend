@@ -24,6 +24,7 @@ import { Divider, Tooltip } from "@mui/material";
 
 // Components
 import ProposalCard from "../Proposal-card";
+import ModalPauta from "../ModalPauta";
 
 // Services
 import PautaService from "../../service/Pauta-Service";
@@ -108,15 +109,18 @@ const IconButton = styled(MuiIconButton)(() => ({
 export default function PautasCard(props) {
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
-
+  const [language] = useContext(TranslateContext);
   const [shareModal, setShareModal] = useState(false);
+  const [isEditPauta, setIsEditPauta] = useState(false);
+  const [proposals, setProposals] = useState([]);
+
   const handleOpenShareModal = () => setShareModal(true);
   const handleCloseShareModal = () => setShareModal(false);
 
-  const [proposals, setProposals] = useState([]);
-
-  const editPauta = () => {};
+  const editPauta = () => {
+    console.log("Edit pauta", isEditPauta);
+    setIsEditPauta(true);
+  };
 
   useEffect(() => {
     PautaService.getPautaProposalsById(props.pautaId).then((proposals) => {
@@ -162,215 +166,225 @@ export default function PautasCard(props) {
           </div>
         </div>
       ) : (
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <div className="grid font-roboto">
-              <div className="flex justify-center gap-28">
-                <h1 className="font-bold">{props.pautaName}</h1>
-                <h1 className="font-bold">
-                  {translate["Qtd. Propostas"][language] ?? "Qtd. Propostas"}:{" "}
-                  <span className="font-normal text-[#707070]">
-                    {props.qtyProposals}
-                  </span>
-                </h1>
-                <h1 className="font-bold">
-                  {translate["Data da reunião"][language] ?? "Data da reunião"}:{" "}
-                  <span className="font-normal text-[#707070]">
-                    {props.meetingDate}
-                  </span>
-                </h1>
-                <h1 className="font-bold">
-                  {translate["Horário"][language] ?? "Horário"}:{" "}
-                  <span className="font-normal text-[#707070]">
-                    {props.meetingTime}
-                  </span>
-                </h1>
-              </div>
-              <div className="flex justify-between">
-                <div className="flex items-center justify-center">
-                  <h1 className="mt-5 font-bold">
-                    {translate["Analista responsável"][language] ?? "Analista responsável"}:{" "}
+        <>
+          {isEditPauta && (
+            <ModalPauta
+              isModalOpen={isEditPauta}
+              setIsModalOpen={setIsEditPauta}
+              pautaId={props.pautaId}
+              disabled={false}
+            />
+          )}
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <div className="grid font-roboto">
+                <div className="flex justify-center gap-28">
+                  <h1 className="font-bold">{props.pautaName}</h1>
+                  <h1 className="font-bold">
+                    {translate["Qtd. Propostas"][language] ?? "Qtd. Propostas"}:{" "}
                     <span className="font-normal text-[#707070]">
-                      {props.responsibleAnalyst}
+                      {props.qtyProposals}
+                    </span>
+                  </h1>
+                  <h1 className="font-bold">
+                    {translate["Data da reunião"][language] ?? "Data da reunião"}:{" "}
+                    <span className="font-normal text-[#707070]">
+                      {props.meetingDate}
+                    </span>
+                  </h1>
+                  <h1 className="font-bold">
+                    {translate["Horário"][language] ?? "Horário"}:{" "}
+                    <span className="font-normal text-[#707070]">
+                      {props.meetingTime}
                     </span>
                   </h1>
                 </div>
-                <div className="mt-5 flex items-center justify-center gap-5">
-                  <Tooltip title="Compartilhar pauta">
-                    <h1
-                      className="
+                <div className="flex justify-between">
+                  <div className="flex items-center justify-center">
+                    <h1 className="mt-5 font-bold">
+                      {translate["Analista responsável"][language] ?? "Analista responsável"}:{" "}
+                      <span className="font-normal text-[#707070]">
+                        {props.responsibleAnalyst}
+                      </span>
+                    </h1>
+                  </div>
+                  <div className="mt-5 flex items-center justify-center gap-5">
+                    <Tooltip title="Compartilhar pauta">
+                      <h1
+                        className="
                             cursor-pointer
                             text-light-blue-weg
                             hover:underline
                             "
-                      onClick={handleOpenShareModal}
-                    >
+                        onClick={handleOpenShareModal}
+                      >
+                        <div className="flex items-center justify-center">
+                          {translate["Compartilhar pauta"][language] ?? "Compartilhar pauta"}
+                          <ReplyRoundedIcon />
+                        </div>
+                      </h1>
+                    </Tooltip>
+                    <Tooltip title={translate["Visualizar pauta"][language] ?? "Visualizar pauta"}>
+                      <VisibilityRoundedIcon />
+                    </Tooltip>
+                    <Tooltip title={translate["Editar pauta"][language] ?? "Editar pauta"}>
+                      <EditRoundedIcon onClick={editPauta} />
+                    </Tooltip>
+                    <Tooltip title={translate["Gerar ATA"][language] ?? "Gerar ATA"}>
+                      <Link to={`gerar-ata/${props.pautaId}`}>
+                        <Button>{translate["Gerar ATA"][language] ?? "Gerar ATA"}</Button>
+                      </Link>
+                    </Tooltip>
+                  </div>
+                </div>
+              </div>
+            </AccordionSummary>
+
+            <Modal
+              open={shareModal}
+              onClose={handleCloseShareModal}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={modalStyleShare}>
+                <div className="grid items-center text-[0.8rem]">
+                  <div>
+                    <h1 className="text-xl">{translate["Compartilhar via..."][language] ?? "Compartilhar via..."}</h1>
+                  </div>
+                  <div className="mt-4 flex items-center justify-center gap-8">
+                    <div className="grid gap-2">
                       <div className="flex items-center justify-center">
-                        {translate["Compartilhar pauta"][language] ?? "Compartilhar pauta"}
-                        <ReplyRoundedIcon />
+                        <div
+                          className="
+                      flex
+                      h-14
+                      w-14
+                      cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-200
+                      transition
+
+                      hover:bg-gray-300
+                    "
+                        >
+                          <IconButton>
+                            <MailOutlineRoundedIcon />
+                          </IconButton>
+                        </div>
                       </div>
-                    </h1>
-                  </Tooltip>
-                  <Tooltip title={translate["Visualizar pauta"][language] ?? "Visualizar pauta"}>
-                    <VisibilityRoundedIcon />
-                  </Tooltip>
-                  <Tooltip title={translate["Editar pauta"][language] ?? "Editar pauta"}>
-                    <EditRoundedIcon onClick={editPauta} />
-                  </Tooltip>
-                  <Tooltip title={translate["Gerar ATA"][language] ?? "Gerar ATA"}>
-                    <Link to={`gerar-ata/${props.pautaId}`}>
-                      <Button>{translate["Gerar ATA"][language] ?? "Gerar ATA"}</Button>
-                    </Link>
-                  </Tooltip>
+                      <div className="flex items-center justify-center">
+                        <h1>E-mail</h1>
+                      </div>
+                    </div>
+                    <div className="grid gap-2">
+                      <div className="flex items-center justify-center">
+                        <div
+                          className="
+                      flex
+                      h-14
+                      w-14
+                      cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-200
+                      transition
+
+                      hover:bg-gray-300
+                    "
+                        >
+                          <IconButton>
+                            <WhatsAppIcon />
+                          </IconButton>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <h1>Whatsapp</h1>
+                      </div>
+                    </div>
+                    <div className="grid gap-2">
+                      <div className="flex items-center justify-center">
+                        <div
+                          className="
+                      flex
+                      h-14
+                      w-14
+                      cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-200
+                      transition
+
+                      hover:bg-gray-300
+                    "
+                        >
+                          <IconButton>
+                            <LinkIcon />
+                          </IconButton>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <h1>{translate["Copiar link"][language] ?? "Copiar link"}</h1>
+                      </div>
+                    </div>
+                    <div className="grid gap-2">
+                      <div className="flex items-center justify-center">
+                        <div
+                          className="
+                      flex
+                      h-14
+                      w-14
+                      cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-200
+                      transition
+
+                      hover:bg-gray-300
+                    "
+                        >
+                          <IconButton>
+                            <DownloadRoundedIcon />
+                          </IconButton>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <h1>{translate["Baixar PDF"][language] ?? "Baixar PDF"}</h1>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </Box>
+            </Modal>
+
+            <Divider />
+            <AccordionDetails>
+              <div className="grid gap-5">
+                {proposals &&
+                  Array.isArray(proposals) &&
+                  proposals.map((proposal, i) => (
+                    <ProposalCard
+                      key={i}
+                      newPauta={false}
+                      title={proposal.demandaPropostaTitulo}
+                      executionTime={proposal.tempoDeExecucaoDemanda}
+                      value={proposal.valorDemanda}
+                      referenceDemand={proposal.idDemanda}
+                      proposalId={proposal.idProposta}
+                    />
+                  ))}
               </div>
-            </div>
-          </AccordionSummary>
-
-          <Modal
-            open={shareModal}
-            onClose={handleCloseShareModal}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={modalStyleShare}>
-              <div className="grid items-center text-[0.8rem]">
-                <div>
-                  <h1 className="text-xl">{translate["Compartilhar via..."][language] ?? "Compartilhar via..."}</h1>
-                </div>
-                <div className="mt-4 flex items-center justify-center gap-8">
-                  <div className="grid gap-2">
-                    <div className="flex items-center justify-center">
-                      <div
-                        className="
-                      flex
-                      h-14
-                      w-14
-                      cursor-pointer
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-gray-200
-                      transition
-
-                      hover:bg-gray-300
-                    "
-                      >
-                        <IconButton>
-                          <MailOutlineRoundedIcon />
-                        </IconButton>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <h1>E-mail</h1>
-                    </div>
-                  </div>
-                  <div className="grid gap-2">
-                    <div className="flex items-center justify-center">
-                      <div
-                        className="
-                      flex
-                      h-14
-                      w-14
-                      cursor-pointer
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-gray-200
-                      transition
-
-                      hover:bg-gray-300
-                    "
-                      >
-                        <IconButton>
-                          <WhatsAppIcon />
-                        </IconButton>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <h1>Whatsapp</h1>
-                    </div>
-                  </div>
-                  <div className="grid gap-2">
-                    <div className="flex items-center justify-center">
-                      <div
-                        className="
-                      flex
-                      h-14
-                      w-14
-                      cursor-pointer
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-gray-200
-                      transition
-
-                      hover:bg-gray-300
-                    "
-                      >
-                        <IconButton>
-                          <LinkIcon />
-                        </IconButton>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <h1>{translate["Copiar link"][language] ?? "Copiar link"}</h1>
-                    </div>
-                  </div>
-                  <div className="grid gap-2">
-                    <div className="flex items-center justify-center">
-                      <div
-                        className="
-                      flex
-                      h-14
-                      w-14
-                      cursor-pointer
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-gray-200
-                      transition
-
-                      hover:bg-gray-300
-                    "
-                      >
-                        <IconButton>
-                          <DownloadRoundedIcon />
-                        </IconButton>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <h1>{translate["Baixar PDF"][language] ?? "Baixar PDF"}</h1>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Box>
-          </Modal>
-
-          <Divider />
-          <AccordionDetails>
-            <div className="grid gap-5">
-              {proposals &&
-                Array.isArray(proposals) &&
-                proposals.map((proposal, i) => (
-                  <ProposalCard
-                    key={i}
-                    newPauta={false}
-                    title={proposal.demandaPropostaTitulo}
-                    executionTime={proposal.tempoDeExecucaoDemanda}
-                    value={proposal.valorDemanda}
-                    referenceDemand={proposal.idDemanda}
-                    proposalId={proposal.idProposta}
-                  />
-                ))}
-            </div>
-          </AccordionDetails>
-        </Accordion>
+            </AccordionDetails>
+          </Accordion>
+        </>
       )}
     </div>
   );

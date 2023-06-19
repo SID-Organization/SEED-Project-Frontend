@@ -45,7 +45,7 @@ const TextFieldValue = styled(MuiTextField)({
 export default function NewBenefitInsertion(props) {
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [coin, setCoin] = useState(props.coin);
   const [value, setValue] = useState(props.value);
@@ -108,7 +108,7 @@ export default function NewBenefitInsertion(props) {
             <div className="mb-3 mt-5 flex gap-4">
               <TextFieldValue
                 id="outlined-textarea"
-                label={translate["Valor mensal"][language] ?? "Valor mensal"}
+                label={translate["Valor mensal"]?.[language] ?? "Valor mensal"}
                 onBlur={updateState}
                 variant="outlined"
                 type="number"
@@ -122,17 +122,17 @@ export default function NewBenefitInsertion(props) {
                 value={value}
                 onChange={(e) => {
                   if (e.target.value.match(/^[0-9]*$/))
-                    setValue(Number(e.target.value))
+                    setValue(e.target.value)
                 }}
               />
               <Box sx={{ minWidth: 100 }}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">{translate["Moeda"][language] ?? "Moeda"}</InputLabel>
+                  <InputLabel id="demo-simple-select-label">{translate["Moeda"]?.[language] ?? "Moeda"}</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={coin}
-                    label={translate["Valor"][language] ?? "Valor"}
+                    label={translate["Valor"]?.[language] ?? "Valor"}
                     onChange={handleChangeCoinIcon}
                     style={{
                       borderRadius: "0.5rem",
@@ -163,7 +163,7 @@ export default function NewBenefitInsertion(props) {
       </div>
       {props.benefitIndex === props.benefitStates.realBenefits.length - 1 &&
         props.benefitIndex !== 0 && (
-          <Tooltip title={translate["Remover benefício"][language] ?? "Remover benefício"} enterDelay={820} leaveDelay={200}>
+          <Tooltip title={translate["Remover benefício"]?.[language] ?? "Remover benefício"} enterDelay={820} leaveDelay={200}>
             <IconButton
               sx={{
                 marginLeft: "1rem",

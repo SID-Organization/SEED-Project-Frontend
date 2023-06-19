@@ -303,7 +303,7 @@ export default function CreateDemand({ isEditting }) {
     setPotentialBenefits([
       ...potentialBenefits,
       {
-        coin: "",
+        coin: "R$",
         value: 0,
         descriptionHTML: "",
         idFront: potentialBenefits.length,
@@ -425,7 +425,10 @@ export default function CreateDemand({ isEditting }) {
   return (
     <div>
       {notifyConfirm === true && (
-        <Notification message="Demanda criada com sucesso!" />
+        <Notification
+          message="Demanda criada com sucesso!"
+          severity={"success"}
+        />
       )}
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">

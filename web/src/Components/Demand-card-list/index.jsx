@@ -116,7 +116,12 @@ export default function DemandsList(props) {
       align: "center",
       headerAlign: "center",
       type: "number",
-      width: 120
+      width: 120,
+      renderCell: (params) => (
+        <Tooltip title={params.value ?? "Indefinido"}>
+          <Typography variant="body2"><strong>{params.value ?? "- - - -"}</strong></Typography>
+        </Tooltip>
+      )
     },
     {
       field: "versao",
