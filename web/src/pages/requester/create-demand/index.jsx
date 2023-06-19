@@ -209,8 +209,7 @@ export default function CreateDemand({ isEditting }) {
           DemandService.createDemand(formData).then((res) => {
             console.log("CREATE DEMAND", res);
             setDemandUpdateId(res.idDemanda);
-            if (res.beneficiosDemanda)
-              updateBenefits(res.beneficiosDemanda);
+            if (res.beneficiosDemanda) updateBenefits(res.beneficiosDemanda);
           });
         } else if (demandUpdateId && title !== "") {
           DemandService.updateDemand(demandUpdateId, formData).then((res) => {
@@ -263,17 +262,17 @@ export default function CreateDemand({ isEditting }) {
   };
 
   const handleFinishDemand = (formData) => {
-    DemandService.updateDemand(demandUpdateId, formData)
-      .then(res => { 
-        if ([200, 201].includes(res.status)) {
-          DemandService.updateDemandStatus(demandUpdateId, "ABERTA")
-            .then(res => {
-              if ([200, 201].includes(res.status)) {
-                setCreateDemandSucceed(true)
-              }
-            });
-        }
-      });
+    DemandService.updateDemand(demandUpdateId, formData).then((res) => {
+      if ([200, 201].includes(res.status)) {
+        DemandService.updateDemandStatus(demandUpdateId, "ABERTA").then(
+          (res) => {
+            if ([200, 201].includes(res.status)) {
+              setCreateDemandSucceed(true);
+            }
+          }
+        );
+      }
+    });
     if (createDemandSucceed) {
       setTimeout(() => {
         navigate("/demandas");

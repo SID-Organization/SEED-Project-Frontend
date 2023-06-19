@@ -48,6 +48,7 @@ export default function Notification(props) {
   const handleReturn = () => {
     return (
       <>
+        <div>{props.message}</div>
         <div>
           <LinearProgress variant="determinate" value={progress} />{" "}
         </div>
@@ -62,19 +63,16 @@ export default function Notification(props) {
       onClose={handleClose}
       anchorOrigin={{ vertical, horizontal }}
     >
-      <>
-        {props.message}
-        <SnackbarContent
-          style={{
-            backgroundColor: "#FFF",
-            color: "#023A67",
-            fontWeight: "bold",
-            position: "relative",
-            overflow: "hidden",
-          }}
-          message={handleReturn()}
-        ></SnackbarContent>
-      </>
+      <SnackbarContent
+        style={{
+          backgroundColor: "#FFF",
+          color: "#023A67",
+          fontWeight: "bold",
+          position: "relative",
+          overflow: "hidden",
+        }}
+        message={handleReturn()}
+      ></SnackbarContent>
     </Snackbar>
   );
 }
