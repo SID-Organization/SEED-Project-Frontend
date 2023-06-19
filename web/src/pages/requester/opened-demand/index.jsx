@@ -258,8 +258,8 @@ export default function openedDemand() {
                           >
                             {demandLogs
                               ? new Date(
-                                  demandLogs[0].recebimentoHistorico
-                                ).toLocaleDateString()
+                                demandLogs[0].recebimentoHistorico
+                              ).toLocaleDateString()
                               : (translate["Indefinido"]?.[language] ?? "Indefinido")}
                           </span>
                         </div>
@@ -332,7 +332,6 @@ export default function openedDemand() {
             </div>
           </div>
           <div>
-          {demand && !["ABERTA", "RASCUNHO"].includes(demand?.statusDemanda) && (
             <Tooltip title="Abrir como PDF">
               <Button
                 onClick={handleOpenDocument}
@@ -345,7 +344,6 @@ export default function openedDemand() {
                 <PictureAsPdfOutlinedIcon />
               </Button>
             </Tooltip>
-          )}
           </div>
         </div>
         <div className="mt-3 flex items-center justify-around">
@@ -396,10 +394,10 @@ export default function openedDemand() {
             <h1 style={{ fontSize: fonts.sm }} className="font-roboto">
               {demand?.centroCustoDemanda[0]
                 ? (
-                    demand.centroCustoDemanda[0].numeroCentroCusto +
-                    " - " +
-                    demand.centroCustoDemanda[0].nomeCentroCusto
-                  ).slice(0, 40)
+                  demand.centroCustoDemanda[0].numeroCentroCusto +
+                  " - " +
+                  demand.centroCustoDemanda[0].nomeCentroCusto
+                ).slice(0, 40)
                 : (translate["Não indicado"]?.[language] ?? "Não indicado")}
             </h1>
           </div>
@@ -481,7 +479,19 @@ export default function openedDemand() {
             benefits={getBenefits("POTENCIAL")}
           />
         </div>
-        <FilesTable files={fileRows} />
+        {fileRows && fileRows.length > 0 ? (
+          <FilesTable
+            disabled={true}
+            files={fileRows}
+          />
+        ) : (
+          <h1
+            style={{ fontSize: fonts.lg }}
+            className="font-roboto font-bold text-dark-blue-weg flex justify-center mt-10"
+          >
+            {translate["Nenhum arquivo anexado"]?.[language] ?? "Nenhum arquivo anexado"}
+          </h1>
+        )}
         <div className="mt-10 flex items-center justify-center">
           <Button
             onClick={() => navigate(-1)}

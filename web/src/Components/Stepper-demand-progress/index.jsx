@@ -16,10 +16,9 @@ import TranslationJson from "../../API/Translate/components/stepperDemand.json";
 import { TranslateContext } from "../../contexts/translate/index";
 
 export default function HorizontalLinearStepper(props) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
-  
+
   const [skipped, setSkipped] = React.useState(new Set());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
@@ -77,7 +76,8 @@ export default function HorizontalLinearStepper(props) {
       {props.activeStep === props.steps.length ? (
         <React.Fragment>
           <Typography style={{ fontSize: fonts.base }} sx={{ mt: 2, mb: 1 }}>
-            {translate["Todos os passos foram completados!"]?.[language] ?? "Todos os passos foram completados!"}
+            {translate["Todos os passos foram completados!"]?.[language] ??
+              "Todos os passos foram completados!"}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />

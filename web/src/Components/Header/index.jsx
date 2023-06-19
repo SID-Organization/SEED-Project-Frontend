@@ -143,8 +143,10 @@ export default function PrimarySearchAppBar() {
   // Estado que armazena o usuário logado.
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
+  const [isIdiomsExtended, setIsIdiomsExtended] = useState(false);
+
   // Flags variable
-  const [flags, setFlags] = useState([
+  const flags = [
     {
       src: BrazilFlag,
       alt: "Brazil Flag",
@@ -169,7 +171,7 @@ export default function PrimarySearchAppBar() {
       label: "Chinês",
       languageCode: "zh-cn",
     },
-  ]);
+  ];
 
   // Função que retorna o avatar do usuário (Imagem ou letras).
   const userAvatar = () => {
@@ -194,7 +196,7 @@ export default function PrimarySearchAppBar() {
     }
   };
 
-  const [menuAnchoeEl, setmMenuAnchoeEl] = useState(null);
+  const [menuAnchoeEl, setMenuAnchorEl] = useState(null);
   const [messagesAnchoeEl, setMessagesAnchoeEl] = useState(null);
   const [notificationsAnchoeEl, setNotificationsAnchoeEl] = useState(null);
 
@@ -207,12 +209,10 @@ export default function PrimarySearchAppBar() {
   const isMessagesOpen = Boolean(messagesAnchoeEl);
   const isNotificationsOpen = Boolean(notificationsAnchoeEl);
 
-
-
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
   const handleProfileMenuOpen = (event) => {
-    setmMenuAnchoeEl(event.currentTarget);
+    setMenuAnchorEl(event.currentTarget);
   };
 
   const handleMessagesMenuOpen = (event) => {
@@ -224,7 +224,8 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleCloseMenu = () => {
-    setmMenuAnchoeEl(null);
+    setIsIdiomsExtended(false);
+    setMenuAnchorEl(null);
   };
 
   const handleMessagesMenuClose = () => {
@@ -267,6 +268,8 @@ export default function PrimarySearchAppBar() {
           border: "none",
           boxShadow: "none",
         }}
+        expanded={isIdiomsExtended}
+        onClick={() => setIsIdiomsExtended(!isIdiomsExtended)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

@@ -15,6 +15,8 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 import TranslationJson from "../../API/Translate/components/profileRow.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
+import Switch from "@mui/material/Switch";
+import VLibras from "@djpfs/react-vlibras/dist/cjs/index.js";
 
 export default function ProfileRow(props) {
 
@@ -27,6 +29,14 @@ export default function ProfileRow(props) {
   const [fontControl, setFontControl] = useState(
     FontSizeUtils.getFontControl()
   );
+
+  const [checked, setChecked] = useState(true);
+
+  const changeSwitch = (event) => {
+    setChecked(event.target.checked);
+    console.log(props)
+    props.handleSwitchChange(event.target.checked);
+  };
 
   const increaseValue = () => {
     if (fontControl < 4) {
@@ -50,6 +60,7 @@ export default function ProfileRow(props) {
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [fontControl]);
+
 
   return (
     <div>
@@ -156,6 +167,16 @@ export default function ProfileRow(props) {
                 </Tooltip>
               </>
             </div>
+          )}
+          {props.librasTranslate && (
+              <div className="flex items-center justify-center gap-4">
+                <Switch
+                    checked={checked}
+                    onChange={changeSwitch}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    style={{ color: "#0075B1"}}
+                />
+              </div>
           )}
         </div>
       </div>

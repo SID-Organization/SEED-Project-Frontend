@@ -252,8 +252,7 @@ export default function DemandCard(props) {
   }
 
   useEffect(() => {
-    console.warn(props.demand);
-    console.warn("user", user);
+    getLogs()
   }, [])
 
   return (

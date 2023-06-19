@@ -20,6 +20,7 @@ import DateUtils from "../../utils/Date-Utils";
 
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
+import ModalPauta from "../ModalPauta";
 
 export default function SubHeaderPautas(props) {
   const translate = TranslationJson;
@@ -28,7 +29,19 @@ export default function SubHeaderPautas(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pautas, setPautas] = useState([]);
 
+  const [pautaId, setPautaId] = useState();
+
+  const [isModalPautaOpen, setIsModalPautaOpen] = useState(false);
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  useEffect(() => {
+    if (pautaId && !isModalOpen) setIsModalPautaOpen(true);
+    if (isModalOpen) {
+      setIsModalPautaOpen(false);
+      setPautaId(null);
+    }
+  }, [pautaId, isModalOpen]);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -114,9 +127,19 @@ export default function SubHeaderPautas(props) {
       </div>
       <Modal open={isModalOpen} onClose={handleModalClose}>
         <Box sx={calendarModalStyle}>
-          <Calendar pautas={pautas} />
+          <Calendar
+            pautas={pautas}
+            setIsModalOpen={setIsModalOpen}
+            setPautaId={setPautaId}
+          />
         </Box>
       </Modal>
+      <ModalPauta
+        pautaId={pautaId}
+        setPautaId={setPautaId}
+        isModalOpen={isModalPautaOpen}
+        setIsModalOpen={setIsModalPautaOpen}
+      />
     </div>
   );
 }

@@ -34,6 +34,7 @@ import VLibras from "@djpfs/react-vlibras/dist/cjs/index.js";
 
 import TextToVoice from "./Components/SpeechSyntesis/index.jsx";
 import TranslateUtils from "./utils/Translate-Utils/index.js";
+import ProfileRow from "./Components/Profile-row/index.jsx";
 
 function App() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
@@ -43,6 +44,12 @@ function App() {
     TranslateUtils.setLanguage(languageCode);
     setLanguage(languageCode);
   }
+
+  const [isVLibrasVisible, setIsVLibrasVisible] = useState(true);
+
+  const handleSwitchChange = (isChecked) => {
+    setIsVLibrasVisible(isChecked);
+  };
 
   return (
     <TranslateContext.Provider value={[language, updateLanguage]}>
@@ -122,18 +129,18 @@ function App() {
             <Route path="propostas" element={<Proposals />} />
 
             <Route
-              path="propostas/:idProposta/:idDemanda"
+              path="propostas/:idDemanda"
               element={<ProposalDetails />}
             />
 
-            <Route path="perfil" element={<Profile />} />
+            <Route path="perfil" element={<Profile switchChange={handleSwitchChange} />} />
 
             <Route path="chat" element={<Chat />} />
           </Route>
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>
       </BrowserRouter>
-      <VLibras forceOnload={true} />
+      {isVLibrasVisible && <VLibras forceOnload={true} />}
     </TranslateContext.Provider>
   );
 }
