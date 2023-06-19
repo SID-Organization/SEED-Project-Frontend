@@ -332,6 +332,7 @@ export default function openedDemand() {
             </div>
           </div>
           <div>
+          {demand && !["ABERTA", "RASCUNHO"].includes(demand?.statusDemanda) && (
             <Tooltip title="Abrir como PDF">
               <Button
                 onClick={handleOpenDocument}
@@ -344,6 +345,7 @@ export default function openedDemand() {
                 <PictureAsPdfOutlinedIcon />
               </Button>
             </Tooltip>
+          )}
           </div>
         </div>
         <div className="mt-3 flex items-center justify-around">
