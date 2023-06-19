@@ -19,6 +19,8 @@ import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 //Services
 import ProposalService from "../../service/Proposal-Service";
 
+// Utils
+import CurrencyUtils from "../../utils/Currency-Utils";
 
 //Translation
 import TranslationJson from "../../API/Translate/components/proposalCard.json";
@@ -208,7 +210,7 @@ export default function ProposalCard(props) {
                   >
                     {translate["Tempo de execução"][language] ?? "Tempo de execução"}:{" "}
                     <span className="font-normal text-gray-500">
-                      {props.executionTime + translate["horas"][language]}
+                      {props.executionTime +" "+ translate["horas"][language]}
                     </span>
                   </h1>
                 </div>
@@ -220,7 +222,7 @@ export default function ProposalCard(props) {
                   >
                     {translate["Valor"][language] ?? "Valor"}:{" "}
                   </h1>
-                  <p className="text-sm text-gray-500"> R$ {props.value}</p>
+                  <p className="text-sm text-gray-500"> {CurrencyUtils.formatCurrency(props.value) ?? "Indefinido"}</p>
                 </div>
                 {props.atasCard && (
                   <div className="w-[13rem]">
@@ -276,7 +278,7 @@ export default function ProposalCard(props) {
                     hover:underline
                   "
                 >
-                  {translate["Visualizar Proposta"][language] ?? "Visualizar Proposta"}
+                  {translate["Visualizar Proposta"]?.[language] ?? "Visualizar Proposta"}
                   <OpenInNewRoundedIcon />
                 </h1>
               )}
@@ -290,7 +292,7 @@ export default function ProposalCard(props) {
             {props.newPauta ? (
               ""
             ) : (
-              <Tooltip title={translate["Visualizar Proposta"][language] ?? "Visualizar Proposta"} onClick={openProposalPDF}>
+              <Tooltip title={translate["Visualizar Proposta"]?.[language] ?? "Visualizar Proposta"} onClick={openProposalPDF}>
                 {props.newPauta === "card" ? (
                   <VisibilityRoundedIcon />
                 ) : (
@@ -310,8 +312,8 @@ export default function ProposalCard(props) {
                 <Tooltip
                   title={
                     isButtonAddClicked
-                      ? translate["Remover Proposta"][language] ?? "Remover Proposta"
-                      : translate["Selecionar proposta"][language] ?? "Selecionar proposta"
+                      ? translate["Remover Proposta"]?.[language] ?? "Remover Proposta"
+                      : translate["Selecionar proposta"]?.[language] ?? "Selecionar proposta"
                   }
                 >
                   {isButtonAddClicked ? (
@@ -324,7 +326,7 @@ export default function ProposalCard(props) {
                     </IconButtonDefault>
                   )}
                 </Tooltip>
-                <Tooltip title={translate["Visualizar PDF da proposta"][language] ?? "Visualizar PDF da proposta"}>
+                <Tooltip title={translate["Visualizar PDF da proposta"]?.[language] ?? "Visualizar PDF da proposta"}>
                   <IconButton onClick={openProposalPDF}>
                     <PictureAsPdfOutlinedIcon
                       sx={{

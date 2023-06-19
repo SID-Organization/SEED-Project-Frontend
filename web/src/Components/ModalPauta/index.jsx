@@ -82,7 +82,7 @@ export default function ModalPauta(props) {
                 searchValue={convertDateToInput(
                   DateUtils.formatDate(pauta.dataReuniaoPauta)
                 )}
-                viewOnly={true}
+                disabled={props.disabled}
               />
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function ModalPauta(props) {
                   variant="outlined"
                   type="time"
                   value={pauta.horarioInicioPauta}
-                  disabled
+                  disabled={props.disabled}
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
                   }}
@@ -113,7 +113,7 @@ export default function ModalPauta(props) {
                   variant="outlined"
                   type="time"
                   value={pauta.horarioTerminoPauta}
-                  disabled
+                  disabled={props.disabled}
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
                   }}
@@ -132,7 +132,7 @@ export default function ModalPauta(props) {
                     variant="outlined"
                     type="text"
                     value={pauta?.forumPauta?.comissaoForum?.nomeComissao}
-                    disabled
+                    disabled={props.disabled}
                     InputProps={{
                       startAdornment: <InputAdornment position="start" />,
                     }}
