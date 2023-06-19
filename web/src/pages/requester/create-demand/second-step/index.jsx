@@ -60,7 +60,7 @@ export default function SecondStep({ props }) {
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
 
         {props.buttonNotification && (
-          <Notification message={translate["Benefício adicionado com sucesso!"] ?? "Benefício adicionado com sucesso!"} />
+          <Notification message={translate["Benefício adicionado com sucesso!"]?.[language] ?? "Benefício adicionado com sucesso!"} />
         )}
         {props.deleteNotification && (
           <Notification message={translate["Benefício removido com sucesso!"]?.[language] ?? "Benefício removido com sucesso!"} />

@@ -1,6 +1,7 @@
 {
     "Benefícios reais": {
         "pt-br": "Benefícios reais",
+        "en-us": "Real benefits",
         "de": "Echte Vorteile",
         "zh-cn": "真正的好处",
         "es": "Beneficios reales",
@@ -9,6 +10,7 @@
     },
     "Benefício adicionado com sucesso!": {
         "pt-br": "Benefício adicionado com sucesso!",
+        "en-us": "Benefit successfully added!",
         "de": "Vorteil erfolgreich hinzugefügt!",
         "zh-cn": "成功添加了好处！",
         "es": "¡Beneficio agregado con éxito!",
@@ -17,6 +19,7 @@
     },
     "Benefício removido com sucesso!": {
         "pt-br": "Benefício removido com sucesso!",
+        "en-us": "Benefit successfully removed!",
         "de": "Vorteil erfolgreich entfernt!",
         "zh-cn": "成功删除了好处！",
         "es": "¡Beneficio eliminado con éxito!",
@@ -25,6 +28,7 @@
     },
     "Adicionar mais benefícios reais": {
         "pt-br": "Adicionar mais benefícios reais",
+        "en-us": "Add more real benefits",
         "de": "Fügen Sie weitere echte Vorteile hinzu",
         "zh-cn": "添加更多真正的好处",
         "es": "Agregar más beneficios reales",
@@ -33,6 +37,7 @@
     },
     "Descreva o benefício.": {
         "pt-br": "Descreva o benefício.",
+        "en-us": "Describe the benefit.",
         "de": "Beschreiben Sie den Vorteil.",
         "zh-cn": "描述好处。",
         "es": "Describe el beneficio.",
@@ -41,6 +46,7 @@
     },
     "Benefício qualitativo": {
         "pt-br": "Benefício qualitativo",
+        "en-us": "Qualitative benefit",
         "de": "Qualitativer Vorteil",
         "zh-cn": "定性好处",
         "es": "Beneficio cualitativo",
@@ -49,6 +55,7 @@
     },
     "Benefícios potenciais": {
         "pt-br": "Benefícios potenciais",
+        "en-us": "Potential benefits",
         "de": "Potenzielle Vorteile",
         "zh-cn": "潜在好处",
         "es": "Beneficios potenciales",
