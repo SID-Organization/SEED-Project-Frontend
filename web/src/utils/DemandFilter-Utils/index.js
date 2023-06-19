@@ -1,6 +1,6 @@
 const filterBy = (demands, filters) => {
   let filteredDemands;
-
+  if (!filteredDemands) filteredDemands = demands;
   /**
    * Filters Template:
    * [
@@ -10,14 +10,23 @@ const filterBy = (demands, filters) => {
 
   // Faz um for pelos filtros, verificando qual deles tem valor para ser filtrado
   for (let filter of filters) {
-    if ([undefined, "", 0, null].includes(filter.value)) continue;
+    console.log("FILTER VAlue", filter.value)
+    // Caso não tiver valor, ira para o próximo filtro
+    if ([undefined, "", 0].includes(filter.value)) continue;
     // Caso tiver valor, ira filtrar pelo campo
-    if (!filteredDemands) filteredDemands = demands;
+    
     filteredDemands = filteredDemands.filter((item) => {
       if (item[filter.filterBy] == null) return false;
 
       // Se o tipo do campo for um número, não utiliza o toLowerCase()
       if (filter.type == "number") return item[filter.filterBy] == filter.value;
+
+      // Filtra por intervalo de valores
+      if (filter.type == "between") {
+        if (!filter.endValue) return item[filter.filterBy] >= filter.value;
+        if (!filter.value) return item[filter.filterBy] <= filter.endValue; 
+        return item[filter.filterBy] >= filter.value && item[filter.filterBy] <= filter.endValue;
+      }
 
       // Se o tipo do campo for uma string, utiliza o toLowerCase() para filtrar
       return item[filter.filterBy]
@@ -36,11 +45,11 @@ const getEmptyFilter = () => [
   { filterBy: "codigoPPMDemanda", value: null, type: "number" },
   { filterBy: "departamentoDemanda", value: null, type: "text" },
   { filterBy: "forumDeAprovacaoDemanda", value: null, type: "text" },
-  { filterBy: "tamanhoDemanda", value: null, type: "text" },
+  { filterBy: "tamanhoDemanda", value: null, endValue: null, type: "text" },
   { filterBy: "tituloDemanda", value: null, type: "text" },
   { filterBy: "statusDemanda", value: null, type: "text" },
-  { filterBy: "valorDemanda", value: null, type: "number" },
-  { filterBy: "scoreDemanda", value: null, type: "number" },
+  { filterBy: "valorDemanda", value: null, endValue: null, type: "number" },
+  { filterBy: "scoreDemanda", value: null, endValue: null, type: "between" },
   { filterBy: "idDemanda", value: null, type: "number" }
 ];
 
@@ -56,7 +65,7 @@ const getUpdatedFilter =
     title,
     status,
     value,
-    score,
+    { score, endScore },
     requestNumber
   ) => [
       { filterBy: "nomeSolicitante", value: requester, type: "text" },
@@ -65,11 +74,11 @@ const getUpdatedFilter =
       { filterBy: "codigoPPMDemanda", value: PPMCode, type: "number" },
       { filterBy: "departamentoDemanda", value: department, type: "text" },
       { filterBy: "forumDeAprovacaoDemanda", value: approvalForum, type: "text" },
-      { filterBy: "tamanhoDemanda", value: demandSize, type: "text" },
+      { filterBy: "tamanhoDemanda", value: demandSize, endValue: null, type: "text" },
       { filterBy: "tituloDemanda", value: title, type: "text" },
       { filterBy: "statusDemanda", value: status, type: "text" },
-      { filterBy: "valorDemanda", value: value, type: "number" },
-      { filterBy: "scoreDemanda", value: score, type: "number" },
+      { filterBy: "valorDemanda", value: value, endValue: null, type: "number" },
+      { filterBy: "scoreDemanda", value: score, endValue: endScore, type: "between" },
       { filterBy: "idDemanda", value: requestNumber, type: "number" },
     ]
 

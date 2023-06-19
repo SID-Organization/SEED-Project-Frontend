@@ -303,7 +303,7 @@ export default function CreateDemand({ isEditting }) {
     setPotentialBenefits([
       ...potentialBenefits,
       {
-        coin: "",
+        coin: "R$",
         value: 0,
         descriptionHTML: "",
         idFront: potentialBenefits.length,
