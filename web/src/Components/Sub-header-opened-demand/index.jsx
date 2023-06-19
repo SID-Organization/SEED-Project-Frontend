@@ -390,7 +390,7 @@ export default function subHeader({ children }) {
           if (response.status == 200 || response.status == 201) {
             setOpenNotification(true);
             const timeout = setTimeout(() => {
-              navigate("/demandas");
+              navigate("/gerenciar-demandas");
             }, 1500);
             return () => clearTimeout(timeout);
           }

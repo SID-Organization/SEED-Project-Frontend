@@ -1,6 +1,7 @@
 {
     "Dados gerais": {
         "pt-br": "Dados gerais",
+        "en-us": "General data",
         "de": "Allgemeine Daten",
         "zh-cn": "常规数据",
         "es": "Datos generales",
@@ -9,6 +10,7 @@
     },
     "Benefícios": {
         "pt-br": "Benefícios",
+        "en-us": "Benefits",
         "de": "Vorteile",
         "zh-cn": "好处",
         "es": "Beneficios",
@@ -17,6 +19,7 @@
     },
     "Arquivos": {
         "pt-br": "Arquivos",
+        "en-us": "Files",
         "de": "Dateien",
         "zh-cn": "文件",
         "es": "Archivos",
@@ -34,6 +37,7 @@
     },
     "Finalizar": {
         "pt-br": "Finalizar",
+        "en-us": "Finish",
         "de": "Fertig",
         "zh-cn": "完成",
         "es": "Finalizar",
@@ -51,6 +55,7 @@
     },
     "Criar nova demanda": {
         "pt-br": "Criar nova demanda",
+        "en-us": "Create new demand",
         "de": "Neue Nachfrage schaffen",
         "zh-cn": "创建新的需求",
         "es": "Crear nueva demanda",
