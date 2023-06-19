@@ -139,6 +139,7 @@ export default function SubHeaderPautas(props) {
         setPautaId={setPautaId}
         isModalOpen={isModalPautaOpen}
         setIsModalOpen={setIsModalPautaOpen}
+        disabled={true}
       />
     </div>
   );
