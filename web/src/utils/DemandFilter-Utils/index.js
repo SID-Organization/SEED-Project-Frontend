@@ -10,29 +10,35 @@ const filterBy = (demands, filters) => {
 
   // Faz um for pelos filtros, verificando qual deles tem valor para ser filtrado
   for (let filter of filters) {
-    console.log("FILTER VAlue", filter.value)
-    // Caso não tiver valor, ira para o próximo filtro
-    if ([undefined, "", 0].includes(filter.value)) continue;
-    // Caso tiver valor, ira filtrar pelo campo
-    
-    filteredDemands = filteredDemands.filter((item) => {
-      if (item[filter.filterBy] == null) return false;
 
-      // Se o tipo do campo for um número, não utiliza o toLowerCase()
-      if (filter.type == "number") return item[filter.filterBy] == filter.value;
-
-      // Filtra por intervalo de valores
-      if (filter.type == "between") {
+    // Filtra por intervalo de valores
+    if (filter.type == "between") {
+      filteredDemands = filteredDemands.filter((item) => {
+        if(parseInt(filter.value) === 0 && !filter.endValue) return item[filter.filterBy] > filter.value;
         if (!filter.endValue) return item[filter.filterBy] >= filter.value;
-        if (!filter.value) return item[filter.filterBy] <= filter.endValue; 
+        if (!filter.value) return item[filter.filterBy] <= filter.endValue;
         return item[filter.filterBy] >= filter.value && item[filter.filterBy] <= filter.endValue;
-      }
+      });
+    } else {
 
-      // Se o tipo do campo for uma string, utiliza o toLowerCase() para filtrar
-      return item[filter.filterBy]
-        .toLowerCase()
-        .includes(filter.value.toLowerCase());
-    });
+      // Caso não tiver valor, ira para o próximo filtro
+      if ([undefined, "", 0, null].includes(filter.value)) continue;
+
+      // Caso tiver valor, ira filtrar pelo campo
+      filteredDemands = filteredDemands.filter((item) => {
+        if (item[filter.filterBy] == null) return false;
+
+        // Se o tipo do campo for um número, não utiliza o toLowerCase()
+        if (filter.type == "number") return item[filter.filterBy] == filter.value;
+
+        // Se o tipo do campo for uma string, utiliza o toLowerCase() para filtrar
+        if (filter.type == "text")
+          return item[filter.filterBy]
+            .toLowerCase()
+            .includes(filter.value.toLowerCase());
+      });
+    }
+
   }
 
   return filteredDemands;

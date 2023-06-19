@@ -103,8 +103,8 @@ export default function DemandFilter(props) {
     setRequester("");
     setDemandStatus("");
     setValue("");
-    setScore(null);
-    setEndScore(null);
+    setScore("");
+    setEndScore("");
     setTitle("");
     setResponsibleAnalyst("");
     setResponsibleManager("");
