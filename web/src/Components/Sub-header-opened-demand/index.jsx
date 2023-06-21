@@ -148,6 +148,7 @@ export default function subHeader({ children }) {
   const [openNotification, setOpenNotification] = useState(false);
 
   const [notificationClassifiedDemand, setNotificationClassifiedDemand] = useState(false);
+  const [anyEmptyField, setAnyEmptyField] = useState(false);
 
   const anchorRef = React.useRef(null);
   const params = useParams();
@@ -340,6 +341,15 @@ export default function subHeader({ children }) {
   };
 
   const handleAnalystClassifyDemand = async () => {
+    // Check if all fields are filled
+    if (!benefitedBus.length || !requesterBu || !responsableSection) {
+      setAnyEmptyField(true);
+      const timer = setTimeout(() => {
+        setAnyEmptyField(false);
+      }, 2200);
+      return () => clearTimeout(timer);
+    }
+
     // Formatting data to send to the backend
     const busBeneficiadas = benefitedBus.map((item) => ({
       idBusinessUnity: item.key
@@ -376,6 +386,10 @@ export default function subHeader({ children }) {
       .then((isSuccessful) => {
         if (isSuccessful) {
           setNotificationClassifiedDemand(true);
+          const timeout = setTimeout(() => {
+            navigate("/gerenciar-demandas");
+          }, 2000);
+          return () => clearTimeout(timeout);
         }
       });
   };
@@ -423,6 +437,14 @@ export default function subHeader({ children }) {
 
   return (
     <div>
+      {
+        anyEmptyField && (
+          <Notification
+            message={translate["Preencha todos os campos!"][language] ?? "Preencha todos os campos!"}
+            severity="warning"
+            />
+        )
+      }
       {
         notificationClassifiedDemand && (
           <Notification

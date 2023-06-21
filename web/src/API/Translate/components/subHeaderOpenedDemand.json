@@ -1,4 +1,13 @@
 {
+  "Preencha todos os campos!": {
+    "pt-br": "Preencha todos os campos!",
+    "en-us": "Fill in all fields!",
+    "de": "Füllen Sie alle Felder aus!",
+    "zh-cn": "填写所有字段！",
+    "es": "¡Complete todos los campos!",
+    "fr": "Remplissez tous les champs !",
+    "it": "Compila tutti i campi!"
+  },
   "Deseja aprovar a demanda?": {
     "pt-br": "Deseja aprovar a demanda?",
     "en-us": "Do you want to approve the demand?",
