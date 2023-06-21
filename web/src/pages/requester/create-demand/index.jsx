@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // Styles
@@ -14,6 +14,7 @@ import SecondStep from "./second-step";
 import ThirdStep from "./third-step";
 import FourthStep from "./fourth-step";
 import StepperDemandProgress from "../../../Components/Stepper-demand-progress";
+import Notification from "../../../Components/Notification";
 
 // Services
 import DemandService from "../../../service/Demand-Service";
@@ -24,10 +25,17 @@ import UserUtils from "../../../utils/User-Utils";
 import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandUtils from "../../../utils/Demand-Utils";
+
+//Translation
+import TranslationJson from "../../../API/Translate/pages/requester/createDemand.json";
+import { TranslateContext } from "../../../contexts/translate/index";
+
 const { removeHTML } = ReactQuillUtils;
 
-
 export default function CreateDemand({ isEditting }) {
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
   const params = useParams();
 
   const [title, setTitle] = useState("");
@@ -72,7 +80,6 @@ export default function CreateDemand({ isEditting }) {
 
   const [createDemandSucceed, setCreateDemandSucceed] = useState(true);
 
-
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
@@ -82,6 +89,8 @@ export default function CreateDemand({ isEditting }) {
   const [confirmDemand, setConfirmDemand] = useState(false);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  const [notifyConfirm, setNotifyConfirm] = useState(false);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -146,7 +155,6 @@ export default function CreateDemand({ isEditting }) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-
   const handleCreateDemand = async (finish = false) => {
     if (!finish && isEditting) return;
     try {
@@ -195,20 +203,23 @@ export default function CreateDemand({ isEditting }) {
       console.log("DEMAND TO SAVE", demandToSave);
       console.log("PDF TO SAVE", formDemandPDF);
 
+      //here
       if (!finish) {
         if (!demandUpdateId && title !== "") {
           DemandService.createDemand(formData).then((res) => {
             console.log("CREATE DEMAND", res);
             setDemandUpdateId(res.idDemanda);
-            updateBenefits(res.beneficiosDemanda);
+            if (res.beneficiosDemanda) updateBenefits(res.beneficiosDemanda);
           });
         } else if (demandUpdateId && title !== "") {
           DemandService.updateDemand(demandUpdateId, formData).then((res) => {
             console.log("UPDATE DEMAND", res.data);
-            updateBenefits(res.data.beneficiosDemanda);
+            if (res.data.beneficiosDemanda)
+              updateBenefits(res.data.beneficiosDemanda);
           });
         }
       } else {
+        setNotifyConfirm(true);
         console.log("FINISH DEMAND CALLED");
         handleFinishDemand(formData);
       }
@@ -251,21 +262,21 @@ export default function CreateDemand({ isEditting }) {
   };
 
   const handleFinishDemand = (formData) => {
-    DemandService.updateDemand(demandUpdateId, formData)
-      .then(res => {
-        if ([200, 201].includes(res.status)) {
-          DemandService.updateDemandStatus(demandUpdateId, "ABERTA")
-            .then(res => {
-              if ([200, 201].includes(res.status)) {
-                setCreateDemandSucceed(true)
-              }
-            });
-        }
-      });
+    DemandService.updateDemand(demandUpdateId, formData).then((res) => {
+      if ([200, 201].includes(res.status)) {
+        DemandService.updateDemandStatus(demandUpdateId, "ABERTA").then(
+          (res) => {
+            if ([200, 201].includes(res.status)) {
+              setCreateDemandSucceed(true);
+            }
+          }
+        );
+      }
+    });
     if (createDemandSucceed) {
       setTimeout(() => {
         navigate("/demandas");
-      }, 1000);
+      }, 2000);
     }
   };
 
@@ -292,7 +303,7 @@ export default function CreateDemand({ isEditting }) {
     setPotentialBenefits([
       ...potentialBenefits,
       {
-        coin: "",
+        coin: "R$",
         value: 0,
         descriptionHTML: "",
         idFront: potentialBenefits.length,
@@ -363,7 +374,11 @@ export default function CreateDemand({ isEditting }) {
     return { name, size: fileSize };
   }
 
-  const steps = ["Dados gerais", "Benefícios", "Arquivos"];
+  const steps = [
+    translate["Dados gerais"]?.[language] ?? "Dados gerais",
+    translate["Benefícios"]?.[language] ?? "Benefícios",
+    translate["Arquivos"]?.[language] ?? "Arquivos",
+  ];
 
   const firstStepProps = {
     title,
@@ -409,10 +424,17 @@ export default function CreateDemand({ isEditting }) {
 
   return (
     <div>
+      {notifyConfirm === true && (
+        <Notification
+          message="Demanda criada com sucesso!"
+          severity={"success"}
+        />
+      )}
       <div className="mb-7">
         <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-            {"Criar nova demanda"}
+            {translate["Criar nova demanda"]?.[language] ??
+              "Criar nova demanda"}
           </h1>
         </div>
       </div>
@@ -441,14 +463,16 @@ export default function CreateDemand({ isEditting }) {
             onClick={handleBack}
             sx={{ mr: 1 }}
           >
-            Voltar
+            {translate["Voltar"]?.[language] ?? "Voltar"}
           </Button>
           <Button
             style={{ fontSize: fonts.sm }}
             onClick={handleNext}
             disabled={title.length == 0}
           >
-            {activeStep === steps.length - 1 ? "Finalizar" : "Próximo"}
+            {activeStep === steps.length - 1
+              ? translate["Finalizar"]?.[language] ?? "Finalizar"
+              : translate["Próximo"]?.[language] ?? "Próximo"}
           </Button>
         </div>
       </div>

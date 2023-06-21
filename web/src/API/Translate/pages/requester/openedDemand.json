@@ -1,0 +1,236 @@
+{
+    "Visualização Demanda": {
+        "pt-br": "Visualização Demanda",
+        "en-us": "View Demand",
+        "de": "Nachfrage anzeigen",
+        "zh-cn": "查看需求",
+        "es": "Ver demanda",
+        "fr": "Voir la demande",
+        "it": "Visualizza domanda"
+    },
+    "Abrir workflow": {
+        "pt-br": "Abrir workflow",
+        "en-us": "Open workflow",
+        "de": "Workflow öffnen",
+        "zh-cn": "打开工作流",
+        "es": "Abrir flujo de trabajo",
+        "fr": "Ouvrir le flux de travail",
+        "it": "Apri flusso di lavoro"
+    },
+    "Workflow": {
+        "pt-br": "Workflow",
+        "en-us": "Workflow",
+        "de": "Workflow",
+        "zh-cn": "工作流",
+        "es": "Flujo de trabajo",
+        "fr": "Flux de travail",
+        "it": "Flusso di lavoro"
+    },
+    "Fechar": {
+        "pt-br": "Fechar",
+        "en-us": "Close",
+        "de": "Schließen",
+        "zh-cn": "关",
+        "es": "Cerrar",
+        "fr": "Fermer",
+        "it": "Chiudere"
+    },
+    "Solicitante": {
+        "pt-br": "Solicitante",
+        "en-us": "Requester",
+        "de": "Antragsteller",
+        "zh-cn": "请求者",
+        "es": "Solicitante",
+        "fr": "Demandeur",
+        "it": "Richiedente"
+    },
+    "Número de demanda": {
+        "pt-br": "Número de demanda",
+        "en-us": "Demand number",
+        "de": "Nachfragenummer",
+        "zh-cn": "需求编号",
+        "es": "Número de demanda",
+        "fr": "Numéro de demande",
+        "it": "Numero di domanda"
+    },
+    "Analista responsável": {
+        "pt-br": "Analista responsável",
+        "en-us": "Responsible analyst",
+        "de": "Verantwortlicher Analyst",
+        "zh-cn": "负责分析师",
+        "es": "Analista responsable",
+        "fr": "Analyste responsable",
+        "it": "Analista responsabile"
+    },
+    "Iniciada em:": {
+        "pt-br": "Iniciada em:",
+        "en-us": "Started on:",
+        "de": "Gestartet am:",
+        "zh-cn": "开始于：",
+        "es": "Comenzó en:",
+        "fr": "Commencé le:",
+        "it": "Iniziato il:"
+    },
+    "Indefinido": {
+        "pt-br": "Indefinido",
+        "en-us": "Undefined",
+        "de": "Undefiniert",
+        "zh-cn": "未定义",
+        "es": "Indefinido",
+        "fr": "Indéfini",
+        "it": "Indefinito"
+    },
+    "Concluída em:": {
+        "pt-br": "Concluída em:",
+        "en-us": "Completed on:",
+        "de": "Abgeschlossen am:",
+        "zh-cn": "完成于：",
+        "es": "Completado en:",
+        "fr": "Terminé le:",
+        "it": "Completato il:"
+    },
+    "Histórico": {
+        "pt-br": "Histórico",
+        "en-us": "History",
+        "de": "Geschichte",
+        "zh-cn": "历史",
+        "es": "Historia",
+        "fr": "Histoire",
+        "it": "Storia"
+    },
+    "Abrir chat": {
+        "pt-br": "Abrir chat",
+        "en-us": "Open chat",
+        "de": "Chat öffnen",
+        "zh-cn": "打开聊天",
+        "es": "Abrir chat",
+        "fr": "Ouvrir le chat",
+        "it": "Apri chat"
+    },
+    "Score": {
+        "pt-br": "Score",
+        "en-us": "Score",
+        "de": "Punktzahl",
+        "zh-cn": "得分",
+        "es": "Puntuación",
+        "fr": "Score",
+        "it": "Punteggio"
+    },
+    "Abrir como PDF": {
+        "pt-br": "Abrir como PDF",
+        "en-us": "Open as PDF",
+        "de": "Als PDF öffnen",
+        "zh-cn": "作为PDF打开",
+        "es": "Abrir como PDF",
+        "fr": "Ouvrir comme PDF",
+        "it": "Apri come PDF"
+    },
+    "De": {
+        "pt-br": "De",
+        "en-us": "From",
+        "de": "Von",
+        "zh-cn": "从",
+        "es": "De",
+        "fr": "De",
+        "it": "A partire dal"
+    },
+    "Até": {
+        "pt-br": "Até",
+        "en-us": "To",
+        "de": "Zu",
+        "zh-cn": "至",
+        "es": "Hasta",
+        "fr": "À",
+        "it": "A"
+    },
+    "Centro de custo": {
+        "pt-br": "Centro de custo",
+        "en-us": "Cost center",
+        "de": "Kostenstelle",
+        "zh-cn": "成本中心",
+        "es": "Centro de costos",
+        "fr": "Centre de coût",
+        "it": "Centro di costo"
+    },
+    "Não indicado": {
+        "pt-br": "Não indicado",
+        "en-us": "Not indicated",
+        "de": "Nicht angegeben",
+        "zh-cn": "未指定",
+        "es": "No indicado",
+        "fr": "Non indiqué",
+        "it": "Non indicato"
+    },
+    "Objetivo:": {
+        "pt-br": "Objetivo:",
+        "en-us": "Objective:",
+        "de": "Ziel:",
+        "zh-cn": "目标：",
+        "es": "Objetivo:",
+        "fr": "Objectif:",
+        "it": "Obiettivo:"
+    },
+    "Situação atual:": {
+        "pt-br": "Situação atual:",
+        "en-us": "Current situation:",
+        "de": "Aktuelle Situation:",
+        "zh-cn": "当前情况：",
+        "es": "Situación actual:",
+        "fr": "Situation actuelle:",
+        "it": "Situazione attuale:"
+    },
+    "Frequência de uso:": {
+        "pt-br": "Frequência de uso:",
+        "en-us": "Frequency of use:",
+        "de": "Häufigkeit der Verwendung:",
+        "zh-cn": "使用频率：",
+        "es": "Frecuencia de uso:",
+        "fr": "Fréquence d'utilisation:",
+        "it": "Frequenza di utilizzo:"
+    },
+    "Benefício qualitativo:": {
+        "pt-br": "Benefício qualitativo:",
+        "en-us": "Qualitative benefit:",
+        "de": "Qualitativer Nutzen:",
+        "zh-cn": "定性效益：",
+        "es": "Beneficio cualitativo:",
+        "fr": "Avantage qualitatif:",
+        "it": "Beneficio qualitativo:"
+    },
+    "Benefícios reais": {
+        "pt-br": "Benefícios reais",
+        "en-us": "Real benefits",
+        "de": "Reale Vorteile",
+        "zh-cn": "真正的好处",
+        "es": "Beneficios reales",
+        "fr": "Avantages réels",
+        "it": "Benefici reali"
+    },
+    "Benefícios potenciais": {
+        "pt-br": "Benefícios potenciais",
+        "en-us": "Potential benefits",
+        "de": "Potenzielle Vorteile",
+        "zh-cn": "潜在的好处",
+        "es": "Beneficios potenciales",
+        "fr": "Avantages potentiels",
+        "it": "Benefici potenziali"
+    },
+    "Ok": {
+        "pt-br": "Ok",
+        "en-us": "Ok",
+        "de": "Ok",
+        "zh-cn": "好",
+        "es": "Ok",
+        "fr": "D'accord",
+        "it": "Ok"
+    },
+    "Nenhum arquivo anexado": {
+        "pt-br": "Nenhum arquivo anexado",
+        "en-us": "No file attached",
+        "de": "Keine Datei angehängt",
+        "zh-cn": "没有附加文件",
+        "es": "Ningún archivo adjunto",
+        "fr": "Aucun fichier joint",
+        "it": "Nessun file allegato"
+    }
+}

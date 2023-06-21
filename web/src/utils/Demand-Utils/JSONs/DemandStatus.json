@@ -1,109 +1,347 @@
-
 {
     "RASCUNHO": {
-        "ANALYST": "Rascunho",
+        "ANALYST": {
+            "pt-br": "Rascunho",
+            "en-us": "Draft",
+            "de": "Entwurf",
+            "zh-cn": "草案",
+            "es": "Borrador",
+            "fr": "Brouillon",
+            "it": "Bozza"
+        },
         "ANALYST_COLOR": "#808080",
-        "REQUESTER": "Rascunho",
+        "REQUESTER": {
+            "pt-br": "Rascunho",
+            "en-us": "Draft",
+            "de": "Entwurf",
+            "zh-cn": "草案",
+            "es": "Borrador",
+            "fr": "Brouillon",
+            "it": "Bozza"
+        },
         "COLOR": "#808080",
         "PERCENTAGE": 1
     },
     "EM_EDICAO": {
-        "ANALYST": "Em Edição",
+        "ANALYST": {
+            "pt-br": "Em Edição",
+            "en-us": "In Edition",
+            "de": "In Ausgabe",
+            "zh-cn": "在版",
+            "es": "En Edición",
+            "fr": "En Édition",
+            "it": "In Edizione"
+        },
         "ANALYST_COLOR": "#FFA500",
-        "REQUESTER": "Em Edição",
+        "REQUESTER": {
+            "pt-br": "Em Edição",
+            "en-us": "In Edition",
+            "de": "In Ausgabe",
+            "zh-cn": "在版",
+            "es": "En Edición",
+            "fr": "En Édition",
+            "it": "In Edizione"
+        },
         "COLOR": "#FFA500",
         "PERCENTAGE": 5
     },
     "ABERTA": {
-        "ANALYST": "Aberta",
+        "ANALYST": {
+            "pt-br": "Aberta",
+            "en-us": "Open",
+            "de": "Öffnen",
+            "zh-cn": "打开",
+            "es": "Abierto",
+            "fr": "Ouvert",
+            "it": "Aperto"
+        },
         "ANALYST_COLOR": "#D9D9D9",
-        "REQUESTER": "Aberta",
+        "REQUESTER": {
+            "pt-br": "Aberta",
+            "en-us": "Open",
+            "de": "Öffnen",
+            "zh-cn": "打开",
+            "es": "Abierto",
+            "fr": "Ouvert",
+            "it": "Aperto"
+        },
         "COLOR": "#D9D9D9",
         "PERCENTAGE": 15
     },
     "CLASSIFICADO_PELO_ANALISTA": {
-        "ANALYST": "Aberta",
+        "ANALYST": {
+            "pt-br": "Aberta",
+            "en-us": "Open",
+            "de": "Öffnen",
+            "zh-cn": "打开",
+            "es": "Abierto",
+            "fr": "Ouvert",
+            "it": "Aperto"
+        },
         "ANALYST_COLOR": "#D9D9D9",
-        "REQUESTER": "Classificado pelo Analista",
+        "REQUESTER": {
+            "pt-br": "Classificado pelo Analista",
+            "en-us": "Classified by Analyst",
+            "de": "Klassifiziert vom Analysten",
+            "zh-cn": "由分析师分类",
+            "es": "Clasificado por el Analista",
+            "fr": "Classé par l'analyste",
+            "it": "Classificato dall'analista"
+        },
         "COLOR": "#989898",
         "PERCENTAGE": 30
     },
     "APROVADO_PELO_GERENTE_DA_AREA": {
-        "ANALYST": "Backlog",
+        "ANALYST": {
+            "pt-br": "Backlog",
+            "en-us": "Backlog",
+            "de": "Backlog",
+            "zh-cn": "积压",
+            "es": "Backlog",
+            "fr": "Backlog",
+            "it": "Backlog"
+        },
         "ANALYST_COLOR": "#0080FF",
-        "REQUESTER": "Aprovado pelo Gerente da Área",
+        "REQUESTER": {
+            "pt-br": "Aprovado pelo Gerente da Área",
+            "en-us": "Approved by Area Manager",
+            "de": "Vom Bereichsleiter genehmigt",
+            "zh-cn": "区域经理批准",
+            "es": "Aprobado por el Gerente de Área",
+            "fr": "Approuvé par le directeur de zone",
+            "it": "Approvato dal responsabile di zona"
+        },
         "COLOR": "#0080FF",
         "PERCENTAGE": 40
     },
     "PROPOSTA_EM_ELABORACAO": {
-        "ANALYST": "Assesment",
+        "ANALYST": {
+            "pt-br": "Assesment",
+            "en-us": "Assesment",
+            "de": "Assesment",
+            "zh-cn": "评估",
+            "es": "Assesment",
+            "fr": "Assesment",
+            "it": "Assesment"
+        },
         "ANALYST_COLOR": "#4169E1",
-        "REQUESTER": "Proposta em Elaboração",
+        "REQUESTER": {
+            "pt-br": "Proposta em Elaboração",
+            "en-us": "Proposal in Elaboration",
+            "de": "Vorschlag in Ausarbeitung",
+            "zh-cn": "制定中的提案",
+            "es": "Propuesta en Elaboración",
+            "fr": "Proposition en élaboration",
+            "it": "Proposta in Elaborazione"
+        },
         "COLOR": "#4169E1",
         "PERCENTAGE": 45
     },
     "PROPOSTA_PRONTA": {
-        "ANALYST": "Assesment",
+        "ANALYST": {
+            "pt-br": "Assesment",
+            "en-us": "Assesment",
+            "de": "Assesment",
+            "zh-cn": "评估",
+            "es": "Assesment",
+            "fr": "Assesment",
+            "it": "Assesment"
+        },
         "ANALYST_COLOR": "#ADD8E6",
-        "REQUESTER": "Proposta Pronta",
+        "REQUESTER": {
+            "pt-br": "Proposta Pronta",
+            "en-us": "Proposal Ready",
+            "de": "Vorschlag bereit",
+            "zh-cn": "提案准备就绪",
+            "es": "Propuesta Lista",
+            "fr": "Proposition prête",
+            "it": "Proposta Pronta"
+        },
         "COLOR": "#ADD8E6",
         "PERCENTAGE": 55
     },
     "EM_PAUTA": {
-        "ANALYST": "Assesment",
+        "ANALYST": {
+            "pt-br": "Assesment",
+            "en-us": "Assesment",
+            "de": "Assesment",
+            "zh-cn": "评估",
+            "es": "Assesment",
+            "fr": "Assesment",
+            "it": "Assesment"
+        },
         "ANALYST_COLOR": "#000080",
-        "REQUESTER": "Em Pauta",
+        "REQUESTER": {
+            "pt-br": "Em Pauta",
+            "en-us": "In Schedule",
+            "de": "Im Zeitplan",
+            "zh-cn": "在时间表中",
+            "es": "En Pauta",
+            "fr": "En horaire",
+            "it": "In programma"
+        },
         "COLOR": "#000080",
         "PERCENTAGE": 60
     },
     "APROVADA_EM_COMISSAO": {
-        "ANALYST": "To Do",
+        "ANALYST": {
+            "pt-br": "To Do",
+            "en-us": "To Do",
+            "de": "To Do",
+            "zh-cn": "要做",
+            "es": "To Do",
+            "fr": "To Do",
+            "it": "To Do"
+        },
         "ANALYST_COLOR": "#008080",
-        "REQUESTER": "Aprovada em Comissão",
+        "REQUESTER": {
+            "pt-br": "Aprovada em Comissão",
+            "en-us": "Approved by Commission",
+            "de": "Von der Kommission genehmigt",
+            "zh-cn": "委员会批准",
+            "es": "Aprobado por la Comisión",
+            "fr": "Approuvé par la Commission",
+            "it": "Approvato dalla Commissione"
+        },
         "COLOR": "#008080",
         "PERCENTAGE": 65
     },
     "APROVADA_EM_DG": {
-        "ANALYST": "To Do",
+        "ANALYST": {
+            "pt-br": "To Do",
+            "en-us": "To Do",
+            "de": "To Do",
+            "zh-cn": "要做",
+            "es": "To Do",
+            "fr": "To Do",
+            "it": "To Do"
+        },
         "ANALYST_COLOR": "#FFD700",
-        "REQUESTER": "Aprovada em DG",
+        "REQUESTER": {
+            "pt-br": "Aprovada em DG",
+            "en-us": "Approved by DG",
+            "de": "Vom DG genehmigt",
+            "zh-cn": "DG批准",
+            "es": "Aprobado por DG",
+            "fr": "Approuvé par DG",
+            "it": "Approvato da DG"
+        },
         "COLOR": "#FFD700",
         "PERCENTAGE": 80
     },
     "PROPOSTA_EM_EXECUCAO": {
-        "ANALYST": "Design and Build",
+        "ANALYST": {
+            "pt-br": "Design and Build",
+            "en-us": "Design and Build",
+            "de": "Design and Build",
+            "zh-cn": "设计和建造",
+            "es": "Design and Build",
+            "fr": "Design and Build",
+            "it": "Design and Build"
+        },
         "ANALYST_COLOR": "#00FFFF",
-        "REQUESTER": "Proposta em Execução",
+        "REQUESTER": {
+            "pt-br": "Proposta em Execução",
+            "en-us": "Proposal in Execution",
+            "de": "Vorschlag in Ausführung",
+            "zh-cn": "执行中的提案",
+            "es": "Propuesta en Ejecución",
+            "fr": "Proposition en exécution",
+            "it": "Proposta in Esecuzione"
+        },
         "COLOR": "#00FFFF",
         "PERCENTAGE": 90
     },
     "PROPOSTA_EM_SUPORTE": {
-        "ANALYST": "Support",
+        "ANALYST": {
+            "pt-br": "Support",
+            "en-us": "Support",
+            "de": "Support",
+            "zh-cn": "支持",
+            "es": "Support",
+            "fr": "Support",
+            "it": "Support"
+        },
         "ANALYST_COLOR": "#4B0082",
-        "REQUESTER": "Proposta em Suporte",
+        "REQUESTER": {
+            "pt-br": "Proposta em Suporte",
+            "en-us": "Proposal in Support",
+            "de": "Vorschlag in Unterstützung",
+            "zh-cn": "支持中的提案",
+            "es": "Propuesta en Soporte",
+            "fr": "Proposition en support",
+            "it": "Proposta in Supporto"
+        },
         "COLOR": "#4B0082",
         "PERCENTAGE": 95
     },
     "PROPOSTA_FINALIZADA": {
-        "ANALYST": "Done",
+        "ANALYST": {
+            "pt-br": "Done",
+            "en-us": "Done",
+            "de": "Done",
+            "zh-cn": "完成",
+            "es": "Done",
+            "fr": "Done",
+            "it": "Done"
+        },
         "ANALYST_COLOR": "#228B22",
-        "REQUESTER": "Proposta Finalizada",
+        "REQUESTER": {
+            "pt-br": "Proposta Finalizada",
+            "en-us": "Proposal Finished",
+            "de": "Vorschlag beendet",
+            "zh-cn": "提案完成",
+            "es": "Propuesta Finalizada",
+            "fr": "Proposition terminée",
+            "it": "Proposta Finita"
+        },
         "COLOR": "#228B22",
         "PERCENTAGE": 100
     },
     "CANCELADA": {
-        "ANALYST": "Cancelada",
+        "ANALYST": {
+            "pt-br": "Cancelada",
+            "en-us": "Canceled",
+            "de": "Abgebrochen",
+            "zh-cn": "取消",
+            "es": "Cancelada",
+            "fr": "Annulé",
+            "it": "Annullato"
+        },
         "ANALYST_COLOR": "#C31700",
-        "REQUESTER": "Cancelada",
+        "REQUESTER": {
+            "pt-br": "Cancelada",
+            "en-us": "Canceled",
+            "de": "Abgebrochen",
+            "zh-cn": "取消",
+            "es": "Cancelada",
+            "fr": "Annulé",
+            "it": "Annullato"
+        },
         "COLOR": "#C31700",
         "PERCENTAGE": 100
     },
     "BUSINESS_CASE": {
-        "ANALYST": "Business Case",
+        "ANALYST": {
+            "pt-br": "Business Case",
+            "en-us": "Business Case",
+            "de": "Business Case",
+            "zh-cn": "商业案例",
+            "es": "Business Case",
+            "fr": "Business Case",
+            "it": "Business Case"
+        },
         "ANALYST_COLOR": "#7FFF00",
-        "REQUESTER": "Business Case",
+        "REQUESTER": {
+            "pt-br": "Business Case",
+            "en-us": "Business Case",
+            "de": "Business Case",
+            "zh-cn": "商业案例",
+            "es": "Business Case",
+            "fr": "Business Case",
+            "it": "Business Case"
+        },
         "COLOR": "#7FFF00",
         "PERCENTAGE": 100
     }
 }
-

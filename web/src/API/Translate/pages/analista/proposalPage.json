@@ -1,0 +1,38 @@
+{
+  "Adicionar à uma pauta": {
+    "pt-br": "Adicionar à uma pauta",
+    "en-us": "Add to a schedule",
+    "de": "Zu einem Zeitplan hinzufügen",
+    "zh-cn": "添加到日程表",
+    "es": "Agregar a un programa",
+    "fr": "Ajouter à un programme",
+    "it": "Aggiungi a un programma"
+  },
+  "Adicionar à pauta": {
+    "pt-br": "Adicionar à pauta",
+    "en-us": "Add to schedule",
+    "de": "Zu Zeitplan hinzufügen",
+    "zh-cn": "添加到日程表",
+    "es": "Agregar a un programa",
+    "fr": "Ajouter à un programme",
+    "it": "Aggiungi a un programma"
+  },
+  "1 proposta": {
+    "pt-br": "1 proposta",
+    "en-us": "1 proposal",
+    "de": "1 Vorschlag",
+    "zh-cn": "1个提案",
+    "es": "1 propuesta",
+    "fr": "1 proposition",
+    "it": "1 proposta"
+  },
+  "Sem propostas!": {
+    "pt-br": "Sem propostas!",
+    "en-us": "No proposals!",
+    "de": "Keine Vorschläge!",
+    "zh-cn": "没有提案！",
+    "es": "¡Sin propuestas!",
+    "fr": "Pas de propositions!",
+    "it": "Nessuna proposta!"
+  }
+}

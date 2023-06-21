@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 
 //MUI
@@ -9,13 +9,11 @@ import {
   Modal,
   Tooltip,
 } from "@mui/material";
-import EventRoundedIcon from "@mui/icons-material/EventRounded";
 
 // Components
 import PautasCard from "../../../Components/Pautas-card";
 import SubHeaderPautas from "../../../Components/Sub-header-pautas";
 import NoContent from "../../../Components/No-content";
-import Calendar from "../../../Components/Calendar";
 
 // Services
 import PautaService from "../../../service/Pauta-Service";
@@ -25,7 +23,15 @@ import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
 
+//Translation
+import TranslationJson from "../../../API/Translate/pages/analista/pautas.json";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
+
 export default function Pautas() {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [pautas, setPautas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -35,7 +41,6 @@ export default function Pautas() {
   const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -93,60 +98,24 @@ export default function Pautas() {
   };
 
   const months = {
-    "01": "Janeiro",
-    "02": "Fevereiro",
-    "03": "Março",
-    "04": "Abril",
-    "05": "Maio",
-    "06": "Junho",
-    "07": "Julho",
-    "08": "Agosto",
-    "09": "Setembro",
-    10: "Outubro",
-    11: "Novembro",
-    12: "Dezembro",
-  };
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const calendarModalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 800,
-    bgcolor: "background.paper",
-    borderLeft: "5px solid #00579D",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: "10px",
+    "01": translate["Janeiro"]?.[language],
+    "02": translate["Fevereiro"]?.[language],
+    "03": translate["Março"]?.[language],
+    "04": translate["Abril"]?.[language],
+    "05": translate["Maio"]?.[language],
+    "06": translate["Junho"]?.[language],
+    "07": translate["Julho"]?.[language],
+    "08": translate["Agosto"]?.[language],
+    "09": translate["Setembro"]?.[language],
+    10: translate["Outubro"]?.[language],
+    11: translate["Novembro"]?.[language],
+    12: translate["Dezembro"]?.[language],
   };
 
   return (
     <div>
       <SubHeaderPautas filters={filters} setFilters={setFilters} />
       <div className="grid items-center justify-center">
-        <div className="mt-5 flex items-center justify-start">
-          <Tooltip title="Ver reuniões agendadas" placement="right">
-            <IconButton onClick={handleModalOpen}>
-              <EventRoundedIcon
-                sx={{
-                  color: "#00579D",
-                  fontSize: "30px",
-                  "&:hover": {
-                    color: "#00579D",
-                  },
-                }}
-              />
-            </IconButton>
-          </Tooltip>
-        </div>
         <div className="mb-20 mt-4 flex flex-col items-center justify-center gap-10">
           {isLoading ? (
             <div className="flex h-[71vh] items-center justify-around">
@@ -168,7 +137,7 @@ export default function Pautas() {
                         {getPautasInMonth(month, year).map((pauta) => (
                           <PautasCard
                             key={pauta.idPauta}
-                            pautaName={"ID da pauta: " + pauta.idPauta}
+                            pautaName={translate["ID da pauta: "]?.[language] + pauta.idPauta}
                             pautaId={pauta.idPauta}
                             qtyProposals={pauta.qtdPropostas}
                             meetingDate={pauta.dataReuniao}
@@ -185,18 +154,12 @@ export default function Pautas() {
           ) : (
             <div className="flex h-[71vh] items-center justify-around">
               <NoContent isPauta={true}>
-                <span style={{ fontSize: fonts.xl }}>Sem pautas!</span>
+                <span style={{ fontSize: fonts.xl }}>{translate["Sem pautas!"]?.[language] ?? "Sem pautas!"}</span>
               </NoContent>
             </div>
           )}
         </div>
       </div>
-
-      <Modal open={isModalOpen} onClose={handleModalClose}>
-        <Box sx={calendarModalStyle}>
-          <Calendar pautas={pautas} />
-        </Box>
-      </Modal>
     </div>
   );
 }

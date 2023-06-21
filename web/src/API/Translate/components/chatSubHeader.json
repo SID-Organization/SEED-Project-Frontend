@@ -1,46 +1,101 @@
 {
-  "Informações":{
+  "Informações": {
     "pt-br": "Informações",
-    "en-us": "Information"
+    "en-us": "Information",
+    "de": "Informationen",
+    "zh-cn": "信息",
+    "es": "Información",
+    "fr": "Informations",
+    "it": "Informazioni"
   },
   "Demanda": {
     "pt-br": "Demanda",
-    "en-us": "Demand"
+    "en-us": "Demand",
+    "de": "Nachfrage",
+    "zh-cn": "需求",
+    "es": "Demanda",
+    "fr": "Demande",
+    "it": "Domanda"
   },
   "Departamento": {
     "pt-br": "Departamento",
-    "en-us": "Department"
+    "en-us": "Department",
+    "de": "Abteilung",
+    "zh-cn": "部门",
+    "es": "Departamento",
+    "fr": "Département",
+    "it": "Dipartimento"
   },
   "Seção": {
     "pt-br": "Seção",
-    "en-us": "Section"
+    "en-us": "Section",
+    "de": "Abschnitt",
+    "zh-cn": "部分",
+    "es": "Sección",
+    "fr": "Section",
+    "it": "Sezione"
   },
   "Telefone": {
     "pt-br": "Telefone",
-    "en-us": "Phone"
+    "en-us": "Phone",
+    "de": "Telefon",
+    "zh-cn": "电话",
+    "es": "Teléfono",
+    "fr": "Téléphone",
+    "it": "Telefono"
   },
   "Fechar": {
     "pt-br": "Fechar",
-    "en-us": "Close"
+    "en-us": "Close",
+    "de": "Schließen",
+    "zh-cn": "关闭",
+    "es": "Cerrar",
+    "fr": "Fermer",
+    "it": "Chiudi"
   },
   "E-mail copiado para a área de transferência!": {
     "pt-br": "E-mail copiado para a área de transferência!",
-    "en-us": "E-mail copied to clipboard!"
+    "en-us": "E-mail copied to clipboard!",
+    "de": "E-Mail in Zwischenablage kopiert!",
+    "zh-cn": "电子邮件已复制到剪贴板！",
+    "es": "¡Correo electrónico copiado al portapapeles!",
+    "fr": "E-mail copié dans le presse-papiers !",
+    "it": "Email copiata negli appunti!"
   },
   "Telefone copiado para a área de transferência!": {
     "pt-br": "Telefone copiado para a área de transferência!",
-    "en-us": "Phone copied to clipboard!"
+    "en-us": "Phone copied to clipboard!",
+    "de": "Telefon in Zwischenablage kopiert!",
+    "zh-cn": "电话已复制到剪贴板！",
+    "es": "¡Teléfono copiado al portapapeles!",
+    "fr": "Téléphone copié dans le presse-papiers !",
+    "it": "Telefono copiato negli appunti!"
   },
   "Solicitante": {
     "pt-br": "Solicitante",
-    "en-us": "Requester"
+    "en-us": "Requester",
+    "de": "Antragsteller",
+    "zh-cn": "请求者",
+    "es": "Solicitante",
+    "fr": "Demandeur",
+    "it": "Richiedente"
   },
   "Analistas": {
     "pt-br": "Analistas",
-    "en-us": "Analysts"
+    "en-us": "Analysts",
+    "de": "Analysten",
+    "zh-cn": "分析师",
+    "es": "Analistas",
+    "fr": "Analystes",
+    "it": "Analisti"
   },
   "Informações do usuário": {
     "pt-br": "Informações do usuário",
-    "en-us": "User information"
+    "en-us": "User information",
+    "de": "Benutzerinformationen",
+    "zh-cn": "用户信息",
+    "es": "Información del usuario",
+    "fr": "Informations sur l'utilisateur",
+    "it": "Informazioni utente"
   }
 }

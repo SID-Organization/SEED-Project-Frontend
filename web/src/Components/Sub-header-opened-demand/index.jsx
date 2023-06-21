@@ -51,6 +51,7 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import ReturnReasonModal from "../ReturnReason-Modal";
 import { useContext } from "react";
 import { TranslateContext } from "../../contexts/translate";
+import ProposalService from "../../service/Proposal-Service";
 
 // Componentes estilizados
 const styleModal = {
@@ -146,6 +147,9 @@ export default function subHeader({ children }) {
   // Notificação confirmação demanda aprovada
   const [openNotification, setOpenNotification] = useState(false);
 
+  const [notificationClassifiedDemand, setNotificationClassifiedDemand] = useState(false);
+  const [anyEmptyField, setAnyEmptyField] = useState(false);
+
   const anchorRef = React.useRef(null);
   const params = useParams();
 
@@ -187,6 +191,10 @@ export default function subHeader({ children }) {
     navigate(`/propostas/gerar-proposta/${demand.idDemanda}`);
   };
 
+  const accessProposalDetails = async () => {
+    navigate(`/propostas/${params.id}`)
+  }
+
   const actionOptions = [
     {
       text: translate["Classificar demanda"][language] ?? "Classificar demanda",
@@ -226,6 +234,7 @@ export default function subHeader({ children }) {
         "BUSINESS_CASE"
       ],
       notDemandStatus: [""],
+      function: accessProposalDetails,
       key: 4
     },
     {
@@ -332,6 +341,15 @@ export default function subHeader({ children }) {
   };
 
   const handleAnalystClassifyDemand = async () => {
+    // Check if all fields are filled
+    if (!benefitedBus.length || !requesterBu || !responsableSection) {
+      setAnyEmptyField(true);
+      const timer = setTimeout(() => {
+        setAnyEmptyField(false);
+      }, 2200);
+      return () => clearTimeout(timer);
+    }
+
     // Formatting data to send to the backend
     const busBeneficiadas = benefitedBus.map((item) => ({
       idBusinessUnity: item.key
@@ -361,11 +379,18 @@ export default function subHeader({ children }) {
             "Aprovar",
             72132
           );
+          return true;
         }
-        return response;
+        return false;
       })
-      .then((res) => {
-        if (res.status == 200) navigate(-1);
+      .then((isSuccessful) => {
+        if (isSuccessful) {
+          setNotificationClassifiedDemand(true);
+          const timeout = setTimeout(() => {
+            navigate("/gerenciar-demandas");
+          }, 2000);
+          return () => clearTimeout(timeout);
+        }
       });
   };
 
@@ -384,7 +409,7 @@ export default function subHeader({ children }) {
           if (response.status == 200 || response.status == 201) {
             setOpenNotification(true);
             const timeout = setTimeout(() => {
-              navigate("/demandas");
+              navigate("/gerenciar-demandas");
             }, 1500);
             return () => clearTimeout(timeout);
           }
@@ -412,9 +437,28 @@ export default function subHeader({ children }) {
 
   return (
     <div>
+      {
+        anyEmptyField && (
+          <Notification
+            message={translate["Preencha todos os campos!"][language] ?? "Preencha todos os campos!"}
+            severity="warning"
+            />
+        )
+      }
+      {
+        notificationClassifiedDemand && (
+          <Notification
+            message={
+              translate["Demanda classificada com sucesso!"][language] ??
+              "Demanda classificada com sucesso!"
+            }
+            severity="success"
+            />
+        )
+      }
       {openNotification && (
         <Notification message={translate["Demanda aprovada com sucesso!"][language] ?? "Demanda aprovada com sucesso"}
-          action={false} />
+        severity="success" />
       )}
       {/* Modal para confirmar a demanda */}
       <Modal
@@ -667,7 +711,7 @@ export default function subHeader({ children }) {
       {/* Fim modal para inserir informações */}
       <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-          {translate[phrase][language] + " " + children[1] ?? children}
+          {translate[phrase]?.[language] ? translate[phrase]?.[language] +  " " + children[1] : children}
         </h1>
 
         {ableToEdit() && (

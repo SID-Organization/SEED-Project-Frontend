@@ -1,0 +1,191 @@
+{
+  "Workflow": {
+    "pt-br": "Workflow",
+    "en-us": "Workflow",
+    "de": "Workflow",
+    "zh-cn": "工作流程",
+    "es": "Flujo de trabajo",
+    "fr": "Flux de travail",
+    "it": "Flusso di lavoro"
+  },
+  "Título": {
+    "pt-br": "Título",
+    "en-us": "Title",
+    "de": "Titel",
+    "zh-cn": "标题",
+    "es": "Título",
+    "fr": "Titre",
+    "it": "Titolo"
+  },
+  "Solicitante": {
+    "pt-br": "Solicitante",
+    "en-us": "Requester",
+    "de": "Antragsteller",
+    "zh-cn": "请求者",
+    "es": "Solicitante",
+    "fr": "Demandeur",
+    "it": "Richiedente"
+  },
+  "De": {
+    "pt-br": "De",
+    "en-us": "From",
+    "de": "Von",
+    "zh-cn": "从",
+    "es": "De",
+    "fr": "De",
+    "it": "Da"
+  },
+  "Até": {
+    "pt-br": "Até",
+    "en-us": "To",
+    "de": "Bis",
+    "zh-cn": "至",
+    "es": "Hasta",
+    "fr": "À",
+    "it": "A"
+  },
+  "Centro de custo": {
+    "pt-br": "Centro de custo",
+    "en-us": "Cost center",
+    "de": "Kostenstelle",
+    "zh-cn": "成本中心",
+    "es": "Centro de costos",
+    "fr": "Centre de coût",
+    "it": "Centro di costo"
+  },
+  "Score": {
+    "pt-br": "Score",
+    "en-us": "Score",
+    "de": "Score",
+    "zh-cn": "得分",
+    "es": "Puntuación",
+    "fr": "Score",
+    "it": "Punteggio"
+  },
+  "Não indicado": {
+    "pt-br": "Não indicado",
+    "en-us": "Not indicated",
+    "de": "Nicht angegeben",
+    "zh-cn": "未指定",
+    "es": "No indicado",
+    "fr": "Non indiqué",
+    "it": "Non indicato"
+  },
+  "Objetivo": {
+    "pt-br": "Objetivo",
+    "en-us": "Goal",
+    "de": "Ziel",
+    "zh-cn": "目标",
+    "es": "Objetivo",
+    "fr": "Objectif",
+    "it": "Obiettivo"
+  },
+  "Situação atual": {
+    "pt-br": "Situação atual",
+    "en-us": "Current situation",
+    "de": "Aktuelle Situation",
+    "zh-cn": "当前情况",
+    "es": "Situación actual",
+    "fr": "Situation actuelle",
+    "it": "Situazione attuale"
+  },
+  "Frequência de uso": {
+    "pt-br": "Frequência de uso",
+    "en-us": "Frequency of use",
+    "de": "Häufigkeit der Nutzung",
+    "zh-cn": "使用频率",
+    "es": "Frecuencia de uso",
+    "fr": "Fréquence d'utilisation",
+    "it": "Frequenza di utilizzo"
+  },
+  "Benefício qualitativo": {
+    "pt-br": "Benefício qualitativo",
+    "en-us": "Qualitative benefit",
+    "de": "Qualitativer Nutzen",
+    "zh-cn": "定性效益",
+    "es": "Beneficio cualitativo",
+    "fr": "Avantage qualitatif",
+    "it": "Beneficio qualitativo"
+  },
+  "Benefícios reais": {
+    "pt-br": "Benefícios reais",
+    "en-us": "Real benefits",
+    "de": "Reale Vorteile",
+    "zh-cn": "真正的好处",
+    "es": "Beneficios reales",
+    "fr": "Avantages réels",
+    "it": "Benefici reali"
+  },
+  "Benefícios potenciais": {
+    "pt-br": "Benefícios potenciais",
+    "en-us": "Potential benefits",
+    "de": "Potenzielle Vorteile",
+    "zh-cn": "潜在的好处",
+    "es": "Beneficios potenciales",
+    "fr": "Avantages potentiels",
+    "it": "Benefici potenziali"
+  },
+  "Fechar": {
+    "pt-br": "Fechar",
+    "en-us": "Close",
+    "de": "Schließen",
+    "zh-cn": "关",
+    "es": "Cerrar",
+    "fr": "Fermer",
+    "it": "Chiudere"
+  },
+  "Número de demanda": {
+    "pt-br": "Número de demanda",
+    "en-us": "Request number",
+    "de": "Anforderungsnummer",
+    "zh-cn": "要求编号",
+    "es": "Número de solicitud",
+    "fr": "Numéro de demande",
+    "it": "Numero di richiesta"
+  },
+  "Analista responsável": {
+    "pt-br": "Analista responsável",
+    "en-us": "Responsible analyst",
+    "de": "Verantwortlicher Analyst",
+    "zh-cn": "负责分析师",
+    "es": "Analista responsable",
+    "fr": "Analyste responsable",
+    "it": "Analista responsabile"
+  },
+  "Iniciada em": {
+    "pt-br": "Iniciada em",
+    "en-us": "Started on",
+    "de": "Gestartet am",
+    "zh-cn": "开始于",
+    "es": "Comenzado en",
+    "fr": "Commencé sur",
+    "it": "Iniziato il"
+  },
+  "Concluída em": {
+    "pt-br": "Concluída em",
+    "en-us": "Completed on",
+    "de": "Abgeschlossen am",
+    "zh-cn": "完成于",
+    "es": "Completado en",
+    "fr": "Terminé le",
+    "it": "Completato il"
+  },
+  "Indefinido": {
+    "pt-br": "Indefinido",
+    "en-us": "Undefined",
+    "de": "Undefiniert",
+    "zh-cn": "未定义",
+    "es": "Indefinido",
+    "fr": "Indéfini",
+    "it": "Indefinito"
+  },
+  "Histórico": {
+    "pt-br": "Histórico",
+    "en-us": "History",
+    "de": "Geschichte",
+    "zh-cn": "历史",
+    "es": "Historia",
+    "fr": "Histoire",
+    "it": "Storia"
+  }
+}

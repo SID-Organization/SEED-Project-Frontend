@@ -33,6 +33,7 @@ import DemandUtils from "../../utils/Demand-Utils";
 import UserUtils from "../../utils/User-Utils";
 import FontSizeUtils from "../../utils/FontSize-Utils";
 import CreateOrAccessProposal from "./CreateOrAccessProposal";
+import CurrencyUtils from "../../utils/Currency-Utils"
 
 //Translations
 import TranslationJson from "../../API/Translate/components/demandCard.json";
@@ -78,7 +79,7 @@ const styleModalDeleteDraft = {
 export default function DemandCard(props) {
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
@@ -116,11 +117,6 @@ export default function DemandCard(props) {
       }
     });
   };
-
-  useEffect(() => {
-    console.warn(props.demand);
-    getLogs();
-  }, []);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -257,9 +253,9 @@ export default function DemandCard(props) {
   }
 
   useEffect(() => {
-    console.warn(props.demand);
-    console.warn("user", user);
+    getLogs()
   }, [])
+
 
   return (
     <div className="mb-7 grid items-center justify-center">
@@ -309,7 +305,7 @@ export default function DemandCard(props) {
                   className="flex"
                 >
                   <span style={{ fontSize: fonts.sm }} className="mr-1 ">
-                    Status:
+                    {translate["Status"]?.[language] ?? "Status"}:
                   </span>
                   <Tooltip title={formatDemandStatus(true)}>
                     <span
@@ -346,10 +342,10 @@ export default function DemandCard(props) {
                     className="flex"
                   >
                     <span style={{ fontSize: fonts.sm }} className="mr-1 ">
-                      Score:
+                      {translate["Score"]?.[language] ?? "Score"}:
                     </span>
-                    <span className="text-[0.95rem] font-medium text-black">
-                      {props.demand.scoreDemanda}
+                    <span style={{ fontSize: fonts.sm }} className="font-medium text-black">
+                      {props.demand.scoreDemanda ?? "Indefinido"}
                     </span>
                   </Typography>
                   <Typography
@@ -365,7 +361,7 @@ export default function DemandCard(props) {
                       style={{ fontSize: fonts.sm }}
                       className="font-medium text-black"
                     >
-                      {"R$10"}
+                      {CurrencyUtils.formatCurrency(props.demand.custoTotalDemanda) ?? "Indefinido"}
                     </span>
                   </Typography>
                 </div>

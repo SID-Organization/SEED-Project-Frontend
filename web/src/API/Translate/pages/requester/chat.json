@@ -1,0 +1,47 @@
+{
+    "Selecione um usuário para iniciar uma conversa": {
+        "pt-br": "Selecione um usuário para iniciar uma conversa",
+        "en-us": "Select a user to start a conversation",
+        "de": "Wählen Sie einen Benutzer aus, um ein Gespräch zu beginnen",
+        "zh-cn": "选择一个用户开始交谈",
+        "es": "Seleccione un usuario para iniciar una conversación",
+        "fr": "Sélectionnez un utilisateur pour commencer une conversation",
+        "it": "Seleziona un utente per avviare una conversazione"
+    },
+    "Enviar mensagem": {
+        "pt-br": "Enviar mensagem",
+        "en-us": "Send message",
+        "de": "Nachricht senden",
+        "zh-cn": "发送消息",
+        "es": "Enviar mensaje",
+        "fr": "Envoyer le message",
+        "it": "Invia messaggio"
+    },
+    "Adicionar anexo": {
+        "pt-br": "Adicionar anexo",
+        "en-us": "Add attachment",
+        "de": "Anhang hinzufügen",
+        "zh-cn": "添加附件",
+        "es": "Agregar adjunto",
+        "fr": "Ajouter une pièce jointe",
+        "it": "Aggiungi allegato"
+    },
+    "Digite uma mensagem": {
+        "pt-br": "Digite uma mensagem",
+        "en-us": "Type a message",
+        "de": "Geben Sie eine Nachricht ein",
+        "zh-cn": "输入消息",
+        "es": "Escriba un mensaje",
+        "fr": "Tapez un message",
+        "it": "Digita un messaggio"
+    },
+    "Procure por um usuário ou demanda": {
+        "pt-br": "Procure por um usuário ou demanda",
+        "en-us": "Search for a user or demand",
+        "de": "Suche nach einem Benutzer oder einer Nachfrage",
+        "zh-cn": "搜索用户或需求",
+        "es": "Buscar un usuario o demanda",
+        "fr": "Rechercher un utilisateur ou une demande",
+        "it": "Cerca un utente o una domanda"
+    }
+}

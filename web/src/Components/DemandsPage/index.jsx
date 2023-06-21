@@ -175,7 +175,7 @@ export default function DemandsPage(props) {
   useEffect(() => {
     if (demandsWLogs) {
       let sortedDemands = DemandFilterUtils.filterBy(demandsWLogs, filters);
-      console.warn("Called filter. SortedDemands: ", sortedDemands);
+
       if (sortedDemands) {
         setShowingDemands(sortedDemands);
       } else {

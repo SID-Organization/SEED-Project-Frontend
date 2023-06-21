@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 // Services
 import ProposalService from "../../../../service/Proposal-Service";
@@ -13,7 +13,15 @@ import CostCenterPayers from "../../../../Components/Center-cost-components/Cost
 import DateUtils from "../../../../utils/Date-Utils";
 import ProposalUtils from "../../../../utils/Proposal-Utils";
 
+//Translation
+import TranslationJson from "../../../../API/Translate/pages/analista/proposalDetailsViewProposal.json";
+import { TranslateContext } from "../../../../contexts/translate/index.jsx";
+
 export default function ViewProposal() {
+
+  const translate = TranslationJson;
+  const [ language ] = useContext(TranslateContext);
+
   const [proposal, setProposal] = useState("");
   const [getProposalDetails, setGetProposalDetails] = useState();
   const [internalCosts, setInternalCosts] = useState([]);
@@ -77,7 +85,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              Escopo do projeto:
+              {translate["Escopo do projeto"]?.[language] ?? "Escopo do projeto"}:
             </h1>
             <p
               style={{ fontSize: fonts.base }}
@@ -91,7 +99,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              Não faz parte do escopo do projeto:
+              {translate["Não faz parte do escopo do projeto"]?.[language] ?? "Não faz parte do escopo do projeto"}:
             </h1>
             <p
               style={{ fontSize: fonts.base }}
@@ -105,12 +113,12 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="flex font-roboto font-bold text-blue-weg"
             >
-              Tabela de custos
+              {translate["Tabela de custos"]?.[language] ?? "Tabela de custos"}
             </h1>
             <div className="grid items-center gap-9">
               <div className="grid items-center gap-6">
                 <CostTable
-                  typeTitle="Interno"
+                  typeTitle={translate["Interno"]?.[language] ?? "Interno"}
                   costs={internalCosts}
                   setCosts={setInternalCosts}
                   page="viewProposal"
@@ -124,7 +132,7 @@ export default function ViewProposal() {
               </div>
               <div className="grid items-center gap-6">
                 <CostTable
-                  typeTitle="Externo"
+                  typeTitle={translate["Externo"]?.[language] ?? "Externo"}
                   costs={externalCosts}
                   setCosts={setExternalCosts}
                   page="viewProposal"
@@ -148,7 +156,7 @@ export default function ViewProposal() {
                   style={{ fontSize: fonts.base }}
                   className="ml-5 mr-3 font-roboto font-bold"
                 >
-                  Custos totais do projeto:
+                  {translate["Custos totais do projeto"]?.[language] ?? "Custos totais do projeto"}:
                 </p>
                 <p
                   style={{ fontSize: fonts.base }}
@@ -167,7 +175,7 @@ export default function ViewProposal() {
                     style={{ fontSize: fonts.base }}
                     className=" ml-5 mr-3 font-roboto"
                   >
-                    Total de despesas (desembolso):
+                    {translate["Total de despesas (desembolso)"]?.[language] ?? "Total de despesas (desembolso)"}:
                   </p>
                   <p
                     style={{ fontSize: fonts.base }}
@@ -183,7 +191,7 @@ export default function ViewProposal() {
                     style={{ fontSize: fonts.base }}
                     className="ml-5 mr-3 font-roboto"
                   >
-                    Total de despesas com custos internos
+                    {translate["Total de despesas com custos internos"]?.[language] ?? "Total de despesas com custos internos"}
                   </p>
                   <p
                     style={{ fontSize: fonts.base }}
@@ -204,7 +212,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              Payback:
+              {translate["Payback"]?.[language]}:
             </p>
             <p style={{ fontSize: fonts.base }} className="font-roboto">
               {getProposalDetails && getProposalDetails.paybackProposta} 223
@@ -215,7 +223,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              Período de execução:
+              {translate["Período de execução"]?.[language] ?? "Período de execução"}:
             </p>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1">
@@ -223,7 +231,7 @@ export default function ViewProposal() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  Início:
+                  {translate["Início"]?.[language] ?? "Início"}:
                 </p>
                 <p
                   style={{ fontSize: fonts.base }}
@@ -241,7 +249,7 @@ export default function ViewProposal() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  Término:
+                  {translate["Término"]?.[language] ?? "Término"}:
                 </p>
                 <p
                   style={{ fontSize: fonts.base }}
@@ -260,7 +268,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              Responsável pelo negócio:
+              {translate["Responsável pelo negócio"]?.[language] ?? "Responsável pelo negócio"}:
             </p>
             <div className="flex items-center gap-2">
               <p style={{ fontSize: fonts.base }} className="font-roboto">

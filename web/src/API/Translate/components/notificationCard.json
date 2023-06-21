@@ -1,18 +1,173 @@
 {
+  "Qtd. Propostas": {
+    "pt-br": "Qtd. Propostas",
+    "en-us": "Proposals Qty.",
+    "de": "Anzahl der Vorschläge",
+    "zh-cn": "提案数量",
+    "es": "Cantidad de propuestas",
+    "fr": "Nombre de propositions",
+    "it": "Numero di proposte"
+  },
+  "Data da reunião": {
+    "pt-br": "Data da reunião",
+    "en-us": "Meeting date",
+    "de": "Datum des Treffens",
+    "zh-cn": "会议日期",
+    "es": "Fecha de la reunión",
+    "fr": "Date de la réunion",
+    "it": "Data della riunione"
+  },
+  "Horário": {
+    "pt-br": "Horário",
+    "en-us": "Time",
+    "de": "Zeit",
+    "zh-cn": "时间",
+    "es": "Hora",
+    "fr": "Temps",
+    "it": "Tempo"
+  },
+  "Analista responsável": {
+    "pt-br": "Analista responsável",
+    "en-us": "Responsible analyst",
+    "de": "Verantwortlicher Analyst",
+    "zh-cn": "负责分析师",
+    "es": "Analista responsable",
+    "fr": "Analyste responsable",
+    "it": "Analista responsabile"
+  },
+  "Gerar Ata DG": {
+    "pt-br": "Gerar Ata DG",
+    "en-us": "Generate DG Minutes",
+    "de": "DG-Minuten generieren",
+    "zh-cn": "生成DG分钟",
+    "es": "Generar Minutos DG",
+    "fr": "Générer les minutes DG",
+    "it": "Genera i minuti DG"
+  },
+  "Visualizar Ata:": {
+    "pt-br": "Visualizar Ata:",
+    "en-us": "View Minutes:",
+    "de": "Protokoll anzeigen:",
+    "zh-cn": "查看分钟：",
+    "es": "Ver Minutos:",
+    "fr": "Voir les minutes:",
+    "it": "Visualizza i minuti:"
+  },
+  "Publicada": {
+    "pt-br": "Publicada",
+    "en-us": "Published",
+    "de": "Veröffentlicht",
+    "zh-cn": "已发布",
+    "es": "Publicado",
+    "fr": "Publié",
+    "it": "Pubblicato"
+  },
+  "Não publicada": {
+    "pt-br": "Não publicada",
+    "en-us": "Not published",
+    "de": "Nicht veröffentlicht",
+    "zh-cn": "未发布",
+    "es": "No publicado",
+    "fr": "Non publié",
+    "it": "Non pubblicato"
+  },
+  "Compartilhar pauta": {
+    "pt-br": "Compartilhar pauta",
+    "en-us": "Share schedule",
+    "de": "Zeitplan teilen",
+    "zh-cn": "分享日程",
+    "es": "Compartir agenda",
+    "fr": "Partager l'ordre du jour",
+    "it": "Condividi programma"
+  },
+  "Visualizar pauta": {
+    "pt-br": "Visualizar pauta",
+    "en-us": "View schedule",
+    "de": "Zeitplan anzeigen",
+    "zh-cn": "查看日程",
+    "es": "Ver agenda",
+    "fr": "Voir l'ordre du jour",
+    "it": "Visualizza programma"
+  },
+  "Editar pauta": {
+    "pt-br": "Editar pauta",
+    "en-us": "Edit schedule",
+    "de": "Zeitplan bearbeiten",
+    "zh-cn": "编辑日程",
+    "es": "Editar agenda",
+    "fr": "Modifier l'ordre du jour",
+    "it": "Modifica programma"
+  },
+  "Gerar ATA": {
+    "pt-br": "Gerar ATA",
+    "en-us": "Generate minutes",
+    "de": "Protokoll generieren",
+    "zh-cn": "生成分钟",
+    "es": "Generar actas",
+    "fr": "Générer des procès-verbaux",
+    "it": "Genera verbali"
+  },
+  "Compartilhar via...": {
+    "pt-br": "Compartilhar via...",
+    "en-us": "Share via...",
+    "de": "Über... teilen",
+    "zh-cn": "通过...分享",
+    "es": "Compartir mediante...",
+    "fr": "Partager via...",
+    "it": "Condividi tramite..."
+  },
+  "Copiar link": {
+    "pt-br": "Copiar link",
+    "en-us": "Copy link",
+    "de": "Link kopieren",
+    "zh-cn": "复制链接",
+    "es": "Copiar enlace",
+    "fr": "Copier le lien",
+    "it": "Copia link"
+  },
+  "Baixar PDF": {
+    "pt-br": "Baixar PDF",
+    "en-us": "Download PDF",
+    "de": "PDF herunterladen",
+    "zh-cn": "下载PDF",
+    "es": "Descargar PDF",
+    "fr": "Télécharger le PDF",
+    "it": "Scarica PDF"
+  },
   "Aprovação": {
     "pt-br": "Aprovação",
-    "en-us": "Approval"
+    "en-us": "Approval",
+    "de": "Genehmigung",
+    "zh-cn": "批准",
+    "es": "Aprobación",
+    "fr": "Approbation",
+    "it": "Approvazione"
   },
   "Rejeição": {
     "pt-br": "Rejeição",
-    "en-us": "Rejection"
+    "en-us": "Rejection",
+    "de": "Ablehnung",
+    "zh-cn": "拒绝",
+    "es": "Rechazo",
+    "fr": "Rejet",
+    "it": "Rifiuto"
   },
   "Devolução": {
     "pt-br": "Devolução",
-    "en-us": "Return"
+    "en-us": "Return",
+    "de": "Rückgabe",
+    "zh-cn": "退回",
+    "es": "Devolución",
+    "fr": "Retour",
+    "it": "Restituzione"
   },
   "Edição": {
     "pt-br": "Edição",
-    "en-us": "Edition"
+    "en-us": "Edition",
+    "de": "Ausgabe",
+    "zh-cn": "版本",
+    "es": "Edición",
+    "fr": "Édition",
+    "it": "Edizione"
   }
 }

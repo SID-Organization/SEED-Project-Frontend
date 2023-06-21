@@ -11,7 +11,7 @@ import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 // Components
-import FilterComponent from "./FilterComponent";
+import FilterField from "../FilterField";
 import DemandFilterUtils from "../../utils/DemandFilter-Utils";
 
 // Voice Speech
@@ -25,7 +25,7 @@ import TranslationJSON from "../../API/Translate/components/demandFilter.json";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 
-export default function Search(props) {
+export default function DemandFilter(props) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -36,14 +36,22 @@ export default function Search(props) {
   // Filters
   const [requester, setRequester] = useState("");
   const [demandStatus, setDemandStatus] = useState("");
+  // Demand value
   const [value, setValue] = useState("");
+  const [endValue, setEndValue] = useState("");
+  // Score
   const [score, setScore] = useState("");
+  const [endScore, setEndScore] = useState("");
+
   const [title, setTitle] = useState("");
   const [responsibleAnalyst, setResponsibleAnalyst] = useState("");
   const [responsibleManager, setResponsibleManager] = useState("");
   const [approvalForum, setApprovalForum] = useState("");
   const [department, setDepartment] = useState("");
+  // Demand size
   const [demandSize, setDemandSize] = useState("");
+  const [endDemandSize, setEndDemandSize] = useState("");
+
   const [PPMCode, setPPMCode] = useState("");
   const [requestNumber, setRequestNumber] = useState("");
 
@@ -63,7 +71,7 @@ export default function Search(props) {
   }
 
   function handleCloseAndFilter(e) {
-    // If the clicked target is a select, don't close the filter (It's comming as body)
+    // If the clicked target is a select, don't close the filter (Comes as body)
     if (e.target.tagName === "SELECT") return;
     if (e.target.tagName === "BODY") return;
     if (isFilterOpen) {
@@ -96,6 +104,7 @@ export default function Search(props) {
     setDemandStatus("");
     setValue("");
     setScore("");
+    setEndScore("");
     setTitle("");
     setResponsibleAnalyst("");
     setResponsibleManager("");
@@ -121,7 +130,7 @@ export default function Search(props) {
         title,
         demandStatus,
         value,
-        score,
+        {score, endScore},
         requestNumber
       ))
   };
@@ -206,74 +215,76 @@ export default function Search(props) {
             }}
           >
             <div className="grid gap-3">
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Solicitante"]?.[language]}
                 type="text"
                 value={requester}
                 setValue={setRequester}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Valor"]?.[language]}
                 type="number"
                 value={value}
                 setValue={setValue}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Score"]?.[language]}
-                type="number"
+                type="between"
                 value={score}
                 setValue={setScore}
+                endValue={endScore}
+                setEndValue={setEndScore}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Título"]?.[language]}
                 type="text"
                 value={title}
                 setValue={setTitle}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Status da demanda"]?.[language]}
                 type="select"
                 options={DemandFilterUtils.getDemandStatusOptions()}
                 value={demandStatus}
                 setValue={setDemandStatus}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Analista responsável"]?.[language]}
                 type="text"
                 value={responsibleAnalyst}
                 setValue={setResponsibleAnalyst}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Gerente responsável"]?.[language]}
                 type="text"
                 value={responsibleManager}
                 setValue={setResponsibleManager}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Fórum de aprovação"]?.[language]}
                 type="text"
                 value={approvalForum}
                 setValue={setApprovalForum}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Departamento"]?.[language]}
                 type="text"
                 value={department}
                 setValue={setDepartment}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Tamanho da demanda"]?.[language]}
                 type="text"
                 value={demandSize}
                 setValue={setDemandSize}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Código PPM"]?.[language]}
                 type="number"
                 value={PPMCode}
                 setValue={setPPMCode}
               />
-              <FilterComponent
+              <FilterField
                 title={filterTranslate["Número da solicitação"]?.[language]}
                 type="number"
                 value={requestNumber}

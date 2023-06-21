@@ -12,6 +12,12 @@ const getAtas = async () => {
   return AxiosAPI.get(url);
 };
 
+const getAtasDG = async () => {
+  return AxiosAPI.get(`${url}/atas-dg`)
+  .then(res => res.data)
+  .catch(err => err);
+};
+
 const getAtaById = async (id) => {
   return AxiosAPI.get(`${url}/${id}`)
   .then(res => res.data)
@@ -30,6 +36,7 @@ const updateProposalsLogs = async (proposalsLogs) => {
 export default {
   createAta,
   getAtas,
+  getAtasDG,
   getAtaById,
   openAtaPDF,
   updateProposalsLogs

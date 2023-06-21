@@ -1,46 +1,101 @@
 {
   "Proposta publicada": {
     "pt-br": "Proposta publicada",
-    "en-us": "Proposal published"
+    "en-us": "Proposal published",
+    "de": "Veröffentlichter Vorschlag",
+    "zh-cn": "已发布的建议",
+    "es": "Propuesta publicada",
+    "fr": "Proposition publiée",
+    "it": "Proposta pubblicata"
   },
   "Proposta não publicada": {
     "pt-br": "Proposta não publicada",
-    "en-us": "Proposal not published"
+    "en-us": "Proposal not published",
+    "de": "Nicht veröffentlichter Vorschlag",
+    "zh-cn": "未发布的建议",
+    "es": "Propuesta no publicada",
+    "fr": "Proposition non publiée",
+    "it": "Proposta non pubblicata"
   },
   "horas": {
     "pt-br": "horas",
-    "en-us": "hours"
+    "en-us": "hours",
+    "de": "Stunden",
+    "zh-cn": "小时",
+    "es": "horas",
+    "fr": "heures",
+    "it": "ore"
   },
   "Valor": {
     "pt-br": "Valor",
-    "en-us": "Value"
+    "en-us": "Value",
+    "de": "Wert",
+    "zh-cn": "价值",
+    "es": "Valor",
+    "fr": "Valeur",
+    "it": "Valore"
   },
   "Demanda de referência": {
     "pt-br": "Demanda de referência",
-    "en-us": "Reference demand"
+    "en-us": "Reference demand",
+    "de": "Referenznachfrage",
+    "zh-cn": "参考需求",
+    "es": "Demanda de referencia",
+    "fr": "Demande de référence",
+    "it": "Domanda di riferimento"
   },
   "Visualizar Proposta": {
     "pt-br": "Visualizar Proposta",
-    "en-us": "View Proposal"
+    "en-us": "View Proposal",
+    "de": "Vorschlag anzeigen",
+    "zh-cn": "查看建议",
+    "es": "Ver propuesta",
+    "fr": "Voir la proposition",
+    "it": "Visualizza proposta"
   },
   "Remover Proposta": {
     "pt-br": "Remover Proposta",
-    "en-us": "Remove Proposal"
+    "en-us": "Remove Proposal",
+    "de": "Vorschlag entfernen",
+    "zh-cn": "移除建议",
+    "es": "Eliminar propuesta",
+    "fr": "Supprimer la proposition",
+    "it": "Rimuovi proposta"
   },
   "Selecionar proposta": {
     "pt-br": "Selecionar proposta",
-    "en-us": "Select proposal"
+    "en-us": "Select proposal",
+    "de": "Vorschlag auswählen",
+    "zh-cn": "选择建议",
+    "es": "Seleccionar propuesta",
+    "fr": "Sélectionner la proposition",
+    "it": "Seleziona proposta"
   },
   "Visualizar PDF da proposta": {
     "pt-br": "Visualizar PDF da proposta",
-    "en-us": "View proposal PDF"
+    "en-us": "View proposal PDF",
+    "de": "PDF des Vorschlags anzeigen",
+    "zh-cn": "查看建议的PDF",
+    "es": "Ver PDF de la propuesta",
+    "fr": "Voir le PDF de la proposition",
+    "it": "Visualizza PDF proposta"
   },
   "Tempo de execução": {
     "pt-br": "Tempo de execução",
-    "en-us": "Execution time"
+    "en-us": "Execution time",
+    "de": "Ausführungszeit",
+    "zh-cn": "执行时间",
+    "es": "Tiempo de ejecución",
+    "fr": "Temps d'exécution",
+    "it": "Tempo di esecuzione"
   },
   "Parecer da comissão": {
     "pt-br": "Parecer da comissão",
-    "en-us": "Commission opinion"
+    "en-us": "Commission opinion",
+    "de": "Stellungnahme der Kommission",
+    "zh-cn": "委员会意见",
+    "es": "Opinión de la comisión",
+    "fr": "Avis de la commission",
+    "it": "Parere della commissione"
   }
 }

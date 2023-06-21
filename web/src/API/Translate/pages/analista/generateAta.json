@@ -1,0 +1,110 @@
+{
+    "Número DG Ata não pode ser nulo": {
+        "pt-br": "Número DG Ata não pode ser nulo",
+        "en-us": "DG Ata Number cannot be null",
+        "de": "DG Ata Nummer darf nicht null sein",
+        "zh-cn": "DG Ata号不能为空",
+        "es": "El número de DG Ata no puede ser nulo",
+        "fr": "Le numéro DG Ata ne peut pas être nul",
+        "it": "Il numero DG Ata non può essere nullo"
+    },
+    "Parecer Comissão, Considerações e Tipo Ata são obrigatórios": {
+        "pt-br": "Parecer Comissão, Considerações e Tipo Ata são obrigatórios",
+        "en-us": "Commission Opinion, Considerations and Type Ata are mandatory",
+        "de": "Die Stellungnahme der Kommission, die Erwägungen und der Ata-Typ sind obligatorisch",
+        "zh-cn": "委员会意见，考虑因素和Ata类型是强制性的",
+        "es": "La opinión de la Comisión, las consideraciones y el tipo de Ata son obligatorios",
+        "fr": "L'avis de la Commission, les considérations et le type Ata sont obligatoires",
+        "it": "Parere della Commissione, considerazioni e tipo Ata sono obbligatori"
+    },
+    "Você não selecionou um arquivo de decisão final. Por favor, anexe um!": {
+        "pt-br": "Você não selecionou um arquivo de decisão final. Por favor, anexe um!",
+        "en-us": "You did not select a final decision file. Please attach one!",
+        "de": "Sie haben keine endgültige Entscheidungsdatei ausgewählt. Bitte fügen Sie eine an!",
+        "zh-cn": "您没有选择最终决定文件。请附上一个！",
+        "es": "No seleccionó un archivo de decisión final. ¡Por favor adjunte uno!",
+        "fr": "Vous n'avez pas sélectionné de fichier de décision final. Veuillez en attacher un!",
+        "it": "Non hai selezionato un file di decisione finale. Si prega di allegarne uno!"
+    },
+    "Ata gerada com sucesso": {
+        "pt-br": "Ata gerada com sucesso",
+        "en-us": "Ata generated successfully",
+        "de": "Ata erfolgreich generiert",
+        "zh-cn": "Ata成功生成",
+        "es": "Ata generado con éxito",
+        "fr": "Ata généré avec succès",
+        "it": "Ata generato con successo"
+    },
+    "Geração de ata": {
+        "pt-br": "Geração de ata",
+        "en-us": "Ata generation",
+        "de": "Ata-Generierung",
+        "zh-cn": "Ata生成",
+        "es": "Generación de Ata",
+        "fr": "Génération d'Ata",
+        "it": "Generazione di Ata"
+    },
+    "para DG": {
+        "pt-br": "para DG",
+        "en-us": "to DG",
+        "de": "zu DG",
+        "zh-cn": "至DG",
+        "es": "a DG",
+        "fr": "à DG",
+        "it": "a DG"
+    },
+    "Número ata DG": {
+        "pt-br": "Número ata DG",
+        "en-us": "DG Ata Number",
+        "de": "DG Ata Nummer",
+        "zh-cn": "DG Ata号码",
+        "es": "Número de Ata DG",
+        "fr": "Numéro d'Ata DG",
+        "it": "Numero Ata DG"
+    },
+    "Ata": {
+        "pt-br": "Ata",
+        "en-us": "Minutes",
+        "de": "Protokoll",
+        "zh-cn": "会议记录",
+        "es": "Acta",
+        "fr": "Procès-verbal",
+        "it": "Verbale"
+    },
+    "Pauta": {
+        "pt-br": "Pauta",
+        "en-us": "Schedule",
+        "de": "Zeitplan",
+        "zh-cn": "时间表",
+        "es": "Programa",
+        "fr": "Horaire",
+        "it": "Programma"
+    },
+    "referência": {
+        "pt-br": "referência",
+        "en-us": "reference",
+        "de": "Referenz",
+        "zh-cn": "参考",
+        "es": "referencia",
+        "fr": "référence",
+        "it": "riferimento"
+    },
+    "Documento de aprovação": {
+        "pt-br": "Documento de aprovação",
+        "en-us": "Approval document",
+        "de": "Genehmigungsdokument",
+        "zh-cn": "批准文件",
+        "es": "Documento de aprobación",
+        "fr": "Document d'approbation",
+        "it": "Documento di approvazione"
+    },
+    "Gerar nova ata":{
+        "pt-br": "Gerar nova ata",
+        "en-us": "Generate new minutes",
+        "de": "Neue Protokolle generieren",
+        "zh-cn": "生成新的会议记录",
+        "es": "Generar nuevas actas",
+        "fr": "Générer de nouveaux procès-verbaux",
+        "it": "Genera nuovi verbali"
+    }
+}

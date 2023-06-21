@@ -1,18 +1,38 @@
 {
   "Valor mensal": {
     "pt-br": "Valor mensal",
-    "en-us": "Monthly value"
+    "en-us": "Monthly value",
+    "de": "Monatlicher Wert",
+    "zh-cn": "每月价值",
+    "es": "Valor mensual",
+    "fr": "Valeur mensuelle",
+    "it": "Valore mensile"
   },
   "Moeda": {
     "pt-br": "Moeda",
-    "en-us": "Currency"
+    "en-us": "Currency",
+    "de": "Währung",
+    "zh-cn": "货币",
+    "es": "Moneda",
+    "fr": "Devise",
+    "it": "Valuta"
   },
   "Valor": {
     "pt-br": "Valor",
-    "en-us": "Value"
+    "en-us": "Value",
+    "de": "Wert",
+    "zh-cn": "价值",
+    "es": "Valor",
+    "fr": "Valeur",
+    "it": "Valore"
   },
   "Remover benefício": {
     "pt-br": "Remover benefício",
-    "en-us": "Remove benefit"
+    "en-us": "Remove benefit",
+    "de": "Vorteil entfernen",
+    "zh-cn": "移除福利",
+    "es": "Eliminar beneficio",
+    "fr": "Supprimer l'avantage",
+    "it": "Rimuovi beneficio"
   }
 }

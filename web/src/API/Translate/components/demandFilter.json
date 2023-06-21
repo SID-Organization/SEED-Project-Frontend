@@ -1,56 +1,121 @@
 {
     "Procure pelo título": {
         "pt-br": "Procure pelo título",
-        "en-us": "Search by title"
+        "en-us": "Search by title",
+        "de": "Nach Titel suchen",
+        "zh-cn": "按标题搜索",
+        "es": "Buscar por título",
+        "fr": "Rechercher par titre",
+        "it": "Cerca per titolo"
     },
     "filterComponents": {
         "Solicitante": {
             "pt-br": "Solicitante",
-            "en-us": "Requester"
+            "en-us": "Requester",
+            "de": "Antragsteller",
+            "zh-cn": "申请人",
+            "es": "Solicitante",
+            "fr": "Demandeur",
+            "it": "Richiedente"
         },
         "Valor": {
             "pt-br": "Valor",
-            "en-us": "Value"
+            "en-us": "Value",
+            "de": "Wert",
+            "zh-cn": "价值",
+            "es": "Valor",
+            "fr": "Valeur",
+            "it": "Valore"
         },
         "Score": {
             "pt-br": "Score",
-            "en-us": "Score"
+            "en-us": "Score",
+            "de": "Bewertung",
+            "zh-cn": "分数",
+            "es": "Puntuación",
+            "fr": "Score",
+            "it": "Punteggio"
         },
         "Título": {
             "pt-br": "Título",
-            "en-us": "Title"
+            "en-us": "Title",
+            "de": "Titel",
+            "zh-cn": "标题",
+            "es": "Título",
+            "fr": "Titre",
+            "it": "Titolo"
         },
         "Status da demanda": {
             "pt-br": "Status da demanda",
-            "en-us": "Demand Status"
+            "en-us": "Demand Status",
+            "de": "Nachfragstatus",
+            "zh-cn": "需求状态",
+            "es": "Estado de la demanda",
+            "fr": "Statut de la demande",
+            "it": "Stato della richiesta"
         },
         "Analista responsável": {
             "pt-br": "Analista responsável",
-            "en-us": "Responsible Analyst"
+            "en-us": "Responsible Analyst",
+            "de": "Verantwortlicher Analyst",
+            "zh-cn": "负责分析师",
+            "es": "Analista responsable",
+            "fr": "Analyste responsable",
+            "it": "Analista responsabile"
         },
         "Gerente responsável": {
             "pt-br": "Gerente responsável",
-            "en-us": "Responsible Manager"
+            "en-us": "Responsible Manager",
+            "de": "Verantwortlicher Manager",
+            "zh-cn": "负责经理",
+            "es": "Gerente responsable",
+            "fr": "Responsable du manager",
+            "it": "Responsabile del manager"
         },
         "Fórum de aprovação": {
             "pt-br": "Fórum de aprovação",
-            "en-us": "Approval Forum"
+            "en-us": "Approval Forum",
+            "de": "Genehmigungsforum",
+            "zh-cn": "批准论坛",
+            "es": "Foro de aprobación",
+            "fr": "Forum d'approbation",
+            "it": "Forum di approvazione"
         },
         "Departamento": {
             "pt-br": "Departamento",
-            "en-us": "Department"
+            "en-us": "Department",
+            "de": "Abteilung",
+            "zh-cn": "部门",
+            "es": "Departamento",
+            "fr": "Département",
+            "it": "Dipartimento"
         },
         "Tamanho da demanda": {
             "pt-br": "Tamanho da demanda",
-            "en-us": "Demand Size"
+            "en-us": "Demand Size",
+            "de": "Nachfragengröße",
+            "zh-cn": "需求规模",
+            "es": "Tamaño de la demanda",
+            "fr": "Taille de la demande",
+            "it": "Dimensione della richiesta"
         },
         "Código PPM": {
             "pt-br": "Código PPM",
-            "en-us": "PPM Code"
+            "en-us": "PPM Code",
+            "de": "PPM-Code",
+            "zh-cn": "PPM 代码",
+            "es": "Código PPM",
+            "fr": "Code PPM",
+            "it": "Codice PPM"
         },
         "Número da solicitação": {
             "pt-br": "Número da solicitação",
-            "en-us": "Request Number"
+            "en-us": "Request Number",
+            "de": "Anfragenummer",
+            "zh-cn": "请求编号",
+            "es": "Número de solicitud",
+            "fr": "Numéro de demande",
+            "it": "Numero di richiesta"
         }
     }
 }

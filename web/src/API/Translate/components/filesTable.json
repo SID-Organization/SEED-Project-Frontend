@@ -1,30 +1,65 @@
 {
   "Arquivos anexados": {
     "pt-br": "Arquivos anexados",
-    "en-us": "Attached files"
+    "en-us": "Attached files",
+    "de": "Angehängte Dateien",
+    "zh-cn": "附加的文件",
+    "es": "Archivos adjuntos",
+    "fr": "Fichiers joints",
+    "it": "File allegati"
   },
   "Arquivo": {
     "pt-br": "Arquivo",
-    "en-us": "File"
+    "en-us": "File",
+    "de": "Datei",
+    "zh-cn": "文件",
+    "es": "Archivo",
+    "fr": "Fichier",
+    "it": "File"
   },
   "Anexado em": {
     "pt-br": "Anexado em",
-    "en-us": "Attached at"
+    "en-us": "Attached at",
+    "de": "Angehängt am",
+    "zh-cn": "附加于",
+    "es": "Adjuntado en",
+    "fr": "Joint à",
+    "it": "Allegato il"
   },
   "Baixar arquivo": {
     "pt-br": "Baixar arquivo",
-    "en-us": "Download file"
+    "en-us": "Download file",
+    "de": "Datei herunterladen",
+    "zh-cn": "下载文件",
+    "es": "Descargar archivo",
+    "fr": "Télécharger le fichier",
+    "it": "Scarica file"
   },
   "Deletar arquivo": {
     "pt-br": "Deletar arquivo",
-    "en-us": "Delete file"
+    "en-us": "Delete file",
+    "de": "Datei löschen",
+    "zh-cn": "删除文件",
+    "es": "Eliminar archivo",
+    "fr": "Supprimer le fichier",
+    "it": "Elimina file"
   },
   "Adicionar arquivo": {
     "pt-br": "Adicionar arquivo",
-    "en-us": "Add file"
+    "en-us": "Add file",
+    "de": "Datei hinzufügen",
+    "zh-cn": "添加文件",
+    "es": "Agregar archivo",
+    "fr": "Ajouter un fichier",
+    "it": "Aggiungi file"
   },
   "Anexar arquivo": {
     "pt-br": "Anexar arquivo",
-    "en-us": "Attach file"
+    "en-us": "Attach file",
+    "de": "Datei anhängen",
+    "zh-cn": "附加文件",
+    "es": "Adjuntar archivo",
+    "fr": "Attacher un fichier",
+    "it": "Allega file"
   }
 }

@@ -61,7 +61,7 @@ export default function Login(props) {
         if (!auth) return;
         const loggedUser = UserUtils.getUserFromCookie();
         localStorage.setItem("user", JSON.stringify(loggedUser));
-        localStorage.setItem("configs", JSON.stringify({ language: "en-us" }));
+        localStorage.setItem("configs", JSON.stringify({ language: "pt-br" }));
         FontSizeUtils.setFontSize();
         props.setUser(loggedUser);
       });
@@ -149,6 +149,11 @@ export default function Login(props) {
                       onChange={(e) => {
                         if (e.target.value.match(/^[0-9]*$/)) {
                           setUserID(e.target.value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleLogin();
                         }
                       }}
                     />

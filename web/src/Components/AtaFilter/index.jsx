@@ -10,45 +10,63 @@ import IconButton from "@mui/material/IconButton";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
+// Utils
+import FontSizeUtils from "../../utils/FontSize-Utils";
+
 //Translation
 import TranslationJson from "../../API/Translate/components/ataFilter.json";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Components
-// import FilterComponent from "./FilterComponent";
+import FilterField from "../FilterField";
+import AtasFilterUtils from "../../utils/AtasFilter-Utils";
+import ForumService from "../../service/Forum-Service";
 
 
 export default function AtaFilter(props) {
 
-  const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+    const translate = TranslationJson;
+    const [language] = useContext(TranslateContext);
 
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
-    /**
-     *  - Data da reunião (<, >, =, Between (talvez))
-        - Horario início (<, >, =, Between (talvez))
-        - Horario termino (<, >, =, Between (talvez))
-        - Forum ata (mais de 1)
-        - Analista responsável
-        - Qtd de propostas (<, >, =, Between (talvez))
-     * 
-     */
+    const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
     // Filters
-    const [meetingDate, setMeetingDate] = useState();
-    const [meetingTime, setMeetingTime] = useState();
-    const [qtyProposals, setQtyProposals] = useState();
-    const [approvalForum, setApprovalForum] = useState();
-    const [responsibleAnalyst, setResponsibleAnalyst] = useState();
+    const [meetingDate, setMeetingDate] = useState("");
+    const [meetingTimeStart, setMeetingTimeStart] = useState("");
+    const [meetingTimeEnd, setMeetingTimeEnd] = useState("");
+    const [qtyProposals, setQtyProposals] = useState("");
+    const [approvalForum, setApprovalForum] = useState("");
+    const [responsibleAnalyst, setResponsibleAnalyst] = useState("");
+    const [forunsOptions, setForunsOptions] = useState([]);
+
+    useEffect(() => {
+        setFonts(FontSizeUtils.getFontSizes());
+    }, [FontSizeUtils.getFontControl()])
+
+    useEffect(() => {
+        ForumService.getForuns().then((response) => {
+            const foruns = response;
+            const forunsOptions = [];
+            for (let forum of foruns) {
+                forunsOptions.push({ value: forum.comissaoForum.nomeComissao, label: forum.comissaoForum.nomeComissao })
+            }
+            return forunsOptions;
+        })
+        .then(forunsOptions => {
+            setForunsOptions(forunsOptions);
+        });
+    }, [])
 
     function handleOpenFilter(event) {
         setAnchorEl(event.currentTarget);
         setIsFilterOpen(!isFilterOpen);
     }
 
-    function handleCloseAndFilter() {
+    function handleCloseAndFilter(e) {
+        if (e.target.tagName == "BODY") return;
         if (isFilterOpen) {
             setIsFilterOpen(false);
             filterAtas();
@@ -57,65 +75,67 @@ export default function AtaFilter(props) {
 
     function qtyUsedFilters() {
         let qty = 0;
-
-
+        if (meetingDate != "") qty++;
+        if (meetingTimeStart != "") qty++;
+        if (meetingTimeEnd != "") qty++;
+        if (qtyProposals != "") qty++;
+        if (approvalForum != "") qty++;
+        if (responsibleAnalyst != "") qty++;
         return qty;
     }
 
     function cleanStates() {
-        setIsFilterOpen(false);
+        setMeetingDate("");
+        setMeetingTimeStart("");
+        setMeetingTimeEnd("");
+        setQtyProposals("");
+        setApprovalForum("");
+        setResponsibleAnalyst("");
     }
 
     // Quando algum campo de pesquisa é utilizado, chama essa função e atualiza o filter
     function filterAtas() {
+        props.setFilters(AtasFilterUtils.getUpdatedFilter(
+            responsibleAnalyst,
+            meetingDate,
+            meetingTimeStart,
+            meetingTimeEnd,
+            qtyProposals,
+            approvalForum
+        ))
     };
+
+
 
     return (
         <ClickAwayListener onClickAway={handleCloseAndFilter}>
             <div>
-                <Paper
-                    sx={{
-                        p: "2px 4px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-around",
-                        width: 120,
-                        height: 40,
-                    }}
-                    style={{
-                        boxShadow: "#bdbdbd 0px 1px 5px 1px",
-                    }}
+                <Button
+                    type="button"
+                    sx={{ p: "10px" }}
+                    aria-label="search"
+                    variant="outlined"
+                    onClick={handleOpenFilter}
                 >
-                    <Typography
-                        sx={{
-                            color: "#919191",
-                            fontSize: "14px",
-                            width: "25px",
+                    <p
+                        style={{
+                            fontSize: fonts.sm
                         }}
+                        className='mr-2 text-light-blue-weg'
                     >
-                      {translate["Filtro"]?.[language] ?? "Filtro"}
-                    </Typography>
-                    <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                    <>
-                        <IconButton
-                            type="button"
-                            sx={{ p: "10px" }}
-                            aria-label="search"
-                            onClick={handleOpenFilter}
-                        >
-                            <Badge
-                                badgeContent={qtyUsedFilters()}
-                                color="error"
-                            >
-                                <TuneRoundedIcon
-                                    sx={{
-                                        fontSize: "20px",
-                                    }}
-                                />
-                            </Badge>
-                        </IconButton>
-                    </>
-                </Paper>
+                        {translate["Filtro"]?.[language] ?? "Filtro"}
+                    </p>
+                    <Badge
+                        badgeContent={qtyUsedFilters()}
+                        color="error"
+                    >
+                        <TuneRoundedIcon
+                            sx={{
+                                fontSize: "20px",
+                            }}
+                        />
+                    </Badge>
+                </Button>
                 <Popper
                     open={isFilterOpen}
                     anchorEl={anchorEl}
@@ -129,7 +149,43 @@ export default function AtaFilter(props) {
                         }}
                     >
                         <div className="grid gap-3">
-
+                            <FilterField
+                                title={translate["Data da Reunião"]?.[language] ?? "Data da Reunião"}
+                                type="date"
+                                value={meetingDate}
+                                setValue={setMeetingDate}
+                            />
+                            <FilterField
+                                title={translate["Horário Início"]?.[language] ?? "Horário Início"}
+                                type="time"
+                                value={meetingTimeStart}
+                                setValue={setMeetingTimeStart}
+                            />
+                            <FilterField
+                                title={translate["Horário Término"]?.[language] ?? "Horário Término"}
+                                type="time"
+                                value={meetingTimeEnd}
+                                setValue={setMeetingTimeEnd}
+                            />
+                            <FilterField
+                                title={translate["Qtd. de Propostas"]?.[language] ?? "Qtd. de Propostas"}
+                                type="number"
+                                value={qtyProposals}
+                                setValue={setQtyProposals}
+                            />
+                            <FilterField
+                                title={translate["Fórum de Aprovação"]?.[language] ?? "Fórum de Aprovação"}
+                                type="select"
+                                value={approvalForum}
+                                setValue={setApprovalForum}
+                                options={forunsOptions}
+                            />
+                            <FilterField
+                                title={translate["Analista Responsável"]?.[language] ?? "Analista Responsável"}
+                                type="text"
+                                value={responsibleAnalyst}
+                                setValue={setResponsibleAnalyst}
+                            />
                             <div className="flex items-center justify-center gap-16 p-3">
                                 <Button
                                     variant="contained"
@@ -144,7 +200,7 @@ export default function AtaFilter(props) {
                                     }}
                                     onClick={cleanStates}
                                 >
-                                  {translate["Limpar"]?.[language] ?? "Limpar"}
+                                    {translate["Limpar"]?.[language] ?? "Limpar"}
                                 </Button>
                                 <Button
                                     onClick={handleCloseAndFilter}
@@ -159,7 +215,7 @@ export default function AtaFilter(props) {
                                         },
                                     }}
                                 >
-                                  {translate["Filtrar"]?.[language] ?? "Filtrar"}
+                                    {translate["Filtrar"]?.[language] ?? "Filtrar"}
                                 </Button>
                             </div>
                         </div>

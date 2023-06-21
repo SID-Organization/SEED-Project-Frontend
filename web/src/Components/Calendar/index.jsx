@@ -12,8 +12,34 @@ export default function Calendar(props) {
 
   const [meetings, setMeetings] = useState();
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [meetingDate, setMeetingDate] = useState("");
+  const [meetingStartTime, setMeetingStartTime] = useState("");
+  const [meetingEndTime, setMeetingEndTime] = useState("");
+  const [comissoes, setComissoes] = useState([]);
+  const [selectedForum, setSelectedForum] = useState("");
+  const [foruns, setForuns] = useState([]);
+  const [searchTitle, setSearchTitle] = useState("");
+  const [searchByTitleSpeech, setSearchByTitleSpeech] = useState({
+    id: 1,
+    text: "",
+  });
 
   const { pautas } = props;
+
+  useEffect(() => {
+    if (foruns.length > 0) {
+      setComissoes(
+        foruns.map((forum) => ({
+          id: forum.idForum,
+          label:
+            forum.comissaoForum.siglaComissao +
+            " - " +
+            forum.comissaoForum.nomeComissao,
+        }))
+      );
+    }
+  }, [foruns]);
 
   useEffect(() => {
     const convertedMeetings = pautas.map((pauta) => ({
@@ -34,10 +60,21 @@ export default function Calendar(props) {
     console.log("MEETINGS NECESSARY: ", meetings);
   }, [meetings]);
 
+  // Updates the variable when the speech is used
+  useEffect(() => {
+    if (searchByTitleSpeech.text != "") {
+      setSearchTitle((ps) => ps + searchByTitleSpeech.text);
+      setSearchByTitleSpeech({ ...searchByTitleSpeech, text: "" });
+    }
+  }, [searchByTitleSpeech]);
+
   const handleEventClick = (info) => {
     const { pautaId } = info.event.extendedProps;
     setSelectedEvent(pautaId);
+    setIsModalOpen(true); // Open the modal when an event is clicked
     console.log("PAUTA ID: ", pautaId);
+    props.setPautaId(pautaId);
+    props.setIsModalOpen(false);
   };
 
   const convertDateFormat = (date) => {
@@ -50,11 +87,14 @@ export default function Calendar(props) {
       <FullCalendar
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
-        weekends={false}
+        weekends={true}
         events={meetings}
         dayMaxEventRows={3}
         eventClick={handleEventClick}
         locale={language}
+        eventMouseEnter={(info) => {
+          info.el.style.cursor = "pointer";
+        }}
       />
     </div>
   );

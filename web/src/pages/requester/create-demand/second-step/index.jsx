@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 // MUI
 import { IconButton, Tooltip } from "@mui/material";
@@ -15,11 +15,19 @@ import MUISC from "../../../../styles/Mui-Styled-Components";
 
 // Utils
 import ReactQuillUtils from "../../../../utils/ReactQuill-Utils";
-const { quillModules } = ReactQuillUtils;
+const { quillModules, quillStyle } = ReactQuillUtils;
+
+//Translation
+import TranslationJson from "../../../../API/Translate/pages/requester/createDemandSecondStep.json"
+import { TranslateContext } from "../../../../contexts/translate/index";
 
 import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
 export default function SecondStep({ props }) {
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   const [realBenefitSpeechId, setRealBenefitSpeechId] = useState(0);
@@ -47,18 +55,18 @@ export default function SecondStep({ props }) {
           style={{ fontSize: fonts.xl }}
           className="font-roboto font-bold text-[#343434]"
         >
-          Benefícios reais
+          {translate["Benefícios reais"]?.[language] ?? "Benefícios reais"}
         </h1>
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
 
         {props.buttonNotification && (
-          <Notification message="Benefício adicionado com sucesso!" />
+          <Notification message={translate["Benefício adicionado com sucesso!"]?.[language] ?? "Benefício adicionado com sucesso!"} />
         )}
         {props.deleteNotification && (
-          <Notification message="Benefício removido com sucesso!" />
+          <Notification message={translate["Benefício removido com sucesso!"]?.[language] ?? "Benefício removido com sucesso!"} />
         )}
 
-        <Tooltip title="Adicionar mais benefícios reais">
+        <Tooltip title={translate["Adicionar mais benefícios reais"]?.[language] ?? "Adicionar mais benefícios reais"}>
           <IconButton onClick={props.addRealBenefit}>
             <AddBoxRoundedIcon
               sx={{
@@ -95,8 +103,9 @@ export default function SecondStep({ props }) {
                   newRealBenefits[i].descriptionHTML = e;
                   props.setRealBenefits(newRealBenefits);
                 }}
-                placeholder="Descreva o benefício."
+                placeholder={translate["Descreva o benefício."]?.[language] ?? "Descreva o benefício."}
                 modules={quillModules}
+                style={quillStyle}
               />
             </NewBenefitInsertion>
             {(i < props.realBenefits.length - 1 || i === 0) && (
@@ -110,10 +119,10 @@ export default function SecondStep({ props }) {
           style={{ fontSize: fonts.xl }}
           className="font-roboto font-bold text-[#343434]"
         >
-          Benefícios potenciais
+          {translate["Benefícios potenciais"]?.[language] ?? "Benefícios potenciais"}
         </h1>
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-        <Tooltip title="Adicionar mais benefícios potenciais">
+        <Tooltip title={translate["Adicionar mais benefícios potenciais"]?.[language] ?? "Adicionar mais benefícios potenciais"}>
           <IconButton onClick={props.addPotentialBenefit}>
             <AddBoxRoundedIcon
               sx={{
@@ -151,7 +160,7 @@ export default function SecondStep({ props }) {
                 props.setPotentialBenefits(newPotentialBenefits);
               }}
               onBlur={() => props.handleCreateDemand()}
-              placeholder="Descreva o benefício."
+              placeholder={translate["Descreva o benefício."]?.[language] ?? "Descreva o benefício."}
             />
           </NewBenefitInsertion>
           {(i < props.potentialBenefits.length - 1 || i === 0) && (
@@ -166,7 +175,7 @@ export default function SecondStep({ props }) {
           style={{ fontSize: fonts.xl }}
           className="font-roboto font-bold text-[#343434]"
         >
-          Benefício qualitativo
+          {translate["Benefício qualitativo"]?.[language] ?? "Benefício qualitativo"}
         </h1>
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
       </div>

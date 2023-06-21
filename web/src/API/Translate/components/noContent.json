@@ -1,6 +1,11 @@
 {
   "Crie uma demanda": {
     "pt-br": "Crie uma demanda",
-    "en-us": "Create a demand"
+    "en-us": "Create a demand",
+    "de": "Eine Nachfrage erstellen",
+    "zh-cn": "创建一个需求",
+    "es": "Crear una demanda",
+    "fr": "Créer une demande",
+    "it": "Crea una domanda"
   }
 }

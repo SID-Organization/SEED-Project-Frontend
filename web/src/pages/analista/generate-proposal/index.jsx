@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // Tools
@@ -34,6 +34,12 @@ import ReactQuillUtils from "../../../utils/ReactQuill-Utils";
 import DemandLogService from "../../../service/DemandLog-Service";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
 import VoiceSpeech from "../../../Components/VoiceSpeech";
+
+//Translation
+import TranslationJson from "../../../API/Translate/pages/analista/generateProposal.json";
+import { TranslateContext } from "../../../contexts/translate/index.jsx";
+
+
 const { quillModules, removeHTML } = ReactQuillUtils;
 
 const EqualInput = styled(MuiTextField)({
@@ -72,6 +78,10 @@ const DateInput = styled(MuiTextField)({
 });
 
 export default function GenerateProposal() {
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
   const navigate = useNavigate();
 
   // Demand ID
@@ -317,7 +327,7 @@ export default function GenerateProposal() {
           style={{ fontSize: fonts.xl }}
           className="mt-5 flex items-center justify-center font-roboto font-bold text-blue-weg"
         >
-          Gerando proposta da demanda:
+          {translate["Gerando proposta da demanda"]?.[language] ?? "Gerando proposta da demanda"}:
         </h1>
         {demand && <DemandCard demand={demand} />}
       </div>
@@ -330,7 +340,7 @@ export default function GenerateProposal() {
                 className="mt-5 flex items-center justify-start p-5 font-roboto font-bold"
               >
                 <p>
-                  Escopo do projeto
+                  {translate["Escopo do projeto"]?.[language] ?? "Escopo do projeto"}
                 </p>
                 <div onClick={() => setCurrentSpeechId(projectScopeSpeech.id)}>
                   <VoiceSpeech setTexto={setProjectScopeSpeech} speechId={currentSpeechId} />
@@ -340,7 +350,7 @@ export default function GenerateProposal() {
             <ReactQuill
               value={quillHtmlScope}
               onChange={(e) => setQuillHtmlScope(e)}
-              placeholder="Escreva aqui o objetivo e o escopo do projeto"
+              placeholder={translate["Escreva aqui o objetivo e o escopo do projeto"]?.[language] ?? "Escreva aqui o objetivo e o escopo do projeto"}
               onBlur={saveProgress}
               modules={quillModules}
               style={{ width: "50rem", height: "10rem" }}
@@ -352,7 +362,7 @@ export default function GenerateProposal() {
               className="mt-10 flex items-center justify-start p-5 font-roboto font-bold"
             >
               <p>
-                Não faz parte do escopo do projeto
+                {translate["Não faz parte do escopo do projeto"]?.[language] ?? "Não faz parte do escopo do projeto"}
               </p>
               <div onClick={() => setCurrentSpeechId(notInScopeSpeech.id)}>
                 <VoiceSpeech setTexto={setNotInScopeSpeech} speechId={currentSpeechId} />
@@ -362,7 +372,7 @@ export default function GenerateProposal() {
               value={quillHtmlIsNotOnScope}
               onChange={(e) => setQuillHtmlIsNotOnScope(e)}
               onBlur={saveProgress}
-              placeholder="Escreva aqui o que não faz parte do escopo do projeto (não deve ser gasto tempo com)"
+              placeholder={translate["Escreva aqui o que não faz parte do escopo do projeto (não deve ser gasto tempo com)"]?.[language] ?? "Escreva aqui o que não faz parte do escopo do projeto (não deve ser gasto tempo com)"}
               modules={quillModules}
               style={{ width: "50rem", height: "10rem" }}
             />
@@ -373,20 +383,20 @@ export default function GenerateProposal() {
             style={{ fontSize: fonts.xl }}
             className="mt-5 flex items-center justify-center font-roboto font-bold text-blue-weg"
           >
-            Tabela de custos:{" "}
+            {translate["Tabela de custos"]?.[language] ?? "Tabela de custos"}:{" "}
           </h1>
         </div>
         <div className="flex items-center justify-center">
           <table className="grid gap-20">
             <div className="grid items-center justify-center gap-5">
               <CostTable
-                typeTitle="Interno"
+                typeTitle={translate["Interno"]?.[language] ?? "Interno"}
                 costs={internalCosts}
                 setCosts={setInternalCosts}
               />
               <div className="flex items-center justify-start">
                 <CostCenterPayers
-                  typeTitle="interno"
+                  typeTitle={translate["interno"]?.[language] ?? "interno"}
                   totalCostCenterPayers={internalCostCenterPayers}
                   setTotalCostCenterPayers={setInternalCostCenterPayers}
                 />
@@ -394,13 +404,13 @@ export default function GenerateProposal() {
             </div>
             <div className="grid items-center justify-center gap-5">
               <CostTable
-                typeTitle="Externo"
+                typeTitle={translate["Externo"]?.[language] ?? "Externo"}
                 costs={externalCosts}
                 setCosts={setExternalCosts}
               />
               <div className="flex items-center justify-start">
                 <CostCenterPayers
-                  typeTitle="externo"
+                  typeTitle={translate["externo"]?.[language] ?? "externo"}
                   totalCostCenterPayers={externalCostCenterPayers}
                   setTotalCostCenterPayers={setExternalCostCenterPayers}
                 />
@@ -415,7 +425,7 @@ export default function GenerateProposal() {
                 style={{ fontSize: fonts.xl }}
                 className="ml-5 mr-8 font-roboto font-bold"
               >
-                Custos totais do projeto
+                {translate["Custos totais do projeto"]?.[language] ?? "Custos totais do projeto"}
               </p>
               <TextField
                 id="outlined-basic"
@@ -451,7 +461,7 @@ export default function GenerateProposal() {
           ml-5 mr-[5.6rem] font-roboto
         "
                 >
-                  Total de despesas (desembolso)
+                  {translate["Total de despesas (desembolso)"]?.[language] ?? "Total de despesas (desembolso)"}
                 </p>
                 <TextField
                   id="outlined-basic"
@@ -475,7 +485,7 @@ export default function GenerateProposal() {
           ml-5 mr-8 font-roboto
         "
                 >
-                  Total de despesas com custos internos
+                  {translate["Total de despesas com custos internos"]?.[language] ?? "Total de despesas com custos internos"}
                 </p>
                 <TextField
                   id="outlined-basic"
@@ -503,7 +513,7 @@ export default function GenerateProposal() {
         <div className="mt-10 grid items-center justify-start gap-10">
           <div>
             <p style={{ fontSize: fonts.lg }} className="font-roboto font-bold">
-              Payback
+              {translate["Payback"]?.[language] ?? "Payback"}
             </p>
             <EqualInput
               id="outlined-textarea"
@@ -527,7 +537,7 @@ export default function GenerateProposal() {
                 className="font-roboto font-bold flex items-center"
               >
                 <p>
-                  Alternativas avaliadas da proposta
+                  {translate["Alternativas avaliadas da proposta"]?.[language]}
                 </p>
                 <div onClick={() => setCurrentSpeechId(proposalAlternativesSpeech.id)}>
                   <VoiceSpeech setTexto={setProposalAlternativesSpeech} speechId={currentSpeechId} />
@@ -535,7 +545,7 @@ export default function GenerateProposal() {
               </div>
               <ReactQuill
                 value={quillHtmlProposalAlternatives}
-                placeholder="Escreva aqui as alternativas avaliadas da proposta"
+                placeholder={translate["Escreva aqui as alternativas avaliadas da proposta"]?.[language] ?? "Escreva aqui as alternativas avaliadas da proposta"}
                 onChange={(e) => setQuillHtmlProposalAlternatives(e)}
                 onBlur={saveProgress}
                 modules={quillModules}
@@ -548,7 +558,7 @@ export default function GenerateProposal() {
                 className="font-roboto font-bold flex items-center"
               >
                 <p>
-                  Abrangência do projeto
+                  {translate["Abrangência do projeto"]?.[language] ?? "Abrangência do projeto"}
                 </p>
                 <div onClick={() => setCurrentSpeechId(projectRangeSpeech.id)}>
                   <VoiceSpeech setTexto={setProjectRangeSpeech} speechId={currentSpeechId} />
@@ -556,7 +566,7 @@ export default function GenerateProposal() {
               </div>
               <ReactQuill
                 value={quillValueProjectRange}
-                placeholder="Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."
+                placeholder={translate["Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."]?.[language] ?? "Escreva aqui a abrangência do projeto, como por exemplo: quais áreas serão impactadas, etc."}
                 onChange={(e) => setQuillValueProjectRange(e)}
                 onBlur={saveProgress}
                 modules={quillModules}
@@ -569,7 +579,7 @@ export default function GenerateProposal() {
                 className="font-roboto font-bold flex items-center"
               >
                 <p>
-                  Principais riscos / Plano mitigação
+                  {translate["Principais riscos / Plano mitigação"]?.[language] ?? "Principais riscos / Plano mitigação"}
                 </p>
                 <div onClick={() => setCurrentSpeechId(mitigationPlanSpeech.id)}>
                   <VoiceSpeech setTexto={setMitigationPlanSpeech} speechId={currentSpeechId} />
@@ -577,7 +587,7 @@ export default function GenerateProposal() {
               </div>
               <ReactQuill
                 value={quillHtmlProposalMitigationPlan}
-                placeholder="Escreva aqui os principais riscos e o plano de mitigação"
+                placeholder={translate["Escreva aqui os principais riscos e o plano de mitigação"]?.[language] ?? "Escreva aqui os principais riscos e o plano de mitigação"}
                 onChange={(e) => setQuillHtmlProposalMitigationPlan(e)}
                 onBlur={saveProgress}
                 modules={quillModules}
@@ -589,7 +599,7 @@ export default function GenerateProposal() {
                 style={{ fontSize: fonts.lg }}
                 className="font-roboto font-bold"
               >
-                Período de execução
+                {translate["Período de execução"]?.[language] ?? "Período de execução"}
               </p>
               <div className="mt-4 flex gap-10">
                 <DateInput
@@ -597,13 +607,13 @@ export default function GenerateProposal() {
                   variant="outlined"
                   placeholder="dd/mm/aaaa"
                   type="date"
-                  label="Início:"
+                  label={translate["Início:"]?.[language] ?? "Início:"}
                   size="small"
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
                   }}
                   value={startDate}
-                  helperText="Data de início da execução da demanda"
+                  helperText={translate["Data de início da execução da demanda"]?.[language] ?? "Data de início da execução da demanda"}
                   onChange={(e) => setStartDate(e.target.value)}
                 />
                 <DateInput
@@ -611,13 +621,13 @@ export default function GenerateProposal() {
                   variant="outlined"
                   placeholder="dd/mm/aaaa"
                   type="date"
-                  label="Término:"
+                  label={translate["Término:"]?.[language] ?? "Término:"}
                   size="small"
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
                   }}
                   value={endDate}
-                  helperText="Data de término da execução da demanda"
+                  helperText={translate["Data de término da execução da demanda"]?.[language] ?? "Data de término da execução da demanda"}
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </div>
@@ -627,7 +637,7 @@ export default function GenerateProposal() {
                 style={{ fontSize: fonts.lg }}
                 className="font-roboto font-bold"
               >
-                Responsável pelo negócio
+                {translate["Responsável pelo negócio"]?.[language] ?? "Responsável pelo negócio"}
               </p>
               <div className="flex gap-10">
                 <NameAreaInput
@@ -635,7 +645,7 @@ export default function GenerateProposal() {
                   variant="outlined"
                   type="text"
                   multiline
-                  placeholder="Nome"
+                  placeholder={translate["Nome"]?.[language] ?? "Nome"}
                   maxRows={3}
                   value={nameBusinessResponsible}
                   onChange={(e) => setNameBusinessResponsible(e.target.value)}
@@ -648,7 +658,7 @@ export default function GenerateProposal() {
                   variant="outlined"
                   type="text"
                   multiline
-                  placeholder="Área"
+                  placeholder={translate["Área"]?.[language] ?? "Área"}
                   maxRows={3}
                   value={areaBusinessResponsible}
                   onChange={(e) => setAreaBusinessResponsible(e.target.value)}
@@ -681,10 +691,10 @@ export default function GenerateProposal() {
             {(buttonSavedClicked && (
               <div className="flex items-center gap-2">
                 <CircularProgress size={20} sx={{ color: "#FFFFFF" }} />
-                <p>Salvando...</p>
+                <p>{translate["Salvando..."]?.[language] ?? "Salvando..."}</p>
               </div>
             )) ||
-              "Salvar"}
+              (translate["Salvar"]?.[language] ?? "Salvar")}
           </Button>
           <Button
             onClick={() => handlePutProposal(true)}
@@ -697,7 +707,7 @@ export default function GenerateProposal() {
               ml: 2,
             }}
           >
-            Concluir proposta
+            {translate["Concluir proposta"]?.[language] ?? "Concluir proposta"}
           </Button>
         </div>
       </div>

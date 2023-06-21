@@ -1,62 +1,137 @@
 {
   "Seu perfil": {
     "pt-br": "Seu perfil",
-    "en-us": "Your profile"
+    "en-us": "Your profile",
+    "de": "Dein Profil",
+    "zh-cn": "您的个人资料",
+    "es": "Tu perfil",
+    "fr": "Votre profil",
+    "it": "Il tuo profilo"
   },
   "Idioma": {
     "pt-br": "Idioma",
-    "en-us": "Language"
+    "en-us": "Language",
+    "de": "Sprache",
+    "zh-cn": "语言",
+    "es": "Idioma",
+    "fr": "Langue",
+    "it": "Lingua"
   },
   "Português": {
     "pt-br": "Português",
-    "en-us": "Portuguese"
+    "en-us": "Portuguese",
+    "de": "Portugiesisch",
+    "zh-cn": "葡萄牙语",
+    "es": "Portugués",
+    "fr": "Portugais",
+    "it": "Portoghese"
   },
   "Inglês": {
     "pt-br": "Inglês",
-    "en-us": "English"
+    "en-us": "English",
+    "de": "Englisch",
+    "zh-cn": "英语",
+    "es": "Inglés",
+    "fr": "Anglais",
+    "it": "Inglese"
   },
   "Espanhol": {
     "pt-br": "Espanhol",
-    "en-us": "Spanish"
+    "en-us": "Spanish",
+    "de": "Spanisch",
+    "zh-cn": "西班牙语",
+    "es": "Español",
+    "fr": "Espagnol",
+    "it": "Spagnolo"
   },
   "Alemão": {
     "pt-br": "Alemão",
-    "en-us": "German"
+    "en-us": "German",
+    "de": "Deutsch",
+    "zh-cn": "德语",
+    "es": "Alemán",
+    "fr": "Allemand",
+    "it": "Tedesco"
   },
   "Chinês": {
     "pt-br": "Chinês",
-    "en-us": "Chinese"
+    "en-us": "Chinese",
+    "de": "Chinesisch",
+    "zh-cn": "中文",
+    "es": "Chino",
+    "fr": "Chinois",
+    "it": "Cinese"
   },
   "Sair": {
     "pt-br": "Sair",
-    "en-us": "Logout"
+    "en-us": "Logout",
+    "de": "Abmelden",
+    "zh-cn": "退出",
+    "es": "Cerrar sesión",
+    "fr": "Déconnexion",
+    "it": "Esci"
   },
   "Mensagens": {
     "pt-br": "Mensagens",
-    "en-us": "Messages"
+    "en-us": "Messages",
+    "de": "Nachrichten",
+    "zh-cn": "消息",
+    "es": "Mensajes",
+    "fr": "Messages",
+    "it": "Messaggi"
   },
   "Procure por usuários ou demandas": {
     "pt-br": "Procure por usuários ou demandas",
-    "en-us": "Search for users or demands"
+    "en-us": "Search for users or demands",
+    "de": "Suche nach Benutzern oder Anfragen",
+    "zh-cn": "搜索用户或需求",
+    "es": "Buscar usuarios o demandas",
+    "fr": "Rechercher des utilisateurs ou des demandes",
+    "it": "Cerca utenti o richieste"
   },
   "Notificações": {
     "pt-br": "Notificações",
-    "en-us": "Notifications"
+    "en-us": "Notifications",
+    "de": "Benachrichtigungen",
+    "zh-cn": "通知",
+    "es": "Notificaciones",
+    "fr": "Notifications",
+    "it": "Notifiche"
   },
   "Marcar todas como lidas": {
     "pt-br": "Marcar todas como lidas",
-    "en-us": "Mark all as read"
+    "en-us": "Mark all as read",
+    "de": "Alle als gelesen markieren",
+    "zh-cn": "全部标记为已读",
+    "es": "Marcar todas como leídas",
+    "fr": "Tout marquer comme lu",
+    "it": "Segna tutto come letto"
   },
   "Tudo": {
     "pt-br": "Tudo",
-    "en-us": "All"
+    "en-us": "All",
+    "de": "Alle",
+    "zh-cn": "全部",
+    "es": "Todo",
+    "fr": "Tout",
+    "it": "Tutto"
   },
   "Não lidas": {
     "pt-br": "Não lidas",
-    "en-us": "Unread"
+    "en-us": "Unread",
+    "de": "Ungelesen",
+    "zh-cn": "未读",
+    "es": "No leídas",
+    "fr": "Non lu",
+    "it": "Non lette"
   },
   "Nenhum usuário encontrado": {
     "pt-br": "Nenhum usuário encontrado",
-    "en-us": "No user found"
+    "en-us": "No user found",
+    "de": "Kein Benutzer gefunden",
+    "zh-cn": "未找到用户",
+    "es": "No se encontró ningún usuario",
+    "fr": "Aucun utilisateur trouvé",
+    "it": "Nessun utente trovato"
   }
 }

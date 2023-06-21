@@ -1,62 +1,137 @@
 {
   "Preencha todos os campos": {
     "pt-br": "Preencha todos os campos",
-    "en-us": "Fill in all fields"
+    "en-us": "Fill in all fields",
+    "de": "Füllen Sie alle Felder aus",
+    "zh-cn": "填写所有字段",
+    "es": "Complete todos los campos",
+    "fr": "Remplissez tous les champs",
+    "it": "Compila tutti i campi"
   },
   "O horário de término deve ser maior que o horário de início": {
     "pt-br": "O horário de término deve ser maior que o horário de início",
-    "en-us": "The end time must be greater than the start time"
+    "en-us": "The end time must be greater than the start time",
+    "de": "Die Endzeit muss größer als die Startzeit sein",
+    "zh-cn": "结束时间必须大于开始时间",
+    "es": "La hora de finalización debe ser mayor que la hora de inicio",
+    "fr": "L'heure de fin doit être supérieure à l'heure de début",
+    "it": "L'ora di fine deve essere maggiore dell'ora di inizio"
   },
   "Selecione pelo menos uma proposta": {
     "pt-br": "Selecione pelo menos uma proposta",
-    "en-us": "Select at least one proposal"
+    "en-us": "Select at least one proposal",
+    "de": "Wählen Sie mindestens einen Vorschlag aus",
+    "zh-cn": "至少选择一个提案",
+    "es": "Seleccione al menos una propuesta",
+    "fr": "Sélectionnez au moins une proposition",
+    "it": "Seleziona almeno una proposta"
   },
   "Erro ao criar pauta": {
     "pt-br": "Erro ao criar pauta",
-    "en-us": "Error creating schedule"
+    "en-us": "Error creating schedule",
+    "de": "Fehler beim Erstellen des Zeitplans",
+    "zh-cn": "创建日程时出错",
+    "es": "Error al crear el horario",
+    "fr": "Erreur lors de la création de l'emploi du temps",
+    "it": "Errore durante la creazione dell'orario"
   },
   "Pauta criada com sucesso": {
     "pt-br": "Pauta criada com sucesso",
-    "en-us": "Schedule created successfully"
+    "en-us": "Schedule created successfully",
+    "de": "Zeitplan erfolgreich erstellt",
+    "zh-cn": "日程安排创建成功",
+    "es": "Horario creado exitosamente",
+    "fr": "Calendrier créé avec succès",
+    "it": "Orario creato con successo"
   },
   "Crie uma pauta": {
     "pt-br": "Crie uma pauta",
-    "en-us": "Create an schedule"
+    "en-us": "Create a schedule",
+    "de": "Erstellen Sie einen Zeitplan",
+    "zh-cn": "创建一个日程安排",
+    "es": "Crea un horario",
+    "fr": "Créer un emploi du temps",
+    "it": "Crea un orario"
   },
   "Data da reunião": {
     "pt-br": "Data da reunião",
-    "en-us": "Meeting date"
+    "en-us": "Meeting date",
+    "de": "Besprechungsdatum",
+    "zh-cn": "会议日期",
+    "es": "Fecha de la reunión",
+    "fr": "Date de la réunion",
+    "it": "Data della riunione"
   },
   "Criar pauta": {
     "pt-br": "Criar pauta",
-    "en-us": "Create schedule"
+    "en-us": "Create schedule",
+    "de": "Zeitplan erstellen",
+    "zh-cn": "创建日程",
+    "es": "Crear horario",
+    "fr": "Créer un emploi du temps",
+    "it": "Crea un orario"
   },
   "Horário:": {
     "pt-br": "Horário:",
-    "en-us": "Time:"
+    "en-us": "Time:",
+    "de": "Uhrzeit:",
+    "zh-cn": "时间：",
+    "es": "Hora:",
+    "fr": "Heure :",
+    "it": "Ora:"
   },
   "Comissão": {
     "pt-br": "Comissão",
-    "en-us": "Commission"
+    "en-us": "Commission",
+    "de": "Kommission",
+    "zh-cn": "委员会",
+    "es": "Comisión",
+    "fr": "Commission",
+    "it": "Commissione"
   },
   "Procurar por título": {
     "pt-br": "Procurar por título",
-    "en-us": "Search by title"
+    "en-us": "Search by title",
+    "de": "Nach Titel suchen",
+    "zh-cn": "按标题搜索",
+    "es": "Buscar por título",
+    "fr": "Rechercher par titre",
+    "it": "Cerca per titolo"
   },
   "Selecione as propostas": {
     "pt-br": "Selecione as propostas",
-    "en-us": "Select proposals"
+    "en-us": "Select proposals",
+    "de": "Wählen Sie Vorschläge aus",
+    "zh-cn": "选择提案",
+    "es": "Seleccionar propuestas",
+    "fr": "Sélectionner des propositions",
+    "it": "Seleziona le proposte"
   },
   "Término": {
     "pt-br": "Término",
-    "en-us": "End"
+    "en-us": "End",
+    "de": "Ende",
+    "zh-cn": "结束",
+    "es": "Fin",
+    "fr": "Fin",
+    "it": "Fine"
   },
   "Início": {
     "pt-br": "Início",
-    "en-us": "Start"
+    "en-us": "Start",
+    "de": "Start",
+    "zh-cn": "开始",
+    "es": "Inicio",
+    "fr": "Début",
+    "it": "Inizio"
   },
   "Criar nova pauta": {
     "pt-br": "Criar nova pauta",
-    "en-us": "Create new schedule"
+    "en-us": "Create new schedule",
+    "de": "Neuen Zeitplan erstellen",
+    "zh-cn": "创建新日程",
+    "es": "Crear nuevo horario",
+    "fr": "Créer un nouvel emploi du temps",
+    "it": "Crea un nuovo orario"
   }
 }

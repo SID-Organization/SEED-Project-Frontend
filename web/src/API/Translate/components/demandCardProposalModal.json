@@ -1,6 +1,11 @@
 {
   "Selecionar": {
     "pt-br": "Selecionar",
-    "en-us": "Select"
+    "en-us": "Select",
+    "de": "Auswählen",
+    "zh-cn": "选择",
+    "es": "Seleccionar",
+    "fr": "Sélectionner",
+    "it": "Seleziona"
   }
 }
