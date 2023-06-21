@@ -21,7 +21,7 @@ import PautaService from "../../../service/Pauta-Service";
 // Utils
 import DateUtils from "../../../utils/Date-Utils";
 import FontSizeUtils from "../../../utils/FontSize-Utils";
-import DemandFilterUtils from "../../../utils/DemandFilter-Utils";
+import PautaFilterUtils from "../../../utils/PautaFilter-Utils"
 
 //Translation
 import TranslationJson from "../../../API/Translate/pages/analista/pautas.json";
@@ -38,7 +38,7 @@ export default function Pautas() {
   const [pautasMonths, setPautasMonths] = useState([]);
   const [pautasYear, setPautasYear] = useState([]);
 
-  const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
+  const [filters, setFilters] = useState(PautaFilterUtils.getEmptyFilter());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
@@ -66,7 +66,19 @@ export default function Pautas() {
     });
   }, []);
 
-  console.log("PAUTAS: ", pautas);
+    // Filtra as pautas
+    useEffect(() => {
+      if (pautas) {
+        const filteredPautas = PautaFilterUtils.filterBy(pautas, filters);
+  
+        if (filteredPautas) {
+          setPautas(filteredPautas);
+        } else {
+          setPautas(pautas);
+        }
+      };
+  
+    }, [filters, pautas]);
 
   useEffect(() => {
     if (pautas.length === 0) return;
@@ -114,7 +126,7 @@ export default function Pautas() {
 
   return (
     <div>
-      <SubHeaderPautas filters={filters} setFilters={setFilters} />
+      <SubHeaderPautas setFilters={setFilters} />
       <div className="grid items-center justify-center">
         <div className="mb-20 mt-4 flex flex-col items-center justify-center gap-10">
           {isLoading ? (

@@ -1,7 +1,7 @@
 import DateUtils from "../Date-Utils"
 
-const filterBy = (atas, filters) => {
-    let filteredDemands = atas;
+const filterBy = (pautas, filters) => {
+    let filteredDemands = pautas;
     /**
      * Filters Template:
      * [
@@ -67,10 +67,10 @@ const filterBy = (atas, filters) => {
 
 const getEmptyFilter = () => [
     { filterBy: "analistaResponsavel", value: null, type: "text" },
-    { filterBy: "dataReuniaoAta", value: null, endValue: null, type: "betweenDate" },
-    { filterBy: "horarioInicioAta", value: null, endValue: null, type: "betweenTime" },
+    { filterBy: "dataReuniao", value: null, endValue: null, type: "betweenDate" },
+    { filterBy: "horarioReuniao", value: null, endValue: null, type: "betweenTime" },
     { filterBy: "qtdPropostas", value: null, type: "number" },
-    { filterBy: "nomeForumAta", value: null, type: "select" }
+    { filterBy: "nomeComissao", value: null, type: "select" }
 ];
 
 const getUpdatedFilter =
@@ -78,16 +78,16 @@ const getUpdatedFilter =
         analistaResponsavel,
         dataReuniaoInicio,
         dataReuniaoFim,
-        horarioAtaInicio,
-        horarioAtaFim,
+        horarioInicio,
+        horarioFim,
         qtdPropostas,
-        nomeForumAta
+        nomeComissao
     ) => [
             { filterBy: "analistaResponsavel", value: analistaResponsavel, type: "text" },
-            { filterBy: "dataReuniaoAta", value: dataReuniaoInicio, endValue: dataReuniaoFim, type: "betweenDate" },
-            { filterBy: "horarioInicioAta", value: horarioAtaInicio, endValue: horarioAtaFim, type: "betweenTime" },
+            { filterBy: "dataReuniao", value: dataReuniaoInicio, endValue: dataReuniaoFim, type: "betweenDate" },
+            { filterBy: "horarioReuniao", value: horarioInicio, endValue: horarioFim, type: "betweenTime" },
             { filterBy: "qtdPropostas", value: qtdPropostas, type: "number" },
-            { filterBy: "nomeForumAta", value: nomeForumAta, type: "select" }
+            { filterBy: "nomeComissao", value: nomeComissao, type: "select" }
         ]
 
 

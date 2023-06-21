@@ -86,6 +86,7 @@ export default function DemandFilter(props) {
     if (requester != "") qty++;
     if (value != "") qty++;
     if (score != "") qty++;
+    if (endScore != "") qty++;
     if (title != "") qty++;
     if (responsibleAnalyst != "") qty++;
     if (responsibleManager != "") qty++;
@@ -95,7 +96,6 @@ export default function DemandFilter(props) {
     if (PPMCode != "") qty++;
     if (requestNumber != "") qty++;
     if (demandStatus != "") qty++;
-
     return qty;
   }
 
@@ -130,7 +130,7 @@ export default function DemandFilter(props) {
         title,
         demandStatus,
         value,
-        {score, endScore},
+        { score, endScore },
         requestNumber
       ))
   };
@@ -188,7 +188,7 @@ export default function DemandFilter(props) {
                 >
                   <Badge
                     badgeContent={qtyUsedFilters()}
-                    color="error"
+                    color="info"
                   >
                     <TuneRoundedIcon
                       sx={{

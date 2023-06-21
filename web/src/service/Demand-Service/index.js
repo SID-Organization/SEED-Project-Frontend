@@ -13,13 +13,14 @@ const createDemand = async (demand) => {
 
 const createExcelTable = async (demandaIdList) => {
   let demandaIdListForm = new FormData();
-  for(const demandaId of demandaIdList) {
+  for (const demandaId of demandaIdList) {
     demandaIdListForm.append("demandaIdList", demandaId);
   }
 
   const contentType = "multipart/form-data";
   return AxiosAPI.post(`${url}/tabela-excel`, demandaIdListForm, contentType, "arraybuffer")
     .then((response) => response.data)
+    
     .catch((error) => error);
 };
 

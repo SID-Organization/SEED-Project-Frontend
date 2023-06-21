@@ -80,10 +80,10 @@ export default function DemandsPage(props) {
     console.log("props.DemandType: ", props.DemandType);
   }, [props.DemandType]);
 
-  const listIdsDemanda = [1, 3, 4, 5];
 
   const handleCreateExcel = () => {
-    DemandService.createExcelTable(listIdsDemanda).then((res) => {
+    const idsListDemand = showingDemands.map((demand) => demand.idDemanda);
+    DemandService.createExcelTable(idsListDemand).then((res) => {
       let blob = new Blob([res], { type: "application/excel" });
       let url = URL.createObjectURL(blob);
       let link = document.createElement("a");
@@ -97,7 +97,7 @@ export default function DemandsPage(props) {
       link.href = url;
       link.download = "tabela-demandas " + dataFormatada + " .xlsx";
       link.click();
-    });
+    })
   };
 
 
@@ -280,13 +280,6 @@ export default function DemandsPage(props) {
 
     return (
       <>
-        <Button
-          disabled={false}
-          variant="contained"
-          onClick={handleCreateExcel}
-        >
-          EXCEL
-        </Button>
         <Grid
           container
           gap={3}
@@ -334,6 +327,7 @@ export default function DemandsPage(props) {
           setIsListFormat={setIsListFormat}
           isListFormat={isListFormat}
           setFilters={setFilters}
+          handleCreateExcel={handleCreateExcel}
         >
           {demandType == DemandType.DEMAND && <p>Minhas demandas</p>}
           {demandType == DemandType.DRAFT && <p>Rascunhos</p>}

@@ -1,12 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 
 // MUI
-import { Badge, Button, Modal, Popper, Typography } from "@mui/material";
+import { Badge, Button, Popper, } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import Divider from "@mui/material/Divider";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/material/IconButton";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
@@ -19,11 +15,12 @@ import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Components
 import FilterField from "../FilterField";
-import AtasFilterUtils from "../../utils/AtasFilter-Utils";
+import PautaFilterUtils from "../../utils/PautaFilter-Utils";
+
+// Service
 import ForumService from "../../service/Forum-Service";
 
-
-export default function AtaFilter(props) {
+export default function PautaFilter(props) {
 
     const translate = TranslationJson;
     const [language] = useContext(TranslateContext);
@@ -34,17 +31,14 @@ export default function AtaFilter(props) {
     const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
     // Filters
-    const [meetingDate, setMeetingDate] = useState("");
+    const [meetingDateStart, setMeetingDateStart] = useState("");
+    const [meetingDateEnd, setMeetingDateEnd] = useState("");
     const [meetingTimeStart, setMeetingTimeStart] = useState("");
     const [meetingTimeEnd, setMeetingTimeEnd] = useState("");
     const [qtyProposals, setQtyProposals] = useState("");
-    const [approvalForum, setApprovalForum] = useState("");
     const [responsibleAnalyst, setResponsibleAnalyst] = useState("");
+    const [forum, setForum] = useState("");
     const [forunsOptions, setForunsOptions] = useState([]);
-
-    useEffect(() => {
-        setFonts(FontSizeUtils.getFontSizes());
-    }, [FontSizeUtils.getFontControl()])
 
     useEffect(() => {
         ForumService.getForuns().then((response) => {
@@ -75,33 +69,35 @@ export default function AtaFilter(props) {
 
     function qtyUsedFilters() {
         let qty = 0;
-        if (meetingDate != "") qty++;
+        if (meetingDateStart != "") qty++;
+        if (meetingDateEnd != "") qty++;
         if (meetingTimeStart != "") qty++;
         if (meetingTimeEnd != "") qty++;
         if (qtyProposals != "") qty++;
-        if (approvalForum != "") qty++;
         if (responsibleAnalyst != "") qty++;
         return qty;
     }
 
     function cleanStates() {
-        setMeetingDate("");
+        setMeetingDateStart("");
+        setMeetingDateEnd("");
         setMeetingTimeStart("");
         setMeetingTimeEnd("");
+        setForum("");
         setQtyProposals("");
-        setApprovalForum("");
         setResponsibleAnalyst("");
     }
 
     // Quando algum campo de pesquisa é utilizado, chama essa função e atualiza o filter
     function filterAtas() {
-        props.setFilters(AtasFilterUtils.getUpdatedFilter(
+        props.setFilters(PautaFilterUtils.getUpdatedFilter(
             responsibleAnalyst,
-            meetingDate,
+            meetingDateStart,
+            meetingDateEnd,
             meetingTimeStart,
             meetingTimeEnd,
             qtyProposals,
-            approvalForum
+            forum
         ))
     };
 
@@ -127,7 +123,7 @@ export default function AtaFilter(props) {
                     </p>
                     <Badge
                         badgeContent={qtyUsedFilters()}
-                        color="error"
+                        color="info"
                     >
                         <TuneRoundedIcon
                             sx={{
@@ -151,34 +147,32 @@ export default function AtaFilter(props) {
                         <div className="grid gap-3">
                             <FilterField
                                 title={translate["Data da Reunião"]?.[language] ?? "Data da Reunião"}
-                                type="date"
-                                value={meetingDate}
-                                setValue={setMeetingDate}
+                                type="betweenDate"
+                                value={meetingDateStart}
+                                setValue={setMeetingDateStart}
+                                endValue={meetingDateEnd}
+                                setEndValue={setMeetingDateEnd}
                             />
                             <FilterField
                                 title={translate["Horário Início"]?.[language] ?? "Horário Início"}
-                                type="time"
+                                type="betweenTime"
                                 value={meetingTimeStart}
                                 setValue={setMeetingTimeStart}
+                                endValue={meetingTimeEnd}
+                                setEndValue={setMeetingTimeEnd}
                             />
                             <FilterField
-                                title={translate["Horário Término"]?.[language] ?? "Horário Término"}
-                                type="time"
-                                value={meetingTimeEnd}
-                                setValue={setMeetingTimeEnd}
+                                title={translate["Fórum de Aprovação"]?.[language] ?? "Fórum de Aprovação"}
+                                type="select"
+                                value={forum}
+                                setValue={setForum}
+                                options={forunsOptions}
                             />
                             <FilterField
                                 title={translate["Qtd. de Propostas"]?.[language] ?? "Qtd. de Propostas"}
                                 type="number"
                                 value={qtyProposals}
                                 setValue={setQtyProposals}
-                            />
-                            <FilterField
-                                title={translate["Fórum de Aprovação"]?.[language] ?? "Fórum de Aprovação"}
-                                type="select"
-                                value={approvalForum}
-                                setValue={setApprovalForum}
-                                options={forunsOptions}
                             />
                             <FilterField
                                 title={translate["Analista Responsável"]?.[language] ?? "Analista Responsável"}
