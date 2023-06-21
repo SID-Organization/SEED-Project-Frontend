@@ -147,6 +147,8 @@ export default function subHeader({ children }) {
   // Notificação confirmação demanda aprovada
   const [openNotification, setOpenNotification] = useState(false);
 
+  const [notificationClassifiedDemand, setNotificationClassifiedDemand] = useState(false);
+
   const anchorRef = React.useRef(null);
   const params = useParams();
 
@@ -367,11 +369,14 @@ export default function subHeader({ children }) {
             "Aprovar",
             72132
           );
+          return true;
         }
-        return response;
+        return false;
       })
-      .then((res) => {
-        if (res.status == 200) navigate(-1);
+      .then((isSuccessful) => {
+        if (isSuccessful) {
+          setNotificationClassifiedDemand(true);
+        }
       });
   };
 
@@ -418,9 +423,20 @@ export default function subHeader({ children }) {
 
   return (
     <div>
+      {
+        notificationClassifiedDemand && (
+          <Notification
+            message={
+              translate["Demanda classificada com sucesso!"][language] ??
+              "Demanda classificada com sucesso!"
+            }
+            severity="success"
+            />
+        )
+      }
       {openNotification && (
         <Notification message={translate["Demanda aprovada com sucesso!"][language] ?? "Demanda aprovada com sucesso"}
-          action={false} />
+        severity="success" />
       )}
       {/* Modal para confirmar a demanda */}
       <Modal

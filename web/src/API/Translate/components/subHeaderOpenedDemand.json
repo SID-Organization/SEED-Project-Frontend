@@ -8,6 +8,15 @@
     "fr": "Voulez-vous approuver la demande ?",
     "it": "Vuoi approvare la domanda?"
   },
+  "Demanda classificada com sucesso!": {
+    "pt-br": "Demanda classificada com sucesso!",
+    "en-us": "Demand successfully classified!",
+    "de": "Nachfrage erfolgreich klassifiziert!",
+    "zh-cn": "需求成功分类！",
+    "es": "¡Demanda clasificada con éxito!",
+    "fr": "Demande classée avec succès !",
+    "it": "Domanda classificata con successo!"
+  },
   "Demanda aprovada com sucesso!": {
     "pt-br": "Demanda aprovada com sucesso!",
     "en-us": "Demand successfully approved!",
