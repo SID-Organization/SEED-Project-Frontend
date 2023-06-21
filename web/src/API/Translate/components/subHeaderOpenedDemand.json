@@ -1,4 +1,22 @@
 {
+  "Alterar importância da demanda": {
+    "pt-br": "Alterar importância da demanda",
+    "en-us": "Change demand importance",
+    "de": "Nachfragebedeutung ändern",
+    "zh-cn": "更改需求重要性",
+    "es": "Cambiar la importancia de la demanda",
+    "fr": "Changer l'importance de la demande",
+    "it": "Cambia l'importanza della domanda"
+  },
+  "Alterar importância": {
+    "pt-br": "Alterar importância",
+    "en-us": "Change importance",
+    "de": "Wichtigkeit ändern",
+    "zh-cn": "更改重要性",
+    "es": "Cambiar importancia",
+    "fr": "Changer l'importance",
+    "it": "Cambia importanza"
+  },
   "Preencha todos os campos!": {
     "pt-br": "Preencha todos os campos!",
     "en-us": "Fill in all fields!",
