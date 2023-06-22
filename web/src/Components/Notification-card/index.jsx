@@ -24,9 +24,8 @@ import UserUtils from "../../utils/User-Utils";
 // }
 
 export default function NotificationCard(props) {
-
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
@@ -37,14 +36,14 @@ export default function NotificationCard(props) {
           cursor: "pointer",
           transition: "0.2s",
           borderBottom: "1px solid #ababab57",
-          padding: "3px",
+          padding: "4px",
           "&:hover": {
             backgroundColor: "#e2e2e2",
           },
         }}
       >
         <div className="ml-5 mr-5 flex justify-center font-roboto">
-          <div className="flex w-[5rem] items-center">
+          <div className="flex w-[4rem] items-center">
             {props.type === "approved" ? (
               <Tooltip title={translate["Aprovação"][language] ?? "Aprovação"}>
                 <CheckCircleOutlineRoundedIcon
@@ -83,7 +82,7 @@ export default function NotificationCard(props) {
               </Tooltip>
             )}
           </div>
-          <div className="grid w-[13rem] p-2 items-center">
+          <div className="grid w-[13rem] items-center p-2">
             <Tooltip
               title={
                 props.name &&
@@ -95,7 +94,7 @@ export default function NotificationCard(props) {
               placement="left"
             >
               <p className="text-[12px]">
-                {props.name && 
+                {props.name &&
                   props.content &&
                   (user.nomeUsuario.length + " " + props.content.length > 71
                     ? (user.nomeUsuario + props.content).slice(0, 70) + "..."
