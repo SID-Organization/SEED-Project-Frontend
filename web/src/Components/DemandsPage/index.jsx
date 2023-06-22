@@ -70,6 +70,8 @@ export default function DemandsPage(props) {
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
+  const [buttonExcelClicked, setButtonExcelClicked] = useState(false);
+
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
@@ -92,6 +94,11 @@ export default function DemandsPage(props) {
       link.download = "tabela-demandas " + dataFormatada + " .xlsx";
       link.click();
     });
+    setButtonExcelClicked(true);
+    const timer = setTimeout(() => {
+      setButtonExcelClicked(false);
+    }, 1000);
+    return () => clearTimeout(timer);
   };
 
   // Pegar as respectivas demandas
@@ -323,6 +330,8 @@ export default function DemandsPage(props) {
           isListFormat={isListFormat}
           setFilters={setFilters}
           handleCreateExcel={handleCreateExcel}
+          buttonExcelClicked={buttonExcelClicked}
+          demandLength={dbDemands.length}
         >
           {demandType == DemandType.DEMAND && <p>Minhas demandas</p>}
           {demandType == DemandType.DRAFT && <p>Rascunhos</p>}

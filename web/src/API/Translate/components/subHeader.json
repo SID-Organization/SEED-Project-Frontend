@@ -1,4 +1,22 @@
 {
+    "Exportando...": {
+        "pt-br": "Exportando...",
+        "en-us": "Exporting...",
+        "de": "Exportieren...",
+        "zh-cn": "导出...",
+        "es": "Exportando...",
+        "fr": "Exportation...",
+        "it": "Esportazione..."
+    },
+    "Sem demandas para exportar": {
+        "pt-br": "Sem demandas para exportar",
+        "en-us": "No demands to export",
+        "de": "Keine Anfragen zum Exportieren",
+        "zh-cn": "没有需求导出",
+        "es": "No hay demandas para exportar",
+        "fr": "Aucune demande à exporter",
+        "it": "Nessuna richiesta da esportare"
+    },
     "Minhas demandas": {
         "pt-br": "Minhas demandas",
         "en-us": "My demands",
