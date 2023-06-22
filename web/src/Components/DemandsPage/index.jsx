@@ -331,7 +331,7 @@ export default function DemandsPage(props) {
           setFilters={setFilters}
           handleCreateExcel={handleCreateExcel}
           buttonExcelClicked={buttonExcelClicked}
-          demandLength={dbDemands.length}
+          demandLength={showingDemands.length}
         >
           {demandType == DemandType.DEMAND && <p>Minhas demandas</p>}
           {demandType == DemandType.DRAFT && <p>Rascunhos</p>}
