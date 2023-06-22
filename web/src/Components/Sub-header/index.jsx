@@ -6,7 +6,7 @@ import "../../styles/index.css";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { Button, IconButton, Tooltip } from "@mui/material";
-import SaveAltRoundedIcon from '@mui/icons-material/SaveAltRounded';
+import SaveAltRoundedIcon from "@mui/icons-material/SaveAltRounded";
 
 // Translation
 import TranslationJSON from "../../API/Translate/components/subHeader.json";
@@ -15,7 +15,6 @@ import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Components
 import DemandFilter from "../FilterDemand";
-
 
 // Subheader de todo o sistema
 export default function subHeader(props) {
@@ -35,14 +34,54 @@ export default function subHeader(props) {
           <div className="flex flex-1 items-center justify-end">
             <DemandFilter setFilters={props.setFilters} />
           </div>
-          <Tooltip title={translate["Exportar demandas para Excel"]?.[language] ?? "Exportar demandas para Excel"}>
+          <Tooltip
+            title={
+              props.demandLength === 0
+                ? translate["Sem demandas para exportar"]?.[language] ??
+                  "Sem demandas para exportar"
+                : translate["Exportar demandas para Excel"]?.[language] ??
+                  "Exportar demandas para Excel"
+            }
+          >
             <Button
-              disabled={false}
+              disabled={props.demandLength === 0}
               variant="contained"
               onClick={props.handleCreateExcel}
+              sx={{
+                backgroundColor: "#2EAC70",
+
+                "&:hover": {
+                  backgroundColor: "#2EAC70",
+                },
+              }}
             >
-              <SaveAltRoundedIcon sx={{ marginRight: '10px' }} />
-              XLSX
+              {props.buttonExcelClicked ? (
+                <svg
+                  className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  />
+                </svg>
+              ) : (
+                <SaveAltRoundedIcon sx={{ marginRight: "10px" }} />
+              )}
+              {props.buttonExcelClicked
+                ? translate["Exportando..."]?.[language] ?? "Exportando..."
+                : "Excel"}
             </Button>
           </Tooltip>
           <div className="flex flex-1 items-center justify-center">

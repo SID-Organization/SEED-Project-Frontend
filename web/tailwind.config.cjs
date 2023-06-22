@@ -11,7 +11,6 @@ module.exports = {
         lg: "18px",
         xl: "20px",
       },
-
       fontFamily: {
         sans: ["Montserrat", "sans-serif"],
         roboto: ["Roboto", "sans-serif"],
