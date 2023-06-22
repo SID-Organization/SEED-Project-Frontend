@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 
 // MUI
-import { Badge, Button, Popper } from "@mui/material";
+import { Badge, Button, Popper, Tooltip } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
 import InputBase from "@mui/material/InputBase";
@@ -9,6 +9,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
 // Components
 import FilterField from "../FilterField";
@@ -23,11 +25,110 @@ import TranslateUtils from "../../utils/Translate-Utils";
 // Translation
 import TranslationJSON from "../../API/Translate/components/demandFilter.json";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
+import SaveFilter from "./SaveFilter";
+import SavedFilters from "./SavedFilters";
+
+
+const filtersMock = [
+  {
+    nomeFiltro: "Filtro 1",
+    id: 1,
+    filtros: [
+      { filterBy: "nomeSolicitante", value: null, type: "text" },
+      { filterBy: "nomeGerenteResponsavelDemanda", value: null, type: "text" },
+      { filterBy: "nomeAnalistaResponsavel", value: null, type: "text" },
+      { filterBy: "codigoPPMDemanda", value: null, type: "number" },
+      { filterBy: "departamentoDemanda", value: null, type: "text" },
+      { filterBy: "forumDeAprovacaoDemanda", value: null, type: "text" },
+      { filterBy: "tamanhoDemanda", value: null, endValue: null, type: "text" },
+      { filterBy: "tituloDemanda", value: null, type: "text" },
+      { filterBy: "statusDemanda", value: null, type: "text" },
+      { filterBy: "custoTotalDemanda", value: null, endValue: null, type: "between" },
+      { filterBy: "scoreDemanda", value: 0, endValue: 150, type: "between" },
+      { filterBy: "idDemanda", value: null, type: "number" },
+    ]
+  },
+  {
+    nomeFiltro: "Filtro 4",
+    id: 4,
+  },
+  {
+    nomeFiltro: "Filtro 5",
+    id: 5,
+  },
+  {
+    nomeFiltro: "Filtro 6",
+    id: 6,
+  },
+  {
+    nomeFiltro: "Filtro 7",
+    id: 7,
+  },
+  {
+    nomeFiltro: "Filtro 8",
+    id: 8,
+  },
+  {
+    nomeFiltro: "Filtro 9",
+    id: 9,
+  },
+  {
+    nomeFiltro: "Filtro 10",
+    id: 10,
+  },
+  {
+    nomeFiltro: "Filtro 11",
+    id: 11,
+  },
+  {
+    nomeFiltro: "Filtro 12",
+    id: 12,
+  },
+  {
+    nomeFiltro: "Filtro 13",
+    id: 13,
+  },
+  {
+    nomeFiltro: "Filtro 14",
+    id: 14,
+  },
+  {
+    nomeFiltro: "Filtro 15",
+    id: 15,
+  },
+  {
+    nomeFiltro: "Filtro 16",
+    id: 16,
+  },
+  {
+    nomeFiltro: "Filtro 17",
+    id: 17,
+  },
+  {
+    nomeFiltro: "Filtro 18",
+    id: 18,
+  },
+  {
+    nomeFiltro: "Filtro 19",
+    id: 19,
+  },
+  {
+    nomeFiltro: "Filtro 20",
+    id: 20,
+  },
+
+]
+
 
 
 export default function DemandFilter(props) {
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [isSaveFilterOpen, setIsSaveFilterOpen] = useState(false);
+  const [anchorElSaveFilter, setAnchorElSaveFilter] = useState(null);
+  const [newFilterTitle, setNewFilterTitle] = useState("");
 
   const translate = TranslationJSON;
   const [language] = useContext(TranslateContext);
@@ -77,14 +178,35 @@ export default function DemandFilter(props) {
     if (isFilterOpen) {
       setIsFilterOpen(false);
       filterDemands();
+      setAnchorEl(null);
+      setAnchorElSaveFilter(null);
+      setIsSaveFilterOpen(false);
     }
   }
 
+  // USER SAVED FILTERS
+  function openSaveFilter(e) {
+    setAnchorElSaveFilter(e.currentTarget);
+    setIsSaveFilterOpen(!isSaveFilterOpen);
+  }
+
+  function saveNewFilter() {
+    console.log("Filter title: ", newFilterTitle);
+    setIsSaveFilterOpen(false);
+  }
+
+  function selectFilter(id) {
+    const filter = filtersMock.find(filter => filter.id === id);
+    console.log("Select filter: ", filter);
+  }
+
+  // FILTER STATE FUNCTIONS
   function qtyUsedFilters() {
     let qty = 0;
 
     if (requester != "") qty++;
     if (value != "") qty++;
+    if (endValue != "") qty++;
     if (score != "") qty++;
     if (endScore != "") qty++;
     if (title != "") qty++;
@@ -103,6 +225,7 @@ export default function DemandFilter(props) {
     setRequester("");
     setDemandStatus("");
     setValue("");
+    setEndValue("");
     setScore("");
     setEndScore("");
     setTitle("");
@@ -129,7 +252,7 @@ export default function DemandFilter(props) {
         demandSize,
         title,
         demandStatus,
-        value,
+        { value, endValue },
         { score, endScore },
         requestNumber
       ))
@@ -206,6 +329,9 @@ export default function DemandFilter(props) {
           open={isFilterOpen}
           anchorEl={anchorEl}
           placement="bottom-start"
+          sx={{
+            display: "flex",
+          }}
         >
           <Paper
             sx={{
@@ -216,19 +342,21 @@ export default function DemandFilter(props) {
           >
             <div className="grid gap-3">
               <FilterField
-                title={filterTranslate["Solicitante"]?.[language]}
+                title={filterTranslate["Solicitante"]?.[language] ?? "Solicitante"}
                 type="text"
                 value={requester}
                 setValue={setRequester}
               />
               <FilterField
-                title={filterTranslate["Valor"]?.[language]}
-                type="number"
+                title={(filterTranslate["Valor"]?.[language] ?? "Valor") + " (R$)"}
+                type="between"
                 value={value}
                 setValue={setValue}
+                endValue={endValue}
+                setEndValue={setEndValue}
               />
               <FilterField
-                title={filterTranslate["Score"]?.[language]}
+                title={filterTranslate["Score"]?.[language] ?? "Score"}
                 type="between"
                 value={score}
                 setValue={setScore}
@@ -236,56 +364,56 @@ export default function DemandFilter(props) {
                 setEndValue={setEndScore}
               />
               <FilterField
-                title={filterTranslate["Título"]?.[language]}
+                title={filterTranslate["Título"]?.[language] ?? "Título"}
                 type="text"
                 value={title}
                 setValue={setTitle}
               />
               <FilterField
-                title={filterTranslate["Status da demanda"]?.[language]}
+                title={filterTranslate["Status da demanda"]?.[language] ?? "Status da demanda"}
                 type="select"
                 options={DemandFilterUtils.getDemandStatusOptions()}
                 value={demandStatus}
                 setValue={setDemandStatus}
               />
               <FilterField
-                title={filterTranslate["Analista responsável"]?.[language]}
+                title={filterTranslate["Analista responsável"]?.[language] ?? "Analista responsável"}
                 type="text"
                 value={responsibleAnalyst}
                 setValue={setResponsibleAnalyst}
               />
               <FilterField
-                title={filterTranslate["Gerente responsável"]?.[language]}
+                title={filterTranslate["Gerente responsável"]?.[language] ?? "Gerente responsável"}
                 type="text"
                 value={responsibleManager}
                 setValue={setResponsibleManager}
               />
               <FilterField
-                title={filterTranslate["Fórum de aprovação"]?.[language]}
+                title={filterTranslate["Fórum de aprovação"]?.[language] ?? "Fórum de aprovação"}
                 type="text"
                 value={approvalForum}
                 setValue={setApprovalForum}
               />
               <FilterField
-                title={filterTranslate["Departamento"]?.[language]}
+                title={filterTranslate["Departamento"]?.[language] ?? "Departamento"}
                 type="text"
                 value={department}
                 setValue={setDepartment}
               />
               <FilterField
-                title={filterTranslate["Tamanho da demanda"]?.[language]}
+                title={filterTranslate["Tamanho da demanda"]?.[language] ?? "Tamanho da demanda"}
                 type="text"
                 value={demandSize}
                 setValue={setDemandSize}
               />
               <FilterField
-                title={filterTranslate["Código PPM"]?.[language]}
+                title={filterTranslate["Código PPM"]?.[language] ?? "Código PPM"}
                 type="number"
                 value={PPMCode}
                 setValue={setPPMCode}
               />
               <FilterField
-                title={filterTranslate["Número da solicitação"]?.[language]}
+                title={filterTranslate["Número da solicitação"]?.[language] ?? "Número da solicitação"}
                 type="number"
                 value={requestNumber}
                 setValue={setRequestNumber}
@@ -307,6 +435,24 @@ export default function DemandFilter(props) {
                   Limpar
                 </Button>
                 <Button
+                  variant="contained"
+                  sx={{
+                    width: "50%",
+                    backgroundColor: "transparent",
+                    color: "#0075b1",
+                    display: "flex",
+                    justifyContent: "space-evenly",
+
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                  onClick={openSaveFilter}
+                >
+                  Salvar
+                  <BookmarkIcon />
+                </Button>
+                <Button
                   onClick={handleCloseAndFilter}
                   variant="contained"
                   sx={{
@@ -324,6 +470,18 @@ export default function DemandFilter(props) {
               </div>
             </div>
           </Paper>
+          <SavedFilters
+            selectFilter={selectFilter}
+            filters={filtersMock}
+          />
+          <SaveFilter
+            isSaveFilterOpen={isSaveFilterOpen}
+            setIsSaveFilterOpen={setIsSaveFilterOpen}
+            saveNewFilter={saveNewFilter}
+            anchorElSaveFilter={anchorElSaveFilter}
+            newFilterTitle={newFilterTitle}
+            setNewFilterTitle={setNewFilterTitle}
+          />
         </Popper>
       </div>
     </ClickAwayListener>

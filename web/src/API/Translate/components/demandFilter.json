@@ -117,5 +117,45 @@
             "fr": "Numéro de demande",
             "it": "Numero di richiesta"
         }
+    },
+    "savedFilters": {
+        "Filtros salvos": {
+            "pt-br": "Filtros salvos",
+            "en-us": "Saved Filters",
+            "de": "Gespeicherte Filter",
+            "zh-cn": "保存的过滤器",
+            "es": "Filtros guardados",
+            "fr": "Filtres enregistrés",
+            "it": "Filtri salvati"
+        }
+    },
+    "saveFilter": {
+        "Nomeie o filtro": {
+            "pt-br": "Nomeie o filtro",
+            "en-us": "Name the filter",
+            "de": "Benennen Sie den Filter",
+            "zh-cn": "命名过滤器",
+            "es": "Nombre el filtro",
+            "fr": "Nommez le filtre",
+            "it": "Dai un nome al filtro"
+        },
+        "Salvar filtro": {
+            "pt-br": "Salvar filtro",
+            "en-us": "Save filter",
+            "de": "Filter speichern",
+            "zh-cn": "保存过滤器",
+            "es": "Guardar filtro",
+            "fr": "Enregistrer le filtre",
+            "it": "Salva filtro"
+        },
+        "Nome do filtro": {
+            "pt-br": "Nome do filtro",
+            "en-us": "Filter name",
+            "de": "Filtername",
+            "zh-cn": "过滤器名称",
+            "es": "Nombre del filtro",
+            "fr": "Nom du filtre",
+            "it": "Nome del filtro"
+        }
     }
 }

@@ -11,10 +11,8 @@ const filterBy = (atas, filters) => {
     for (let filter of filters) {
 
         // Filtra por intervalo de valores data
-        if (filter.type == "betweenDate") {
+        if (filter.type == "betweenDate" && (filter.value || filter.endValue)) {
             filteredDemands = filteredDemands.filter((item) => {
-                if (!filter.value && !filter.endValue) return true;
-
                 const startDate = DateUtils.formatFromInputToSlash(filter.value);
                 const endDate = DateUtils.formatFromInputToSlash(filter.endValue);
 
@@ -27,9 +25,8 @@ const filterBy = (atas, filters) => {
                 return item[filter.filterBy] >= startDate && item[filter.filterBy] <= endDate;
             });
         } else
-            if (filter.type == "betweenTime") {
+            if (filter.type == "betweenTime" && (filter.value || filter.endValue)) {
                 filteredDemands = filteredDemands.filter((item) => {
-                    if (!filter.value && !filter.endValue) return true;
 
                     const startTime = filter.value;
                     const endTime = filter.endValue;

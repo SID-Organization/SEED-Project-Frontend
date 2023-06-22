@@ -8,7 +8,7 @@
   {"filterBy": "tamanhoDemanda",                "value": null,                      "type": "text"},
   {"filterBy": "tituloDemanda",                 "value": null,                      "type": "text"},
   {"filterBy": "statusDemanda",                 "value": null,                      "type": "text"},
-  {"filterBy": "valorDemanda",                  "value": null,                      "type": "number"},
+  {"filterBy": "valorDemanda",                  "value": null, "endValue": null,    "type": "between"},
   {"filterBy": "scoreDemanda",                  "value": null, "endValue": null,    "type": "between"},
   {"filterBy": "idDemanda",                     "value": null,                      "type": "number"}
 ]

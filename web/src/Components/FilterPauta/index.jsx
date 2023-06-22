@@ -86,6 +86,7 @@ export default function PautaFilter(props) {
         setForum("");
         setQtyProposals("");
         setResponsibleAnalyst("");
+        props.setFilters(PautaFilterUtils.getEmptyFilter());
     }
 
     // Quando algum campo de pesquisa é utilizado, chama essa função e atualiza o filter

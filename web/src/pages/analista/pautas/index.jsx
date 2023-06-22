@@ -33,6 +33,7 @@ export default function Pautas() {
   const [ language ] = useContext(TranslateContext);
 
   const [pautas, setPautas] = useState([]);
+  const [showingPautas, setShowingPautas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [pautasMonths, setPautasMonths] = useState([]);
@@ -70,39 +71,35 @@ export default function Pautas() {
     useEffect(() => {
       if (pautas) {
         const filteredPautas = PautaFilterUtils.filterBy(pautas, filters);
-  
+
         if (filteredPautas) {
-          setPautas(filteredPautas);
+          setShowingPautas(filteredPautas);
         } else {
-          setPautas(pautas);
+          setShowingPautas(pautas);
         }
       };
   
     }, [filters, pautas]);
 
   useEffect(() => {
-    if (pautas.length === 0) return;
+    if (showingPautas.length === 0) return;
     setPautasMonths(() =>
-      pautas
+    showingPautas
         .map((pauta) => pauta.dataReuniao.split("/")[1])
         .sort()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
     setPautasYear(() =>
-      pautas
+    showingPautas
         .map((pauta) => pauta.dataReuniao.split("/")[2])
         .sort()
         .reverse()
         .filter((value, index, self) => self.indexOf(value) === index)
     );
-  }, [pautas]);
-
-  useEffect(() => {
-    console.warn("Pautas", pautas);
-  }, [pautas]);
+  }, [showingPautas]);
 
   const getPautasInMonth = (month, year) => {
-    return pautas.filter(
+    return showingPautas.filter(
       (pauta) =>
         pauta.dataReuniao.split("/")[1] === month &&
         pauta.dataReuniao.split("/")[2] === year
@@ -119,9 +116,9 @@ export default function Pautas() {
     "07": translate["Julho"]?.[language],
     "08": translate["Agosto"]?.[language],
     "09": translate["Setembro"]?.[language],
-    10: translate["Outubro"]?.[language],
-    11: translate["Novembro"]?.[language],
-    12: translate["Dezembro"]?.[language],
+    "10": translate["Outubro"]?.[language],
+    "11": translate["Novembro"]?.[language],
+    "12": translate["Dezembro"]?.[language],
   };
 
   return (
@@ -133,7 +130,7 @@ export default function Pautas() {
             <div className="flex h-[71vh] items-center justify-around">
               <CircularProgress />
             </div>
-          ) : pautas.length > 0 ? (
+          ) : showingPautas.length > 0 ? (
             pautasYear.map((year) => (
               <>
                 {pautasMonths.map((month) => (

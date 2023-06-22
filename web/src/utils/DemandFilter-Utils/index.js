@@ -6,16 +6,16 @@ const filterBy = (demands, filters) => {
    *  { filterBy: 'fieldName', value: 'fieldValue', type: 'fieldType (number, text...)' }
    * ]
    */
-
+  
   // Faz um for pelos filtros, verificando qual deles tem valor para ser filtrado
   for (let filter of filters) {
 
     // Filtra por intervalo de valores
-    if (filter.type == "between") {
+    if (filter.type == "between" && (filter.value || filter.endValue)) {
       filteredDemands = filteredDemands.filter((item) => {
         // Lida com input 0 (pega demandas com score acima de 0, excluindo as com score indefinido)
-        if(parseInt(filter.value) === 0 && !filter.endValue) return item[filter.filterBy] > 0;
-        if(parseInt(filter.value) === 0 && filter.endValue) return item[filter.filterBy] > 0 && item[filter.filterBy] <= filter.endValue
+        if (parseInt(filter.value) === 0 && !filter.endValue) return item[filter.filterBy] > 0;
+        if (parseInt(filter.value) === 0 && filter.endValue) return item[filter.filterBy] > 0 && item[filter.filterBy] <= filter.endValue
 
         if (!filter.endValue) return item[filter.filterBy] >= filter.value;
         if (!filter.value) return item[filter.filterBy] <= filter.endValue;
@@ -56,7 +56,7 @@ const getEmptyFilter = () => [
   { filterBy: "tamanhoDemanda", value: null, endValue: null, type: "text" },
   { filterBy: "tituloDemanda", value: null, type: "text" },
   { filterBy: "statusDemanda", value: null, type: "text" },
-  { filterBy: "valorDemanda", value: null, endValue: null, type: "number" },
+  { filterBy: "custoTotalDemanda", value: null, endValue: null, type: "between" },
   { filterBy: "scoreDemanda", value: null, endValue: null, type: "between" },
   { filterBy: "idDemanda", value: null, type: "number" }
 ];
@@ -72,7 +72,7 @@ const getUpdatedFilter =
     demandSize,
     title,
     status,
-    value,
+    { value, endValue },
     { score, endScore },
     requestNumber
   ) => [
@@ -82,10 +82,10 @@ const getUpdatedFilter =
       { filterBy: "codigoPPMDemanda", value: PPMCode, type: "number" },
       { filterBy: "departamentoDemanda", value: department, type: "text" },
       { filterBy: "forumDeAprovacaoDemanda", value: approvalForum, type: "text" },
-      { filterBy: "tamanhoDemanda", value: demandSize, endValue: null, type: "text" },
+      { filterBy: "tamanhoDemanda", value: demandSize, type: "text" },
       { filterBy: "tituloDemanda", value: title, type: "text" },
       { filterBy: "statusDemanda", value: status, type: "text" },
-      { filterBy: "valorDemanda", value: value, endValue: null, type: "number" },
+      { filterBy: "custoTotalDemanda", value: value, endValue: endValue, type: "between" },
       { filterBy: "scoreDemanda", value: score, endValue: endScore, type: "between" },
       { filterBy: "idDemanda", value: requestNumber, type: "number" },
     ]
