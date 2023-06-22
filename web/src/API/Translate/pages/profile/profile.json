@@ -8,6 +8,15 @@
         "fr": "Mon profil",
         "it": "Il mio profilo"
     },
+    "Tradutor de Libras": {
+        "pt-br": "Tradutor de Libras",
+        "en-us": "Libras translator",
+        "de": "Libras Übersetzer",
+        "zh-cn": "手语翻译",
+        "es": "Traductor de Libras",
+        "fr": "Traducteur de Libras",
+        "it": "Traduttore di Libras"
+    },
     "Enviar imagem": {
         "pt-br": "Enviar imagem",
         "en-us": "Send image",

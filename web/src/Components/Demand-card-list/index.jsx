@@ -59,7 +59,7 @@ export default function DemandsList(props) {
   const columns = [
     {
       field: "status",
-      headerName: "Status",
+      headerName: (translate["Status"]?.[language] ?? "Status"),
       width: 80,
       renderCell: (params) => (
         <Tooltip title={params.value}>
@@ -112,7 +112,7 @@ export default function DemandsList(props) {
     },
     {
       field: "score",
-      headerName: "Score",
+      headerName: (translate["Score"]?.[language] ?? "Score"),
       align: "center",
       headerAlign: "center",
       type: "number",
