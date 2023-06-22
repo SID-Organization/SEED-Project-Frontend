@@ -139,10 +139,6 @@ export default function Atas() {
     if (atasDb) {
       const filteredAtas = AtasFilterUtils.filterBy(atasDb, filters);
 
-      console.log("ATAS DB", atasDb)
-      console.log("FILTERED ATAS", filteredAtas)
-      console.log("USED FILTERS", usedFilters)
-
       if (filteredAtas) {
         console.log("ENTRA IF");
         setAtas(filteredAtas);

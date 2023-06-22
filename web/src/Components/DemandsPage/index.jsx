@@ -38,7 +38,7 @@ import { TranslateContext } from "../../contexts/translate/index.jsx";
 export default function DemandsPage(props) {
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   /*
     Estão sendo utilizadas 3 variáveis para armazenar as demandas:
@@ -79,6 +79,27 @@ export default function DemandsPage(props) {
     setDemandType(props.DemandType);
     console.log("props.DemandType: ", props.DemandType);
   }, [props.DemandType]);
+
+
+  const handleCreateExcel = () => {
+    const idsListDemand = showingDemands.map((demand) => demand.idDemanda);
+    DemandService.createExcelTable(idsListDemand).then((res) => {
+      let blob = new Blob([res], { type: "application/excel" });
+      let url = URL.createObjectURL(blob);
+      let link = document.createElement("a");
+      let data = new Date();
+      let dataFormatada =
+        data.getDate() +
+        "-" +
+        (data.getMonth() + 1) +
+        "-" +
+        data.getFullYear();
+      link.href = url;
+      link.download = "tabela-demandas " + dataFormatada + " .xlsx";
+      link.click();
+    })
+  };
+
 
   // Pegar as respectivas demandas
   useEffect(() => {
@@ -306,6 +327,7 @@ export default function DemandsPage(props) {
           setIsListFormat={setIsListFormat}
           isListFormat={isListFormat}
           setFilters={setFilters}
+          handleCreateExcel={handleCreateExcel}
         >
           {demandType == DemandType.DEMAND && <p>Minhas demandas</p>}
           {demandType == DemandType.DRAFT && <p>Rascunhos</p>}
@@ -503,9 +525,8 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
-                      selectedDrafts.length > 0 ? "opacity-100" : ""
-                    }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
+                      }`}
                   >
                     {translate["Deletar"]?.[language] ?? "Deletar"} {"(" + selectedDrafts.length + ")"}{" "}
                     {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}

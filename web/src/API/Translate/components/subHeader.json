@@ -1,29 +1,38 @@
 {
- "Minhas demandas": {
-  "pt-br": "Minhas demandas",
-  "en-us": "My demands",
-  "de": "Meine Anfragen",
-  "zh-cn": "我的需求",
-  "es": "Mis demandas",
-  "fr": "Mes demandes",
-  "it": "Le mie richieste"
- },
- "Gerenciar demandas": {
-  "pt-br": "Gerenciar demandas",
-  "en-us": "Manage demands",
-  "de": "Anfragen verwalten",
-  "zh-cn": "管理需求",
-  "es": "Gestionar demandas",
-  "fr": "Gérer les demandes",
-  "it": "Gestisci richieste"
- },
- "Rascunhos": {
-  "pt-br": "Rascunhos",
-  "en-us": "Drafts",
-  "de": "Entwürfe",
-  "zh-cn": "草稿",
-  "es": "Borradores",
-  "fr": "Brouillons",
-  "it": "Bozze"
- }
+    "Minhas demandas": {
+        "pt-br": "Minhas demandas",
+        "en-us": "My demands",
+        "de": "Meine Anfragen",
+        "zh-cn": "我的需求",
+        "es": "Mis demandas",
+        "fr": "Mes demandes",
+        "it": "Le mie richieste"
+    },
+    "Gerenciar demandas": {
+        "pt-br": "Gerenciar demandas",
+        "en-us": "Manage demands",
+        "de": "Anfragen verwalten",
+        "zh-cn": "管理需求",
+        "es": "Gestionar demandas",
+        "fr": "Gérer les demandes",
+        "it": "Gestisci richieste"
+    },
+    "Rascunhos": {
+        "pt-br": "Rascunhos",
+        "en-us": "Drafts",
+        "de": "Entwürfe",
+        "zh-cn": "草稿",
+        "es": "Borradores",
+        "fr": "Brouillons",
+        "it": "Bozze"
+    },
+    "Exportar demandas para Excel": {
+        "pt-br": "Exportar demandas para Excel",
+        "en-us": "Export demands to Excel",
+        "de": "Anfragen nach Excel exportieren",
+        "zh-cn": "将需求导出到Excel",
+        "es": "Exportar demandas a Excel",
+        "fr": "Exporter les demandes vers Excel",
+        "it": "Esporta richieste in Excel"
+    }
 }

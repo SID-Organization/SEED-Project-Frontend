@@ -48,6 +48,8 @@ import RespITSectionService from "../../service/ResponsableITSection-Service";
 import UserUtils from "../../utils/User-Utils";
 import TranslationJSON from "../../API/Translate/components/subHeaderOpenedDemand.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
+import FontSizeUtils from "../../utils/FontSize-Utils";
+
 import ReturnReasonModal from "../ReturnReason-Modal";
 import { useContext } from "react";
 import { TranslateContext } from "../../contexts/translate";
@@ -62,7 +64,7 @@ const styleModal = {
   width: 1150,
   bgcolor: "background.paper",
   borderRadius: "0.125rem",
-  boxShadow: 24
+  boxShadow: 24,
 };
 
 const styleApproveDemand = {
@@ -77,25 +79,41 @@ const styleApproveDemand = {
   height: "15rem",
   backgroundColor: "#fff",
   boxShadow: 0,
-  borderRadius: 2
+  borderRadius: 2,
+};
+
+const styleChangeDemandImportance = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "23rem",
+  height: "15rem",
+  backgroundColor: "#fff",
+  boxShadow: 0,
+  borderRadius: 2,
+  borderLeft: "5px solid #023A67",
 };
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "3px solid #0075B1"
-  }
+    borderLeft: "3px solid #0075B1",
+  },
 });
 
 const FormControl = styled(MuiFormControl)({
   width: 250,
 
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    borderLeft: "3px solid #0075B1"
-  }
+    borderLeft: "3px solid #0075B1",
+  },
 });
 
 const Autocomplete = styled(MuiAutocomplete)({
-  width: 250
+  width: 250,
 });
 
 /**
@@ -107,12 +125,10 @@ const Autocomplete = styled(MuiAutocomplete)({
  */
 
 export default function subHeader({ children }) {
-
-  let phrase = children[0].trim()
+  let phrase = children[0].trim();
 
   const translate = TranslationJSON;
-  const [ language ] = useContext(TranslateContext);
-
+  const [language] = useContext(TranslateContext);
 
   // Controle de modal
   const [openModal, setOpenModal] = useState(false);
@@ -147,11 +163,24 @@ export default function subHeader({ children }) {
   // Notificação confirmação demanda aprovada
   const [openNotification, setOpenNotification] = useState(false);
 
-  const [notificationClassifiedDemand, setNotificationClassifiedDemand] = useState(false);
+  const [notificationClassifiedDemand, setNotificationClassifiedDemand] =
+    useState(false);
+
   const [anyEmptyField, setAnyEmptyField] = useState(false);
+
+  const [
+    isChangeDemandImportanceModalOpen,
+    setIsChangeDemandImportanceModalOpen,
+  ] = useState(false);
+
+  const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   const anchorRef = React.useRef(null);
   const params = useParams();
+
+  useEffect(() => {
+    setFonts(FontSizeUtils.getFontSizes());
+  }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
     DemandService.getDemandById(params.id).then((response) => {
@@ -161,10 +190,13 @@ export default function subHeader({ children }) {
 
   const navigate = useNavigate();
 
-
   const getIsDevolution = () => {
     return (
-      selectedKey == actionOptions.findIndex((o) => o.text === translate["Devolver"][language]) + 1
+      selectedKey ==
+      actionOptions.findIndex(
+        (o) => o.text === translate["Devolver"][language]
+      ) +
+        1
     );
   };
 
@@ -192,8 +224,8 @@ export default function subHeader({ children }) {
   };
 
   const accessProposalDetails = async () => {
-    navigate(`/propostas/${params.id}`)
-  }
+    navigate(`/propostas/${params.id}`);
+  };
 
   const actionOptions = [
     {
@@ -202,7 +234,7 @@ export default function subHeader({ children }) {
       demandStatus: ["ABERTA"],
       notDemandStatus: [""],
       function: handleOpenModal,
-      key: 1
+      key: 1,
     },
     {
       text: translate["Aprovar"][language] ?? "Aprovar",
@@ -210,7 +242,7 @@ export default function subHeader({ children }) {
       demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
       notDemandStatus: [""],
       function: handleOpenApproveDemand,
-      key: 2
+      key: 2,
     },
     {
       text: translate["Acessar proposta"][language] ?? "Acessar proposta",
@@ -218,7 +250,7 @@ export default function subHeader({ children }) {
       demandStatus: ["PROPOSTA_EM_ELABORACAO"],
       notDemandStatus: [""],
       function: accessProposal,
-      key: 3
+      key: 3,
     },
     {
       text: translate["Ver proposta"][language] ?? "Ver proposta",
@@ -231,11 +263,11 @@ export default function subHeader({ children }) {
         "APROVADA_EM_DG",
         "PROPOSTA_EM_EXECUCAO",
         "PROPOSTA_EM_SUPORTE",
-        "BUSINESS_CASE"
+        "BUSINESS_CASE",
       ],
       notDemandStatus: [""],
       function: accessProposalDetails,
-      key: 4
+      key: 4,
     },
     {
       text: translate["Devolver"][language] ?? "Devolver",
@@ -243,7 +275,7 @@ export default function subHeader({ children }) {
       demandStatus: ["TODAS"],
       notDemandStatus: ["EM_EDICAO", "CANCELADA"],
       function: () => setIsReasonOfModalOpen(true),
-      key: 5
+      key: 5,
     },
 
     {
@@ -252,7 +284,7 @@ export default function subHeader({ children }) {
       demandStatus: ["TODAS"],
       notDemandStatus: ["EM_EDICAO", "CANCELADA"],
       function: () => setIsReasonOfModalOpen(true),
-      key: 6
+      key: 6,
     },
     {
       text: translate["Alterar status"][language] ?? "Alterar status",
@@ -260,36 +292,44 @@ export default function subHeader({ children }) {
       demandStatus: ["TODAS"],
       notDemandStatus: [""],
       function: changeDemandStatus,
-      key: 7
-    }
+      key: 7,
+    },
+    {
+      text: translate["Alterar importância"][language] ?? "Alterar importância",
+      role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+      demandStatus: ["TODAS"],
+      notDemandStatus: [""],
+      function: () => setIsChangeDemandImportanceModalOpen(true),
+      key: 8,
+    },
   ];
 
   const demandSizes = [
     {
       text: translate["Muito grande"][language] ?? "Muito grande",
       description: "Acima de 3000h",
-      key: 1
+      key: 1,
     },
     {
       text: translate["Grande"][language] ?? "Grande",
       description: "Entre 1001h e 3000h",
-      key: 2
+      key: 2,
     },
     {
       text: translate["Média"][language] ?? "Média",
       description: "Entre 301h e 1000h",
-      key: 3
+      key: 3,
     },
     {
       text: translate["Pequena"][language] ?? "Pequena",
       description: "Entre 41h e 300h",
-      key: 4
+      key: 4,
     },
     {
       text: translate["Muito pequena"][language] ?? "Muito pequena",
       description: "Entre 1h - 40h",
-      key: 5
-    }
+      key: 5,
+    },
   ];
 
   useEffect(() => {
@@ -297,7 +337,7 @@ export default function subHeader({ children }) {
       setBusinessUnits(
         data.map((item) => ({
           text: item.siglaBusinessUnity + " - " + item.nomeBusinessUnity,
-          key: item.idBusinessUnity
+          key: item.idBusinessUnity,
         }))
       );
     });
@@ -309,7 +349,7 @@ export default function subHeader({ children }) {
               item.siglaSecaoTIResponsavel +
               " - " +
               item.nomeSecaoTIResponsavel,
-            key: item.idSecaoTIResponsavel
+            key: item.idSecaoTIResponsavel,
           }))
         );
       })
@@ -352,22 +392,22 @@ export default function subHeader({ children }) {
 
     // Formatting data to send to the backend
     const busBeneficiadas = benefitedBus.map((item) => ({
-      idBusinessUnity: item.key
+      idBusinessUnity: item.key,
     }));
     const buSolicitante = {
       idBusinessUnity: businessUnits.find((item) => item.key == requesterBu)
-        ?.key
+        ?.key,
     };
     const secaoTiResponsavel = {
       idSecaoTIResponsavel: responsableITSections.find(
         (item) => item.text == responsableSection
-      )?.key
+      )?.key,
     };
     const updatedDemand = {
       busBeneficiadasDemanda: busBeneficiadas,
       buSolicitanteDemanda: buSolicitante,
       secaoTIResponsavelDemanda: secaoTiResponsavel,
-      tamanhoDemanda: getDemandSize()
+      tamanhoDemanda: getDemandSize(),
     };
 
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
@@ -435,31 +475,77 @@ export default function subHeader({ children }) {
     }
   }
 
+  const handleCloseChangeDemandImportanceModal = () => {
+    setIsChangeDemandImportanceModalOpen(false);
+  };
+
+  const [demandImportance, setDemandImportance] = useState("");
+
+  const handleChangeDemandImportance = (event) => {
+    setDemandImportance(event.target.value);
+  };
+
   return (
     <div>
-      {
-        anyEmptyField && (
-          <Notification
-            message={translate["Preencha todos os campos!"][language] ?? "Preencha todos os campos!"}
-            severity="warning"
-            />
-        )
-      }
-      {
-        notificationClassifiedDemand && (
-          <Notification
-            message={
-              translate["Demanda classificada com sucesso!"][language] ??
-              "Demanda classificada com sucesso!"
-            }
-            severity="success"
-            />
-        )
-      }
-      {openNotification && (
-        <Notification message={translate["Demanda aprovada com sucesso!"][language] ?? "Demanda aprovada com sucesso"}
-        severity="success" />
+      {/* Modal para alterar a importância da demanda */}
+      <Modal
+        open={isChangeDemandImportanceModalOpen}
+        onClose={handleCloseChangeDemandImportanceModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleChangeDemandImportance}>
+          <div>
+            <h1
+              style={{ fontSize: fonts.lg }}
+              className="font-semibold text-dark-blue-weg"
+            >
+              {translate["Alterar importância da demanda"][language]}
+            </h1>
+            <div>
+              <Select
+                value={demandImportance}
+                onChange={handleChangeDemandImportance}
+                displayEmpty
+              >
+                <MenuItem value={"Trivial"}>Trivial</MenuItem>
+                <MenuItem value={"Minor"}>Minor</MenuItem>
+                <MenuItem value={"Major"}>Major</MenuItem>
+                <MenuItem value={"Criticla"}>Critical</MenuItem>
+                <MenuItem value={"Blocker"}>Blocker</MenuItem>
+              </Select>
+            </div>
+          </div>
+        </Box>
+      </Modal>
+      {anyEmptyField && (
+        <Notification
+          message={
+            translate["Preencha todos os campos!"][language] ??
+            "Preencha todos os campos!"
+          }
+          severity="warning"
+        />
       )}
+      {notificationClassifiedDemand && (
+        <Notification
+          message={
+            translate["Demanda classificada com sucesso!"][language] ??
+            "Demanda classificada com sucesso!"
+          }
+          severity="success"
+        />
+      )}
+      {openNotification && (
+        <Notification
+          message={
+            translate["Demanda aprovada com sucesso!"][language] ??
+            "Demanda aprovada com sucesso"
+          }
+          severity="success"
+        />
+      )}
+
       {/* Modal para confirmar a demanda */}
       <Modal
         open={openApproveDemandModal}
@@ -474,11 +560,14 @@ export default function subHeader({ children }) {
                 <CheckCircleOutlineOutlinedIcon
                   sx={{
                     color: "#0075B1",
-                    fontSize: "5rem"
+                    fontSize: "5rem",
                   }}
                 />
               </div>
-              <h1 className="text-lg font-semibold text-light-blue-weg">
+              <h1
+                style={{ fontSize: fonts.lg }}
+                className="font-semibold text-light-blue-weg"
+              >
                 {translate["Deseja aprovar a demanda?"][language]}
               </h1>
             </div>
@@ -491,8 +580,8 @@ export default function subHeader({ children }) {
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#C2BEBE"
-                  }
+                    backgroundColor: "#C2BEBE",
+                  },
                 }}
                 onClick={handleCloseApproveDemand}
               >
@@ -506,8 +595,8 @@ export default function subHeader({ children }) {
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#0075B1"
-                  }
+                    backgroundColor: "#0075B1",
+                  },
                 }}
                 onClick={handleApproveDemand}
               >
@@ -537,13 +626,15 @@ export default function subHeader({ children }) {
           <div className="font-roboto">
             <div className="mb-5 flex h-20 w-full items-center justify-center rounded-t-sm bg-dark-blue-weg">
               <h1 className="text-2xl font-bold text-white">
-                {translate["Insira as seguintes informações"][language] ?? "Insira as seguintes informações"}
+                {translate["Insira as seguintes informações"][language] ??
+                  "Insira as seguintes informações"}
               </h1>
             </div>
             <div className="mb-6 flex items-center justify-evenly">
               <div className="grid items-center justify-center gap-2">
                 <p className="font-bold text-dark-blue-weg">
-                  {translate["Seção da TI responsável"][language] ?? "Seção da TI responsável"}
+                  {translate["Seção da TI responsável"][language] ??
+                    "Seção da TI responsável"}
                 </p>
                 <FormControl variant="outlined" size="small">
                   <Autocomplete
@@ -585,11 +676,14 @@ export default function subHeader({ children }) {
                 </FormControl>
               </div>
               <div className="grid items-center justify-center gap-2">
-                <p className="font-bold text-dark-blue-weg">{translate["BUs beneficiadas"][language] ?? "BUs beneficiadas"}</p>
+                <p className="font-bold text-dark-blue-weg">
+                  {translate["BUs beneficiadas"][language] ??
+                    "BUs beneficiadas"}
+                </p>
                 <FormControl fullWidth size="small">
                   <Autocomplete
                     sx={{
-                      width: 250
+                      width: 250,
                     }}
                     size="small"
                     multiple
@@ -610,11 +704,13 @@ export default function subHeader({ children }) {
               </div>
               <div className="mr-20 grid items-center justify-center gap-2">
                 <p className="font-bold text-dark-blue-weg">
-                  {translate["Classificação de tamanho"][language] ?? "Classificação de tamanho"}
+                  {translate["Classificação de tamanho"][language] ??
+                    "Classificação de tamanho"}
                 </p>
                 <FormControl fullWidth size="small">
                   <InputLabel id="demo-simple-select-label">
-                    {translate["Classifique um tamanho"][language] ?? "Classifique um tamanho"}
+                    {translate["Classifique um tamanho"][language] ??
+                      "Classifique um tamanho"}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
@@ -624,7 +720,7 @@ export default function subHeader({ children }) {
                     onChange={handleChangeClassifyDemandSize}
                     sx={{
                       display: "grid",
-                      width: 320
+                      width: 320,
                     }}
                   >
                     {demandSizes.map((item, i) => (
@@ -634,7 +730,7 @@ export default function subHeader({ children }) {
                           color="primary"
                           anchorOrigin={{
                             vertical: "top",
-                            horizontal: "right"
+                            horizontal: "right",
                           }}
                           sx={{
                             "& .MuiBadge-badge": {
@@ -645,8 +741,8 @@ export default function subHeader({ children }) {
                               top: "12px",
                               justifyContent: "center",
                               alignItems: "center",
-                              width: "8rem"
-                            }
+                              width: "8rem",
+                            },
                           }}
                         >
                           {item.text}
@@ -667,8 +763,8 @@ export default function subHeader({ children }) {
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#C2BEBE"
-                  }
+                    backgroundColor: "#C2BEBE",
+                  },
                 }}
                 onClick={handleCloseModal}
               >
@@ -683,8 +779,8 @@ export default function subHeader({ children }) {
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#fff"
-                  }
+                    backgroundColor: "#fff",
+                  },
                 }}
               >
                 {translate["Devolver"][language] ?? "Devolver"}
@@ -697,8 +793,8 @@ export default function subHeader({ children }) {
                   fontSize: "0.9rem",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#0075B1"
-                  }
+                    backgroundColor: "#0075B1",
+                  },
                 }}
                 onClick={handleAnalystClassifyDemand}
               >
@@ -711,7 +807,9 @@ export default function subHeader({ children }) {
       {/* Fim modal para inserir informações */}
       <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-          {translate[phrase]?.[language] ? translate[phrase]?.[language] +  " " + children[1] : children}
+          {translate[phrase]?.[language]
+            ? translate[phrase]?.[language] + " " + children[1]
+            : children}
         </h1>
 
         {ableToEdit() && (
@@ -721,7 +819,7 @@ export default function subHeader({ children }) {
               backgroundColor: "#00579D",
               columnGap: 2,
               width: 50,
-              height: 40
+              height: 40,
             }}
             onClick={editDemand}
           >
@@ -731,12 +829,12 @@ export default function subHeader({ children }) {
                 success: {
                   iconTheme: {
                     primary: "#7EB61C",
-                    secondary: "white"
-                  }
+                    secondary: "white",
+                  },
                 },
                 style: {
-                  fontSize: "14px"
-                }
+                  fontSize: "14px",
+                },
               }}
             />
             <Tooltip title="Editar">
@@ -761,7 +859,7 @@ export default function subHeader({ children }) {
                 backgroundColor: "#00579D",
                 width: 100,
                 height: 40,
-                fontSize: 14
+                fontSize: 14,
               }}
               onClick={handleToggleActions}
             >
@@ -772,7 +870,7 @@ export default function subHeader({ children }) {
         )}
         <Popper
           sx={{
-            zIndex: 1
+            zIndex: 1,
           }}
           open={openActions}
           anchorEl={anchorRef.current}
@@ -785,7 +883,7 @@ export default function subHeader({ children }) {
               {...TransitionProps}
               style={{
                 transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                  placement === "bottom" ? "center top" : "center bottom",
               }}
             >
               <Paper>
@@ -795,7 +893,8 @@ export default function subHeader({ children }) {
                       if (
                         option.role.includes(user.cargoUsuario) &&
                         (option.demandStatus.includes(demand.statusDemanda) ||
-                          option.demandStatus.includes("TODAS")) && !option.notDemandStatus.includes(demand.statusDemanda)
+                          option.demandStatus.includes("TODAS")) &&
+                        !option.notDemandStatus.includes(demand.statusDemanda)
                       ) {
                         return (
                           <MenuItem
@@ -827,16 +926,16 @@ export default function subHeader({ children }) {
             alignItems: "center",
             width: 240,
             height: 40,
-            marginRight: "1rem"
+            marginRight: "1rem",
           }}
           style={{
-            boxShadow: "#bdbdbd 0px 1px 5px 1px"
+            boxShadow: "#bdbdbd 0px 1px 5px 1px",
           }}
         >
           <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
             <SearchIcon
               sx={{
-                fontSize: "20px"
+                fontSize: "20px",
               }}
             />
           </IconButton>
@@ -844,7 +943,11 @@ export default function subHeader({ children }) {
           <InputBase
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
             placeholder={translate["Procure aqui"][language] ?? "Procure aqui"}
-            inputProps={{ "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"}` }}
+            inputProps={{
+              "aria-label": `${
+                translate["Procure aqui"][language] ?? "Procure aqui"
+              }`,
+            }}
           />
         </Paper>
       </div>

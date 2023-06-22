@@ -12,7 +12,7 @@ import { Box, Button, IconButton, Modal, Tooltip } from "@mui/material";
 
 //Components
 import Calendar from "../../Components/Calendar";
-import DemandFilter from "../DemandFilter";
+import PautaFilter from "../FilterPauta";
 import CreateNewPauta from "../Create-new-pauta";
 import { useEffect } from "react";
 import PautaService from "../../service/Pauta-Service";
@@ -91,7 +91,7 @@ export default function SubHeaderPautas(props) {
         <h1 className="ml-[8rem] font-roboto text-3xl font-bold text-dark-blue-weg">
           {translate["Pautas"]?.[language] ?? "Pautas"}
         </h1>
-        <div className="mr-10 flex gap-16">
+        <div className="mr-10 flex gap-16 items-center">
           <div className="flex items-center justify-start">
             <Button
               onClick={handleModalOpen}
@@ -122,7 +122,9 @@ export default function SubHeaderPautas(props) {
             </Button>
           </div>
           <CreateNewPauta />
-          <DemandFilter filters={props.filters} setFilters={props.setFilters} />
+          <PautaFilter
+            setFilters={props.setFilters}
+          />
         </div>
       </div>
       <Modal open={isModalOpen} onClose={handleModalClose}>

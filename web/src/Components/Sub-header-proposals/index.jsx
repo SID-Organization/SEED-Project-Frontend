@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect, useContext } from "react";
 
 // Components
-import DemandFilter from "../DemandFilter";
+import DemandFilter from "../FilterDemand";
 import CreateNewProposalButton from "../CreateNewProposal-Button";
 
 // Services

@@ -55,7 +55,8 @@ export default function FilterComponent(props) {
           onChange={(e) => props.setValue(e.target.value)}
         />
       )
-    } else
+    }
+    else
       if (props.type == "select") {
         return (
           <Select
@@ -72,7 +73,8 @@ export default function FilterComponent(props) {
             ))}
           </Select>
         )
-      } else
+      }
+      else
         if (props.type == "date") {
           return (
             <TextField
@@ -86,7 +88,8 @@ export default function FilterComponent(props) {
               }}
             />
           )
-        } else
+        }
+        else
           if (props.type == "between") {
             return (
               <>
@@ -110,6 +113,62 @@ export default function FilterComponent(props) {
               </>
             )
           }
+          else if (props.type == "betweenDate") {
+            return (
+              <>
+                <TextField
+                  id="datestart"
+                  type="date"
+                  value={props.value}
+                  onChange={(e) => props.setValue(e.target.value)}
+                  variant="standard"
+                  sx={{ width: "27%" }}
+                />
+                <p className="text-sm text-light-blue-weg ml-2 mr-2">até</p>
+                <TextField
+                  id="dateend"
+                  type="date"
+                  value={props.endValue}
+                  onChange={(e) => props.setEndValue(e.target.value)}
+                  variant="standard"
+                  sx={{ width: "27%" }}
+                />
+              </>
+            )
+          } else if (props.type == "betweenTime") {
+            return (
+              <>
+                <TextField
+                  id="time"
+                  type="time"
+                  value={props.value}
+                  onChange={(e) => props.setValue(e.target.value)}
+                  variant="standard"
+                  sx={{ width: "27%" }}
+                />
+                <p className="text-sm text-light-blue-weg ml-2 mr-2">até</p>
+                <TextField
+                  id="timeend"
+                  type="time"
+                  value={props.endValue}
+                  onChange={(e) => props.setEndValue(e.target.value)}
+                  variant="standard"
+                  sx={{ width: "27%" }}
+                />
+              </>
+            )
+          }
+          else if (props.type == "time") {
+            return (
+              <TextField
+                id="time"
+                type={props.type}
+                value={props.value}
+                onChange={(e) => props.setValue(e.target.value)}
+                variant="standard"
+              />
+            )
+          }
   }
 
   return (
@@ -119,7 +178,7 @@ export default function FilterComponent(props) {
         onMouseLeave={() => setIsHovering(false)}
       >
         <p className="w-[20rem] text-base text-light-blue-weg">{props.title}</p>
-          {getInput()}
+        {getInput()}
       </div>
     </>
   );

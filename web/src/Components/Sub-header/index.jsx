@@ -5,6 +5,8 @@ import "../../styles/index.css";
 // MUI
 import GridOnIcon from "@mui/icons-material/GridOn";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import { Button, IconButton, Tooltip } from "@mui/material";
+import SaveAltRoundedIcon from '@mui/icons-material/SaveAltRounded';
 
 // Translation
 import TranslationJSON from "../../API/Translate/components/subHeader.json";
@@ -12,14 +14,14 @@ import TranslateUtils from "../../utils/Translate-Utils";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Components
-import DemandFilter from "../DemandFilter";
+import DemandFilter from "../FilterDemand";
 
 
 // Subheader de todo o sistema
 export default function subHeader(props) {
   const translate = TranslationJSON;
   const childrenText = TranslateUtils.getChildrenText(props.children);
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   return (
     <div className="mb-10">
@@ -33,6 +35,16 @@ export default function subHeader(props) {
           <div className="flex flex-1 items-center justify-end">
             <DemandFilter setFilters={props.setFilters} />
           </div>
+          <Tooltip title={translate["Exportar demandas para Excel"]?.[language] ?? "Exportar demandas para Excel"}>
+            <Button
+              disabled={false}
+              variant="contained"
+              onClick={props.handleCreateExcel}
+            >
+              <SaveAltRoundedIcon sx={{ marginRight: '10px' }} />
+              XLSX
+            </Button>
+          </Tooltip>
           <div className="flex flex-1 items-center justify-center">
             <div
               className="cursor-pointer"

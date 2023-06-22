@@ -6,8 +6,9 @@ const formatDateForDB = (date) => {
     return newDate;
 };
 
-function formatDate(date) {
+function formatDate(date, addDays = 0) {
     const dateObject = new Date(date);
+    if (addDays) dateObject.setDate(dateObject.getDate() + addDays);
     const dateString =
         dateObject.toLocaleDateString("pt-BR", {
             day: "2-digit",
@@ -33,8 +34,14 @@ function formatDateTime(date) {
     return dateString;
 }
 
+function formatFromInputToSlash(date) {
+    const dateString = date.split("-").reverse().join("/");
+    return dateString;
+}
+
 export default {
     formatDate,
     formatDateTime,
-    formatDateForDB
+    formatDateForDB,
+    formatFromInputToSlash
 }

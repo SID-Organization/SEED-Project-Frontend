@@ -107,44 +107,48 @@ export default function PautasCard(props) {
               )}
               <div className="flex items-end justify-center gap-3">
                 <p className="font-bold">{translate["Visualizar Ata:"]?.[language] ?? "Visualizar Ata:"} </p>
-                <Tooltip title={translate["Publicada"]?.[language] ?? "Publicada"}>
-                  <IconButton
-                    onClick={() => openAtaPDF("publicada")}
-                    sx={{
-                      padding: "0px",
-                    }}
-                  >
-                    <PublicIcon
+                {props.proposals.some(item => item.tipoAtaPropostaLog == "publicada") && (
+                  <Tooltip Tooltip title={translate["Publicada"]?.[language] ?? "Publicada"}>
+                    <IconButton
+                      onClick={() => openAtaPDF("publicada")}
                       sx={{
-                        color: "#0075B1",
-                        transition: "0.3s",
-
-                        "&:hover": {
-                          color: "#008bd1",
-                        },
+                        padding: "0px",
                       }}
-                    />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={translate["Não publicada"]?.[language] ?? "Não publicada"}>
-                  <IconButton
-                    onClick={() => openAtaPDF("nao-publicada")}
-                    sx={{
-                      padding: "0",
-                    }}
-                  >
-                    <PublicOffIcon
+                    >
+                      <PublicIcon
+                        sx={{
+                          color: "#0075B1",
+                          transition: "0.3s",
+
+                          "&:hover": {
+                            color: "#008bd1",
+                          },
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                )}
+                {props.proposals.some(item => item.tipoAtaPropostaLog == "NAO_PUBLICADA") && (
+                  <Tooltip title={translate["Não publicada"]?.[language] ?? "Não publicada"}>
+                    <IconButton
+                      onClick={() => openAtaPDF("nao-publicada")}
                       sx={{
-                        color: "#0075B1",
-                        transition: "0.3s",
-
-                        "&:hover": {
-                          color: "#008bd1",
-                        },
+                        padding: "0",
                       }}
-                    />
-                  </IconButton>
-                </Tooltip>
+                    >
+                      <PublicOffIcon
+                        sx={{
+                          color: "#0075B1",
+                          transition: "0.3s",
+
+                          "&:hover": {
+                            color: "#008bd1",
+                          },
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                )}
               </div>
             </div>
           </div>
@@ -169,6 +173,6 @@ export default function PautasCard(props) {
           </div>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </div >
   );
 }

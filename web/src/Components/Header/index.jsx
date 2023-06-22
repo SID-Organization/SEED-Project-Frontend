@@ -419,6 +419,8 @@ export default function PrimarySearchAppBar() {
     }
   }, [chatUsers]);
 
+  const listaDemandas = [1];
+
   //UseEffect para buscar todos os usuários do banco de dados
   useEffect(() => {
     ChatService.getChatByUserId(UserUtils.getLoggedUserId()).then((users) => {

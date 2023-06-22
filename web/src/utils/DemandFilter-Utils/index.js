@@ -1,6 +1,5 @@
 const filterBy = (demands, filters) => {
-  let filteredDemands;
-  if (!filteredDemands) filteredDemands = demands;
+  let filteredDemands = demands;
   /**
    * Filters Template:
    * [
@@ -14,7 +13,10 @@ const filterBy = (demands, filters) => {
     // Filtra por intervalo de valores
     if (filter.type == "between") {
       filteredDemands = filteredDemands.filter((item) => {
-        if(parseInt(filter.value) === 0 && !filter.endValue) return item[filter.filterBy] > filter.value;
+        // Lida com input 0 (pega demandas com score acima de 0, excluindo as com score indefinido)
+        if(parseInt(filter.value) === 0 && !filter.endValue) return item[filter.filterBy] > 0;
+        if(parseInt(filter.value) === 0 && filter.endValue) return item[filter.filterBy] > 0 && item[filter.filterBy] <= filter.endValue
+
         if (!filter.endValue) return item[filter.filterBy] >= filter.value;
         if (!filter.value) return item[filter.filterBy] <= filter.endValue;
         return item[filter.filterBy] >= filter.value && item[filter.filterBy] <= filter.endValue;

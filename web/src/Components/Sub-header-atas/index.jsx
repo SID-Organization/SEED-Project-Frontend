@@ -1,4 +1,4 @@
-import AtaFilter from "../AtaFilter";
+import FilterAta from "../FilterAta";
 
 //Translation
 import TranslationJSON from "../../API/Translate/components/subHeaderAtas.json";
@@ -56,7 +56,7 @@ export default function SubHeaderAtas(props) {
               </Button>
             </div>
           </div>
-          <AtaFilter setFilters={props.setFilters} />
+          <FilterAta setFilters={props.setFilters} />
         </div>
       </div>
     </div>
