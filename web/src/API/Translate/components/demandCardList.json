@@ -8,6 +8,24 @@
     "fr": "Titre",
     "it": "Titolo"
   },
+  "Status": {
+    "pt-br": "Status",
+    "en-us": "Status",
+    "de": "Status",
+    "zh-cn": "状态",
+    "es": "Estado",
+    "fr": "Statut",
+    "it": "Stato"
+  },
+  "Score": {
+    "pt-br": "Score",
+    "en-us": "Score",
+    "de": "Score",
+    "zh-cn": "得分",
+    "es": "Puntuación",
+    "fr": "Score",
+    "it": "Punteggio"
+  },
   "Solicitante": {
     "pt-br": "Solicitante",
     "en-us": "Requester",

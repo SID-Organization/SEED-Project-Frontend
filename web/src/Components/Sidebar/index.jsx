@@ -172,7 +172,7 @@ export default function Sidebar() {
       isActiveToUser: !isRoleRequester,
     },
     {
-      title: "Chat",
+      title: (translate["Chat"]?.[language] ?? "Chat"),
       outlinedIcon: <MessageOutlinedIcon sx={iconStyle} />,
       fullIcon: <MessageIcon sx={iconStyle} />,
       linkTo: "/chat",

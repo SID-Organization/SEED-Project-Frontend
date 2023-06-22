@@ -1,0 +1,14 @@
+[
+  {"filterBy": "nomeSolicitante",               "value": null,                      "type": "text"},
+  {"filterBy": "nomeGerenteResponsavelDemanda", "value": null,                      "type": "text"},
+  {"filterBy": "nomeAnalistaResponsavel",       "value": null,                      "type": "text"},
+  {"filterBy": "codigoPPMDemanda",              "value": null,                      "type": "number"},
+  {"filterBy": "departamentoDemanda",           "value": null,                      "type": "text"},
+  {"filterBy": "forumDeAprovacaoDemanda",       "value": null,                      "type": "text"},
+  {"filterBy": "tamanhoDemanda",                "value": null,                      "type": "text"},
+  {"filterBy": "tituloDemanda",                 "value": null,                      "type": "text"},
+  {"filterBy": "statusDemanda",                 "value": null,                      "type": "text"},
+  {"filterBy": "valorDemanda",                  "value": null,                      "type": "number"},
+  {"filterBy": "scoreDemanda",                  "value": null, "endValue": null,    "type": "between"},
+  {"filterBy": "idDemanda",                     "value": null,                      "type": "number"}
+]
