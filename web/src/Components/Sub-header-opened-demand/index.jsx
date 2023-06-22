@@ -3,6 +3,11 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 
+//IMGS
+import Minor from "../../assets/demand-importance-icons/Minor.png";
+import Major from "../../assets/demand-importance-icons/Major.png";
+import Critical from "../../assets/demand-importance-icons/Critical.png";
+
 //Components
 import Notification from "../../Components/Notification";
 
@@ -35,6 +40,7 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SearchIcon from "@mui/icons-material/Search";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
 
 import "../../styles/index.css";
 
@@ -112,6 +118,8 @@ const FormControl = styled(MuiFormControl)({
   },
 });
 
+const FormControlImportanceDemand = styled(MuiFormControl)({});
+
 const Autocomplete = styled(MuiAutocomplete)({
   width: 250,
 });
@@ -156,6 +164,8 @@ export default function subHeader({ children }) {
 
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
+
+  console.log("USER ROLE: ", user.cargoUsuario);
 
   // Modal de aprovação da demanda
   const [openApproveDemandModal, setOpenApproveDemandModal] = useState(false);
@@ -495,25 +505,113 @@ export default function subHeader({ children }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styleChangeDemandImportance}>
-          <div>
+          <div className="grid items-center justify-center gap-14">
             <h1
               style={{ fontSize: fonts.lg }}
               className="font-semibold text-dark-blue-weg"
             >
               {translate["Alterar importância da demanda"][language]}
             </h1>
-            <div>
-              <Select
-                value={demandImportance}
-                onChange={handleChangeDemandImportance}
-                displayEmpty
+            <div className="flex items-center justify-center">
+              <FormControlImportanceDemand variant="standard">
+                <Select
+                  value={demandImportance}
+                  onChange={handleChangeDemandImportance}
+                  sx={{
+                    borderRadius: "4px",
+                    border: "none",
+                    width: "10rem",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <MenuItem value={"Trivial"}>
+                    <div className="flex items-center justify-start">
+                      <div className="mr-2 h-[0.7rem] w-[0.7rem] rounded-full border-[1px] border-black" />
+                      <p className="font-bold">Trivial</p>
+                    </div>
+                  </MenuItem>
+                  <MenuItem value={"Minor"}>
+                    <div className="flex items-center justify-start">
+                      <img
+                        src={Minor}
+                        alt="minorimg"
+                        className="mr-2 h-4 w-4"
+                        draggable="false"
+                      />
+                      <p className="font-bold">Minor</p>
+                    </div>
+                  </MenuItem>
+                  <MenuItem
+                    value={"Major"}
+                    disabled={user.cargoUsuario == "ANALISTA"}
+                  >
+                    <div className="flex items-center justify-start">
+                      <img
+                        src={Major}
+                        alt="majorimg"
+                        className="mr-2 h-4 w-4"
+                        draggable="false"
+                      />
+                      <p className="font-bold">Major</p>
+                    </div>
+                  </MenuItem>
+                  <MenuItem
+                    value={"Critical"}
+                    disabled={
+                      user.cargoUsuario == "ANALISTA" ||
+                      user.cargoUsuario == "GERENTE"
+                    }
+                  >
+                    <div className="flex items-center justify-start">
+                      <img
+                        src={Critical}
+                        alt="criticalimg"
+                        className="mr-2 h-[1.6rem] w-4"
+                        draggable="false"
+                      />
+                      <p className="font-bold">Critical</p>
+                    </div>
+                  </MenuItem>
+                  <MenuItem
+                    value={"Blocker"}
+                    disabled={
+                      user.cargoUsuario == "ANALISTA" ||
+                      user.cargoUsuario == "GERENTE"
+                    }
+                  >
+                    <div className="flex items-center justify-start">
+                      <RemoveCircleRoundedIcon
+                        sx={{
+                          color: "#b55154",
+                          fontSize: "1.3rem",
+                          marginRight: "6px",
+                          marginLeft: "-2px",
+                        }}
+                      />
+                      <p className="font-bold">Blocker</p>
+                    </div>
+                  </MenuItem>
+                </Select>
+              </FormControlImportanceDemand>
+            </div>
+            <div className="flex items-center justify-center">
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#0075B1",
+                  color: "white",
+                  fontSize: "0.8rem",
+                  width: "5rem",
+                  height: "2rem",
+                  borderRadius: "4px",
+                  "&:hover": {
+                    backgroundColor: "#0075B1",
+                    color: "white",
+                  },
+                }}
               >
-                <MenuItem value={"Trivial"}>Trivial</MenuItem>
-                <MenuItem value={"Minor"}>Minor</MenuItem>
-                <MenuItem value={"Major"}>Major</MenuItem>
-                <MenuItem value={"Criticla"}>Critical</MenuItem>
-                <MenuItem value={"Blocker"}>Blocker</MenuItem>
-              </Select>
+                Aplicar
+              </Button>
             </div>
           </div>
         </Box>

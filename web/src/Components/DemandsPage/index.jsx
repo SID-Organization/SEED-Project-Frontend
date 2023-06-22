@@ -36,7 +36,6 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 export default function DemandsPage(props) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -80,7 +79,6 @@ export default function DemandsPage(props) {
     console.log("props.DemandType: ", props.DemandType);
   }, [props.DemandType]);
 
-
   const handleCreateExcel = () => {
     const idsListDemand = showingDemands.map((demand) => demand.idDemanda);
     DemandService.createExcelTable(idsListDemand).then((res) => {
@@ -89,17 +87,12 @@ export default function DemandsPage(props) {
       let link = document.createElement("a");
       let data = new Date();
       let dataFormatada =
-        data.getDate() +
-        "-" +
-        (data.getMonth() + 1) +
-        "-" +
-        data.getFullYear();
+        data.getDate() + "-" + (data.getMonth() + 1) + "-" + data.getFullYear();
       link.href = url;
       link.download = "tabela-demandas " + dataFormatada + " .xlsx";
       link.click();
-    })
+    });
   };
-
 
   // Pegar as respectivas demandas
   useEffect(() => {
@@ -144,7 +137,9 @@ export default function DemandsPage(props) {
         .then((data) => {
           let demandsToManage = data;
           if (demandsToManage && demandsToManage.length > 0) {
-            setDbDemands(demandsToManage.filter(d => d.statusDemanda != "RASCUNHO"));
+            setDbDemands(
+              demandsToManage.filter((d) => d.statusDemanda != "RASCUNHO")
+            );
             setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);
@@ -370,7 +365,10 @@ export default function DemandsPage(props) {
                   text-center
                 "
                 >
-                  {translate["Têm certeza que deseja deletar todos os rascunhos?"]?.[language] ?? "Têm certeza que deseja deletar todos os rascunhos?"}
+                  {translate[
+                    "Têm certeza que deseja deletar todos os rascunhos?"
+                  ]?.[language] ??
+                    "Têm certeza que deseja deletar todos os rascunhos?"}
                 </p>
               </DialogTitle>
             </div>
@@ -438,10 +436,13 @@ export default function DemandsPage(props) {
                   text-center
                 "
                 >
-                  {translate["Têm certeza que deseja deletar"]?.[language] ?? "Têm certeza que deseja deletar"}{" "}
+                  {translate["Têm certeza que deseja deletar"]?.[language] ??
+                    "Têm certeza que deseja deletar"}{" "}
                   {selectedDrafts.length > 1
-                    ? translate["esses rascunhos?"]?.[language] ?? "esses rascunhos?"
-                    : translate["esse rascunho?"]?.[language] ?? "esse rascunho?"}
+                    ? translate["esses rascunhos?"]?.[language] ??
+                      "esses rascunhos?"
+                    : translate["esse rascunho?"]?.[language] ??
+                      "esse rascunho?"}
                 </p>
               </DialogTitle>
             </div>
@@ -525,10 +526,12 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
-                      }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
+                      selectedDrafts.length > 0 ? "opacity-100" : ""
+                    }`}
                   >
-                    {translate["Deletar"]?.[language] ?? "Deletar"} {"(" + selectedDrafts.length + ")"}{" "}
+                    {translate["Deletar"]?.[language] ?? "Deletar"}{" "}
+                    {"(" + selectedDrafts.length + ")"}{" "}
                     {selectedDrafts.length > 1 ? "rascunhos" : "rascunho"}
                   </ButtonAddSelected>
                 </Fade>
