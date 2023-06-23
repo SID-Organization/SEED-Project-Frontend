@@ -14,12 +14,7 @@ import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import {
-  DialogTitle,
-  IconButton,
-  Radio,
-  Tooltip,
-} from "@mui/material";
+import { DialogTitle, IconButton, Radio, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
 
@@ -33,7 +28,7 @@ import DemandUtils from "../../utils/Demand-Utils";
 import UserUtils from "../../utils/User-Utils";
 import FontSizeUtils from "../../utils/FontSize-Utils";
 import CreateOrAccessProposal from "./CreateOrAccessProposal";
-import CurrencyUtils from "../../utils/Currency-Utils"
+import CurrencyUtils from "../../utils/Currency-Utils";
 
 //Translations
 import TranslationJson from "../../API/Translate/components/demandCard.json";
@@ -60,7 +55,6 @@ const styleModalReasonOfCancellation = {
   p: 4,
 };
 
-
 const styleModalDeleteDraft = {
   position: "absolute",
   top: "50%",
@@ -77,7 +71,6 @@ const styleModalDeleteDraft = {
 };
 
 export default function DemandCard(props) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -253,10 +246,10 @@ export default function DemandCard(props) {
   }
 
   useEffect(() => {
-    getLogs()
-  }, [])
+    getLogs();
+  }, []);
 
-
+  console.log("LANGUAGE = ", language);
   return (
     <div className="mb-7 grid items-center justify-center">
       {isDemandLoading ? (
@@ -268,7 +261,7 @@ export default function DemandCard(props) {
         />
       ) : (
         <Card
-          sx={{ width: fonts.sm > 14 ? 590 : 480, height: 180 }}
+          sx={{ width: fonts.sm > 14 ? 590 : 520, height: 180 }}
           style={{
             boxShadow: "1px 1px 5px 0px #808080db",
             borderLeft:
@@ -282,7 +275,14 @@ export default function DemandCard(props) {
           <div className={classNameGap}>
             <div>
               <div className="flex items-center justify-between">
-                <Tooltip title={props.demand.tituloDemanda}>
+                <Tooltip
+                  title={
+                    props.demand.tituloDemanda.length > 20
+                      ? props.demand.tituloDemanda
+                      : ""
+                  }
+                  placement="right"
+                >
                   <Typography
                     variant="h5"
                     sx={{
@@ -344,7 +344,10 @@ export default function DemandCard(props) {
                     <span style={{ fontSize: fonts.sm }} className="mr-1 ">
                       {translate["Score"]?.[language] ?? "Score"}:
                     </span>
-                    <span style={{ fontSize: fonts.sm }} className="font-medium text-black">
+                    <span
+                      style={{ fontSize: fonts.sm }}
+                      className="font-medium text-black"
+                    >
                       {props.demand.scoreDemanda ?? "Indefinido"}
                     </span>
                   </Typography>
@@ -361,7 +364,9 @@ export default function DemandCard(props) {
                       style={{ fontSize: fonts.sm }}
                       className="font-medium text-black"
                     >
-                      {CurrencyUtils.formatCurrency(props.demand.custoTotalDemanda) ?? "Indefinido"}
+                      {CurrencyUtils.formatCurrency(
+                        props.demand.custoTotalDemanda
+                      ) ?? "Indefinido"}
                     </span>
                   </Typography>
                 </div>
@@ -423,7 +428,9 @@ export default function DemandCard(props) {
                     fontWeight="bold"
                     className="flex"
                   >
-                    <span style={{ fontSize: fonts.sm }}>{translate["De:"]?.[language] ?? "De:"} </span>
+                    <span style={{ fontSize: fonts.sm }}>
+                      {translate["De:"]?.[language] ?? "De:"}{" "}
+                    </span>
                   </Typography>
                   <Typography color="black" fontWeight="bold" className="flex">
                     <span style={{ fontSize: fonts.sm }} className="ml-1">
@@ -437,22 +444,25 @@ export default function DemandCard(props) {
                     fontWeight="bold"
                     className="flex"
                   >
-                    <span style={{ fontSize: fonts.sm }}>{translate["Até:"]?.[language] ?? "Até:"} </span>
+                    <span style={{ fontSize: fonts.sm }}>
+                      {translate["Até:"]?.[language] ?? "Até:"}{" "}
+                    </span>
                   </Typography>
                   <Typography color="black" fontWeight="bold" className="flex">
                     <span style={{ fontSize: fonts.sm }} className="ml-1">
-                      - - - -
+                      02/06/2023
+                      {/* HERE */}
                     </span>
                   </Typography>
                 </div>
               </div>
-              <div className="mr-4 flex items-center justify-center gap-3">
-                {(
-                  ["APROVADO_PELO_GERENTE_DA_AREA", 'PROPOSTA_EM_ELABORACAO']
-                    .includes(props.demand.statusDemanda)
-                )
-                  && user.cargoUsuario == "ANALISTA" && user.nomeUsuario != props.demand.nomeSolicitante
-                  && (
+              <div className="mr-2 flex items-center justify-center gap-3">
+                {[
+                  "APROVADO_PELO_GERENTE_DA_AREA",
+                  "PROPOSTA_EM_ELABORACAO",
+                ].includes(props.demand.statusDemanda) &&
+                  user.cargoUsuario == "ANALISTA" &&
+                  user.nomeUsuario != props.demand.nomeSolicitante && (
                     <CreateOrAccessProposal
                       cargoUsuario={user.cargoUsuario}
                       statusDemanda={props.demand.statusDemanda}
@@ -475,7 +485,12 @@ export default function DemandCard(props) {
 
                 {props.demand.statusDemanda === "CANCELADA" && (
                   <div>
-                    <Tooltip title={translate["Motivo da reprovação"]?.[language] ?? "Motivo da reprovação"}>
+                    <Tooltip
+                      title={
+                        translate["Motivo da reprovação"]?.[language] ??
+                        "Motivo da reprovação"
+                      }
+                    >
                       <Button
                         onClick={handleOpenReasonOfCancellation}
                         variant="contained"
@@ -515,7 +530,9 @@ export default function DemandCard(props) {
                             alignItems: "center",
                           }}
                         >
-                          {translate["Motivo da reprovação da demanda"]?.[language] ?? "Motivo da reprovação da demanda"}
+                          {translate["Motivo da reprovação da demanda"]?.[
+                            language
+                          ] ?? "Motivo da reprovação da demanda"}
                         </Typography>
                         <Typography
                           id="modal-modal-description"
@@ -598,7 +615,10 @@ export default function DemandCard(props) {
                         </div>
                         <DialogTitle style={{ color: "#0075B1" }}>
                           <p className="text-center">
-                            {translate["Têm certeza que deseja deletar esse rascunho?"]?.[language] ?? "Têm certeza que deseja deletar esse rascunho?"}
+                            {translate[
+                              "Têm certeza que deseja deletar esse rascunho?"
+                            ]?.[language] ??
+                              "Têm certeza que deseja deletar esse rascunho?"}
                           </p>
                         </DialogTitle>
                         <div className="flex items-center justify-center gap-5">
@@ -650,13 +670,19 @@ export default function DemandCard(props) {
                 )}
                 {props.demand.statusDemanda !== "RASCUNHO" && (
                   <Link to={`/demandas/${props.demand.idDemanda}`}>
-                    <Tooltip title={translate["Visualizar demanda"]?.[language] ?? "Visualizar demanda"}>
+                    <Tooltip
+                      title={
+                        translate["Visualizar demanda"]?.[language] ??
+                        "Visualizar demanda"
+                      }
+                    >
                       <Button
                         variant="contained"
                         style={{ fontSize: fonts.xs }}
                         sx={{
                           backgroundColor: "#0075B1",
-                          width: fonts.xs > 12 ? 120 : 100,
+                          width: fonts.xs > 12 ? 140 : 100,
+                          width: language === "de" ? 131 : 100,
                         }}
                       >
                         {translate["Ver mais"]?.[language] ?? "Ver mais"}

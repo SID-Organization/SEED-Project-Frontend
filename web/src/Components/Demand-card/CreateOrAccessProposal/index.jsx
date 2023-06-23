@@ -92,6 +92,7 @@ export default function CreateOrAccessProposal(props) {
                 color: "#0075B1",
                 fontWeight: "bold",
                 border: "#0075B1 solid 1px",
+                width: language === "de" ? 110 : 140,
 
                 "&:hover": {
                   backgroundColor: "#f3f3f3",
