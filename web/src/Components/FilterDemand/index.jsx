@@ -21,103 +21,16 @@ import VoiceSpeech from "../VoiceSpeech";
 
 // Utils
 import TranslateUtils from "../../utils/Translate-Utils";
+import UserUtils from "../../utils/User-Utils"
+
+// Service
+import FilterService from "../../service/Filter-Service";
 
 // Translation
 import TranslationJSON from "../../API/Translate/components/demandFilter.json";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 import SaveFilter from "./SaveFilter";
 import SavedFilters from "./SavedFilters";
-
-
-const filtersMock = [
-  {
-    nomeFiltro: "Filtro 1",
-    id: 1,
-    filtros: [
-      { filterBy: "nomeSolicitante", value: null, type: "text" },
-      { filterBy: "nomeGerenteResponsavelDemanda", value: null, type: "text" },
-      { filterBy: "nomeAnalistaResponsavel", value: null, type: "text" },
-      { filterBy: "codigoPPMDemanda", value: null, type: "number" },
-      { filterBy: "departamentoDemanda", value: null, type: "text" },
-      { filterBy: "forumDeAprovacaoDemanda", value: null, type: "text" },
-      { filterBy: "tamanhoDemanda", value: null, endValue: null, type: "text" },
-      { filterBy: "tituloDemanda", value: null, type: "text" },
-      { filterBy: "statusDemanda", value: null, type: "text" },
-      { filterBy: "custoTotalDemanda", value: null, endValue: null, type: "between" },
-      { filterBy: "scoreDemanda", value: 0, endValue: 150, type: "between" },
-      { filterBy: "idDemanda", value: null, type: "number" },
-    ]
-  },
-  {
-    nomeFiltro: "Filtro 4",
-    id: 4,
-  },
-  {
-    nomeFiltro: "Filtro 5",
-    id: 5,
-  },
-  {
-    nomeFiltro: "Filtro 6",
-    id: 6,
-  },
-  {
-    nomeFiltro: "Filtro 7",
-    id: 7,
-  },
-  {
-    nomeFiltro: "Filtro 8",
-    id: 8,
-  },
-  {
-    nomeFiltro: "Filtro 9",
-    id: 9,
-  },
-  {
-    nomeFiltro: "Filtro 10",
-    id: 10,
-  },
-  {
-    nomeFiltro: "Filtro 11",
-    id: 11,
-  },
-  {
-    nomeFiltro: "Filtro 12",
-    id: 12,
-  },
-  {
-    nomeFiltro: "Filtro 13",
-    id: 13,
-  },
-  {
-    nomeFiltro: "Filtro 14",
-    id: 14,
-  },
-  {
-    nomeFiltro: "Filtro 15",
-    id: 15,
-  },
-  {
-    nomeFiltro: "Filtro 16",
-    id: 16,
-  },
-  {
-    nomeFiltro: "Filtro 17",
-    id: 17,
-  },
-  {
-    nomeFiltro: "Filtro 18",
-    id: 18,
-  },
-  {
-    nomeFiltro: "Filtro 19",
-    id: 19,
-  },
-  {
-    nomeFiltro: "Filtro 20",
-    id: 20,
-  },
-
-]
 
 
 
@@ -134,7 +47,8 @@ export default function DemandFilter(props) {
   const [language] = useContext(TranslateContext);
   const filterTranslate = TranslationJSON.filterComponents;
 
-  // Filters
+
+  // Filter variables
   const [requester, setRequester] = useState("");
   const [demandStatus, setDemandStatus] = useState("");
   // Demand value
@@ -156,6 +70,9 @@ export default function DemandFilter(props) {
   const [PPMCode, setPPMCode] = useState("");
   const [requestNumber, setRequestNumber] = useState("");
 
+  // User filters (DB)
+  const [savedFilters, setSavedFilters] = useState([]);
+
   // Speech state
   const [searchSpeech, setSearchSpeech] = useState({ id: 1, text: "" });
 
@@ -165,6 +82,21 @@ export default function DemandFilter(props) {
       setSearchSpeech({ ...searchSpeech, text: "" })
     }
   }, [searchSpeech])
+
+  useEffect(() => {
+    getAndSetUserFilters();
+  }, [])
+
+  function getAndSetUserFilters() {
+    FilterService.getUserFilters(UserUtils.getLoggedUserId())
+      .then(data => {
+        console.log("User filters: ", data);
+        setSavedFilters(data);
+      }
+      ).catch(err => {
+        console.log("User filters error: ", err);
+      });
+  }
 
   function handleOpenFilter(event) {
     setAnchorEl(event.currentTarget);
@@ -181,6 +113,7 @@ export default function DemandFilter(props) {
       setAnchorEl(null);
       setAnchorElSaveFilter(null);
       setIsSaveFilterOpen(false);
+      setNewFilterTitle("");
     }
   }
 
@@ -188,44 +121,131 @@ export default function DemandFilter(props) {
   function openSaveFilter(e) {
     setAnchorElSaveFilter(e.currentTarget);
     setIsSaveFilterOpen(!isSaveFilterOpen);
+    setNewFilterTitle("");
+
   }
 
   function saveNewFilter() {
-    console.log("Filter title: ", newFilterTitle);
     setIsSaveFilterOpen(false);
+    setNewFilterTitle("");
+
+    FilterService.saveFilter(newFilterTitle, props.filters, UserUtils.getLoggedUserId())
+      .then(res => {
+        getAndSetUserFilters();
+        console.log("FIlter save response", res);
+      }).catch(err => {
+        console.log("Filter save error", err);
+      })
   }
 
+  function deleteFilter(id) {
+    FilterService.deleteFilter(id)
+      .then(res => {
+        setSavedFilters(savedFilters.filter(f => f.idFiltroDemanda != id));
+      }).catch(err => {
+        console.log("Filter delete error", err);
+      })
+  }
+
+
+  /**
+   * { { filterBy: "nomeSolicitante", value: requester, type: "text" },
+      { filterBy: "nomeGerenteResponsavelDemanda", value: responsibleManager, type: "text" },
+      { filterBy: "nomeAnalistaResponsavel", value: responsibleAnalyst, type: "text" },
+      { filterBy: "codigoPPMDemanda", value: PPMCode, type: "number" },
+      { filterBy: "departamentoDemanda", value: department, type: "text" },
+      { filterBy: "forumDeAprovacaoDemanda", value: approvalForum, type: "text" },
+      { filterBy: "tamanhoDemanda", value: demandSize, type: "text" },
+      { filterBy: "tituloDemanda", value: title, type: "text" },
+      { filterBy: "statusDemanda", value: status, type: "text" },
+      { filterBy: "custoTotalDemanda", value: value, endValue: endValue, type: "between" },
+      { filterBy: "scoreDemanda", value: score, endValue: endScore, type: "between" },
+      { filterBy: "idDemanda", value: requestNumber, type: "number" },} id 
+   */
+
   function selectFilter(id) {
-    const filter = filtersMock.find(filter => filter.id === id);
-    console.log("Select filter: ", filter);
+    cleanStates();
+    console.log("ID", id)
+    const filterObj = savedFilters.find(f => f.idFiltroDemanda == id);
+    console.log("Filter obj", filterObj);
+    const filters = filterObj.filtros;
+    console.log("Filters", filters);
+
+    filters.forEach(f => {
+      switch (f.filterBy) {
+        case "nomeSolicitante":
+          setRequester(f.value);
+          break;
+        case "nomeGerenteResponsavelDemanda":
+          setResponsibleManager(f.value);
+          break;
+        case "nomeAnalistaResponsavel":
+          setResponsibleAnalyst(f.value);
+          break;
+        case "codigoPPMDemanda":
+          setPPMCode(f.value);
+          break;
+        case "departamentoDemanda":
+          setDepartment(f.value);
+          break;
+        case "forumDeAprovacaoDemanda":
+          setApprovalForum(f.value);
+          break;
+        case "tamanhoDemanda":
+          setDemandSize(f.value);
+          break;
+        case "tituloDemanda":
+          setTitle(f.value);
+          break;
+        case "statusDemanda":
+          setDemandStatus(f.value);
+          break;
+        case "custoTotalDemanda":
+          setValue(f.value);
+          setEndValue(f.endValue);
+          break;
+        case "scoreDemanda":
+          setScore(f.value);
+          setEndScore(f.endValue);
+          break;
+        case "idDemanda":
+          setRequestNumber(f.value);
+          break;
+        default:
+          break;
+      }
+    })
+
+
   }
 
   // FILTER STATE FUNCTIONS
   function qtyUsedFilters() {
     let qty = 0;
 
-    if (requester != "") qty++;
-    if (value != "") qty++;
-    if (endValue != "") qty++;
-    if (score != "") qty++;
-    if (endScore != "") qty++;
-    if (title != "") qty++;
-    if (responsibleAnalyst != "") qty++;
-    if (responsibleManager != "") qty++;
-    if (approvalForum != "") qty++;
-    if (department != "") qty++;
-    if (demandSize != "") qty++;
-    if (PPMCode != "") qty++;
-    if (requestNumber != "") qty++;
-    if (demandStatus != "") qty++;
+    if (!["", null].includes(requester)) qty++
+    if (!["", null].includes(value)) qty++
+    if (!["", null].includes(endValue)) qty++
+    if (!["", null].includes(score)) qty++
+    if (!["", null].includes(endScore)) qty++
+    if (!["", null].includes(title)) qty++
+    if (!["", null].includes(responsibleAnalyst)) qty++
+    if (!["", null].includes(responsibleManager)) qty++
+    if (!["", null].includes(approvalForum)) qty++
+    if (!["", null].includes(department)) qty++
+    if (!["", null].includes(demandSize)) qty++
+    if (!["", null].includes(PPMCode)) qty++
+    if (!["", null].includes(requestNumber)) qty++
+    if (!["", null].includes(demandStatus)) qty++
     return qty;
   }
 
   function cleanStates() {
-    setRequester("");
-    setDemandStatus("");
+    console.log("Cleaning")
     setValue("");
     setEndValue("");
+    setRequester("");
+    setDemandStatus("");
     setScore("");
     setEndScore("");
     setTitle("");
@@ -236,7 +256,6 @@ export default function DemandFilter(props) {
     setDemandSize("");
     setPPMCode("");
     setRequestNumber("");
-    props.setFilters(DemandFilterUtils.getEmptyFilter());
   }
 
   // Quando algum campo de pesquisa é utilizado, chama essa função e atualiza o filter
@@ -263,7 +282,7 @@ export default function DemandFilter(props) {
       filterDemands();
     }
   }, [title])
-
+  
   return (
     <ClickAwayListener onClickAway={handleCloseAndFilter}>
       <div>
@@ -432,7 +451,7 @@ export default function DemandFilter(props) {
                   }}
                   onClick={cleanStates}
                 >
-                  Limpar
+                  {translate['Limpar']?.[language] ?? 'Limpar'}
                 </Button>
                 <Button
                   variant="contained"
@@ -449,7 +468,7 @@ export default function DemandFilter(props) {
                   }}
                   onClick={openSaveFilter}
                 >
-                  Salvar
+                  {translate['Salvar']?.[language] ?? 'Salvar'}
                   <BookmarkIcon />
                 </Button>
                 <Button
@@ -465,14 +484,15 @@ export default function DemandFilter(props) {
                     },
                   }}
                 >
-                  Filtrar
+                  {translate['Filtrar']?.[language] ?? 'Filtrar'}
                 </Button>
               </div>
             </div>
           </Paper>
           <SavedFilters
             selectFilter={selectFilter}
-            filters={filtersMock}
+            deleteFilter={deleteFilter}
+            filters={savedFilters}
           />
           <SaveFilter
             isSaveFilterOpen={isSaveFilterOpen}

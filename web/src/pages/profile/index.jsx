@@ -36,11 +36,11 @@ const Button = styled(MuiButton)(() => ({
 }));
 
 
-export default function Perfil({switchChange}) {
+export default function Perfil({ enableVLibras, enableTextToVoice }) {
 
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
-  
+
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
@@ -132,7 +132,7 @@ export default function Perfil({switchChange}) {
               style={{ fontSize: fonts.base }}
               className="mb-2 mt-5 font-semibold"
             >
-              {translate["Acessibilidade"]?.[language] ?? "Acessibilidade"} 
+              {translate["Acessibilidade"]?.[language] ?? "Acessibilidade"}
             </h1>
             <ProfileRow
               topLine={true}
@@ -140,10 +140,17 @@ export default function Perfil({switchChange}) {
               increaseFontSize={true}
             />
             <ProfileRow
-                topLine={true}
-                topic={translate["Tradutor de Libras"]?.[language] ?? "Tradutor de Libras"}
-                librasTranslate={true}
-                handleSwitchChange={switchChange}
+              topLine={false}
+              topic={translate["Tradutor de Libras"]?.[language] ?? "Tradutor de Libras"}
+              useSwitch={true}
+              enableAccessibility={enableVLibras}
+            />
+            <ProfileRow
+              topLine={false}
+              topic={translate["Leitor de texto"]?.[language] ?? "Leitor de texto"}
+              useSwitch={true}
+              enableAccessibility={enableTextToVoice}
+              helperText={translate["Selecione um texto para ouvir"]?.[language] ?? "Selecione um texto para ouvir"}
             />
           </div>
         </div>

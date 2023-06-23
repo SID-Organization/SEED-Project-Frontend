@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //MUI
 import MuiTextField from "@mui/material/TextField";
@@ -12,6 +12,10 @@ import DemandStatusJSON from "../../utils/Demand-Utils/JSONs/DemandStatus.json"
 // Components
 import VoiceSpeech from "../VoiceSpeech";
 
+// Translation
+import TranslationJson from "../../API/Translate/components/demandFilter.json";
+import { TranslateContext } from "../../contexts/translate/index.jsx";
+
 const TextField = styled(MuiTextField)({
   width: "60%",
 });
@@ -21,6 +25,9 @@ const Select = styled(MuiSelected)({
 });
 
 export default function FilterComponent(props) {
+
+  const translate = TranslationJson.filterFields;
+  const [language] = useContext(TranslateContext);
 
   const [filterSpeech, setFilterSpeech] = useState({ id: 0, text: "" })
   const [isHovering, setIsHovering] = useState(false);
@@ -34,7 +41,7 @@ export default function FilterComponent(props) {
   }, [filterSpeech])
 
   const getInput = () => {
-    if (["text", "number"].includes(props.type)) {
+    if (props.type == "text" || props.type == "number") {
       return (
         <TextField
           id="standard-basic"
@@ -101,7 +108,7 @@ export default function FilterComponent(props) {
                   value={props.value}
                   onChange={(e) => props.setValue(e.target.value)}
                 />
-                <p className="text-sm text-light-blue-weg ml-2 mr-2">até</p>
+                <p className="text-sm text-light-blue-weg ml-2 mr-2">{translate['até']?.[language] ?? 'até'}</p>
                 <TextField
                   id="standard-basic"
                   variant="standard"
@@ -124,7 +131,7 @@ export default function FilterComponent(props) {
                   variant="standard"
                   sx={{ width: "27%" }}
                 />
-                <p className="text-sm text-light-blue-weg ml-2 mr-2">até</p>
+                <p className="text-sm text-light-blue-weg ml-2 mr-2">{translate['até']?.[language] ?? 'até'}</p>
                 <TextField
                   id="dateend"
                   type="date"
@@ -146,7 +153,7 @@ export default function FilterComponent(props) {
                   variant="standard"
                   sx={{ width: "27%" }}
                 />
-                <p className="text-sm text-light-blue-weg ml-2 mr-2">até</p>
+                <p className="text-sm text-light-blue-weg ml-2 mr-2">{translate['até']?.[language] ?? 'até'}</p>
                 <TextField
                   id="timeend"
                   type="time"

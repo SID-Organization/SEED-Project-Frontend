@@ -21,7 +21,7 @@ import VLibras from "@djpfs/react-vlibras/dist/cjs/index.js";
 export default function ProfileRow(props) {
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [phoneNumber, setPhoneNumber] = useState("+55 (47) 99123-2134");
   const [isEditOn, setIsEditOn] = useState(false);
@@ -30,12 +30,11 @@ export default function ProfileRow(props) {
     FontSizeUtils.getFontControl()
   );
 
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
 
   const changeSwitch = (event) => {
     setChecked(event.target.checked);
-    console.log(props)
-    props.handleSwitchChange(event.target.checked);
+    props.enableAccessibility(event.target.checked);
   };
 
   const increaseValue = () => {
@@ -72,9 +71,11 @@ export default function ProfileRow(props) {
               : `flex items-center gap-10 border-b-[1px] border-t-[0px] border-[#808080]`
           }
         >
-          <h1 style={{ fontSize: fonts.base }} className="m-4 font-bold">
-            {props.topic}
-          </h1>
+          <div className="w-48">
+            <h1 style={{ fontSize: fonts.base }} className="m-4 font-bold">
+              {props.topic}
+            </h1>
+          </div>
           {props.phone == true && (
             <>
               <input
@@ -168,15 +169,20 @@ export default function ProfileRow(props) {
               </>
             </div>
           )}
-          {props.librasTranslate && (
-              <div className="flex items-center justify-center gap-4">
-                <Switch
-                    checked={checked}
-                    onChange={changeSwitch}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                    style={{ color: "#0075B1"}}
-                />
-              </div>
+          {props.useSwitch && (
+            <div className="flex items-center justify-center gap-4">
+              <Switch
+                checked={checked}
+                onChange={changeSwitch}
+                inputProps={{ 'aria-label': 'controlled' }}
+                style={{ color: "#0075B1" }}
+              />
+              {checked && props.helperText && (
+                <p className="text-sm text-blue-weg">
+                  {props.helperText}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>

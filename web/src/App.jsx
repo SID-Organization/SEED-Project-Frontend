@@ -45,15 +45,11 @@ function App() {
     setLanguage(languageCode);
   }
 
-  const [isVLibrasVisible, setIsVLibrasVisible] = useState(true);
-
-  const handleSwitchChange = (isChecked) => {
-    setIsVLibrasVisible(isChecked);
-  };
+  const [enableVLibras, setEnableVLibras] = useState(false);
+  const [enableTextToVoice, setEnableTextToVoice] = useState(false);
 
   return (
     <TranslateContext.Provider value={[language, updateLanguage]}>
-      <TextToVoice></TextToVoice>
       <BrowserRouter>
         <Routes>
           <Route path="" element={<Navigate to={"/login"} />} />
@@ -133,14 +129,15 @@ function App() {
               element={<ProposalDetails />}
             />
 
-            <Route path="perfil" element={<Profile switchChange={handleSwitchChange} />} />
+            <Route path="perfil" element={<Profile enableVLibras={setEnableVLibras} enableTextToVoice={setEnableTextToVoice} />} />
 
             <Route path="chat" element={<Chat />} />
           </Route>
           <Route path="*" element={<h1>Error 404 (Page not found)</h1>} />
         </Routes>
       </BrowserRouter>
-      {isVLibrasVisible && <VLibras forceOnload={true} />}
+      {enableVLibras && <VLibras forceOnload={true} />}
+      {enableTextToVoice && <TextToVoice />}
     </TranslateContext.Provider>
   );
 }

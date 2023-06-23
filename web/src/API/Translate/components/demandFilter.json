@@ -8,6 +8,33 @@
         "fr": "Rechercher par titre",
         "it": "Cerca per titolo"
     },
+    "Limpar": {
+        "pt-br": "Limpar",
+        "en-us": "Clear",
+        "de": "Löschen",
+        "zh-cn": "明确",
+        "es": "Claro",
+        "fr": "Clair",
+        "it": "Chiaro"
+    },
+    "Salvar": {
+        "pt-br": "Salvar",
+        "en-us": "Save",
+        "de": "Speichern",
+        "zh-cn": "保存",
+        "es": "Salvar",
+        "fr": "Sauvegarder",
+        "it": "Salvare"
+    },
+    "Filtrar": {
+        "pt-br": "Filtrar",
+        "en-us": "Filter",
+        "de": "Filter",
+        "zh-cn": "过滤",
+        "es": "Filtrar",
+        "fr": "Filtre",
+        "it": "Filtro"
+    },
     "filterComponents": {
         "Solicitante": {
             "pt-br": "Solicitante",
@@ -156,6 +183,26 @@
             "es": "Nombre del filtro",
             "fr": "Nom du filtre",
             "it": "Nome del filtro"
+        },
+        "Digite um nome para o filtro": {
+            "pt-br": "Digite um nome para o filtro",
+            "en-us": "Enter a name for the filter",
+            "de": "Geben Sie einen Namen für den Filter ein",
+            "zh-cn": "输入过滤器名称",
+            "es": "Ingrese un nombre para el filtro",
+            "fr": "Entrez un nom pour le filtre",
+            "it": "Inserisci un nome per il filtro"
+        }
+    },
+    "filterFields": {
+        "até": {
+            "pt-br": "até",
+            "en-us": "to",
+            "de": "zu",
+            "zh-cn": "至",
+            "es": "a",
+            "fr": "à",
+            "it": "a"
         }
     }
 }

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 // MUI
 import { IconButton, Paper, Popper, TextField, Tooltip } from "@mui/material";
@@ -8,6 +8,7 @@ import CloseIcon from '@mui/icons-material/CloseRounded';
 // Traslation
 import TranslationJson from "../../../API/Translate/components/demandFilter.json";
 import { TranslateContext } from "../../../contexts/translate/index.jsx";
+import { useEffect } from "react";
 
 
 export default function SaveFilter(props) {
@@ -15,11 +16,20 @@ export default function SaveFilter(props) {
     const translate = TranslationJson.saveFilter;
     const [language] = useContext(TranslateContext);
 
+    const [helperText, setHelperText] = useState("");
 
     const saveNewFilter = () => {
-        if(props.newFilterTitle == "") return;
+        if(props.newFilterTitle == "") {
+            setHelperText(translate["Digite um nome para o filtro"]?.[language] ?? "Digite um nome para o filtro");
+            return;
+        };
+        setHelperText("");
         props.saveNewFilter();
     }
+
+    useEffect(() => {
+        setHelperText("");
+    }, [props.isSaveFilterOpen])
 
     return (
         <Popper
@@ -54,6 +64,8 @@ export default function SaveFilter(props) {
                         variant="outlined"
                         type="text"
                         autoComplete="off"
+                        helperText={helperText}
+                        error={helperText != ""}
                         value={props.newFilterTitle}
                         onChange={(e) => props.setNewFilterTitle(e.target.value)}
                     />

@@ -32,7 +32,7 @@ export default function subHeader(props) {
         </div>
         <div className="flex flex-[1] justify-around gap-10">
           <div className="flex flex-1 items-center justify-end">
-            <DemandFilter setFilters={props.setFilters} />
+            <DemandFilter setFilters={props.setFilters} filters={props.filters}/>
           </div>
           <Tooltip
             title={

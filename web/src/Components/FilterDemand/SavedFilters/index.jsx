@@ -15,10 +15,6 @@ export default function SavedFilters(props) {
     const translate = TranslationJson.savedFilters;
     const [language] = useContext(TranslateContext);
 
-    function deleteFilter(id) {
-        console.log("Delete filter: ", id);
-    }
-
     return (
         <Paper
             sx={{
@@ -46,7 +42,7 @@ export default function SavedFilters(props) {
                     <Filters
                         filter={filter}
                         selectFilter={props.selectFilter}
-                        deleteFilter={deleteFilter}
+                        deleteFilter={props.deleteFilter}
                     />
                 )
                 )}

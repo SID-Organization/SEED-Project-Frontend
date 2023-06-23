@@ -329,6 +329,7 @@ export default function DemandsPage(props) {
           setIsListFormat={setIsListFormat}
           isListFormat={isListFormat}
           setFilters={setFilters}
+          filters={filters}
           handleCreateExcel={handleCreateExcel}
           buttonExcelClicked={buttonExcelClicked}
           demandLength={showingDemands.length}
