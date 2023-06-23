@@ -3,11 +3,12 @@ import TranslationJson from "../../API/Translate/components/subHeaderPautas.json
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { useContext, useEffect, useState } from "react";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
-import { Box, Modal, Tooltip } from "@mui/material";
+import { Box, Divider, InputBase, Modal, Paper, Tooltip } from "@mui/material";
 
 //MUI
 import { Button, TextField, InputAdornment, Autocomplete } from "@mui/material";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import SearchIcon from "@mui/icons-material/Search";
 
 //Utils
 import FontSizeUtils from "../../utils/FontSize-Utils";
@@ -144,21 +145,48 @@ export default function ModalPauta(props) {
                 </Tooltip>
               </div>
             </div>
-            <TextField
-              id="outlined-basic"
-              label={
-                translate["Procurar por título"]?.[language] ??
-                "Procurar por título"
-              }
-              variant="outlined"
-              value={searchTitle}
-              InputProps={{
-                endAdornment: (
-                  <VoiceSpeech setTexto={setSearchByTitleSpeech} speechId={1} />
-                ),
+            <Paper
+              component="form"
+              sx={{
+                p: "2px 4px",
+                display: "flex",
+                alignItems: "center",
+                width: 240,
+                height: 40,
               }}
-              onChange={(e) => setSearchTitle(e.target.value)}
-            />
+              style={{
+                boxShadow: "#bdbdbd 0px 1px 5px 1px",
+              }}
+            >
+              <SearchIcon
+                sx={{
+                  color: "#919191",
+                  fontSize: "20px",
+                  width: "25px",
+                }}
+              />
+              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+              <InputBase
+                type={props.type}
+                sx={{ ml: 1, flex: 1, fontSize: "13px" }}
+                placeholder={translate["Procurar por título"]?.[language]}
+                onChange={(e) => setSearchTitle(e.target.value)}
+                value={searchTitle}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                  }
+                }}
+                endAdornment={
+                  <>
+                    <VoiceSpeech
+                      setTexto={setSearchByTitleSpeech}
+                      speechId={1}
+                    />
+                  </>
+                }
+              />
+            </Paper>
           </div>
           <div className="grid gap-2">
             <div className="flex items-center justify-center gap-5">

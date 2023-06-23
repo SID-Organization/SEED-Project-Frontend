@@ -9,8 +9,9 @@ import MuiTextField from "@mui/material/TextField";
 import MuiAddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import MuiAddBoxIcon from "@mui/icons-material/AddBox";
+import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
-import { InputAdornment } from "@mui/material";
+import { Divider, InputAdornment, InputBase, Paper } from "@mui/material";
 
 // Components
 import DatePicker from "../Date-picker";
@@ -377,21 +378,48 @@ export default function CreateNewPauta(props) {
                   )}
                 />
               </div>
-              <TextField
-                id="outlined-basic"
-                label={getTranslate("Procurar por título")}
-                variant="outlined"
-                value={searchTitle}
-                InputProps={{
-                  endAdornment: (
-                    <VoiceSpeech
-                      setTexto={setSearchByTitleSpeech}
-                      speechId={1}
-                    />
-                  ),
+              <Paper
+                component="form"
+                sx={{
+                  p: "2px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  width: 240,
+                  height: 40,
                 }}
-                onChange={(e) => setSearchTitle(e.target.value)}
-              />
+                style={{
+                  boxShadow: "#bdbdbd 0px 1px 5px 1px",
+                }}
+              >
+                <SearchIcon
+                  sx={{
+                    color: "#919191",
+                    fontSize: "20px",
+                    width: "25px",
+                  }}
+                />
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                <InputBase
+                  type={props.type}
+                  sx={{ ml: 1, flex: 1, fontSize: "13px" }}
+                  placeholder={translate["Procurar por título"]?.[language]}
+                  onChange={(e) => setSearchTitle(e.target.value)}
+                  value={searchTitle}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
+                  endAdornment={
+                    <>
+                      <VoiceSpeech
+                        setTexto={setSearchByTitleSpeech}
+                        speechId={1}
+                      />
+                    </>
+                  }
+                />
+              </Paper>
             </div>
             <div className="grid gap-2">
               <div className="flex items-center justify-center gap-5">
