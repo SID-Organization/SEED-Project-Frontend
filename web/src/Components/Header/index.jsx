@@ -243,7 +243,7 @@ export default function PrimarySearchAppBar() {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <div id="tutorial-profile">
+    <div>
       <Menu
         sx={{ marginTop: "40px" }}
         anchorEl={menuAnchoeEl}
@@ -825,6 +825,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
             >
               <IconButton
+                id="tutorial-profile"
                 size="large"
                 edge="end"
                 aria-label="account of current user"

@@ -20,7 +20,7 @@ export default function JoyriderTutorial(props) {
     {
       target: "#tutorial-profile",
       content:
-        "E por aqui você poderá acessar seu perfil e mudar suas configurações.",
+        "E por aqui você poderá acessar seu perfil e mudar as configurações.",
     },
   ]);
   return (
