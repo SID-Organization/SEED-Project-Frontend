@@ -14,19 +14,16 @@ import Sidebar from "../Sidebar";
 import PathHistory from "../Path-history";
 
 export default function Layout() {
-
-
-
   return (
-      <div>
-        <Header />
-        <div className="flex">
-          <Sidebar />
-          <div className="screen-content w-full h-full mt-14">
-            <PathHistory />
-            <Outlet />
-          </div>
+    <div>
+      <Header />
+      <div className="flex">
+        <Sidebar />
+        <div className="screen-content mt-14 h-full w-full">
+          <PathHistory />
+          <Outlet />
         </div>
       </div>
+    </div>
   );
 }

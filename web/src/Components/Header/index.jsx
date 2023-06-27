@@ -243,84 +243,86 @@ export default function PrimarySearchAppBar() {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Menu
-      sx={{ marginTop: "40px" }}
-      anchorEl={menuAnchoeEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleCloseMenu}
-    >
-      <Link to="/perfil">
-        <MenuItem onClick={handleCloseMenu}>
-          {translate["Seu perfil"]?.[language] ?? "Seu perfil"}
-        </MenuItem>
-      </Link>
-      <Accordion
-        sx={{
-          border: "none",
-          boxShadow: "none",
+    <div id="tutorial-profile">
+      <Menu
+        sx={{ marginTop: "40px" }}
+        anchorEl={menuAnchoeEl}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
         }}
-        expanded={isIdiomsExtended}
-        onClick={() => setIsIdiomsExtended(!isIdiomsExtended)}
+        id={menuId}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={isMenuOpen}
+        onClose={handleCloseMenu}
       >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          className="font-roboto"
+        <Link to="/perfil">
+          <MenuItem onClick={handleCloseMenu}>
+            {translate["Seu perfil"]?.[language] ?? "Seu perfil"}
+          </MenuItem>
+        </Link>
+        <Accordion
+          sx={{
+            border: "none",
+            boxShadow: "none",
+          }}
+          expanded={isIdiomsExtended}
+          onClick={() => setIsIdiomsExtended(!isIdiomsExtended)}
         >
-          <h1 className="font-roboto">
-            {translate["Idioma"]?.[language] ?? "Idioma"}
-          </h1>
-        </AccordionSummary>
-        {flags.map((flag, i) => (
-          <AccordionDetails key={i}>
-            <Button
-              variant="contained"
-              onClick={() => updateLanguage(flag.languageCode)}
-            >
-              <div className="flex w-full items-center">
-                <div className="mr-4">
-                  <img className="w-7" src={flag.src} alt={flag.alt} />
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            className="font-roboto"
+          >
+            <h1 className="font-roboto">
+              {translate["Idioma"]?.[language] ?? "Idioma"}
+            </h1>
+          </AccordionSummary>
+          {flags.map((flag, i) => (
+            <AccordionDetails key={i}>
+              <Button
+                variant="contained"
+                onClick={() => updateLanguage(flag.languageCode)}
+              >
+                <div className="flex w-full items-center">
+                  <div className="mr-4">
+                    <img className="w-7" src={flag.src} alt={flag.alt} />
+                  </div>
+                  <div className="text-start">
+                    <h1 className="ml-1">
+                      {translate[flag.label]?.[language] ?? flag.label}
+                    </h1>
+                  </div>
                 </div>
-                <div className="text-start">
-                  <h1 className="ml-1">
-                    {translate[flag.label]?.[language] ?? flag.label}
-                  </h1>
-                </div>
-              </div>
-            </Button>
-          </AccordionDetails>
-        ))}
-      </Accordion>
-      <MenuItem onClick={handleSystemExit}>
-        {translate["Sair"]?.[language] ?? "Sair"}
-      </MenuItem>
-      <MenuItem
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <FormGroup>
-          <FormControlLabel
-            sx={{ m: 1 }}
-            control={<DarkModeSwitch {...label} />}
-            label=""
-          />
-        </FormGroup>
-      </MenuItem>
-    </Menu>
+              </Button>
+            </AccordionDetails>
+          ))}
+        </Accordion>
+        <MenuItem onClick={handleSystemExit}>
+          {translate["Sair"]?.[language] ?? "Sair"}
+        </MenuItem>
+        <MenuItem
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <FormGroup>
+            <FormControlLabel
+              sx={{ m: 1 }}
+              control={<DarkModeSwitch {...label} />}
+              label=""
+            />
+          </FormGroup>
+        </MenuItem>
+      </Menu>
+    </div>
   );
 
   //  Chat
@@ -473,8 +475,7 @@ export default function PrimarySearchAppBar() {
     setStompClient(over(Sock));
   };
 
-  const onError = (error) => {
-  };
+  const onError = (error) => {};
 
   useEffect(() => {
     if (stompClient) {
@@ -799,112 +800,108 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar
-          position="fixed"
-          sx={{
-            "& .MuiToolbar-root": {
-              zIndex: 20,
-              backgroundColor: "#0075B1",
-              minHeight: "56px",
-            },
-          }}
-        >
-          <Toolbar>
-            <Link to="/demandas" className="cursor-pointer">
-              <img className="h-full w-16" src={WegLogo} alt="" />
-            </Link>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <Box
+      <AppBar
+        position="fixed"
+        sx={{
+          "& .MuiToolbar-root": {
+            zIndex: 20,
+            backgroundColor: "#0075B1",
+            minHeight: "56px",
+          },
+        }}
+      >
+        <Toolbar>
+          <Link to="/demandas" className="cursor-pointer">
+            <img className="h-full w-16" src={WegLogo} alt="" />
+          </Link>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={handleProfileMenuOpen}
+            >
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                color="inherit"
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  borderRadius: "0.5rem",
+                  columnGap: "0.5rem",
                 }}
-                onClick={handleProfileMenuOpen}
               >
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  color="inherit"
-                  sx={{
-                    borderRadius: "0.5rem",
-                    columnGap: "0.5rem",
-                  }}
-                >
-                  <h1 className="flex items-center justify-center text-base">
-                    {user.nomeUsuario}
-                  </h1>
-                  {userAvatar().foto ? (
-                    <Avatar
-                      src={"data:image/png;base64," + userAvatar().src}
-                      sx={{
-                        width: 30,
-                        height: 30,
-                      }}
-                    />
-                  ) : (
-                    <Avatar
-                      sx={{
-                        bgcolor: "#023A67",
-                        width: 30,
-                        height: 30,
-                        fontSize: 14,
-                      }}
-                    >
-                      {userAvatar().src}
-                    </Avatar>
-                  )}
-                </IconButton>
-              </Box>
-              <Tooltip
-                title={translate["Mensagens"]?.[language] ?? "Mensagens"}
-              >
-                <IconButton
-                  size="large"
-                  aria-label="show 4 new mails"
-                  color="inherit"
-                  sx={{
-                    marginLeft: "0.5rem",
-                  }}
-                  onClick={handleMessagesMenuOpen}
-                >
-                  <Badge badgeContent={users.length} color="error">
-                    <MailIcon />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
-              <Tooltip
-                title={translate["Notificações"]?.[language] ?? "Notificações"}
-              >
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                  onClick={handleNotificationsMenuOpen}
-                >
-                  <Badge
-                    badgeContent={
-                      notificationsReceivedByWS &&
-                      notificationsReceivedByWS.length
-                    }
-                    color="error"
+                <h1 className="flex items-center justify-center text-base">
+                  {user.nomeUsuario}
+                </h1>
+                {userAvatar().foto ? (
+                  <Avatar
+                    src={"data:image/png;base64," + userAvatar().src}
+                    sx={{
+                      width: 30,
+                      height: 30,
+                    }}
+                  />
+                ) : (
+                  <Avatar
+                    sx={{
+                      bgcolor: "#023A67",
+                      width: 30,
+                      height: 30,
+                      fontSize: 14,
+                    }}
                   >
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
+                    {userAvatar().src}
+                  </Avatar>
+                )}
+              </IconButton>
             </Box>
-          </Toolbar>
-        </AppBar>
-        {renderMenu}
-        {renderMessages}
-        {renderNotifications}
-      </Box>
+            <Tooltip title={translate["Mensagens"]?.[language] ?? "Mensagens"}>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+                sx={{
+                  marginLeft: "0.5rem",
+                }}
+                onClick={handleMessagesMenuOpen}
+              >
+                <Badge badgeContent={users.length} color="error">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              title={translate["Notificações"]?.[language] ?? "Notificações"}
+            >
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                onClick={handleNotificationsMenuOpen}
+              >
+                <Badge
+                  badgeContent={
+                    notificationsReceivedByWS &&
+                    notificationsReceivedByWS.length
+                  }
+                  color="error"
+                >
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMenu}
+      {renderMessages}
+      {renderNotifications}
     </div>
   );
 }

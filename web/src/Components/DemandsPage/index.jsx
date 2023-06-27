@@ -73,6 +73,13 @@ export default function DemandsPage(props) {
   const [buttonExcelClicked, setButtonExcelClicked] = useState(false);
 
   useEffect(() => {
+    // Fix for "global is not defined" error
+    if (typeof window !== "undefined") {
+      window.global = window;
+    }
+  }, []);
+
+  useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
 
@@ -280,6 +287,9 @@ export default function DemandsPage(props) {
       setCurrentPage(value);
     };
 
+    // const firstDemand =
+    //   showingDemandsPaginated.length > 0 ? showingDemandsPaginated[0] : null;
+
     return (
       <>
         <Grid
@@ -292,20 +302,24 @@ export default function DemandsPage(props) {
           alignContent="center"
           style={{ padding: "0 20px" }}
         >
-          {showingDemandsPaginated &&
-            showingDemandsPaginated.map((demand, i) => {
-              if (demandType == DemandType.DRAFT) {
+          {showingDemandsPaginated.map((demand, i) => {
+            if (demandType === DemandType.DRAFT) {
+              return (
+                <DemandCard
+                  key={i}
+                  demand={demand}
+                  setSelectedDrafts={setSelectedDrafts}
+                />
+              );
+            } else {
+              if (i === 0) {
                 return (
-                  <DemandCard
-                    key={i}
-                    demand={demand}
-                    setSelectedDrafts={setSelectedDrafts}
-                  />
+                  <DemandCard key={i} demand={demand} firstDemand={true} />
                 );
-              } else {
-                return <DemandCard key={i} demand={demand} />;
               }
-            })}
+              return <DemandCard key={i} demand={demand} />;
+            }
+          })}
         </Grid>
 
         <div className="flex w-full justify-center">

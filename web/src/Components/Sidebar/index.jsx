@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 import MuiDrawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -48,9 +48,9 @@ import UserUtils from "../../utils/User-Utils";
 import TranslationJson from "../../API/Translate/components/sidebar.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
+import JoyriderTutorial from "../Joyrider-tutorial";
 
 const openDrawerWidth = 230;
-
 
 const openedMixin = (theme) => ({
   width: openDrawerWidth,
@@ -91,7 +91,6 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Sidebar() {
-
   const location = useLocation();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -107,7 +106,7 @@ export default function Sidebar() {
   const openSidebarIconStyle = { color: "#fff", fontSize: "1.4rem" };
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const sideBarItems = [
     {
@@ -134,7 +133,8 @@ export default function Sidebar() {
       isActiveToUser: true,
     },
     {
-      title: translate["Gerenciar demandas"]?.[language] ?? "Gerenciar demandas",
+      title:
+        translate["Gerenciar demandas"]?.[language] ?? "Gerenciar demandas",
       outlinedIcon: <ManageAccountsOutlinedIcon sx={iconStyle} />,
       fullIcon: <ManageAccountsIcon sx={iconStyle} />,
       hasDivider: true,
@@ -172,7 +172,7 @@ export default function Sidebar() {
       isActiveToUser: !isRoleRequester,
     },
     {
-      title: (translate["Chat"]?.[language] ?? "Chat"),
+      title: translate["Chat"]?.[language] ?? "Chat",
       outlinedIcon: <MessageOutlinedIcon sx={iconStyle} />,
       fullIcon: <MessageIcon sx={iconStyle} />,
       linkTo: "/chat",
@@ -188,14 +188,15 @@ export default function Sidebar() {
   ];
 
   useEffect(() => {
-    const index = sideBarItems.findIndex(item => item.linkTo == location.pathname);
+    const index = sideBarItems.findIndex(
+      (item) => item.linkTo == location.pathname
+    );
     setSelectedPage(index);
-  }, [location])
-
+  }, [location]);
 
   const getSideBarItems = () => {
     return sideBarItems
-      .filter(item => item.isActiveToUser)
+      .filter((item) => item.isActiveToUser)
       .map((item, index) => {
         return (
           <SidebarLink
@@ -209,10 +210,9 @@ export default function Sidebar() {
             linkTo={item.linkTo}
             hasDivider={item.hasDivider}
           />
-        )
+        );
       });
   };
-
 
   const handleDrawerToggle = () => {
     if (!isSidebarOpen && !isSidebarFixed) {
@@ -231,14 +231,14 @@ export default function Sidebar() {
   };
 
   return (
-    <div>
+    <div id="tutorial-sideBar">
       <div
         onMouseEnter={() => setIsSidebarOpen(true)}
-        className="fixed z-20 mt-14 h-[200%] w-1 text-[1px]"
+        className="fixed z-20 h-[200%] w-1 text-[1px]"
       />
       <Drawer
         onMouseLeave={
-          !isSidebarFixed ? () => setIsSidebarOpen(false) : () => { }
+          !isSidebarFixed ? () => setIsSidebarOpen(false) : () => {}
         }
         variant="permanent"
         open={isSidebarOpen}
@@ -278,4 +278,3 @@ export default function Sidebar() {
     </div>
   );
 }
-
