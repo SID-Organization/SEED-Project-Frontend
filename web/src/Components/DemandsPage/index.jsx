@@ -35,6 +35,7 @@ import DemandFilterUtils from "../../utils/DemandFilter-Utils";
 import TranslationJson from "../../API/Translate/components/demandsPage.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
+import ModalFirstLogin from "./Modal-FirstLogin";
 
 export default function DemandsPage(props) {
   const translate = TranslationJson;
@@ -74,7 +75,10 @@ export default function DemandsPage(props) {
 
   const [buttonExcelClicked, setButtonExcelClicked] = useState(false);
 
+  const [userFirstLogin, setUserFirstLogin] = useState(false);
+
   useEffect(() => {
+    setUserFirstLogin(true);
     // Fix for "global is not defined" error
     if (typeof window !== "undefined") {
       window.global = window;
@@ -367,6 +371,10 @@ export default function DemandsPage(props) {
   return (
     <>
       <div>
+        <ModalFirstLogin
+          firstLogin={userFirstLogin}
+          setFirstLogin={setUserFirstLogin}
+        />
         <SubHeader
           setIsListFormat={setIsListFormat}
           isListFormat={isListFormat}

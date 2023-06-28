@@ -260,7 +260,7 @@ export default function DemandCard(props) {
           animation="pulse"
         />
       ) : (
-        <div id="tutorial-demandCard">
+        <div id={props.firstDemand === true && "tutorial-demandCard"}>
           <Card
             sx={{ width: fonts.sm > 14 ? 590 : 520, height: 180 }}
             style={{
@@ -273,7 +273,6 @@ export default function DemandCard(props) {
                 ),
             }}
           >
-            {props.firstDemand === true && <JoyriderTutorial />}
             <div className={classNameGap}>
               <div>
                 <div className="flex items-center justify-between">

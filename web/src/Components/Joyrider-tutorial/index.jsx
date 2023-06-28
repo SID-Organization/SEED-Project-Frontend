@@ -4,6 +4,10 @@ import Joyride from "react-joyride";
 export default function JoyriderTutorial(props) {
   const [tourSteps, setTourSteps] = useState([
     {
+      target: "#tutorial-header",
+      content: "teste",
+    },
+    {
       target: "#tutorial-demandCard",
       content:
         "Este é o card da demanda, onde você poderá ver diversas informações sobre ela. Como título, score, valor, datas e etc.",
@@ -23,6 +27,7 @@ export default function JoyriderTutorial(props) {
         "E por aqui você poderá acessar seu perfil e mudar as configurações.",
     },
   ]);
+
   return (
     <>
       <Joyride
@@ -42,19 +47,19 @@ export default function JoyriderTutorial(props) {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
           },
           spotlight: {
-            backgroundColor: "#d4ecf944",
+            backgroundColor: "#D4ECF944",
           },
           tooltip: {
             backgroundColor: "#FFF",
-            color: "#023a67",
-            borderLeft: "5px solid #023a67",
+            color: "#023A67",
+            borderLeft: "5px solid #023A67",
           },
           buttonClose: {
             display: "none",
           },
           buttonNext: {
             backgroundColor: "#023a67",
-            color: "#fff",
+            color: "#FFF",
             marginLeft: "0.5rem",
           },
           buttonBack: {
@@ -63,7 +68,7 @@ export default function JoyriderTutorial(props) {
             borderRadius: "3px",
           },
           buttonSkip: {
-            color: "#023a67",
+            color: "#023A67",
             fontWeight: "bold",
           },
         }}
