@@ -36,7 +36,7 @@ export default function JoyriderTutorial(props) {
         styles={{
           options: {
             zIndex: 10000,
-            arrowColor: "#333",
+            arrowColor: "#FFF",
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -45,23 +45,26 @@ export default function JoyriderTutorial(props) {
             backgroundColor: "#d4ecf944",
           },
           tooltip: {
-            backgroundColor: "#333",
-            color: "#fff",
+            backgroundColor: "#FFF",
+            color: "#023a67",
+            borderLeft: "5px solid #023a67",
           },
           buttonClose: {
             display: "none",
           },
           buttonNext: {
-            backgroundColor: "#333",
+            backgroundColor: "#023a67",
             color: "#fff",
+            marginLeft: "0.5rem",
           },
           buttonBack: {
-            backgroundColor: "#333",
-            color: "#fff",
+            backgroundColor: "#C9C9C9",
+            color: "#444",
+            borderRadius: "3px",
           },
-          beacon: {
-            backgroundColor: "#333",
-            borderColor: "#333",
+          buttonSkip: {
+            color: "#023a67",
+            fontWeight: "bold",
           },
         }}
       />
