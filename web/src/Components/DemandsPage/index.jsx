@@ -54,7 +54,7 @@ export default function DemandsPage(props) {
   const [dbDemands, setDbDemands] = useState([]);
   const [showingDemands, setShowingDemands] = useState([]);
   const [selectedDrafts, setSelectedDrafts] = useState([]);
-  const [getMyManagements, setGetMyManagements] = useState(false);
+  const [getMyManagements, setGetMyManagements] = useState(true);
 
   //States para filtro
   const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
@@ -75,12 +75,18 @@ export default function DemandsPage(props) {
   const [buttonExcelClicked, setButtonExcelClicked] = useState(false);
 
   useEffect(() => {
+    // Fix for "global is not defined" error
+    if (typeof window !== "undefined") {
+      window.global = window;
+    }
+  }, []);
+
+  useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
     setDemandType(props.DemandType);
-    console.log("props.DemandType: ", props.DemandType);
   }, [props.DemandType]);
 
   const handleCreateExcel = () => {
@@ -175,7 +181,6 @@ export default function DemandsPage(props) {
           })
       }
     }
-    console.log("getMyManagements: ", getMyManagements)
   }, [demandType, getMyManagements]);
 
   useEffect(() => {
@@ -298,6 +303,9 @@ export default function DemandsPage(props) {
       setCurrentPage(value);
     };
 
+    // const firstDemand =
+    //   showingDemandsPaginated.length > 0 ? showingDemandsPaginated[0] : null;
+
     return (
       <>
         {
@@ -322,20 +330,24 @@ export default function DemandsPage(props) {
           alignContent="center"
           style={{ padding: "0 20px" }}
         >
-          {showingDemandsPaginated &&
-            showingDemandsPaginated.map((demand, i) => {
-              if (demandType == DemandType.DRAFT) {
+          {showingDemandsPaginated.map((demand, i) => {
+            if (demandType === DemandType.DRAFT) {
+              return (
+                <DemandCard
+                  key={i}
+                  demand={demand}
+                  setSelectedDrafts={setSelectedDrafts}
+                />
+              );
+            } else {
+              if (i === 0) {
                 return (
-                  <DemandCard
-                    key={i}
-                    demand={demand}
-                    setSelectedDrafts={setSelectedDrafts}
-                  />
+                  <DemandCard key={i} demand={demand} firstDemand={true} />
                 );
-              } else {
-                return <DemandCard key={i} demand={demand} />;
               }
-            })}
+              return <DemandCard key={i} demand={demand} />;
+            }
+          })}
         </Grid>
 
         <div className="flex w-full justify-center">

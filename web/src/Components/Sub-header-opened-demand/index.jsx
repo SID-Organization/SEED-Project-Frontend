@@ -180,8 +180,8 @@ export default function subHeader({ children }) {
   const [anyEmptyField, setAnyEmptyField] = useState(false);
 
   const [
-    isChangeDemandImportanceModalOpen,
-    setIsChangeDemandImportanceModalOpen,
+    isImportanceModalOpen,
+    setIsImportanceModalOpen,
   ] = useState(false);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
@@ -194,10 +194,14 @@ export default function subHeader({ children }) {
   }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
-    DemandService.getDemandById(params.id).then((response) => {
-      setDemand(response);
-    });
+    getOrRefreshDemand();
   }, []);
+
+  const getOrRefreshDemand = () => {
+    DemandService.getDemandById(params.id).then((data) => {
+      setDemand(data);
+    });
+  }
 
   useEffect(() => {
     setDemandImportance(demand?.importanciaDemanda);
@@ -314,7 +318,7 @@ export default function subHeader({ children }) {
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: [""],
-      function: () => setIsChangeDemandImportanceModalOpen(true),
+      function: () => setIsImportanceModalOpen(true),
       key: 8,
     },
   ];
@@ -493,12 +497,13 @@ export default function subHeader({ children }) {
   }
 
   const handleCloseChangeDemandImportanceModal = () => {
-    setIsChangeDemandImportanceModalOpen(false);
+    setIsImportanceModalOpen(false);
   };
 
   const handlePutDemandImportance = () => {
-    console.log("NOVA IMPORTÂNCIA", demandImportance)
     DemandService.updateDemandImportance(demand?.idDemanda, demandImportance)
+    getOrRefreshDemand();
+    setIsImportanceModalOpen(false);
   }
 
 
@@ -506,7 +511,7 @@ export default function subHeader({ children }) {
     <div>
       {/* Modal para alterar a importância da demanda */}
       <Modal
-        open={isChangeDemandImportanceModalOpen}
+        open={isImportanceModalOpen}
         onClose={handleCloseChangeDemandImportanceModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"

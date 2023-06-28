@@ -38,12 +38,14 @@ import ProfileRow from "./Components/Profile-row/index.jsx";
 
 function App() {
   const [user, setUser] = useState(UserUtils.getLoggedUser());
-  const [language, setLanguage] = useState(TranslateUtils.getLanguage() ?? "pt-br");
+  const [language, setLanguage] = useState(
+    TranslateUtils.getLanguage() ?? "pt-br"
+  );
 
   const updateLanguage = (languageCode) => {
     TranslateUtils.setLanguage(languageCode);
     setLanguage(languageCode);
-  }
+  };
 
   const [enableVLibras, setEnableVLibras] = useState(false);
   const [enableTextToVoice, setEnableTextToVoice] = useState(false);
@@ -124,12 +126,17 @@ function App() {
 
             <Route path="propostas" element={<Proposals />} />
 
-            <Route
-              path="propostas/:idDemanda"
-              element={<ProposalDetails />}
-            />
+            <Route path="propostas/:idDemanda" element={<ProposalDetails />} />
 
-            <Route path="perfil" element={<Profile enableVLibras={setEnableVLibras} enableTextToVoice={setEnableTextToVoice} />} />
+            <Route
+              path="perfil"
+              element={
+                <Profile
+                  enableVLibras={setEnableVLibras}
+                  enableTextToVoice={setEnableTextToVoice}
+                />
+              }
+            />
 
             <Route path="chat" element={<Chat />} />
           </Route>
