@@ -1,5 +1,6 @@
 import AxiosAPI from "../../API/AxiosAPI";
 import apiConfig from "../../API/API-config";
+import UserUtils from "../../utils/User-Utils";
 
 const url = `${apiConfig.URL}/demanda`;
 
@@ -41,6 +42,12 @@ const updateDemandStatus = async (demandId, newStatus) => {
   return AxiosAPI.put(`${url}/status/${demandId}`, status, contentType);
 };
 
+const updateDemandImportance = async (demandId, newImportance) => {
+  const importance = { importanciaDemanda: newImportance };
+
+  return AxiosAPI.put(`${url}/alterar-importancia/${demandId}`, importance);
+};
+
 const deleteDemand = async (id) => {
   return AxiosAPI.delete(`${url}/${id}`);
 };
@@ -54,8 +61,8 @@ const deleteListDemands = async (ids) => {
   return AxiosAPI.post(`${url}/delete-lista-demanda`, requestBody);
 };
 
-const deleteAllDrafts = async (userId) => {
-  return AxiosAPI.delete(`${url}/deleta-rascunhos/${userId}`);
+const deleteAllDrafts = async () => {
+  return AxiosAPI.delete(`${url}/deleta-rascunhos/${UserUtils.getLoggedUserId()}`);
 };
 
 const getDemands = async () => {
@@ -113,6 +120,12 @@ const getDemandsToManage = async (userId, userRole) => {
     .catch((error) => error);
 };
 
+const getAllDemandsToManage = async () => {
+  return AxiosAPI.get(`${url}/demanda-aberta`)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
 const openDemandPDF = async (demandId) => {
   // Open in new tab
   window.open(`${url}/pdf-demanda/${demandId}`, "_blank");
@@ -124,7 +137,6 @@ const returnOrCancel = async (demandId, reason, devolution, responsableId) => {
     statusDemanda: devolution ? "EM_EDICAO" : "CANCELADA",
     idResponsavel: { numeroCadastroUsuario: responsableId }
   }
-  console.warn("ReturnCancel RB", requestBody);
   return AxiosAPI.put(`${url}/devolucao-demanda/${demandId}`, requestBody)
 }
 
@@ -133,6 +145,7 @@ export default {
   updateDemand,
   updateBenefitedBUs,
   updateDemandStatus,
+  updateDemandImportance,
   deleteDemand,
   getDemands,
   getDemandById,
@@ -141,6 +154,7 @@ export default {
   getDemandsByStatus,
   getDemandsByRequestorId,
   getDemandsToManage,
+  getAllDemandsToManage,
   getDraftsByRequestorId,
   deleteListDemands,
   deleteAllDrafts,

@@ -121,11 +121,7 @@ export default function ThirdStep({ props }) {
                           <Tooltip title="Deletar arquivo">
                             <DeleteIcon
                               onClick={() => {
-                                const index = props.selectedFiles.findIndex(
-                                  (file) => file?.name === row.name
-                                );
-                                props.selectedFiles.splice(index, 1);
-                                props.setSelectedFiles([...selectedFiles]);
+                                props.setSelectedFiles(props.selectedFiles.filter((file) => file.name != row.name));
                               }}
                               className="ml-5 flex cursor-pointer items-center justify-center text-light-blue-weg"
                             />

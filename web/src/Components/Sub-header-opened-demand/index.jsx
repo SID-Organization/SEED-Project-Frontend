@@ -148,6 +148,8 @@ export default function subHeader({ children }) {
 
   // Demanda buscada do banco de dados
   const [demand, setDemand] = useState();
+  // Importância da demanda
+  const [demandImportance, setDemandImportance] = useState("");
 
   // Dados classificados da demanda
   const [benefitedBus, setBenefitedBus] = useState([]);
@@ -165,7 +167,6 @@ export default function subHeader({ children }) {
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
-  console.log("USER ROLE: ", user.cargoUsuario);
 
   // Modal de aprovação da demanda
   const [openApproveDemandModal, setOpenApproveDemandModal] = useState(false);
@@ -198,6 +199,10 @@ export default function subHeader({ children }) {
     });
   }, []);
 
+  useEffect(() => {
+    setDemandImportance(demand?.importanciaDemanda);
+  }, [demand]);
+
   const navigate = useNavigate();
 
   const getIsDevolution = () => {
@@ -206,7 +211,7 @@ export default function subHeader({ children }) {
       actionOptions.findIndex(
         (o) => o.text === translate["Devolver"][language]
       ) +
-        1
+      1
     );
   };
 
@@ -418,17 +423,19 @@ export default function subHeader({ children }) {
       buSolicitanteDemanda: buSolicitante,
       secaoTIResponsavelDemanda: secaoTiResponsavel,
       tamanhoDemanda: getDemandSize(),
+      analistaResponsavelDemanda: { numeroCadastroUsuario: UserUtils.getLoggedUserId() }
+
     };
 
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {
-          DemandLogService.createDemandLog(
-            "APROVACAO_GERENTE_AREA",
-            demand.idDemanda,
-            "Aprovar",
-            72132
-          );
+          // DemandLogService.createDemandLog(
+          //   "APROVACAO_GERENTE_AREA",
+          //   demand.idDemanda,
+          //   "Aprovar",
+          //   72132
+          // );
           return true;
         }
         return false;
@@ -489,11 +496,11 @@ export default function subHeader({ children }) {
     setIsChangeDemandImportanceModalOpen(false);
   };
 
-  const [demandImportance, setDemandImportance] = useState("");
+  const handlePutDemandImportance = () => {
+    console.log("NOVA IMPORTÂNCIA", demandImportance)
+    DemandService.updateDemandImportance(demand?.idDemanda, demandImportance)
+  }
 
-  const handleChangeDemandImportance = (event) => {
-    setDemandImportance(event.target.value);
-  };
 
   return (
     <div>
@@ -516,7 +523,7 @@ export default function subHeader({ children }) {
               <FormControlImportanceDemand variant="standard">
                 <Select
                   value={demandImportance}
-                  onChange={handleChangeDemandImportance}
+                  onChange={(e) => setDemandImportance(e.target.value)}
                   sx={{
                     borderRadius: "4px",
                     border: "none",
@@ -524,71 +531,86 @@ export default function subHeader({ children }) {
                     backgroundColor: "transparent",
                   }}
                 >
-                  <MenuItem value={"Trivial"}>
-                    <div className="flex items-center justify-start">
-                      <div className="mr-2 h-[0.7rem] w-[0.7rem] rounded-full border-[1px] border-black" />
-                      <p className="font-bold">Trivial</p>
+                  <MenuItem value={"TRIVIAL"}>
+                    <div className="flex items-center justify-between font-bold w-full">
+                      <div className="flex items-center">
+                        <div className="mr-2 h-[0.7rem] w-[0.7rem] rounded-full border-[1px] border-black" />
+                        <p>Trivial</p>
+                      </div>
+                      <p className="text-[10px]">*1</p>
                     </div>
                   </MenuItem>
-                  <MenuItem value={"Minor"}>
-                    <div className="flex items-center justify-start">
-                      <img
-                        src={Minor}
-                        alt="minorimg"
-                        className="mr-2 h-4 w-4"
-                        draggable="false"
-                      />
-                      <p className="font-bold">Minor</p>
+                  <MenuItem value={"MINOR"}>
+                    <div className="flex items-center justify-between font-bold w-full">
+                      <div className="flex items-center">
+                        <img
+                          src={Minor}
+                          alt="minorimg"
+                          className="mr-2 h-4 w-4"
+                          draggable="false"
+                        />
+                        <p>Minor</p>
+                      </div>
+                      <p className="text-[10px]">*2</p>
                     </div>
                   </MenuItem>
                   <MenuItem
-                    value={"Major"}
+                    value={"MAJOR"}
                     disabled={user.cargoUsuario == "ANALISTA"}
                   >
-                    <div className="flex items-center justify-start">
-                      <img
-                        src={Major}
-                        alt="majorimg"
-                        className="mr-2 h-4 w-4"
-                        draggable="false"
-                      />
-                      <p className="font-bold">Major</p>
+                    <div className="flex items-center justify-between font-bold w-full">
+                      <div className="flex items-center">
+                        <img
+                          src={Major}
+                          alt="majorimg"
+                          className="mr-2 h-4 w-4"
+                          draggable="false"
+                        />
+                        <p>Major</p>
+                      </div>
+                      <p className="text-[10px]">*4</p>
                     </div>
                   </MenuItem>
                   <MenuItem
-                    value={"Critical"}
+                    value={"CRITICAL"}
                     disabled={
                       user.cargoUsuario == "ANALISTA" ||
                       user.cargoUsuario == "GERENTE"
                     }
                   >
-                    <div className="flex items-center justify-start">
-                      <img
-                        src={Critical}
-                        alt="criticalimg"
-                        className="mr-2 h-[1.6rem] w-4"
-                        draggable="false"
-                      />
-                      <p className="font-bold">Critical</p>
+                    <div className="flex items-center justify-between font-bold w-full">
+                      <div className="flex items-center">
+                        <img
+                          src={Critical}
+                          alt="criticalimg"
+                          className="mr-2 h-[1.6rem] w-4"
+                          draggable="false"
+                        />
+                        <p>Critical</p>
+                      </div>
+                      <p className="text-[10px]">*16</p>
                     </div>
                   </MenuItem>
                   <MenuItem
-                    value={"Blocker"}
+                    value={"BLOCKER"}
                     disabled={
                       user.cargoUsuario == "ANALISTA" ||
                       user.cargoUsuario == "GERENTE"
                     }
                   >
-                    <div className="flex items-center justify-start">
-                      <RemoveCircleRoundedIcon
-                        sx={{
-                          color: "#b55154",
-                          fontSize: "1.3rem",
-                          marginRight: "6px",
-                          marginLeft: "-2px",
-                        }}
-                      />
-                      <p className="font-bold">Blocker</p>
+                    <div className="flex items-center justify-between font-bold w-full">
+                      <div className="flex items-center">
+                        <RemoveCircleRoundedIcon
+                          sx={{
+                            color: "#b55154",
+                            fontSize: "1.3rem",
+                            marginRight: "6px",
+                            marginLeft: "-2px",
+                          }}
+                        />
+                        <p>Blocker</p>
+                      </div>
+                      <p className="text-[10px]">+100K</p>
                     </div>
                   </MenuItem>
                 </Select>
@@ -597,6 +619,7 @@ export default function subHeader({ children }) {
             <div className="flex items-center justify-center">
               <Button
                 variant="contained"
+                onClick={handlePutDemandImportance}
                 sx={{
                   backgroundColor: "#0075B1",
                   color: "white",
@@ -1042,9 +1065,8 @@ export default function subHeader({ children }) {
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
             placeholder={translate["Procure aqui"][language] ?? "Procure aqui"}
             inputProps={{
-              "aria-label": `${
-                translate["Procure aqui"][language] ?? "Procure aqui"
-              }`,
+              "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"
+                }`,
             }}
           />
         </Paper>

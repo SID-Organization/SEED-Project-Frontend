@@ -178,7 +178,7 @@ export default function CreateDemand({ isEditting }) {
         solicitanteDemanda: {
           numeroCadastroUsuario: user.numeroCadastroUsuario,
         },
-        analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
+        // analistaResponsavelDemanda: { numeroCadastroUsuario: 72131 },
         gerenteDaAreaDemanda: { numeroCadastroUsuario: 72132 },
         gestorResponsavelDemanda: { numeroCadastroUsuario: 72133 },
         beneficiosDemanda: benefitsToSave,
@@ -361,9 +361,6 @@ export default function CreateDemand({ isEditting }) {
       setFilesTableRows(
         selectedFiles.map((file) => createFileRowData(file.name, file.size))
       );
-      if (selectedFiles.length > 0) {
-        handleCreateDemand(false);
-      }
     }
   }, [selectedFiles]);
 

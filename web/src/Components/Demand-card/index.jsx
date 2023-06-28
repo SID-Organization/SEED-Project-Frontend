@@ -249,7 +249,6 @@ export default function DemandCard(props) {
     getLogs();
   }, []);
 
-  console.log("LANGUAGE = ", language);
   return (
     <div className="mb-7 grid items-center justify-center">
       {isDemandLoading ? (

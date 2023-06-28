@@ -23,14 +23,14 @@ export default function subHeader(props) {
   const [language] = useContext(TranslateContext);
 
   return (
-    <div className="mb-10">
+    <div className="mb-5">
       <div className="flex h-[5rem] items-center shadow-page-title-shadow">
         <div className="flex-[2] text-center">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
             {translate[childrenText]?.[language]}
           </h1>
         </div>
-        <div className="flex flex-[1] justify-around gap-10">
+        <div className="flex flex-[1] justify-around items-center gap-10">
           <div className="flex flex-1 items-center justify-end">
             <DemandFilter setFilters={props.setFilters} filters={props.filters}/>
           </div>
@@ -48,8 +48,9 @@ export default function subHeader(props) {
               variant="contained"
               onClick={props.handleCreateExcel}
               sx={{
+                width: "70px",
                 backgroundColor: "#0075B1",
-
+                fontSize: "12px",
                 "&:hover": {
                   backgroundColor: "#2EAC70",
                 },
@@ -77,11 +78,11 @@ export default function subHeader(props) {
                   />
                 </svg>
               ) : (
-                <SaveAltRoundedIcon sx={{ marginRight: "10px" }} />
+                <SaveAltRoundedIcon sx={{ marginRight: "8px", width: "18px" }} />
               )}
               {props.buttonExcelClicked
                 ? translate["Exportando..."]?.[language] ?? "Exportando..."
-                : "Excel"}
+                : "XLSX"}
             </Button>
           </Tooltip>
           <div className="flex flex-1 items-center justify-center">

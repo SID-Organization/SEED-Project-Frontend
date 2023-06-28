@@ -24,11 +24,14 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
 // Renderizador de células normais
-const renderCellTooltip = (params) => (
-  <Tooltip title={params.value} enterDelay={820}>
-    <p className="text-[11px]">{params.value}</p>
+const renderCellTooltip = (params) => {
+  const translate = TranslationJson;
+  let language = TranslateUtils.getLanguage();
+
+  return <Tooltip title={params.value} enterDelay={820}>
+    <p className="text-[11px]">{params.value ?? translate["Indefinido"]?.[language] ?? "Indefinido"}</p>
   </Tooltip>
-);
+};
 
 // Renderizador de células de data
 const renderDateCell = (params) => {
@@ -66,17 +69,17 @@ const getStatusColor = (status) => {
 
 
 export default function WorkflowTable({ demandId }) {
-  
+
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [pageSize, setPageSize] = useState(5);
   const [workFlowData, setWorkFlowData] = useState([]);
   const [workFlowRows, setWorkFlowRows] = useState([]);
-  
+
   const [returnReason, setReturnReason] = useState("");
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
-  
+
   // Busca os dados do workflow da demanda
   useEffect(() => {
     DemandLogService.getDemandLogs(demandId).then((res) => {
@@ -90,7 +93,7 @@ export default function WorkflowTable({ demandId }) {
   useEffect(() => {
     if (!workFlowData) return;
     setWorkFlowRows(() =>
-      workFlowData.map( (wfdata, index) => {
+      workFlowData.map((wfdata, index) => {
 
         console.log("WF DATA", wfdata.acaoFeitaHistorico)
 
@@ -184,9 +187,9 @@ export default function WorkflowTable({ demandId }) {
       headerName: "Obs.",
       renderCell: (params) => {
         if (params.value)
-          return  <Button onClick={() => {setReturnReason(params.value); setIsReturnModalOpen(true)}}>
-                    <TextSnippetRoundedIcon />
-                  </Button>
+          return <Button onClick={() => { setReturnReason(params.value); setIsReturnModalOpen(true) }}>
+            <TextSnippetRoundedIcon />
+          </Button>
         return <p className="text-[11px]">-</p>
       },
       align: "center",
@@ -194,7 +197,7 @@ export default function WorkflowTable({ demandId }) {
       width: 80,
     }
   ];
-  
+
   useEffect(() => {
     console.log("pageSize", pageSize);
   }, [pageSize])

@@ -31,6 +31,7 @@ import TranslationJSON from "../../API/Translate/components/demandFilter.json";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 import SaveFilter from "./SaveFilter";
 import SavedFilters from "./SavedFilters";
+import ForumService from "../../service/Forum-Service";
 
 
 
@@ -62,6 +63,8 @@ export default function DemandFilter(props) {
   const [responsibleAnalyst, setResponsibleAnalyst] = useState("");
   const [responsibleManager, setResponsibleManager] = useState("");
   const [approvalForum, setApprovalForum] = useState("");
+  const [forumOptions, setForumOptions] = useState([]);
+
   const [department, setDepartment] = useState("");
   // Demand size
   const [demandSize, setDemandSize] = useState("");
@@ -90,13 +93,25 @@ export default function DemandFilter(props) {
   function getAndSetUserFilters() {
     FilterService.getUserFilters(UserUtils.getLoggedUserId())
       .then(data => {
-        console.log("User filters: ", data);
         setSavedFilters(data);
       }
       ).catch(err => {
-        console.log("User filters error: ", err);
+        console.warn("User filters error: ", err);
       });
   }
+
+  useEffect(() => {
+    ForumService.getForuns()
+      .then(res => {
+        setForumOptions(res.map(f => (
+          {
+            value: f.comissaoForum.nomeComissao,
+            label: f.comissaoForum.nomeComissao
+          })));
+      }).catch(err => {
+        console.log("Forum options error", err);
+      })
+  }, []);
 
   function handleOpenFilter(event) {
     setAnchorEl(event.currentTarget);
@@ -147,29 +162,10 @@ export default function DemandFilter(props) {
       })
   }
 
-
-  /**
-   * { { filterBy: "nomeSolicitante", value: requester, type: "text" },
-      { filterBy: "nomeGerenteResponsavelDemanda", value: responsibleManager, type: "text" },
-      { filterBy: "nomeAnalistaResponsavel", value: responsibleAnalyst, type: "text" },
-      { filterBy: "codigoPPMDemanda", value: PPMCode, type: "number" },
-      { filterBy: "departamentoDemanda", value: department, type: "text" },
-      { filterBy: "forumDeAprovacaoDemanda", value: approvalForum, type: "text" },
-      { filterBy: "tamanhoDemanda", value: demandSize, type: "text" },
-      { filterBy: "tituloDemanda", value: title, type: "text" },
-      { filterBy: "statusDemanda", value: status, type: "text" },
-      { filterBy: "custoTotalDemanda", value: value, endValue: endValue, type: "between" },
-      { filterBy: "scoreDemanda", value: score, endValue: endScore, type: "between" },
-      { filterBy: "idDemanda", value: requestNumber, type: "number" },} id 
-   */
-
   function selectFilter(id) {
     cleanStates();
-    console.log("ID", id)
     const filterObj = savedFilters.find(f => f.idFiltroDemanda == id);
-    console.log("Filter obj", filterObj);
     const filters = filterObj.filtros;
-    console.log("Filters", filters);
 
     filters.forEach(f => {
       switch (f.filterBy) {
@@ -282,7 +278,7 @@ export default function DemandFilter(props) {
       filterDemands();
     }
   }, [title])
-  
+
   return (
     <ClickAwayListener onClickAway={handleCloseAndFilter}>
       <div>
@@ -409,7 +405,8 @@ export default function DemandFilter(props) {
               />
               <FilterField
                 title={filterTranslate["Fórum de aprovação"]?.[language] ?? "Fórum de aprovação"}
-                type="text"
+                type="select"
+                options={forumOptions}
                 value={approvalForum}
                 setValue={setApprovalForum}
               />

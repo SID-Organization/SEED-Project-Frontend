@@ -5,7 +5,7 @@ import DemandType from "./DemandType-ENUM";
 import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../service/DemandLog-Service";
 import DemandCard from "../Demand-card";
-import { Box, CircularProgress, Fade, Grid, Pagination } from "@mui/material";
+import { Box, CircularProgress, Fade, Grid, IconButton, Pagination } from "@mui/material";
 import DemandsList from "../Demand-card-list";
 
 //Utils
@@ -25,6 +25,7 @@ import MuiButton from "@mui/material/Button";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
+import SwapIcon from '@mui/icons-material/SwapHorizRounded';
 
 // Tools
 import Draggable from "react-draggable";
@@ -53,6 +54,7 @@ export default function DemandsPage(props) {
   const [dbDemands, setDbDemands] = useState([]);
   const [showingDemands, setShowingDemands] = useState([]);
   const [selectedDrafts, setSelectedDrafts] = useState([]);
+  const [getMyManagements, setGetMyManagements] = useState(false);
 
   //States para filtro
   const [filters, setFilters] = useState(DemandFilterUtils.getEmptyFilter());
@@ -137,28 +139,44 @@ export default function DemandsPage(props) {
           console.error("Erro ao obter os rascunhos:", error);
         });
     } else if (demandType === DemandType.MANAGER) {
-      DemandService.getDemandsToManage(
-        user.numeroCadastroUsuario,
-        user.cargoUsuario
-      )
-        .then((data) => {
-          let demandsToManage = data;
-          if (demandsToManage && demandsToManage.length > 0) {
-            setDbDemands(
-              demandsToManage.filter((d) => d.statusDemanda != "RASCUNHO")
-            );
-            setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
-          } else {
-            setDbDemands([]);
-            setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
-          }
-          setIsLoaded(true); // Atualiza o estado de carregamento
-        })
-        .catch((error) => {
-          console.error("Erro ao obter as demandas para gerenciar:", error);
-        });
+
+      if (getMyManagements) {
+        DemandService.getDemandsToManage(
+          user.numeroCadastroUsuario,
+          user.cargoUsuario
+        )
+          .then((data) => {
+            let demandsToManage = data;
+            if (demandsToManage && demandsToManage.length > 0) {
+              setDbDemands(
+                demandsToManage.filter((d) => d.statusDemanda != "RASCUNHO")
+              );
+              setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
+            } else {
+              setDbDemands([]);
+              setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
+            }
+            setIsLoaded(true); // Atualiza o estado de carregamento
+          })
+          .catch((error) => {
+            console.error("Erro ao obter as demandas para gerenciar:", error);
+          });
+      } else {
+        DemandService.getAllDemandsToManage()
+          .then((data) => {
+            if (data && data.length > 0) {
+              setDbDemands(data);
+              setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
+            } else {
+              setDbDemands([]);
+              setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
+            }
+            setIsLoaded(true); // Atualiza o estado de carregamento
+          })
+      }
     }
-  }, [demandType]);
+    console.log("getMyManagements: ", getMyManagements)
+  }, [demandType, getMyManagements]);
 
   useEffect(() => {
     if (dbDemands && dbDemands.length > 0) {
@@ -282,6 +300,18 @@ export default function DemandsPage(props) {
 
     return (
       <>
+        {
+          demandType == DemandType.MANAGER && (
+            <div className="w-full flex items-center justify-end mr-8">
+              <p className="text-sm text-blue-weg">
+                {getMyManagements ? "Minhas gerências" : "Demandas abertas"}
+              </p>
+              <IconButton onClick={() => setGetMyManagements(!getMyManagements)}>
+                <SwapIcon  sx={{color: "#00579D"}}/>
+              </IconButton>
+            </div>
+          )
+        }
         <Grid
           container
           gap={3}
@@ -450,9 +480,9 @@ export default function DemandsPage(props) {
                     "Têm certeza que deseja deletar"}{" "}
                   {selectedDrafts.length > 1
                     ? translate["esses rascunhos?"]?.[language] ??
-                      "esses rascunhos?"
+                    "esses rascunhos?"
                     : translate["esse rascunho?"]?.[language] ??
-                      "esse rascunho?"}
+                    "esse rascunho?"}
                 </p>
               </DialogTitle>
             </div>
@@ -536,9 +566,8 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
-                      selectedDrafts.length > 0 ? "opacity-100" : ""
-                    }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
+                      }`}
                   >
                     {translate["Deletar"]?.[language] ?? "Deletar"}{" "}
                     {"(" + selectedDrafts.length + ")"}{" "}

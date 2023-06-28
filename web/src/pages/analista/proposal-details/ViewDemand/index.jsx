@@ -405,7 +405,7 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto text-light-blue-weg"
                 >
-                  {demand?.analistaResponsavelDemanda.nomeUsuario}
+                  {demand?.analistaResponsavelDemanda?.nomeUsuario ?? "Indefinido"}
                 </h1>
                 <h1
                   style={{ fontSize: fonts.sm }}
