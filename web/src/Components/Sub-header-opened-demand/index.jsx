@@ -1,11 +1,9 @@
-
 import { useContext } from "react";
 import { TranslateContext } from "../../contexts/translate";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
-
 
 //Components
 import Notification from "../../Components/Notification";
@@ -54,6 +52,7 @@ import TranslationJSON from "../../API/Translate/components/subHeaderOpenedDeman
 // Utils
 import UserUtils from "../../utils/User-Utils";
 import FontSizeUtils from "../../utils/FontSize-Utils";
+import ManageAnalysts from "./ManageAnalysts";
 
 // Componentes estilizados
 const styleModal = {
@@ -81,8 +80,6 @@ const styleApproveDemand = {
   boxShadow: 0,
   borderRadius: 2,
 };
-
-
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -147,7 +144,6 @@ export default function subHeader({ children }) {
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
-
   // Modal de aprovação da demanda
   const [openApproveDemandModal, setOpenApproveDemandModal] = useState(false);
 
@@ -159,10 +155,9 @@ export default function subHeader({ children }) {
 
   const [anyEmptyField, setAnyEmptyField] = useState(false);
 
-  const [
-    isImportanceModalOpen,
-    setIsImportanceModalOpen,
-  ] = useState(false);
+  const [isImportanceModalOpen, setIsImportanceModalOpen] = useState(false);
+
+  const [modalManageAnalysts, setModalManageAnalysts] = useState(false);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
@@ -181,7 +176,7 @@ export default function subHeader({ children }) {
     DemandService.getDemandById(params.id).then((data) => {
       setDemand(data);
     });
-  }
+  };
 
   useEffect(() => {
     setDemandImportance(demand?.importanciaDemanda);
@@ -190,13 +185,12 @@ export default function subHeader({ children }) {
   const navigate = useNavigate();
 
   const getIsDevolution = () => {
-    return selectedKey == 5
+    return selectedKey == 5;
     // selectedKey ==
     // actionOptions.findIndex(
     //   (o) => o.text === translate["Devolver"][language]
     // ) +
     // 1
-
   };
 
   const handleOpenModal = () => setOpenModal(true);
@@ -300,6 +294,14 @@ export default function subHeader({ children }) {
       notDemandStatus: [""],
       function: () => setIsImportanceModalOpen(true),
       key: 8,
+    },
+    {
+      text: translate["Gerenciar analistas"][language] ?? "Gerenciar analistas",
+      role: ["ANALISTA", "GERENTE"],
+      demandStatus: ["TODAS"],
+      notDemandStatus: ["RASCUNHO", "CANCELADA"],
+      function: () => setModalManageAnalysts(true),
+      key: 9,
     },
   ];
 
@@ -407,8 +409,9 @@ export default function subHeader({ children }) {
       buSolicitanteDemanda: buSolicitante,
       secaoTIResponsavelDemanda: secaoTiResponsavel,
       tamanhoDemanda: getDemandSize(),
-      analistaResponsavelDemanda: { numeroCadastroUsuario: UserUtils.getLoggedUserId() }
-
+      analistaResponsavelDemanda: {
+        numeroCadastroUsuario: UserUtils.getLoggedUserId(),
+      },
     };
 
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
@@ -481,149 +484,18 @@ export default function subHeader({ children }) {
   };
 
   const handlePutDemandImportance = () => {
-    DemandService.updateDemandImportance(demand?.idDemanda, demandImportance)
+    DemandService.updateDemandImportance(demand?.idDemanda, demandImportance);
     getOrRefreshDemand();
     setIsImportanceModalOpen(false);
-  }
+  };
 
+  const handleCloseManageAnalysts = () => {
+    setModalManageAnalysts(false);
+  };
 
   return (
     <div>
       {/* Modal para alterar a importância da demanda */}
-      {/* <Modal
-        open={isImportanceModalOpen}
-        onClose={handleCloseChangeDemandImportanceModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styleChangeDemandImportance}>
-          <div className="grid items-center justify-center gap-14">
-            <h1
-              style={{ fontSize: fonts.lg }}
-              className="font-semibold text-dark-blue-weg"
-            >
-              {translate["Alterar importância da demanda"][language]}
-            </h1>
-            <div className="flex items-center justify-center">
-              <FormControlImportanceDemand variant="standard">
-                <Select
-                  value={demandImportance}
-                  onChange={(e) => setDemandImportance(e.target.value)}
-                  sx={{
-                    borderRadius: "4px",
-                    border: "none",
-                    width: "10rem",
-                    backgroundColor: "transparent",
-                  }}
-                >
-                  <MenuItem value={"TRIVIAL"}>
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <div className="mr-2 h-[0.7rem] w-[0.7rem] rounded-full border-[1px] border-black" />
-                        <p>Trivial</p>
-                      </div>
-                      <p className="text-[10px]">*1</p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem value={"MINOR"}>
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <img
-                          src={Minor}
-                          alt="minorimg"
-                          className="mr-2 h-4 w-4"
-                          draggable="false"
-                        />
-                        <p>Minor</p>
-                      </div>
-                      <p className="text-[10px]">*2</p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem
-                    value={"MAJOR"}
-                    disabled={user.cargoUsuario == "ANALISTA"}
-                  >
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <img
-                          src={Major}
-                          alt="majorimg"
-                          className="mr-2 h-4 w-4"
-                          draggable="false"
-                        />
-                        <p>Major</p>
-                      </div>
-                      <p className="text-[10px]">*4</p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem
-                    value={"CRITICAL"}
-                    disabled={
-                      user.cargoUsuario == "ANALISTA" ||
-                      user.cargoUsuario == "GERENTE"
-                    }
-                  >
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <img
-                          src={Critical}
-                          alt="criticalimg"
-                          className="mr-2 h-[1.6rem] w-4"
-                          draggable="false"
-                        />
-                        <p>Critical</p>
-                      </div>
-                      <p className="text-[10px]">*16</p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem
-                    value={"BLOCKER"}
-                    disabled={
-                      user.cargoUsuario == "ANALISTA" ||
-                      user.cargoUsuario == "GERENTE"
-                    }
-                  >
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <RemoveCircleRoundedIcon
-                          sx={{
-                            color: "#b55154",
-                            fontSize: "1.3rem",
-                            marginRight: "6px",
-                            marginLeft: "-2px",
-                          }}
-                        />
-                        <p>Blocker</p>
-                      </div>
-                      <p className="text-[10px]">+100K</p>
-                    </div>
-                  </MenuItem>
-                </Select>
-              </FormControlImportanceDemand>
-            </div>
-            <div className="flex items-center justify-center">
-              <Button
-                variant="contained"
-                onClick={handlePutDemandImportance}
-                sx={{
-                  backgroundColor: "#0075B1",
-                  color: "white",
-                  fontSize: "0.8rem",
-                  width: "5rem",
-                  height: "2rem",
-                  borderRadius: "4px",
-                  "&:hover": {
-                    backgroundColor: "#0075B1",
-                    color: "white",
-                  },
-                }}
-              >
-                Aplicar
-              </Button>
-            </div>
-          </div>
-        </Box>
-      </Modal> */}
       <ChangeImportance
         isImportanceModalOpen={isImportanceModalOpen}
         setIsImportanceModalOpen={setIsImportanceModalOpen}
@@ -637,6 +509,14 @@ export default function subHeader({ children }) {
         language={language}
         fonts={fonts}
       />
+
+      <ManageAnalysts
+        isAnalystsModalOpen={modalManageAnalysts}
+        setIsAnalystsModalOpen={setModalManageAnalysts}
+        handleCloseManageAnalysts={handleCloseManageAnalysts}
+        demand={demand}
+      />
+
       {anyEmptyField && (
         <Notification
           message={
@@ -1063,8 +943,9 @@ export default function subHeader({ children }) {
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
             placeholder={translate["Procure aqui"][language] ?? "Procure aqui"}
             inputProps={{
-              "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"
-                }`,
+              "aria-label": `${
+                translate["Procure aqui"][language] ?? "Procure aqui"
+              }`,
             }}
           />
         </Paper>
