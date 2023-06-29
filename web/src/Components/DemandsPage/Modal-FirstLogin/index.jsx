@@ -32,6 +32,12 @@ export default function ModalFirstLogin(props) {
       console.log("Fim do tutorial")
     }
   };
+  
+  const handleCloseTutorial = () => {
+    console.log("Fim do tutorial close")
+    props.setFirstLogin(false);
+    props.setShowTutorial(false);
+  }
 
   return (
     <>
@@ -62,9 +68,7 @@ export default function ModalFirstLogin(props) {
             }
           />
           <Button
-            onClick={() => {
-              props.setFirstLogin(false);
-            }}
+            onClick={() => handleCloseTutorial()}
           >
             Não
           </Button>
