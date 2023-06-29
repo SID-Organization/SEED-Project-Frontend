@@ -13,7 +13,6 @@ export default function ModalFirstLogin(props) {
   const [showAgain, setShowAgain] = useState(true);
   const [checkedButton, setCheckedButton] = useState(false);
   const [showJoyrider, setShowJoyrider] = useState(false);
-  const [closeDialog, setCloseDialog] = useState(false);
 
   useEffect(() => {
     console.log("ShowAgain: ", showAgain);
@@ -22,18 +21,27 @@ export default function ModalFirstLogin(props) {
   const updateStates = () => {
     setShowAgain(!showAgain);
     setCheckedButton(!checkedButton);
-    setCloseDialog(true);
   };
 
   const handleStartTutorial = () => {
     props.setFirstLogin(false);
     setShowJoyrider(true);
+    props.setShowTutorial(true);
+  };
+
+  const handleJoyrideCallback = (data, tourSteps) => {
+    const { index, type } = data;
+
+    if (type === "step:after" && index === tourSteps.length - 1) {
+      props.setShowTutorial(false);
+      props.setFirstLogin(false);
+    }
   };
 
   return (
     <>
       <Dialog
-        open={props.firstLogin}
+        open={props.firstLogin && !props.showTutorial}
         sx={{
           "& .MuiDialog-paper": {
             borderLeft: "5px solid #023a67",
@@ -68,7 +76,11 @@ export default function ModalFirstLogin(props) {
           <Button onClick={handleStartTutorial}>Sim</Button>
         </DialogActions>
       </Dialog>
-      {showJoyrider === true ? <JoyriderTutorial /> : console.log("Fidey")}
+      {showJoyrider ? (
+        <JoyriderTutorial handleJoyrideCallback={handleJoyrideCallback} />
+      ) : (
+        console.log("Fidey")
+      )}
     </>
   );
 }

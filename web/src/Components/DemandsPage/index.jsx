@@ -5,7 +5,17 @@ import DemandType from "./DemandType-ENUM";
 import DemandService from "../../service/Demand-Service";
 import DemandLogService from "../../service/DemandLog-Service";
 import DemandCard from "../Demand-card";
-import { Box, CircularProgress, Fade, Grid, IconButton, Pagination } from "@mui/material";
+import {
+  Box,
+  Card,
+  CircularProgress,
+  Fade,
+  Grid,
+  IconButton,
+  Pagination,
+  Slider,
+  Typography,
+} from "@mui/material";
 import DemandsList from "../Demand-card-list";
 
 //Utils
@@ -25,7 +35,7 @@ import MuiButton from "@mui/material/Button";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
-import SwapIcon from '@mui/icons-material/SwapHorizRounded';
+import SwapIcon from "@mui/icons-material/SwapHorizRounded";
 
 // Tools
 import Draggable from "react-draggable";
@@ -76,6 +86,8 @@ export default function DemandsPage(props) {
   const [buttonExcelClicked, setButtonExcelClicked] = useState(false);
 
   const [userFirstLogin, setUserFirstLogin] = useState(false);
+
+  const [showTutorial, setShowTutorial] = useState(false);
 
   useEffect(() => {
     setUserFirstLogin(true);
@@ -149,7 +161,6 @@ export default function DemandsPage(props) {
           console.error("Erro ao obter os rascunhos:", error);
         });
     } else if (demandType === DemandType.MANAGER) {
-
       if (getMyManagements) {
         DemandService.getDemandsToManage(
           user.numeroCadastroUsuario,
@@ -172,17 +183,16 @@ export default function DemandsPage(props) {
             console.error("Erro ao obter as demandas para gerenciar:", error);
           });
       } else {
-        DemandService.getAllDemandsToManage()
-          .then((data) => {
-            if (data && data.length > 0) {
-              setDbDemands(data);
-              setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
-            } else {
-              setDbDemands([]);
-              setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
-            }
-            setIsLoaded(true); // Atualiza o estado de carregamento
-          })
+        DemandService.getAllDemandsToManage().then((data) => {
+          if (data && data.length > 0) {
+            setDbDemands(data);
+            setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
+          } else {
+            setDbDemands([]);
+            setHasDemands(false); // Atualiza o estado para indicar que não há demandas cadastradas
+          }
+          setIsLoaded(true); // Atualiza o estado de carregamento
+        });
       }
     }
   }, [demandType, getMyManagements]);
@@ -312,18 +322,16 @@ export default function DemandsPage(props) {
 
     return (
       <>
-        {
-          demandType == DemandType.MANAGER && (
-            <div className="w-full flex items-center justify-end mr-8">
-              <p className="text-sm text-blue-weg">
-                {getMyManagements ? "Minhas gerências" : "Demandas abertas"}
-              </p>
-              <IconButton onClick={() => setGetMyManagements(!getMyManagements)}>
-                <SwapIcon  sx={{color: "#00579D"}}/>
-              </IconButton>
-            </div>
-          )
-        }
+        {demandType == DemandType.MANAGER && (
+          <div className="mr-8 flex w-full items-center justify-end">
+            <p className="text-sm text-blue-weg">
+              {getMyManagements ? "Minhas gerências" : "Demandas abertas"}
+            </p>
+            <IconButton onClick={() => setGetMyManagements(!getMyManagements)}>
+              <SwapIcon sx={{ color: "#00579D" }} />
+            </IconButton>
+          </div>
+        )}
         <Grid
           container
           gap={3}
@@ -374,7 +382,10 @@ export default function DemandsPage(props) {
         <ModalFirstLogin
           firstLogin={userFirstLogin}
           setFirstLogin={setUserFirstLogin}
+          showTutorial={showTutorial}
+          setShowTutorial={setShowTutorial}
         />
+
         <SubHeader
           setIsListFormat={setIsListFormat}
           isListFormat={isListFormat}
@@ -389,6 +400,181 @@ export default function DemandsPage(props) {
           {demandType == DemandType.MANAGER && <p>Gerenciar demandas</p>}
         </SubHeader>
       </div>
+      {showTutorial && (
+        <Grid
+          container
+          gap={3}
+          rowGap={1}
+          direction="row"
+          justify="center"
+          alignItems="center"
+          alignContent="center"
+          style={{ padding: "0 20px" }}
+        >
+          <Card
+            id="tutorial-demandCard"
+            sx={{ width: fonts.sm > 14 ? 590 : 520, height: 180 }}
+            style={{
+              boxShadow: "1px 1px 5px 0px #808080db",
+              borderLeft: "7px solid #000",
+            }}
+          >
+            <div className="grid p-2">
+              <div>
+                <div className="flex items-center justify-between">
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: "#023A67",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <span style={{ fontSize: fonts.base }}>Demanda título</span>
+                  </Typography>
+
+                  <Typography
+                    sx={{ mt: 1 }}
+                    color="#675E5E"
+                    fontWeight="bold"
+                    className="flex"
+                  >
+                    <span style={{ fontSize: fonts.sm }} className="mr-1 ">
+                      {translate["Status"]?.[language] ?? "Status"}:
+                    </span>
+                    <span
+                      style={{ fontSize: fonts.sm }}
+                      className="font-medium text-black"
+                    >
+                      Status_Demanda
+                    </span>
+                  </Typography>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="grid">
+                    <Typography
+                      sx={{ mt: 1 }}
+                      color="#675E5E"
+                      fontWeight="bold"
+                      className="flex"
+                    >
+                      <span style={{ fontSize: fonts.sm }} className="mr-1 ">
+                        {translate["Score"]?.[language] ?? "Score"}:
+                      </span>
+                      <span
+                        style={{ fontSize: fonts.sm }}
+                        className="font-medium text-black"
+                      >
+                        424
+                      </span>
+                    </Typography>
+                    <Typography
+                      sx={{ mb: 1.5 }}
+                      color="#675E5E"
+                      fontWeight="bold"
+                      className="flex"
+                    >
+                      <span style={{ fontSize: fonts.sm }} className="mr-1">
+                        {translate["Valor:"]?.[language] ?? "Valor:"}
+                      </span>
+                      <span
+                        style={{ fontSize: fonts.sm }}
+                        className="font-medium text-black"
+                      >
+                        100.000,00
+                      </span>
+                    </Typography>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <Typography
+                      sx={{ mb: 1.5 }}
+                      color="#675E5E"
+                      fontWeight="bold"
+                      className="flex"
+                    >
+                      <span
+                        style={{ fontSize: fonts.sm }}
+                        className="mr-1 flex items-center justify-center  text-black"
+                      >
+                        {translate["Progresso:"]?.[language] ?? "Progresso:"}
+                      </span>
+                      <span className="grid">
+                        <Box className="flex items-center justify-center ">
+                          <Slider
+                            aria-label="Temperature"
+                            defaultValue={44}
+                            disabled
+                            style={{
+                              color: "#000",
+                            }}
+                            sx={{
+                              height: 16,
+                              width: 120,
+                              color: "#000",
+                              "& .MuiSlider-thumb": {
+                                display: "none",
+                              },
+                            }}
+                          />
+                        </Box>
+                      </span>
+                      <span
+                        style={{ fontSize: fonts.xs }}
+                        className="ml-1 flex items-center justify-end  text-black"
+                      >
+                        44%
+                      </span>
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <div className="ml-1 mr-1 flex items-center justify-start gap-2">
+                  <div className="flex">
+                    <Typography
+                      color="#675E5E"
+                      fontWeight="bold"
+                      className="flex"
+                    >
+                      <span style={{ fontSize: fonts.sm }}>
+                        {translate["De:"]?.[language] ?? "De:"}{" "}
+                      </span>
+                    </Typography>
+                    <Typography
+                      color="black"
+                      fontWeight="bold"
+                      className="flex"
+                    >
+                      <span style={{ fontSize: fonts.sm }} className="ml-1">
+                        04/04/2023
+                      </span>
+                    </Typography>
+                  </div>
+                  <div className="flex">
+                    <Typography
+                      color="#675E5E"
+                      fontWeight="bold"
+                      className="flex"
+                    >
+                      <span style={{ fontSize: fonts.sm }}>
+                        {translate["Até:"]?.[language] ?? "Até:"}{" "}
+                      </span>
+                    </Typography>
+                    <Typography
+                      color="black"
+                      fontWeight="bold"
+                      className="flex"
+                    >
+                      <span style={{ fontSize: fonts.sm }} className="ml-1">
+                        24/08/2023
+                      </span>
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </Grid>
+      )}
       {/* DRAFT CASE */}
       {demandType == DemandType.DRAFT && (
         <div className="ml-5 flex items-center">
@@ -500,9 +686,9 @@ export default function DemandsPage(props) {
                     "Têm certeza que deseja deletar"}{" "}
                   {selectedDrafts.length > 1
                     ? translate["esses rascunhos?"]?.[language] ??
-                    "esses rascunhos?"
+                      "esses rascunhos?"
                     : translate["esse rascunho?"]?.[language] ??
-                    "esse rascunho?"}
+                      "esse rascunho?"}
                 </p>
               </DialogTitle>
             </div>
@@ -586,8 +772,9 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
-                      }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
+                      selectedDrafts.length > 0 ? "opacity-100" : ""
+                    }`}
                   >
                     {translate["Deletar"]?.[language] ?? "Deletar"}{" "}
                     {"(" + selectedDrafts.length + ")"}{" "}
@@ -609,18 +796,20 @@ export default function DemandsPage(props) {
               getDemandsGrid()
             )
           ) : (
-            <div className="flex h-[65vh] items-center justify-around">
-              <NoContent isManager={!(demandType == DemandType.MANAGER)}>
-                <div style={{ fontSize: fonts.xl }}>
-                  {demandType == DemandType.DEMAND &&
-                    translate["Nenhuma demanda encontrada!"]?.[language]}
-                  {demandType == DemandType.DRAFT &&
-                    translate["Nenhum rascunho encontrado!"]?.[language]}
-                  {demandType == DemandType.MANAGER &&
-                    translate["Nenhuma demanda para gerenciar!"]?.[language]}
-                </div>
-              </NoContent>
-            </div>
+            !showTutorial && (
+              <div className="flex h-[65vh] items-center justify-around">
+                <NoContent isManager={!(demandType == DemandType.MANAGER)}>
+                  <div style={{ fontSize: fonts.xl }}>
+                    {demandType == DemandType.DEMAND &&
+                      translate["Nenhuma demanda encontrada!"]?.[language]}
+                    {demandType == DemandType.DRAFT &&
+                      translate["Nenhum rascunho encontrado!"]?.[language]}
+                    {demandType == DemandType.MANAGER &&
+                      translate["Nenhuma demanda para gerenciar!"]?.[language]}
+                  </div>
+                </NoContent>
+              </div>
+            )
           )
         ) : (
           <div className="flex h-[71vh] items-center justify-around">

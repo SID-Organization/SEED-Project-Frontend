@@ -38,6 +38,9 @@ export default function JoyriderTutorial(props) {
         showSkipButton={true}
         disableScrolling={true}
         placement={"top"}
+        callback={(data) => {
+          props.handleJoyrideCallback(data, tourSteps);
+        }}
         styles={{
           options: {
             zIndex: 10000,
