@@ -1,12 +1,6 @@
 // React
-import React, { useState } from "react";
+import React from "react";
 import { Outlet } from "react-router";
-
-// Context
-import { TranslateContext } from "../../contexts/translate";
-
-// Utils
-import TranslateUtils from "../../utils/Translate-Utils";
 
 // Components
 import Header from "../Header";

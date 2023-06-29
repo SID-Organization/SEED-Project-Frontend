@@ -1,15 +1,16 @@
+
+import { useContext } from "react";
+import { TranslateContext } from "../../contexts/translate";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 
-//IMGS
-import Minor from "../../assets/demand-importance-icons/Minor.png";
-import Major from "../../assets/demand-importance-icons/Major.png";
-import Critical from "../../assets/demand-importance-icons/Critical.png";
 
 //Components
 import Notification from "../../Components/Notification";
+import ReturnReasonModal from "../ReturnReason-Modal";
+import ChangeImportance from "./ChangeImportance";
 
 // MUI
 import Button from "@mui/material/Button";
@@ -29,12 +30,11 @@ import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Select from "@mui/material/Select";
-import { Badge, InputLabel, Typography } from "@mui/material";
+import { Badge, InputLabel } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
 import MuiAutocomplete from "@mui/material/Autocomplete";
 
 // Icons
-import DoneIcon from "@mui/icons-material/Done";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -50,16 +50,10 @@ import DemandLogService from "../../service/DemandLog-Service";
 import BusinessUnityService from "../../service/BusinessUnity-Service";
 import RespITSectionService from "../../service/ResponsableITSection-Service";
 
+import TranslationJSON from "../../API/Translate/components/subHeaderOpenedDemand.json";
 // Utils
 import UserUtils from "../../utils/User-Utils";
-import TranslationJSON from "../../API/Translate/components/subHeaderOpenedDemand.json";
-import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import FontSizeUtils from "../../utils/FontSize-Utils";
-
-import ReturnReasonModal from "../ReturnReason-Modal";
-import { useContext } from "react";
-import { TranslateContext } from "../../contexts/translate";
-import ProposalService from "../../service/Proposal-Service";
 
 // Componentes estilizados
 const styleModal = {
@@ -88,21 +82,7 @@ const styleApproveDemand = {
   borderRadius: 2,
 };
 
-const styleChangeDemandImportance = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "23rem",
-  height: "15rem",
-  backgroundColor: "#fff",
-  boxShadow: 0,
-  borderRadius: 2,
-  borderLeft: "5px solid #023A67",
-};
+
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -210,13 +190,13 @@ export default function subHeader({ children }) {
   const navigate = useNavigate();
 
   const getIsDevolution = () => {
-    return (
-      selectedKey ==
-      actionOptions.findIndex(
-        (o) => o.text === translate["Devolver"][language]
-      ) +
-      1
-    );
+    return selectedKey == 5
+    // selectedKey ==
+    // actionOptions.findIndex(
+    //   (o) => o.text === translate["Devolver"][language]
+    // ) +
+    // 1
+
   };
 
   const handleOpenModal = () => setOpenModal(true);
@@ -510,7 +490,7 @@ export default function subHeader({ children }) {
   return (
     <div>
       {/* Modal para alterar a importância da demanda */}
-      <Modal
+      {/* <Modal
         open={isImportanceModalOpen}
         onClose={handleCloseChangeDemandImportanceModal}
         aria-labelledby="modal-modal-title"
@@ -643,7 +623,20 @@ export default function subHeader({ children }) {
             </div>
           </div>
         </Box>
-      </Modal>
+      </Modal> */}
+      <ChangeImportance
+        isImportanceModalOpen={isImportanceModalOpen}
+        setIsImportanceModalOpen={setIsImportanceModalOpen}
+        demandImportance={demandImportance}
+        setDemandImportance={setDemandImportance}
+        handleCloseChangeDemandImportanceModal={
+          handleCloseChangeDemandImportanceModal
+        }
+        handlePutDemandImportance={handlePutDemandImportance}
+        translate={translate}
+        language={language}
+        fonts={fonts}
+      />
       {anyEmptyField && (
         <Notification
           message={
