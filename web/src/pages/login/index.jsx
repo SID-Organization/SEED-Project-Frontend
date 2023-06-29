@@ -20,6 +20,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import LoginService from "../../service/Login-Service";
 import UserUtils from "../../utils/User-Utils";
 import FontSizeUtils from "../../utils/FontSize-Utils";
+import { Co2Sharp } from "@mui/icons-material";
 
 export default function Login(props) {
   const [openNotification, setOpenNotification] = useState(false);
@@ -61,7 +62,12 @@ export default function Login(props) {
         if (!auth) return;
         const loggedUser = UserUtils.getUserFromCookie();
         localStorage.setItem("user", JSON.stringify(loggedUser));
-        localStorage.setItem("configs", JSON.stringify({ language: "pt-br" }));
+        localStorage.setItem("configs", JSON.stringify(
+          {
+            language: "pt-br",
+            first_login: loggedUser.tutorialUsuario
+          }
+        ));
         FontSizeUtils.setFontSize();
         props.setUser(loggedUser);
       });

@@ -26,10 +26,16 @@ const getUserFromCookie = () => {
   return user;
 };
 
+const getLoggedUserIsFirstLogin = () => {
+  const configs = JSON.parse(localStorage.getItem("configs"));
+  return configs.first_login;
+};
+
 export default {
   getLoggedUser,
   getLoggedUserId,
   getLoggedUserRole,
   logUserOut,
   getUserFromCookie,
+  getLoggedUserIsFirstLogin
 };

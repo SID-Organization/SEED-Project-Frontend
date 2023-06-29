@@ -10,17 +10,11 @@ import {
 import { useEffect, useState } from "react";
 
 export default function ModalFirstLogin(props) {
-  const [showAgain, setShowAgain] = useState(true);
-  const [checkedButton, setCheckedButton] = useState(false);
+  const [notShowAgain, setNotShowAgain] = useState(false);
   const [showJoyrider, setShowJoyrider] = useState(false);
 
-  useEffect(() => {
-    console.log("ShowAgain: ", showAgain);
-  }, [showAgain]);
-
   const updateStates = () => {
-    setShowAgain(!showAgain);
-    setCheckedButton(!checkedButton);
+    setNotShowAgain(!notShowAgain);
   };
 
   const handleStartTutorial = () => {
@@ -35,6 +29,7 @@ export default function ModalFirstLogin(props) {
     if (type === "step:after" && index === tourSteps.length - 1) {
       props.setShowTutorial(false);
       props.setFirstLogin(false);
+      console.log("Fim do tutorial")
     }
   };
 
@@ -60,7 +55,7 @@ export default function ModalFirstLogin(props) {
             labelPlacement="start"
             control={
               <Checkbox
-                checked={checkedButton}
+                checked={notShowAgain}
                 onChange={updateStates}
                 aria-label="asdasd"
               />
@@ -76,10 +71,8 @@ export default function ModalFirstLogin(props) {
           <Button onClick={handleStartTutorial}>Sim</Button>
         </DialogActions>
       </Dialog>
-      {showJoyrider ? (
+      {showJoyrider && (
         <JoyriderTutorial handleJoyrideCallback={handleJoyrideCallback} />
-      ) : (
-        console.log("Fidey")
       )}
     </>
   );
