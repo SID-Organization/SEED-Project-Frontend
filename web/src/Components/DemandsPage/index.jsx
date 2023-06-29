@@ -90,7 +90,7 @@ export default function DemandsPage(props) {
   const [showTutorial, setShowTutorial] = useState(false);
 
   useEffect(() => {
-    setUserFirstLogin(true);
+    setUserFirstLogin(UserUtils.getLoggedUserIsFirstLogin());
     // Fix for "global is not defined" error
     if (typeof window !== "undefined") {
       window.global = window;
@@ -125,7 +125,7 @@ export default function DemandsPage(props) {
     return () => clearTimeout(timer);
   };
 
-  // Pegar as respectivas demandas
+  // Pegar as respectivas demandas   
   useEffect(() => {
     if (demandType === DemandType.DEMAND) {
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario)
