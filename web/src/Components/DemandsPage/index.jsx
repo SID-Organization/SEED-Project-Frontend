@@ -325,9 +325,11 @@ export default function DemandsPage(props) {
         {demandType == DemandType.MANAGER && (
           <div className="mr-8 flex w-full items-center justify-end">
             <p className="text-sm text-blue-weg">
-              {getMyManagements ? "Minhas gerências" : "Demandas abertas"}
+              {getMyManagements ?
+                translate["Minhas gerências"]?.[language] ?? "Minhas gerências"
+                : translate["Demandas abertas"]?.[language] ?? "Demandas abertas"}
             </p>
-            <IconButton onClick={() => setGetMyManagements(!getMyManagements)}>
+            <IconButton sx={{ marginLeft: '6px'}} onClick={() => setGetMyManagements(!getMyManagements)}>
               <SwapIcon sx={{ color: "#00579D" }} />
             </IconButton>
           </div>
@@ -500,7 +502,7 @@ export default function DemandsPage(props) {
                       <span className="grid">
                         <Box className="flex items-center justify-center ">
                           <Slider
-                            aria-label="Temperature"
+                            aria-label="Static card"
                             defaultValue={44}
                             disabled
                             style={{
@@ -686,9 +688,9 @@ export default function DemandsPage(props) {
                     "Têm certeza que deseja deletar"}{" "}
                   {selectedDrafts.length > 1
                     ? translate["esses rascunhos?"]?.[language] ??
-                      "esses rascunhos?"
+                    "esses rascunhos?"
                     : translate["esse rascunho?"]?.[language] ??
-                      "esse rascunho?"}
+                    "esse rascunho?"}
                 </p>
               </DialogTitle>
             </div>
@@ -772,9 +774,8 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
-                      selectedDrafts.length > 0 ? "opacity-100" : ""
-                    }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
+                      }`}
                   >
                     {translate["Deletar"]?.[language] ?? "Deletar"}{" "}
                     {"(" + selectedDrafts.length + ")"}{" "}

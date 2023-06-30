@@ -75,7 +75,6 @@ export default function DemandCard(props) {
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
-  const [data, setData] = useState(null);
   const [isDemandLoading, setIsDemandLoading] = useState(false);
   const [openReasonOfCancellation, setOpenReasonOfCancellation] =
     useState(false);
@@ -205,13 +204,13 @@ export default function DemandCard(props) {
     return percent;
   }
 
+
   const getData = async () => {
     setIsDemandLoading(true);
     const response = await fetch(
       "https://jsonplaceholder.typicode.com/todos/1"
     );
     const data = await response.json();
-    setData(data);
     setIsDemandLoading(false);
   };
 
@@ -387,16 +386,11 @@ export default function DemandCard(props) {
                       <span className="grid">
                         <Box className="flex items-center justify-center ">
                           <Slider
-                            aria-label="Temperature"
-                            defaultValue={getPercents}
+                            aria-label="Demand progress"
+                            defaultValue={0}
+                            value={getPercents()}
                             getAriaValueText={valuetext}
                             disabled
-                            style={{
-                              color: DemandUtils.getDemandStatusColorByRole(
-                                props.demand.statusDemanda,
-                                user.cargoUsuario
-                              ),
-                            }}
                             sx={{
                               height: 16,
                               width: 120,

@@ -8,6 +8,24 @@
     "fr": "Mes demandes",
     "it": "Le mie richieste"
   },
+  "Minhas gerências": {
+    "pt-br": "Minhas gerências",
+    "en-us": "My managements",
+    "de": "Meine Verwaltungen",
+    "zh-cn": "我的管理",
+    "es": "Mis gestiones",
+    "fr": "Mes gestions",
+    "it": "Le mie gestioni"
+  },
+  "Demandas abertas": {
+    "pt-br": "Demandas abertas",
+    "en-us": "Open demands",
+    "de": "Offene Anfragen",
+    "zh-cn": "打开需求",
+    "es": "Demandas abiertas",
+    "fr": "Demandes ouvertes",
+    "it": "Richieste aperte"
+  },
   "Gerenciar demandas": {
     "pt-br": "Gerenciar demandas",
     "en-us": "Manage demands",

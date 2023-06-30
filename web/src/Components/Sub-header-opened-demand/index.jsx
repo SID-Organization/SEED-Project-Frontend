@@ -30,7 +30,7 @@ import Modal from "@mui/material/Modal";
 import MuiTextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Select from "@mui/material/Select";
-import { Badge, InputLabel } from "@mui/material";
+import { Badge, Dialog, InputLabel } from "@mui/material";
 import MuiFormControl from "@mui/material/FormControl";
 import MuiAutocomplete from "@mui/material/Autocomplete";
 
@@ -62,8 +62,10 @@ const styleModal = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1150,
+  height: 600,
   bgcolor: "background.paper",
-  borderRadius: "0.125rem",
+  borderRadius: "5px",
+  padding: "12px",
   boxShadow: 24,
 };
 
@@ -141,12 +143,13 @@ export default function subHeader({ children }) {
   const [businessUnits, setBusinessUnits] = useState([]);
   const [responsableITSections, setResponsableITSections] = useState([]);
 
+  // Demandas similares
+
   // Motivo da devolução modal
   const [isReasonOfModalOpen, setIsReasonOfModalOpen] = useState(false);
 
   // Usuário logado
   const [user, setUser] = useState(UserUtils.getLoggedUser());
-
 
   // Modal de aprovação da demanda
   const [openApproveDemandModal, setOpenApproveDemandModal] = useState(false);
@@ -174,6 +177,10 @@ export default function subHeader({ children }) {
   }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
+    // Get similar demands
+  }, [])
+
+  useEffect(() => {
     getOrRefreshDemand();
   }, []);
 
@@ -193,7 +200,7 @@ export default function subHeader({ children }) {
     return selectedKey == 5
     // selectedKey ==
     // actionOptions.findIndex(
-    //   (o) => o.text === translate["Devolver"][language]
+    //   (o) => o.text === translate["Devolver"]?.[language]
     // ) +
     // 1
 
@@ -202,6 +209,11 @@ export default function subHeader({ children }) {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false);
+    // Clear states
+    setClassifyDemandSize("");
+    setRequesterBu("");
+    setResponsableSection("");
+    setBenefitedBus([]);
   };
 
   const handleOpenApproveDemand = () => setOpenApproveDemandModal(true);
@@ -228,7 +240,7 @@ export default function subHeader({ children }) {
 
   const actionOptions = [
     {
-      text: translate["Classificar demanda"][language] ?? "Classificar demanda",
+      text: translate["Classificar demanda"]?.[language] ?? "Classificar demanda",
       role: ["ANALISTA"],
       demandStatus: ["ABERTA"],
       notDemandStatus: [""],
@@ -236,7 +248,7 @@ export default function subHeader({ children }) {
       key: 1,
     },
     {
-      text: translate["Aprovar"][language] ?? "Aprovar",
+      text: translate["Aprovar"]?.[language] ?? "Aprovar",
       role: ["GERENTE", "GESTOR_TI"],
       demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
       notDemandStatus: [""],
@@ -244,7 +256,7 @@ export default function subHeader({ children }) {
       key: 2,
     },
     {
-      text: translate["Acessar proposta"][language] ?? "Acessar proposta",
+      text: translate["Acessar proposta"]?.[language] ?? "Acessar proposta",
       role: ["ANALISTA", "GESTOR_TI"],
       demandStatus: ["PROPOSTA_EM_ELABORACAO"],
       notDemandStatus: [""],
@@ -252,7 +264,7 @@ export default function subHeader({ children }) {
       key: 3,
     },
     {
-      text: translate["Ver proposta"][language] ?? "Ver proposta",
+      text: translate["Ver proposta"]?.[language] ?? "Ver proposta",
       role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: [
         "PROPOSTA_PRONTA",
@@ -269,7 +281,7 @@ export default function subHeader({ children }) {
       key: 4,
     },
     {
-      text: translate["Devolver"][language] ?? "Devolver",
+      text: translate["Devolver"]?.[language] ?? "Devolver",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: ["EM_EDICAO", "CANCELADA"],
@@ -278,7 +290,7 @@ export default function subHeader({ children }) {
     },
 
     {
-      text: translate["Recusar"][language] ?? "Recusar",
+      text: translate["Recusar"]?.[language] ?? "Recusar",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: ["EM_EDICAO", "CANCELADA"],
@@ -286,7 +298,7 @@ export default function subHeader({ children }) {
       key: 6,
     },
     {
-      text: translate["Alterar status"][language] ?? "Alterar status",
+      text: translate["Alterar status"]?.[language] ?? "Alterar status",
       role: ["ANALISTA"],
       demandStatus: ["TODAS"],
       notDemandStatus: [""],
@@ -294,7 +306,7 @@ export default function subHeader({ children }) {
       key: 7,
     },
     {
-      text: translate["Alterar importância"][language] ?? "Alterar importância",
+      text: translate["Alterar importância"]?.[language] ?? "Alterar importância",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: [""],
@@ -305,28 +317,28 @@ export default function subHeader({ children }) {
 
   const demandSizes = [
     {
-      text: translate["Muito grande"][language] ?? "Muito grande",
-      description: "Acima de 3000h",
+      text: translate["Muito grande"]?.[language] ?? "Muito grande",
+      description: "3000h +",
       key: 1,
     },
     {
-      text: translate["Grande"][language] ?? "Grande",
-      description: "Entre 1001h e 3000h",
+      text: translate["Grande"]?.[language] ?? "Grande",
+      description: "1000h +",
       key: 2,
     },
     {
-      text: translate["Média"][language] ?? "Média",
-      description: "Entre 301h e 1000h",
+      text: translate["Média"]?.[language] ?? "Média",
+      description: "300h +",
       key: 3,
     },
     {
-      text: translate["Pequena"][language] ?? "Pequena",
-      description: "Entre 41h e 300h",
+      text: translate["Pequena"]?.[language] ?? "Pequena",
+      description: "40h +",
       key: 4,
     },
     {
-      text: translate["Muito pequena"][language] ?? "Muito pequena",
-      description: "Entre 1h - 40h",
+      text: translate["Muito pequena"]?.[language] ?? "Muito pequena",
+      description: "1h +",
       key: 5,
     },
   ];
@@ -490,140 +502,6 @@ export default function subHeader({ children }) {
   return (
     <div>
       {/* Modal para alterar a importância da demanda */}
-      {/* <Modal
-        open={isImportanceModalOpen}
-        onClose={handleCloseChangeDemandImportanceModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styleChangeDemandImportance}>
-          <div className="grid items-center justify-center gap-14">
-            <h1
-              style={{ fontSize: fonts.lg }}
-              className="font-semibold text-dark-blue-weg"
-            >
-              {translate["Alterar importância da demanda"][language]}
-            </h1>
-            <div className="flex items-center justify-center">
-              <FormControlImportanceDemand variant="standard">
-                <Select
-                  value={demandImportance}
-                  onChange={(e) => setDemandImportance(e.target.value)}
-                  sx={{
-                    borderRadius: "4px",
-                    border: "none",
-                    width: "10rem",
-                    backgroundColor: "transparent",
-                  }}
-                >
-                  <MenuItem value={"TRIVIAL"}>
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <div className="mr-2 h-[0.7rem] w-[0.7rem] rounded-full border-[1px] border-black" />
-                        <p>Trivial</p>
-                      </div>
-                      <p className="text-[10px]">*1</p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem value={"MINOR"}>
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <img
-                          src={Minor}
-                          alt="minorimg"
-                          className="mr-2 h-4 w-4"
-                          draggable="false"
-                        />
-                        <p>Minor</p>
-                      </div>
-                      <p className="text-[10px]">*2</p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem
-                    value={"MAJOR"}
-                    disabled={user.cargoUsuario == "ANALISTA"}
-                  >
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <img
-                          src={Major}
-                          alt="majorimg"
-                          className="mr-2 h-4 w-4"
-                          draggable="false"
-                        />
-                        <p>Major</p>
-                      </div>
-                      <p className="text-[10px]">*4</p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem
-                    value={"CRITICAL"}
-                    disabled={
-                      user.cargoUsuario == "ANALISTA" ||
-                      user.cargoUsuario == "GERENTE"
-                    }
-                  >
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <img
-                          src={Critical}
-                          alt="criticalimg"
-                          className="mr-2 h-[1.6rem] w-4"
-                          draggable="false"
-                        />
-                        <p>Critical</p>
-                      </div>
-                      <p className="text-[10px]">*16</p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem
-                    value={"BLOCKER"}
-                    disabled={
-                      user.cargoUsuario == "ANALISTA" ||
-                      user.cargoUsuario == "GERENTE"
-                    }
-                  >
-                    <div className="flex items-center justify-between font-bold w-full">
-                      <div className="flex items-center">
-                        <RemoveCircleRoundedIcon
-                          sx={{
-                            color: "#b55154",
-                            fontSize: "1.3rem",
-                            marginRight: "6px",
-                            marginLeft: "-2px",
-                          }}
-                        />
-                        <p>Blocker</p>
-                      </div>
-                      <p className="text-[10px]">+100K</p>
-                    </div>
-                  </MenuItem>
-                </Select>
-              </FormControlImportanceDemand>
-            </div>
-            <div className="flex items-center justify-center">
-              <Button
-                variant="contained"
-                onClick={handlePutDemandImportance}
-                sx={{
-                  backgroundColor: "#0075B1",
-                  color: "white",
-                  fontSize: "0.8rem",
-                  width: "5rem",
-                  height: "2rem",
-                  borderRadius: "4px",
-                  "&:hover": {
-                    backgroundColor: "#0075B1",
-                    color: "white",
-                  },
-                }}
-              >
-                Aplicar
-              </Button>
-            </div>
-          </div>
-        </Box>
-      </Modal> */}
       <ChangeImportance
         isImportanceModalOpen={isImportanceModalOpen}
         setIsImportanceModalOpen={setIsImportanceModalOpen}
@@ -640,7 +518,7 @@ export default function subHeader({ children }) {
       {anyEmptyField && (
         <Notification
           message={
-            translate["Preencha todos os campos!"][language] ??
+            translate["Preencha todos os campos!"]?.[language] ??
             "Preencha todos os campos!"
           }
           severity="warning"
@@ -649,7 +527,7 @@ export default function subHeader({ children }) {
       {notificationClassifiedDemand && (
         <Notification
           message={
-            translate["Demanda classificada com sucesso!"][language] ??
+            translate["Demanda classificada com sucesso!"]?.[language] ??
             "Demanda classificada com sucesso!"
           }
           severity="success"
@@ -658,7 +536,7 @@ export default function subHeader({ children }) {
       {openNotification && (
         <Notification
           message={
-            translate["Demanda aprovada com sucesso!"][language] ??
+            translate["Demanda aprovada com sucesso!"]?.[language] ??
             "Demanda aprovada com sucesso"
           }
           severity="success"
@@ -687,7 +565,7 @@ export default function subHeader({ children }) {
                 style={{ fontSize: fonts.lg }}
                 className="font-semibold text-light-blue-weg"
               >
-                {translate["Deseja aprovar a demanda?"][language]}
+                {translate["Deseja aprovar a demanda?"]?.[language]}
               </h1>
             </div>
             <div className="flex items-center justify-around">
@@ -704,7 +582,7 @@ export default function subHeader({ children }) {
                 }}
                 onClick={handleCloseApproveDemand}
               >
-                {translate["Cancelar"][language]}
+                {translate["Cancelar"]?.[language]}
               </Button>
               <Button
                 variant="contained"
@@ -719,7 +597,7 @@ export default function subHeader({ children }) {
                 }}
                 onClick={handleApproveDemand}
               >
-                {translate["Aprovar"][language]}
+                {translate["Aprovar"]?.[language]}
               </Button>
             </div>
           </div>
@@ -736,189 +614,174 @@ export default function subHeader({ children }) {
 
       {/* Modal para inserir as informações da demanda */}
       <Modal
-        open={openModal}
+        open={openModal} //openModal
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={styleModal}>
-          <div className="font-roboto">
-            <div className="mb-5 flex h-20 w-full items-center justify-center rounded-t-sm bg-dark-blue-weg">
-              <h1 className="text-2xl font-bold text-white">
-                {translate["Insira as seguintes informações"][language] ??
-                  "Insira as seguintes informações"}
-              </h1>
-            </div>
-            <div className="mb-6 flex items-center justify-evenly">
-              <div className="grid items-center justify-center gap-2">
-                <p className="font-bold text-dark-blue-weg">
-                  {translate["Seção da TI responsável"][language] ??
-                    "Seção da TI responsável"}
+          <div className="flex justify-between h-full">
+            <div className="flex-1 border-r-2 p-4">
+              <div className="h-[90%]">
+                <p style={{ fontSize: fonts.lg }} className="font-bold text-blue-weg">
+                  {translate["Insira as seguintes informações"]?.[language] ??
+                    "Insira as seguintes informações"}
                 </p>
-                <FormControl variant="outlined" size="small">
-                  <Autocomplete
-                    size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={responsableITSections.map((option) => option.text)}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Seção" />
-                    )}
-                    isOptionEqualToValue={(option, value) => option === value}
-                    value={responsableSection}
-                    onChange={(event, newValue) => {
-                      setResponsableSection(newValue);
-                    }}
-                  />
-                </FormControl>
-              </div>
-              <div className="grid items-center justify-center gap-2">
-                <p className="font-bold text-dark-blue-weg">
-                  {translate["BU solicitante"][language] ?? "BU solicitante"}
-                </p>
-                <FormControl fullWidth size="small">
-                  <InputLabel id="demo-simple-select-label">BU</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={requesterBu}
-                    label="BU"
-                    onChange={handleChangeRequesterBu}
-                  >
-                    {businessUnits &&
-                      businessUnits.map((item, i) => (
-                        <MenuItem key={i} value={item.key}>
-                          {item.text}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="grid items-center justify-center gap-2">
-                <p className="font-bold text-dark-blue-weg">
-                  {translate["BUs beneficiadas"][language] ??
-                    "BUs beneficiadas"}
-                </p>
-                <FormControl fullWidth size="small">
-                  <Autocomplete
-                    sx={{
-                      width: 250,
-                    }}
-                    size="small"
-                    multiple
-                    id="tags-outlined"
-                    options={businessUnits ? businessUnits : []}
-                    getOptionLabel={(option) => option.text}
-                    value={benefitedBus}
-                    onChange={(event, newValues) => {
-                      setBenefitedBus(newValues);
-                    }}
-                    isOptionEqualToValue={(option, value) => option === value}
-                    filterSelectedOptions
-                    renderInput={(params) => (
-                      <TextField {...params} label="BUs" />
-                    )}
-                  />
-                </FormControl>
-              </div>
-              <div className="mr-20 grid items-center justify-center gap-2">
-                <p className="font-bold text-dark-blue-weg">
-                  {translate["Classificação de tamanho"][language] ??
-                    "Classificação de tamanho"}
-                </p>
-                <FormControl fullWidth size="small">
-                  <InputLabel id="demo-simple-select-label">
-                    {translate["Classifique um tamanho"][language] ??
-                      "Classifique um tamanho"}
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={classifyDemandSize}
-                    label="Classifique um tamanho"
-                    onChange={handleChangeClassifyDemandSize}
-                    sx={{
-                      display: "grid",
-                      width: 320,
-                    }}
-                  >
-                    {demandSizes.map((item, i) => (
-                      <MenuItem key={i} value={item.key}>
-                        <Badge
-                          badgeContent={item.description}
-                          color="primary"
-                          anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
+                <div className="mt-8">
+                  <div className="flex justify-between mb-14">
+                    <div>
+                      <p className="font-bold text-dark-blue-weg">
+                        {translate["Seção da TI responsável"]?.[language] ??
+                          "Seção da TI responsável"}
+                      </p>
+                      <FormControl variant="outlined" size="small">
+                        <Autocomplete
+                          size="small"
+                          disablePortal
+                          options={responsableITSections.map((option) => option.text)}
+                          renderInput={(params) => (
+                            <TextField {...params} />
+                          )}
+                          isOptionEqualToValue={(option, value) => option === value}
+                          value={responsableSection}
+                          onChange={(event, newValue) => {
+                            setResponsableSection(newValue);
                           }}
-                          sx={{
-                            "& .MuiBadge-badge": {
-                              backgroundColor: "#0075B1",
-                              color: "#fff",
-                              display: "flex",
-                              left: "60px",
-                              top: "12px",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              width: "8rem",
-                            },
-                          }}
+                        />
+                      </FormControl>
+                    </div>
+                    <div>
+                      <p className="font-bold text-dark-blue-weg">
+                        {translate["BU solicitante"]?.[language] ?? "BU solicitante"}
+                      </p>
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={requesterBu}
+                          onChange={handleChangeRequesterBu}
                         >
-                          {item.text}
-                        </Badge>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                          {businessUnits &&
+                            businessUnits.map((item, i) => (
+                              <MenuItem key={i} value={item.key}>
+                                {item.text}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div>
+                      <p className="font-bold text-dark-blue-weg">
+                        {translate["BUs beneficiadas"]?.[language] ??
+                          "BUs beneficiadas"}
+                      </p>
+                      <FormControl fullWidth size="small">
+                        <Autocomplete
+                          sx={{
+                            width: 250,
+                          }}
+                          size="small"
+                          multiple
+                          options={businessUnits ? businessUnits : []}
+                          getOptionLabel={(option) => option.text}
+                          value={benefitedBus}
+                          onChange={(event, newValues) => {
+                            setBenefitedBus(newValues);
+                          }}
+                          isOptionEqualToValue={(option, value) => option === value}
+                          filterSelectedOptions
+                          renderInput={(params) => (
+                            <TextField {...params} sx={{
+                              maxHeight: 90,
+                            }} />
+                          )}
+                        />
+                      </FormControl>
+                    </div>
+                    <div>
+                      <p className="font-bold text-dark-blue-weg">
+                        {translate["Classificação de tamanho"]?.[language] ??
+                          "Classificação de tamanho"}
+                      </p>
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={classifyDemandSize}
+                          onChange={handleChangeClassifyDemandSize}
+                        >
+                          {demandSizes.map((item, i) => (
+                            <MenuItem key={i} sx={{ width: '100%' }} value={item.key}>
+                              <div className="flex justify-between w-52">
+                                <p>
+                                  {item.text}
+                                </p>
+                                <p style={{ fontSize: fonts.sm }} className="text-blue-weg">
+                                  {item.description}
+                                </p>
+                              </div>
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="h-[10%] flex justify-around">
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#C2BEBE",
+                    color: "#fff",
+                    fontSize: "0.9rem",
+                    fontWeight: "bold",
+                    height: 40,
+                    "&:hover": {
+                      backgroundColor: "#C2BEBE",
+                    },
+                  }}
+                  onClick={handleCloseModal}
+                >
+                  {translate["Cancelar"]?.[language] ?? "Cancelar"}
+                </Button>
+                <Button
+                  onClick={() => setIsReasonOfModalOpen(true)}
+                  variant="outlined"
+                  sx={{
+                    backgroundColor: "#fff",
+                    color: "#0075B1",
+                    fontSize: "0.9rem",
+                    fontWeight: "bold",
+                    height: 40,
+                    "&:hover": {
+                      backgroundColor: "#fff",
+                    },
+                  }}
+                >
+                  {translate["Devolver"]?.[language] ?? "Devolver"}
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#0075B1",
+                    color: "#fff",
+                    fontSize: "0.9rem",
+                    fontWeight: "bold",
+                    height: 40,
+                    "&:hover": {
+                      backgroundColor: "#0075B1",
+                    },
+                  }}
+                  onClick={handleAnalystClassifyDemand}
+                >
+                  {translate["Enviar"]?.[language] ?? "Enviar"}
+                </Button>
               </div>
             </div>
-
-            <div className="mb-5 mt-10 flex items-center justify-evenly">
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#C2BEBE",
-                  color: "#fff",
-                  fontSize: "0.9rem",
-                  fontWeight: "bold",
-                  "&:hover": {
-                    backgroundColor: "#C2BEBE",
-                  },
-                }}
-                onClick={handleCloseModal}
-              >
-                {translate["Cancelar"][language] ?? "Cancelar"}
-              </Button>
-              <Button
-                onClick={() => setIsReasonOfModalOpen(true)}
-                variant="outlined"
-                sx={{
-                  backgroundColor: "#fff",
-                  color: "#0075B1",
-                  fontSize: "0.9rem",
-                  fontWeight: "bold",
-                  "&:hover": {
-                    backgroundColor: "#fff",
-                  },
-                }}
-              >
-                {translate["Devolver"][language] ?? "Devolver"}
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#0075B1",
-                  color: "#fff",
-                  fontSize: "0.9rem",
-                  fontWeight: "bold",
-                  "&:hover": {
-                    backgroundColor: "#0075B1",
-                  },
-                }}
-                onClick={handleAnalystClassifyDemand}
-              >
-                {translate["Enviar"][language] ?? "Enviar"}
-              </Button>
+            <div className="flex-1 p-4">
+              <p style={{ fontSize: fonts.lg }} className="font-bold text-blue-weg">
+                {translate["Demandas similares"]?.[language] ??
+                  "Demandas similares"}
+              </p>
             </div>
           </div>
         </Box>
@@ -982,7 +845,7 @@ export default function subHeader({ children }) {
               }}
               onClick={handleToggleActions}
             >
-              {translate["Ações"][language] ?? "Ações"}
+              {translate["Ações"]?.[language] ?? "Ações"}
               {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
             </Button>
           </ButtonGroup>
@@ -1061,9 +924,9 @@ export default function subHeader({ children }) {
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           <InputBase
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
-            placeholder={translate["Procure aqui"][language] ?? "Procure aqui"}
+            placeholder={translate["Procure aqui"]?.[language] ?? "Procure aqui"}
             inputProps={{
-              "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"
+              "aria-label": `${translate["Procure aqui"]?.[language] ?? "Procure aqui"
                 }`,
             }}
           />

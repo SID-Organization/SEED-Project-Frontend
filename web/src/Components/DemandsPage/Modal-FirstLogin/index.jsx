@@ -45,7 +45,6 @@ export default function ModalFirstLogin(props) {
     const { index, type } = data;
 
     if (type === "step:after" || index === tourSteps.length - 1) {
-      console.log("Fim do tutorial")
       props.setShowTutorial(false);
       props.setFirstLogin(false);
       resetRestartTutorial(false);
