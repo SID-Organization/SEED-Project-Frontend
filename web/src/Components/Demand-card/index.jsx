@@ -394,7 +394,7 @@ export default function DemandCard(props) {
                           <Box className="flex items-center justify-center ">
                             <Slider
                               aria-label="Temperature"
-                              defaultValue={getPercents}
+                              value={getPercents()}
                               getAriaValueText={valuetext}
                               disabled
                               style={{
