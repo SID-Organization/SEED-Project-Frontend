@@ -1,11 +1,9 @@
-
 import { useContext } from "react";
 import { TranslateContext } from "../../contexts/translate";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
-
 
 //Components
 import Notification from "../../Components/Notification";
@@ -54,6 +52,7 @@ import TranslationJSON from "../../API/Translate/components/subHeaderOpenedDeman
 // Utils
 import UserUtils from "../../utils/User-Utils";
 import FontSizeUtils from "../../utils/FontSize-Utils";
+import ManageAnalysts from "./ManageAnalysts";
 
 // Componentes estilizados
 const styleModal = {
@@ -83,8 +82,6 @@ const styleApproveDemand = {
   boxShadow: 0,
   borderRadius: 2,
 };
-
-
 
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -162,10 +159,9 @@ export default function subHeader({ children }) {
 
   const [anyEmptyField, setAnyEmptyField] = useState(false);
 
-  const [
-    isImportanceModalOpen,
-    setIsImportanceModalOpen,
-  ] = useState(false);
+  const [isImportanceModalOpen, setIsImportanceModalOpen] = useState(false);
+
+  const [modalManageAnalysts, setModalManageAnalysts] = useState(false);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
@@ -188,7 +184,7 @@ export default function subHeader({ children }) {
     DemandService.getDemandById(params.id).then((data) => {
       setDemand(data);
     });
-  }
+  };
 
   useEffect(() => {
     setDemandImportance(demand?.importanciaDemanda);
@@ -197,13 +193,12 @@ export default function subHeader({ children }) {
   const navigate = useNavigate();
 
   const getIsDevolution = () => {
-    return selectedKey == 5
+    return selectedKey == 5;
     // selectedKey ==
     // actionOptions.findIndex(
     //   (o) => o.text === translate["Devolver"]?.[language]
     // ) +
     // 1
-
   };
 
   const handleOpenModal = () => setOpenModal(true);
@@ -313,6 +308,14 @@ export default function subHeader({ children }) {
       function: () => setIsImportanceModalOpen(true),
       key: 8,
     },
+    {
+      text: translate["Gerenciar analistas"][language] ?? "Gerenciar analistas",
+      role: ["ANALISTA", "GERENTE"],
+      demandStatus: ["TODAS"],
+      notDemandStatus: ["RASCUNHO", "CANCELADA"],
+      function: () => setModalManageAnalysts(true),
+      key: 9,
+    },
   ];
 
   const demandSizes = [
@@ -419,8 +422,9 @@ export default function subHeader({ children }) {
       buSolicitanteDemanda: buSolicitante,
       secaoTIResponsavelDemanda: secaoTiResponsavel,
       tamanhoDemanda: getDemandSize(),
-      analistaResponsavelDemanda: { numeroCadastroUsuario: UserUtils.getLoggedUserId() }
-
+      analistaResponsavelDemanda: {
+        numeroCadastroUsuario: UserUtils.getLoggedUserId(),
+      },
     };
 
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
@@ -493,11 +497,14 @@ export default function subHeader({ children }) {
   };
 
   const handlePutDemandImportance = () => {
-    DemandService.updateDemandImportance(demand?.idDemanda, demandImportance)
+    DemandService.updateDemandImportance(demand?.idDemanda, demandImportance);
     getOrRefreshDemand();
     setIsImportanceModalOpen(false);
-  }
+  };
 
+  const handleCloseManageAnalysts = () => {
+    setModalManageAnalysts(false);
+  };
 
   return (
     <div>
@@ -515,6 +522,14 @@ export default function subHeader({ children }) {
         language={language}
         fonts={fonts}
       />
+
+      <ManageAnalysts
+        isAnalystsModalOpen={modalManageAnalysts}
+        setIsAnalystsModalOpen={setModalManageAnalysts}
+        handleCloseManageAnalysts={handleCloseManageAnalysts}
+        demand={demand}
+      />
+
       {anyEmptyField && (
         <Notification
           message={
@@ -926,8 +941,9 @@ export default function subHeader({ children }) {
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
             placeholder={translate["Procure aqui"]?.[language] ?? "Procure aqui"}
             inputProps={{
-              "aria-label": `${translate["Procure aqui"]?.[language] ?? "Procure aqui"
-                }`,
+              "aria-label": `${
+                translate["Procure aqui"][language] ?? "Procure aqui"
+              }`,
             }}
           />
         </Paper>

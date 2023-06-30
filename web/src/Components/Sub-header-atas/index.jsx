@@ -10,7 +10,6 @@ import { TranslateContext } from "../../contexts/translate/index.jsx";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
-
 export default function SubHeaderAtas(props) {
   const translate = TranslationJSON;
   const [language] = useContext(TranslateContext);
@@ -33,26 +32,32 @@ export default function SubHeaderAtas(props) {
 
         <div className="mr-10 flex gap-16">
           <div className="flex justify-end">
-            <div className="flex justify-between items-center w-80">
+            <div className="flex w-80 items-center justify-between">
               <Button
-                onClick={() => { props.setIsAtaForDG(false) }}
+                onClick={() => {
+                  props.setIsAtaForDG(false);
+                }}
                 sx={{
-                  backgroundColor: props.isAtaForDG ? "lightgray" : "", "&:hover": {
+                  backgroundColor: props.isAtaForDG ? "lightgray" : "",
+                  "&:hover": {
                     backgroundColor: props.isAtaForDG ? "gray" : "#0075B1",
                   },
                 }}
               >
-                <p>{translate['Atas']?.[language] ?? 'Atas'}</p>
+                <p>{translate["Atas"]?.[language] ?? "Atas"}</p>
               </Button>
               <Button
-                onClick={() => { props.setIsAtaForDG(true) }}
+                onClick={() => {
+                  props.setIsAtaForDG(true);
+                }}
                 sx={{
-                  backgroundColor: !props.isAtaForDG ? "lightgray" : "", "&:hover": {
+                  backgroundColor: !props.isAtaForDG ? "lightgray" : "",
+                  "&:hover": {
                     backgroundColor: !props.isAtaForDG ? "gray" : "#0075B1",
                   },
                 }}
               >
-                <p>{translate['Atas DG']?.[language] ?? "Atas DG"}</p>
+                <p>{translate["Atas DG"]?.[language] ?? "Atas DG"}</p>
               </Button>
             </div>
           </div>

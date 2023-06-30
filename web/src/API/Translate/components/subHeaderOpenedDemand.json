@@ -1,4 +1,13 @@
 {
+  "Gerenciar analistas": {
+    "pt-br": "Gerenciar analistas",
+    "en-us": "Manage analysts",
+    "de": "Analysten verwalten",
+    "zh-cn": "管理分析师",
+    "es": "Gestionar analistas",
+    "fr": "Gérer les analystes",
+    "it": "Gestisci gli analisti"
+  },
   "Alterar importância da demanda": {
     "pt-br": "Alterar importância da demanda",
     "en-us": "Change demand importance",
