@@ -322,18 +322,6 @@ export default function DemandsPage(props) {
 
     return (
       <>
-        {demandType == DemandType.MANAGER && (
-          <div className="mr-8 flex w-full items-center justify-end">
-            <p className="text-sm text-blue-weg">
-              {getMyManagements ?
-                translate["Minhas gerências"]?.[language] ?? "Minhas gerências"
-                : translate["Demandas abertas"]?.[language] ?? "Demandas abertas"}
-            </p>
-            <IconButton sx={{ marginLeft: '6px'}} onClick={() => setGetMyManagements(!getMyManagements)}>
-              <SwapIcon sx={{ color: "#00579D" }} />
-            </IconButton>
-          </div>
-        )}
         <Grid
           container
           gap={3}
@@ -447,7 +435,7 @@ export default function DemandsPage(props) {
                       style={{ fontSize: fonts.sm }}
                       className="font-medium text-black"
                     >
-                      Status_Demanda
+                      Status da demanda
                     </span>
                   </Typography>
                 </div>
@@ -785,6 +773,19 @@ export default function DemandsPage(props) {
               )}
             </div>
           )}
+        </div>
+      )}
+      {/* My manaments btn */}
+      {demandType == DemandType.MANAGER && (
+        <div className="mr-8 flex w-full items-center justify-end">
+          <p className="text-sm text-blue-weg">
+            {getMyManagements ?
+              translate["Minhas gerências"]?.[language] ?? "Minhas gerências"
+              : translate["Demandas abertas"]?.[language] ?? "Demandas abertas"}
+          </p>
+          <IconButton sx={{ marginLeft: '6px' }} onClick={() => setGetMyManagements(!getMyManagements)}>
+            <SwapIcon sx={{ color: "#00579D" }} />
+          </IconButton>
         </div>
       )}
 

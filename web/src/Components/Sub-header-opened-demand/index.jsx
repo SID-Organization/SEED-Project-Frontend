@@ -422,9 +422,9 @@ export default function subHeader({ children }) {
       buSolicitanteDemanda: buSolicitante,
       secaoTIResponsavelDemanda: secaoTiResponsavel,
       tamanhoDemanda: getDemandSize(),
-      analistaResponsavelDemanda: {
+      analistasResponsaveisDemanda: [{
         numeroCadastroUsuario: UserUtils.getLoggedUserId(),
-      },
+      }],
     };
 
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
@@ -941,9 +941,8 @@ export default function subHeader({ children }) {
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
             placeholder={translate["Procure aqui"]?.[language] ?? "Procure aqui"}
             inputProps={{
-              "aria-label": `${
-                translate["Procure aqui"][language] ?? "Procure aqui"
-              }`,
+              "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"
+                }`,
             }}
           />
         </Paper>
