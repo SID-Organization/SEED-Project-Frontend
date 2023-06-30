@@ -8,6 +8,15 @@
         "fr": "Mon profil",
         "it": "Il mio profilo"
     },
+    "Reiniciar tutorial": {
+        "pt-br": "Reiniciar tutorial",
+        "en-us": "Restart tutorial",
+        "de": "Tutorial neu starten",
+        "zh-cn": "重新开始教程",
+        "es": "Reiniciar tutorial",
+        "fr": "Redémarrer le tutoriel",
+        "it": "Riavvia il tutorial"
+    },
     "Tradutor de Libras": {
         "pt-br": "Tradutor de Libras",
         "en-us": "Libras translator",

@@ -31,11 +31,18 @@ const getLoggedUserIsFirstLogin = () => {
   return configs.first_login;
 };
 
+const disableFirstLogin = () => {
+  const configs = JSON.parse(localStorage.getItem("configs"));
+  configs.first_login = false;
+  localStorage.setItem("configs", JSON.stringify(configs));
+}
+
 export default {
   getLoggedUser,
   getLoggedUserId,
   getLoggedUserRole,
   logUserOut,
   getUserFromCookie,
-  getLoggedUserIsFirstLogin
+  getLoggedUserIsFirstLogin,
+  disableFirstLogin
 };

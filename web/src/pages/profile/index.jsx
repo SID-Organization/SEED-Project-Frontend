@@ -1,10 +1,12 @@
 import ProfilePic from "../../assets/profile-pic.png";
 import { useEffect, useState, useContext } from "react";
+import { useNavigate} from "react-router-dom"
 
 //MUI
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiButton from "@mui/material/Button";
+import HelpIcon from '@mui/icons-material/HelpCenterRounded';
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
@@ -45,9 +47,16 @@ export default function Perfil({ enableVLibras, enableTextToVoice }) {
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
+
+  const restartTutorial = () => {
+    localStorage.setItem('tutorial', 'true');
+    navigate('/demandas')
+  }
 
   // Seta o avatar do usuário
   const userAvatar = () => {
@@ -96,6 +105,15 @@ export default function Perfil({ enableVLibras, enableTextToVoice }) {
             {translate["Enviar imagem"]?.[language] ?? "Enviar imagem"}
             <input hidden accept="image/*" multiple type="file" />
           </Button>
+          <div className="mt-5 flex items-center" style={{ fontSize: fonts.sm }}>
+            <Button
+              onClick={() => restartTutorial()}
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}
+            >
+              <HelpIcon sx={{ fontSize: '20px' }} />
+              <p>{translate['Reiniciar tutorial']?.[language] ?? 'Reiniciar tutorial'}</p>
+            </Button>
+          </div>
         </div>
         <div className="grid w-[50vw] gap-16">
           <div>
