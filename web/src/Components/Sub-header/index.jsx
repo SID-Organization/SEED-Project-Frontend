@@ -51,7 +51,6 @@ export default function subHeader(props) {
               variant="contained"
               onClick={props.handleCreateExcel}
               sx={{
-                width: "70px",
                 backgroundColor: "#0075B1",
                 fontSize: "12px",
                 "&:hover": {
