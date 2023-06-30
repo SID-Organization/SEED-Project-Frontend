@@ -37,6 +37,7 @@ export default function subHeader(props) {
               filters={props.filters}
             />
           </div>
+          <div className="w-20">
           <Tooltip
             title={
               props.demandLength === 0
@@ -87,6 +88,7 @@ export default function subHeader(props) {
                 : "XLSX"}
             </Button>
           </Tooltip>
+          </div>
           <div className="flex flex-1 items-center justify-center">
             <div
               className="cursor-pointer"
