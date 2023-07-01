@@ -1,4 +1,13 @@
 {
+  "Similaridade": {
+    "pt-br": "Similaridade",
+    "en-us": "Similarity",
+    "de": "Ähnlichkeit",
+    "zh-cn": "相似性",
+    "es": "Semejanza",
+    "fr": "Similarité",
+    "it": "Somiglianza"
+  },
   "Gerenciar analistas": {
     "pt-br": "Gerenciar analistas",
     "en-us": "Manage analysts",
