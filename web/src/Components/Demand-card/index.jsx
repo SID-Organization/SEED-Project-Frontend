@@ -100,7 +100,10 @@ export default function DemandCard(props) {
 
 
   const handleOpenModalDeleteDraft = () => setOpen(true);
-  const handleCloseModalDeleteDraft = () => setOpen(false);
+  const handleCloseModalDeleteDraft = (event) => {
+    event.preventDefault();
+    setOpen(false);
+  }
 
   const getLogs = async () => {
     DemandLogService.getDemandLogs(props.demand.idDemanda).then((res) => {
@@ -326,7 +329,11 @@ export default function DemandCard(props) {
                       </Tooltip>
                       {/* Select */}
                       {props.demand.statusDemanda === "RASCUNHO" && (
-                        <div className="ml-5 flex items-center justify-center">
+                        <div className="ml-5 flex items-center justify-center" onClick={
+                          (event) => {
+                            event.preventDefault();
+                          }
+                        }>
                           <Radio
                             checked={isDraftSelected}
                             onClick={handleSelectDrafts}
@@ -654,7 +661,11 @@ export default function DemandCard(props) {
                                   "Têm certeza que deseja deletar esse rascunho?"}
                               </p>
                             </DialogTitle>
-                            <div className="flex items-center justify-center gap-5">
+                            <div className="flex items-center justify-center gap-5" onClick={
+                              (event) => {
+                                event.preventDefault();
+                              }
+                            }>
                               <Button
                                 onClick={handleCloseModalDeleteDraft}
                                 autoFocus
@@ -668,18 +679,24 @@ export default function DemandCard(props) {
                               >
                                 {translate["Cancelar"]?.[language] ?? "Cancelar"}
                               </Button>
-                              <Button
-                                onClick={handleDeleteDraft}
-                                sx={{
-                                  backgroundColor: "#0075B1",
-                                  color: "#fff",
-                                  "&:hover": {
+                              <div onClick={
+                                (event) => {
+                                  event.preventDefault();
+                                }
+                              }>
+                                <Button
+                                  onClick={handleDeleteDraft}
+                                  sx={{
                                     backgroundColor: "#0075B1",
-                                  },
-                                }}
-                              >
-                                {translate["Deletar"]?.[language] ?? "Deletar"}
-                              </Button>
+                                    color: "#fff",
+                                    "&:hover": {
+                                      backgroundColor: "#0075B1",
+                                    },
+                                  }}
+                                >
+                                  {translate["Deletar"]?.[language] ?? "Deletar"}
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
