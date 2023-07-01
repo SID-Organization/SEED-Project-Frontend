@@ -30,8 +30,6 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 import CreateOrAccessProposal from "./CreateOrAccessProposal";
 import CurrencyUtils from "../../utils/Currency-Utils";
 
-import { useHistory } from 'react-router-dom';
-
 //Translations
 import TranslationJson from "../../API/Translate/components/demandCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
@@ -99,7 +97,6 @@ export default function DemandCard(props) {
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
-  const history = useHistory();
 
   const handleOpenModalDeleteDraft = () => setOpen(true);
   const handleCloseModalDeleteDraft = () => setOpen(false);

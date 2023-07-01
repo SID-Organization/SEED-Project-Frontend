@@ -24,10 +24,6 @@ export default function BenefitsCard(props) {
     if (moeda === "EURO") return "€";
   }
 
-  useEffect(() => {
-    console.log("benefícios", props);
-  }, []);
-
   return (
     <div>
       <div className="flex h-10 items-center justify-center rounded-t bg-light-blue-weg">

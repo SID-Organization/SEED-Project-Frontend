@@ -80,11 +80,9 @@ export default function openedDemand() {
     if (params.id) {
       DemandService.getDemandById(params.id).then((demand) => {
         setDemand(demand);
-        console.log("DEMAND", demand);
         DemandPDFService.getPdfDemandByDemandId(params.id).then(
           (pdfResponse) => {
             setDemandHTML(pdfResponse);
-            console.log("HTML da demanda: ", pdfResponse);
           }
         );
       });

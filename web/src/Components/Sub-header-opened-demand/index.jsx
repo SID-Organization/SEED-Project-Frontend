@@ -143,7 +143,6 @@ export default function subHeader({ children }) {
   const [businessUnits, setBusinessUnits] = useState([]);
   const [responsableITSections, setResponsableITSections] = useState([]);
 
-  // Demandas similares
 
   // Motivo da devolução modal
   const [isReasonOfModalOpen, setIsReasonOfModalOpen] = useState(false);
@@ -170,6 +169,7 @@ export default function subHeader({ children }) {
 
   const anchorRef = React.useRef(null);
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -183,7 +183,79 @@ export default function subHeader({ children }) {
 
   const getSimilarDemands = async () => {
     const similarDemands = await DemandService.checkSimilarDemands(params.id)
-    setSimilarDemands(similarDemands)
+    const similarDemandsMock = [
+      {
+        demanda: { id_demanda: 1, titulo: "Titulo" },
+        similaridade: 0.7
+      },
+      {
+        demanda: { id_demanda: 2, titulo: "Titulo 2" },
+        similaridade: 0.5
+      },
+      {
+        demanda: { id_demanda: 3, titulo: "Titulo 3" },
+        similaridade: 0.6
+      },
+      {
+        demanda: { id_demanda: 4, titulo: "Titulo 4" },
+        similaridade: 0.8
+      },
+      {
+        demanda: { id_demanda: 5, titulo: "Titulo 5" },
+        similaridade: 0.9
+      },
+      {
+        demanda: { id_demanda: 6, titulo: "Titulo 6" },
+        similaridade: 0.7
+      },
+      {
+        demanda: { id_demanda: 7, titulo: "Titulo 7" },
+        similaridade: 0.8
+      },
+      {
+        demanda: { id_demanda: 8, titulo: "Titulo 8 askldfj hsaklf hlkf ha TESTE" },
+        similaridade: 0.9
+      },
+      {
+        demanda: { id_demanda: 9, titulo: "Titulo 9" },
+        similaridade: 1.0
+      },
+      {
+        demanda: { id_demanda: 10, titulo: "Titulo 10" },
+        similaridade: 0.7
+      },
+      {
+        demanda: { id_demanda: 11, titulo: "Titulo 11" },
+        similaridade: 0.8
+      },
+      {
+        demanda: { id_demanda: 12, titulo: "Titulo 12" },
+        similaridade: 0.9
+      },
+      {
+        demanda: { id_demanda: 13, titulo: "Titulo 13" },
+        similaridade: 1.0
+      },
+      {
+        demanda: { id_demanda: 14, titulo: "Titulo 14" },
+        similaridade: 0.7
+      },
+      {
+        demanda: { id_demanda: 15, titulo: "Titulo 15" },
+        similaridade: 0.8
+      },
+      {
+        demanda: { id_demanda: 16, titulo: "Titulo 16" },
+        similaridade: 0.9
+      },
+
+    ]
+    setSimilarDemands(similarDemandsMock)
+  }
+
+  const accessSimilarDemand = (demandId) => {
+    navigate(`/demandas/${demandId}`)
+    setOpenModal(false)
   }
 
   useEffect(() => {
@@ -200,7 +272,6 @@ export default function subHeader({ children }) {
     setDemandImportance(demand?.importanciaDemanda);
   }, [demand]);
 
-  const navigate = useNavigate();
 
 
 
@@ -804,18 +875,31 @@ export default function subHeader({ children }) {
                 {translate["Demandas similares"]?.[language] ??
                   "Demandas similares"}
               </p>
-              <div className="mt-5">
+              <div className="mt-5 overflow-y-scroll max-h-[31.5rem] scrollbar-thin
+                scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2">
                 {similarDemands && similarDemands.map(sd => (
-                  <div className="flex items-center border-2 p-2">
-                    <div className="flex-1 flex">
-                      <p className="text-blue-weg text-base">
-                        {sd.demanda.id_demanda}
-                      </p>
-                      <p className="text-blue-weg text-lg">
-                        - {sd.demanda.titulo}
-                      </p>
-                    </div>
-                    <div className="flex-1 text-end">
+                  <div
+                    onClick={() => { accessSimilarDemand(sd.demanda.id_demanda) }}
+                    className="flex
+                      border-b-2
+                      p-2
+                      cursor-pointer
+                      rounded
+                      hover:bg-[#c9c9c933]"
+                  >
+                    <Tooltip title={sd.demanda.titulo.length > 30 ? sd.demanda.titulo.length : ""}>
+                      <div className="flex-[3] flex items-center">
+                        <p className="text-blue-weg text-base">
+                          {sd.demanda.id_demanda}
+                        </p>
+                        <p className="text-blue-weg text-lg">
+                          - {sd.demanda.titulo.length > 30 ?
+                            sd.demanda.titulo.substring(0, 30) + '...' :
+                            sd.demanda.titulo}
+                        </p>
+                      </div>
+                    </Tooltip>
+                    <div className="flex-1 flex justify-end">
                       <Tooltip title={translate['Similaridade']?.[language] ?? 'Similaridade'}>
                         <p className="text-blue-weg text-lg">
                           {sd.similaridade * 100}%
