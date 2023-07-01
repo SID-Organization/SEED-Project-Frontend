@@ -30,6 +30,10 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 import CreateOrAccessProposal from "./CreateOrAccessProposal";
 import CurrencyUtils from "../../utils/Currency-Utils";
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8c3286f6a51637ac0b08d056e40d5617d8f8fe83
 //Translations
 import TranslationJson from "../../API/Translate/components/demandCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
@@ -99,7 +103,10 @@ export default function DemandCard(props) {
 
 
   const handleOpenModalDeleteDraft = () => setOpen(true);
-  const handleCloseModalDeleteDraft = () => setOpen(false);
+  const handleCloseModalDeleteDraft = (event) => {
+    event.preventDefault();
+    setOpen(false);
+  }
 
   const getLogs = async () => {
     DemandLogService.getDemandLogs(props.demand.idDemanda).then((res) => {
@@ -325,7 +332,11 @@ export default function DemandCard(props) {
                       </Tooltip>
                       {/* Select */}
                       {props.demand.statusDemanda === "RASCUNHO" && (
-                        <div className="ml-5 flex items-center justify-center">
+                        <div className="ml-5 flex items-center justify-center" onClick={
+                          (event) => {
+                            event.preventDefault();
+                          }
+                        }>
                           <Radio
                             checked={isDraftSelected}
                             onClick={handleSelectDrafts}
@@ -473,18 +484,18 @@ export default function DemandCard(props) {
                     </div>
                   </div>
                   <div className="mr-2 flex items-center justify-center gap-3">
-                    <button onClick={
-                      () => {
-                        alert("teste")
-                      }
-                    }>teste</button>
                     {[
                       "APROVADO_PELO_GERENTE_DA_AREA",
                       "PROPOSTA_EM_ELABORACAO",
                     ].includes(props.demand.statusDemanda) &&
                       user.cargoUsuario == "ANALISTA" &&
                       user.nomeUsuario != props.demand.nomeSolicitante && (
-                            <CreateOrAccessProposal
+                        <div onClick={
+                          (event) => {
+                            event.preventDefault();
+                          }
+                        }>
+                          <CreateOrAccessProposal
                           cargoUsuario={user.cargoUsuario}
                           statusDemanda={props.demand.statusDemanda}
                           openGenerateProposal={openGenerateProposal}
@@ -504,10 +515,15 @@ export default function DemandCard(props) {
                           handleCreateProposal={handleCreateProposal}
                           handleAccessProposal={handleAccessProposal}
                         />
+                        </div>
                       )}
 
                     {props.demand.statusDemanda === "CANCELADA" && (
-                      <div>
+                      <div onClick={
+                        (event) => {
+                          event.preventDefault();
+                        }
+                      }>
                         <Tooltip
                           title={
                             translate["Motivo da reprovação"]?.[language] ??
@@ -607,7 +623,11 @@ export default function DemandCard(props) {
                       </div>
                     )}
                     {props.demand.statusDemanda === "RASCUNHO" && (
-                      <div>
+                      <div onClick={
+                        (event) => {
+                          event.preventDefault();
+                        }
+                      }>
                         <Tooltip title="Deletar rascunho">
                           <IconButton onClick={handleOpenModalDeleteDraft}>
                             <DeleteRoundedIcon
@@ -644,7 +664,11 @@ export default function DemandCard(props) {
                                   "Têm certeza que deseja deletar esse rascunho?"}
                               </p>
                             </DialogTitle>
-                            <div className="flex items-center justify-center gap-5">
+                            <div className="flex items-center justify-center gap-5" onClick={
+                              (event) => {
+                                event.preventDefault();
+                              }
+                            }>
                               <Button
                                 onClick={handleCloseModalDeleteDraft}
                                 autoFocus
@@ -658,25 +682,36 @@ export default function DemandCard(props) {
                               >
                                 {translate["Cancelar"]?.[language] ?? "Cancelar"}
                               </Button>
-                              <Button
-                                onClick={handleDeleteDraft}
-                                sx={{
-                                  backgroundColor: "#0075B1",
-                                  color: "#fff",
-                                  "&:hover": {
+                              <div onClick={
+                                (event) => {
+                                  event.preventDefault();
+                                }
+                              }>
+                                <Button
+                                  onClick={handleDeleteDraft}
+                                  sx={{
                                     backgroundColor: "#0075B1",
-                                  },
-                                }}
-                              >
-                                {translate["Deletar"]?.[language] ?? "Deletar"}
-                              </Button>
+                                    color: "#fff",
+                                    "&:hover": {
+                                      backgroundColor: "#0075B1",
+                                    },
+                                  }}
+                                >
+                                  {translate["Deletar"]?.[language] ?? "Deletar"}
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </Box>
                     </Modal>
                     {props.demand.statusDemanda === "RASCUNHO" && (
-                      <Tooltip title="Continuar rascunho">
+                      <div onClick={
+                        (event) => {
+                          event.preventDefault();
+                        }
+                      }>
+                        <Tooltip title="Continuar rascunho">
                         <Link to={`/rascunhos/${props.demand.idDemanda}`}>
                           <Button
                             variant="contained"
@@ -690,6 +725,7 @@ export default function DemandCard(props) {
                           </Button>
                         </Link>
                       </Tooltip>
+                      </div>
                     )}
                   </div>
                 </div>
