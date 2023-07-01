@@ -30,6 +30,8 @@ import FontSizeUtils from "../../utils/FontSize-Utils";
 import CreateOrAccessProposal from "./CreateOrAccessProposal";
 import CurrencyUtils from "../../utils/Currency-Utils";
 
+import { useHistory } from 'react-router-dom';
+
 //Translations
 import TranslationJson from "../../API/Translate/components/demandCard.json";
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
@@ -96,6 +98,8 @@ export default function DemandCard(props) {
   const [openModalDeleteDraft, setOpen] = useState(false);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  const history = useHistory();
 
   const handleOpenModalDeleteDraft = () => setOpen(true);
   const handleCloseModalDeleteDraft = () => setOpen(false);
@@ -472,13 +476,18 @@ export default function DemandCard(props) {
                     </div>
                   </div>
                   <div className="mr-2 flex items-center justify-center gap-3">
+                    <button onClick={
+                      () => {
+                        alert("teste")
+                      }
+                    }>teste</button>
                     {[
                       "APROVADO_PELO_GERENTE_DA_AREA",
                       "PROPOSTA_EM_ELABORACAO",
                     ].includes(props.demand.statusDemanda) &&
                       user.cargoUsuario == "ANALISTA" &&
                       user.nomeUsuario != props.demand.nomeSolicitante && (
-                        <CreateOrAccessProposal
+                            <CreateOrAccessProposal
                           cargoUsuario={user.cargoUsuario}
                           statusDemanda={props.demand.statusDemanda}
                           openGenerateProposal={openGenerateProposal}
@@ -684,28 +693,6 @@ export default function DemandCard(props) {
                           </Button>
                         </Link>
                       </Tooltip>
-                    )}
-                    {props.demand.statusDemanda !== "RASCUNHO" && (
-                      <Link to={`/demandas/${props.demand.idDemanda}`}>
-                        <Tooltip
-                          title={
-                            translate["Visualizar demanda"]?.[language] ??
-                            "Visualizar demanda"
-                          }
-                        >
-                          <Button
-                            variant="contained"
-                            style={{ fontSize: fonts.xs }}
-                            sx={{
-                              backgroundColor: "#0075B1",
-                              width: fonts.xs > 12 ? 140 : 100,
-                              width: language === "de" ? 131 : 100,
-                            }}
-                          >
-                            {translate["Ver mais"]?.[language] ?? "Ver mais"}
-                          </Button>
-                        </Tooltip>
-                      </Link>
                     )}
                   </div>
                 </div>
