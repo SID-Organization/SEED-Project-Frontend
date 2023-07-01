@@ -127,6 +127,9 @@ export default function subHeader({ children }) {
 
   // Demanda buscada do banco de dados
   const [demand, setDemand] = useState();
+  // Demandas similares
+  const [similarDemands, setSimilarDemands] = useState()
+
   // Importância da demanda
   const [demandImportance, setDemandImportance] = useState("");
 
@@ -173,8 +176,15 @@ export default function subHeader({ children }) {
   }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
-    // Get similar demands
-  }, [])
+    if (openModal) {
+      getSimilarDemands();
+    }
+  }, [openModal])
+
+  const getSimilarDemands = async () => {
+    const similarDemands = await DemandService.checkSimilarDemands(params.id)
+    setSimilarDemands(similarDemands)
+  }
 
   useEffect(() => {
     getOrRefreshDemand();
@@ -192,14 +202,7 @@ export default function subHeader({ children }) {
 
   const navigate = useNavigate();
 
-  const getIsDevolution = () => {
-    return selectedKey == 5;
-    // selectedKey ==
-    // actionOptions.findIndex(
-    //   (o) => o.text === translate["Devolver"]?.[language]
-    // ) +
-    // 1
-  };
+
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
@@ -317,6 +320,10 @@ export default function subHeader({ children }) {
       key: 9,
     },
   ];
+
+  const getIsDevolution = () => {
+    return selectedKey == 5;
+  };
 
   const demandSizes = [
     {
@@ -797,6 +804,27 @@ export default function subHeader({ children }) {
                 {translate["Demandas similares"]?.[language] ??
                   "Demandas similares"}
               </p>
+              <div className="mt-5">
+                {similarDemands && similarDemands.map(sd => (
+                  <div className="flex items-center border-2 p-2">
+                    <div className="flex-1 flex">
+                      <p className="text-blue-weg text-base">
+                        {sd.demanda.id_demanda}
+                      </p>
+                      <p className="text-blue-weg text-lg">
+                        - {sd.demanda.titulo}
+                      </p>
+                    </div>
+                    <div className="flex-1 text-end">
+                      <Tooltip title={translate['Similaridade']?.[language] ?? 'Similaridade'}>
+                        <p className="text-blue-weg text-lg">
+                          {sd.similaridade * 100}%
+                        </p>
+                      </Tooltip>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </Box>

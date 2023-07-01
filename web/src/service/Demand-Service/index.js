@@ -21,7 +21,7 @@ const createExcelTable = async (demandaIdList) => {
   const contentType = "multipart/form-data";
   return AxiosAPI.post(`${url}/tabela-excel`, demandaIdListForm, contentType, "arraybuffer")
     .then((response) => response.data)
-    
+
     .catch((error) => error);
 };
 
@@ -140,6 +140,16 @@ const returnOrCancel = async (demandId, reason, devolution, responsableId) => {
   return AxiosAPI.put(`${url}/devolucao-demanda/${demandId}`, requestBody)
 }
 
+// AI
+const checkSimilarDemands = async (demandId) => {
+  return AxiosAPI.get(`${url}/filtrar-demanda/similares/${demandId}`)
+    .then(res => res.data)
+    .catch(res => {
+      console.warn("Erro ao checar demandas similares");
+      console.warn("Res: ", res)
+    })
+}
+
 export default {
   createDemand,
   updateDemand,
@@ -161,4 +171,5 @@ export default {
   openDemandPDF,
   returnOrCancel,
   createExcelTable,
+  checkSimilarDemands
 };

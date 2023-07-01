@@ -802,12 +802,11 @@ export default function DemandsPage(props) {
               <div className="flex h-[65vh] items-center justify-around">
                 <NoContent isManager={!(demandType == DemandType.MANAGER)}>
                   <div style={{ fontSize: fonts.xl }}>
-                    {demandType == DemandType.DEMAND &&
+                    {demandType == DemandType.DEMAND ||
+                      demandType == DemandType.MANAGER &&
                       translate["Nenhuma demanda encontrada!"]?.[language]}
                     {demandType == DemandType.DRAFT &&
                       translate["Nenhum rascunho encontrado!"]?.[language]}
-                    {demandType == DemandType.MANAGER &&
-                      translate["Nenhuma demanda para gerenciar!"]?.[language]}
                   </div>
                 </NoContent>
               </div>
