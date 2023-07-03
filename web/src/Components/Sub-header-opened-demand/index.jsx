@@ -183,74 +183,7 @@ export default function subHeader({ children }) {
 
   const getSimilarDemands = async () => {
     const similarDemands = await DemandService.checkSimilarDemands(params.id)
-    const similarDemandsMock = [
-      {
-        demanda: { id_demanda: 1, titulo: "Titulo" },
-        similaridade: 0.7
-      },
-      {
-        demanda: { id_demanda: 2, titulo: "Titulo 2" },
-        similaridade: 0.5
-      },
-      {
-        demanda: { id_demanda: 3, titulo: "Titulo 3" },
-        similaridade: 0.6
-      },
-      {
-        demanda: { id_demanda: 4, titulo: "Titulo 4" },
-        similaridade: 0.8
-      },
-      {
-        demanda: { id_demanda: 5, titulo: "Titulo 5" },
-        similaridade: 0.9
-      },
-      {
-        demanda: { id_demanda: 6, titulo: "Titulo 6" },
-        similaridade: 0.7
-      },
-      {
-        demanda: { id_demanda: 7, titulo: "Titulo 7" },
-        similaridade: 0.8
-      },
-      {
-        demanda: { id_demanda: 8, titulo: "Titulo 8 askldfj hsaklf hlkf ha TESTE" },
-        similaridade: 0.9
-      },
-      {
-        demanda: { id_demanda: 9, titulo: "Titulo 9" },
-        similaridade: 1.0
-      },
-      {
-        demanda: { id_demanda: 10, titulo: "Titulo 10" },
-        similaridade: 0.7
-      },
-      {
-        demanda: { id_demanda: 11, titulo: "Titulo 11" },
-        similaridade: 0.8
-      },
-      {
-        demanda: { id_demanda: 12, titulo: "Titulo 12" },
-        similaridade: 0.9
-      },
-      {
-        demanda: { id_demanda: 13, titulo: "Titulo 13" },
-        similaridade: 1.0
-      },
-      {
-        demanda: { id_demanda: 14, titulo: "Titulo 14" },
-        similaridade: 0.7
-      },
-      {
-        demanda: { id_demanda: 15, titulo: "Titulo 15" },
-        similaridade: 0.8
-      },
-      {
-        demanda: { id_demanda: 16, titulo: "Titulo 16" },
-        similaridade: 0.9
-      },
-
-    ]
-    setSimilarDemands(similarDemandsMock)
+    setSimilarDemands(similarDemands)
   }
 
   const accessSimilarDemand = (demandId) => {
@@ -265,6 +198,7 @@ export default function subHeader({ children }) {
   const getOrRefreshDemand = () => {
     DemandService.getDemandById(params.id).then((data) => {
       setDemand(data);
+      console.log("Demand", data);
     });
   };
 
@@ -505,6 +439,8 @@ export default function subHeader({ children }) {
       }],
     };
 
+
+    console.log("updatedDemand", updatedDemand)
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {
@@ -516,6 +452,7 @@ export default function subHeader({ children }) {
           // );
           return true;
         }
+        console.log("ERR", response)
         return false;
       })
       .then((isSuccessful) => {
@@ -601,12 +538,15 @@ export default function subHeader({ children }) {
         fonts={fonts}
       />
 
-      <ManageAnalysts
-        isAnalystsModalOpen={modalManageAnalysts}
-        setIsAnalystsModalOpen={setModalManageAnalysts}
-        handleCloseManageAnalysts={handleCloseManageAnalysts}
-        demand={demand}
-      />
+      {demand && (
+        <ManageAnalysts
+          isAnalystsModalOpen={modalManageAnalysts}
+          setIsAnalystsModalOpen={setModalManageAnalysts}
+          handleCloseManageAnalysts={handleCloseManageAnalysts}
+          analysts={demand.analistasResponsaveisDemanda}
+          demandId={demand.idDemanda}
+        />
+      )}
 
       {anyEmptyField && (
         <Notification

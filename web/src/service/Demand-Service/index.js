@@ -140,6 +140,11 @@ const returnOrCancel = async (demandId, reason, devolution, responsableId) => {
   return AxiosAPI.put(`${url}/devolucao-demanda/${demandId}`, requestBody)
 }
 
+const updateDemandAnalysts = async (demandId, analysts) => {
+  const requestBody = analysts.map(a => ({ numeroCadastroUsuario: a.numeroCadastroUsuario }))
+  return AxiosAPI.put(`${url}/atualiza-analistas/${demandId}`, requestBody)
+}
+
 // AI
 const checkSimilarDemands = async (demandId) => {
   return AxiosAPI.get(`${url}/filtrar-demanda/similares/${demandId}`)
@@ -156,6 +161,7 @@ export default {
   updateBenefitedBUs,
   updateDemandStatus,
   updateDemandImportance,
+  updateDemandAnalysts,
   deleteDemand,
   getDemands,
   getDemandById,

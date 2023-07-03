@@ -1,17 +1,11 @@
 // MUI
 import {
-  Box,
+  Autocomplete,
   Button,
   Card,
-  CardActions,
   CardContent,
   Dialog,
-  Divider,
-  FormControl,
   IconButton,
-  MenuItem,
-  Modal,
-  Select,
   TextField,
   Tooltip,
   Typography,
@@ -21,25 +15,13 @@ import { useEffect, useState } from "react";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { styled } from "@mui/material/styles";
-
 import Notification from "../../Notification";
 
-const styleModalManageAnalysts = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "23rem",
-  height: "15rem",
-  backgroundColor: "#fff",
-  boxShadow: 0,
-  borderRadius: 2,
-  borderLeft: "5px solid #023A67",
-};
+// Service
+import DemandService from "../../../service/Demand-Service";
+import UserService from "../../../service/User-Service";
 
 const InfoTypography = styled(Typography)(() => ({
   display: "flex",
@@ -62,43 +44,85 @@ export default function ManageAnalysts(props) {
 
   const [showAddAnalystDialog, setShowAddAnalystDialog] = useState(false);
 
+  const [allAnalysts, setAllAnalysts] = useState([]);
   const [newAnalystCadastro, setNewAnalystCadastro] = useState("");
 
   const [notificationConfirm, setNotificationConfirm] = useState(false);
+  const [changedAnalysts, setChangedAnalysts] = useState(false);
 
-  const [analysts, setAnalysts] = useState([
-    {
-      cadastro: "72131",
-      nome: "Analista 1",
-      departamento: "Departamento 1",
-    },
-    {
-      cadastro: "72132",
-      nome: "Analista 2",
-      departamento: "Departamento 2",
-    },
-    {
-      cadastro: "72133",
-      nome: "Analista 3",
-      departamento: "Departamento 3",
-    },
-  ]);
+  const [analysts, setAnalysts] = useState([]);
+
+  useEffect(() => {
+    setAnalysts(props.analysts);
+  }, [props.analysts]);
+
+  useEffect(() => {
+    if (!analysts) return;
+    UserService.getAllAnalysts()
+      .then(res => {
+        const notResponsableAnalysts = res.data.filter(a => !analysts.find(an => an.numeroCadastroUsuario === a.numeroCadastroUsuario));
+        setAllAnalysts(notResponsableAnalysts);
+      })
+      .catch(err => {
+        console.log("Erro ao buscar analistas");
+        console.warn(err);
+      });
+  }, [analysts]);
 
   const handleScroll = (event) => {
     setIsScrolling(event.target.scrollTop > 0);
   };
 
   function handleDeleteAnalyst(index) {
-    console.log("DELETANDO ANALISTA: ", index);
+    const newAnalysts = analysts.filter((analyst, i) => i !== index);
+    setAnalysts(newAnalysts);
+  }
+
+  useEffect(() => {
+    if (!analysts) return;
+    // Verifica se houve alteração na lista de analistas
+    if (analysts.length !== props.analysts.length) {
+      setChangedAnalysts(true);
+      return;
+    }
+    for (let i = 0; i < analysts.length; i++) {
+      // Verifica se o analista atual é diferente do analista da demanda
+      if (analysts[i].numeroCadastroUsuario !== props.analysts[i].numeroCadastroUsuario) {
+        setChangedAnalysts(true);
+        return;
+      }
+    }
+    setChangedAnalysts(false);
+  }, [analysts])
+
+  function saveAnalystChanges() {
+    DemandService.updateDemandAnalysts(props.demandId, analysts)
+      .then((res) => {
+        console.log("Analistas atualizados com sucesso");
+        props.handleCloseManageAnalysts();
+        setChangedAnalysts(false);
+      })
+      .catch((err) => {
+        if (err.status === 404) {
+          console.log("Analista não encontrado");
+          console.warn(err);
+        }
+        console.log("Erro ao atualizar analistas");
+        console.warn(err);
+      });
   }
 
   const handleAddAnalyst = () => {
-    const newAnalyst = {
-      cadastro: newAnalystCadastro,
-      nome: "Novo Analista",
-      departamento: "Departamento",
-    };
-    setAnalysts([...analysts, newAnalyst]);
+    UserService.getUserById(newAnalystCadastro)
+      .then(res => {
+        console.log("res", res)
+        const newAnalysts = [...analysts, res.data];
+        setAnalysts(newAnalysts);
+      })
+      .catch(err => {
+        console.log("Usuário não encontrado");
+        console.log(err);
+      });
     setNewAnalystCadastro("");
     setShowAddAnalystDialog(false);
     setNotificationConfirm(true);
@@ -125,7 +149,7 @@ export default function ManageAnalysts(props) {
           "& .MuiDialog-paper": {
             borderLeft: "5px solid #023A67",
             width: "50rem",
-            height: "20rem",
+            height: "30rem",
             backgroundColor: "#f2f2f2",
           },
         }}
@@ -136,10 +160,11 @@ export default function ManageAnalysts(props) {
           style={{
             textAlign: "center",
             padding: "1rem",
+            marginBottom: "1rem",
             fontSize: "1.5rem",
             color: "#023A67",
             fontWeight: "bold",
-            boxShadow: isScrolling ? "0px 4px 8px rgba(0, 0, 0, 0.2)" : "none",
+            boxShadow: isScrolling ? "0px 2px 4px rgba(0, 0, 0, 0.2)" : "none",
             transition: "box-shadow 0.2s ease-in-out",
           }}
           onScroll={handleScroll}
@@ -147,7 +172,7 @@ export default function ManageAnalysts(props) {
           Gerenciar analistas
         </Typography>
         <div
-          className="max-h-[800px] overflow-y-scroll
+          className="max-h-[800px] h-[800px] overflow-y-scroll
      scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
           onScroll={handleScroll}
         >
@@ -164,11 +189,9 @@ export default function ManageAnalysts(props) {
                   alignItems: "center",
                   transition:
                     "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
-                  transform:
-                    hoveredIndex === index ? "translateY(-5px)" : "none",
                   boxShadow:
                     hoveredIndex === index
-                      ? "0px 4px 8px rgba(0, 0, 0, 0.2)"
+                      ? "0px 2px 4px rgba(0, 0, 0, 0.2)"
                       : "none",
                 }}
               >
@@ -189,7 +212,7 @@ export default function ManageAnalysts(props) {
                     }}
                   />
                   <InfoTypography>
-                    {analyst.cadastro} - {analyst.nome} - {analyst.departamento}
+                    {analyst.numeroCadastroUsuario} - {analyst.nomeUsuario} - {analyst.departamentoUsuario.nomeBusinessUnity}
                   </InfoTypography>
                   <Tooltip title="Remover analista" placement="right">
                     <IconButton
@@ -215,21 +238,42 @@ export default function ManageAnalysts(props) {
             </div>
           ))}
         </div>
-        <Button
-          style={{
-            color: "#0075b1",
-          }}
-          onClick={() => setShowAddAnalystDialog(true)}
-        >
-          <AddCircleOutlineRoundedIcon
+        <div className="flex justify-around">
+          <Button
             style={{
               color: "#0075b1",
-              fontSize: "1.5rem",
-              marginRight: "0.5rem",
             }}
-          />
-          Adicionar Analista
-        </Button>
+            onClick={() => setShowAddAnalystDialog(true)}
+          >
+            <AddCircleOutlineRoundedIcon
+              style={{
+                color: "#0075b1",
+                fontSize: "1.5rem",
+                marginRight: "0.5rem",
+              }}
+            />
+            Adicionar Analista
+          </Button>
+          <div>
+            {changedAnalysts && (
+              <Button
+                style={{
+                  color: "#0075b1",
+                }}
+                onClick={() => saveAnalystChanges()}
+              >
+                <CheckRoundedIcon
+                  style={{
+                    color: "#0075b1",
+                    fontSize: "1.5rem",
+                    marginRight: "0.5rem",
+                  }}
+                />
+                Salvar
+              </Button>
+            )}
+          </div>
+        </div>
       </Dialog>
       <Dialog
         open={showAddAnalystDialog}
@@ -239,6 +283,7 @@ export default function ManageAnalysts(props) {
         sx={{
           "& .MuiDialog-paper": {
             height: "8rem",
+            width: "25rem",
           },
         }}
       >
@@ -255,22 +300,26 @@ export default function ManageAnalysts(props) {
         >
           Adicionar analista
         </Typography>
-        <div className="pl-4 pr-4">
+        <div className="pl-1 pr-1">
           <CardContent
             style={{
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
+              justifyContent: "space-between",
               height: "3rem",
               width: "100%",
             }}
           >
-            <TextField
-              label="Número de cadastro"
-              variant="outlined"
-              value={newAnalystCadastro}
-              onChange={(event) => setNewAnalystCadastro(event.target.value)}
-              style={{ marginRight: "1rem" }}
+            <Autocomplete
+              id="combo-box-demo"
+              onChange={(event, newValue) => {
+                setNewAnalystCadastro(newValue.numeroCadastroUsuario);
+              }}
+              options={allAnalysts || []}
+              getOptionLabel={(option) => option.numeroCadastroUsuario + " - " + option.nomeUsuario}
+              style={{ width: 200 }}
+              renderInput={(params) => <TextField {...params} label="Analista" variant="outlined" />}
             />
             <Button
               variant="contained"
