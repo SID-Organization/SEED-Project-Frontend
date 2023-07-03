@@ -115,7 +115,10 @@ export default function GenerateProposal() {
   const [internalCostCenterPayers, setInternalCostCenterPayers] = useState([]);
   const [externalCostCenterPayers, setExternalCostCenterPayers] = useState([]);
 
+  const [totalBenefits, setTotalBenefits] = useState(0);
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+  
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -125,6 +128,7 @@ export default function GenerateProposal() {
   useEffect(() => {
     DemandService.getDemandById(demandId).then((demand) => {
       setDemand(demand);
+      setTotalBenefits(ProposalUtils.sumBenefits(demand.beneficiosDemanda));
     });
   }, []);
 
@@ -142,6 +146,14 @@ export default function GenerateProposal() {
         });
       });
   }, []);
+
+  useEffect(() => {
+    if (internalCosts.length > 0 && externalCosts.length > 0) {
+      const intCostsSum = ProposalUtils.sumCosts(internalCosts);
+      const extCostsSum = ProposalUtils.sumCosts(externalCosts);
+      setPayback((((intCostsSum + extCostsSum) / totalBenefits)).toFixed(2));
+    }
+  }, [internalCosts, externalCosts])
 
   async function continueProposal(html) {
     delete html.idPdfProposta;

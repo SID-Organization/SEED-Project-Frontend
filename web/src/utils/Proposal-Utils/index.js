@@ -78,6 +78,16 @@ const sumCosts = (costs) => {
     return sum;
 }
 
+const sumBenefits = (benefits) => {
+    let sum = 0;
+    benefits.forEach((benefit) => {
+        if (benefit.valorBeneficio !== "") {
+            sum += parseFloat(benefit.valorBeneficio);
+        }
+    });
+    return sum;
+}
+
 const formatLogProposalsToProposals = (logProposals) => {
     return logProposals.map((logProposal) => (
         {
@@ -97,5 +107,6 @@ export default {
     formatCostsForDB,
     formatCCPsForDB,
     sumCosts,
+    sumBenefits,
     formatLogProposalsToProposals
 }
