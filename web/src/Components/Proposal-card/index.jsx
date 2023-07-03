@@ -205,8 +205,8 @@ export default function ProposalCard(props) {
                   </div>
                 )}
               </div>
-              <div className="flex items-center justify-center gap-5">
-                <div className="w-[21rem]">
+              <div className="flex items-start justify-center gap-5">
+                <div className="w-[10rem]">
                   <h1
                     className={`
                   ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}
@@ -220,7 +220,7 @@ export default function ProposalCard(props) {
                     </span>
                   </h1>
                 </div>
-                <div className="flex w-[10rem] items-center justify-center gap-1">
+                <div className="flex w-[10rem] items-start justify-center gap-1">
                   <h1
                     className={`
                   ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}

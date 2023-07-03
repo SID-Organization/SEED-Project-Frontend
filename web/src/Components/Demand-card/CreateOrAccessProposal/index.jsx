@@ -3,6 +3,7 @@ import React from "react";
 //MUI
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { InputAdornment, Tooltip } from "@mui/material";
 import MuiTextField from "@mui/material/TextField";
 import { Button, Modal } from "@mui/material";
@@ -35,6 +36,8 @@ export default function CreateOrAccessProposal(props) {
   const translate = TranslationJson;
   let language = TranslateUtils.getLanguage();
 
+  console.log("statusDemanda: ", props.statusDemanda);
+
   const generateOrAccess = () => {
     if (
       props.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA" &&
@@ -46,6 +49,11 @@ export default function CreateOrAccessProposal(props) {
       props.cargoUsuario === "ANALISTA"
     )
       props.handleAccessProposal();
+    else if (
+      props.statusDemanda == "PROPOSTA_PRONTA" &&
+      props.cargoUsuario === "ANALISTA" || props.cargoUsuario === "GERENTE"
+    )
+      props.handleViewProposal();
   };
 
   return (
@@ -100,6 +108,37 @@ export default function CreateOrAccessProposal(props) {
               }}
             >
               <OpenInNewRoundedIcon
+                sx={{
+                  color: "#0075B1",
+                  marginRight: "5px",
+                  fontSize: "1.2rem",
+                }}
+              />
+              {translate["Proposta"]?.[language] ?? "Proposta"}
+            </Button>
+          </Tooltip>
+        </div>
+      )}
+      {props.statusDemanda === "PROPOSTA_PRONTA" && (
+        <div>
+          <Tooltip title={translate["Acessar proposta"]?.[language]}>
+            <Button
+              onClick={() => generateOrAccess()}
+              variant="contained"
+              style={{ fontSize: props.fonts.xs }}
+              sx={{
+                backgroundColor: "#FFF",
+                color: "#0075B1",
+                fontWeight: "bold",
+                border: "#0075B1 solid 1px",
+                width: language === "de" ? 110 : 140,
+
+                "&:hover": {
+                  backgroundColor: "#f3f3f3",
+                },
+              }}
+            >
+              <RemoveRedEyeIcon
                 sx={{
                   color: "#0075B1",
                   marginRight: "5px",

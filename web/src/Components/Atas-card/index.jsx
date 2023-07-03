@@ -37,6 +37,8 @@ export default function PautasCard(props) {
 
   const navigate = useNavigate();
 
+  console.log("proposals", props.proposals)
+
   const openAtaPDF = (tipo) => {
     AtaService.openAtaPDF(props.idAta, tipo);
   }
@@ -107,7 +109,7 @@ export default function PautasCard(props) {
               )}
               <div className="flex items-end justify-center gap-3">
                 <p className="font-bold">{translate["Visualizar Ata:"]?.[language] ?? "Visualizar Ata:"} </p>
-                {props.proposals.some(item => item.tipoAtaPropostaLog == "publicada") && (
+                {props.proposals.some(item => item.tipoAtaPropostaLog == "PUBLICADA") && (
                   <Tooltip Tooltip title={translate["Publicada"]?.[language] ?? "Publicada"}>
                     <IconButton
                       onClick={() => openAtaPDF("publicada")}

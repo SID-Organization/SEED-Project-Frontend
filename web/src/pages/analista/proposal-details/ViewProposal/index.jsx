@@ -20,7 +20,7 @@ import { TranslateContext } from "../../../../contexts/translate/index.jsx";
 export default function ViewProposal() {
 
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [proposal, setProposal] = useState("");
   const [getProposalDetails, setGetProposalDetails] = useState();
@@ -40,17 +40,9 @@ export default function ViewProposal() {
   }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
-    if (params.idProposta) {
-      ProposalService.getProposalById(params.idProposta).then((proposal) => {
-        setGetProposalDetails(proposal);
-      });
-    }
-  }, []);
-
-  useEffect(() => {
     ProposalService.getProposalByDemandId(demandId).then((proposal) => {
       const lastProposal = proposal[proposal.length - 1];
-      console.log("PROPOSAL", lastProposal);
+      console.log("PRsfdsOPOSAL", lastProposal);
       setProposal(lastProposal);
       return lastProposal.idProposta;
     });
@@ -91,7 +83,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="whitespace-pre-wrap break-all pr-10 font-roboto font-normal"
             >
-              {getProposalDetails && getProposalDetails.escopoProposta} asd
+              {proposal && proposal.escopoProposta} asd
             </p>
           </div>
           <div className="grid items-center gap-1">
@@ -105,7 +97,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="whitespace-pre-wrap break-all pr-10 font-roboto font-normal"
             >
-              {getProposalDetails && getProposalDetails.escopoProposta}asdsa
+              {proposal && proposal.escopoProposta}asdsa
             </p>
           </div>
           <div className="grid items-center">
@@ -163,8 +155,8 @@ export default function ViewProposal() {
                   className="font-roboto font-bold text-blue-weg"
                 >
                   R${" "}
-                  {getProposalDetails &&
-                    getProposalDetails.custosTotaisDoProjeto}
+                  {proposal &&
+                    proposal.custosTotaisDoProjeto}
                 </p>
               </div>
             </div>
@@ -182,8 +174,8 @@ export default function ViewProposal() {
                     className="font-roboto font-bold text-blue-weg"
                   >
                     R${" "}
-                    {getProposalDetails &&
-                      getProposalDetails.custosExternosDoProjeto}
+                    {proposal &&
+                      proposal.custosExternosDoProjeto}
                   </p>
                 </div>
                 <div className="flex h-full items-center justify-start">
@@ -198,8 +190,8 @@ export default function ViewProposal() {
                     className="font-roboto font-bold text-blue-weg"
                   >
                     R${" "}
-                    {getProposalDetails &&
-                      getProposalDetails.custosInternosDoProjeto}
+                    {proposal &&
+                      proposal.custosInternosDoProjeto}
                   </p>
                 </div>
               </div>
@@ -215,7 +207,7 @@ export default function ViewProposal() {
               {translate["Payback"]?.[language]}:
             </p>
             <p style={{ fontSize: fonts.base }} className="font-roboto">
-              {getProposalDetails && getProposalDetails.paybackProposta} 223
+              {proposal && proposal.paybackProposta.toFixed(2)}
             </p>
           </div>
           <div>
@@ -237,9 +229,9 @@ export default function ViewProposal() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto text-blue-weg"
                 >
-                  {getProposalDetails &&
+                  {proposal &&
                     DateUtils.formatDate(
-                      getProposalDetails.periodoExecucaoInicioProposta
+                      proposal.periodoExecucaoInicioProposta
                     )}
                 </p>
               </div>
@@ -255,9 +247,9 @@ export default function ViewProposal() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto text-blue-weg"
                 >
-                  {getProposalDetails &&
+                  {proposal &&
                     DateUtils.formatDate(
-                      getProposalDetails.periodoExecucaoFimProposta
+                      proposal.periodoExecucaoFimProposta
                     )}
                 </p>
               </div>
@@ -272,22 +264,22 @@ export default function ViewProposal() {
             </p>
             <div className="flex items-center gap-2">
               <p style={{ fontSize: fonts.base }} className="font-roboto">
-                {/* {getProposalDetails &&
-                getProposalDetails.nomeResponsavelNegocio > 0
-                  ? getProposalDetails.nomeResponsavelNegocio
+                {/* {proposal &&
+                proposal.nomeResponsavelNegocio > 0
+                  ? proposal.nomeResponsavelNegocio
                   : "Não informado"} */}
-                Henrique Cole
+                {proposal && proposal.nomeResponsavelNegocio}
               </p>
               <MyDivider />
               <p
                 style={{ fontSize: fonts.base }}
                 className="font-roboto text-[#6e6e6e]"
               >
-                {/* {getProposalDetails &&
-                getProposalDetails.areaResponsavelNegocio > 0
-                  ? getProposalDetails.areaResponsavelNegocio
+                {/* {proposal &&
+                proposal.areaResponsavelNegocio > 0
+                  ? proposal.areaResponsavelNegocio
                   : "Não informado"} */}
-                WEG TI
+                {proposal && proposal.areaResponsavelNegocio}
               </p>
             </div>
           </div>

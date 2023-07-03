@@ -198,6 +198,10 @@ export default function DemandCard(props) {
   const handleAccessProposal = () => {
     navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`);
   };
+  
+  const handleViewProposal = () => {
+    navigate(`/propostas/${props.demand.idDemanda}`);
+  }
 
   function valuetext(value) {
     return `${value}°C`;
@@ -502,6 +506,7 @@ export default function DemandCard(props) {
                     {[
                       "APROVADO_PELO_GERENTE_DA_AREA",
                       "PROPOSTA_EM_ELABORACAO",
+                      "PROPOSTA_PRONTA"
                     ].includes(props.demand.statusDemanda) &&
                       user.cargoUsuario == "ANALISTA" &&
                       user.nomeUsuario != props.demand.nomeSolicitante && (
@@ -531,6 +536,7 @@ export default function DemandCard(props) {
                             setJiraLink={setJiraLink}
                             handleCreateProposal={handleCreateProposal}
                             handleAccessProposal={handleAccessProposal}
+                            handleViewProposal={handleViewProposal}
                           />
                         </div>
                       )}

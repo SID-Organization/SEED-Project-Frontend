@@ -101,14 +101,13 @@ export default function ViewDemand() {
     if (params.idDemanda) {
       DemandService.getDemandById(params.idDemanda).then((demand) => {
         setDemand(demand);
+        console.log("DEMANDA", demand);
       });
       DemandLogService.getDemandLogs(params.idDemanda).then((res) => {
         setHistoric(res.data);
       });
     }
   }, []);
-
-  console.log("DEMAND: ", demand);
 
   function getBenefits(benefitType) {
     if (benefitType == "REAL") {
@@ -136,6 +135,7 @@ export default function ViewDemand() {
       setQualitativeBenefit(demand.descricaoQualitativoDemanda);
     }
   }, [demand]);
+
 
   const MyDivider = () => {
     return <div className="h-[3px] w-6 bg-light-blue-weg" />;
@@ -245,8 +245,8 @@ export default function ViewDemand() {
                   className="whitespace-pre-wrap break-all font-roboto font-normal"
                 >
                   {demand &&
-                    demand.centroCustoDemanda.lenght > 0 &&
-                    demand.centroCustoDemanda.nomeCentroCusto}
+                    demand.centroCustoDemanda.length > 0 &&
+                    demand.centroCustoDemanda[0].nomeCentroCusto}
                 </h1>
               </div>
             </div>
@@ -405,14 +405,14 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto text-light-blue-weg"
                 >
-                  {demand?.analistaResponsavelDemanda?.nomeUsuario ?? "Indefinido"}
+                  {demand?.analistasResponsaveisDemanda[0]?.nomeUsuario ?? "Indefinido"}
                 </h1>
                 <h1
                   style={{ fontSize: fonts.sm }}
                   className="text-light-blue-weg"
                 >
                   {
-                    demand?.analistaResponsavelDemanda.departamentoUsuario
+                    demand?.analistasResponsaveisDemanda[0].departamentoUsuario
                       .nomeBusinessUnity
                   }
                 </h1>

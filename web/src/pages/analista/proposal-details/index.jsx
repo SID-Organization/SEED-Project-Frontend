@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 //MUI
 import MuiButton from "@mui/material/Button";
@@ -25,6 +25,7 @@ export default function ProposalDetails() {
 
   const translate = TranslationJson;
   const [ language ] = useContext(TranslateContext);
+  const navigate = useNavigate();
 
   const params = useParams();
 
@@ -87,6 +88,7 @@ export default function ProposalDetails() {
         <Button
           variant="contained"
           className="font-roboto text-lg font-bold text-white"
+          onClick={() => navigate(-1)}
         >
           {translate["Ok"]?.[language] ?? "Ok"}
         </Button>
