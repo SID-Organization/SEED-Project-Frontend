@@ -7,6 +7,7 @@ import "react-quill/dist/quill.snow.css";
 
 // MUI
 import { Button } from "@mui/material";
+import DoneRoundedIcon from "@mui/icons-material/DoneRounded";
 
 // Components
 import FirstStep from "./first-step";
@@ -92,6 +93,8 @@ export default function CreateDemand({ isEditting }) {
 
   const [notifyConfirm, setNotifyConfirm] = useState(false);
 
+  const [anyModification, setAnyModification] = useState(false);
+
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
@@ -156,6 +159,7 @@ export default function CreateDemand({ isEditting }) {
   };
 
   const handleCreateDemand = async (finish = false) => {
+    handleInputChange();
     if (!finish && isEditting) return;
     try {
       // Benefício real
@@ -419,6 +423,52 @@ export default function CreateDemand({ isEditting }) {
     handleFinishDemand,
   };
 
+  const handleInputChange = () => {
+    setAnyModification(true);
+  };
+
+  const changesSaved = () => {
+    return (
+      <div className="flex items-center justify-center">
+        <DoneRoundedIcon />
+        <p>
+          {translate["Alterações salvas"]?.[language] ?? "Alterações salvas"}
+        </p>
+      </div>
+    );
+  };
+
+  const savingChanges = () => {
+    return (
+      <div className="flex items-center justify-center">
+        <svg
+          className="-ml-1 mr-3 h-5 w-5 animate-spin text-blue-weg"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+          />
+        </svg>
+        <p>
+          {translate["Salvando alterações"]?.[language] ??
+            "Salvando alterações"}
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div>
       {notifyConfirm === true && (
@@ -447,10 +497,21 @@ export default function CreateDemand({ isEditting }) {
       </div>
       <div className="grid items-center justify-center ">
         <div className="grid">
-          {activeStep === 0 && <FirstStep props={firstStepProps} />}
-          {activeStep === 1 && <SecondStep props={secondStepProps} />}
-          {activeStep === 2 && <ThirdStep props={thirdStepProps} />}
-          {activeStep === 3 && <FourthStep props={fourthStepProps} />}
+          {activeStep === 0 && (
+            <FirstStep props={firstStepProps} onChange={handleInputChange} />
+          )}
+          {activeStep === 1 && (
+            <SecondStep props={secondStepProps} onChange={handleInputChange} />
+          )}
+          {activeStep === 2 && (
+            <ThirdStep props={thirdStepProps} onChange={handleInputChange} />
+          )}
+          {activeStep === 3 && (
+            <FourthStep props={fourthStepProps} onChange={handleInputChange} />
+          )}
+        </div>
+        <div className="mb-10 flex items-center justify-center">
+          {anyModification ? savingChanges() : changesSaved()}
         </div>
         <div className="mb-10 flex items-center justify-between">
           <Button

@@ -1,4 +1,22 @@
 {
+    "Salvando alterações": {
+        "pt-br": "Salvando alterações",
+        "en-us": "Saving changes",
+        "de": "Änderungen speichern",
+        "zh-cn": "保存更改",
+        "es": "Guardando cambios",
+        "fr": "Enregistrer les modifications",
+        "it": "Salvataggio delle modifiche"
+    },
+    "Alterações salvas": {
+        "pt-br": "Alterações salvas",
+        "en-us": "Changes saved",
+        "de": "Änderungen gespeichert",
+        "zh-cn": "更改已保存",
+        "es": "Cambios guardados",
+        "fr": "Modifications enregistrées",
+        "it": "Modifiche salvate"
+    },
     "Dados gerais": {
         "pt-br": "Dados gerais",
         "en-us": "General data",
