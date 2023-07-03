@@ -184,9 +184,9 @@ export default function subHeader({ children }) {
   }, [openModal]);
 
   const getSimilarDemands = async () => {
-    const similarDemands = await DemandService.checkSimilarDemands(params.id)
-    setSimilarDemands(similarDemands)
-  }
+    const similarDemands = await DemandService.checkSimilarDemands(params.id);
+    setSimilarDemands(similarDemands);
+  };
 
   const accessSimilarDemand = (demandId) => {
     navigate(`/demandas/${demandId}`);
@@ -254,7 +254,12 @@ export default function subHeader({ children }) {
       text: translate["Aprovar"]?.[language] ?? "Aprovar",
       role: ["GERENTE", "GESTOR_TI"],
       demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
-      notDemandStatus: [""],
+      notDemandStatus: [
+        "PROPOSTA_PRONTA",
+        "PROPOSTA_FINALIZADA",
+        "DISIGN_AND_BUILD",
+        "SUPORTE",
+      ],
       function: handleOpenApproveDemand,
       key: 2,
     },
@@ -442,8 +447,7 @@ export default function subHeader({ children }) {
       ],
     };
 
-
-    console.log("updatedDemand", updatedDemand)
+    console.log("updatedDemand", updatedDemand);
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {
@@ -455,7 +459,7 @@ export default function subHeader({ children }) {
           // );
           return true;
         }
-        console.log("ERR", response)
+        console.log("ERR", response);
         return false;
       })
       .then((isSuccessful) => {
@@ -485,7 +489,7 @@ export default function subHeader({ children }) {
             setOpenNotification(true);
             const timeout = setTimeout(() => {
               navigate("/gerenciar-demandas");
-            }, 1500);
+            }, 2200);
             return () => clearTimeout(timeout);
           }
         });
