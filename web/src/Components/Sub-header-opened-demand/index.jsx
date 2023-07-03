@@ -600,7 +600,7 @@ export default function subHeader({ children }) {
       {notificationChangeImportance && (
         <Notification
           message={
-            translate["Importância da demanda atualizada com sucesso para: "]?.[
+            translate["Importância da demanda atualizada com sucesso!"]?.[
               language
             ] ?? "Importância da demanda atualizada com sucesso!"
           }
