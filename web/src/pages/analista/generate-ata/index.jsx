@@ -23,10 +23,9 @@ import AtaDGService from "../../../service/AtaDG-Service";
 //Translation
 import TranslationJson from "../../../API/Translate/pages/analista/generateAta.json";
 import { TranslateContext } from "../../../contexts/translate/index";
-
+import Notification from "../../../Components/Notification";
 
 export default function GenerateAta(props) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -40,6 +39,12 @@ export default function GenerateAta(props) {
   const [finalDecisionFile, setFinalDecisionFile] = useState();
   const [numDgAta, setNumDgAta] = useState();
   const [clearFile, setClearFile] = useState(false);
+  const [emptyFields, setEmptyFields] = useState(false);
+  const [dgNumberNullNotification, setDgNumberNullNotification] =
+    useState(false);
+  const [emptyFile, setEmptyFile] = useState(false);
+  const [ataCreatedSuccessNotification, setAtaCreatedSuccessNotification] =
+    useState(false);
 
   const proposalFinalDecisionTemplate = {
     propostaPropostaLog: { idProposta: 0 },
@@ -67,26 +72,37 @@ export default function GenerateAta(props) {
       idPropostaLog: finalDecision.propostaPropostaLog.idProposta,
       parecerDGPropostaLog: finalDecision.parecerComissaoPropostaLog,
       consideracoesParecerDGPropostaLog: finalDecision.consideracoesPropostaLog,
-    }
+    };
     return newFinalDecision;
   }
 
   // Faz a verificação dos campos obrigatórios
   function verificarAta() {
     if (numDgAta == 0) {
-      alert(translate["Número DG Ata não pode ser nulo"]?.[language] ?? "Número DG Ata não pode ser nulo");
+      setDgNumberNullNotification(true);
+      const timer = setTimeout(() => {
+        setDgNumberNullNotification(false);
+      }, 2200);
+      clearTimeout(timer);
       return false;
     }
 
     for (let fd of finalDecisions) {
       if (!AtaUtils.isFinalDecisionValid(fd)) {
-        alert(translate["Parecer Comissão, Considerações e Tipo Ata são obrigatórios"]?.[language] ?? "Parecer Comissão, Considerações e Tipo Ata são obrigatórios");
+        setEmptyFields(true);
+        setTimeout(() => {
+          setEmptyFields(false);
+        }, 2200);
         return false;
       }
     }
 
     if (finalDecisionFile == undefined) {
-      alert(translate["Você não selecionou um arquivo de decisão final. Por favor, anexe um!"]?.[language] ?? "Você não selecionou um arquivo de decisão final. Por favor, anexe um!")
+      setEmptyFile(true);
+      const timer = setTimeout(() => {
+        setEmptyFile(false);
+      }, 2200);
+      clearTimeout(timer);
       return false;
     }
     return true;
@@ -94,15 +110,16 @@ export default function GenerateAta(props) {
 
   // Salva a ata no banco de dados
   function saveAta() {
-
     if (!props.isAtaForDG && !verificarAta()) return;
-
     // Creates ata JSON, and removes idDemanda from finalDecisions
     const ata = {
       pautaAta: {
         idPauta: params.id,
       },
-      propostasLog: finalDecisions.map((fd) => { delete fd.idDemanda; return fd; }),
+      propostasLog: finalDecisions.map((fd) => {
+        delete fd.idDemanda;
+        return fd;
+      }),
     };
 
     const form = new FormData();
@@ -115,26 +132,26 @@ export default function GenerateAta(props) {
     if (!props.isAtaForDG) {
       AtaService.createAta(form).then((response) => {
         if (response.status == 201) {
-          updateEachDemand(false)
-          alert(translate["Ata gerada com sucesso"]?.[language] ?? "Ata gerada com sucesso")
-          navigate("/atas")
-        };
+          updateEachDemand(false);
+          setAtaCreatedSuccessNotification(true);
+          const timer = setTimeout(() => {
+            setAtaCreatedSuccessNotification(false);
+            navigate("/atas");
+          }, 2200);
+          clearTimeout(timer);
+        }
       });
     } else {
-      console.log("FINAL DECISIONS DG", finalDecisions)
-      const decisions = finalDecisions.map(fd => {
-        const finalDecision = formatFinalDecisionToAtaDG(fd)
+      console.log("FINAL DECISIONS DG", finalDecisions);
+      const decisions = finalDecisions.map((fd) => {
+        const finalDecision = formatFinalDecisionToAtaDG(fd);
         return finalDecision;
-      })
-
-      AtaService.updateProposalsLogs(decisions).then(res => {
-        if ([200, 201].includes(res.status))
-          updateEachDemand(true)
       });
 
+      AtaService.updateProposalsLogs(decisions).then((res) => {
+        if ([200, 201].includes(res.status)) updateEachDemand(true);
+      });
     }
-
-
   }
 
   const formatParecerToDemandStatus = (status, isForDG) => {
@@ -148,34 +165,55 @@ export default function GenerateAta(props) {
       case "BUSINESS CASE":
         return "BUSINESS_CASE";
     }
-  }
+  };
 
   const getCorrectId = (proposal) => {
-    return props.isAtaForDG ? proposal.idPropostaLog : proposal.idProposta
-  }
+    return props.isAtaForDG ? proposal.idPropostaLog : proposal.idProposta;
+  };
 
   const updateEachDemand = (isForDG = false) => {
     finalDecisions.forEach((fd) => {
       // const proposal = await ProposalService.getProposalById(fd.propostaPropostaLog.idProposta);
       const demandId = fd.idDemanda;
       if (!isForDG) {
-        DemandLogService.createDemandLog("APROVACAO_DG", demandId, "Aprovar", 72131).then(res => {
+        DemandLogService.createDemandLog(
+          "APROVACAO_DG",
+          demandId,
+          "Aprovar",
+          72131
+        ).then((res) => {
           if (res.status == 201 || res.status == 200) {
-            DemandService.updateDemandStatus(demandId, formatParecerToDemandStatus(fd.parecerComissaoPropostaLog, isForDG));
+            DemandService.updateDemandStatus(
+              demandId,
+              formatParecerToDemandStatus(
+                fd.parecerComissaoPropostaLog,
+                isForDG
+              )
+            );
           }
-        })
+        });
       } else {
         // console.log("EXECUCAO_PROPOSTA", demandId, "Aprovar", 72131);
         // console.log(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog, isForDG));
-        DemandLogService.createDemandLog("EXECUCAO_PROPOSTA", demandId, "Aprovar", 72131).then(res => {
+        DemandLogService.createDemandLog(
+          "EXECUCAO_PROPOSTA",
+          demandId,
+          "Aprovar",
+          72131
+        ).then((res) => {
           if (res.status == 201 || res.status == 200) {
-            DemandService.updateDemandStatus(demandId, formatParecerToDemandStatus(fd.parecerComissaoPropostaLog, isForDG));
+            DemandService.updateDemandStatus(
+              demandId,
+              formatParecerToDemandStatus(
+                fd.parecerComissaoPropostaLog,
+                isForDG
+              )
+            );
           }
-        })
+        });
       }
-
-    })
-  }
+    });
+  };
 
   // On component mount get proposals from pauta or ata
   useEffect(() => {
@@ -186,10 +224,12 @@ export default function GenerateAta(props) {
       });
     } else {
       // Ata ID
-      AtaService.getAtaById(params.id).then(ata => {
-        setProposals(ProposalUtils.formatLogProposalsToProposals(ata.propostasLog));
+      AtaService.getAtaById(params.id).then((ata) => {
+        setProposals(
+          ProposalUtils.formatLogProposalsToProposals(ata.propostasLog)
+        );
         setNumDgAta(ata.numeroDgAta);
-      })
+      });
     }
   }, []);
 
@@ -200,7 +240,7 @@ export default function GenerateAta(props) {
         const fd = {
           ...proposalFinalDecisionTemplate,
           propostaPropostaLog: { idProposta: getCorrectId(proposal) },
-        }
+        };
         return fd;
       });
       console.log("Final decisions", finalDecisions);
@@ -211,22 +251,71 @@ export default function GenerateAta(props) {
   useEffect(() => {
     console.log("Final decisions", finalDecisions);
     console.log("Proposals", proposals);
-  }, [proposals, finalDecisions])
+  }, [proposals, finalDecisions]);
 
   return (
     <div className="grid items-center">
+      {ataCreatedSuccessNotification && (
+        <Notification
+          message={
+            translate["Ata gerada com sucesso"]?.[language] ??
+            "Ata gerada com sucesso"
+          }
+          severity="success"
+        />
+      )}
+      {emptyFile && (
+        <Notification
+          message={
+            translate[
+              "Você não selecionou um arquivo de decisão final. Por favor, anexe um!"
+            ]?.[language] ??
+            "Você não selecionou um arquivo de decisão final. Por favor, anexe um!"
+          }
+          severity="warning"
+        />
+      )}
+      {dgNumberNullNotification && (
+        <Notification
+          message={
+            translate["Número DG Ata não pode ser nulo"]?.[language] ??
+            "Número DG Ata não pode ser nulo"
+          }
+          severity="warning"
+        />
+      )}
+      {emptyFields && (
+        <Notification
+          message={
+            translate[
+              "Parecer Comissão, Considerações e Tipo Ata são obrigatórios"
+            ]?.[language] ??
+            "Parecer Comissão, Considerações e Tipo Ata são obrigatórios"
+          }
+          severity="warning"
+        />
+      )}
       <div className="mb-8 flex justify-center">
         <div className="flex-1"></div>
         <div className="flex flex-1 flex-col items-center justify-center">
           <h1 className="mt-10 text-3xl font-bold text-blue-weg">
-            {translate["Geração de ata"]?.[language] ?? "Geração de ata"} {props.isAtaForDG && (translate["para DG"]?.[language] ?? "para DG")}
+            {translate["Geração de ata"]?.[language] ?? "Geração de ata"}{" "}
+            {props.isAtaForDG &&
+              (translate["para DG"]?.[language] ?? "para DG")}
           </h1>
-          <p className="mt-4 text-blue-weg">{props.isAtaForDG ? (translate["Ata"]?.[language] ?? "Ata") : (translate["Pauta"]?.[language] ?? "Pauta")} {translate["referência"]?.[language] ?? "referência"}: {params.id}</p>
+          <p className="mt-4 text-blue-weg">
+            {props.isAtaForDG
+              ? translate["Ata"]?.[language] ?? "Ata"
+              : translate["Pauta"]?.[language] ?? "Pauta"}{" "}
+            {translate["referência"]?.[language] ?? "referência"}: {params.id}
+          </p>
         </div>
         <div className="flex flex-1 items-end">
           {props.isAtaForDG && (
             <>
-              <p className="text-light-blue-weg">{translate["Número ata DG"]?.[language] ?? "Número ata DG"}:</p>
+              <p className="text-light-blue-weg">
+                {translate["Número ata DG"]?.[language] ?? "Número ata DG"}:
+              </p>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -237,11 +326,10 @@ export default function GenerateAta(props) {
                 onChange={(e) => {
                   const value = e.target.value;
 
-                  if (isNaN(value) || value == "")
-                    setNumDgAta("");
+                  if (isNaN(value) || value == "") setNumDgAta("");
 
                   if (e.target.value.match(/^[0-9]+$/))
-                    setNumDgAta(e.target.value)
+                    setNumDgAta(e.target.value);
                 }}
                 sx={{
                   width: "5rem",
@@ -254,21 +342,22 @@ export default function GenerateAta(props) {
         </div>
       </div>
       <div className="grid">
-        {proposals && proposals.map((proposal, i) => (
-          <GenerateAtaProposal
-            key={i}
-            proposal={proposal}
-            isAtaForDG={props.isAtaForDG}
-            proposalIndex={i}
-            finalDecision={finalDecisions.find(
-              (fd) =>
-                fd.propostaPropostaLog.idProposta == getCorrectId(proposal)
-            )}
-            setFinalDecision={(newFinalDecision) =>
-              updateFinalDecision(getCorrectId(proposal), newFinalDecision)
-            }
-          />
-        ))}
+        {proposals &&
+          proposals.map((proposal, i) => (
+            <GenerateAtaProposal
+              key={i}
+              proposal={proposal}
+              isAtaForDG={props.isAtaForDG}
+              proposalIndex={i}
+              finalDecision={finalDecisions.find(
+                (fd) =>
+                  fd.propostaPropostaLog.idProposta == getCorrectId(proposal)
+              )}
+              setFinalDecision={(newFinalDecision) =>
+                updateFinalDecision(getCorrectId(proposal), newFinalDecision)
+              }
+            />
+          ))}
       </div>
       <div className="mb-5 mr-10 flex items-center justify-end">
         <div
@@ -312,7 +401,8 @@ export default function GenerateAta(props) {
               },
             }}
           >
-            {translate["Documento de aprovação"]?.[language] ?? "Documento de aprovação"}
+            {translate["Documento de aprovação"]?.[language] ??
+              "Documento de aprovação"}
             <input
               type="file"
               accept="application/pdf,application/vnd.ms-excel"

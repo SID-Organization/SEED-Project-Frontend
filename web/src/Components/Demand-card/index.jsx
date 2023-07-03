@@ -100,6 +100,9 @@ export default function DemandCard(props) {
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
+  const [notificationCreateProposal, setNotificationCreateProposal] =
+    useState("");
+
   const handleOpenModalDeleteDraft = () => setOpen(true);
   const handleCloseModalDeleteDraft = (event) => {
     event.preventDefault();
@@ -188,7 +191,18 @@ export default function DemandCard(props) {
           "PROPOSTA_EM_ELABORACAO"
         ).then((response) => {
           if (response.status === 200) {
-            navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`);
+            setNotificationCreateProposal("success");
+            const timer = setTimeout(() => {
+              setNotificationCreateProposal("");
+              navigate(`/propostas/gerar-proposta/${props.demand.idDemanda}`);
+            }, 2200);
+            return () => clearTimeout(timer);
+          } else {
+            setNotificationCreateProposal("error");
+            const timer = setTimeout(() => {
+              setNotificationCreateProposal("");
+            }, 2200);
+            return () => clearTimeout(timer);
           }
         });
       }
@@ -269,6 +283,16 @@ export default function DemandCard(props) {
 
   return (
     <div className="mb-7 grid items-center justify-center">
+      {notificationCreateProposal === "success" ? (
+        <Notification
+          message="Proposta criada com sucesso!"
+          severity="success"
+        />
+      ) : notificationCreateProposal === "error" ? (
+        <Notification message="Erro ao criar proposta!" severity="error" />
+      ) : (
+        ""
+      )}
       {notificationDeleteOneDraft && (
         <Notification
           message="Rascunho excluído com sucesso!"
