@@ -89,6 +89,9 @@ export default function DemandsPage(props) {
 
   const [showTutorial, setShowTutorial] = useState(false);
 
+  const [notificationDeleteAllDrafts, setNotificationDeleteAllDrafts] =
+    useState(false);
+
   useEffect(() => {
     setUserFirstLogin(UserUtils.getLoggedUserIsFirstLogin());
     // Fix for "global is not defined" error
@@ -125,7 +128,7 @@ export default function DemandsPage(props) {
     return () => clearTimeout(timer);
   };
 
-  // Pegar as respectivas demandas   
+  // Pegar as respectivas demandas
   useEffect(() => {
     if (demandType === DemandType.DEMAND) {
       DemandService.getDemandsByRequestorId(user.numeroCadastroUsuario)
@@ -295,7 +298,12 @@ export default function DemandsPage(props) {
   const deleteAllDrafts = () => {
     DemandService.deleteAllDrafts().then((response) => {
       if (response.status === 200) {
-        window.location.reload();
+        setNotificationDeleteAllDrafts(true);
+        const timer = setTimeout(() => {
+          setNotificationDeleteAllDrafts(false);
+          window.location.reload();
+        }, 2200);
+        return () => clearTimeout(timer);
       }
     });
   };
@@ -369,6 +377,12 @@ export default function DemandsPage(props) {
   return (
     <>
       <div>
+        {notificationDeleteAllDrafts && (
+          <Notification
+            message="Rascunhos excluídos com sucesso!"
+            severity="success"
+          />
+        )}
         <ModalFirstLogin
           firstLogin={userFirstLogin}
           setFirstLogin={setUserFirstLogin}
@@ -676,9 +690,9 @@ export default function DemandsPage(props) {
                     "Têm certeza que deseja deletar"}{" "}
                   {selectedDrafts.length > 1
                     ? translate["esses rascunhos?"]?.[language] ??
-                    "esses rascunhos?"
+                      "esses rascunhos?"
                     : translate["esse rascunho?"]?.[language] ??
-                    "esse rascunho?"}
+                      "esse rascunho?"}
                 </p>
               </DialogTitle>
             </div>
@@ -762,8 +776,9 @@ export default function DemandsPage(props) {
                         }}
                       />
                     }
-                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${selectedDrafts.length > 0 ? "opacity-100" : ""
-                      }`}
+                    className={`opacity-0 transition-opacity duration-300 ease-in-out ${
+                      selectedDrafts.length > 0 ? "opacity-100" : ""
+                    }`}
                   >
                     {translate["Deletar"]?.[language] ?? "Deletar"}{" "}
                     {"(" + selectedDrafts.length + ")"}{" "}
@@ -779,11 +794,14 @@ export default function DemandsPage(props) {
       {demandType == DemandType.MANAGER && (
         <div className="mr-8 flex w-full items-center justify-end">
           <p className="text-sm text-blue-weg">
-            {getMyManagements ?
-              translate["Minhas gerências"]?.[language] ?? "Minhas gerências"
+            {getMyManagements
+              ? translate["Minhas gerências"]?.[language] ?? "Minhas gerências"
               : translate["Demandas abertas"]?.[language] ?? "Demandas abertas"}
           </p>
-          <IconButton sx={{ marginLeft: '6px' }} onClick={() => setGetMyManagements(!getMyManagements)}>
+          <IconButton
+            sx={{ marginLeft: "6px" }}
+            onClick={() => setGetMyManagements(!getMyManagements)}
+          >
             <SwapIcon sx={{ color: "#00579D" }} />
           </IconButton>
         </div>
@@ -803,8 +821,8 @@ export default function DemandsPage(props) {
                 <NoContent isManager={!(demandType == DemandType.MANAGER)}>
                   <div style={{ fontSize: fonts.xl }}>
                     {demandType == DemandType.DEMAND ||
-                      demandType == DemandType.MANAGER &&
-                      translate["Nenhuma demanda encontrada!"]?.[language]}
+                      (demandType == DemandType.MANAGER &&
+                        translate["Nenhuma demanda encontrada!"]?.[language])}
                     {demandType == DemandType.DRAFT &&
                       translate["Nenhum rascunho encontrado!"]?.[language]}
                   </div>

@@ -1,4 +1,13 @@
 {
+  "Importância da demanda atualizada com sucesso!": {
+    "pt-br": "Importância da demanda atualizada com sucesso!",
+    "en-us": "Demand importance successfully updated!",
+    "de": "Nachfragebedeutung erfolgreich aktualisiert!",
+    "zh-cn": "需求重要性已成功更新！",
+    "es": "¡Importancia de la demanda actualizada con éxito!",
+    "fr": "Importance de la demande mise à jour avec succès !",
+    "it": "Importanza della domanda aggiornata con successo!"
+  },
   "Similaridade": {
     "pt-br": "Similaridade",
     "en-us": "Similarity",

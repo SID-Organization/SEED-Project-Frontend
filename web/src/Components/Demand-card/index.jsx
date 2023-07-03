@@ -36,6 +36,9 @@ import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 import JoyriderTutorial from "../Joyrider-tutorial";
 
+//Components
+import Notification from "../Notification";
+
 const TextField = styled(MuiTextField)({
   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
     borderLeft: "3px solid #0075B1",
@@ -129,14 +132,25 @@ export default function DemandCard(props) {
   const handleCloseGenerateProposal = () => setOpenGenerateProposal(false);
 
   const [ppmCode, setPpmCode] = useState(0);
+
   const [startDevDate, setStartDevDate] = useState("");
+
   const [deadLineDate, setDeadLineDate] = useState("");
+
   const [jiraLink, setJiraLink] = useState("");
+
+  const [notificationDeleteOneDraft, setNotificationDeleteOneDraft] =
+    useState(false);
 
   function handleDeleteDraft() {
     DemandService.deleteDemand(props.demand.idDemanda).then((response) => {
       if (response.status === 200) {
-        window.location.reload();
+        setNotificationDeleteOneDraft(true);
+        const timer = setTimeout(() => {
+          setNotificationDeleteOneDraft(false);
+          window.location.reload();
+        }, 2200);
+        return () => clearTimeout(timer);
       }
     });
   }
@@ -255,6 +269,12 @@ export default function DemandCard(props) {
 
   return (
     <div className="mb-7 grid items-center justify-center">
+      {notificationDeleteOneDraft && (
+        <Notification
+          message="Rascunho excluído com sucesso!"
+          severity="success"
+        />
+      )}
       {isDemandLoading ? (
         <Skeleton
           variant="rectangular"

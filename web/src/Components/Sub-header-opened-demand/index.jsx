@@ -128,7 +128,7 @@ export default function subHeader({ children }) {
   // Demanda buscada do banco de dados
   const [demand, setDemand] = useState();
   // Demandas similares
-  const [similarDemands, setSimilarDemands] = useState()
+  const [similarDemands, setSimilarDemands] = useState();
 
   // Importância da demanda
   const [demandImportance, setDemandImportance] = useState("");
@@ -142,7 +142,6 @@ export default function subHeader({ children }) {
   // Dados buscados do banco
   const [businessUnits, setBusinessUnits] = useState([]);
   const [responsableITSections, setResponsableITSections] = useState([]);
-
 
   // Motivo da devolução modal
   const [isReasonOfModalOpen, setIsReasonOfModalOpen] = useState(false);
@@ -167,6 +166,9 @@ export default function subHeader({ children }) {
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
+  const [notificationChangeImportance, setNotificationChangeImportance] =
+    useState(false);
+
   const anchorRef = React.useRef(null);
   const params = useParams();
   const navigate = useNavigate();
@@ -179,7 +181,7 @@ export default function subHeader({ children }) {
     if (openModal) {
       getSimilarDemands();
     }
-  }, [openModal])
+  }, [openModal]);
 
   const getSimilarDemands = async () => {
     const similarDemands = await DemandService.checkSimilarDemands(params.id)
@@ -187,9 +189,9 @@ export default function subHeader({ children }) {
   }
 
   const accessSimilarDemand = (demandId) => {
-    navigate(`/demandas/${demandId}`)
-    setOpenModal(false)
-  }
+    navigate(`/demandas/${demandId}`);
+    setOpenModal(false);
+  };
 
   useEffect(() => {
     getOrRefreshDemand();
@@ -205,9 +207,6 @@ export default function subHeader({ children }) {
   useEffect(() => {
     setDemandImportance(demand?.importanciaDemanda);
   }, [demand]);
-
-
-
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
@@ -243,7 +242,8 @@ export default function subHeader({ children }) {
 
   const actionOptions = [
     {
-      text: translate["Classificar demanda"]?.[language] ?? "Classificar demanda",
+      text:
+        translate["Classificar demanda"]?.[language] ?? "Classificar demanda",
       role: ["ANALISTA"],
       demandStatus: ["ABERTA"],
       notDemandStatus: [""],
@@ -309,7 +309,8 @@ export default function subHeader({ children }) {
       key: 7,
     },
     {
-      text: translate["Alterar importância"]?.[language] ?? "Alterar importância",
+      text:
+        translate["Alterar importância"]?.[language] ?? "Alterar importância",
       role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
       demandStatus: ["TODAS"],
       notDemandStatus: [""],
@@ -434,9 +435,11 @@ export default function subHeader({ children }) {
       buSolicitanteDemanda: buSolicitante,
       secaoTIResponsavelDemanda: secaoTiResponsavel,
       tamanhoDemanda: getDemandSize(),
-      analistasResponsaveisDemanda: [{
-        numeroCadastroUsuario: UserUtils.getLoggedUserId(),
-      }],
+      analistasResponsaveisDemanda: [
+        {
+          numeroCadastroUsuario: UserUtils.getLoggedUserId(),
+        },
+      ],
     };
 
 
@@ -515,6 +518,11 @@ export default function subHeader({ children }) {
     DemandService.updateDemandImportance(demand?.idDemanda, demandImportance);
     getOrRefreshDemand();
     setIsImportanceModalOpen(false);
+    setNotificationChangeImportance(true);
+    const timer = setTimeout(() => {
+      setNotificationChangeImportance(false);
+    }, 2200);
+    return () => clearTimeout(timer);
   };
 
   const handleCloseManageAnalysts = () => {
@@ -524,6 +532,16 @@ export default function subHeader({ children }) {
   return (
     <div>
       {/* Modal para alterar a importância da demanda */}
+      {notificationChangeImportance && (
+        <Notification
+          message={
+            translate["Importância da demanda atualizada com sucesso!"]?.[
+              language
+            ] ?? "Importância da demanda atualizada com sucesso!"
+          }
+          severity="success"
+        />
+      )}
       <ChangeImportance
         isImportanceModalOpen={isImportanceModalOpen}
         setIsImportanceModalOpen={setIsImportanceModalOpen}
@@ -653,15 +671,18 @@ export default function subHeader({ children }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styleModal}>
-          <div className="flex justify-between h-full">
+          <div className="flex h-full justify-between">
             <div className="flex-1 border-r-2 p-4">
               <div className="h-[90%]">
-                <p style={{ fontSize: fonts.lg }} className="font-bold text-blue-weg">
+                <p
+                  style={{ fontSize: fonts.lg }}
+                  className="font-bold text-blue-weg"
+                >
                   {translate["Insira as seguintes informações"]?.[language] ??
                     "Insira as seguintes informações"}
                 </p>
                 <div className="mt-8">
-                  <div className="flex justify-between mb-14">
+                  <div className="mb-14 flex justify-between">
                     <div>
                       <p className="font-bold text-dark-blue-weg">
                         {translate["Seção da TI responsável"]?.[language] ??
@@ -671,11 +692,13 @@ export default function subHeader({ children }) {
                         <Autocomplete
                           size="small"
                           disablePortal
-                          options={responsableITSections.map((option) => option.text)}
-                          renderInput={(params) => (
-                            <TextField {...params} />
+                          options={responsableITSections.map(
+                            (option) => option.text
                           )}
-                          isOptionEqualToValue={(option, value) => option === value}
+                          renderInput={(params) => <TextField {...params} />}
+                          isOptionEqualToValue={(option, value) =>
+                            option === value
+                          }
                           value={responsableSection}
                           onChange={(event, newValue) => {
                             setResponsableSection(newValue);
@@ -685,7 +708,8 @@ export default function subHeader({ children }) {
                     </div>
                     <div>
                       <p className="font-bold text-dark-blue-weg">
-                        {translate["BU solicitante"]?.[language] ?? "BU solicitante"}
+                        {translate["BU solicitante"]?.[language] ??
+                          "BU solicitante"}
                       </p>
                       <FormControl fullWidth size="small">
                         <Select
@@ -721,12 +745,17 @@ export default function subHeader({ children }) {
                           onChange={(event, newValues) => {
                             setBenefitedBus(newValues);
                           }}
-                          isOptionEqualToValue={(option, value) => option === value}
+                          isOptionEqualToValue={(option, value) =>
+                            option === value
+                          }
                           filterSelectedOptions
                           renderInput={(params) => (
-                            <TextField {...params} sx={{
-                              maxHeight: 90,
-                            }} />
+                            <TextField
+                              {...params}
+                              sx={{
+                                maxHeight: 90,
+                              }}
+                            />
                           )}
                         />
                       </FormControl>
@@ -742,12 +771,17 @@ export default function subHeader({ children }) {
                           onChange={handleChangeClassifyDemandSize}
                         >
                           {demandSizes.map((item, i) => (
-                            <MenuItem key={i} sx={{ width: '100%' }} value={item.key}>
-                              <div className="flex justify-between w-52">
-                                <p>
-                                  {item.text}
-                                </p>
-                                <p style={{ fontSize: fonts.sm }} className="text-blue-weg">
+                            <MenuItem
+                              key={i}
+                              sx={{ width: "100%" }}
+                              value={item.key}
+                            >
+                              <div className="flex w-52 justify-between">
+                                <p>{item.text}</p>
+                                <p
+                                  style={{ fontSize: fonts.sm }}
+                                  className="text-blue-weg"
+                                >
                                   {item.description}
                                 </p>
                               </div>
@@ -759,7 +793,7 @@ export default function subHeader({ children }) {
                   </div>
                 </div>
               </div>
-              <div className="h-[10%] flex justify-around">
+              <div className="flex h-[10%] justify-around">
                 <Button
                   variant="contained"
                   sx={{
@@ -811,43 +845,63 @@ export default function subHeader({ children }) {
               </div>
             </div>
             <div className="flex-1 p-4">
-              <p style={{ fontSize: fonts.lg }} className="font-bold text-blue-weg">
+              <p
+                style={{ fontSize: fonts.lg }}
+                className="font-bold text-blue-weg"
+              >
                 {translate["Demandas similares"]?.[language] ??
                   "Demandas similares"}
               </p>
-              <div className="mt-5 overflow-y-scroll max-h-[31.5rem] scrollbar-thin
-                scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2">
-                {similarDemands && similarDemands.map(sd => (
-                  <div
-                    onClick={() => { accessSimilarDemand(sd.demanda.id_demanda) }}
-                    className="flex
-                      border-b-2
-                      p-2
+              <div
+                className="mt-5 max-h-[31.5rem] overflow-y-scroll scrollbar-thin
+                scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
+              >
+                {similarDemands &&
+                  similarDemands.map((sd) => (
+                    <div
+                      onClick={() => {
+                        accessSimilarDemand(sd.demanda.id_demanda);
+                      }}
+                      className="flex
                       cursor-pointer
                       rounded
+                      border-b-2
+                      p-2
                       hover:bg-[#c9c9c933]"
-                  >
-                    <Tooltip title={sd.demanda.titulo.length > 30 ? sd.demanda.titulo.length : ""}>
-                      <div className="flex-[3] flex items-center">
-                        <p className="text-blue-weg text-base">
-                          {sd.demanda.id_demanda}
-                        </p>
-                        <p className="text-blue-weg text-lg">
-                          - {sd.demanda.titulo.length > 30 ?
-                            sd.demanda.titulo.substring(0, 30) + '...' :
-                            sd.demanda.titulo}
-                        </p>
-                      </div>
-                    </Tooltip>
-                    <div className="flex-1 flex justify-end">
-                      <Tooltip title={translate['Similaridade']?.[language] ?? 'Similaridade'}>
-                        <p className="text-blue-weg text-lg">
-                          {sd.similaridade * 100}%
-                        </p>
+                    >
+                      <Tooltip
+                        title={
+                          sd.demanda.titulo.length > 30
+                            ? sd.demanda.titulo.length
+                            : ""
+                        }
+                      >
+                        <div className="flex flex-[3] items-center">
+                          <p className="text-base text-blue-weg">
+                            {sd.demanda.id_demanda}
+                          </p>
+                          <p className="text-lg text-blue-weg">
+                            -{" "}
+                            {sd.demanda.titulo.length > 30
+                              ? sd.demanda.titulo.substring(0, 30) + "..."
+                              : sd.demanda.titulo}
+                          </p>
+                        </div>
                       </Tooltip>
+                      <div className="flex flex-1 justify-end">
+                        <Tooltip
+                          title={
+                            translate["Similaridade"]?.[language] ??
+                            "Similaridade"
+                          }
+                        >
+                          <p className="text-lg text-blue-weg">
+                            {sd.similaridade * 100}%
+                          </p>
+                        </Tooltip>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
@@ -991,10 +1045,13 @@ export default function subHeader({ children }) {
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           <InputBase
             sx={{ ml: 1, flex: 1, fontSize: "13px" }}
-            placeholder={translate["Procure aqui"]?.[language] ?? "Procure aqui"}
+            placeholder={
+              translate["Procure aqui"]?.[language] ?? "Procure aqui"
+            }
             inputProps={{
-              "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"
-                }`,
+              "aria-label": `${
+                translate["Procure aqui"][language] ?? "Procure aqui"
+              }`,
             }}
           />
         </Paper>
