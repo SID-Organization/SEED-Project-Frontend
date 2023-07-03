@@ -158,6 +158,10 @@ export default function CreateDemand({ isEditting }) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const handleInputChange = () => {
+    setAnyModification(true);
+  };
+
   const handleCreateDemand = async (finish = false) => {
     handleInputChange();
     if (!finish && isEditting) return;
@@ -231,6 +235,12 @@ export default function CreateDemand({ isEditting }) {
       console.log(error);
       setCreateDemandSucceed(false);
     }
+
+    const timer = setTimeout(() => {
+      setAnyModification(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   };
 
   const updateBenefits = (benefits) => {
@@ -423,15 +433,15 @@ export default function CreateDemand({ isEditting }) {
     handleFinishDemand,
   };
 
-  const handleInputChange = () => {
-    setAnyModification(true);
-  };
-
   const changesSaved = () => {
     return (
       <div className="flex items-center justify-center">
-        <DoneRoundedIcon />
-        <p>
+        <DoneRoundedIcon
+          sx={{
+            color: "#0075B1",
+          }}
+        />
+        <p className="font-roboto text-[#0075B1]">
           {translate["Alterações salvas"]?.[language] ?? "Alterações salvas"}
         </p>
       </div>
@@ -442,7 +452,7 @@ export default function CreateDemand({ isEditting }) {
     return (
       <div className="flex items-center justify-center">
         <svg
-          className="-ml-1 mr-3 h-5 w-5 animate-spin text-blue-weg"
+          className="mr-1 h-5 w-5 animate-spin text-[#8B8080]"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -461,7 +471,7 @@ export default function CreateDemand({ isEditting }) {
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
           />
         </svg>
-        <p>
+        <p className="font-roboto text-[#8B8080]">
           {translate["Salvando alterações"]?.[language] ??
             "Salvando alterações"}
         </p>
@@ -477,13 +487,10 @@ export default function CreateDemand({ isEditting }) {
           severity={"success"}
         />
       )}
-      <div className="mb-7">
-        <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
-          <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
-            {translate["Criar nova demanda"]?.[language] ??
-              "Criar nova demanda"}
-          </h1>
-        </div>
+      <div className="mb-7 flex h-[5rem] w-full items-center justify-around bg-[#FFF] shadow-page-title-shadow">
+        <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
+          {translate["Criar nova demanda"]?.[language] ?? "Criar nova demanda"}
+        </h1>
       </div>
       <div className="mb-10 flex items-center justify-center">
         <StepperDemandProgress
@@ -497,22 +504,12 @@ export default function CreateDemand({ isEditting }) {
       </div>
       <div className="grid items-center justify-center ">
         <div className="grid">
-          {activeStep === 0 && (
-            <FirstStep props={firstStepProps} onChange={handleInputChange} />
-          )}
-          {activeStep === 1 && (
-            <SecondStep props={secondStepProps} onChange={handleInputChange} />
-          )}
-          {activeStep === 2 && (
-            <ThirdStep props={thirdStepProps} onChange={handleInputChange} />
-          )}
-          {activeStep === 3 && (
-            <FourthStep props={fourthStepProps} onChange={handleInputChange} />
-          )}
+          {activeStep === 0 && <FirstStep props={firstStepProps} />}
+          {activeStep === 1 && <SecondStep props={secondStepProps} />}
+          {activeStep === 2 && <ThirdStep props={thirdStepProps} />}
+          {activeStep === 3 && <FourthStep props={fourthStepProps} />}
         </div>
-        <div className="mb-10 flex items-center justify-center">
-          {anyModification ? savingChanges() : changesSaved()}
-        </div>
+
         <div className="mb-10 flex items-center justify-between">
           <Button
             style={{ fontSize: fonts.sm }}
@@ -533,6 +530,17 @@ export default function CreateDemand({ isEditting }) {
               : translate["Próximo"]?.[language] ?? "Próximo"}
           </Button>
         </div>
+      </div>
+      <div
+        className="ml-10 flex items-center justify-end"
+        style={{
+          position: "fixed",
+          bottom: "14px",
+          right: "24px",
+          zIndex: "9999",
+        }}
+      >
+        {anyModification ? savingChanges() : changesSaved()}
       </div>
     </div>
   );
