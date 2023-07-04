@@ -381,15 +381,6 @@ export default function DemandFilter(props) {
               borderTop: "3px solid #0075b1",
             }}
           >
-            <IconButton
-              type="button"
-              sx={{ p: "10px" }}
-              aria-label="saved-filters"
-              onClick={handleSavedFiltersClick}
-            >
-              <ChevronRightIcon />
-            </IconButton>
-
             <div className="grid gap-3">
               <FilterField
                 title={
@@ -494,6 +485,29 @@ export default function DemandFilter(props) {
                 value={requestNumber}
                 setValue={setRequestNumber}
               />
+              <Tooltip title="Filtros salvos">
+                <div className="absolute bottom-[50%] left-[97%] z-10">
+                  <IconButton
+                    type="button"
+                    sx={{
+                      p: "5px",
+                      backgroundColor: "#0075b1",
+                      "&:hover": {
+                        backgroundColor: "#0075b1",
+                      },
+                    }}
+                    aria-label="saved-filters"
+                    onClick={handleSavedFiltersClick}
+                  >
+                    <ChevronRightIcon
+                      sx={{
+                        fontSize: "25px",
+                        color: "#FFF",
+                      }}
+                    />
+                  </IconButton>
+                </div>
+              </Tooltip>
               <div className="flex items-center justify-center gap-16 p-3">
                 <Button
                   variant="contained"

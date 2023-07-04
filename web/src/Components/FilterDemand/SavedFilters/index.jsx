@@ -20,8 +20,9 @@ export default function SavedFilters(props) {
         width: "12rem",
         maxHeight: "40rem",
         padding: 1,
-        borderTop: "3px solid #0075b1",
-        borderLeft: "1px solid #0075b1",
+        // borderTop: "3px solid #0075b1",
+        // borderLeft: "1px solid #0075b1",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       }}
     >
       <div className="mb-8 flex items-center justify-center">
