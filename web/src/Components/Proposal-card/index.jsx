@@ -142,14 +142,16 @@ export default function ProposalCard(props) {
       <Card>
         <div className="flex items-center justify-around gap-16">
           <div
-            className={`grid gap-7 font-roboto ${!props.newPauta && "w-[48rem]"
-              }`}
+            className={`grid gap-7 font-roboto ${
+              !props.newPauta && "w-[48rem]"
+            }`}
           >
             <div
               className={`
-                ${props.newPauta
-                  ? "ml-4 flex items-center justify-between"
-                  : "flex items-center justify-around "
+                ${
+                  props.newPauta
+                    ? "ml-4 flex items-center justify-between"
+                    : "flex items-center justify-around "
                 }
               `}
             >
@@ -160,16 +162,17 @@ export default function ProposalCard(props) {
               >
                 <Tooltip title={props.title}>
                   <h1
-                    className={`${props.newPauta
+                    className={`${
+                      props.newPauta
                         ? "text-base font-bold"
                         : "text-sm font-bold"
-                      }`}
+                    }`}
                   >
                     {props.title?.length > 25
                       ? props.proposalId +
-                      " - " +
-                      props.title.substring(0, 25) +
-                      "..."
+                        " - " +
+                        props.title.substring(0, 25) +
+                        "..."
                       : props.proposalId + " - " + props.title}
                   </h1>
                 </Tooltip>
@@ -228,7 +231,10 @@ export default function ProposalCard(props) {
                   >
                     {translate["Valor"][language] ?? "Valor"}:{" "}
                   </h1>
-                  <p className="text-sm text-gray-500"> {CurrencyUtils.formatCurrency(props.value) ?? "Indefinido"}</p>
+                  <p className="text-sm text-gray-500">
+                    {" "}
+                    {CurrencyUtils.formatCurrency(props.value) ?? "Indefinido"}
+                  </p>
                 </div>
                 {props.atasCard && (
                   <div className="w-[13rem]">
@@ -252,27 +258,29 @@ export default function ProposalCard(props) {
             <div className="flex items-center">
               <h1
                 className={`
-                ${props.newPauta
+                ${
+                  props.newPauta
                     ? "ml-4 w-[49rem] font-bold"
                     : "text-sm font-bold"
-                  }
+                }
                 `}
               >
                 {translate["Demanda de referência"][language]}:{" "}
                 <Tooltip title={props.referenceDemand + " - " + props.title}>
                   <span
                     className={`
-                    ${props.newPauta
+                    ${
+                      props.newPauta
                         ? "cursor-default text-sm font-normal text-gray-500"
                         : "cursor-default font-normal text-gray-500"
-                      }
+                    }
                     `}
                   >
                     {props.referenceDemand + " - " + props.title > 70
                       ? (props.referenceDemand + " - " + props.title).substring(
-                        0,
-                        70
-                      ) + "..."
+                          0,
+                          70
+                        ) + "..."
                       : props.referenceDemand + " - " + props.title}
                   </span>
                 </Tooltip>
@@ -284,7 +292,8 @@ export default function ProposalCard(props) {
                     hover:underline
                   "
                 >
-                  {translate["Visualizar Proposta"]?.[language] ?? "Visualizar Proposta"}
+                  {translate["Visualizar Proposta"]?.[language] ??
+                    "Visualizar Proposta"}
                   <OpenInNewRoundedIcon />
                 </h1>
               )}
@@ -325,9 +334,9 @@ export default function ProposalCard(props) {
                   title={
                     isButtonAddClicked
                       ? translate["Remover Proposta"][language] ??
-                      "Remover Proposta"
+                        "Remover Proposta"
                       : translate["Selecionar proposta"][language] ??
-                      "Selecionar proposta"
+                        "Selecionar proposta"
                   }
                 >
                   {isButtonAddClicked ? (

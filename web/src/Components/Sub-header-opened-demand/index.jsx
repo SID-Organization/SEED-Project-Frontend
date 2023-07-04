@@ -53,6 +53,7 @@ import TranslationJSON from "../../API/Translate/components/subHeaderOpenedDeman
 import UserUtils from "../../utils/User-Utils";
 import FontSizeUtils from "../../utils/FontSize-Utils";
 import ManageAnalysts from "./ManageAnalysts";
+import ChangeDemandStatus from "./ChangeDemandStatus";
 
 // Componentes estilizados
 const styleModal = {
@@ -165,9 +166,14 @@ export default function subHeader(props) {
 
   const [modalManageAnalysts, setModalManageAnalysts] = useState(false);
 
+  const [modalChangeDemandStatus, setModalChangeDemandStatus] = useState(false);
+
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
   const [notificationChangeImportance, setNotificationChangeImportance] =
+    useState(false);
+
+  const [notificationDemandStatus, setNotificationDemandStatus] =
     useState(false);
 
   const anchorRef = React.useRef(null);
@@ -226,10 +232,6 @@ export default function subHeader(props) {
 
   const handleApproveDemand = () => {
     handleManagerApproveDemand();
-  };
-
-  const changeDemandStatus = () => {
-    // CRIAR MODAL PARA MOSTRAR E TROCAR OS STATUS DA DEMANDA
   };
 
   const accessProposal = () => {
@@ -308,9 +310,15 @@ export default function subHeader(props) {
     {
       text: translate["Alterar status"]?.[language] ?? "Alterar status",
       role: ["ANALISTA"],
-      demandStatus: ["TODAS"],
+      demandStatus: [
+        "APROVADO_EM_DG",
+        "PROPOSTA_EM_EXECUCAO",
+        "PROPOSTA_EM_SUPORTE",
+        "PROPOSTA_FINALIZADA",
+        "TODAS",
+      ],
       notDemandStatus: [""],
-      function: changeDemandStatus,
+      function: () => setModalChangeDemandStatus(true),
       key: 7,
     },
     {
@@ -536,13 +544,34 @@ export default function subHeader(props) {
     return () => clearTimeout(timer);
   };
 
+  const handlePutDemandStatus = () => {
+    setNotificationDemandStatus(true);
+    const timer = setTimeout(() => {
+      setNotificationDemandStatus(false);
+      handleCloseChangeDemandStatusModal();
+    }, 2200);
+    return () => clearTimeout(timer);
+  };
+
   const handleCloseManageAnalysts = () => {
     setModalManageAnalysts(false);
   };
 
+  const handleCloseChangeDemandStatusModal = () => {
+    setModalChangeDemandStatus(false);
+  };
   return (
     <div>
-      {/* Modal para alterar a importância da demanda */}
+      {notificationDemandStatus && (
+        <Notification
+          message={
+            translate["Status da demanda atualizado com sucesso!"]?.[
+              language
+            ] ?? "Status da demanda atualizado com sucesso!"
+          }
+          severity="success"
+        />
+      )}
       {notificationChangeImportance && (
         <Notification
           message={
@@ -553,6 +582,15 @@ export default function subHeader(props) {
           severity="success"
         />
       )}
+      <ChangeDemandStatus
+        isModalChangeDemandStatusOpen={modalChangeDemandStatus}
+        setIsModalChangeDemandStatusOpen={setModalChangeDemandStatus}
+        handleCloseChangeDemandStatusModal={handleCloseChangeDemandStatusModal}
+        handlePutDemandStatus={handlePutDemandStatus}
+        translate={translate}
+        language={language}
+      />
+      {/* Modal para alterar a importância da demanda */}
       <ChangeImportance
         isImportanceModalOpen={isImportanceModalOpen}
         setIsImportanceModalOpen={setIsImportanceModalOpen}
