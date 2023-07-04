@@ -112,8 +112,9 @@ const Autocomplete = styled(MuiAutocomplete)({
  * @param setIsEditEnabled
  */
 
-export default function subHeader({ children }) {
-  let phrase = children[0].trim();
+export default function subHeader(props) {
+  let phrase = props.children[0].trim();
+
 
   const translate = TranslationJSON;
   const [language] = useContext(TranslateContext);
@@ -206,13 +207,12 @@ export default function subHeader({ children }) {
   const getOrRefreshDemand = () => {
     DemandService.getDemandById(params.id).then((data) => {
       setDemand(data);
-      console.log("Demand", data);
     });
   };
 
   useEffect(() => {
-    setDemandImportance(demand?.importanciaDemanda);
-  }, [demand]);
+    setDemandImportance(props.demand?.importanciaDemanda);
+  }, [props.demand]);
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
@@ -459,6 +459,7 @@ export default function subHeader({ children }) {
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {
+          // Passou para o back-end
           // DemandLogService.createDemandLog(
           //   "APROVACAO_GERENTE_AREA",
           //   demand.idDemanda,
@@ -527,7 +528,13 @@ export default function subHeader({ children }) {
   };
 
   const handlePutDemandImportance = () => {
-    DemandService.updateDemandImportance(demand?.idDemanda, demandImportance);
+    DemandService.updateDemandImportance(demand?.idDemanda, demandImportance)
+      .then(res => {
+        if (res.status == 200 || res.status == 201) {
+          props.setDemand(res.data)
+          setDemandImportance(res.data.importanciaDemanda)
+        }
+      });
     getOrRefreshDemand();
     setIsImportanceModalOpen(false);
     setNotificationChangeImportance(true);
@@ -569,7 +576,7 @@ export default function subHeader({ children }) {
         <Notification
           message={
             translate["Importância da demanda atualizada com sucesso!"]?.[
-              language
+            language
             ] ?? "Importância da demanda atualizada com sucesso!"
           }
           severity="success"
@@ -953,8 +960,8 @@ export default function subHeader({ children }) {
       <div className="flex h-[5rem] items-center justify-around shadow-page-title-shadow">
         <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
           {translate[phrase]?.[language]
-            ? translate[phrase]?.[language] + " " + children[1]
-            : children}
+            ? translate[phrase]?.[language] + " " + props.children[1]
+            : props.children}
         </h1>
 
         {ableToEdit() && (
@@ -1091,9 +1098,8 @@ export default function subHeader({ children }) {
               translate["Procure aqui"]?.[language] ?? "Procure aqui"
             }
             inputProps={{
-              "aria-label": `${
-                translate["Procure aqui"][language] ?? "Procure aqui"
-              }`,
+              "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"
+                }`,
             }}
           />
         </Paper>

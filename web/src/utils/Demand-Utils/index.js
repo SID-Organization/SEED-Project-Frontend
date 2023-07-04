@@ -16,7 +16,7 @@ const getDemandStatusByRole = (rawStatus, role = "SOLICITANTE") => {
 
 const getDemandStatusColorByRole = (status, role = "SOLICITANTE") => {
     if (["ANALISTA", "GERENTE", "GESTOR_TI"].includes(role)) {
-        return DEMAND_STATUS[status].ANALYST_COLOR
+        return DEMAND_STATUS[status].COLOR
     }
 
     return DEMAND_STATUS[status].COLOR
