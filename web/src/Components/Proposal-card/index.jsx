@@ -151,13 +151,13 @@ export default function ProposalCard(props) {
                 ${
                   props.newPauta
                     ? "ml-4 flex items-center justify-between"
-                    : "flex items-center justify-around "
+                    : "flex items-start justify-evenly"
                 }
               `}
             >
               <div
                 className={`
-                ${props.newPauta ? "none" : "flex w-[19rem] gap-1"}
+                ${props.newPauta ? "none" : "flex w-[14rem] gap-1"}
                 `}
               >
                 <Tooltip title={props.title}>
@@ -168,16 +168,16 @@ export default function ProposalCard(props) {
                         : "text-sm font-bold"
                     }`}
                   >
-                    {props.title?.length > 25
+                    {props.title?.length > 20
                       ? props.proposalId +
                         " - " +
-                        props.title.substring(0, 25) +
+                        props.title.substring(0, 20) +
                         "..."
                       : props.proposalId + " - " + props.title}
                   </h1>
                 </Tooltip>
                 {props.atasCard && (
-                  <div className="mr-5 flex items-center">
+                  <div className="flex items-start">
                     {props.published === "PUBLICADA" ? (
                       <Tooltip
                         title={
@@ -237,7 +237,7 @@ export default function ProposalCard(props) {
                   </p>
                 </div>
                 {props.atasCard && (
-                  <div className="w-[13rem]">
+                  <div className="w-[12rem]">
                     <h1
                       className={`
                   ${props.newPauta ? "text-sm font-bold" : "text-sm font-bold"}
