@@ -12,6 +12,7 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { Fade } from "@mui/material";
 
 // Components
 import FilterField from "../FilterField";
@@ -546,13 +547,15 @@ export default function DemandFilter(props) {
             </div>
           </Paper>
           {showSavedFilters && (
-            <div className="fixed left-[47rem]">
-              <SavedFilters
-                selectFilter={selectFilter}
-                deleteFilter={deleteFilter}
-                filters={savedFilters}
-              />
-            </div>
+            <Fade in={showSavedFilters} timeout={200}>
+              <div className="absolute left-[47rem]">
+                <SavedFilters
+                  selectFilter={selectFilter}
+                  deleteFilter={deleteFilter}
+                  filters={savedFilters}
+                />
+              </div>
+            </Fade>
           )}
         </Popper>
       </div>
