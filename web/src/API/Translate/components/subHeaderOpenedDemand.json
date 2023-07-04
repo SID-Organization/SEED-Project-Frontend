@@ -1,4 +1,22 @@
 {
+  "Status da demanda atualizado com sucesso!": {
+    "pt-br": "Status da demanda atualizado com sucesso!",
+    "en-us": "Demand status successfully updated!",
+    "de": "Nachfragestatus erfolgreich aktualisiert!",
+    "zh-cn": "需求状态已成功更新！",
+    "es": "¡Estado de la demanda actualizado con éxito!",
+    "fr": "Statut de la demande mis à jour avec succès !",
+    "it": "Stato della domanda aggiornato con successo!"
+  },
+  "Alterar status da demanda": {
+    "pt-br": "Alterar status da demanda",
+    "en-us": "Change demand status",
+    "de": "Nachfragestatus ändern",
+    "zh-cn": "更改需求状态",
+    "es": "Cambiar estado de la demanda",
+    "fr": "Changer le statut de la demande",
+    "it": "Cambia lo stato della domanda"
+  },
   "Importância da demanda atualizada com sucesso!": {
     "pt-br": "Importância da demanda atualizada com sucesso!",
     "en-us": "Demand importance successfully updated!",
