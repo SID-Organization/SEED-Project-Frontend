@@ -135,7 +135,7 @@ export default function openedDemand() {
 
   return (
     <>
-      <SubHeaderOpenedDemand>
+      <SubHeaderOpenedDemand setDemand={setDemand} demand={demand}>
         {translate["Visualização Demanda"]?.[language] ?? "Visualização Demanda"} {params.id}
       </SubHeaderOpenedDemand>
       <div className="grid items-center justify-center">

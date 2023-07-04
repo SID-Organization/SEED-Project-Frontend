@@ -30,8 +30,6 @@ const AxiosAPI = {
 
     put: async (url, data, contentType) => {
 
-        console.log("DATA AXIOS: ", data)
-
         let tempConfig = { ...config };
 
         if (contentType) tempConfig.headers["Content-Type"] = contentType;
