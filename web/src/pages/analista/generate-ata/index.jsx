@@ -142,7 +142,6 @@ export default function GenerateAta(props) {
             setAtaCreatedSuccessNotification(false);
             navigate("/atas");
           }, 2200);
-          clearTimeout(timer);
         }
       });
     } else {
@@ -152,10 +151,9 @@ export default function GenerateAta(props) {
         return finalDecision;
       });
 
-      AtaService.updateProposalsLogs(decisions).then((res) => {
-        console.log("LOG Proposal RES: ", res);
-        updateEachDemand();
-      });
+      // AtaService.updateProposalsLogs(decisions).then((res) => {
+      //   updateEachDemand();
+      // });
       navigate("/atas");
     }
   }
