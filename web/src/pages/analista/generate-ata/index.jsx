@@ -108,6 +108,10 @@ export default function GenerateAta(props) {
     return true;
   }
 
+  useEffect(() => {
+    console.log("FINAL DECISIONS", finalDecisions);
+  }, [finalDecisions])
+
   // Salva a ata no banco de dados
   function saveAta() {
     if (!props.isAtaForDG && !verificarAta()) return;
@@ -117,8 +121,8 @@ export default function GenerateAta(props) {
         idPauta: params.id,
       },
       propostasLog: finalDecisions.map((fd) => {
-        delete fd.idDemanda;
-        return fd;
+        const { idDemanda, ...rest } = fd;
+        return rest;
       }),
     };
 
@@ -132,7 +136,7 @@ export default function GenerateAta(props) {
     if (!props.isAtaForDG) {
       AtaService.createAta(form).then((response) => {
         if (response.status == 201) {
-          updateEachDemand(false);
+          updateEachDemand();
           setAtaCreatedSuccessNotification(true);
           const timer = setTimeout(() => {
             setAtaCreatedSuccessNotification(false);
@@ -149,7 +153,7 @@ export default function GenerateAta(props) {
       });
 
       AtaService.updateProposalsLogs(decisions).then((res) => {
-        if ([200, 201].includes(res.status)) updateEachDemand(true);
+        updateEachDemand();
       });
       navigate("/atas");
     }
@@ -172,8 +176,10 @@ export default function GenerateAta(props) {
     return props.isAtaForDG ? proposal.idPropostaLog : proposal.idProposta;
   };
 
-  const updateEachDemand = (isForDG = false) => {
+  const updateEachDemand = () => {
+    const isForDG = props.isAtaForDG;
     finalDecisions.forEach((fd) => {
+      console.log("FD", fd)
       // const proposal = await ProposalService.getProposalById(fd.propostaPropostaLog.idProposta);
       const demandId = fd.idDemanda;
       if (!isForDG) {
@@ -194,10 +200,8 @@ export default function GenerateAta(props) {
           }
         });
       } else {
-        // console.log("EXECUCAO_PROPOSTA", demandId, "Aprovar", 72131);
-        // console.log(demandId, formatStatusToDemand(fd.parecerComissaoPropostaLog, isForDG));
         DemandLogService.createDemandLog(
-          "EXECUCAO_PROPOSTA",
+          "PROPOSTA_EM_EXECUCAO",
           demandId,
           "Aprovar",
           72131
@@ -241,6 +245,7 @@ export default function GenerateAta(props) {
         const fd = {
           ...proposalFinalDecisionTemplate,
           propostaPropostaLog: { idProposta: getCorrectId(proposal) },
+          idDemanda: proposal.idDemanda,
         };
         return fd;
       });
@@ -269,7 +274,7 @@ export default function GenerateAta(props) {
         <Notification
           message={
             translate[
-              "Você não selecionou um arquivo de decisão final. Por favor, anexe um!"
+            "Você não selecionou um arquivo de decisão final. Por favor, anexe um!"
             ]?.[language] ??
             "Você não selecionou um arquivo de decisão final. Por favor, anexe um!"
           }
@@ -289,7 +294,7 @@ export default function GenerateAta(props) {
         <Notification
           message={
             translate[
-              "Parecer Comissão, Considerações e Tipo Ata são obrigatórios"
+            "Parecer Comissão, Considerações e Tipo Ata são obrigatórios"
             ]?.[language] ??
             "Parecer Comissão, Considerações e Tipo Ata são obrigatórios"
           }

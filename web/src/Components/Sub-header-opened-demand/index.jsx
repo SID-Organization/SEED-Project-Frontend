@@ -242,103 +242,111 @@ export default function subHeader(props) {
     navigate(`/propostas/${params.id}`);
   };
 
-  const actionOptions = [
-    {
-      text:
-        translate["Classificar demanda"]?.[language] ?? "Classificar demanda",
-      role: ["ANALISTA"],
-      demandStatus: ["ABERTA"],
-      notDemandStatus: [""],
-      function: handleOpenModal,
-      key: 1,
-    },
-    {
-      text: translate["Aprovar"]?.[language] ?? "Aprovar",
-      role: ["GERENTE", "GESTOR_TI"],
-      demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
-      notDemandStatus: [
-        "PROPOSTA_PRONTA",
-        "PROPOSTA_FINALIZADA",
-        "DISIGN_AND_BUILD",
-        "SUPORTE",
-      ],
-      function: handleOpenApproveDemand,
-      key: 2,
-    },
-    {
-      text: translate["Acessar proposta"]?.[language] ?? "Acessar proposta",
-      role: ["ANALISTA", "GESTOR_TI"],
-      demandStatus: ["PROPOSTA_EM_ELABORACAO"],
-      notDemandStatus: [""],
-      function: accessProposal,
-      key: 3,
-    },
-    {
-      text: translate["Ver proposta"]?.[language] ?? "Ver proposta",
-      role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
-      demandStatus: [
-        "PROPOSTA_PRONTA",
-        "PROPOSTA_FINALIZADA",
-        "EM_PAUTA",
-        "APROVADA_EM_COMISSAO",
-        "APROVADA_EM_DG",
-        "PROPOSTA_EM_EXECUCAO",
-        "PROPOSTA_EM_SUPORTE",
-        "BUSINESS_CASE",
-      ],
-      notDemandStatus: [""],
-      function: accessProposalDetails,
-      key: 4,
-    },
-    {
-      text: translate["Devolver"]?.[language] ?? "Devolver",
-      role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
-      demandStatus: ["TODAS"],
-      notDemandStatus: ["EM_EDICAO", "CANCELADA"],
-      function: () => setIsReasonOfModalOpen(true),
-      key: 5,
-    },
+  console.log("demand", demand);
 
-    {
-      text: translate["Recusar"]?.[language] ?? "Recusar",
-      role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
-      demandStatus: ["TODAS"],
-      notDemandStatus: ["EM_EDICAO", "CANCELADA"],
-      function: () => setIsReasonOfModalOpen(true),
-      key: 6,
-    },
-    {
-      text: translate["Alterar status"]?.[language] ?? "Alterar status",
-      role: ["ANALISTA"],
-      demandStatus: [
-        "APROVADO_EM_DG",
-        "PROPOSTA_EM_EXECUCAO",
-        "PROPOSTA_EM_SUPORTE",
-        "PROPOSTA_FINALIZADA",
-        "TODAS",
-      ],
-      notDemandStatus: [""],
-      function: () => setModalChangeDemandStatus(true),
-      key: 7,
-    },
-    {
-      text:
-        translate["Alterar importância"]?.[language] ?? "Alterar importância",
-      role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
-      demandStatus: ["TODAS"],
-      notDemandStatus: [""],
-      function: () => setIsImportanceModalOpen(true),
-      key: 8,
-    },
-    {
-      text: translate["Gerenciar analistas"][language] ?? "Gerenciar analistas",
-      role: ["ANALISTA", "GERENTE"],
-      demandStatus: ["TODAS"],
-      notDemandStatus: ["RASCUNHO", "CANCELADA"],
-      function: () => setModalManageAnalysts(true),
-      key: 9,
-    },
-  ];
+  const [actionOptions, setActionOptions] = useState([])
+
+  useEffect(() => {
+    if (demand) {
+      setActionOptions([
+        {
+          text:
+            translate["Classificar demanda"]?.[language] ?? "Classificar demanda",
+          role: ["ANALISTA"],
+          demandStatus: ["ABERTA"],
+          notDemandStatus: [""],
+          function: handleOpenModal,
+          key: 1,
+        },
+        {
+          text: translate["Aprovar"]?.[language] ?? "Aprovar",
+          role: ["GERENTE", "GESTOR_TI"],
+          demandStatus: ["CLASSIFICADO_PELO_ANALISTA", "PROPOSTA_PRONTA"],
+          notDemandStatus: [
+            "PROPOSTA_PRONTA",
+            "PROPOSTA_FINALIZADA",
+            "DISIGN_AND_BUILD",
+            "SUPORTE",
+          ],
+          function: handleOpenApproveDemand,
+          key: 2,
+        },
+        {
+          text: translate["Acessar proposta"]?.[language] ?? "Acessar proposta",
+          role: ["ANALISTA", "GESTOR_TI"],
+          demandStatus: ["PROPOSTA_EM_ELABORACAO"],
+          notDemandStatus: [""],
+          function: accessProposal,
+          key: 3,
+        },
+        {
+          text: translate["Ver proposta"]?.[language] ?? "Ver proposta",
+          role: ["SOLICITANTE", "ANALISTA", "GERENTE", "GESTOR_TI"],
+          demandStatus: [
+            "PROPOSTA_PRONTA",
+            "PROPOSTA_FINALIZADA",
+            "EM_PAUTA",
+            "APROVADA_EM_COMISSAO",
+            "APROVADA_EM_DG",
+            "PROPOSTA_EM_EXECUCAO",
+            "PROPOSTA_EM_SUPORTE",
+            "BUSINESS_CASE",
+          ],
+          notDemandStatus: [""],
+          function: accessProposalDetails,
+          key: 4,
+        },
+        {
+          text: translate["Devolver"]?.[language] ?? "Devolver",
+          role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+          demandStatus: ["TODAS"],
+          notDemandStatus: ["EM_EDICAO", "CANCELADA"],
+          function: () => setIsReasonOfModalOpen(true),
+          key: 5,
+        },
+
+        {
+          text: translate["Recusar"]?.[language] ?? "Recusar",
+          role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+          demandStatus: ["TODAS"],
+          notDemandStatus: ["EM_EDICAO", "CANCELADA"],
+          function: () => setIsReasonOfModalOpen(true),
+          key: 6,
+        },
+        {
+          text: translate["Alterar status"]?.[language] ?? "Alterar status",
+          role: ["ANALISTA"],
+          demandStatus: [
+            "APROVADO_EM_DG",
+            "PROPOSTA_EM_EXECUCAO",
+            "PROPOSTA_EM_SUPORTE",
+            "PROPOSTA_FINALIZADA",
+            "TODAS",
+          ],
+          notDemandStatus: [""],
+          function: () => setModalChangeDemandStatus(true),
+          key: 7,
+        },
+        {
+          text:
+            translate["Alterar importância"]?.[language] ?? "Alterar importância",
+          role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
+          demandStatus: ["TODAS"],
+          notDemandStatus: [""],
+          function: () => setIsImportanceModalOpen(true),
+          key: 8,
+        },
+        {
+          text: translate["Gerenciar analistas"][language] ?? "Gerenciar analistas",
+          role: ["ANALISTA", "GERENTE"],
+          demandStatus: ["TODAS"],
+          notDemandStatus: ["RASCUNHO", "CANCELADA"],
+          function: () => setModalManageAnalysts(true),
+          key: 9,
+        },
+      ])
+    }
+  }, [demand])
 
   const getIsDevolution = () => {
     return selectedKey == 5;
@@ -566,7 +574,7 @@ export default function subHeader(props) {
         <Notification
           message={
             translate["Status da demanda atualizado com sucesso!"]?.[
-              language
+            language
             ] ?? "Status da demanda atualizado com sucesso!"
           }
           severity="success"
@@ -995,7 +1003,7 @@ export default function subHeader(props) {
           </Button>
         )}
 
-        {user.cargoUsuario != "SOLICITANTE" && (
+        {user.cargoUsuario != "SOLICITANTE" && (demand?.solicitanteDemanda.numeroCadastroUsuario != UserUtils.getLoggedUserId()) && (
           <ButtonGroup
             variant="contained"
             ref={anchorRef}

@@ -228,14 +228,14 @@ export default function openedDemand() {
                       style={{ fontSize: fonts.base }}
                       className="font-roboto text-light-blue-weg"
                     >
-                       {demand?.analistaResponsavelDemanda?.nomeUsuario ?? translate["Indefinido"]?.[language] ?? "Indefinido"}
+                       {demand?.analistasResponsaveisDemanda[0]?.nomeUsuario ?? translate["Indefinido"]?.[language] ?? "Indefinido"}
                     </h1>
                     <h1
                       style={{ fontSize: fonts.sm }}
                       className="text-light-blue-weg"
                     >
                       {
-                        demand?.analistaResponsavelDemanda?.departamentoUsuario
+                        demand?.analistasResponsaveisDemanda[0]?.departamentoUsuario
                           .nomeBusinessUnity ?? translate["Indefinido"]?.[language] ?? "Indefinido"
                       }
                     </h1>

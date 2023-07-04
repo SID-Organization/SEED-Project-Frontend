@@ -95,8 +95,6 @@ export default function WorkflowTable({ demandId }) {
     setWorkFlowRows(() =>
       workFlowData.map((wfdata, index) => {
 
-        console.log("WF DATA", wfdata.acaoFeitaHistorico)
-
         return {
           id: index + 1,
           recebimento: wfdata.recebimentoHistorico,
