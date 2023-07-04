@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { styled } from "@mui/material/styles";
 import Notification from "../../Notification";
 
@@ -52,6 +52,9 @@ export default function ManageAnalysts(props) {
 
   const [analysts, setAnalysts] = useState([]);
 
+  const [deleteAnalystNotification, setDeleteAnalystNotification] =
+    useState(false);
+
   useEffect(() => {
     setAnalysts(props.analysts);
   }, [props.analysts]);
@@ -59,11 +62,16 @@ export default function ManageAnalysts(props) {
   useEffect(() => {
     if (!analysts) return;
     UserService.getAllAnalysts()
-      .then(res => {
-        const notResponsableAnalysts = res.data.filter(a => !analysts.find(an => an.numeroCadastroUsuario === a.numeroCadastroUsuario));
+      .then((res) => {
+        const notResponsableAnalysts = res.data.filter(
+          (a) =>
+            !analysts.find(
+              (an) => an.numeroCadastroUsuario === a.numeroCadastroUsuario
+            )
+        );
         setAllAnalysts(notResponsableAnalysts);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Erro ao buscar analistas");
         console.warn(err);
       });
@@ -76,6 +84,11 @@ export default function ManageAnalysts(props) {
   function handleDeleteAnalyst(index) {
     const newAnalysts = analysts.filter((analyst, i) => i !== index);
     setAnalysts(newAnalysts);
+    setDeleteAnalystNotification(true);
+    const timer = setTimeout(() => {
+      setDeleteAnalystNotification(false);
+    }, 2200);
+    return () => clearTimeout(timer);
   }
 
   useEffect(() => {
@@ -87,13 +100,16 @@ export default function ManageAnalysts(props) {
     }
     for (let i = 0; i < analysts.length; i++) {
       // Verifica se o analista atual é diferente do analista da demanda
-      if (analysts[i].numeroCadastroUsuario !== props.analysts[i].numeroCadastroUsuario) {
+      if (
+        analysts[i].numeroCadastroUsuario !==
+        props.analysts[i].numeroCadastroUsuario
+      ) {
         setChangedAnalysts(true);
         return;
       }
     }
     setChangedAnalysts(false);
-  }, [analysts])
+  }, [analysts]);
 
   function saveAnalystChanges() {
     DemandService.updateDemandAnalysts(props.demandId, analysts)
@@ -101,6 +117,11 @@ export default function ManageAnalysts(props) {
         console.log("Analistas atualizados com sucesso");
         props.handleCloseManageAnalysts();
         setChangedAnalysts(false);
+        setNotificationConfirm(true);
+        const timer = setTimeout(() => {
+          setNotificationConfirm(false);
+        }, 2200);
+        return () => clearTimeout(timer);
       })
       .catch((err) => {
         if (err.status === 404) {
@@ -114,26 +135,27 @@ export default function ManageAnalysts(props) {
 
   const handleAddAnalyst = () => {
     UserService.getUserById(newAnalystCadastro)
-      .then(res => {
-        console.log("res", res)
+      .then((res) => {
+        console.log("res", res);
         const newAnalysts = [...analysts, res.data];
         setAnalysts(newAnalysts);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Usuário não encontrado");
         console.log(err);
       });
     setNewAnalystCadastro("");
     setShowAddAnalystDialog(false);
-    setNotificationConfirm(true);
-    const timer = setTimeout(() => {
-      setNotificationConfirm(false);
-    }, 2000);
-    return () => clearTimeout(timer);
   };
 
   return (
     <>
+      {deleteAnalystNotification && (
+        <Notification
+          message="Analista removido com sucesso!"
+          severity="success"
+        />
+      )}
       {notificationConfirm && (
         <Notification
           message="Analista adicionado com sucesso!"
@@ -172,7 +194,7 @@ export default function ManageAnalysts(props) {
           Gerenciar analistas
         </Typography>
         <div
-          className="max-h-[800px] h-[800px] overflow-y-scroll
+          className="h-[800px] max-h-[800px] overflow-y-scroll
      scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
           onScroll={handleScroll}
         >
@@ -212,7 +234,8 @@ export default function ManageAnalysts(props) {
                     }}
                   />
                   <InfoTypography>
-                    {analyst.numeroCadastroUsuario} - {analyst.nomeUsuario} - {analyst.departamentoUsuario.nomeBusinessUnity}
+                    {analyst.numeroCadastroUsuario} - {analyst.nomeUsuario} -{" "}
+                    {analyst.departamentoUsuario.nomeBusinessUnity}
                   </InfoTypography>
                   <Tooltip title="Remover analista" placement="right">
                     <IconButton
@@ -242,6 +265,7 @@ export default function ManageAnalysts(props) {
           <Button
             style={{
               color: "#0075b1",
+              width: "100%",
             }}
             onClick={() => setShowAddAnalystDialog(true)}
           >
@@ -259,6 +283,7 @@ export default function ManageAnalysts(props) {
               <Button
                 style={{
                   color: "#0075b1",
+                  width: "100%",
                 }}
                 onClick={() => saveAnalystChanges()}
               >
@@ -317,9 +342,13 @@ export default function ManageAnalysts(props) {
                 setNewAnalystCadastro(newValue.numeroCadastroUsuario);
               }}
               options={allAnalysts || []}
-              getOptionLabel={(option) => option.numeroCadastroUsuario + " - " + option.nomeUsuario}
+              getOptionLabel={(option) =>
+                option.numeroCadastroUsuario + " - " + option.nomeUsuario
+              }
               style={{ width: 200 }}
-              renderInput={(params) => <TextField {...params} label="Analista" variant="outlined" />}
+              renderInput={(params) => (
+                <TextField {...params} label="Analista" variant="outlined" />
+              )}
             />
             <Button
               variant="contained"
