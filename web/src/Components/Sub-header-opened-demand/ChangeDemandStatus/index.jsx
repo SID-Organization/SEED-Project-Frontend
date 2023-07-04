@@ -12,6 +12,8 @@ import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
 // Utils
 import UserUtils from "../../../utils/User-Utils";
 
+import DemandStatusJSON from "../../../utils/Demand-Utils/JSONs/DemandStatus.json";
+
 const styleChangeDemandImportance = {
   position: "absolute",
   top: "50%",
@@ -57,19 +59,37 @@ export default function ChangeDemandStatus(props) {
               >
                 <MenuItem value={"PROPOSTA_EM_EXECUCAO"}>
                   <div className="ml-2 flex items-center justify-start gap-2">
-                    <div className="h-2 w-2 rounded-full bg-[#00ffff]" />
+                    <div
+                      className="h-2 w-2 rounded-full"
+                      style={{
+                        backgroundColor:
+                          DemandStatusJSON["PROPOSTA_EM_EXECUCAO"]?.["COLOR"],
+                      }}
+                    />
                     Proposta em execução
                   </div>
                 </MenuItem>
                 <MenuItem value={"PROPOSTA_EM_SUPORTE"}>
                   <div className="ml-2 flex items-center justify-start gap-2">
-                    <div className="h-2 w-2 rounded-full bg-[#4b0082]" />
+                    <div
+                      className="h-2 w-2 rounded-full"
+                      style={{
+                        backgroundColor:
+                          DemandStatusJSON["PROPOSTA_EM_SUPORTE"]?.["COLOR"],
+                      }}
+                    />
                     Proposta em suporte
                   </div>
                 </MenuItem>
                 <MenuItem value={"PROPOSTA_FINALIZADA"}>
                   <div className="ml-2 flex items-center justify-start gap-2">
-                    <div className="h-2 w-2 rounded-full bg-[#228b22]" />
+                    <div
+                      className="h-2 w-2 rounded-full"
+                      style={{
+                        backgroundColor:
+                          DemandStatusJSON["PROPOSTA_FINALIZADA"]?.["COLOR"],
+                      }}
+                    />
                     Proposta finalizada
                   </div>
                 </MenuItem>

@@ -20,9 +20,8 @@ import { TranslateContext } from "../../contexts/translate/index.jsx";
 const { quillModules, removeHTML } = ReactQuillUtils;
 
 export default function GenerateAtaProposal(props) {
-
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [parecerComissao, setParecerComissao] = useState("");
   const [publicada, setPublicada] = useState(false);
@@ -32,25 +31,33 @@ export default function GenerateAtaProposal(props) {
 
   function formatParecerComissao(parecerComissao) {
     let txtToUpper = parecerComissao.toUpperCase();
-    let cleanedTxt = txtToUpper.replace(/Ç/g, 'C').replace(/Õ/g, 'O').replace(/ /g, "_");
+    let cleanedTxt = txtToUpper
+      .replace(/Ç/g, "C")
+      .replace(/Õ/g, "O")
+      .replace(/ /g, "_");
 
     return cleanedTxt;
   }
-
 
   function updateDecision() {
     if (!props.finalDecision) return;
     const newFinalDecision = { ...props.finalDecision };
     console.log(newFinalDecision);
     // newFinalDecision.propostaPropostaLog.idProposta = props.proposal.idProposta;
-    newFinalDecision.parecerComissaoPropostaLog = formatParecerComissao(parecerComissao);
-    newFinalDecision.consideracoesPropostaLog = removeHTML(quillHtmlConsideration);
+    newFinalDecision.parecerComissaoPropostaLog =
+      formatParecerComissao(parecerComissao);
+    newFinalDecision.consideracoesPropostaLog = removeHTML(
+      quillHtmlConsideration
+    );
     newFinalDecision.idDemanda = props.proposal.idDemanda;
 
     if (!props.isAtaForDG)
-      newFinalDecision.tipoAtaPropostaLog = publicada ? "PUBLICADA" : naoPublicada ? "NAO_PUBLICADA" : "";
+      newFinalDecision.tipoAtaPropostaLog = publicada
+        ? "PUBLICADA"
+        : naoPublicada
+        ? "NAO_PUBLICADA"
+        : "";
 
-    
     props.setFinalDecision(newFinalDecision);
   }
 
@@ -82,21 +89,25 @@ export default function GenerateAtaProposal(props) {
     {
       action: translate["Reprovado"][language] ?? "Reprovado",
     },
-  ]
+  ];
 
   const getActions = () => {
     if (props.isAtaForDG) return actionsDG;
     return actionsComission;
-  }
+  };
 
   const getBadgeColor = (action) => {
     switch (action) {
-      case translate["Aprovado"][language] ?? "Aprovado": return 'success'
-      case translate["Reprovado"][language] ?? "Reprovado": return 'error'
-      case translate["Mais informações"][language] ?? "Mais informações": return 'warning'
-      default: return 'info'
+      case translate["Aprovado"][language] ?? "Aprovado":
+        return "success";
+      case translate["Reprovado"][language] ?? "Reprovado":
+        return "error";
+      case translate["Mais informações"][language] ?? "Mais informações":
+        return "warning";
+      default:
+        return "info";
     }
-  }
+  };
 
   const Button = styled(MuiButton)({
     height: 50,
@@ -119,13 +130,17 @@ export default function GenerateAtaProposal(props) {
         </div>
         <div
           className="
-          md:grid md:grid-cols-2 md:gap-4 md:mt-5
-          mt-5
+          mt-5 md:mt-5 md:grid md:grid-cols-2
+          md:gap-4
           
         "
         >
           <div className="grid">
-            <p className="font-roboto font-bold">{translate[`Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`][language] ?? `Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`}</p>
+            <p className="font-roboto font-bold">
+              {translate[`Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`][
+                language
+              ] ?? `Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`}
+            </p>
             <Box sx={{ minWidth: 120 }}>
               <FormControl
                 fullWidth
@@ -145,14 +160,14 @@ export default function GenerateAtaProposal(props) {
                 >
                   {getActions().map((action, i) => (
                     <MenuItem key={i} value={action.action}>
-                      {action.action}
                       <Badge
                         color={getBadgeColor(action.action)}
                         variant="dot"
                         sx={{
-                          ml: 1.5,
+                          marginRight: 1.5,
                         }}
                       />
+                      {action.action}
                     </MenuItem>
                   ))}
                 </Select>
@@ -160,7 +175,9 @@ export default function GenerateAtaProposal(props) {
             </Box>
           </div>
           <div className="grid">
-            <p className="font-roboto font-bold">{translate["Considerações"][language] ?? "Considerações"}</p>
+            <p className="font-roboto font-bold">
+              {translate["Considerações"][language] ?? "Considerações"}
+            </p>
             <ReactQuill
               value={quillHtmlConsideration}
               onChange={(e) => setQuillHtmlConsideration(e)}
@@ -169,64 +186,66 @@ export default function GenerateAtaProposal(props) {
               style={style}
             />
           </div>
-          {!props.isAtaForDG ? <div className="grid">
-            <p className="font-roboto font-bold mb-2">
-              {translate["Assunto registrado em ata"][language] ?? "Assunto registrado em ata"}
-            </p>
-            <div className="flex gap-2 mb-10">
-              <Button
-                sx={{
-                  height: 40,
-                  width: 150,
-                  border: publicada ? "1px solid #023A67" : "1px solid #000",
-                  color: publicada ? "#fff" : "#000",
-                  backgroundColor: publicada ? "#0075B1" : "#fff",
-
-                  "&:hover": {
+          {!props.isAtaForDG ? (
+            <div className="grid">
+              <p className="mb-2 font-roboto font-bold">
+                {translate["Assunto registrado em ata"][language] ??
+                  "Assunto registrado em ata"}
+              </p>
+              <div className="mb-10 flex gap-2">
+                <Button
+                  sx={{
+                    height: 40,
+                    width: 150,
+                    border: publicada ? "1px solid #023A67" : "1px solid #000",
+                    color: publicada ? "#fff" : "#000",
                     backgroundColor: publicada ? "#0075B1" : "#fff",
-                  },
-                }}
-                onClick={() => {
-                  setPublicada(!publicada);
-                  setNaoPublicada(false);
-                }}
-                variant={publicada ? "contained" : "outlined"}
-                startIcon={
-                  <PublicIcon sx={{ color: publicada ? "#fff" : "#000" }} />
-                }
-              >
-                {translate["Publicada"][language] ?? "Publicada"}
-              </Button>
-              <Button
-                onClick={() => {
-                  setNaoPublicada(!naoPublicada);
-                  setPublicada(false);
-                }}
-                sx={{
-                  height: 40,
-                  width: 180,
-                  border: publicada ? "1px solid #023A67" : "1px solid #000",
-                  color: naoPublicada ? "#fff" : "#000",
-                  backgroundColor: naoPublicada ? "#0075B1" : "#fff",
 
-                  "&:hover": {
+                    "&:hover": {
+                      backgroundColor: publicada ? "#0075B1" : "#fff",
+                    },
+                  }}
+                  onClick={() => {
+                    setPublicada(!publicada);
+                    setNaoPublicada(false);
+                  }}
+                  variant={publicada ? "contained" : "outlined"}
+                  startIcon={
+                    <PublicIcon sx={{ color: publicada ? "#fff" : "#000" }} />
+                  }
+                >
+                  {translate["Publicada"][language] ?? "Publicada"}
+                </Button>
+                <Button
+                  onClick={() => {
+                    setNaoPublicada(!naoPublicada);
+                    setPublicada(false);
+                  }}
+                  sx={{
+                    height: 40,
+                    width: 180,
+                    border: publicada ? "1px solid #023A67" : "1px solid #000",
+                    color: naoPublicada ? "#fff" : "#000",
                     backgroundColor: naoPublicada ? "#0075B1" : "#fff",
-                  },
-                }}
-                variant={naoPublicada ? "contained" : "outlined"}
-                startIcon={
-                  <PublicOffIcon
-                    sx={{ color: naoPublicada ? "#fff" : "#000" }}
-                  />
-                }
-              >
-                {translate["Não publicada"][language] ?? "Não publicada"}
-              </Button>
+
+                    "&:hover": {
+                      backgroundColor: naoPublicada ? "#0075B1" : "#fff",
+                    },
+                  }}
+                  variant={naoPublicada ? "contained" : "outlined"}
+                  startIcon={
+                    <PublicOffIcon
+                      sx={{ color: naoPublicada ? "#fff" : "#000" }}
+                    />
+                  }
+                >
+                  {translate["Não publicada"][language] ?? "Não publicada"}
+                </Button>
+              </div>
             </div>
-          </div>
-            : (
-              <div className="h-28" />
-            )}
+          ) : (
+            <div className="h-28" />
+          )}
         </div>
       </div>
       <Divider

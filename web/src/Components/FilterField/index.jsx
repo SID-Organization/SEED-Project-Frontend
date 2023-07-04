@@ -73,14 +73,13 @@ export default function FilterComponent(props) {
         >
           {props.options.map((option) => (
             <MenuItem key={option.value} value={option.value}>
-              <div
-                className="h-6 pl-2"
-                style={{
-                  borderLeft: `3px solid ${
-                    DemandStatusJSON[option.value]?.["COLOR"]
-                  }`,
-                }}
-              >
+              <div className="flex h-6 items-center">
+                <div
+                  className={`mr-3 h-2 w-2 rounded-full`}
+                  style={{
+                    backgroundColor: DemandStatusJSON[option.value]?.["COLOR"],
+                  }}
+                />
                 {option.label}
               </div>
             </MenuItem>
