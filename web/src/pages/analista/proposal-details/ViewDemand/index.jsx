@@ -82,6 +82,7 @@ export default function ViewDemand() {
   const [fileRows, setFileRows] = useState();
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
   const [demandLogs, setDemandLogs] = useState();
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     if (params.idDemanda) {
@@ -459,7 +460,7 @@ export default function ViewDemand() {
             </div>
           </div>
 
-          <div className="grid items-center h-96">
+          <div className={`grid items-center h-[${pageSize == 5 ? "25rem" : "28rem"}]`}>
             <div className="flex items-center justify-start">
               <h1
                 style={{ fontSize: fonts.lg }}
@@ -468,7 +469,7 @@ export default function ViewDemand() {
                 {translate["Histórico"]?.[language] ?? "Histórico"}
               </h1>
             </div>
-            <WorkflowTable demandId={params.idDemanda} />
+            <WorkflowTable demandId={params.idDemanda} setPageSize={setPageSize} pageSize={pageSize} />
           </div>
         </Box>
       </Modal>
