@@ -11,6 +11,8 @@ import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { Fade } from "@mui/material";
 
 // Components
 import FilterField from "../FilterField";
@@ -75,6 +77,8 @@ export default function DemandFilter(props) {
   // Speech state
   const [searchSpeech, setSearchSpeech] = useState({ id: 1, text: "" });
 
+  const [showSavedFilters, setShowSavedFilters] = useState(false);
+
   useEffect(() => {
     if (searchSpeech.text != "") {
       setTitle((ps) => ps + searchSpeech.text);
@@ -88,25 +92,27 @@ export default function DemandFilter(props) {
 
   function getAndSetUserFilters() {
     FilterService.getUserFilters(UserUtils.getLoggedUserId())
-      .then(data => {
+      .then((data) => {
         setSavedFilters(data);
-      }
-      ).catch(err => {
+      })
+      .catch((err) => {
         console.log("User filters error: ", err);
       });
   }
 
   useEffect(() => {
     ForumService.getForuns()
-      .then(res => {
-        setForumOptions(res.map(f => (
-          {
+      .then((res) => {
+        setForumOptions(
+          res.map((f) => ({
             value: f.comissaoForum.nomeComissao,
-            label: f.comissaoForum.nomeComissao
-          })));
-      }).catch(err => {
-        console.log("Forum options error", err);
+            label: f.comissaoForum.nomeComissao,
+          }))
+        );
       })
+      .catch((err) => {
+        console.log("Forum options error", err);
+      });
   }, []);
 
   function handleOpenFilter(event) {
@@ -163,7 +169,6 @@ export default function DemandFilter(props) {
       });
   }
 
-
   /**
    * { { filterBy: "nomeSolicitante", value: requester, type: "text" },
       { filterBy: "nomeGerenteResponsavelDemanda", value: responsibleManager, type: "text" },
@@ -181,8 +186,8 @@ export default function DemandFilter(props) {
 
   function selectFilter(id) {
     cleanStates();
-    console.log("ID", id)
-    const filterObj = savedFilters.find(f => f.idFiltroDemanda == id);
+    console.log("ID", id);
+    const filterObj = savedFilters.find((f) => f.idFiltroDemanda == id);
     console.log("Filter obj", filterObj);
     const filters = filterObj.filtros;
 
@@ -295,8 +300,12 @@ export default function DemandFilter(props) {
     if (title.length > 2 || title.length === 0) {
       filterDemands();
     }
-  }, [title])
-  
+  }, [title]);
+
+  const handleSavedFiltersClick = () => {
+    setShowSavedFilters(!showSavedFilters);
+  };
+
   return (
     <ClickAwayListener onClickAway={handleCloseAndFilter}>
       <div id="tutorial-filter">
@@ -372,6 +381,15 @@ export default function DemandFilter(props) {
               borderTop: "3px solid #0075b1",
             }}
           >
+            <IconButton
+              type="button"
+              sx={{ p: "10px" }}
+              aria-label="saved-filters"
+              onClick={handleSavedFiltersClick}
+            >
+              <ChevronRightIcon />
+            </IconButton>
+
             <div className="grid gap-3">
               <FilterField
                 title={
@@ -434,7 +452,10 @@ export default function DemandFilter(props) {
                 setValue={setResponsibleManager}
               />
               <FilterField
-                title={filterTranslate["Fórum de aprovação"]?.[language] ?? "Fórum de aprovação"}
+                title={
+                  filterTranslate["Fórum de aprovação"]?.[language] ??
+                  "Fórum de aprovação"
+                }
                 type="text"
                 value={approvalForum}
                 setValue={setApprovalForum}
@@ -525,19 +546,17 @@ export default function DemandFilter(props) {
               </div>
             </div>
           </Paper>
-          <SavedFilters
-            selectFilter={selectFilter}
-            deleteFilter={deleteFilter}
-            filters={savedFilters}
-          />
-          <SaveFilter
-            isSaveFilterOpen={isSaveFilterOpen}
-            setIsSaveFilterOpen={setIsSaveFilterOpen}
-            saveNewFilter={saveNewFilter}
-            anchorElSaveFilter={anchorElSaveFilter}
-            newFilterTitle={newFilterTitle}
-            setNewFilterTitle={setNewFilterTitle}
-          />
+          {showSavedFilters && (
+            <Fade in={showSavedFilters} timeout={200}>
+              <div className="absolute left-[47rem]">
+                <SavedFilters
+                  selectFilter={selectFilter}
+                  deleteFilter={deleteFilter}
+                  filters={savedFilters}
+                />
+              </div>
+            </Fade>
+          )}
         </Popper>
       </div>
     </ClickAwayListener>
