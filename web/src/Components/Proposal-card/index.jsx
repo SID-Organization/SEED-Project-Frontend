@@ -139,7 +139,28 @@ export default function ProposalCard(props) {
 
   return (
     <div>
-      <Card>
+      <div
+        className="
+        h-23
+        flex
+        w-full
+        items-center
+        justify-between
+        gap-4
+        rounded-md
+        border
+        border-gray-200
+        bg-white
+        px-4
+        py-2
+        shadow-sm
+        transition
+        duration-200
+        hover:border-gray-300
+        hover:bg-gray-50
+        hover:shadow-md
+      "
+      >
         <div className="flex items-center justify-around gap-16">
           <div
             className={`grid gap-7 font-roboto ${
@@ -330,7 +351,7 @@ export default function ProposalCard(props) {
                     <PlayCircleFilledWhiteRoundedIcon />
                   </IconButtonStart>
                 </Tooltip> */}
-                <Tooltip
+                {/* <Tooltip
                   title={
                     isButtonAddClicked
                       ? translate["Remover Proposta"][language] ??
@@ -348,7 +369,7 @@ export default function ProposalCard(props) {
                       <AddCircleRoundedIcon />
                     </IconButtonDefault>
                   )}
-                </Tooltip>
+                </Tooltip> */}
 
                 <Tooltip
                   title={
@@ -370,7 +391,7 @@ export default function ProposalCard(props) {
             )}
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }
