@@ -334,7 +334,7 @@ export default function DemandCard(props) {
                   <div className="flex items-center justify-between">
                     <Tooltip
                       title={
-                        props.demand.tituloDemanda.length > 20
+                        props.demand.tituloDemanda.length > 30
                           ? props.demand.tituloDemanda
                           : ""
                       }
@@ -348,8 +348,8 @@ export default function DemandCard(props) {
                         }}
                       >
                         <span style={{ fontSize: fonts.base }}>
-                          {props.demand.tituloDemanda.length > 20
-                            ? props.demand.tituloDemanda.slice(0, 20) + "..."
+                          {props.demand.tituloDemanda.length > 30
+                            ? props.demand.tituloDemanda.slice(0, 30) + "..."
                             : props.demand.tituloDemanda}
                         </span>
                       </Typography>

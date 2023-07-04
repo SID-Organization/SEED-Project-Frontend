@@ -68,12 +68,11 @@ const getStatusColor = (status) => {
 
 
 
-export default function WorkflowTable({ demandId }) {
+export default function WorkflowTable(props) {
 
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
-  const [pageSize, setPageSize] = useState(5);
   const [workFlowData, setWorkFlowData] = useState([]);
   const [workFlowRows, setWorkFlowRows] = useState([]);
 
@@ -82,7 +81,7 @@ export default function WorkflowTable({ demandId }) {
 
   // Busca os dados do workflow da demanda
   useEffect(() => {
-    DemandLogService.getDemandLogs(demandId).then((res) => {
+    DemandLogService.getDemandLogs(props.demandId).then((res) => {
       setWorkFlowData(res.data);
       console.log("Workflow RES", res.data);
     });
@@ -196,17 +195,13 @@ export default function WorkflowTable({ demandId }) {
     }
   ];
 
-  useEffect(() => {
-    console.log("pageSize", pageSize);
-  }, [pageSize])
-
 
   return (
-    <Box sx={{ height: pageSize === 5 ? "20rem" : "25rem" }}>
+    <Box sx={{ height: props.pageSize === 5 ? "20rem" : "25rem" }}>
       <DataGrid
         rowsPerPageOptions={[5, 10, 20]}
-        pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        pageSize={props.pageSize}
+        onPageSizeChange={(newPageSize) => props.setPageSize(newPageSize)}
         columns={columns}
         rows={workFlowRows}
         density="compact"

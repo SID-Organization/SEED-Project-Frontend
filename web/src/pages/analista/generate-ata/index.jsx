@@ -153,6 +153,7 @@ export default function GenerateAta(props) {
       });
 
       AtaService.updateProposalsLogs(decisions).then((res) => {
+        console.log("LOG Proposal RES: ", res);
         updateEachDemand();
       });
       navigate("/atas");
