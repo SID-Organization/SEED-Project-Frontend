@@ -433,7 +433,7 @@ export default function CreateNewPauta(props) {
                 </div>
               </div>
               <div
-                className="grid max-h-[21rem] gap-5 overflow-y-scroll scrollbar-thin
+                className="grid max-h-[21rem] p-2 gap-5 overflow-y-scroll scrollbar-thin
                 scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
               >
                 {readyProposals.length > 0 &&

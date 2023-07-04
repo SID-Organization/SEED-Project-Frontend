@@ -151,6 +151,7 @@ export default function GenerateAta(props) {
       AtaService.updateProposalsLogs(decisions).then((res) => {
         if ([200, 201].includes(res.status)) updateEachDemand(true);
       });
+      navigate("/atas");
     }
   }
 

@@ -656,9 +656,7 @@ export default function GenerateProposal() {
                   id="outlined-textarea"
                   variant="outlined"
                   type="text"
-                  multiline
                   placeholder={translate["Nome"]?.[language] ?? "Nome"}
-                  maxRows={3}
                   value={nameBusinessResponsible}
                   onChange={(e) => setNameBusinessResponsible(e.target.value)}
                   InputProps={{
@@ -669,9 +667,7 @@ export default function GenerateProposal() {
                   id="outlined-textarea"
                   variant="outlined"
                   type="text"
-                  multiline
                   placeholder={translate["Área"]?.[language] ?? "Área"}
-                  maxRows={3}
                   value={areaBusinessResponsible}
                   onChange={(e) => setAreaBusinessResponsible(e.target.value)}
                   InputProps={{

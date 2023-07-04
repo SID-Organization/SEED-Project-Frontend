@@ -532,7 +532,7 @@ export default function DemandCard(props) {
                       "PROPOSTA_EM_ELABORACAO",
                       "PROPOSTA_PRONTA"
                     ].includes(props.demand.statusDemanda) &&
-                      user.cargoUsuario == "ANALISTA" &&
+                      (user.cargoUsuario == "ANALISTA" || user.cargoUsuario == "GERENTE") &&
                       user.nomeUsuario != props.demand.nomeSolicitante && (
                         <div
                           onClick={(event) => {

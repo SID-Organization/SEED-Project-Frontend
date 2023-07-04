@@ -37,7 +37,7 @@ export default function GenerateAtaProposal(props) {
     return cleanedTxt;
   }
 
-
+  
   function updateDecision() {
     if (!props.finalDecision) return;
     const newFinalDecision = { ...props.finalDecision };
@@ -104,6 +104,7 @@ export default function GenerateAtaProposal(props) {
     border: "1px solid #000",
   });
 
+
   return (
     <div>
       <div className="grid justify-center">
@@ -112,7 +113,7 @@ export default function GenerateAtaProposal(props) {
             proposalId={props.proposal.idProposta}
             newPauta={true}
             title={props.proposal.demandaPropostaTitulo}
-            executionTime={props.proposal.tempoExecucaoDemanda}
+            executionTime={props.isAtaForDG ? props.proposal.tempoExecucaoDemanda : props.proposal.tempoDeExecucaoDemanda}
             value={props.proposal.valorDemanda}
             referenceDemand={props.proposal.idDemanda}
           />

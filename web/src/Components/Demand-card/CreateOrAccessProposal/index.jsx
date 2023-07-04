@@ -36,8 +36,6 @@ export default function CreateOrAccessProposal(props) {
   const translate = TranslationJson;
   let language = TranslateUtils.getLanguage();
 
-  console.log("statusDemanda: ", props.statusDemanda);
-
   const generateOrAccess = () => {
     if (
       props.statusDemanda === "APROVADO_PELO_GERENTE_DA_AREA" &&
@@ -50,8 +48,7 @@ export default function CreateOrAccessProposal(props) {
     )
       props.handleAccessProposal();
     else if (
-      props.statusDemanda == "PROPOSTA_PRONTA" &&
-      props.cargoUsuario === "ANALISTA" || props.cargoUsuario === "GERENTE"
+      props.statusDemanda == "PROPOSTA_PRONTA"
     )
       props.handleViewProposal();
   };

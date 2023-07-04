@@ -175,6 +175,6 @@ export default function PautasCard(props) {
           </div>
         </AccordionDetails>
       </Accordion>
-    </div >
+    </div>
   );
 }

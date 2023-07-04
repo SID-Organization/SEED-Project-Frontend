@@ -228,9 +228,6 @@ export default function PautasCard(props) {
                         </div>
                       </h1>
                     </Tooltip>
-                    <Tooltip title={translate["Visualizar pauta"][language] ?? "Visualizar pauta"}>
-                      <VisibilityRoundedIcon />
-                    </Tooltip>
                     <Tooltip title={translate["Editar pauta"][language] ?? "Editar pauta"}>
                       <EditRoundedIcon onClick={editPauta} />
                     </Tooltip>

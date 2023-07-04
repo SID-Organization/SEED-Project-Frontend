@@ -16,6 +16,7 @@ import ProposalUtils from "../../../../utils/Proposal-Utils";
 //Translation
 import TranslationJson from "../../../../API/Translate/pages/analista/proposalDetailsViewProposal.json";
 import { TranslateContext } from "../../../../contexts/translate/index.jsx";
+import CurrencyUtils from "../../../../utils/Currency-Utils";
 
 export default function ViewProposal() {
 
@@ -142,7 +143,7 @@ export default function ViewProposal() {
 
         <div>
           <div className="mt-10 grid items-center">
-            <div className="h-[3rem] w-[25rem] border-2 border-b-0 border-dashed border-blue-weg">
+            <div className="h-[3rem] w-[40rem] border-2 border-b-0 border-dashed border-blue-weg">
               <div className="flex h-full items-center justify-start">
                 <p
                   style={{ fontSize: fonts.base }}
@@ -154,13 +155,13 @@ export default function ViewProposal() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  R${" "}
                   {proposal &&
-                    proposal.custosTotaisDoProjeto}
+                    CurrencyUtils.formatCurrency(proposal.custosTotaisDoProjeto)}
+
                 </p>
               </div>
             </div>
-            <div className="h-[6rem] w-[25rem] border-2 border-dashed border-blue-weg">
+            <div className="h-[6rem] w-[40rem] border-2 border-dashed border-blue-weg">
               <div className="grid h-full items-center justify-start">
                 <div className="flex h-full items-center justify-start">
                   <p
@@ -173,9 +174,8 @@ export default function ViewProposal() {
                     style={{ fontSize: fonts.base }}
                     className="font-roboto font-bold text-blue-weg"
                   >
-                    R${" "}
                     {proposal &&
-                      proposal.custosExternosDoProjeto}
+                      CurrencyUtils.formatCurrency(proposal.custosExternosDoProjeto)}
                   </p>
                 </div>
                 <div className="flex h-full items-center justify-start">
@@ -189,9 +189,8 @@ export default function ViewProposal() {
                     style={{ fontSize: fonts.base }}
                     className="font-roboto font-bold text-blue-weg"
                   >
-                    R${" "}
                     {proposal &&
-                      proposal.custosInternosDoProjeto}
+                      CurrencyUtils.formatCurrency(proposal.custosInternosDoProjeto)}
                   </p>
                 </div>
               </div>
