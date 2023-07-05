@@ -12,6 +12,7 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Fade } from "@mui/material";
 
 // Components
@@ -485,29 +486,36 @@ export default function DemandFilter(props) {
                 value={requestNumber}
                 setValue={setRequestNumber}
               />
-              <Tooltip title="Filtros salvos">
-                <div className="absolute bottom-[50%] left-[97%] z-10">
-                  <IconButton
-                    type="button"
-                    sx={{
-                      p: "5px",
+              <div className="absolute bottom-[50%] left-[98%] z-10">
+                <IconButton
+                  type="button"
+                  sx={{
+                    p: "5px",
+                    backgroundColor: "#0075b1",
+                    "&:hover": {
                       backgroundColor: "#0075b1",
-                      "&:hover": {
-                        backgroundColor: "#0075b1",
-                      },
-                    }}
-                    aria-label="saved-filters"
-                    onClick={handleSavedFiltersClick}
-                  >
+                    },
+                  }}
+                  aria-label="saved-filters"
+                  onClick={handleSavedFiltersClick}
+                >
+                  {showSavedFilters ? (
+                    <ChevronLeftIcon
+                      sx={{
+                        fontSize: "25px",
+                        color: "#FFF",
+                      }}
+                    />
+                  ) : (
                     <ChevronRightIcon
                       sx={{
                         fontSize: "25px",
                         color: "#FFF",
                       }}
                     />
-                  </IconButton>
-                </div>
-              </Tooltip>
+                  )}
+                </IconButton>
+              </div>
               <div className="flex items-center justify-center gap-16 p-3">
                 <Button
                   variant="contained"
@@ -560,6 +568,14 @@ export default function DemandFilter(props) {
               </div>
             </div>
           </Paper>
+          <SaveFilter
+            isSaveFilterOpen={isSaveFilterOpen}
+            setIsSaveFilterOpen={setIsSaveFilterOpen}
+            saveNewFilter={saveNewFilter}
+            anchorElSaveFilter={anchorElSaveFilter}
+            newFilterTitle={newFilterTitle}
+            setNewFilterTitle={setNewFilterTitle}
+          />
           {showSavedFilters && (
             <Fade in={showSavedFilters} timeout={200}>
               <div className="absolute left-[47rem]">
