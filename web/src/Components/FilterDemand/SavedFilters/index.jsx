@@ -18,6 +18,7 @@ export default function SavedFilters(props) {
     <Paper
       sx={{
         width: "12rem",
+        height: "39rem",
         maxHeight: "40rem",
         padding: 1,
         // borderTop: "3px solid #0075b1",
@@ -30,7 +31,7 @@ export default function SavedFilters(props) {
           {translate["Filtros salvos"]?.[language] ?? "Filtros salvos"}
         </p>
       </div>
-      <div className=" h-[33rem] overflow-y-scroll scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2 ">
+      <div className="h-[33rem] overflow-y-scroll scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2 ">
         {props.filters.map((filter) => (
           <Filters
             filter={filter}
