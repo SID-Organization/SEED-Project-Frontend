@@ -146,9 +146,26 @@ export default function DemandFilter(props) {
     setIsSaveFilterOpen(false);
     setNewFilterTitle("");
 
+    const filters = DemandFilterUtils.getUpdatedFilter(
+      requester,
+      responsibleManager,
+      responsibleAnalyst,
+      PPMCode,
+      department,
+      approvalForum,
+      demandSize,
+      title,
+      demandStatus,
+      { value, endValue },
+      { score, endScore },
+      requestNumber
+    )
+
+    console.log("FILTERS,", filters);
+
     FilterService.saveFilter(
       newFilterTitle,
-      props.filters,
+      filters,
       UserUtils.getLoggedUserId()
     )
       .then((res) => {
@@ -192,45 +209,47 @@ export default function DemandFilter(props) {
     console.log("Filter obj", filterObj);
     const filters = filterObj.filtros;
 
+    console.log("FILTERS", filters);
+
     filters.forEach((f) => {
       switch (f.filterBy) {
         case "nomeSolicitante":
-          setRequester(f.value);
+          setRequester(f.value ?? "" ?? "");
           break;
         case "nomeGerenteResponsavelDemanda":
-          setResponsibleManager(f.value);
+          setResponsibleManager(f.value ?? "");
           break;
         case "nomeAnalistaResponsavel":
-          setResponsibleAnalyst(f.value);
+          setResponsibleAnalyst(f.value ?? "");
           break;
         case "codigoPPMDemanda":
-          setPPMCode(f.value);
+          setPPMCode(f.value ?? "");
           break;
         case "departamentoDemanda":
-          setDepartment(f.value);
+          setDepartment(f.value ?? "");
           break;
         case "forumDeAprovacaoDemanda":
-          setApprovalForum(f.value);
+          setApprovalForum(f.value ?? "");
           break;
         case "tamanhoDemanda":
-          setDemandSize(f.value);
+          setDemandSize(f.value ?? "");
           break;
         case "tituloDemanda":
-          setTitle(f.value);
+          setTitle(f.value ?? "");
           break;
         case "statusDemanda":
-          setDemandStatus(f.value);
+          setDemandStatus(f.value ?? "");
           break;
         case "custoTotalDemanda":
-          setValue(f.value);
-          setEndValue(f.endValue);
+          setValue(f.value ?? "");
+          setEndValue(f.endValue ?? "");
           break;
         case "scoreDemanda":
-          setScore(f.value);
-          setEndScore(f.endValue);
+          setScore(f.value ?? "");
+          setEndScore(f.endValue ?? "");
           break;
         case "idDemanda":
-          setRequestNumber(f.value);
+          setRequestNumber(f.value ?? "");
           break;
         default:
           break;

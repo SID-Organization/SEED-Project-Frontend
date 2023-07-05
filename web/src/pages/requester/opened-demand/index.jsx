@@ -33,19 +33,6 @@ import { Divider, IconButton } from "@mui/material";
 import TranslationJson from "../../../API/Translate/pages/requester/openedDemand.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 1200,
-  height: 635,
-  bgcolor: "background.paper",
-  borderRadius: 2,
-  borderLeft: "5px solid #00579D",
-  boxShadow: 24,
-  padding: "1rem",
-};
 
 const htmlDivStyle =
   "border-1 h-auto min-h-[6rem] w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50";
@@ -59,6 +46,7 @@ export default function openedDemand() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(UserUtils.getLoggedUser());
+  const [wfPageSize, setWfPageSize] = useState(5);
 
   // const [demand, setDemand] = useState<DemandInterface>();
   // Changed to <any> to avoid errors
@@ -116,6 +104,21 @@ export default function openedDemand() {
       setQualitativeBenefit(demand.descricaoQualitativoDemanda);
     }
   }, [demand]);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 1200,
+    height: wfPageSize == 5 ? 635 : 710,
+    bgcolor: "background.paper",
+    borderRadius: 2,
+    borderLeft: "5px solid #00579D",
+    boxShadow: 24,
+    padding: "1rem",
+  };
+  
 
   function handleEnableChat() {
     ChatService.createChat({
@@ -291,7 +294,7 @@ export default function openedDemand() {
                     {translate["Histórico"]?.[language] ?? "Histórico"}
                   </h1>
                 </div>
-                <WorkflowTable demandId={params.id} />
+                <WorkflowTable pageSize={wfPageSize} setPageSize={setWfPageSize} demandId={params.id} />
               </div>
             </Box>
           </Modal>

@@ -46,6 +46,9 @@ export default function GenerateAtaProposal(props) {
     // newFinalDecision.propostaPropostaLog.idProposta = props.proposal.idProposta;
     newFinalDecision.parecerComissaoPropostaLog =
       formatParecerComissao(parecerComissao);
+
+      console.log("FINAL DECISION", props.finalDecision);
+
     newFinalDecision.consideracoesPropostaLog = removeHTML(
       quillHtmlConsideration
     );

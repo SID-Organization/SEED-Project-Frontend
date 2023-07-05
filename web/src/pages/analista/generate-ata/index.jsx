@@ -151,10 +151,11 @@ export default function GenerateAta(props) {
         return finalDecision;
       });
 
+      console.log("DEcisions", decisions);
       // AtaService.updateProposalsLogs(decisions).then((res) => {
       //   updateEachDemand();
       // });
-      navigate("/atas");
+      // navigate("/atas");
     }
   }
 
