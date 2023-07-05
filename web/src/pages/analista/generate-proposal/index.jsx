@@ -118,7 +118,7 @@ export default function GenerateProposal() {
   const [totalBenefits, setTotalBenefits] = useState(0);
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
-  
+
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -524,9 +524,14 @@ export default function GenerateProposal() {
         </div>
         <div className="mt-10 grid items-center justify-start gap-10">
           <div>
-            <p style={{ fontSize: fonts.lg }} className="font-roboto font-bold">
-              {translate["Payback"]?.[language] ?? "Payback"}
-            </p>
+            <div className="flex w-32">
+              <p style={{ fontSize: fonts.lg }} className="font-roboto font-bold">
+                {translate["Payback"]?.[language] ?? "Payback"}
+              </p>
+              <p style={{ fontSize: fonts.sm }} className="font-roboto">
+                ({translate["Meses"]?.[language] ?? "Meses"})
+              </p>
+            </div>
             <EqualInput
               id="outlined-textarea"
               variant="outlined"

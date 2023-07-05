@@ -8,6 +8,15 @@
         "fr": "Génération de proposition de la demande",
         "it": "Generazione di proposta di domanda"
     },
+    "Meses": {
+        "pt-br": "Meses",
+        "en-us": "Months",
+        "de": "Monate",
+        "zh-cn": "月",
+        "es": "Meses",
+        "fr": "Mois",
+        "it": "Mesi"
+    },
     "Escopo do projeto": {
         "pt-br": "Escopo do projeto",
         "en-us": "Project scope",
