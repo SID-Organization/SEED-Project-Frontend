@@ -1,19 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // MUI
 import MuiCard from "@mui/material/Card";
-import PublicIcon from "@mui/icons-material/Public";
 import { styled } from "@mui/material/styles";
-import MuiIconButton from "@mui/material/IconButton";
-import PublicOffIcon from "@mui/icons-material/PublicOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import MuiAddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import MuiOpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
-import { Button, IconButton, Tooltip } from "@mui/material";
-import MuiVisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
-import MuiCheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import MuiPlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
+import { IconButton, Tooltip } from "@mui/material";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 
@@ -24,79 +15,7 @@ import CurrencyUtils from "../../utils/Currency-Utils";
 
 //Translation
 import TranslationJson from "../../API/Translate/components/proposalCard.json";
-import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
-
-const OpenInNewRoundedIcon = styled(MuiOpenInNewRoundedIcon)({
-  color: "#00A3FF",
-  cursor: "pointer",
-  transition: "0.2s",
-  fontSize: "1.2rem",
-});
-
-const IconButtonStart = styled(MuiIconButton)({
-  backgroundColor: "#0075B1",
-  border: "1px solid #0075B1",
-  width: "2rem",
-  height: "2rem",
-
-  "&:hover": {
-    backgroundColor: "#008fd6",
-    border: "1px solid #008fd6",
-  },
-});
-
-const IconButtonDefault = styled(MuiIconButton)({
-  backgroundColor: "#0075B1",
-  border: "1px solid #0075B1",
-  width: "2rem",
-  height: "2rem",
-
-  "&:hover": {
-    backgroundColor: "#008fd6",
-    border: "1px solid #008fd6",
-  },
-});
-
-const IconButtonClicked = styled(MuiIconButton)({
-  backgroundColor: "#FFF",
-  border: "1px solid #FFF",
-  width: "2rem",
-  height: "2rem",
-
-  "&:hover": {
-    backgroundColor: "#FFF",
-    border: "1px solid #FFF",
-  },
-});
-
-const PlayCircleFilledWhiteRoundedIcon = styled(
-  MuiPlayCircleFilledWhiteRoundedIcon
-)({
-  color: "#FFF",
-  fontSize: "2rem",
-});
-
-const AddCircleRoundedIcon = styled(MuiAddCircleRoundedIcon)({
-  color: "#FFF",
-  fontSize: "2rem",
-});
-
-const CheckCircleRoundedIcon = styled(MuiCheckCircleRoundedIcon)({
-  color: "#0075B1",
-  fontSize: "2rem",
-});
-
-const VisibilityRoundedIcon = styled(MuiVisibilityRoundedIcon)({
-  color: "#707070",
-  fontSize: "1.7rem",
-  cursor: "pointer",
-  transition: "0.2s",
-
-  "&:hover": {
-    color: "#979797",
-  },
-});
 
 export default function ProposalCard(props) {
   const translate = TranslationJson;
@@ -108,27 +27,22 @@ export default function ProposalCard(props) {
 
   // Components MUI styles
   const Card = styled(MuiCard)({
-    width: props.newPauta ? "100%" : "100%",
-    height: props.newPauta ? "6rem" : "none",
+    width: "24rem",
+    height: "12rem",
+    backgroundColor: "#FFF",
     borderRadius: "10px",
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     border: "1px solid #E5E5E5",
     padding: "10px",
-    backgroundColor: "#F0F0F0",
-  });
+    cursor: "pointer",
+    transition: "0.3s",
+    boxShadow: "none",
 
-  function handleSelectedProposals() {
-    if (!isButtonAddClicked) {
-      props.setSelectProposals((prevState) => {
-        return [...prevState, props.id];
-      });
-    } else {
-      props.setSelectProposals((prevState) => {
-        return prevState.filter((item) => item !== props.id);
-      });
-    }
-    setIsButtonAddClicked(!isButtonAddClicked);
-  }
+    "&:hover": {
+      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.123)",
+      transform: "translateY(-7px)",
+      transition: "transform 0.2s ease-in-out",
+    },
+  });
 
   function openProposalPDF() {
     ProposalService.openProposalPDF(props.proposalId);
@@ -139,26 +53,7 @@ export default function ProposalCard(props) {
   }
 
   return (
-    <Card
-      onClick={openProposalDetails}
-      sx={{
-        width: "24rem",
-        height: "12rem",
-        backgroundColor: "#FFF",
-        borderRadius: "10px",
-        border: "1px solid #E5E5E5",
-        padding: "10px",
-        cursor: "pointer",
-        transition: "0.3s",
-        boxShadow: "none",
-
-        "&:hover": {
-          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.123)",
-          transform: "translateY(-7px)",
-          transition: "transform 0.2s ease-in-out",
-        },
-      }}
-    >
+    <Card onClick={openProposalDetails}>
       <div className="grid items-center gap-2">
         <div className="flex items-center justify-between">
           <div className="mb-4 flex items-center justify-between">

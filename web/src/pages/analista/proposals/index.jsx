@@ -111,7 +111,6 @@ export default function Proposals() {
             <ProposalCard
               key={i}
               proposalId={proposal.idProposta}
-              newPauta={"card"}
               title={proposal.demandaPropostaTitulo}
               executionTime={proposal.tempoDeExecucaoDemanda}
               value={proposal.valorDemanda}

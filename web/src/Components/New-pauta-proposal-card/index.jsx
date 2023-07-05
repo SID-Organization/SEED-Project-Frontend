@@ -67,7 +67,6 @@ export default function NewPautaProposalCard(props) {
           } absolute h-full w-full rounded-[5px]`}
         />
         <ProposalCard
-          newPauta={true}
           title={props.proposal.demandaPropostaTitulo || props.title}
           executionTime={props.proposal.tempoDeExecucaoDemanda}
           value={props.proposal.valorDemanda}

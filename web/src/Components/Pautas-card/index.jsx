@@ -398,7 +398,6 @@ export default function PautasCard(props) {
                   proposals.map((proposal, i) => (
                     <ProposalCard
                       key={i}
-                      newPauta={false}
                       title={proposal.demandaPropostaTitulo}
                       executionTime={proposal.tempoDeExecucaoDemanda}
                       value={proposal.valorDemanda}
