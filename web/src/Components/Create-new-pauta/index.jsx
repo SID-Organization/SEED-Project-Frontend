@@ -11,7 +11,7 @@ import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import MuiAddBoxIcon from "@mui/icons-material/AddBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
-import { Divider, InputAdornment, InputBase, Paper } from "@mui/material";
+import { Divider, Grid, InputAdornment, InputBase, Paper } from "@mui/material";
 
 // Components
 import DatePicker from "../Date-picker";
@@ -433,25 +433,36 @@ export default function CreateNewPauta(props) {
                 </div>
               </div>
               <div
-                className="grid max-h-[21rem] p-2 gap-5 overflow-y-scroll scrollbar-thin
+                className="ml-20 max-h-[20rem]  gap-5 overflow-y-scroll p-2 scrollbar-thin
                 scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2"
               >
-                {readyProposals.length > 0 &&
-                  readyProposals
-                    .filter((item) => {
-                      if (!searchTitle || searchTitle.length < 3) return true;
-                      return item.demandaPropostaTitulo
-                        .toLowerCase()
-                        .includes(searchTitle.toLowerCase());
-                    })
-                    .map((item, i) => (
-                      <NewPautaProposalCard
-                        key={i}
-                        selectedProposals={selectedProposals}
-                        setSelectedProposals={setSelectedProposals}
-                        proposal={item}
-                      />
-                    ))}
+                <Grid
+                  container
+                  gap={3}
+                  rowGap={1}
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                  alignContent="center"
+                  style={{ padding: "0 20px" }}
+                >
+                  {readyProposals.length > 0 &&
+                    readyProposals
+                      .filter((item) => {
+                        if (!searchTitle || searchTitle.length < 3) return true;
+                        return item.demandaPropostaTitulo
+                          .toLowerCase()
+                          .includes(searchTitle.toLowerCase());
+                      })
+                      .map((item, i) => (
+                        <NewPautaProposalCard
+                          key={i}
+                          selectedProposals={selectedProposals}
+                          setSelectedProposals={setSelectedProposals}
+                          proposal={item}
+                        />
+                      ))}
+                </Grid>
               </div>
             </div>
           </div>

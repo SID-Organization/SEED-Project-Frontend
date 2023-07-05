@@ -19,7 +19,6 @@ import { TranslateContext } from "../../../../contexts/translate/index.jsx";
 import CurrencyUtils from "../../../../utils/Currency-Utils";
 
 export default function ViewProposal() {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -78,7 +77,9 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              {translate["Escopo do projeto"]?.[language] ?? "Escopo do projeto"}:
+              {translate["Escopo do projeto"]?.[language] ??
+                "Escopo do projeto"}
+              :
             </h1>
             <p
               style={{ fontSize: fonts.base }}
@@ -92,7 +93,9 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              {translate["Não faz parte do escopo do projeto"]?.[language] ?? "Não faz parte do escopo do projeto"}:
+              {translate["Não faz parte do escopo do projeto"]?.[language] ??
+                "Não faz parte do escopo do projeto"}
+              :
             </h1>
             <p
               style={{ fontSize: fonts.base }}
@@ -149,15 +152,18 @@ export default function ViewProposal() {
                   style={{ fontSize: fonts.base }}
                   className="ml-5 mr-3 font-roboto font-bold"
                 >
-                  {translate["Custos totais do projeto"]?.[language] ?? "Custos totais do projeto"}:
+                  {translate["Custos totais do projeto"]?.[language] ??
+                    "Custos totais do projeto"}
+                  :
                 </p>
                 <p
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
                   {proposal &&
-                    CurrencyUtils.formatCurrency(proposal.custosTotaisDoProjeto)}
-
+                    CurrencyUtils.formatCurrency(
+                      proposal.custosTotaisDoProjeto
+                    )}
                 </p>
               </div>
             </div>
@@ -168,14 +174,18 @@ export default function ViewProposal() {
                     style={{ fontSize: fonts.base }}
                     className=" ml-5 mr-3 font-roboto"
                   >
-                    {translate["Total de despesas (desembolso)"]?.[language] ?? "Total de despesas (desembolso)"}:
+                    {translate["Total de despesas (desembolso)"]?.[language] ??
+                      "Total de despesas (desembolso)"}
+                    :
                   </p>
                   <p
                     style={{ fontSize: fonts.base }}
                     className="font-roboto font-bold text-blue-weg"
                   >
                     {proposal &&
-                      CurrencyUtils.formatCurrency(proposal.custosExternosDoProjeto)}
+                      CurrencyUtils.formatCurrency(
+                        proposal.custosExternosDoProjeto
+                      )}
                   </p>
                 </div>
                 <div className="flex h-full items-center justify-start">
@@ -183,14 +193,18 @@ export default function ViewProposal() {
                     style={{ fontSize: fonts.base }}
                     className="ml-5 mr-3 font-roboto"
                   >
-                    {translate["Total de despesas com custos internos"]?.[language] ?? "Total de despesas com custos internos"}
+                    {translate["Total de despesas com custos internos"]?.[
+                      language
+                    ] ?? "Total de despesas com custos internos"}
                   </p>
                   <p
                     style={{ fontSize: fonts.base }}
                     className="font-roboto font-bold text-blue-weg"
                   >
                     {proposal &&
-                      CurrencyUtils.formatCurrency(proposal.custosInternosDoProjeto)}
+                      CurrencyUtils.formatCurrency(
+                        proposal.custosInternosDoProjeto
+                      )}
                   </p>
                 </div>
               </div>
@@ -206,7 +220,7 @@ export default function ViewProposal() {
               {translate["Payback"]?.[language]}:
             </p>
             <p style={{ fontSize: fonts.base }} className="font-roboto">
-              {proposal && proposal.paybackProposta.toFixed(2)}
+              {proposal && proposal.paybackProposta?.toFixed(2)}
             </p>
           </div>
           <div>
@@ -214,7 +228,9 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              {translate["Período de execução"]?.[language] ?? "Período de execução"}:
+              {translate["Período de execução"]?.[language] ??
+                "Período de execução"}
+              :
             </p>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1">
@@ -247,9 +263,7 @@ export default function ViewProposal() {
                   className="font-roboto text-blue-weg"
                 >
                   {proposal &&
-                    DateUtils.formatDate(
-                      proposal.periodoExecucaoFimProposta
-                    )}
+                    DateUtils.formatDate(proposal.periodoExecucaoFimProposta)}
                 </p>
               </div>
             </div>
@@ -259,7 +273,9 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="font-roboto font-bold text-blue-weg"
             >
-              {translate["Responsável pelo negócio"]?.[language] ?? "Responsável pelo negócio"}:
+              {translate["Responsável pelo negócio"]?.[language] ??
+                "Responsável pelo negócio"}
+              :
             </p>
             <div className="flex items-center gap-2">
               <p style={{ fontSize: fonts.base }} className="font-roboto">

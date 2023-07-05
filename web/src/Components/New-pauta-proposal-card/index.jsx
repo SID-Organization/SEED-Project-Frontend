@@ -56,7 +56,7 @@ export default function NewPautaProposalCard(props) {
 
   return (
     <div
-      className="flex cursor-pointer items-center justify-around"
+      className="flex cursor-pointer items-center justify-center gap-3"
       onClick={() => setIsCheckBoxClicked(!isCheckboxClicked)}
     >
       <Checkbox checked={isCheckboxClicked} />

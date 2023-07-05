@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 
 // MUI
 import Modal from "@mui/material/Modal";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
@@ -53,9 +53,8 @@ const ButtonAddSelected = styled(MuiButton)({
 });
 
 export default function Proposals() {
-
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const [proposals, setProposals] = useState([]);
   const [pautas, setPautas] = useState([]);
@@ -95,6 +94,35 @@ export default function Proposals() {
       });
   }, []);
 
+  const returnProposalsCard = () => {
+    return (
+      <Grid
+        container
+        gap={3}
+        rowGap={2}
+        direction="row"
+        justify="center"
+        alignItems="center"
+        alignContent="center"
+        style={{ padding: "0 20px" }}
+      >
+        {proposals &&
+          proposals.map((proposal, i) => (
+            <ProposalCard
+              key={i}
+              proposalId={proposal.idProposta}
+              newPauta={"card"}
+              title={proposal.demandaPropostaTitulo}
+              executionTime={proposal.tempoDeExecucaoDemanda}
+              value={proposal.valorDemanda}
+              referenceDemand={proposal.idDemanda}
+              setSelectProposals={setSelectProposals}
+            />
+          ))}
+      </Grid>
+    );
+  };
+
   return (
     <div>
       <Modal
@@ -105,7 +133,8 @@ export default function Proposals() {
       >
         <Box sx={addToAPautaModalStyle}>
           <h1 className="mb-3 text-center text-2xl font-bold text-dark-blue-weg">
-            {translate["Adicionar à uma pauta"]?.[language] ?? "Adicionar à uma pauta"}
+            {translate["Adicionar à uma pauta"]?.[language] ??
+              "Adicionar à uma pauta"}
           </h1>
           <div className="flex items-center justify-center">
             <CreateNewPauta />
@@ -127,7 +156,7 @@ export default function Proposals() {
         </Box>
       </Modal>
       <div className="mb-10">
-        <SubHeaderProposals filters={filters} setFilters={setFilters}/>
+        <SubHeaderProposals filters={filters} setFilters={setFilters} />
       </div>
       <div className="flex items-center justify-center">
         {selectProposals.length > 0 && (
@@ -138,7 +167,9 @@ export default function Proposals() {
               size="large"
               onClick={handleOpenAddToAPautaModal}
             >
-              {translate["Adicionar à pauta"]?.[language] ?? "Adicionar à pauta"} (
+              {translate["Adicionar à pauta"]?.[language] ??
+                "Adicionar à pauta"}{" "}
+              (
               {selectProposals.length > 1
                 ? selectProposals.length + " propostas"
                 : translate["1 proposta"]?.[language]}
@@ -155,23 +186,13 @@ export default function Proposals() {
         ) : proposals && proposals.length === 0 ? (
           <div className="flex h-[71vh] items-center justify-around">
             <NoContent isProposal={true}>
-              <span style={{ fontSize: fonts.xl }}>{translate["Sem propostas!"]?.[language] ?? "Sem propostas!"}</span>
+              <span style={{ fontSize: fonts.xl }}>
+                {translate["Sem propostas!"]?.[language] ?? "Sem propostas!"}
+              </span>
             </NoContent>
           </div>
         ) : (
-          proposals &&
-          proposals.map((proposal, i) => (
-            <ProposalCard
-              key={i}
-              proposalId={proposal.idProposta}
-              newPauta={"card"}
-              title={proposal.demandaPropostaTitulo}
-              executionTime={proposal.tempoDeExecucaoDemanda}
-              value={proposal.valorDemanda}
-              referenceDemand={proposal.idDemanda}
-              setSelectProposals={setSelectProposals}
-            />
-          ))
+          returnProposalsCard()
         )}
       </div>
     </div>
