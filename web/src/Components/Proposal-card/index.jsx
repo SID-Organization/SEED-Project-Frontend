@@ -31,7 +31,7 @@ export default function ProposalCard(props) {
     height: "12rem",
     backgroundColor: "#FFF",
     borderRadius: "10px",
-    border: "1px solid #E5E5E5",
+    border: "1px solid #D9D9D9",
     padding: "10px",
     cursor: "pointer",
     transition: "0.3s",
@@ -117,9 +117,14 @@ export default function ProposalCard(props) {
           <p className="font-roboto text-sm font-bold">
             {translate["Demanda de referência"][language]}:{" "}
           </p>
-          <Tooltip title={props.referenceDemand}>
+          <Tooltip
+            title={
+              props.referenceDemand.length + props.title.length > 34 &&
+              props.referenceDemand + " - " + props.title
+            }
+          >
             <span className="font-roboto text-sm font-normal text-gray-500">
-              {props.referenceDemand + " - " + props.title > 34
+              {props.referenceDemand.length + " - " + props.title.length > 34
                 ? (props.referenceDemand + " - " + props.title).substring(
                     0,
                     34

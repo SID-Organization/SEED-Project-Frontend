@@ -115,7 +115,6 @@ const Autocomplete = styled(MuiAutocomplete)({
 export default function subHeader(props) {
   let phrase = props.children[0].trim();
 
-
   const translate = TranslationJSON;
   const [language] = useContext(TranslateContext);
 
@@ -244,14 +243,15 @@ export default function subHeader(props) {
 
   console.log("demand", demand);
 
-  const [actionOptions, setActionOptions] = useState([])
+  const [actionOptions, setActionOptions] = useState([]);
 
   useEffect(() => {
     if (demand) {
       setActionOptions([
         {
           text:
-            translate["Classificar demanda"]?.[language] ?? "Classificar demanda",
+            translate["Classificar demanda"]?.[language] ??
+            "Classificar demanda",
           role: ["ANALISTA"],
           demandStatus: ["ABERTA"],
           notDemandStatus: [""],
@@ -323,30 +323,32 @@ export default function subHeader(props) {
             "PROPOSTA_FINALIZADA",
             "TODAS",
           ],
-          notDemandStatus: [""],
+          notDemandStatus: ["ABERTA"],
           function: () => setModalChangeDemandStatus(true),
           key: 7,
         },
         {
           text:
-            translate["Alterar importância"]?.[language] ?? "Alterar importância",
+            translate["Alterar importância"]?.[language] ??
+            "Alterar importância",
           role: ["ANALISTA", "GERENTE", "GESTOR_TI"],
           demandStatus: ["TODAS"],
-          notDemandStatus: [""],
+          notDemandStatus: ["ABERTA"],
           function: () => setIsImportanceModalOpen(true),
           key: 8,
         },
         {
-          text: translate["Gerenciar analistas"][language] ?? "Gerenciar analistas",
+          text:
+            translate["Gerenciar analistas"][language] ?? "Gerenciar analistas",
           role: ["ANALISTA", "GERENTE"],
           demandStatus: ["TODAS"],
-          notDemandStatus: ["RASCUNHO", "CANCELADA"],
+          notDemandStatus: ["RASCUNHO", "CANCELADA", "ABERTA"],
           function: () => setModalManageAnalysts(true),
           key: 9,
         },
-      ])
+      ]);
     }
-  }, [demand])
+  }, [demand]);
 
   const getIsDevolution = () => {
     return selectedKey == 5;
@@ -536,13 +538,15 @@ export default function subHeader(props) {
   };
 
   const handlePutDemandImportance = () => {
-    DemandService.updateDemandImportance(demand?.idDemanda, demandImportance)
-      .then(res => {
-        if (res.status == 200 || res.status == 201) {
-          props.setDemand(res.data)
-          setDemandImportance(res.data.importanciaDemanda)
-        }
-      });
+    DemandService.updateDemandImportance(
+      demand?.idDemanda,
+      demandImportance
+    ).then((res) => {
+      if (res.status == 200 || res.status == 201) {
+        props.setDemand(res.data);
+        setDemandImportance(res.data.importanciaDemanda);
+      }
+    });
     getOrRefreshDemand();
     setIsImportanceModalOpen(false);
     setNotificationChangeImportance(true);
@@ -574,7 +578,7 @@ export default function subHeader(props) {
         <Notification
           message={
             translate["Status da demanda atualizado com sucesso!"]?.[
-            language
+              language
             ] ?? "Status da demanda atualizado com sucesso!"
           }
           severity="success"
@@ -584,7 +588,7 @@ export default function subHeader(props) {
         <Notification
           message={
             translate["Importância da demanda atualizada com sucesso!"]?.[
-            language
+              language
             ] ?? "Importância da demanda atualizada com sucesso!"
           }
           severity="success"
@@ -1003,31 +1007,33 @@ export default function subHeader(props) {
           </Button>
         )}
 
-        {user.cargoUsuario != "SOLICITANTE" && (demand?.solicitanteDemanda.numeroCadastroUsuario != UserUtils.getLoggedUserId()) && (
-          <ButtonGroup
-            variant="contained"
-            ref={anchorRef}
-            aria-label="split button"
-          >
-            <Button
-              size="small"
-              aria-controls={openActions ? "split-button-menu" : undefined}
-              aria-expanded={openActions ? "true" : undefined}
-              aria-label="select merge strategy"
-              aria-haspopup="menu"
-              sx={{
-                backgroundColor: "#00579D",
-                width: 100,
-                height: 40,
-                fontSize: 14,
-              }}
-              onClick={handleToggleActions}
+        {user.cargoUsuario != "SOLICITANTE" &&
+          demand?.solicitanteDemanda.numeroCadastroUsuario !=
+            UserUtils.getLoggedUserId() && (
+            <ButtonGroup
+              variant="contained"
+              ref={anchorRef}
+              aria-label="split button"
             >
-              {translate["Ações"]?.[language] ?? "Ações"}
-              {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-            </Button>
-          </ButtonGroup>
-        )}
+              <Button
+                size="small"
+                aria-controls={openActions ? "split-button-menu" : undefined}
+                aria-expanded={openActions ? "true" : undefined}
+                aria-label="select merge strategy"
+                aria-haspopup="menu"
+                sx={{
+                  backgroundColor: "#00579D",
+                  width: 100,
+                  height: 40,
+                  fontSize: 14,
+                }}
+                onClick={handleToggleActions}
+              >
+                {translate["Ações"]?.[language] ?? "Ações"}
+                {openActions ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+              </Button>
+            </ButtonGroup>
+          )}
         <Popper
           sx={{
             zIndex: 1,
@@ -1106,8 +1112,9 @@ export default function subHeader(props) {
               translate["Procure aqui"]?.[language] ?? "Procure aqui"
             }
             inputProps={{
-              "aria-label": `${translate["Procure aqui"][language] ?? "Procure aqui"
-                }`,
+              "aria-label": `${
+                translate["Procure aqui"][language] ?? "Procure aqui"
+              }`,
             }}
           />
         </Paper>
