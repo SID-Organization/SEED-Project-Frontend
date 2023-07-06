@@ -33,6 +33,8 @@ const styleChangeDemandImportance = {
 export default function ChangeDemandStatus(props) {
   const userRole = UserUtils.getLoggedUserRole();
 
+  console.log("StatusDemanda", props.demandStatus)
+
   return (
     <Modal
       open={props.isModalChangeDemandStatusOpen}
@@ -49,7 +51,7 @@ export default function ChangeDemandStatus(props) {
             <FormControl variant="standard">
               <Select
                 value={props.demandStatus}
-                // onChange={(e) => props.setDemandImportance(e.target.value)}
+                onChange={(e) => props.setDemandStatus(e.target.value)}
                 sx={{
                   borderRadius: "4px",
                   border: "none",
@@ -57,6 +59,18 @@ export default function ChangeDemandStatus(props) {
                   backgroundColor: "transparent",
                 }}
               >
+              <MenuItem value={"APROVADA_EM_DG"}>
+                  <div className="ml-2 flex items-center justify-start gap-2">
+                    <div
+                      className="h-2 w-2 rounded-full"
+                      style={{
+                        backgroundColor:
+                          DemandStatusJSON["APROVADA_EM_DG"]?.["COLOR"],
+                      }}
+                    />
+                    Aprovada em DG
+                  </div>
+                </MenuItem>
                 <MenuItem value={"PROPOSTA_EM_EXECUCAO"}>
                   <div className="ml-2 flex items-center justify-start gap-2">
                     <div

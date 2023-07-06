@@ -48,6 +48,10 @@ export default function SubHeaderPautas(props) {
   }, [FontSizeUtils.getFontControl()]);
 
   useEffect(() => {
+    fetchPautas()
+  }, []);
+
+  const fetchPautas = async () => {
     PautaService.getPautas().then((data) => {
       if (!data || typeof data !== "object") {
         setPautas([]);
@@ -62,7 +66,7 @@ export default function SubHeaderPautas(props) {
 
       setPautas(pautas);
     });
-  }, []);
+  }
 
   const calendarModalStyle = {
     position: "absolute",
@@ -121,7 +125,7 @@ export default function SubHeaderPautas(props) {
               {translate["Ver reuniões"]?.[language] ?? "Ver reuniões"}
             </Button>
           </div>
-          <CreateNewPauta />
+          <CreateNewPauta fetchPautas={fetchPautas}/>
           <PautaFilter
             setFilters={props.setFilters}
           />

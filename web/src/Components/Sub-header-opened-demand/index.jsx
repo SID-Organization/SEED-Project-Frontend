@@ -131,6 +131,7 @@ export default function subHeader(props) {
   const [demand, setDemand] = useState();
   // Demandas similares
   const [similarDemands, setSimilarDemands] = useState();
+  const [demandStatus, setDemandStatus] = useState("");
 
   // Importância da demanda
   const [demandImportance, setDemandImportance] = useState("");
@@ -179,6 +180,12 @@ export default function subHeader(props) {
   const anchorRef = React.useRef(null);
   const params = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (demand) {
+      setDemandStatus(demand.statusDemanda);
+    }
+  }, [demand]);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -553,6 +560,19 @@ export default function subHeader(props) {
   };
 
   const handlePutDemandStatus = () => {
+    DemandService.updateDemandStatus(demand?.idDemanda, demandStatus)
+      .then(res => {
+        if ([200, 201].includes(res.status)) {
+          if (demandStatus == "PROPOSTA_EM_EXECUCAO") {
+            DemandLogService.createDemandLog("EXECUCAO_PROPOSTA", demand?.idDemanda, "Alterar status", UserUtils.getLoggedUserId())
+          } else if (demandStatus == "PROPOSTA_EM_SUPORTE") {
+            DemandLogService.createDemandLog("EM_SUPORTE", demand?.idDemanda, "Alterar status", UserUtils.getLoggedUserId())
+          } else if (demandStatus == "PROPOSTA_FINALIZADA") {
+            DemandLogService.createDemandLog("FINALIZACAO_PROPOSTA", demand?.idDemanda, "Alterar status", UserUtils.getLoggedUserId())
+          }
+        }
+      })
+
     setNotificationDemandStatus(true);
     const timer = setTimeout(() => {
       setNotificationDemandStatus(false);
@@ -568,6 +588,9 @@ export default function subHeader(props) {
   const handleCloseChangeDemandStatusModal = () => {
     setModalChangeDemandStatus(false);
   };
+
+
+
   return (
     <div>
       {notificationDemandStatus && (
@@ -595,6 +618,8 @@ export default function subHeader(props) {
         setIsModalChangeDemandStatusOpen={setModalChangeDemandStatus}
         handleCloseChangeDemandStatusModal={handleCloseChangeDemandStatusModal}
         handlePutDemandStatus={handlePutDemandStatus}
+        demandStatus={demandStatus ?? ""}
+        setDemandStatus={setDemandStatus}
         translate={translate}
         language={language}
       />

@@ -24,6 +24,7 @@ import AtaDGService from "../../../service/AtaDG-Service";
 import TranslationJson from "../../../API/Translate/pages/analista/generateAta.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 import Notification from "../../../Components/Notification";
+import UserUtils from "../../../utils/User-Utils";
 
 export default function GenerateAta(props) {
   const translate = TranslationJson;
@@ -152,17 +153,17 @@ export default function GenerateAta(props) {
       });
 
       console.log("DEcisions", decisions);
-      // AtaService.updateProposalsLogs(decisions).then((res) => {
-      //   updateEachDemand();
-      // });
-      // navigate("/atas");
+      AtaService.updateProposalsLogs(decisions).then((res) => {
+        updateEachDemand();
+      });
+      navigate("/atas");
     }
   }
 
   const formatParecerToDemandStatus = (status, isForDG) => {
     switch (status) {
       case "APROVADO":
-        return isForDG ? "" : "APROVADA_EM_COMISSAO";
+        return isForDG ? "APROVADA_EM_DG" : "APROVADA_EM_COMISSAO";
       case "REPROVADO":
         return "CANCELADA";
       case "MAIS INFORMACOES":
@@ -187,7 +188,7 @@ export default function GenerateAta(props) {
           "APROVACAO_DG",
           demandId,
           "Aprovar",
-          72131
+          UserUtils.getLoggedUserId()
         ).then((res) => {
           if (res.status == 201 || res.status == 200) {
             DemandService.updateDemandStatus(
@@ -201,10 +202,10 @@ export default function GenerateAta(props) {
         });
       } else {
         DemandLogService.createDemandLog(
-          "PROPOSTA_EM_EXECUCAO",
+          "EXECUCAO_PROPOSTA",
           demandId,
           "Aprovar",
-          72131
+          UserUtils.getLoggedUserId()
         ).then((res) => {
           if (res.status == 201 || res.status == 200) {
             DemandService.updateDemandStatus(

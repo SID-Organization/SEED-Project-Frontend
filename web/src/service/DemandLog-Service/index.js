@@ -12,6 +12,8 @@ const createDemandLog = async (nextTask, demandId, actionMade, responsableId) =>
     idResponsavel: { numeroCadastroUsuario: responsableId },
   };
 
+  console.log("newDemandLog", newDemandLog)
+
   const contentType = "application/json";
   return AxiosAPI.post(url, newDemandLog, contentType);
 };

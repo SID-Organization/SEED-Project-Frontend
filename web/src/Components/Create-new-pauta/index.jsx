@@ -214,6 +214,8 @@ export default function CreateNewPauta(props) {
           DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
         });
       }
+    }).then(() => {
+      props.fetchPautas();
     });
   };
 
