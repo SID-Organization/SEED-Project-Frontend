@@ -737,7 +737,7 @@ export default function subHeader(props) {
               <div className="h-[90%]">
                 <p
                   style={{ fontSize: fonts.lg }}
-                  className="font-bold text-blue-weg"
+                  className="font-roboto font-bold text-blue-weg"
                 >
                   {translate["Insira as seguintes informações"]?.[language] ??
                     "Insira as seguintes informações"}
@@ -745,7 +745,7 @@ export default function subHeader(props) {
                 <div className="mt-8">
                   <div className="mb-14 flex justify-between">
                     <div>
-                      <p className="font-bold text-dark-blue-weg">
+                      <p className="font-roboto font-bold text-dark-blue-weg">
                         {translate["Seção da TI responsável"]?.[language] ??
                           "Seção da TI responsável"}
                       </p>
@@ -768,7 +768,7 @@ export default function subHeader(props) {
                       </FormControl>
                     </div>
                     <div>
-                      <p className="font-bold text-dark-blue-weg">
+                      <p className="font-roboto font-bold text-dark-blue-weg">
                         {translate["BU solicitante"]?.[language] ??
                           "BU solicitante"}
                       </p>
@@ -789,7 +789,7 @@ export default function subHeader(props) {
                   </div>
                   <div className="flex justify-between">
                     <div>
-                      <p className="font-bold text-dark-blue-weg">
+                      <p className="font-roboto font-bold text-dark-blue-weg">
                         {translate["BUs beneficiadas"]?.[language] ??
                           "BUs beneficiadas"}
                       </p>
@@ -822,7 +822,7 @@ export default function subHeader(props) {
                       </FormControl>
                     </div>
                     <div>
-                      <p className="font-bold text-dark-blue-weg">
+                      <p className="font-roboto font-bold text-dark-blue-weg">
                         {translate["Classificação de tamanho"]?.[language] ??
                           "Classificação de tamanho"}
                       </p>
@@ -908,7 +908,7 @@ export default function subHeader(props) {
             <div className="flex-1 p-4">
               <p
                 style={{ fontSize: fonts.lg }}
-                className="font-bold text-blue-weg"
+                className="font-roboto font-bold text-blue-weg"
               >
                 {translate["Demandas similares"]?.[language] ??
                   "Demandas similares"}

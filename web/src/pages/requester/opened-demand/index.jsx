@@ -33,12 +33,10 @@ import { Divider, IconButton } from "@mui/material";
 import TranslationJson from "../../../API/Translate/pages/requester/openedDemand.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 
-
 const htmlDivStyle =
-  "border-1 h-auto min-h-[6rem] w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50";
+  "border-1 h-auto min-h-[6rem] w-[65rem] rounded-[0.5rem] p-3 outline-dark-blue-weg bg-gray-50 text-justify font-roboto font-normal text-black";
 
 export default function openedDemand() {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -118,7 +116,6 @@ export default function openedDemand() {
     boxShadow: 24,
     padding: "1rem",
   };
-  
 
   function handleEnableChat() {
     ChatService.createChat({
@@ -139,11 +136,15 @@ export default function openedDemand() {
   return (
     <>
       <SubHeaderOpenedDemand setDemand={setDemand} demand={demand}>
-        {translate["Visualização Demanda"]?.[language] ?? "Visualização Demanda"} {params.id}
+        {translate["Visualização Demanda"]?.[language] ??
+          "Visualização Demanda"}{" "}
+        {params.id}
       </SubHeaderOpenedDemand>
       <div className="grid items-center justify-center">
         <div className="mt-5 flex items-center justify-around">
-          <Tooltip title={translate["Abrir workflow"]?.[language] ?? "Abrir workflow"}>
+          <Tooltip
+            title={translate["Abrir workflow"]?.[language] ?? "Abrir workflow"}
+          >
             <Button
               style={{ fontSize: fonts.sm }}
               onClick={handleOpen}
@@ -210,7 +211,9 @@ export default function openedDemand() {
                     style={{ fontSize: fonts.xl }}
                     className="flex justify-center gap-2 text-blue-weg"
                   >
-                    {translate["Número de demanda"]?.[language] ?? "Número de demanda"}:{" "}
+                    {translate["Número de demanda"]?.[language] ??
+                      "Número de demanda"}
+                    :{" "}
                     <span
                       style={{ fontSize: fonts.xl }}
                       className="flex justify-center font-bold text-light-blue-weg"
@@ -225,22 +228,25 @@ export default function openedDemand() {
                       style={{ fontSize: fonts.base }}
                       className="font-roboto font-bold text-blue-weg"
                     >
-                      {translate["Analista responsável"]?.[language] ?? "Analista responsável"}
+                      {translate["Analista responsável"]?.[language] ??
+                        "Analista responsável"}
                     </h1>
                     <h1
                       style={{ fontSize: fonts.base }}
                       className="font-roboto text-light-blue-weg"
                     >
-                       {demand?.analistasResponsaveisDemanda[0]?.nomeUsuario ?? translate["Indefinido"]?.[language] ?? "Indefinido"}
+                      {demand?.analistasResponsaveisDemanda[0]?.nomeUsuario ??
+                        translate["Indefinido"]?.[language] ??
+                        "Indefinido"}
                     </h1>
                     <h1
                       style={{ fontSize: fonts.sm }}
                       className="text-light-blue-weg"
                     >
-                      {
-                        demand?.analistasResponsaveisDemanda[0]?.departamentoUsuario
-                          .nomeBusinessUnity ?? translate["Indefinido"]?.[language] ?? "Indefinido"
-                      }
+                      {demand?.analistasResponsaveisDemanda[0]
+                        ?.departamentoUsuario.nomeBusinessUnity ??
+                        translate["Indefinido"]?.[language] ??
+                        "Indefinido"}
                     </h1>
                   </div>
                   <div className="grid items-center justify-center">
@@ -251,7 +257,8 @@ export default function openedDemand() {
                             style={{ fontSize: fonts.lg }}
                             className="flex items-center justify-center font-normal text-blue-weg"
                           >
-                            {translate["Iniciada em:"]?.[language] ?? "Iniciada em:"}
+                            {translate["Iniciada em:"]?.[language] ??
+                              "Iniciada em:"}
                           </h1>
                           <span
                             style={{ fontSize: fonts.lg }}
@@ -259,9 +266,10 @@ export default function openedDemand() {
                           >
                             {demandLogs
                               ? new Date(
-                                demandLogs[0].recebimentoHistorico
-                              ).toLocaleDateString()
-                              : (translate["Indefinido"]?.[language] ?? "Indefinido")}
+                                  demandLogs[0].recebimentoHistorico
+                                ).toLocaleDateString()
+                              : translate["Indefinido"]?.[language] ??
+                                "Indefinido"}
                           </span>
                         </div>
                         <div className="h-16 w-[3.5px] bg-light-blue-weg" />
@@ -270,13 +278,15 @@ export default function openedDemand() {
                             style={{ fontSize: fonts.lg }}
                             className="flex items-center justify-center font-normal text-blue-weg"
                           >
-                            {translate["Concluída em:"]?.[language] ?? "Concluída em:"}
+                            {translate["Concluída em:"]?.[language] ??
+                              "Concluída em:"}
                           </h1>
                           <span
                             style={{ fontSize: fonts.lg }}
                             className="flex items-center justify-center font-bold text-light-blue-weg"
                           >
-                            {translate["Indefinido"]?.[language] ?? "Indefinido"}
+                            {translate["Indefinido"]?.[language] ??
+                              "Indefinido"}
                           </span>
                         </div>
                       </div>
@@ -294,7 +304,11 @@ export default function openedDemand() {
                     {translate["Histórico"]?.[language] ?? "Histórico"}
                   </h1>
                 </div>
-                <WorkflowTable pageSize={wfPageSize} setPageSize={setWfPageSize} demandId={params.id} />
+                <WorkflowTable
+                  pageSize={wfPageSize}
+                  setPageSize={setWfPageSize}
+                  demandId={params.id}
+                />
               </div>
             </Box>
           </Modal>
@@ -310,7 +324,9 @@ export default function openedDemand() {
               </div>
               {user.cargoUsuario === "ANALISTA" && (
                 <div onClick={handleEnableChat}>
-                  <Tooltip title={translate["Abrir chat"]?.[language] ?? "Abrir chat"}>
+                  <Tooltip
+                    title={translate["Abrir chat"]?.[language] ?? "Abrir chat"}
+                  >
                     <MessageIcon
                       sx={{
                         color: "#00579D",
@@ -328,7 +344,8 @@ export default function openedDemand() {
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-semibold text-dark-blue-weg"
               >
-                {translate["Score"]?.[language] ?? "Score"}: {demand?.scoreDemanda}
+                {translate["Score"]?.[language] ?? "Score"}:{" "}
+                {demand?.scoreDemanda}
               </h1>
             </div>
           </div>
@@ -370,7 +387,8 @@ export default function openedDemand() {
             className="flex items-center justify-center gap-5"
           >
             <h1 className="font-roboto font-bold">
-              {translate["De"]?.[language] ?? "De"}: <span className="text-dark-blue-weg">10/05/2022</span>
+              {translate["De"]?.[language] ?? "De"}:{" "}
+              <span className="text-dark-blue-weg">10/05/2022</span>
             </h1>
             <h1
               style={{ fontSize: fonts.sm }}
@@ -395,11 +413,11 @@ export default function openedDemand() {
             <h1 style={{ fontSize: fonts.sm }} className="font-roboto">
               {demand?.centroCustoDemanda[0]
                 ? (
-                  demand.centroCustoDemanda[0].numeroCentroCusto +
-                  " - " +
-                  demand.centroCustoDemanda[0].nomeCentroCusto
-                ).slice(0, 40)
-                : (translate["Não indicado"]?.[language] ?? "Não indicado")}
+                    demand.centroCustoDemanda[0].numeroCentroCusto +
+                    " - " +
+                    demand.centroCustoDemanda[0].nomeCentroCusto
+                  ).slice(0, 40)
+                : translate["Não indicado"]?.[language] ?? "Não indicado"}
             </h1>
           </div>
         </div>
@@ -441,7 +459,8 @@ export default function openedDemand() {
                 style={{ fontSize: fonts.lg }}
                 className="font-roboto font-bold text-dark-blue-weg"
               >
-                {translate["Frequência de uso:"]?.[language] ?? "Frequência de uso:"}
+                {translate["Frequência de uso:"]?.[language] ??
+                  "Frequência de uso:"}
               </h1>
               <div
                 contentEditable={false}
@@ -456,13 +475,14 @@ export default function openedDemand() {
                 style={{ fontSize: fonts.lg }}
                 className="font-roboto font-bold text-dark-blue-weg"
               >
-                {translate["Benefício qualitativo:"]?.[language] ?? "Benefício qualitativo:"}
+                {translate["Benefício qualitativo:"]?.[language] ??
+                  "Benefício qualitativo:"}
               </h1>
 
               <textarea
                 className="border-1 h-20 w-[65rem] resize-none
                 rounded-[0.5rem] p-2 
-              text-justify font-roboto font-medium text-black outline-dark-blue-weg"
+              text-justify font-roboto font-normal text-black outline-dark-blue-weg"
                 disabled
                 value={qualitativeBenefit}
                 onChange={(e) => setQualitativeBenefit(e.target.value)}
@@ -472,25 +492,28 @@ export default function openedDemand() {
         </div>
         <div className="mt-12 flex items-start justify-between">
           <BenefitsCard
-            title={translate["Benefícios reais"]?.[language] ?? "Benefícios reais"}
+            title={
+              translate["Benefícios reais"]?.[language] ?? "Benefícios reais"
+            }
             benefits={getBenefits("REAL")}
           />
           <BenefitsCard
-            title={translate["Benefícios potenciais"]?.[language] ?? "Benefícios potenciais"}
+            title={
+              translate["Benefícios potenciais"]?.[language] ??
+              "Benefícios potenciais"
+            }
             benefits={getBenefits("POTENCIAL")}
           />
         </div>
         {fileRows && fileRows.length > 0 ? (
-          <FilesTable
-            disabled={true}
-            files={fileRows}
-          />
+          <FilesTable disabled={true} files={fileRows} />
         ) : (
           <h1
             style={{ fontSize: fonts.lg }}
-            className="font-roboto font-bold text-dark-blue-weg flex justify-center mt-10"
+            className="mt-10 flex justify-center font-roboto font-bold text-dark-blue-weg"
           >
-            {translate["Nenhum arquivo anexado"]?.[language] ?? "Nenhum arquivo anexado"}
+            {translate["Nenhum arquivo anexado"]?.[language] ??
+              "Nenhum arquivo anexado"}
           </h1>
         )}
         <div className="mt-10 flex items-center justify-center">
