@@ -13,7 +13,6 @@ import { Button, Divider, IconButton, Tooltip } from "@mui/material";
 // Service
 import AtaService from "../../service/Ata-Service";
 
-
 // Components
 import ProposalCard from "../Proposal-card";
 import { useNavigate } from "react-router";
@@ -31,21 +30,20 @@ const Accordion = styled(MuiAccordion)(() => ({
 }));
 
 export default function PautasCard(props) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
   const navigate = useNavigate();
 
-  console.log("proposals", props.proposals)
+  console.log("proposals", props.proposals);
 
   const openAtaPDF = (tipo) => {
     AtaService.openAtaPDF(props.idAta, tipo);
-  }
+  };
 
   const generateAtaDG = () => {
     navigate("/atas/gerar-ata-dg/" + props.idAta);
-  }
+  };
 
   return (
     <div className="mt-5">
@@ -80,7 +78,9 @@ export default function PautasCard(props) {
             <div className="flex justify-between">
               <div className="flex items-center justify-center">
                 <p className="mt-5 font-bold">
-                  {translate["Analista responsável"]?.[language] ?? "Analista responsável"}:{" "}
+                  {translate["Analista responsável"]?.[language] ??
+                    "Analista responsável"}
+                  :{" "}
                   <span className="font-normal text-[#707070]">
                     {props.responsibleAnalyst}
                   </span>
@@ -108,9 +108,17 @@ export default function PautasCard(props) {
                 </div>
               )}
               <div className="flex items-end justify-center gap-3">
-                <p className="font-bold">{translate["Visualizar Ata:"]?.[language] ?? "Visualizar Ata:"} </p>
-                {props.proposals.some(item => item.tipoAtaPropostaLog == "PUBLICADA") && (
-                  <Tooltip Tooltip title={translate["Publicada"]?.[language] ?? "Publicada"}>
+                <p className="font-bold">
+                  {translate["Visualizar Ata:"]?.[language] ??
+                    "Visualizar Ata:"}{" "}
+                </p>
+                {props.proposals.some(
+                  (item) => item.tipoAtaPropostaLog == "PUBLICADA"
+                ) && (
+                  <Tooltip
+                    Tooltip
+                    title={translate["Publicada"]?.[language] ?? "Publicada"}
+                  >
                     <IconButton
                       onClick={() => openAtaPDF("publicada")}
                       sx={{
@@ -130,8 +138,14 @@ export default function PautasCard(props) {
                     </IconButton>
                   </Tooltip>
                 )}
-                {props.proposals.some(item => item.tipoAtaPropostaLog == "NAO_PUBLICADA") && (
-                  <Tooltip title={translate["Não publicada"]?.[language] ?? "Não publicada"}>
+                {props.proposals.some(
+                  (item) => item.tipoAtaPropostaLog == "NAO_PUBLICADA"
+                ) && (
+                  <Tooltip
+                    title={
+                      translate["Não publicada"]?.[language] ?? "Não publicada"
+                    }
+                  >
                     <IconButton
                       onClick={() => openAtaPDF("nao-publicada")}
                       sx={{
@@ -162,7 +176,6 @@ export default function PautasCard(props) {
               <ProposalCard
                 key={i}
                 atasCard={true}
-                newPauta={false}
                 title={proposal.demandaTituloPropostaLog}
                 executionTime={proposal.demandaTempoExecucaoPropostaLog}
                 value={proposal.demandaValorPropostaLog}

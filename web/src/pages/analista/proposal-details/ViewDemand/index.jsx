@@ -64,9 +64,8 @@ const PdfButton = styled(MuiButton)({
 });
 
 export default function ViewDemand() {
-
   const translate = TranslationJson;
-  const [ language ] = useContext(TranslateContext);
+  const [language] = useContext(TranslateContext);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -97,6 +96,10 @@ export default function ViewDemand() {
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
+
+  useEffect(() => {
+    console.log("DEMAND", demand);
+  }, [demand]);
 
   useEffect(() => {
     if (params.idDemanda) {
@@ -136,7 +139,6 @@ export default function ViewDemand() {
       setQualitativeBenefit(demand.descricaoQualitativoDemanda);
     }
   }, [demand]);
-
 
   const MyDivider = () => {
     return <div className="h-[3px] w-6 bg-light-blue-weg" />;
@@ -239,7 +241,9 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  {translate["Centro de custo"]?.[language] ?? "Centro de custo"}:
+                  {translate["Centro de custo"]?.[language] ??
+                    "Centro de custo"}
+                  :
                 </h1>
                 <h1
                   style={{ fontSize: fonts.base }}
@@ -299,7 +303,9 @@ export default function ViewDemand() {
 
             <div className="grid items-center gap-1">
               <h1 className="font-roboto font-bold text-blue-weg">
-                {translate["Frequência de uso"]?.[language] ?? "Frequência de uso"}:
+                {translate["Frequência de uso"]?.[language] ??
+                  "Frequência de uso"}
+                :
               </h1>
               <div>
                 <p
@@ -315,7 +321,9 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.base }}
                 className="font-roboto font-bold text-blue-weg"
               >
-                {translate["Benefício qualitativo"]?.[language] ?? "Benefício qualitativo"}:
+                {translate["Benefício qualitativo"]?.[language] ??
+                  "Benefício qualitativo"}
+                :
               </h1>
               <p
                 style={{ fontSize: fonts.base }}
@@ -327,11 +335,16 @@ export default function ViewDemand() {
           </div>
           <div className="grid items-start gap-6">
             <BenefitsCard
-              title={translate["Benefícios reais"]?.[language] ?? "Benefícios reais"}
+              title={
+                translate["Benefícios reais"]?.[language] ?? "Benefícios reais"
+              }
               benefits={getBenefits("REAL")}
             />
             <BenefitsCard
-              title={translate["Benefícios potenciais"]?.[language] ?? "Benefícios potenciais"}
+              title={
+                translate["Benefícios potenciais"]?.[language] ??
+                "Benefícios potenciais"
+              }
               benefits={getBenefits("POTENCIAL")}
             />
           </div>
@@ -385,7 +398,9 @@ export default function ViewDemand() {
                 style={{ fontSize: fonts.xl }}
                 className="flex justify-center gap-2 text-blue-weg"
               >
-                {translate["Número de demanda"]?.[language] ?? "Número de demanda"}:{" "}
+                {translate["Número de demanda"]?.[language] ??
+                  "Número de demanda"}
+                :{" "}
                 <span
                   style={{ fontSize: fonts.xl }}
                   className="flex justify-center font-bold text-light-blue-weg"
@@ -400,13 +415,15 @@ export default function ViewDemand() {
                   style={{ fontSize: fonts.base }}
                   className="font-roboto font-bold text-blue-weg"
                 >
-                  {translate["Analista responsável"]?.[language] ?? "Analista responsável"}
+                  {translate["Analista responsável"]?.[language] ??
+                    "Analista responsável"}
                 </h1>
                 <h1
                   style={{ fontSize: fonts.base }}
                   className="font-roboto text-light-blue-weg"
                 >
-                  {demand?.analistasResponsaveisDemanda[0]?.nomeUsuario ?? "Indefinido"}
+                  {demand?.analistasResponsaveisDemanda[0]?.nomeUsuario ??
+                    "Indefinido"}
                 </h1>
                 <h1
                   style={{ fontSize: fonts.sm }}
@@ -445,7 +462,9 @@ export default function ViewDemand() {
                         style={{ fontSize: fonts.lg }}
                         className="flex items-center justify-center font-normal text-blue-weg"
                       >
-                        {translate["Concluída em"]?.[language] ?? "Concluída em"}:
+                        {translate["Concluída em"]?.[language] ??
+                          "Concluída em"}
+                        :
                       </h1>
                       <span
                         style={{ fontSize: fonts.lg }}
@@ -460,7 +479,11 @@ export default function ViewDemand() {
             </div>
           </div>
 
-          <div className={`grid items-center h-[${pageSize == 5 ? "25rem" : "28rem"}]`}>
+          <div
+            className={`grid items-center h-[${
+              pageSize == 5 ? "25rem" : "28rem"
+            }]`}
+          >
             <div className="flex items-center justify-start">
               <h1
                 style={{ fontSize: fonts.lg }}
@@ -469,7 +492,11 @@ export default function ViewDemand() {
                 {translate["Histórico"]?.[language] ?? "Histórico"}
               </h1>
             </div>
-            <WorkflowTable demandId={params.idDemanda} setPageSize={setPageSize} pageSize={pageSize} />
+            <WorkflowTable
+              demandId={params.idDemanda}
+              setPageSize={setPageSize}
+              pageSize={pageSize}
+            />
           </div>
         </Box>
       </Modal>

@@ -125,7 +125,6 @@ export default function GenerateAtaProposal(props) {
         <div className="w-[65rem]">
           <ProposalCard
             proposalId={props.proposal.idProposta}
-            newPauta={true}
             title={props.proposal.demandaPropostaTitulo}
             executionTime={props.isAtaForDG ? props.proposal.tempoExecucaoDemanda : props.proposal.tempoDeExecucaoDemanda}
             value={props.proposal.valorDemanda}

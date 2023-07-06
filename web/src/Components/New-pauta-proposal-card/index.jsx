@@ -56,7 +56,7 @@ export default function NewPautaProposalCard(props) {
 
   return (
     <div
-      className="flex cursor-pointer items-center justify-around"
+      className="flex cursor-pointer items-center justify-center gap-3"
       onClick={() => setIsCheckBoxClicked(!isCheckboxClicked)}
     >
       <Checkbox checked={isCheckboxClicked} />
@@ -67,7 +67,6 @@ export default function NewPautaProposalCard(props) {
           } absolute h-full w-full rounded-[5px]`}
         />
         <ProposalCard
-          newPauta={true}
           title={props.proposal.demandaPropostaTitulo || props.title}
           executionTime={props.proposal.tempoDeExecucaoDemanda}
           value={props.proposal.valorDemanda}
