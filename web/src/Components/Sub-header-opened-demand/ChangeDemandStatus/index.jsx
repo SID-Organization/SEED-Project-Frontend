@@ -59,18 +59,6 @@ export default function ChangeDemandStatus(props) {
                   backgroundColor: "transparent",
                 }}
               >
-              <MenuItem value={"APROVADA_EM_DG"}>
-                  <div className="ml-2 flex items-center justify-start gap-2">
-                    <div
-                      className="h-2 w-2 rounded-full"
-                      style={{
-                        backgroundColor:
-                          DemandStatusJSON["APROVADA_EM_DG"]?.["COLOR"],
-                      }}
-                    />
-                    Aprovada em DG
-                  </div>
-                </MenuItem>
                 <MenuItem value={"PROPOSTA_EM_EXECUCAO"}>
                   <div className="ml-2 flex items-center justify-start gap-2">
                     <div

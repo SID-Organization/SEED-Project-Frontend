@@ -38,7 +38,7 @@ const Button = styled(MuiButton)(() => ({
 }));
 
 
-export default function Perfil({ enableVLibras, enableTextToVoice }) {
+export default function Perfil(props) {
 
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
@@ -97,14 +97,14 @@ export default function Perfil({ enableVLibras, enableTextToVoice }) {
               {userAvatar().src}
             </Avatar>
           )}
-          <Button
+          {/* <Button
             style={{ fontSize: fonts.xs }}
             variant="outlined"
             component="label"
           >
             {translate["Enviar imagem"]?.[language] ?? "Enviar imagem"}
             <input hidden accept="image/*" multiple type="file" />
-          </Button>
+          </Button> */}
           <div className="mt-5 flex items-center" style={{ fontSize: fonts.sm }}>
             <Button
               onClick={() => restartTutorial()}
@@ -161,13 +161,15 @@ export default function Perfil({ enableVLibras, enableTextToVoice }) {
               topLine={false}
               topic={translate["Tradutor de Libras"]?.[language] ?? "Tradutor de Libras"}
               useSwitch={true}
-              enableAccessibility={enableVLibras}
+              enableAccessibility={props.enableVLibras}
+              isAccessibilityEnabled={props.isVLibrasEnabled}
             />
             <ProfileRow
               topLine={false}
               topic={translate["Leitor de texto"]?.[language] ?? "Leitor de texto"}
               useSwitch={true}
-              enableAccessibility={enableTextToVoice}
+              enableAccessibility={props.enableTextToVoice}
+              isAccessibilityEnabled={props.isTextToVoiceEnabled}
               helperText={translate["Selecione um texto para ouvir"]?.[language] ?? "Selecione um texto para ouvir"}
             />
           </div>

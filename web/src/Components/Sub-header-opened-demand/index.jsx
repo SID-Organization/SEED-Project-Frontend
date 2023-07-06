@@ -567,12 +567,10 @@ export default function subHeader(props) {
     DemandService.updateDemandStatus(demand?.idDemanda, demandStatus)
       .then(res => {
         if ([200, 201].includes(res.status)) {
-          if (demandStatus == "PROPOSTA_EM_EXECUCAO") {
-            DemandLogService.createDemandLog("EXECUCAO_PROPOSTA", demand?.idDemanda, "Alterar status", UserUtils.getLoggedUserId())
-          } else if (demandStatus == "PROPOSTA_EM_SUPORTE") {
-            DemandLogService.createDemandLog("EM_SUPORTE", demand?.idDemanda, "Alterar status", UserUtils.getLoggedUserId())
+          if (demandStatus == "PROPOSTA_EM_SUPORTE") {
+            DemandLogService.createDemandLog("EM_SUPORTE", demand?.idDemanda, "Concluir", UserUtils.getLoggedUserId())
           } else if (demandStatus == "PROPOSTA_FINALIZADA") {
-            DemandLogService.createDemandLog("FINALIZACAO_PROPOSTA", demand?.idDemanda, "Alterar status", UserUtils.getLoggedUserId())
+            DemandLogService.createDemandLog("PROPOSTA_CONCLUIDA", demand?.idDemanda, "Finalizar", UserUtils.getLoggedUserId())
           }
         }
       })

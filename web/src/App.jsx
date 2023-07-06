@@ -133,7 +133,9 @@ function App() {
               element={
                 <Profile
                   enableVLibras={setEnableVLibras}
+                  isVLibrasEnabled={enableVLibras}
                   enableTextToVoice={setEnableTextToVoice}
+                  isTextToVoiceEnabled={enableTextToVoice}
                 />
               }
             />

@@ -30,7 +30,7 @@ export default function ProfileRow(props) {
     FontSizeUtils.getFontControl()
   );
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(props.isAccessibilityEnabled);
 
   const changeSwitch = (event) => {
     setChecked(event.target.checked);
