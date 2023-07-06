@@ -163,7 +163,6 @@ export default function GenerateProposal() {
     setQuillHtmlIsNotOnScope(html.naoFazParteDoEscopoPropostaHTML);
     setQuillHtmlProposalMitigationPlan(html.planoMitigacaoPropostaHTML);
     setQuillHtmlProposalAlternatives(html.alternativasAvaliadasPropostaHTML);
-    console.log("PDF", html);
   }
 
   useEffect(() => {
@@ -184,6 +183,8 @@ export default function GenerateProposal() {
       );
       setEndDate(DateUtils.formatDateForDB(proposal.periodoExecucaoDemandaFim));
       setPayback(proposal.paybackProposta);
+      setNameBusinessResponsible(proposal.nomeResponsavelNegocio);
+      setAreaBusinessResponsible(proposal.areaResponsavelNegocio);
     }
   }, [proposal]);
 
@@ -524,7 +525,7 @@ export default function GenerateProposal() {
         </div>
         <div className="mt-10 grid items-center justify-start gap-10">
           <div>
-            <div className="flex w-32">
+            <div className="flex w-32 justify-between">
               <p style={{ fontSize: fonts.lg }} className="font-roboto font-bold">
                 {translate["Payback"]?.[language] ?? "Payback"}
               </p>
@@ -632,6 +633,7 @@ export default function GenerateProposal() {
                   value={startDate}
                   helperText={translate["Data de início da execução da demanda"]?.[language] ?? "Data de início da execução da demanda"}
                   onChange={(e) => setStartDate(e.target.value)}
+                  onBlur={saveProgress}
                 />
                 <DateInput
                   id="outlined-basic"
@@ -646,6 +648,7 @@ export default function GenerateProposal() {
                   value={endDate}
                   helperText={translate["Data de término da execução da demanda"]?.[language] ?? "Data de término da execução da demanda"}
                   onChange={(e) => setEndDate(e.target.value)}
+                  onBlur={saveProgress}
                 />
               </div>
             </div>
@@ -664,6 +667,7 @@ export default function GenerateProposal() {
                   placeholder={translate["Nome"]?.[language] ?? "Nome"}
                   value={nameBusinessResponsible}
                   onChange={(e) => setNameBusinessResponsible(e.target.value)}
+                  onBlur={saveProgress}
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
                   }}
@@ -675,6 +679,7 @@ export default function GenerateProposal() {
                   placeholder={translate["Área"]?.[language] ?? "Área"}
                   value={areaBusinessResponsible}
                   onChange={(e) => setAreaBusinessResponsible(e.target.value)}
+                  onBlur={saveProgress}
                   InputProps={{
                     startAdornment: <InputAdornment position="start" />,
                   }}
