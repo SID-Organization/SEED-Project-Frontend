@@ -23,14 +23,14 @@ export default function subHeader(props) {
   const [language] = useContext(TranslateContext);
 
   return (
-    <div className="mb-5">
+    <div className="mb-3">
       <div className="flex h-[5rem] items-center shadow-page-title-shadow">
         <div className="flex-[2] text-center">
           <h1 className="font-roboto text-3xl font-bold text-dark-blue-weg">
             {translate[childrenText]?.[language]}
           </h1>
         </div>
-        <div className="flex flex-[1] justify-around items-center gap-10">
+        <div className="flex flex-[1] items-center justify-around gap-10">
           <div className="flex flex-1 items-center justify-end">
             <DemandFilter
               setFilters={props.setFilters}
@@ -38,56 +38,58 @@ export default function subHeader(props) {
             />
           </div>
           <div className="w-20">
-          <Tooltip
-            title={
-              props.demandLength === 0
-                ? translate["Sem demandas para exportar"]?.[language] ??
-                  "Sem demandas para exportar"
-                : translate["Exportar demandas para Excel"]?.[language] ??
-                  "Exportar demandas para Excel"
-            }
-          >
-            <Button
-              disabled={props.demandLength === 0}
-              variant="contained"
-              onClick={props.handleCreateExcel}
-              sx={{
-                backgroundColor: "#0075B1",
-                fontSize: "12px",
-                "&:hover": {
-                  backgroundColor: "#2EAC70",
-                },
-              }}
+            <Tooltip
+              title={
+                props.demandLength === 0
+                  ? translate["Sem demandas para exportar"]?.[language] ??
+                    "Sem demandas para exportar"
+                  : translate["Exportar demandas para Excel"]?.[language] ??
+                    "Exportar demandas para Excel"
+              }
             >
-              {props.buttonExcelClicked ? (
-                <svg
-                  className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
+              <Button
+                disabled={props.demandLength === 0}
+                variant="contained"
+                onClick={props.handleCreateExcel}
+                sx={{
+                  backgroundColor: "#0075B1",
+                  fontSize: "12px",
+                  "&:hover": {
+                    backgroundColor: "#2EAC70",
+                  },
+                }}
+              >
+                {props.buttonExcelClicked ? (
+                  <svg
+                    className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                ) : (
+                  <SaveAltRoundedIcon
+                    sx={{ marginRight: "8px", width: "18px" }}
                   />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  />
-                </svg>
-              ) : (
-                <SaveAltRoundedIcon sx={{ marginRight: "8px", width: "18px" }} />
-              )}
-              {props.buttonExcelClicked
-                ? translate["Exportando..."]?.[language] ?? "Exportando..."
-                : "XLSX"}
-            </Button>
-          </Tooltip>
+                )}
+                {props.buttonExcelClicked
+                  ? translate["Exportando..."]?.[language] ?? "Exportando..."
+                  : "XLSX"}
+              </Button>
+            </Tooltip>
           </div>
           <div className="flex flex-1 items-center justify-center">
             <div

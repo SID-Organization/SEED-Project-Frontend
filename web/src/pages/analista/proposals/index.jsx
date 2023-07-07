@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 
 // MUI
 import Modal from "@mui/material/Modal";
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid, IconButton } from "@mui/material";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
+import SwapIcon from "@mui/icons-material/SwapHoriz";
 
 // Components
 import PautasCard from "../../../Components/Pautas-card";
@@ -65,6 +66,8 @@ export default function Proposals() {
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
 
+  const [getContinueProposal, setGetContinueProposal] = useState(true);
+
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
   }, [FontSizeUtils.getFontControl()]);
@@ -124,32 +127,8 @@ export default function Proposals() {
 
   console.log("PROPOSALS", proposals);
 
-  const [getContinueProposal, setGetContinueProposal] = useState(true);
-
-  // <div className="mr-8 flex w-full items-center justify-end">
-  //           <p className="text-sm text-blue-weg">
-  //             {getMyManagements
-  //               ? translate["Minhas gerências"]?.[language] ?? "Minhas gerências"
-  //               : translate["Demandas abertas"]?.[language] ?? "Demandas abertas"}
-  //           </p>
-  //           <IconButton
-  //             sx={{ marginLeft: "6px" }}
-  //             onClick={() => setGetMyManagements(!getMyManagements)}
-  //           >
-  //             <SwapIcon sx={{ color: "#00579D" }} />
-  //           </IconButton>
-  //         </div>
-
   return (
     <div>
-      <div className="mr-8 flex w-full items-center justify-end">
-        <p className="text-sm text-blue-weg">
-          {getContinueProposal
-            ? translate["Propostas em elaboração"]?.[language] ??
-              "Propostas em elaboração"
-            : translate["Propostas prontas"]?.[language] ?? "Propostas prontas"}
-        </p>
-      </div>
       <Modal
         open={openAddToAPautaModal}
         onClose={handleCloseAddToAPautaModal}
@@ -180,8 +159,22 @@ export default function Proposals() {
           </div>
         </Box>
       </Modal>
-      <div className="mb-10">
+      <div className="mb-3">
         <SubHeaderProposals filters={filters} setFilters={setFilters} />
+      </div>
+      <div className="mr-8 flex w-full items-center justify-end">
+        <p className="text-sm text-blue-weg">
+          {getContinueProposal
+            ? translate["Propostas em elaboração"]?.[language] ??
+              "Propostas em elaboração"
+            : translate["Propostas prontas"]?.[language] ?? "Propostas prontas"}
+        </p>
+        <IconButton
+          sx={{ marginLeft: "6px", marginRight: "10px" }}
+          onClick={() => setGetContinueProposal(!getContinueProposal)}
+        >
+          <SwapIcon sx={{ color: "#00579D" }} />
+        </IconButton>
       </div>
       <div className="flex items-center justify-center">
         {selectProposals.length > 0 && (

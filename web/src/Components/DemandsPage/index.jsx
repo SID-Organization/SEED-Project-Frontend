@@ -799,7 +799,7 @@ export default function DemandsPage(props) {
               : translate["Demandas abertas"]?.[language] ?? "Demandas abertas"}
           </p>
           <IconButton
-            sx={{ marginLeft: "6px" }}
+            sx={{ marginLeft: "6px", marginRight: "10px" }}
             onClick={() => setGetMyManagements(!getMyManagements)}
           >
             <SwapIcon sx={{ color: "#00579D" }} />
