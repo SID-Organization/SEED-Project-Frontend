@@ -77,9 +77,9 @@ export default function Proposals() {
 
   useEffect(() => {
     setIsLoading(true);
-    if(getContinueProposal){
+    if (getContinueProposal) {
       ProposalService.getProposalsInProgress()
-        .then(proposalsData => {
+        .then((proposalsData) => {
           setProposals(proposalsData);
         })
         .catch((error) => {
@@ -90,7 +90,7 @@ export default function Proposals() {
         });
     } else {
       ProposalService.getReadyProposals()
-        .then(proposalsData => {
+        .then((proposalsData) => {
           setProposals(proposalsData);
         })
         .catch((error) => {
@@ -104,7 +104,7 @@ export default function Proposals() {
 
   const returnProposalsCard = () => {
     return (
-      <Grid 
+      <Grid
         container
         gap={3}
         rowGap={2}
@@ -124,6 +124,7 @@ export default function Proposals() {
               value={proposal.valorDemanda}
               referenceDemand={proposal.idDemanda}
               setSelectProposals={setSelectProposals}
+              getContinueProposal={getContinueProposal}
             />
           ))}
       </Grid>

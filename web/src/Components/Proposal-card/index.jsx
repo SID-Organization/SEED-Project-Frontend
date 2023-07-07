@@ -48,12 +48,16 @@ export default function ProposalCard(props) {
     ProposalService.openProposalPDF(props.proposalId);
   }
 
-  function openProposalDetails() {
-    navigate("/propostas/" + props.referenceDemand);
+  function openProposalType() {
+    if (props.getContinueProposal) {
+      navigate("/propostas/gerar-proposta" + props.referenceDemand);
+    } else {
+      navigate("/propostas/" + props.referenceDemand);
+    }
   }
 
   return (
-    <Card onClick={openProposalDetails}>
+    <Card onClick={openProposalType}>
       <div className="grid items-center gap-2">
         <div className="flex items-center justify-between">
           <div className="mb-4 flex items-center justify-between">
