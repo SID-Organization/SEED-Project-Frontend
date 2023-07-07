@@ -1,4 +1,22 @@
 {
+  "Propostas prontas": {
+    "pt-br": "Propostas prontas",
+    "en-us": "Ready proposals",
+    "de": "Fertige Vorschläge",
+    "zh-cn": "准备好的提案",
+    "es": "Propuestas listas",
+    "fr": "Propositions prêtes",
+    "it": "Proposte pronte"
+  },
+  "Propostas em elaboração": {
+    "pt-br": "Propostas em elaboração",
+    "en-us": "Proposals in progress",
+    "de": "Vorschläge in Bearbeitung",
+    "zh-cn": "正在进行的提案",
+    "es": "Propuestas en progreso",
+    "fr": "Propositions en cours",
+    "it": "Proposte in corso"
+  },
   "Adicionar à uma pauta": {
     "pt-br": "Adicionar à uma pauta",
     "en-us": "Add to a schedule",

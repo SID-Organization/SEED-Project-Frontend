@@ -47,7 +47,7 @@ export default function GenerateAtaProposal(props) {
     newFinalDecision.parecerComissaoPropostaLog =
       formatParecerComissao(parecerComissao);
 
-      console.log("FINAL DECISION", props.finalDecision);
+    console.log("FINAL DECISION", props.finalDecision);
 
     newFinalDecision.consideracoesPropostaLog = removeHTML(
       quillHtmlConsideration
@@ -118,15 +118,18 @@ export default function GenerateAtaProposal(props) {
     border: "1px solid #000",
   });
 
-
   return (
     <div>
       <div className="grid justify-center">
-        <div className="w-[65rem]">
+        <div className="flex w-[65rem] justify-center">
           <ProposalCard
             proposalId={props.proposal.idProposta}
             title={props.proposal.demandaPropostaTitulo}
-            executionTime={props.isAtaForDG ? props.proposal.tempoExecucaoDemanda : props.proposal.tempoDeExecucaoDemanda}
+            executionTime={
+              props.isAtaForDG
+                ? props.proposal.tempoExecucaoDemanda
+                : props.proposal.tempoDeExecucaoDemanda
+            }
             value={props.proposal.valorDemanda}
             referenceDemand={props.proposal.idDemanda}
           />

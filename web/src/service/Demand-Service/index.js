@@ -19,7 +19,12 @@ const createExcelTable = async (demandaIdList) => {
   }
 
   const contentType = "multipart/form-data";
-  return AxiosAPI.post(`${url}/tabela-excel`, demandaIdListForm, contentType, "arraybuffer")
+  return AxiosAPI.post(
+    `${url}/tabela-excel`,
+    demandaIdListForm,
+    contentType,
+    "arraybuffer"
+  )
     .then((response) => response.data)
 
     .catch((error) => error);
@@ -28,11 +33,14 @@ const createExcelTable = async (demandaIdList) => {
 const updateDemand = async (demandId, updatedDemand) => {
   const contentType = "multipart/form-data";
 
-  return AxiosAPI.put(`${url}/${demandId}`, updatedDemand, contentType)
+  return AxiosAPI.put(`${url}/${demandId}`, updatedDemand, contentType);
 };
 
 const updateBenefitedBUs = async (demandId, updatedDemand) => {
-  return AxiosAPI.put(`${url}/atualiza-bus-beneficiadas/${demandId}`, updatedDemand);
+  return AxiosAPI.put(
+    `${url}/atualiza-bus-beneficiadas/${demandId}`,
+    updatedDemand
+  );
 };
 
 const updateDemandStatus = async (demandId, newStatus) => {
@@ -57,12 +65,14 @@ const deleteListDemands = async (ids) => {
     demandas: ids.map((id) => ({
       idDemanda: id,
     })),
-  }
+  };
   return AxiosAPI.post(`${url}/delete-lista-demanda`, requestBody);
 };
 
 const deleteAllDrafts = async () => {
-  return AxiosAPI.delete(`${url}/deleta-rascunhos/${UserUtils.getLoggedUserId()}`);
+  return AxiosAPI.delete(
+    `${url}/deleta-rascunhos/${UserUtils.getLoggedUserId()}`
+  );
 };
 
 const getDemands = async () => {
@@ -126,6 +136,18 @@ const getAllDemandsToManage = async () => {
     .catch((error) => error);
 };
 
+const getDemandsAscScore = async () => {
+  return AxiosAPI.get(`${url}/score-ascendente`)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
+const getDemandsDescScore = async () => {
+  return AxiosAPI.get(`${url}/score-descendente`)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
 const openDemandPDF = async (demandId) => {
   // Open in new tab
   window.open(`${url}/pdf-demanda/${demandId}`, "_blank");
@@ -135,25 +157,27 @@ const returnOrCancel = async (demandId, reason, devolution, responsableId) => {
   const requestBody = {
     motivoRecusaDemanda: reason,
     statusDemanda: devolution ? "EM_EDICAO" : "CANCELADA",
-    idResponsavel: { numeroCadastroUsuario: responsableId }
-  }
-  return AxiosAPI.put(`${url}/devolucao-demanda/${demandId}`, requestBody)
-}
+    idResponsavel: { numeroCadastroUsuario: responsableId },
+  };
+  return AxiosAPI.put(`${url}/devolucao-demanda/${demandId}`, requestBody);
+};
 
 const updateDemandAnalysts = async (demandId, analysts) => {
-  const requestBody = analysts.map(a => ({ numeroCadastroUsuario: a.numeroCadastroUsuario }))
-  return AxiosAPI.put(`${url}/atualiza-analistas/${demandId}`, requestBody)
-}
+  const requestBody = analysts.map((a) => ({
+    numeroCadastroUsuario: a.numeroCadastroUsuario,
+  }));
+  return AxiosAPI.put(`${url}/atualiza-analistas/${demandId}`, requestBody);
+};
 
 // AI
 const checkSimilarDemands = async (demandId) => {
   return AxiosAPI.get(`${url}/filtrar-demanda/similares/${demandId}`)
-    .then(res => res.data)
-    .catch(res => {
+    .then((res) => res.data)
+    .catch((res) => {
       console.warn("Erro ao checar demandas similares");
-      console.warn("Res: ", res)
-    })
-}
+      console.warn("Res: ", res);
+    });
+};
 
 export default {
   createDemand,
@@ -177,5 +201,7 @@ export default {
   openDemandPDF,
   returnOrCancel,
   createExcelTable,
-  checkSimilarDemands
+  checkSimilarDemands,
+  getDemandsAscScore,
+  getDemandsDescScore,
 };

@@ -122,8 +122,34 @@ export default function Proposals() {
     );
   };
 
+  console.log("PROPOSALS", proposals);
+
+  const [getContinueProposal, setGetContinueProposal] = useState(true);
+
+  // <div className="mr-8 flex w-full items-center justify-end">
+  //           <p className="text-sm text-blue-weg">
+  //             {getMyManagements
+  //               ? translate["Minhas gerências"]?.[language] ?? "Minhas gerências"
+  //               : translate["Demandas abertas"]?.[language] ?? "Demandas abertas"}
+  //           </p>
+  //           <IconButton
+  //             sx={{ marginLeft: "6px" }}
+  //             onClick={() => setGetMyManagements(!getMyManagements)}
+  //           >
+  //             <SwapIcon sx={{ color: "#00579D" }} />
+  //           </IconButton>
+  //         </div>
+
   return (
     <div>
+      <div className="mr-8 flex w-full items-center justify-end">
+        <p className="text-sm text-blue-weg">
+          {getContinueProposal
+            ? translate["Propostas em elaboração"]?.[language] ??
+              "Propostas em elaboração"
+            : translate["Propostas prontas"]?.[language] ?? "Propostas prontas"}
+        </p>
+      </div>
       <Modal
         open={openAddToAPautaModal}
         onClose={handleCloseAddToAPautaModal}
