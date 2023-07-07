@@ -136,18 +136,6 @@ const getAllDemandsToManage = async () => {
     .catch((error) => error);
 };
 
-const getDemandsAscScore = async () => {
-  return AxiosAPI.get(`${url}/score-ascendente`)
-    .then((response) => response.data)
-    .catch((error) => error);
-};
-
-const getDemandsDescScore = async () => {
-  return AxiosAPI.get(`${url}/score-descendente`)
-    .then((response) => response.data)
-    .catch((error) => error);
-};
-
 const openDemandPDF = async (demandId) => {
   // Open in new tab
   window.open(`${url}/pdf-demanda/${demandId}`, "_blank");
@@ -202,6 +190,4 @@ export default {
   returnOrCancel,
   createExcelTable,
   checkSimilarDemands,
-  getDemandsAscScore,
-  getDemandsDescScore,
 };

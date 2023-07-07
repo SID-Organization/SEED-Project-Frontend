@@ -77,29 +77,34 @@ export default function Proposals() {
 
   useEffect(() => {
     setIsLoading(true);
-    Promise.all([PautaService.getPautas(), ProposalService.getReadyProposals()])
-      .then(([pautasData, proposalsData]) => {
-        if (Array.isArray(pautasData)) {
-          let pautas = pautasData.map((pauta) => ({
-            ...pauta,
-            dataReuniao: DateUtils.formatDate(pauta.dataReuniao),
-          }));
-          setPautas(pautas);
-        }
-        console.warn("PROPOSALS", proposalsData);
-        setProposals(proposalsData);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    if(getContinueProposal){
+      ProposalService.getProposalsInProgress()
+        .then(proposalsData => {
+          setProposals(proposalsData);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      ProposalService.getReadyProposals()
+        .then(proposalsData => {
+          setProposals(proposalsData);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [getContinueProposal]);
 
   const returnProposalsCard = () => {
     return (
-      <Grid
+      <Grid 
         container
         gap={3}
         rowGap={2}
@@ -125,40 +130,8 @@ export default function Proposals() {
     );
   };
 
-  console.log("PROPOSALS", proposals);
-
   return (
     <div>
-      <Modal
-        open={openAddToAPautaModal}
-        onClose={handleCloseAddToAPautaModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={addToAPautaModalStyle}>
-          <h1 className="mb-3 text-center text-2xl font-bold text-dark-blue-weg">
-            {translate["Adicionar à uma pauta"]?.[language] ??
-              "Adicionar à uma pauta"}
-          </h1>
-          <div className="flex items-center justify-center">
-            <CreateNewPauta />
-          </div>
-          <div className="mt-5 grid max-h-[31rem] justify-center overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-[#a5a5a5] scrollbar-thumb-rounded-full scrollbar-w-2">
-            {pautas.map((pauta) => (
-              <PautasCard
-                key={pauta.idPauta}
-                id={pauta.idPauta}
-                PautaName={"ID da pauta " + pauta.idPauta}
-                QtyProposals={pauta.qtdPropostas}
-                MeetingDate={pauta.dataReuniao}
-                MeetingTime={pauta.horaReuniao}
-                ResponsibleAnalyst={pauta.analistaResponsavel}
-                isInTheModalAddToAPauta={true}
-              />
-            ))}
-          </div>
-        </Box>
-      </Modal>
       <div className="mb-3">
         <SubHeaderProposals filters={filters} setFilters={setFilters} />
       </div>

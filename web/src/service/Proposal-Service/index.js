@@ -1,5 +1,6 @@
 import AxiosAPI from "../../API/AxiosAPI";
 import apiConfig from "../../API/API-config";
+import UserUtils from "../../utils/User-Utils";
 
 const url = `${apiConfig.URL}/proposta`;
 
@@ -21,6 +22,12 @@ const getReadyProposals = async () => {
     .then((response) => response.data)
     .catch((error) => error);
 };
+
+const getProposalsInProgress = async () => {
+  return AxiosAPI.get(`${url}/proposta-elaboracao/${UserUtils.getLoggedUserId()}`)
+    .then((response) => response.data)
+    .catch((error) => error);
+}
 
 const getProposalById = async (proposalId) => {
   return AxiosAPI.get(`${url}/${proposalId}`)
@@ -47,4 +54,5 @@ export default {
   getProposalById,
   getProposalByDemandId,
   openProposalPDF,
+  getProposalsInProgress,
 };
