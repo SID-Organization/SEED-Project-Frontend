@@ -378,7 +378,7 @@ export default function PrimarySearchAppBar() {
     const lastMessage = messagesReceivedByWS[messagesReceivedByWS.length - 1];
     setUsers(
       users.map((user) => {
-        if (user.idChat && user.idChat === lastMessage.idChat.idChat) {
+        if ((user.idChat && lastMessage.idChat.idChat) && user.idChat === lastMessage.idChat.idChat) {
           return { ...user, lastMessage: lastMessage.textoMensagem };
         } else {
           return user;

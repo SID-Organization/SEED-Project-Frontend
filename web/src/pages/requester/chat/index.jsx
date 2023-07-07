@@ -88,14 +88,14 @@ export default function Chat() {
     setStompClient(stomp);
   };
 
-  useEffect(() => {
-    if (fileState) {
-      setUserData({
-        ...userData,
-        file: fileState,
-      });
-    }
-  }, [fileState]);
+  // useEffect(() => {
+  //   if (fileState) {
+  //     setUserData({
+  //       ...userData,
+  //       file: fileState,
+  //     });
+  //   }
+  // }, [fileState]);
 
   useEffect(() => {
     console.log("message", message);
@@ -213,11 +213,11 @@ export default function Chat() {
 
     console.log("userdara.FIle", userData.file);
 
-    if (userData.file !== null) {
-      await fileToByteArray(userData.file).then((file) => {
-        chatMessage.arquivoMensagem = file;
-      });
-    }
+    // if (userData.file !== null) {
+    //   await fileToByteArray(userData.file).then((file) => {
+    //     chatMessage.arquivoMensagem = file;
+    //   });
+    // }
 
     if (userData.idChat.idChat !== userData.idChat.idChat) {
       privateChats.get(userData.idChat.idChat).push(chatMessage);
@@ -391,7 +391,6 @@ export default function Chat() {
                           idDemanda: { idDemanda: user.idDemanda },
                           connected: false,
                           message: "",
-                          file: fileState,
                         });
                         connect();
                       }}
@@ -480,7 +479,7 @@ export default function Chat() {
             bg-[#ffffff]
             "
           >
-            <Tooltip title={translate["Adicionar anexo"]?.[language] ?? "Adicionar anexo"}>
+            {/* <Tooltip title={translate["Adicionar anexo"]?.[language] ?? "Adicionar anexo"}>
               <IconButton
                 color="primary"
                 aria-label="upload picture"
@@ -511,7 +510,7 @@ export default function Chat() {
                 />
                 <AttachFileIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             <input
               className="
               mt-2
@@ -544,11 +543,7 @@ export default function Chat() {
                 });
               }}
               value={
-                userData.message !== ""
-                  ? userData.message
-                  : userData.file !== null
-                  ? userData.file.name
-                  : ""
+                userData.message ?? ""
               }
               InputProps={{
                 startAdornment: fileState && (
