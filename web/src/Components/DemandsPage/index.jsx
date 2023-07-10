@@ -173,7 +173,11 @@ export default function DemandsPage(props) {
             let demandsToManage = data;
             if (demandsToManage && demandsToManage.length > 0) {
               setDbDemands(
-                demandsToManage.filter((d) => d.statusDemanda != "RASCUNHO")
+                demandsToManage.filter(
+                  (d) =>
+                    d.statusDemanda != "RASCUNHO" &&
+                    d.statusDemanda != "EM_EDICAO"
+                )
               );
               setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
             } else {
@@ -188,7 +192,7 @@ export default function DemandsPage(props) {
       } else {
         DemandService.getAllDemandsToManage().then((data) => {
           if (data && data.length > 0) {
-            setDbDemands(data);
+            setDbDemands(data.filter((d) => d.statusDemanda != "EM_EDICAO"));
             setHasDemands(true); // Atualiza o estado para indicar que há demandas cadastradas
           } else {
             setDbDemands([]);
