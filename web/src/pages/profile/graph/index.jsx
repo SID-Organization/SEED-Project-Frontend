@@ -159,6 +159,20 @@ export default function Graph() {
           bottom: 10,
         },
       },
+      subtitle: {
+        display: true,
+        text: "Julho",
+        font: {
+          size: 14,
+          weight: "bold",
+        },
+        position: "bottom",
+        color: "#023A67",
+        padding: {
+          top: 10,
+          bottom: 10,
+        },
+      },
     },
     tension: 0.3,
   };
