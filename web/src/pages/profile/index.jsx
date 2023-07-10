@@ -22,12 +22,7 @@ import "../../styles/index.css";
 import TranslationJson from "../../API/Translate/pages/profile/profile.json";
 import { TranslateContext } from "../../contexts/translate/index";
 import { Launch } from "@mui/icons-material";
-
-import { Line } from "react-chartjs-2";
-import Chart from "chart.js/auto";
-import { LinearScale } from "chart.js";
-
-Chart.register(LinearScale);
+import Graph from "./graph";
 
 const Button = styled(MuiButton)(() => ({
   background: "transparent",
@@ -78,63 +73,7 @@ export default function Perfil(props) {
     }
   };
 
-  function graphicDemands() {
-    const approvedData = [12, 19, 3, 5, 2, 3];
-    const cancelledData = [5, 3, 8, 2, 1, 4];
-
-    const approvedAvg =
-      approvedData.reduce((a, b) => a + b, 0) / approvedData.length;
-    const cancelledAvg =
-      cancelledData.reduce((a, b) => a + b, 0) / cancelledData.length;
-
-    const data = {
-      labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
-      datasets: [
-        {
-          label: "Demandas Aprovadas",
-          data: approvedData,
-          fill: false,
-          backgroundColor: "#5eb100",
-          borderColor: "#5eb100",
-        },
-        {
-          label: "Demandas Canceladas",
-          data: cancelledData,
-          fill: false,
-          backgroundColor: "#adadad",
-          borderColor: "#adadad",
-        },
-      ],
-    };
-
-    const options = {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-      plugins: {
-        title: {
-          display: true,
-          text: `Média aprovadas: ${approvedAvg.toFixed(
-            2
-          )}    |    Média canceladas: ${cancelledAvg.toFixed(2)}`,
-          font: {
-            size: 16,
-            weight: "bold",
-          },
-          color: "#023A67",
-          padding: {
-            top: 10,
-            bottom: 10,
-          },
-        },
-      },
-    };
-
-    return <Line data={data} options={options} />;
-  }
-
+  console.log("USER: ", user);
   return (
     <div>
       <div className="flex h-[5rem] items-center justify-start shadow-page-title-shadow">
@@ -188,7 +127,11 @@ export default function Perfil(props) {
           </div>
         </div>
         <div className="grid w-[50vw] gap-16">
-          {graphicDemands()}
+          {user.cargoUsuario === "GESTOR_TI" && (
+            <div className="mb-20">
+              <Graph />
+            </div>
+          )}
           <div>
             <h1 style={{ fontSize: fonts.base }} className="mb-2 font-semibold">
               {translate["Dados pessoais"]?.[language] ?? "Dados pessoais"}
