@@ -1,16 +1,17 @@
 import ProfilePic from "../../assets/profile-pic.png";
-import { useEffect, useState, useContext } from "react";
-import { useNavigate} from "react-router-dom"
+import { useEffect, useState, useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 //MUI
 import { Avatar, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiButton from "@mui/material/Button";
-import HelpIcon from '@mui/icons-material/HelpCenterRounded';
+import HelpIcon from "@mui/icons-material/HelpCenterRounded";
 
 // Utils
 import UserUtils from "../../utils/User-Utils";
 import FontSizeUtils from "../../utils/FontSize-Utils";
+import DEMAND_STATUS from "../../utils/Demand-Utils/JSONs/DemandStatus.json";
 
 //Components
 import ProfileRow from "../../Components/Profile-row";
@@ -18,9 +19,15 @@ import ProfileRow from "../../Components/Profile-row";
 import "../../styles/index.css";
 
 //Translation
-import TranslationJson from "../../API/Translate/pages/profile/profile.json"
+import TranslationJson from "../../API/Translate/pages/profile/profile.json";
 import { TranslateContext } from "../../contexts/translate/index";
 import { Launch } from "@mui/icons-material";
+
+import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
+import { LinearScale } from "chart.js";
+
+Chart.register(LinearScale);
 
 const Button = styled(MuiButton)(() => ({
   background: "transparent",
@@ -37,9 +44,7 @@ const Button = styled(MuiButton)(() => ({
   },
 }));
 
-
 export default function Perfil(props) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -54,9 +59,9 @@ export default function Perfil(props) {
   }, [FontSizeUtils.getFontControl()]);
 
   const restartTutorial = () => {
-    localStorage.setItem('tutorial', 'true');
-    navigate('/demandas')
-  }
+    localStorage.setItem("tutorial", "true");
+    navigate("/demandas");
+  };
 
   // Seta o avatar do usuário
   const userAvatar = () => {
@@ -72,6 +77,63 @@ export default function Perfil(props) {
       };
     }
   };
+
+  function graphicDemands() {
+    const approvedData = [12, 19, 3, 5, 2, 3];
+    const cancelledData = [5, 3, 8, 2, 1, 4];
+
+    const approvedAvg =
+      approvedData.reduce((a, b) => a + b, 0) / approvedData.length;
+    const cancelledAvg =
+      cancelledData.reduce((a, b) => a + b, 0) / cancelledData.length;
+
+    const data = {
+      labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
+      datasets: [
+        {
+          label: "Demandas Aprovadas",
+          data: approvedData,
+          fill: false,
+          backgroundColor: "#5eb100",
+          borderColor: "#5eb100",
+        },
+        {
+          label: "Demandas Canceladas",
+          data: cancelledData,
+          fill: false,
+          backgroundColor: "#adadad",
+          borderColor: "#adadad",
+        },
+      ],
+    };
+
+    const options = {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: `Média aprovadas: ${approvedAvg.toFixed(
+            2
+          )}    |    Média canceladas: ${cancelledAvg.toFixed(2)}`,
+          font: {
+            size: 16,
+            weight: "bold",
+          },
+          color: "#023A67",
+          padding: {
+            top: 10,
+            bottom: 10,
+          },
+        },
+      },
+    };
+
+    return <Line data={data} options={options} />;
+  }
 
   return (
     <div>
@@ -105,17 +167,28 @@ export default function Perfil(props) {
             {translate["Enviar imagem"]?.[language] ?? "Enviar imagem"}
             <input hidden accept="image/*" multiple type="file" />
           </Button> */}
-          <div className="mt-5 flex items-center" style={{ fontSize: fonts.sm }}>
+          <div
+            className="mt-5 flex items-center"
+            style={{ fontSize: fonts.sm }}
+          >
             <Button
               onClick={() => restartTutorial()}
-              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-around",
+              }}
             >
-              <HelpIcon sx={{ fontSize: '20px' }} />
-              <p>{translate['Reiniciar tutorial']?.[language] ?? 'Reiniciar tutorial'}</p>
+              <HelpIcon sx={{ fontSize: "20px" }} />
+              <p>
+                {translate["Reiniciar tutorial"]?.[language] ??
+                  "Reiniciar tutorial"}
+              </p>
             </Button>
           </div>
         </div>
         <div className="grid w-[50vw] gap-16">
+          {graphicDemands()}
           <div>
             <h1 style={{ fontSize: fonts.base }} className="mb-2 font-semibold">
               {translate["Dados pessoais"]?.[language] ?? "Dados pessoais"}
@@ -125,14 +198,19 @@ export default function Perfil(props) {
               topic={translate["Nome"]?.[language] ?? "Nome"}
               content={user.nomeUsuario}
             />
-            <ProfileRow topLine={false} topic={translate["Telefone"]?.[language] ?? "Telefone"} phone={true} />
+            <ProfileRow
+              topLine={false}
+              topic={translate["Telefone"]?.[language] ?? "Telefone"}
+              phone={true}
+            />
           </div>
           <div>
             <h1
               style={{ fontSize: fonts.base }}
               className="mb-2 mt-5 font-semibold"
             >
-              {translate["Dados da empresa - WEG"]?.[language] ?? "Dados da empresa - WEG"}
+              {translate["Dados da empresa - WEG"]?.[language] ??
+                "Dados da empresa - WEG"}
             </h1>
             <ProfileRow
               topLine={true}
@@ -142,7 +220,7 @@ export default function Perfil(props) {
             <ProfileRow
               topLine={false}
               topic={translate["Setor"]?.[language] ?? "Setor"}
-              content={user.businessUnity.replace(/\+/g, ' ')}
+              content={user.businessUnity.replace(/\+/g, " ")}
             />
           </div>
           <div>
@@ -154,23 +232,33 @@ export default function Perfil(props) {
             </h1>
             <ProfileRow
               topLine={true}
-              topic={translate["Tamanho da fonte"]?.[language] ?? "Tamanho da fonte"}
+              topic={
+                translate["Tamanho da fonte"]?.[language] ?? "Tamanho da fonte"
+              }
               increaseFontSize={true}
             />
             <ProfileRow
               topLine={false}
-              topic={translate["Tradutor de Libras"]?.[language] ?? "Tradutor de Libras"}
+              topic={
+                translate["Tradutor de Libras"]?.[language] ??
+                "Tradutor de Libras"
+              }
               useSwitch={true}
               enableAccessibility={props.enableVLibras}
               isAccessibilityEnabled={props.isVLibrasEnabled}
             />
             <ProfileRow
               topLine={false}
-              topic={translate["Leitor de texto"]?.[language] ?? "Leitor de texto"}
+              topic={
+                translate["Leitor de texto"]?.[language] ?? "Leitor de texto"
+              }
               useSwitch={true}
               enableAccessibility={props.enableTextToVoice}
               isAccessibilityEnabled={props.isTextToVoiceEnabled}
-              helperText={translate["Selecione um texto para ouvir"]?.[language] ?? "Selecione um texto para ouvir"}
+              helperText={
+                translate["Selecione um texto para ouvir"]?.[language] ??
+                "Selecione um texto para ouvir"
+              }
             />
           </div>
         </div>
