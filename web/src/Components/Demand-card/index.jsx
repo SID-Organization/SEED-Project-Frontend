@@ -94,6 +94,7 @@ export default function DemandCard(props) {
   // Busca o primeiro registro da demanda
   const [firstLog, setFirstLog] = useState();
   const [demandLogs, setDemandLogs] = useState([]);
+  const [demandDeadLineDate, setDemandDeadLineDate] = useState();
 
   //Modal delete draft
   const [openModalDeleteDraft, setOpen] = useState(false);
@@ -110,9 +111,15 @@ export default function DemandCard(props) {
   };
 
   const getLogs = async () => {
+    if(props.demand.statusDemanda === "RASCUNHO") return;
     DemandLogService.getDemandLogs(props.demand.idDemanda).then((res) => {
       if (res.data) {
         setDemandLogs(res.data);
+        let deadLineDate = new Date(
+          res.data[res.data.length - 1].prazoHistorico
+        ).toLocaleDateString();
+        console.log("DEADLINE DATE", deadLineDate)
+        setDemandDeadLineDate(deadLineDate);
 
         let firstLog = new Date(
           res.data[0].recebimentoHistorico
@@ -500,7 +507,7 @@ export default function DemandCard(props) {
                         className="flex"
                       >
                         <span style={{ fontSize: fonts.sm }} className="ml-1">
-                          {firstLog ? firstLog : "- - - -"}
+                          {firstLog ?? "- - - -"}
                         </span>
                       </Typography>
                     </div>
@@ -520,8 +527,7 @@ export default function DemandCard(props) {
                         className="flex"
                       >
                         <span style={{ fontSize: fonts.sm }} className="ml-1">
-                          02/06/2023
-                          {/* HERE */}
+                          {demandDeadLineDate ?? "- - - -"}
                         </span>
                       </Typography>
                     </div>
