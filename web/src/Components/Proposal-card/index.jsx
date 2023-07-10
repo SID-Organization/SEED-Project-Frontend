@@ -50,11 +50,15 @@ export default function ProposalCard(props) {
 
   function openProposalType() {
     if (props.getContinueProposal) {
-      navigate("/propostas/gerar-proposta" + props.referenceDemand);
+      console.log("GO TO GENERATE PROPOSAL");
+      navigate("/propostas/gerar-proposta/" + props.referenceDemand);
     } else {
+      console.log("GO TO PROPOSAL");
       navigate("/propostas/" + props.referenceDemand);
     }
   }
+
+  console.log("PROPS: ", props.getContinueProposal);
 
   return (
     <Card onClick={openProposalType}>
