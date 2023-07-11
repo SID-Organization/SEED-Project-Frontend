@@ -2,9 +2,14 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { LinearScale } from "chart.js";
 import MuiButton from "@mui/material/Button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { styled } from "@mui/material/styles";
+import { MenuItem, Select, TextField } from "@mui/material";
+
+import TranslationJson from "../../../API/Translate/components/graph.json";
+import { TranslateContext } from "../../../contexts/translate/index";
+import MonthsJSON from "./monthsJSON.json";
 
 Chart.register(LinearScale);
 
@@ -26,41 +31,61 @@ export default function Graph() {
 
   const [oneMonth, setOneMonth] = useState(false);
 
-  let approvedData;
-  let cancelledData;
-  let labels = [];
+  const [approvedData, setApprovedData] = useState([]);
+  const [cancelledData, setCancelledData] = useState([]);
+  const [labels, setLabels] = useState([]);
+
+  const translate = TranslationJson;
+  const [language] = useContext(TranslateContext);
+
+  const months = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
 
   if (twelveMonths) {
-    approvedData = [12, 19, 3, 15, 10, 12, 4, 5, 10, 13, 3, 1];
-    cancelledData = [5, 3, 8, 2, 1, 4, 5, 10, 13, 3, 1, 12];
-    labels = [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Set",
-      "Out",
-      "Nov",
-      "Dec",
-    ];
+    setApprovedData([12, 19, 3, 15, 10, 12, 5, 3, 8, 2, 1, 4]);
+    setCancelledData([5, 3, 8, 2, 1, 4, 12, 19, 3, 15, 10, 12]);
+    setLabels([
+      [
+        "Jan",
+        "Fev",
+        "Mar",
+        "Abr",
+        "Mai",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Set",
+        "Out",
+        "Nov",
+        "Dec",
+      ],
+    ]);
   } else if (sixMonths) {
-    approvedData = [12, 19, 3, 15, 10, 12];
-    cancelledData = [5, 3, 8, 2, 1, 4];
-    labels = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"];
+    setApprovedData([12, 19, 3, 15, 10, 12]);
+    setCancelledData([5, 3, 8, 2, 1, 4]);
+    setLabels(["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"]);
   } else if (oneMonth) {
-    approvedData = [
+    setApprovedData([
       1, 0, 0, 0, 2, 1, 4, 0, 1, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,
       0, 0, 0, 0, 2,
-    ];
-    cancelledData = [
+    ]);
+    setCancelledData([
       0, 0, 0, 0, 2, 1, 4, 0, 1, 3, 1, 1, 2, 1, 2, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0,
       0, 0, 0, 0, 2,
-    ];
-    labels = [
+    ]);
+    setLabels([
       "01",
       "02",
       "03",
@@ -91,7 +116,7 @@ export default function Graph() {
       "28",
       "29",
       "30",
-    ];
+    ]);
   }
 
   const approvedAvg =
@@ -111,20 +136,20 @@ export default function Graph() {
         pointHoverBackgroundColor: "#25640D",
       },
       {
-        label: "Demandas Canceladas",
-        data: cancelledData,
-        fill: false,
-        backgroundColor: "#adadad",
-        borderColor: "#adadad",
-        pointHoverBackgroundColor: "#333",
-      },
-      {
         label: "Média Aprovadas",
         data: labels.map(() => approvedAvg.toFixed(2)),
         fill: false,
         backgroundColor: "#57970f75",
         borderColor: "#57970f75",
         pointHoverBackgroundColor: "#25640D",
+      },
+      {
+        label: "Demandas Canceladas",
+        data: cancelledData,
+        fill: false,
+        backgroundColor: "#adadad",
+        borderColor: "#adadad",
+        pointHoverBackgroundColor: "#333",
       },
       {
         label: "Média Canceladas",
@@ -161,7 +186,6 @@ export default function Graph() {
       },
       subtitle: {
         display: true,
-        text: "Julho",
         font: {
           size: 14,
           weight: "bold",
@@ -178,51 +202,95 @@ export default function Graph() {
   };
 
   return (
-    <div className="flex items-center">
-      <Line data={data} options={options} />
-      <div className="grid h-full items-center">
-        <Button
-          onClick={() => {
-            setTwelveMonths(false);
-            setSixMonths(false);
-            setOneMonth(true);
-          }}
-          style={{
-            textDecoration: oneMonth ? "underline" : "none",
-            fontWeight: oneMonth ? "bold" : "normal",
-            color: oneMonth ? "#0075B1" : "#929292",
-          }}
-        >
-          1 M
-        </Button>
-        <Button
-          onClick={() => {
-            setTwelveMonths(false);
-            setSixMonths(true);
-            setOneMonth(false);
-          }}
-          style={{
-            textDecoration: sixMonths ? "underline" : "none",
-            fontWeight: sixMonths ? "bold" : "normal",
-            color: sixMonths ? "#0075B1" : "#929292",
-          }}
-        >
-          6 M
-        </Button>
-        <Button
-          onClick={() => {
-            setTwelveMonths(true);
-            setSixMonths(false);
-            setOneMonth(false);
-          }}
-          style={{
-            textDecoration: twelveMonths ? "underline" : "none",
-            fontWeight: twelveMonths ? "bold" : "normal",
-            color: twelveMonths ? "#0075B1" : "#929292",
-          }}
-        >
-          12 M
-        </Button>
+    <div className="grid items-center">
+      <div className="flex">
+        <Line data={data} options={options} />
+        <div className="mt-16 grid h-full items-center">
+          <Button
+            onClick={() => {
+              setTwelveMonths(false);
+              setSixMonths(false);
+              setOneMonth(true);
+            }}
+            style={{
+              textDecoration: oneMonth ? "underline" : "none",
+              fontWeight: oneMonth ? "bold" : "normal",
+              color: oneMonth ? "#0075B1" : "#929292",
+            }}
+          >
+            1 M
+          </Button>
+          <Button
+            onClick={() => {
+              setTwelveMonths(false);
+              setSixMonths(true);
+              setOneMonth(false);
+            }}
+            style={{
+              textDecoration: sixMonths ? "underline" : "none",
+              fontWeight: sixMonths ? "bold" : "normal",
+              color: sixMonths ? "#0075B1" : "#929292",
+            }}
+          >
+            6 M
+          </Button>
+          <Button
+            onClick={() => {
+              setTwelveMonths(true);
+              setSixMonths(false);
+              setOneMonth(false);
+            }}
+            style={{
+              textDecoration: twelveMonths ? "underline" : "none",
+              fontWeight: twelveMonths ? "bold" : "normal",
+              color: twelveMonths ? "#0075B1" : "#929292",
+            }}
+          >
+            12 M
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-center">
+        {oneMonth && (
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            style={{
+              width: "10rem",
+              height: "2rem",
+              fontSize: "0.8rem",
+              color: "#0075B1",
+              fontWeight: "bold",
+              marginTop: "1rem",
+              marginLeft: "1rem",
+            }}
+            onChange={(e) => {
+              setApprovedData(
+                MonthsJSON[e.target.value].APPROVED.map((data) =>
+                  parseInt(data)
+                )
+              );
+              setCancelledData(
+                MonthsJSON[e.target.value].CANCELLED.map((data) =>
+                  parseInt(data)
+                )
+              );
+            }}
+          >
+            {months.map((month, index) => (
+              <MenuItem
+                value={index}
+                sx={{
+                  fontSize: "0.8rem",
+                  color: "#0075B1",
+                  fontWeight: "bold",
+                }}
+              >
+                {month}
+              </MenuItem>
+            ))}
+          </Select>
+        )}
       </div>
     </div>
   );

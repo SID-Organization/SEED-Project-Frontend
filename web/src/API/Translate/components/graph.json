@@ -1,0 +1,111 @@
+{
+  "Janeiro": {
+    "pt-br": "Janeiro",
+    "en-us": "January",
+    "de": "Januar",
+    "zh-cn": "一月",
+    "es": "Enero",
+    "fr": "Janvier",
+    "it": "Gennaio"
+  },
+  "Fevereiro": {
+    "pt-br": "Fevereiro",
+    "en-us": "February",
+    "de": "Februar",
+    "zh-cn": "二月",
+    "es": "Febrero",
+    "fr": "Février",
+    "it": "Febbraio"
+  },
+  "Março": {
+    "pt-br": "Março",
+    "en-us": "March",
+    "de": "März",
+    "zh-cn": "三月",
+    "es": "Marzo",
+    "fr": "Mars",
+    "it": "Marzo"
+  },
+  "Abril": {
+    "pt-br": "Abril",
+    "en-us": "April",
+    "de": "April",
+    "zh-cn": "四月",
+    "es": "Abril",
+    "fr": "Avril",
+    "it": "Aprile"
+  },
+  "Maio": {
+    "pt-br": "Maio",
+    "en-us": "May",
+    "de": "Mai",
+    "zh-cn": "五月",
+    "es": "Mayo",
+    "fr": "Mai",
+    "it": "Maggio"
+  },
+  "Junho": {
+    "pt-br": "Junho",
+    "en-us": "June",
+    "de": "Juni",
+    "zh-cn": "六月",
+    "es": "Junio",
+    "fr": "Juin",
+    "it": "Giugno"
+  },
+  "Julho": {
+    "pt-br": "Julho",
+    "en-us": "July",
+    "de": "Juli",
+    "zh-cn": "七月",
+    "es": "Julio",
+    "fr": "Juillet",
+    "it": "Luglio"
+  },
+  "Agosto": {
+    "pt-br": "Agosto",
+    "en-us": "August",
+    "de": "August",
+    "zh-cn": "八月",
+    "es": "Agosto",
+    "fr": "Août",
+    "it": "Agosto"
+  },
+  "Setembro": {
+    "pt-br": "Setembro",
+    "en-us": "September",
+    "de": "September",
+    "zh-cn": "九月",
+    "es": "Septiembre",
+    "fr": "Septembre",
+    "it": "Settembre"
+  },
+  "Outubro": {
+    "pt-br": "Outubro",
+    "en-us": "October",
+    "de": "Oktober",
+    "zh-cn": "十月",
+    "es": "Octubre",
+    "fr": "Octobre",
+    "it": "Ottobre"
+  },
+  "Novembro": {
+    "pt-br": "Novembro",
+    "en-us": "November",
+    "de": "November",
+    "zh-cn": "十一月",
+    "es": "Noviembre",
+    "fr": "Novembre",
+    "it": "Novembre"
+  },
+  "Dezembro": {
+    "pt-br": "Dezembro",
+    "en-us": "December",
+    "de": "Dezember",
+    "zh-cn": "十二月",
+    "es": "Diciembre",
+    "fr": "Décembre",
+    "it": "Dicembre"
+  }
+  
+}
