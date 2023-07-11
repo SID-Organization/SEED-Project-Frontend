@@ -10,6 +10,7 @@ import { MenuItem, Select, TextField } from "@mui/material";
 import TranslationJson from "../../../API/Translate/components/graph.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 import MonthsJSON from "./monthsJSON.json";
+import { useEffect } from "react";
 
 Chart.register(LinearScale);
 
@@ -53,11 +54,11 @@ export default function Graph() {
     "Dezembro",
   ];
 
-  if (twelveMonths) {
-    setApprovedData([12, 19, 3, 15, 10, 12, 5, 3, 8, 2, 1, 4]);
-    setCancelledData([5, 3, 8, 2, 1, 4, 12, 19, 3, 15, 10, 12]);
-    setLabels([
-      [
+  useEffect(() => {
+    if (twelveMonths) {
+      setApprovedData([12, 19, 3, 15, 10, 12, 5, 3, 8, 2, 1, 4]);
+      setCancelledData([5, 3, 8, 2, 1, 4, 12, 19, 3, 15, 10, 12]);
+      setLabels([
         "Jan",
         "Fev",
         "Mar",
@@ -70,54 +71,55 @@ export default function Graph() {
         "Out",
         "Nov",
         "Dec",
-      ],
-    ]);
-  } else if (sixMonths) {
-    setApprovedData([12, 19, 3, 15, 10, 12]);
-    setCancelledData([5, 3, 8, 2, 1, 4]);
-    setLabels(["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"]);
-  } else if (oneMonth) {
-    setApprovedData([
-      1, 0, 0, 0, 2, 1, 4, 0, 1, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-      0, 0, 0, 0, 2,
-    ]);
-    setCancelledData([
-      0, 0, 0, 0, 2, 1, 4, 0, 1, 3, 1, 1, 2, 1, 2, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0,
-      0, 0, 0, 0, 2,
-    ]);
-    setLabels([
-      "01",
-      "02",
-      "03",
-      "04",
-      "05",
-      "06",
-      "07",
-      "08",
-      "09",
-      "10",
-      "11",
-      "12",
-      "13",
-      "14",
-      "15",
-      "16",
-      "17",
-      "18",
-      "19",
-      "20",
-      "21",
-      "22",
-      "23",
-      "24",
-      "25",
-      "26",
-      "27",
-      "28",
-      "29",
-      "30",
-    ]);
-  }
+
+      ]);
+    } else if (sixMonths) {
+      setApprovedData([12, 19, 3, 15, 10, 12]);
+      setCancelledData([5, 3, 8, 2, 1, 4]);
+      setLabels(["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"]);
+    } else if (oneMonth) {
+      setApprovedData([
+        1, 0, 0, 0, 2, 1, 4, 0, 1, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+        0, 0, 0, 0, 2,
+      ]);
+      setCancelledData([
+        0, 0, 0, 0, 2, 1, 4, 0, 1, 3, 1, 1, 2, 1, 2, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0,
+        0, 0, 0, 0, 2,
+      ]);
+      setLabels([
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+      ]);
+    }
+  }, [twelveMonths, sixMonths, oneMonth])
 
   const approvedAvg =
     approvedData.reduce((a, b) => a + b, 0) / approvedData.length;

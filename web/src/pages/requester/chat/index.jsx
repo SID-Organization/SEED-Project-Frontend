@@ -527,24 +527,11 @@ export default function Chat() {
               placeholder={translate["Digite uma mensagem"]?.[language] ?? "Digite uma mensagem"}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
-
                   console.log(userData.message);
-                  sendPrivateValue();
-                      setMessage("");
-                  userData.message !== ""
-                    ? () => {
-                      sendPrivateValue();
-                      setMessage("");
-                    }
-                    : () => { }
-                  // if (
-                  //   (userData.message !== "" ||
-                  //     userData.file !== "" ||
-                  //     userData.file !== null,
-                  //   userData.file !== undefined)
-                  // ) {
-                  //   sendPrivateValue();
-                  // }
+                  if(userData.message !== "") {
+                    sendPrivateValue();
+                    setMessage("");
+                  }
                 }
               }}
               onChange={(e) => {
