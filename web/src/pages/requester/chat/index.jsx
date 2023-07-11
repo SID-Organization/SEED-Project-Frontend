@@ -72,7 +72,8 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
 
   //States para armazenar arquivos enviados
-  const [fileState, setFileState] = useState({});
+  // const [fileState, setFileState] = useState({});
+
   const [preview, setPreview] = useState("");
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
@@ -123,8 +124,8 @@ export default function Chat() {
   }, [chatUsers]);
 
   useEffect(() => {
-    if (userData && userData.file) {
-      console.log("userdata: ", userData.file.name);
+    if (userData) {
+      console.log("userdata: ");
     }
   }, [userData]);
 
@@ -211,7 +212,7 @@ export default function Chat() {
       idChat: { idChat: userData.idChat.idChat },
     };
 
-    console.log("userdara.FIle", userData.file);
+    // console.log("userdara.FIle", userData.file);
 
     // if (userData.file !== null) {
     //   await fileToByteArray(userData.file).then((file) => {
@@ -367,46 +368,46 @@ export default function Chat() {
           {/* USERS HERE */}
           {search === "" && chatUsers
             ? chatUsers
-                .sort((a, b) => {
-                  if (a.unreadMessages && !b.unreadMessages) return -1;
-                  if (!a.unreadMessages && b.unreadMessages) return 1;
+              .sort((a, b) => {
+                if (a.unreadMessages && !b.unreadMessages) return -1;
+                if (!a.unreadMessages && b.unreadMessages) return 1;
 
-                  return 0;
-                })
-                .map((user) => {
-                  return (
-                    <div
-                      onClick={() => {
-                        const userName = user.nomeAnalista;
-                        const userDemand = user.tituloDemanda;
-                        setChatUserId(user.idUsuario);
-                        setUserNameCard(userName);
-                        setUserDemandCard(userDemand);
-                        setChatId(user.idChat);
-                        setUserData({
-                          idUsuario: {
-                            numeroCadastroUsuario: user.idUsuario,
-                          },
-                          idChat: { idChat: user.idChat },
-                          idDemanda: { idDemanda: user.idDemanda },
-                          connected: false,
-                          message: "",
-                        });
-                        connect();
-                      }}
-                    >
-                      <UserMessageCard
-                        picture={user.picture}
-                        name={user.nomeAnalista}
-                        userDemand={user.tituloDemanda}
-                        lastMessage={user.lastMessage}
-                        time={user.time}
-                        unreadMessages={user.unreadMessages}
-                        isOnline={user.isOnline}
-                      />
-                    </div>
-                  );
-                })
+                return 0;
+              })
+              .map((user) => {
+                return (
+                  <div
+                    onClick={() => {
+                      const userName = user.nomeAnalista;
+                      const userDemand = user.tituloDemanda;
+                      setChatUserId(user.idUsuario);
+                      setUserNameCard(userName);
+                      setUserDemandCard(userDemand);
+                      setChatId(user.idChat);
+                      setUserData({
+                        idUsuario: {
+                          numeroCadastroUsuario: user.idUsuario,
+                        },
+                        idChat: { idChat: user.idChat },
+                        idDemanda: { idDemanda: user.idDemanda },
+                        connected: false,
+                        message: "",
+                      });
+                      connect();
+                    }}
+                  >
+                    <UserMessageCard
+                      picture={user.picture}
+                      name={user.nomeAnalista}
+                      userDemand={user.tituloDemanda}
+                      lastMessage={user.lastMessage}
+                      time={user.time}
+                      unreadMessages={user.unreadMessages}
+                      isOnline={user.isOnline}
+                    />
+                  </div>
+                );
+              })
             : returnedUserSearch()}
         </div>
       </div>
@@ -526,14 +527,24 @@ export default function Chat() {
               placeholder={translate["Digite uma mensagem"]?.[language] ?? "Digite uma mensagem"}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
-                  if (
-                    (userData.message !== "" ||
-                      userData.file !== "" ||
-                      userData.file !== null,
-                    userData.file !== undefined)
-                  ) {
-                    sendPrivateValue();
-                  }
+
+                  console.log(userData.message);
+                  sendPrivateValue();
+                      setMessage("");
+                  userData.message !== ""
+                    ? () => {
+                      sendPrivateValue();
+                      setMessage("");
+                    }
+                    : () => { }
+                  // if (
+                  //   (userData.message !== "" ||
+                  //     userData.file !== "" ||
+                  //     userData.file !== null,
+                  //   userData.file !== undefined)
+                  // ) {
+                  //   sendPrivateValue();
+                  // }
                 }
               }}
               onChange={(e) => {
@@ -546,25 +557,18 @@ export default function Chat() {
                 userData.message ?? ""
               }
               InputProps={{
-                startAdornment: fileState && (
-                  <InputAdornment position="start">
-                    <InsertDriveFileRoundedIcon />
-                  </InputAdornment>
-                ),
+                
               }}
-            /> 
+            />
             <Tooltip title={translate["Enviar mensagem"]?.[language] ?? "Enviar mensagem"}>
               <IconButton
                 onClick={
-                  userData.message !== "" || userData.file !== "" ||
-                  userData.file !== null ||
-                userData.file !== undefined
+                  userData.message !== ""
                     ? () => {
-                        sendPrivateValue();
-                        setMessage("");
-                        setFileState({});
-                      }
-                    : () => {}
+                      sendPrivateValue();
+                      setMessage("");
+                    }
+                    : () => { }
                 }
                 color="primary"
                 aria-label="upload picture"
