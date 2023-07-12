@@ -112,6 +112,7 @@ export default function ProposalCard(props) {
 
   const navigate = useNavigate();
 
+
   function openProposalPDF() {
     ProposalService.openProposalPDF(props.proposalId);
   }
@@ -175,6 +176,7 @@ export default function ProposalCard(props) {
                     " - " +
                     props.title.substring(0, cutTitleIn) +
                     "..."
+
                     : props.proposalId + " - " + props.title}
                 </p>
               </Tooltip>
@@ -253,6 +255,7 @@ export default function ProposalCard(props) {
             )}
           </div>
           <div>
+
           </div>
         </div>
       </SmallCard>
@@ -278,6 +281,7 @@ export default function ProposalCard(props) {
                     " - " +
                     props.title.substring(0, cutTitleIn) +
                     "..."
+
                     : props.proposalId + " - " + props.title}
                 </p>
               </Tooltip>
@@ -331,6 +335,7 @@ export default function ProposalCard(props) {
               <Tooltip
                 title={
                   props.title.length > cutReferenceDemandIn &&
+
                   props.referenceDemand + " - " + props.title
                 }
               >
@@ -340,6 +345,7 @@ export default function ProposalCard(props) {
                       0,
                       cutReferenceDemandIn
                     ) + "..."
+
                     : props.referenceDemand + " - " + props.title}
                 </span>
               </Tooltip>

@@ -71,7 +71,6 @@ export default function Graph() {
         "Out",
         "Nov",
         "Dec",
-
       ]);
     } else if (sixMonths) {
       setApprovedData([12, 19, 3, 15, 10, 12]);
@@ -79,12 +78,12 @@ export default function Graph() {
       setLabels(["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"]);
     } else if (oneMonth) {
       setApprovedData([
-        1, 0, 0, 0, 2, 1, 4, 0, 1, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-        0, 0, 0, 0, 2,
+        1, 0, 0, 0, 2, 1, 4, 0, 1, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1,
+        0, 0, 0, 0, 0, 2,
       ]);
       setCancelledData([
-        0, 0, 0, 0, 2, 1, 4, 0, 1, 3, 1, 1, 2, 1, 2, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0,
-        0, 0, 0, 0, 2,
+        0, 0, 0, 0, 2, 1, 4, 0, 1, 3, 1, 1, 2, 1, 2, 1, 0, 0, 0, 2, 0, 0, 0, 1,
+        0, 0, 0, 0, 0, 2,
       ]);
       setLabels([
         "01",
@@ -119,7 +118,7 @@ export default function Graph() {
         "30",
       ]);
     }
-  }, [twelveMonths, sixMonths, oneMonth])
+  }, [twelveMonths, sixMonths, oneMonth]);
 
   const approvedAvg =
     approvedData.reduce((a, b) => a + b, 0) / approvedData.length;
@@ -205,6 +204,7 @@ export default function Graph() {
 
   return (
     <div className="grid items-center">
+      <div className="flex"></div>
       <div className="flex">
         <Line data={data} options={options} />
         <div className="mt-16 grid h-full items-center">
@@ -263,8 +263,6 @@ export default function Graph() {
               fontSize: "0.8rem",
               color: "#0075B1",
               fontWeight: "bold",
-              marginTop: "1rem",
-              marginLeft: "1rem",
             }}
             onChange={(e) => {
               setApprovedData(
