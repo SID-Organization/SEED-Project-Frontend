@@ -132,6 +132,7 @@ export default function GenerateAtaProposal(props) {
             }
             value={props.proposal.valorDemanda}
             referenceDemand={props.proposal.idDemanda}
+            largeCard={true}
           />
         </div>
         <div
