@@ -77,47 +77,6 @@ export default function ManagerProfile(props) {
       <>
         <div>
           <div className="ml-10 mt-10 flex gap-10 font-roboto">
-            <div className="grid h-5 gap-3 ">
-              {userAvatar().foto ? (
-                <Avatar
-                  src={"data:image/png;base64," + userAvatar().src}
-                  sx={{
-                    width: 150,
-                    height: 150,
-                  }}
-                />
-              ) : (
-                <Avatar
-                  sx={{
-                    bgcolor: "#023A67",
-                    width: 150,
-                    height: 150,
-                    fontSize: 50,
-                  }}
-                >
-                  {userAvatar().src}
-                </Avatar>
-              )}
-              <div
-                className="mt-5 flex items-center"
-                style={{ fontSize: fonts.sm }}
-              >
-                <Button
-                  onClick={() => restartTutorial()}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                  }}
-                >
-                  <HelpIcon sx={{ fontSize: "20px" }} />
-                  <p>
-                    {translate["Reiniciar tutorial"]?.[language] ??
-                      "Reiniciar tutorial"}
-                  </p>
-                </Button>
-              </div>
-            </div>
             <div className="grid w-[50vw] gap-16">
               <div>
                 <h1
@@ -215,32 +174,97 @@ export default function ManagerProfile(props) {
             : translate["Análise"]?.[language] ?? "Análise"}
         </h1>
       </div>
-      <div className="flex items-center">
-        <Button
-          variant="outlined"
-          onClick={() => setProfilePage(true)}
-          style={{
-            textDecoration: profilePage ? "underline" : "none",
-            fontWeight: profilePage ? "bold" : "normal",
-            border: "none",
-
-            color: profilePage ? "#0075B1" : "#929292",
-          }}
-        >
-          {translate["Perfil"]?.[language] ?? "Perfil"}
-        </Button>
-        <Button
-          onClick={() => setProfilePage(false)}
-          style={{
-            textDecoration: !profilePage ? "underline" : "none",
-            fontWeight: !profilePage ? "bold" : "normal",
-          }}
-        >
-          {translate["Análise"]?.[language] ?? "Análise"}
-        </Button>
+      <div className="ml-10 mt-10 flex">
+        <div className="grid h-5 gap-3">
+          <div>
+            {userAvatar().foto ? (
+              <Avatar
+                src={"data:image/png;base64," + userAvatar().src}
+                sx={{
+                  width: 150,
+                  height: 150,
+                }}
+              />
+            ) : (
+              <div>
+                <Avatar
+                  sx={{
+                    bgcolor: "#023A67",
+                    width: 150,
+                    height: 150,
+                    fontSize: 50,
+                  }}
+                >
+                  {userAvatar().src}
+                </Avatar>
+              </div>
+            )}
+          </div>
+          <Button
+            onClick={() => restartTutorial()}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            <HelpIcon sx={{ fontSize: "20px" }} />
+            <p>
+              {translate["Reiniciar tutorial"]?.[language] ??
+                "Reiniciar tutorial"}
+            </p>
+          </Button>
+        </div>
+        <div className="flex items-center">
+          <Button
+            variant="outlined"
+            onClick={() => setProfilePage(true)}
+            sx={{
+              width: "7rem",
+              textDecoration: profilePage ? "underline" : "none",
+              fontWeight: profilePage ? "bold" : "normal",
+              border: "none",
+              color: profilePage ? "#0075B1" : "#929292",
+              "&:hover": {
+                background: "transparent",
+                textDecoration: profilePage ? "underline" : "none",
+                color: "#0075B1",
+                border: "none",
+              },
+            }}
+          >
+            {translate["Perfil"]?.[language] ?? "Perfil"}
+          </Button>
+          <Button
+            onClick={() => setProfilePage(false)}
+            sx={{
+              width: "7rem",
+              textDecoration: !profilePage ? "underline" : "none",
+              fontWeight: !profilePage ? "bold" : "normal",
+              border: "none",
+              color: !profilePage ? "#0075B1" : "#929292",
+              "&:hover": {
+                background: "transparent",
+                textDecoration: !profilePage ? "underline" : "none",
+                color: "#0075B1",
+                border: "none",
+              },
+            }}
+          >
+            {translate["Análise"]?.[language] ?? "Análise"}
+          </Button>
+        </div>
       </div>
 
-      {profilePage ? returnProfile() : <Graph />}
+      <div className="ml-56">
+        {profilePage ? (
+          returnProfile()
+        ) : (
+          <div>
+            <Graph />
+          </div>
+        )}
+      </div>
     </>
   );
 }

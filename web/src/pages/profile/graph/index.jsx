@@ -40,18 +40,18 @@ export default function Graph() {
   const [language] = useContext(TranslateContext);
 
   const months = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
+    "Jan",
+    "Fev",
+    "Mar",
+    "Abr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Set",
+    "Out",
+    "Nov",
+    "Dez",
   ];
 
   useEffect(() => {
@@ -143,6 +143,11 @@ export default function Graph() {
         backgroundColor: "#57970f75",
         borderColor: "#57970f75",
         pointHoverBackgroundColor: "#25640D",
+        elements: {
+          point: {
+            radius: 0,
+          },
+        },
       },
       {
         label: "Demandas Canceladas",
@@ -159,6 +164,11 @@ export default function Graph() {
         backgroundColor: "#adadad84",
         borderColor: "#adadad84",
         pointHoverBackgroundColor: "#333",
+        elements: {
+          point: {
+            radius: 0,
+          },
+        },
       },
     ],
   };
@@ -200,27 +210,29 @@ export default function Graph() {
       },
     },
     tension: 0.3,
+    responsive: false,
+    maintainAspectRatio: true,
+    devicePixelRatio: 2,
   };
 
   return (
-    <div className="grid items-center">
-      <div className="flex"></div>
+    <div className="grid items-center justify-start">
       <div className="flex">
-        <Line data={data} options={options} />
-        <div className="mt-16 grid h-full items-center">
+        <Line data={data} options={options} width={900} height={400} />
+        <div className="mt-16 grid h-full items-center justify-start">
           <Button
             onClick={() => {
-              setTwelveMonths(false);
+              setTwelveMonths(true);
               setSixMonths(false);
-              setOneMonth(true);
+              setOneMonth(false);
             }}
             style={{
-              textDecoration: oneMonth ? "underline" : "none",
-              fontWeight: oneMonth ? "bold" : "normal",
-              color: oneMonth ? "#0075B1" : "#929292",
+              textDecoration: twelveMonths ? "underline" : "none",
+              fontWeight: twelveMonths ? "bold" : "normal",
+              color: twelveMonths ? "#0075B1" : "#929292",
             }}
           >
-            1 M
+            12 M
           </Button>
           <Button
             onClick={() => {
@@ -238,59 +250,59 @@ export default function Graph() {
           </Button>
           <Button
             onClick={() => {
-              setTwelveMonths(true);
+              setTwelveMonths(false);
               setSixMonths(false);
-              setOneMonth(false);
+              setOneMonth(true);
             }}
             style={{
-              textDecoration: twelveMonths ? "underline" : "none",
-              fontWeight: twelveMonths ? "bold" : "normal",
-              color: twelveMonths ? "#0075B1" : "#929292",
+              textDecoration: oneMonth ? "underline" : "none",
+              fontWeight: oneMonth ? "bold" : "normal",
+              color: oneMonth ? "#0075B1" : "#929292",
             }}
           >
-            12 M
+            1 M
           </Button>
+          {oneMonth && (
+            <Select
+              variant="standard"
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              style={{
+                width: "4rem",
+                height: "2rem",
+                fontSize: "0.8rem",
+                color: "#0075B1",
+                fontWeight: "bold",
+                textAlignLast: "center",
+              }}
+              onChange={(e) => {
+                setApprovedData(
+                  MonthsJSON[e.target.value].APPROVED.map((data) =>
+                    parseInt(data)
+                  )
+                );
+                setCancelledData(
+                  MonthsJSON[e.target.value].CANCELLED.map((data) =>
+                    parseInt(data)
+                  )
+                );
+              }}
+            >
+              {months.map((month, index) => (
+                <MenuItem
+                  value={index}
+                  sx={{
+                    fontSize: "0.8rem",
+                    color: "#0075B1",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {month}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
         </div>
-      </div>
-      <div className="flex items-center justify-center">
-        {oneMonth && (
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            style={{
-              width: "10rem",
-              height: "2rem",
-              fontSize: "0.8rem",
-              color: "#0075B1",
-              fontWeight: "bold",
-            }}
-            onChange={(e) => {
-              setApprovedData(
-                MonthsJSON[e.target.value].APPROVED.map((data) =>
-                  parseInt(data)
-                )
-              );
-              setCancelledData(
-                MonthsJSON[e.target.value].CANCELLED.map((data) =>
-                  parseInt(data)
-                )
-              );
-            }}
-          >
-            {months.map((month, index) => (
-              <MenuItem
-                value={index}
-                sx={{
-                  fontSize: "0.8rem",
-                  color: "#0075B1",
-                  fontWeight: "bold",
-                }}
-              >
-                {month}
-              </MenuItem>
-            ))}
-          </Select>
-        )}
       </div>
     </div>
   );
