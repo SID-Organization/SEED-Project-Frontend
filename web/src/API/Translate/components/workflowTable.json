@@ -8,6 +8,15 @@
     "fr": "Reçu",
     "it": "Ricevuta"
   },
+  "Retornar": {
+    "pt-br": "Retornar",
+    "en-us": "Return",
+    "de": "Rückkehr",
+    "zh-cn": "返回",
+    "es": "Regreso",
+    "fr": "Revenir",
+    "it": "Ritorno"
+  },
   "Conclusão": {
     "pt-br": "Conclusão",
     "en-us": "Conclusion",
