@@ -472,7 +472,7 @@ export default function subHeader(props) {
       ],
     };
 
-    console.log("updatedDemand", updatedDemand);
+    
     DemandService.updateBenefitedBUs(demand.idDemanda, updatedDemand)
       .then((response) => {
         if (response.status == 200) {

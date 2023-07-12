@@ -8,6 +8,15 @@
     "fr": "Proposition publiée",
     "it": "Proposta pubblicata"
   },
+  "Retornar proposta à edição": {
+    "pt-br": "Retornar proposta à edição",
+    "en-us": "Return proposal to edition",
+    "de": "Vorschlag zur Bearbeitung zurücksenden",
+    "zh-cn": "将建议退回到版本",
+    "es": "Devolver propuesta a la edición",
+    "fr": "Retourner la proposition à l'édition",
+    "it": "Ritorna la proposta all'edizione"
+  },
   "Proposta não publicada": {
     "pt-br": "Proposta não publicada",
     "en-us": "Proposal not published",

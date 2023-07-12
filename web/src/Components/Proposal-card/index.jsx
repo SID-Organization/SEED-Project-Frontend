@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // MUI
@@ -10,18 +10,20 @@ import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 
 //Services
 import ProposalService from "../../service/Proposal-Service";
+import DemandService from "../../service/Demand-Service";
+import DemandLogService from "../../service/DemandLog-Service";
+
 // Utils
 import CurrencyUtils from "../../utils/Currency-Utils";
 
 //Translation
 import TranslationJson from "../../API/Translate/components/proposalCard.json";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
+import EditRounded from "@mui/icons-material/EditRounded";
 
 export default function ProposalCard(props) {
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
-
-  const [isButtonAddClicked, setIsButtonAddClicked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -58,7 +60,16 @@ export default function ProposalCard(props) {
     }
   }
 
-  console.log("PROPS: ", props.getContinueProposal);
+  const cutTitleIn = 32;
+  const cutReferenceDemandIn = 42;
+
+  function returnProposalToEdit() {
+    console.log("DEMAND ID", props.referenceDemand);
+    DemandService.updateDemandStatus(props.referenceDemand, "PROPOSTA_EM_ELABORACAO")
+    .then(
+      DemandLogService.createDemandLog("Elaborar ")
+    )
+  }
 
   return (
     <Card onClick={openProposalType}>
@@ -71,13 +82,13 @@ export default function ProposalCard(props) {
                 fontSize: "2rem",
               }}
             />
-            <Tooltip title={props.title?.length > 35 && props.title}>
+            <Tooltip title={props.title?.length > cutTitleIn && props.title}>
               <p className="font-roboto font-bold">
-                {props.title?.length > 35
+                {props.title?.length > cutTitleIn
                   ? props.proposalId +
-                    " - " +
-                    props.title.substring(0, 35) +
-                    "..."
+                  " - " +
+                  props.title.substring(0, cutTitleIn) +
+                  "..."
                   : props.proposalId + " - " + props.title}
               </p>
             </Tooltip>
@@ -121,25 +132,41 @@ export default function ProposalCard(props) {
             {CurrencyUtils.formatCurrency(props.value) ?? "Indefinido"}
           </span>
         </div>
-        <div className="flex items-center gap-1">
-          <p className="font-roboto text-sm font-bold">
-            {translate["Demanda de referência"][language]}:{" "}
-          </p>
-          <Tooltip
-            title={
-              props.referenceDemand.length + props.title.length > 34 &&
-              props.referenceDemand + " - " + props.title
-            }
-          >
-            <span className="font-roboto text-sm font-normal text-gray-500">
-              {props.referenceDemand.length + " - " + props.title.length > 34
-                ? (props.referenceDemand + " - " + props.title).substring(
+        <div className="flex justify-between items-center gap-1">
+          <div >
+            <p className="font-roboto text-sm font-bold">
+              {translate["Demanda de referência"][language]}:{" "}
+            </p>
+            <Tooltip
+              title={
+                props.title.length > cutReferenceDemandIn &&
+                props.referenceDemand + " - " + props.title
+              }
+            >
+              <span className="font-roboto text-sm font-normal text-gray-500">
+                {props.title.length > cutReferenceDemandIn
+                  ? (props.referenceDemand + " - " + props.title).substring(
                     0,
-                    34
+                    cutReferenceDemandIn
                   ) + "..."
-                : props.referenceDemand + " - " + props.title}
-            </span>
-          </Tooltip>
+                  : props.referenceDemand + " - " + props.title}
+              </span>
+            </Tooltip>
+          </div>
+          {!props.getContinueProposal && (
+            <Tooltip title={translate["Retornar proposta à edição"]?.[language] ?? "Retornar proposta à edição"}>
+              <IconButton sx={{
+                color: "#023A67",
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                returnProposalToEdit();
+              }}
+              >
+                <EditRounded />
+              </IconButton>
+            </Tooltip>
+          )}
         </div>
       </div>
     </Card>
