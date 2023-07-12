@@ -8,6 +8,15 @@
     "fr": "Proposition publiée",
     "it": "Proposta pubblicata"
   },
+  "Deseja realmente retornar esta proposta para edição?": {
+    "pt-br": "Deseja realmente retornar esta proposta para edição?",
+    "en-us": "Do you really want to return this proposal for editing?",
+    "de": "Möchten Sie diesen Vorschlag wirklich zur Bearbeitung zurücksenden?",
+    "zh-cn": "您真的要将此建议退回以进行编辑吗？",
+    "es": "¿Realmente desea devolver esta propuesta para su edición?",
+    "fr": "Voulez-vous vraiment retourner cette proposition pour la modifier?",
+    "it": "Vuoi davvero restituire questa proposta per la modifica?"
+  },
   "Retornar proposta à edição": {
     "pt-br": "Retornar proposta à edição",
     "en-us": "Return proposal to edition",

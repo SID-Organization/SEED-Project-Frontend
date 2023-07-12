@@ -714,9 +714,9 @@ export default function DemandCard(props) {
                             <DialogTitle style={{ color: "#0075B1" }}>
                               <p className="text-center">
                                 {translate[
-                                  "Têm certeza que deseja deletar esse rascunho?"
+                                  "Tem certeza que deseja deletar esse rascunho?"
                                 ]?.[language] ??
-                                  "Têm certeza que deseja deletar esse rascunho?"}
+                                  "Tem certeza que deseja deletar esse rascunho?"}
                               </p>
                             </DialogTitle>
                             <div

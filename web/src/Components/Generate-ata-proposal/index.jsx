@@ -132,55 +132,16 @@ export default function GenerateAtaProposal(props) {
             }
             value={props.proposal.valorDemanda}
             referenceDemand={props.proposal.idDemanda}
+            largeCard={true}
           />
         </div>
         <div
           className="
-          mt-5 md:mt-5 md:grid md:grid-cols-2
+          mb-5 mt-5 md:mt-5 md:grid md:grid-cols-2
           md:gap-4
-          
         "
         >
-          <div className="grid">
-            <p className="font-roboto font-bold">
-              {translate[`Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`][
-                language
-              ] ?? `Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`}
-            </p>
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl
-                fullWidth
-                sx={{
-                  width: 200,
-                }}
-              >
-                <Select
-                  sx={{
-                    height: 40,
-                  }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={parecerComissao}
-                  onChange={(e) => setParecerComissao(e.target.value)}
-                  onBlur={updateDecision}
-                >
-                  {getActions().map((action, i) => (
-                    <MenuItem key={i} value={action.action}>
-                      <Badge
-                        color={getBadgeColor(action.action)}
-                        variant="dot"
-                        sx={{
-                          marginRight: 1.5,
-                        }}
-                      />
-                      {action.action}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
-          <div className="grid">
+          <div className="">
             <p className="font-roboto font-bold">
               {translate["Considerações"][language] ?? "Considerações"}
             </p>
@@ -192,66 +153,116 @@ export default function GenerateAtaProposal(props) {
               style={style}
             />
           </div>
-          {!props.isAtaForDG ? (
-            <div className="grid">
-              <p className="mb-2 font-roboto font-bold">
-                {translate["Assunto registrado em ata"][language] ??
-                  "Assunto registrado em ata"}
+          <div className="flex h-44 flex-col pl-24">
+            <div>
+              <p className="font-roboto font-bold">
+                {translate[
+                  `Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`
+                ][language] ??
+                  `Parecer da ${props.isAtaForDG ? "DG" : "comissão"}`}
               </p>
-              <div className="mb-10 flex gap-2">
-                <Button
+              <Box sx={{ minWidth: 120 }}>
+                <FormControl
+                  fullWidth
                   sx={{
-                    height: 40,
-                    width: 150,
-                    border: publicada ? "1px solid #023A67" : "1px solid #000",
-                    color: publicada ? "#fff" : "#000",
-                    backgroundColor: publicada ? "#0075B1" : "#fff",
-
-                    "&:hover": {
-                      backgroundColor: publicada ? "#0075B1" : "#fff",
-                    },
+                    width: 200,
                   }}
-                  onClick={() => {
-                    setPublicada(!publicada);
-                    setNaoPublicada(false);
-                  }}
-                  variant={publicada ? "contained" : "outlined"}
-                  startIcon={
-                    <PublicIcon sx={{ color: publicada ? "#fff" : "#000" }} />
-                  }
                 >
-                  {translate["Publicada"][language] ?? "Publicada"}
-                </Button>
-                <Button
-                  onClick={() => {
-                    setNaoPublicada(!naoPublicada);
-                    setPublicada(false);
-                  }}
-                  sx={{
-                    height: 40,
-                    width: 180,
-                    border: publicada ? "1px solid #023A67" : "1px solid #000",
-                    color: naoPublicada ? "#fff" : "#000",
-                    backgroundColor: naoPublicada ? "#0075B1" : "#fff",
-
-                    "&:hover": {
-                      backgroundColor: naoPublicada ? "#0075B1" : "#fff",
-                    },
-                  }}
-                  variant={naoPublicada ? "contained" : "outlined"}
-                  startIcon={
-                    <PublicOffIcon
-                      sx={{ color: naoPublicada ? "#fff" : "#000" }}
-                    />
-                  }
-                >
-                  {translate["Não publicada"][language] ?? "Não publicada"}
-                </Button>
-              </div>
+                  <Select
+                    sx={{
+                      height: 40,
+                    }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={parecerComissao}
+                    onChange={(e) => setParecerComissao(e.target.value)}
+                    onBlur={updateDecision}
+                  >
+                    {getActions().map((action, i) => (
+                      <MenuItem key={i} value={action.action}>
+                        <Badge
+                          color={getBadgeColor(action.action)}
+                          variant="dot"
+                          sx={{
+                            marginRight: 1.5,
+                          }}
+                        />
+                        {action.action}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
             </div>
-          ) : (
-            <div className="h-28" />
-          )}
+            <div className="">
+              {!props.isAtaForDG ? (
+                <div className="">
+                  <p className="mb-2 font-roboto font-bold">
+                    {translate["Assunto registrado em ata"][language] ??
+                      "Assunto registrado em ata"}
+                  </p>
+                  <div className="mb-10 flex gap-2">
+                    <Button
+                      sx={{
+                        height: 40,
+                        width: 150,
+                        border: publicada
+                          ? "1px solid #023A67"
+                          : "1px solid #000",
+                        color: publicada ? "#fff" : "#000",
+                        backgroundColor: publicada ? "#0075B1" : "#fff",
+
+                        "&:hover": {
+                          backgroundColor: publicada ? "#0075B1" : "#fff",
+                        },
+                      }}
+                      onClick={() => {
+                        setPublicada(!publicada);
+                        setNaoPublicada(false);
+                      }}
+                      variant={publicada ? "contained" : "outlined"}
+                      startIcon={
+                        <PublicIcon
+                          sx={{ color: publicada ? "#fff" : "#000" }}
+                        />
+                      }
+                    >
+                      {translate["Publicada"][language] ?? "Publicada"}
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setNaoPublicada(!naoPublicada);
+                        setPublicada(false);
+                      }}
+                      sx={{
+                        height: 40,
+                        width: 180,
+                        border: publicada
+                          ? "1px solid #023A67"
+                          : "1px solid #000",
+                        color: naoPublicada ? "#fff" : "#000",
+                        backgroundColor: naoPublicada ? "#0075B1" : "#fff",
+
+                        "&:hover": {
+                          backgroundColor: naoPublicada ? "#0075B1" : "#fff",
+                        },
+                      }}
+                      variant={naoPublicada ? "contained" : "outlined"}
+                      startIcon={
+                        <PublicOffIcon
+                          sx={{ color: naoPublicada ? "#fff" : "#000" }}
+                        />
+                      }
+                    >
+                      {translate["Não publicada"][language] ?? "Não publicada"}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="h-28" />
+              )}
+            </div>
+          </div>
         </div>
       </div>
       <Divider
