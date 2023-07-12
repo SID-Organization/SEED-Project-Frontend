@@ -135,12 +135,7 @@ export default function GenerateAtaProposal(props) {
             largeCard={true}
           />
         </div>
-        <div
-          className="
-          mb-5 mt-5 md:mt-5 md:grid md:grid-cols-2
-          md:gap-4
-        "
-        >
+        <div className="mt-5 flex gap-16">
           <div className="">
             <p className="font-roboto font-bold">
               {translate["Considerações"][language] ?? "Considerações"}
@@ -153,7 +148,7 @@ export default function GenerateAtaProposal(props) {
               style={style}
             />
           </div>
-          <div className="flex h-44 flex-col pl-24">
+          <div className="grid gap-14">
             <div>
               <p className="font-roboto font-bold">
                 {translate[
@@ -265,13 +260,15 @@ export default function GenerateAtaProposal(props) {
           </div>
         </div>
       </div>
-      <Divider
-        sx={{
-          marginLeft: 30,
-          marginRight: 30,
-          marginBottom: 5,
-        }}
-      />
+      <div className="flex justify-center">
+        <Divider
+          sx={{
+            marginTop: 5,
+            marginBottom: 5,
+            width: "80%",
+          }}
+        />
+      </div>
     </div>
   );
 }

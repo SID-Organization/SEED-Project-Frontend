@@ -45,7 +45,7 @@ export default function ProposalCard(props) {
   });
 
   const LargeCard = styled(MuiCard)({
-    width: "63.5rem",
+    width: "65rem",
     height: "7rem",
     backgroundColor: "#F0F0F0",
     borderRadius: "10px",
