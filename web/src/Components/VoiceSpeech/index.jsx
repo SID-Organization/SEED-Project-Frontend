@@ -73,8 +73,6 @@ export default function VoiceSpeech(props) {
       resetTranscript();
       if (props.setIsSpeaking) props.setIsSpeaking(false);
       setAnchorEl(null);
-    } else {
-      
     }
   };
 
@@ -108,9 +106,7 @@ export default function VoiceSpeech(props) {
       setIsListening(true);
       if (props.setIsSpeaking) props.setIsSpeaking(true);
     } else {
-      SpeechRecognition.stopListening();
-      setIsListening(false);
-      if (props.setIsSpeaking) props.setIsSpeaking(false);
+      cancelAndStopListen();
     }
   };
 
