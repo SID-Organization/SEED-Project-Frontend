@@ -1,4 +1,13 @@
 {
+    "Análise": {
+        "pt-br": "Análise",
+        "en-us": "Analysis",
+        "de": "Analyse",
+        "zh-cn": "分析",
+        "es": "Análisis",
+        "fr": "Analyse",
+        "it": "Analisi"
+    },
     "Meu perfil": {
         "pt-br": "Meu perfil",
         "en-us": "My profile",

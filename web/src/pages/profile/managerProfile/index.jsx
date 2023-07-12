@@ -1,4 +1,3 @@
-import ProfilePic from "../../assets/profile-pic.png";
 import { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,21 +8,18 @@ import MuiButton from "@mui/material/Button";
 import HelpIcon from "@mui/icons-material/HelpCenterRounded";
 
 // Utils
-import UserUtils from "../../utils/User-Utils";
-import FontSizeUtils from "../../utils/FontSize-Utils";
-import DEMAND_STATUS from "../../utils/Demand-Utils/JSONs/DemandStatus.json";
+import UserUtils from "../../../utils/User-Utils";
+import FontSizeUtils from "../../../utils/FontSize-Utils";
 
 //Components
-import ProfileRow from "../../Components/Profile-row";
-import ManagerProfile from "./managerProfile";
+import ProfileRow from "../../../Components/Profile-row";
 
-import "../../styles/index.css";
+import "../../../styles/index.css";
 
 //Translation
-import TranslationJson from "../../API/Translate/pages/profile/profile.json";
-import { TranslateContext } from "../../contexts/translate/index";
-import { Launch } from "@mui/icons-material";
-import Graph from "./graph";
+import TranslationJson from "../../../API/Translate/pages/profile/profile.json";
+import { TranslateContext } from "../../../contexts/translate/index";
+import Graph from "../graph";
 
 const Button = styled(MuiButton)(() => ({
   background: "transparent",
@@ -40,13 +36,15 @@ const Button = styled(MuiButton)(() => ({
   },
 }));
 
-export default function Perfil(props) {
+export default function ManagerProfile(props) {
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
   const [user, setUser] = useState(UserUtils.getLoggedUser());
 
   const [fonts, setFonts] = useState(FontSizeUtils.getFontSizes());
+
+  const [profilePage, setProfilePage] = useState(true);
 
   const navigate = useNavigate();
 
@@ -74,23 +72,10 @@ export default function Perfil(props) {
     }
   };
 
-  console.log("USER: ", user);
-  return (
-    <>
-      {user.cargoUsuario === "GESTOR_TI" ? (
-        <ManagerProfile
-          enableVLibras={props.enableVLibras}
-          isVLibrasEnabled={props.isVLibrasEnabled}
-          enableTextToVoice={props.enableTextToVoice}
-          isTextToVoiceEnabled={props.isTextToVoiceEnabled}
-        />
-      ) : (
+  const returnProfile = () => {
+    return (
+      <>
         <div>
-          <div className="flex h-[5rem] items-center justify-start shadow-page-title-shadow">
-            <h1 className="ml-7 mt-2 font-roboto text-3xl font-bold text-[#023A67]">
-              {translate["Meu perfil"]?.[language] ?? "Meu perfil"}
-            </h1>
-          </div>
           <div className="ml-10 mt-10 flex gap-10 font-roboto">
             <div className="grid h-5 gap-3 ">
               {userAvatar().foto ? (
@@ -134,11 +119,6 @@ export default function Perfil(props) {
               </div>
             </div>
             <div className="grid w-[50vw] gap-16">
-              {user.cargoUsuario === "GESTOR_TI" && (
-                <div className="mb-20">
-                  <Graph />
-                </div>
-              )}
               <div>
                 <h1
                   style={{ fontSize: fonts.base }}
@@ -221,7 +201,46 @@ export default function Perfil(props) {
             </div>
           </div>
         </div>
-      )}
+      </>
+    );
+  };
+
+  console.log("USER: ", user);
+  return (
+    <>
+      <div className="flex h-[5rem] items-center justify-start shadow-page-title-shadow">
+        <h1 className="ml-7 mt-2 font-roboto text-3xl font-bold text-[#023A67]">
+          {profilePage
+            ? translate["Meu perfil"]?.[language] ?? "Meu perfil"
+            : translate["Análise"]?.[language] ?? "Análise"}
+        </h1>
+      </div>
+      <div className="flex items-center">
+        <Button
+          variant="outlined"
+          onClick={() => setProfilePage(true)}
+          style={{
+            textDecoration: profilePage ? "underline" : "none",
+            fontWeight: profilePage ? "bold" : "normal",
+            border: "none",
+
+            color: profilePage ? "#0075B1" : "#929292",
+          }}
+        >
+          {translate["Perfil"]?.[language] ?? "Perfil"}
+        </Button>
+        <Button
+          onClick={() => setProfilePage(false)}
+          style={{
+            textDecoration: !profilePage ? "underline" : "none",
+            fontWeight: !profilePage ? "bold" : "normal",
+          }}
+        >
+          {translate["Análise"]?.[language] ?? "Análise"}
+        </Button>
+      </div>
+
+      {profilePage ? returnProfile() : <Graph />}
     </>
   );
 }
