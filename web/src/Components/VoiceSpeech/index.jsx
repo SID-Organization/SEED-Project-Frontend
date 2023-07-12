@@ -59,16 +59,14 @@ export default function VoiceSpeech(props) {
     if (isListening) {
       SpeechRecognition.stopListening();
       setIsListening(false);
-      if (transcript != "")
-        setTranscriptState(transcript[0].toUpperCase() + transcript.slice(1));
-    } else {
+      const speectText = transcript[0].toUpperCase() + transcript.slice(1);
       // Called confirm text
       props.setTexto((ps) => {
         if (props.speechId && ps.id != props.speechId) return ps;
-        if (transcriptState == "") return ps;
+        if (speectText == "") return ps;
 
         const newText = { ...ps, text: "" };
-        newText.text = " " + transcriptState;
+        newText.text = " " + speectText;
 
         return newText;
       });
@@ -108,9 +106,7 @@ export default function VoiceSpeech(props) {
       setIsListening(true);
       if (props.setIsSpeaking) props.setIsSpeaking(true);
     } else {
-      SpeechRecognition.stopListening();
-      setIsListening(false);
-      if (props.setIsSpeaking) props.setIsSpeaking(false);
+      cancelAndStopListen();
     }
   };
 
