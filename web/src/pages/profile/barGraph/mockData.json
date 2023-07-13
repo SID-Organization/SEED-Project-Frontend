@@ -1,0 +1,299 @@
+[
+  {
+    "status": "CLASSIFICADO_PELO_ANALISTA",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 4
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 0
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 1
+      }
+    ]
+  },
+  {
+    "status": "APROVADO_PELO_GERENTE_DA_AREA",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 0
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 4
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 2
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 1
+      }
+    ]
+  },
+  {
+    "status": "PROPOSTA_EM_ELABORAÇÃO",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 0
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 1
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 1
+      }
+    ]
+  },
+  {
+    "status": "PROPOSTA_PRONTA",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 0
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 0
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 4
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 2
+      }
+    ]
+  },
+  {
+    "status": "APROVADA_EM_COMISSAO",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 4
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 0
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 3
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 1
+      }
+    ]
+  },
+  {
+    "status": "APROVADA_EM_DG",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 4
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 1
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 1
+      }
+    ]
+  },
+  {
+    "status": "PROPOSTA_EM_EXECUÇÃO",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 0
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 4
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 3
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 3
+      }
+    ]
+  },
+  {
+    "status": "CANCELADA",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 0
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 4
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 0
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 1
+      }
+    ]
+  },
+  {
+    "status": "PROPOSTA_FINALIZADA",
+    "dados": [
+      {
+        "data": "01/2023",
+        "quantidade": 4
+      },
+      {
+        "data": "02/2023",
+        "quantidade": 3
+      },
+      {
+        "data": "03/2023",
+        "quantidade": 2
+      },
+      {
+        "data": "04/2023",
+        "quantidade": 1
+      },
+      {
+        "data": "05/2023",
+        "quantidade": 0
+      },
+      {
+        "data": "06/2023",
+        "quantidade": 3
+      },
+      { 
+        "data": "07/2023",
+        "quantidade": 4
+      }
+    ]
+  }
+]
