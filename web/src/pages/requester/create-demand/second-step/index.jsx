@@ -153,6 +153,7 @@ export default function SecondStep({ props }) {
             <ReactQuill
               theme="snow"
               modules={quillModules}
+              style={quillStyle}
               value={item.descriptionHTML}
               onChange={(e) => {
                 const newPotentialBenefits = [...props.potentialBenefits];
