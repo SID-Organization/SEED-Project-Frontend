@@ -20,6 +20,7 @@ import "../../../styles/index.css";
 import TranslationJson from "../../../API/Translate/pages/profile/profile.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 import Graph from "../graph";
+import BarGraph from "../barGraph";
 
 const Button = styled(MuiButton)(() => ({
   background: "transparent",
@@ -164,7 +165,6 @@ export default function ManagerProfile(props) {
     );
   };
 
-  console.log("USER: ", user);
   return (
     <>
       <div className="flex h-[5rem] items-center justify-start shadow-page-title-shadow">
@@ -262,6 +262,7 @@ export default function ManagerProfile(props) {
         ) : (
           <div>
             <Graph />
+            <BarGraph />
           </div>
         )}
       </div>

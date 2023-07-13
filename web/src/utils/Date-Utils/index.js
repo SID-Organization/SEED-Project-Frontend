@@ -34,6 +34,16 @@ function formatDateTime(date) {
     return dateString;
 }
 
+function formatDateForGraph(date) {
+    const dateObject = new Date(date);
+    const dateString =
+        dateObject.toLocaleDateString("pt-BR", {
+            month: "2-digit",
+            year: "numeric",
+        })
+    return dateString;
+}
+
 function formatFromInputToSlash(date) {
     const dateString = date.split("-").reverse().join("/");
     return dateString;
@@ -43,5 +53,6 @@ export default {
     formatDate,
     formatDateTime,
     formatDateForDB,
-    formatFromInputToSlash
+    formatFromInputToSlash,
+    formatDateForGraph
 }
