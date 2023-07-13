@@ -132,16 +132,16 @@ export default function Graph() {
         label: "Demandas Aprovadas",
         data: approvedData,
         fill: false,
-        backgroundColor: "#58970f",
-        borderColor: "#58970f",
+        backgroundColor: "#0075B1",
+        borderColor: "#0075B1",
         pointHoverBackgroundColor: "#25640D",
       },
       {
         label: "Média Aprovadas",
         data: labels.map(() => approvedAvg.toFixed(2)),
         fill: false,
-        backgroundColor: "#57970f40",
-        borderColor: "#57970f40",
+        backgroundColor: "#0075B140",
+        borderColor: "#0075B140",
         pointHoverBackgroundColor: "#25640D",
         elements: {
           point: {
