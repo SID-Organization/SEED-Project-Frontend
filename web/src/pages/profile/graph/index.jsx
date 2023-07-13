@@ -140,8 +140,8 @@ export default function Graph() {
         label: "Média Aprovadas",
         data: labels.map(() => approvedAvg.toFixed(2)),
         fill: false,
-        backgroundColor: "#0075B140",
-        borderColor: "#0075B140",
+        backgroundColor: "#0075B160",
+        borderColor: "#0075B160",
         pointHoverBackgroundColor: "#25640D",
         elements: {
           point: {
