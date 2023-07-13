@@ -18,13 +18,12 @@ import ReactQuillUtils from "../../../../utils/ReactQuill-Utils";
 const { quillModules, quillStyle } = ReactQuillUtils;
 
 //Translation
-import TranslationJson from "../../../../API/Translate/pages/requester/createDemandSecondStep.json"
+import TranslationJson from "../../../../API/Translate/pages/requester/createDemandSecondStep.json";
 import { TranslateContext } from "../../../../contexts/translate/index";
 
 import FontSizeUtils from "../../../../utils/FontSize-Utils";
 
 export default function SecondStep({ props }) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
@@ -33,15 +32,18 @@ export default function SecondStep({ props }) {
   const [realBenefitSpeechId, setRealBenefitSpeechId] = useState(0);
   const [potBenefitSpeechId, setPotBenefitSpeechId] = useState(0);
   const [qualitativeSpeechId, setQualitativeSpeechId] = useState(0);
-  
-  const [qualitativeSpeech, setQualitativeSpeech] = useState({ id: 1, text: "" });
+
+  const [qualitativeSpeech, setQualitativeSpeech] = useState({
+    id: 1,
+    text: "",
+  });
 
   useEffect(() => {
     if (qualitativeSpeech.text != "") {
-      props.setQualitativeBenefit(ps => ps + qualitativeSpeech.text);
-      setQualitativeSpeech({ ...qualitativeSpeech, text: "" })
+      props.setQualitativeBenefit((ps) => ps + qualitativeSpeech.text);
+      setQualitativeSpeech({ ...qualitativeSpeech, text: "" });
     }
-  }, [qualitativeSpeech])
+  }, [qualitativeSpeech]);
 
   useEffect(() => {
     setFonts(FontSizeUtils.getFontSizes());
@@ -60,13 +62,28 @@ export default function SecondStep({ props }) {
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
 
         {props.buttonNotification && (
-          <Notification message={translate["Benefício adicionado com sucesso!"]?.[language] ?? "Benefício adicionado com sucesso!"} />
+          <Notification
+            message={
+              translate["Benefício adicionado com sucesso!"]?.[language] ??
+              "Benefício adicionado com sucesso!"
+            }
+          />
         )}
         {props.deleteNotification && (
-          <Notification message={translate["Benefício removido com sucesso!"]?.[language] ?? "Benefício removido com sucesso!"} />
+          <Notification
+            message={
+              translate["Benefício removido com sucesso!"]?.[language] ??
+              "Benefício removido com sucesso!"
+            }
+          />
         )}
 
-        <Tooltip title={translate["Adicionar mais benefícios reais"]?.[language] ?? "Adicionar mais benefícios reais"}>
+        <Tooltip
+          title={
+            translate["Adicionar mais benefícios reais"]?.[language] ??
+            "Adicionar mais benefícios reais"
+          }
+        >
           <IconButton onClick={props.addRealBenefit}>
             <AddBoxRoundedIcon
               sx={{
@@ -103,7 +120,10 @@ export default function SecondStep({ props }) {
                   newRealBenefits[i].descriptionHTML = e;
                   props.setRealBenefits(newRealBenefits);
                 }}
-                placeholder={translate["Descreva o benefício."]?.[language] ?? "Descreva o benefício."}
+                placeholder={
+                  translate["Descreva o benefício."]?.[language] ??
+                  "Descreva o benefício."
+                }
                 modules={quillModules}
                 style={quillStyle}
               />
@@ -119,10 +139,16 @@ export default function SecondStep({ props }) {
           style={{ fontSize: fonts.xl }}
           className="font-roboto font-bold text-[#343434]"
         >
-          {translate["Benefícios potenciais"]?.[language] ?? "Benefícios potenciais"}
+          {translate["Benefícios potenciais"]?.[language] ??
+            "Benefícios potenciais"}
         </h1>
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
-        <Tooltip title={translate["Adicionar mais benefícios potenciais"]?.[language] ?? "Adicionar mais benefícios potenciais"}>
+        <Tooltip
+          title={
+            translate["Adicionar mais benefícios potenciais"]?.[language] ??
+            "Adicionar mais benefícios potenciais"
+          }
+        >
           <IconButton onClick={props.addPotentialBenefit}>
             <AddBoxRoundedIcon
               sx={{
@@ -161,7 +187,10 @@ export default function SecondStep({ props }) {
                 props.setPotentialBenefits(newPotentialBenefits);
               }}
               onBlur={() => props.handleCreateDemand()}
-              placeholder={translate["Descreva o benefício."]?.[language] ?? "Descreva o benefício."}
+              placeholder={
+                translate["Descreva o benefício."]?.[language] ??
+                "Descreva o benefício."
+              }
             />
           </NewBenefitInsertion>
           {(i < props.potentialBenefits.length - 1 || i === 0) && (
@@ -176,7 +205,8 @@ export default function SecondStep({ props }) {
           style={{ fontSize: fonts.xl }}
           className="font-roboto font-bold text-[#343434]"
         >
-          {translate["Benefício qualitativo"]?.[language] ?? "Benefício qualitativo"}
+          {translate["Benefício qualitativo"]?.[language] ??
+            "Benefício qualitativo"}
         </h1>
         <div className="h-[5px] w-40 rounded-full bg-blue-weg" />
       </div>
@@ -196,7 +226,10 @@ export default function SecondStep({ props }) {
           onChange={(e) => props.setQualitativeBenefit(e.target.value)}
         />
         <div onClick={() => setQualitativeSpeechId(1)} className="mb-16">
-          <VoiceSpeech setTexto={setQualitativeSpeech} speechId={qualitativeSpeechId} />
+          <VoiceSpeech
+            setTexto={setQualitativeSpeech}
+            speechId={qualitativeSpeechId}
+          />
         </div>
         <div className="mr-16" />
       </div>
