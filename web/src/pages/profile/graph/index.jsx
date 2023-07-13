@@ -134,7 +134,10 @@ export default function Graph() {
         fill: false,
         backgroundColor: "#0075B1",
         borderColor: "#0075B1",
-        pointHoverBackgroundColor: "#25640D",
+        pointHoverBackgroundColor: "#0075B1",
+        pointBackgroundColor: "#fff",
+        pointBorderColor: "#0075B1",
+        pointBorderWidth: 2,
       },
       {
         label: "Média Aprovadas",
@@ -142,7 +145,7 @@ export default function Graph() {
         fill: false,
         backgroundColor: "#0075B160",
         borderColor: "#0075B160",
-        pointHoverBackgroundColor: "#25640D",
+        pointHoverBackgroundColor: "#0075B1",
         elements: {
           point: {
             radius: 0,
@@ -156,6 +159,10 @@ export default function Graph() {
         backgroundColor: "#adadad",
         borderColor: "#adadad",
         pointHoverBackgroundColor: "#333",
+        pointHoverBackgroundColor: "#adadad",
+        pointBackgroundColor: "#fff",
+        pointBorderColor: "#adadad",
+        pointBorderWidth: 2,
       },
       {
         label: "Média Canceladas",
