@@ -34,6 +34,12 @@ function formatDateTime(date) {
     return dateString;
 }
 
+
+function formatFromInputToSlash(date) {
+    const dateString = date.split("-").reverse().join("/");
+    return dateString;
+}
+
 function formatDateForGraph(date) {
     const dateObject = new Date(date);
     const dateString =
@@ -44,15 +50,24 @@ function formatDateForGraph(date) {
     return dateString;
 }
 
-function formatFromInputToSlash(date) {
-    const dateString = date.split("-").reverse().join("/");
-    return dateString;
+function getMonthInterval(timeInterval) {
+    const currentDate = new Date(); // Create a new Date object with the current date
+    currentDate.setMonth(currentDate.getMonth() + 1); // Updates to the correct month
+    const dates = []
+    // Get the months according to the time interval
+    for (let i = 0; i < timeInterval; i++) {
+      dates.push(formatDateForGraph(currentDate.setMonth(currentDate.getMonth() - 1)))
+    }
+
+    return dates;
 }
+
 
 export default {
     formatDate,
     formatDateTime,
     formatDateForDB,
     formatFromInputToSlash,
-    formatDateForGraph
+    formatDateForGraph,
+    getMonthInterval,
 }

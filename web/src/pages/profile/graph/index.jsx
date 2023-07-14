@@ -158,7 +158,6 @@ export default function Graph() {
         fill: false,
         backgroundColor: "#adadad",
         borderColor: "#adadad",
-        pointHoverBackgroundColor: "#333",
         pointHoverBackgroundColor: "#adadad",
         pointBackgroundColor: "#fff",
         pointBorderColor: "#adadad",

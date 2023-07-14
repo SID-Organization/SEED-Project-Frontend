@@ -21,6 +21,7 @@ import DateUtils from "../../../utils/Date-Utils"
 // JSONs
 import MockData from "./mockData.json";
 import labelsJson from "./labels.json";
+import GraphUtils from "../../../utils/GraphUtils";
 
 Chart.register(LinearScale);
 
@@ -60,13 +61,10 @@ export default function BarGraph() {
 
   useEffect(() => {
     if (!dataFromDB) return;
-    const currentDate = new Date(); // Create a new Date object with the current date
-    currentDate.setMonth(currentDate.getMonth() + 1); // Updates to the correct month
-    const dates = []
-    // Get the months according to the time interval
-    for (let i = 0; i < timeInterval; i++) {
-      dates.push(DateUtils.formatDateForGraph(currentDate.setMonth(currentDate.getMonth() - 1)))
-    }
+
+    const dates = DateUtils.getMonthInterval(timeInterval);
+    // Updates the graph label
+    setGraphTitle(GraphUtils.getGraphMonthsTitleByInterval(timeInterval))
 
     // Get the data from DB
     const barData = dataFromDB.map(item => {
@@ -82,25 +80,6 @@ export default function BarGraph() {
     setData(barData);
   }, [timeInterval, dataFromDB])
 
-  // Updates the graph label
-  useEffect(() => {
-    const currentDate = new Date();
-    currentDate.setMonth(currentDate.getMonth());
-    const formattedCurrDate = currentDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric', });
-
-    const lastDate = currentDate.setMonth(currentDate.getMonth() - timeInterval);
-    const formattedLastDate = new Date(lastDate).toLocaleString('pt-BR', { month: 'long', year: 'numeric', });
-
-    const currDateText = formattedCurrDate.charAt(0).toUpperCase() + formattedCurrDate.slice(1);
-    const lastDateText = formattedLastDate.charAt(0).toUpperCase() + formattedLastDate.slice(1);
-
-    if (timeInterval == "1") {
-      setGraphTitle(`${currDateText} (Último mês)`)
-    } else {
-      setGraphTitle(`${lastDateText}  -  ${currDateText}   (Últimos ${timeInterval} meses)`)
-    }
-
-  }, [timeInterval])
 
   const barGraphData = {
     labels: labelsJson.labels,
