@@ -24,10 +24,9 @@ import labelsJson from "./labels.json";
 
 Chart.register(LinearScale);
 
-const demandStatusOnGraph = ["CLASSIFICADO_PELO_ANALISTA", "APROVADO_PELO_GERENTE_DA_AREA", "PROPOSTA_EM_ELABORACAO", "PROPOSTA_PRONTA", "APROVADA_EM_COMISSAO", "APROVADA_EM_DG", "PROPOSTA_EM_EXECUCAO", "PROPOSTA_FINALIZADA", "CANCELADA"]
+const demandStatusOnGraph = labelsJson.statusToPutOnGraph;
 
 export default function BarGraph() {
-  const [labels, setLabels] = useState(labelsJson);
   const [data, setData] = useState();
   const [dataFromDB, setDataFromDB] = useState();
 
@@ -39,9 +38,9 @@ export default function BarGraph() {
     const prepparedData = [];
 
     demandStatusOnGraph.forEach(labelStatus => {
-      const filteredData = data.filter(item => item.status == labelStatus)
-      if (filteredData.length > 0) {
-        prepparedData.push(filteredData[0])
+      const filteredData = data.find(item => item.status == labelStatus)
+      if (filteredData) {
+        prepparedData.push(filteredData)
       } else {
         prepparedData.push({ status: labelStatus, dados: [] })
       }
@@ -51,7 +50,6 @@ export default function BarGraph() {
   }
 
   useEffect(() => {
-    setLabels(labelsJson);
     GraphsService.getGraphData()
       .then((data) => {
         console.log("DATA", data);
@@ -105,7 +103,7 @@ export default function BarGraph() {
   }, [timeInterval])
 
   const barGraphData = {
-    labels: labelsJson,
+    labels: labelsJson.labels,
     datasets: [
       {
         label: graphTitle,
@@ -124,7 +122,7 @@ export default function BarGraph() {
       <button onClick={() => setTimeInterval(1)}>1</button>
       <br />
       <br />
-      <button onClick={() => setTimeInterval(16)}>16</button>
+      <button onClick={() => setTimeInterval(12)}>16</button>
     </div>
   );
 }

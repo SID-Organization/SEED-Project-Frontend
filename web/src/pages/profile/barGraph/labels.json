@@ -1,11 +1,26 @@
-[
-    "Classificado pelo Analista",
-    "Aprovado pelo Gerente",
-    "Em elaboração",
-    "Proposta pronta",
-    "Aprovada em comissão",
-    "Aprovada em DG",
-    "Em Execução",
-    "Finalizada", 
-    "Cancelada"
-]
+{
+    "statusToPutOnGraph": [
+        "ABERTA",
+        "CLASSIFICADO_PELO_ANALISTA",
+        "APROVADO_PELO_GERENTE_DA_AREA",
+        "PROPOSTA_EM_ELABORACAO",
+        "PROPOSTA_PRONTA",
+        "APROVADA_EM_COMISSAO",
+        "APROVADA_EM_DG",
+        "PROPOSTA_EM_EXECUCAO",
+        "PROPOSTA_FINALIZADA",
+        "CANCELADA"
+    ],
+    "labels": [
+        "Aberta",
+        "Classificado pelo Analista",
+        "Aprovado pelo Gerente",
+        "Em elaboração",
+        "Proposta pronta",
+        "Aprovada em comissão",
+        "Aprovada em DG",
+        "Em Execução",
+        "Finalizada",
+        "Cancelada"
+    ]
+}
