@@ -1,17 +1,24 @@
+import { useContext, useState } from "react";
+import { useEffect } from "react";
+// Chart JS
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { LinearScale } from "chart.js";
-import MuiButton from "@mui/material/Button";
-import { useContext, useState } from "react";
+import 'chartjs-plugin-datalabels';
 
+// MUI
 import { styled } from "@mui/material/styles";
+import MuiButton from "@mui/material/Button";
 import { MenuItem, Select, TextField } from "@mui/material";
 
+// Translate
 import TranslationJson from "../../../API/Translate/components/graph.json";
 import { TranslateContext } from "../../../contexts/translate/index";
-import MonthsJSON from "./monthsJSON.json";
-import { useEffect } from "react";
+
+// Service
 import GraphService from "../../../service/Graph-Service";
+
+// Utils
 import GraphUtils from "../../../utils/GraphUtils";
 import DateUtils from "../../../utils/Date-Utils";
 
@@ -47,7 +54,6 @@ const demandStatusOnGraph = ["APROVADA_EM_DG", "CANCELADA"]
 
 export default function Graph() {
   const [timeInterval, setTimeInterval] = useState(12);
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [preparedData, setPreparedData] = useState([]);
   const [approvedData, setApprovedData] = useState([]);
   const [cancelledData, setCancelledData] = useState([]);
@@ -166,12 +172,17 @@ export default function Graph() {
   };
 
   const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
     plugins: {
+      datalabels: {
+        display: true,
+        align: 'top',
+        formatter: function (value) {
+          return value.toString();
+        },
+      },
+      legend: {
+        display: true
+      },
       title: {
         display: true,
         text: `Média aprovadas: ${approvedAvg.toFixed(
@@ -236,47 +247,6 @@ export default function Graph() {
           >
             6 M
           </Button>
-          {/* <Button
-            onClick={() => {
-              setTimeInterval(1);
-            }}
-            style={{
-              textDecoration: timeInterval == 1 ? "underline" : "none",
-              fontWeight: timeInterval == 1 ? "bold" : "normal",
-              color: timeInterval == 1 ? "#0075B1" : "#929292",
-            }}
-          >
-            1 M
-          </Button>
-          {timeInterval == 1 && (
-            <Select
-              variant="standard"
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              style={{
-                width: "4rem",
-                height: "2rem",
-                fontSize: "0.8rem",
-                color: "#0075B1",
-                fontWeight: "bold",
-                textAlignLast: "center",
-              }}
-              onChange={() => {}}
-            >
-              {months.map((month, index) => (
-                <MenuItem
-                  value={index}
-                  sx={{
-                    fontSize: "0.8rem",
-                    color: "#0075B1",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {month}
-                </MenuItem>
-              ))}
-            </Select>
-          )} */}
         </div>
       </div>
     </div>
