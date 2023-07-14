@@ -249,15 +249,17 @@ export default function Graph() {
           >
             6 M
           </Button>
-          <div className="flex items-center">
-            <IconButton onClick={downloadGraph}>
+          <div className="mt-40 flex items-center">
+            <Button onClick={downloadGraph}>
               <DownloadRoundedIcon
                 style={{
                   color: "#0075B1",
                 }}
               />
-            </IconButton>
-            <p className="font-roboto font-bold text-blue-weg">.png</p>
+              <p className="cursor-pointer font-roboto font-bold text-blue-weg">
+                .png
+              </p>
+            </Button>
           </div>
         </div>
       </div>

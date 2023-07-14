@@ -7,6 +7,7 @@ import { LinearScale } from "chart.js";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { Button, MenuItem, Select, TextField } from "@mui/material";
+import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 
 import TranslationJson from "../../../API/Translate/components/graph.json";
 import { TranslateContext } from "../../../contexts/translate/index";
@@ -161,9 +162,6 @@ export default function BarGraph() {
         </div>
       )}
       <div className="mt-8 grid h-8 items-center justify-start">
-        <MuiButton onClick={downloadGraph}>Download Graph</MuiButton>
-      </div>
-      <div className="mt-8 grid h-8 items-center justify-start">
         <Button
           onClick={() => {
             setTimeInterval(12);
@@ -218,6 +216,18 @@ export default function BarGraph() {
             ))}
           </Select>
         )}
+        <div className="mt-52 flex items-center">
+          <Button onClick={downloadGraph}>
+            <DownloadRoundedIcon
+              style={{
+                color: "#0075B1",
+              }}
+            />
+            <p className="cursor-pointer font-roboto font-bold text-blue-weg">
+              .png
+            </p>
+          </Button>
+        </div>
       </div>
     </div>
   );
