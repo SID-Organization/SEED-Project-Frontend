@@ -1289,6 +1289,11 @@
   dependencies:
     "react-is" "^16.7.0"
 
+"html-to-image@^1.11.11":
+  "integrity" "sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA=="
+  "resolved" "https://registry.npmjs.org/html-to-image/-/html-to-image-1.11.11.tgz"
+  "version" "1.11.11"
+
 "http-parser-js@>=0.5.1":
   "integrity" "sha512-SGeBX54F94Wgu5RH3X5jsDtf4eHyRogWX1XGT3b4HuW3tQPM4AaBzoUji/4AAJNXCEOWZ5O0DgZmJw1947gD5Q=="
   "resolved" "https://registry.npmjs.org/http-parser-js/-/http-parser-js-0.5.8.tgz"

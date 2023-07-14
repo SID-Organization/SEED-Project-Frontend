@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { LinearScale } from "chart.js";
-
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { Button, MenuItem, Select, TextField } from "@mui/material";
@@ -23,7 +22,7 @@ import UserUtils from "../../../utils/User-Utils";
 // JSONs
 import MockData from "./mockData.json";
 import labelsJson from "./labels.json";
-import GraphUtils from "../../../utils/GraphUtils";
+import GraphUtils from "../../../utils/Graph-Utils";
 
 Chart.register(LinearScale);
 
@@ -46,21 +45,19 @@ export default function BarGraph() {
     demandStatusOnGraph.forEach((labelStatus) => {
       const filteredData = data.find((item) => item.status == labelStatus);
       if (filteredData) {
-
-        preparedData.push(filteredData)
+        preparedData.push(filteredData);
       } else {
-        preparedData.push({ status: labelStatus, dados: [] })
+        preparedData.push({ status: labelStatus, dados: [] });
       }
-    })
+    });
     // console.log("Data to graph", prepparedData)
     setDataFromDB(preparedData);
-  }
+  };
 
   useEffect(() => {
-    GraphService.getGraphData()
-      .then((data) => {
-        prepareDataForGraph(data);
-      });
+    GraphService.getGraphData().then((data) => {
+      prepareDataForGraph(data);
+    });
   }, []);
 
   useEffect(() => {
@@ -147,11 +144,25 @@ export default function BarGraph() {
     "Dez",
   ];
 
+  const downloadGraph = async () => {
+    await GraphUtils.downloadGraph("demand-bar-graph", "bar-graph");
+  };
+
   return (
     <div className="flex">
       {barGraphData && (
-        <Bar data={barGraphData} options={options} width={1000} height={400} />
+        <div id="demand-bar-graph">
+          <Bar
+            data={barGraphData}
+            options={options}
+            width={1000}
+            height={400}
+          />
+        </div>
       )}
+      <div className="mt-8 grid h-8 items-center justify-start">
+        <MuiButton onClick={downloadGraph}>Download Graph</MuiButton>
+      </div>
       <div className="mt-8 grid h-8 items-center justify-start">
         <Button
           onClick={() => {
