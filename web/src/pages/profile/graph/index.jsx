@@ -224,7 +224,7 @@ export default function Graph() {
   return (
     <div className="grid items-center justify-start">
       <div className="flex">
-        <Line data={data} options={options} width={900} height={400} />
+        <Line data={data} options={options} width={1000} height={400} />
         <div className="mt-16 grid h-full items-center justify-start">
           <Button
             onClick={() => {
