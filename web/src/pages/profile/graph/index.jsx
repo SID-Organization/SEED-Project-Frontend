@@ -9,7 +9,7 @@ import 'chartjs-plugin-datalabels';
 // MUI
 import { styled } from "@mui/material/styles";
 import MuiButton from "@mui/material/Button";
-import { MenuItem, Select, TextField } from "@mui/material";
+import { IconButton, MenuItem, Select, TextField } from "@mui/material";
 
 // Translate
 import TranslationJson from "../../../API/Translate/components/graph.json";
@@ -17,10 +17,11 @@ import { TranslateContext } from "../../../contexts/translate/index";
 
 // Service
 import GraphService from "../../../service/Graph-Service";
-
-// Utils
-import GraphUtils from "../../../utils/GraphUtils";
+// utils
+import GraphUtils from "../../../utils/Graph-Utils";
 import DateUtils from "../../../utils/Date-Utils";
+
+import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 
 Chart.register(LinearScale);
 
@@ -50,7 +51,7 @@ const months = [
   "Dez",
 ];
 
-const demandStatusOnGraph = ["APROVADA_EM_DG", "CANCELADA"]
+const demandStatusOnGraph = ["APROVADA_EM_DG", "CANCELADA"];
 
 export default function Graph() {
   const [timeInterval, setTimeInterval] = useState(12);
@@ -62,41 +63,46 @@ export default function Graph() {
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
-
-
   useEffect(() => {
     // Get data for graph
-    GraphService.getGraphData()
-      .then(data => {
-        setPreparedData(GraphUtils.prepareDataForGraph(demandStatusOnGraph, data))
-      })
+    GraphService.getGraphData().then((data) => {
+      setPreparedData(
+        GraphUtils.prepareDataForGraph(demandStatusOnGraph, data)
+      );
+    });
   }, []);
 
   useEffect(() => {
     // Get data for graph
     const dates = DateUtils.getMonthInterval(timeInterval);
 
-    const datelabels = dates.map(date => {
-      return months[parseInt(date.split('/')[0]) - 1] + '/' + date.split('/')[1].slice(-2)
-    })
+    const datelabels = dates
+      .map((date) => {
+        return (
+          months[parseInt(date.split("/")[0]) - 1] +
+          "/" +
+          date.split("/")[1].slice(-2)
+        );
+      })
       .reverse();
 
-    const approvedCount = dates.map(date => {
-      const count = preparedData.find(item => item.status == "APROVADA_EM_DG")
-        ?.dados.find(item => item.data == date)
-        ?.quantidade
-      return count ?? 0
-    }).reverse();
+    const approvedCount = dates
+      .map((date) => {
+        const count = preparedData
+          .find((item) => item.status == "APROVADA_EM_DG")
+          ?.dados.find((item) => item.data == date)?.quantidade;
+        return count ?? 0;
+      })
+      .reverse();
 
-
-    const cancelledCount = dates.map(date => {
-      const count = preparedData.find(item => item.status == "CANCELADA")
-        ?.dados.find(item => item.data == date)
-        ?.quantidade
-      return count ?? 0
-    }).reverse();
-
-
+    const cancelledCount = dates
+      .map((date) => {
+        const count = preparedData
+          .find((item) => item.status == "CANCELADA")
+          ?.dados.find((item) => item.data == date)?.quantidade;
+        return count ?? 0;
+      })
+      .reverse();
 
     console.log("approvedCount", approvedCount);
     console.log("cancelledCount", cancelledCount);
@@ -110,7 +116,7 @@ export default function Graph() {
     if (datelabels) {
       setLabels(datelabels);
     }
-  }, [timeInterval, preparedData])
+  }, [timeInterval, preparedData]);
 
   const approvedAvg =
     approvedData.reduce((a, b) => a + b, 0) / approvedData.length;
@@ -173,13 +179,6 @@ export default function Graph() {
 
   const options = {
     plugins: {
-      datalabels: {
-        display: true,
-        align: 'top',
-        formatter: function (value) {
-          return value.toString();
-        },
-      },
       legend: {
         display: true
       },
@@ -218,10 +217,16 @@ export default function Graph() {
     devicePixelRatio: 2,
   };
 
+  const downloadGraph = async () => {
+    GraphUtils.downloadGraph("demand-line-graph", "line-graph");
+  };
+
   return (
     <div className="grid items-center justify-start">
       <div className="flex">
-        <Line data={data} options={options} width={1000} height={400} />
+        <div id="demand-line-graph">
+          <Line data={data} options={options} width={1000} height={400} />
+        </div>
         <div className="mt-16 grid h-full items-center justify-start">
           <Button
             onClick={() => {
@@ -247,8 +252,20 @@ export default function Graph() {
           >
             6 M
           </Button>
+
+          <div className="flex items-center">
+            <IconButton onClick={downloadGraph}>
+              <DownloadRoundedIcon
+                style={{
+                  color: "#0075B1",
+                }}
+              />
+            </IconButton>
+            <p className="font-roboto font-bold text-blue-weg">.png</p>
+          </div>
         </div>
       </div>
     </div>
+
   );
 }
