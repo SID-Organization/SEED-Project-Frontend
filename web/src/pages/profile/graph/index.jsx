@@ -69,8 +69,6 @@ export default function Graph() {
   useEffect(() => {
     // Get data for graph
     const dates = DateUtils.getMonthInterval(timeInterval);
-    console.log("DATES", dates);
-    console.log("preparedData", preparedData);
 
     const datelabels = dates.map(date => {
       return months[parseInt(date.split('/')[0]) - 1] + '/' + date.split('/')[1].slice(-2)
