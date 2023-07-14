@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 //MUI
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar, Divider, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiButton from "@mui/material/Button";
 import HelpIcon from "@mui/icons-material/HelpCenterRounded";
@@ -256,13 +256,26 @@ export default function ManagerProfile(props) {
         </div>
       </div>
 
-      <div className="ml-56">
+      <div className="ml-64">
         {profilePage ? (
           returnProfile()
         ) : (
-          <div>
-            <Graph />
-            <BarGraph />
+          <div className="mt-10 grid">
+            <div className="grid">
+              <h1 className="font-roboto text-xl font-bold text-light-blue-weg ">
+                {translate["Demandas aprovadas e canceladas"]?.[language] ??
+                  "Demandas aprovadas e canceladas"}
+              </h1>
+              <Graph />
+            </div>
+
+            <div className="grid">
+              <h1 className="font-roboto text-xl font-bold text-light-blue-weg ">
+                {translate["Demandas e seus status"]?.[language] ??
+                  "Demandas e seus status"}
+              </h1>
+              <BarGraph />
+            </div>
           </div>
         )}
       </div>

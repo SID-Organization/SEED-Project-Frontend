@@ -1,4 +1,22 @@
 {
+    "Demandas e seus status": {
+        "pt-br": "Demandas e seus status",
+        "en-us": "Demands and their status",
+        "de": "Anforderungen und deren Status",
+        "zh-cn": "需求及其状态",
+        "es": "Demandas y su estado",
+        "fr": "Demandes et leur statut",
+        "it": "Richieste e il loro stato"
+    },
+    "Demandas aprovadas e canceladas": {
+        "pt-br": "Demandas aprovadas e canceladas",
+        "en-us": "Approved and canceled demands",
+        "de": "Genehmigte und stornierte Nachfragen",
+        "zh-cn": "批准和取消的需求",
+        "es": "Demandas aprobadas y canceladas",
+        "fr": "Demandes approuvées et annulées",
+        "it": "Richieste approvate e annullate"
+    },
     "Análise": {
         "pt-br": "Análise",
         "en-us": "Analysis",

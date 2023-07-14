@@ -24,6 +24,7 @@ import TranslationJson from "../../API/Translate/pages/profile/profile.json";
 import { TranslateContext } from "../../contexts/translate/index";
 import { Launch } from "@mui/icons-material";
 import Graph from "./graph";
+import BarGraph from "./barGraph";
 
 const Button = styled(MuiButton)(() => ({
   background: "transparent",
@@ -134,11 +135,6 @@ export default function Perfil(props) {
               </div>
             </div>
             <div className="grid w-[50vw] gap-16">
-              {user.cargoUsuario === "GESTOR_TI" && (
-                <div className="mb-20">
-                  <Graph />
-                </div>
-              )}
               <div>
                 <h1
                   style={{ fontSize: fonts.base }}
