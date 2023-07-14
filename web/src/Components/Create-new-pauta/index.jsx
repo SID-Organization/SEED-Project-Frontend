@@ -215,7 +215,11 @@ export default function CreateNewPauta(props) {
         });
       }
     }).then(() => {
-      props.fetchPautas();
+      if(props.fetchPautas) {
+        setTimeout(() => {
+          props.fetchPautas();
+        }, 600)
+      }
     });
   };
 

@@ -11,6 +11,9 @@ import TranslationJson from "../../../API/Translate/components/graph.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 import MonthsJSON from "./monthsJSON.json";
 import { useEffect } from "react";
+import GraphService from "../../../service/Graph-Service";
+import GraphUtils from "../../../utils/GraphUtils";
+import DateUtils from "../../../utils/Date-Utils";
 
 Chart.register(LinearScale);
 
@@ -25,13 +28,27 @@ const Button = styled(MuiButton)(() => ({
   },
 }));
 
+const months = [
+  "Jan",
+  "Fev",
+  "Mar",
+  "Abr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Set",
+  "Out",
+  "Nov",
+  "Dez",
+];
+
+const demandStatusOnGraph = ["APROVADA_EM_DG", "CANCELADA"]
+
 export default function Graph() {
-  const [twelveMonths, setTwelveMonths] = useState(true);
-
-  const [sixMonths, setSixMonths] = useState(false);
-
-  const [oneMonth, setOneMonth] = useState(false);
-
+  const [timeInterval, setTimeInterval] = useState(12);
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [preparedData, setPreparedData] = useState([]);
   const [approvedData, setApprovedData] = useState([]);
   const [cancelledData, setCancelledData] = useState([]);
   const [labels, setLabels] = useState([]);
@@ -39,86 +56,57 @@ export default function Graph() {
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
-  const months = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Abr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Set",
-    "Out",
-    "Nov",
-    "Dez",
-  ];
+
 
   useEffect(() => {
-    if (twelveMonths) {
-      setApprovedData([12, 19, 3, 15, 10, 12, 5, 3, 8, 2, 1, 4]);
-      setCancelledData([5, 3, 8, 2, 1, 4, 12, 19, 3, 15, 10, 12]);
-      setLabels([
-        "Jan",
-        "Fev",
-        "Mar",
-        "Abr",
-        "Mai",
-        "Jun",
-        "Jul",
-        "Ago",
-        "Set",
-        "Out",
-        "Nov",
-        "Dec",
-      ]);
-    } else if (sixMonths) {
-      setApprovedData([12, 19, 3, 15, 10, 12]);
-      setCancelledData([5, 3, 8, 2, 1, 4]);
-      setLabels(["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"]);
-    } else if (oneMonth) {
-      setApprovedData([
-        1, 0, 0, 0, 2, 1, 4, 0, 1, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-        0, 0, 0, 0, 0, 2,
-      ]);
-      setCancelledData([
-        0, 0, 0, 0, 2, 1, 4, 0, 1, 3, 1, 1, 2, 1, 2, 1, 0, 0, 0, 2, 0, 0, 0, 1,
-        0, 0, 0, 0, 0, 2,
-      ]);
-      setLabels([
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24",
-        "25",
-        "26",
-        "27",
-        "28",
-        "29",
-        "30",
-      ]);
+    // Get data for graph
+    GraphService.getGraphData()
+      .then(data => {
+        setPreparedData(GraphUtils.prepareDataForGraph(demandStatusOnGraph, data))
+      })
+  }, []);
+
+  useEffect(() => {
+    // Get data for graph
+    const dates = DateUtils.getMonthInterval(timeInterval);
+    console.log("DATES", dates);
+    console.log("preparedData", preparedData);
+
+    const datelabels = dates.map(date => {
+      return months[parseInt(date.split('/')[0]) - 1] + '/' + date.split('/')[1].slice(-2)
+    })
+      .reverse();
+
+    const approvedCount = dates.map(date => {
+      const count = preparedData.find(item => item.status == "APROVADA_EM_DG")
+        ?.dados.find(item => item.data == date)
+        ?.quantidade
+      return count ?? 0
+    }).reverse();
+
+
+    const cancelledCount = dates.map(date => {
+      const count = preparedData.find(item => item.status == "CANCELADA")
+        ?.dados.find(item => item.data == date)
+        ?.quantidade
+      return count ?? 0
+    }).reverse();
+
+
+
+    console.log("approvedCount", approvedCount);
+    console.log("cancelledCount", cancelledCount);
+
+    if (approvedCount) {
+      setApprovedData(approvedCount);
     }
-  }, [twelveMonths, sixMonths, oneMonth]);
+    if (cancelledCount) {
+      setCancelledData(cancelledCount);
+    }
+    if (datelabels) {
+      setLabels(datelabels);
+    }
+  }, [timeInterval, preparedData])
 
   const approvedAvg =
     approvedData.reduce((a, b) => a + b, 0) / approvedData.length;
@@ -228,47 +216,41 @@ export default function Graph() {
         <div className="mt-16 grid h-full items-center justify-start">
           <Button
             onClick={() => {
-              setTwelveMonths(true);
-              setSixMonths(false);
-              setOneMonth(false);
+              setTimeInterval(12);
             }}
             style={{
-              textDecoration: twelveMonths ? "underline" : "none",
-              fontWeight: twelveMonths ? "bold" : "normal",
-              color: twelveMonths ? "#0075B1" : "#929292",
+              textDecoration: timeInterval == 12 ? "underline" : "none",
+              fontWeight: timeInterval == 12 ? "bold" : "normal",
+              color: timeInterval == 12 ? "#0075B1" : "#929292",
             }}
           >
             12 M
           </Button>
           <Button
             onClick={() => {
-              setTwelveMonths(false);
-              setSixMonths(true);
-              setOneMonth(false);
+              setTimeInterval(6);
             }}
             style={{
-              textDecoration: sixMonths ? "underline" : "none",
-              fontWeight: sixMonths ? "bold" : "normal",
-              color: sixMonths ? "#0075B1" : "#929292",
+              textDecoration: timeInterval == 6 ? "underline" : "none",
+              fontWeight: timeInterval == 6 ? "bold" : "normal",
+              color: timeInterval == 6 ? "#0075B1" : "#929292",
             }}
           >
             6 M
           </Button>
-          <Button
+          {/* <Button
             onClick={() => {
-              setTwelveMonths(false);
-              setSixMonths(false);
-              setOneMonth(true);
+              setTimeInterval(1);
             }}
             style={{
-              textDecoration: oneMonth ? "underline" : "none",
-              fontWeight: oneMonth ? "bold" : "normal",
-              color: oneMonth ? "#0075B1" : "#929292",
+              textDecoration: timeInterval == 1 ? "underline" : "none",
+              fontWeight: timeInterval == 1 ? "bold" : "normal",
+              color: timeInterval == 1 ? "#0075B1" : "#929292",
             }}
           >
             1 M
           </Button>
-          {oneMonth && (
+          {timeInterval == 1 && (
             <Select
               variant="standard"
               labelId="demo-simple-select-label"
@@ -281,18 +263,7 @@ export default function Graph() {
                 fontWeight: "bold",
                 textAlignLast: "center",
               }}
-              onChange={(e) => {
-                setApprovedData(
-                  MonthsJSON[e.target.value].APPROVED.map((data) =>
-                    parseInt(data)
-                  )
-                );
-                setCancelledData(
-                  MonthsJSON[e.target.value].CANCELLED.map((data) =>
-                    parseInt(data)
-                  )
-                );
-              }}
+              onChange={() => {}}
             >
               {months.map((month, index) => (
                 <MenuItem
@@ -307,7 +278,7 @@ export default function Graph() {
                 </MenuItem>
               ))}
             </Select>
-          )}
+          )} */}
         </div>
       </div>
     </div>

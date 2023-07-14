@@ -13,7 +13,7 @@ import TranslationJson from "../../../API/Translate/components/graph.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 
 // Service
-import GraphsService from "../../../service/Graphs-Service";
+import GraphService from "../../../service/Graph-Service";
 
 // Utils
 import DateUtils from "../../../utils/Date-Utils"
@@ -36,24 +36,24 @@ export default function BarGraph() {
 
 
   const prepareDataForGraph = (data) => {
-    const prepparedData = [];
+    const preparedData = [];
 
     demandStatusOnGraph.forEach(labelStatus => {
       const filteredData = data.find(item => item.status == labelStatus)
       if (filteredData) {
-        prepparedData.push(filteredData)
+        preparedData.push(filteredData)
       } else {
-        prepparedData.push({ status: labelStatus, dados: [] })
+        preparedData.push({ status: labelStatus, dados: [] })
       }
     })
-    console.log("Data to graph", prepparedData)
-    setDataFromDB(prepparedData);
+    // console.log("Data to graph", prepparedData)
+    setDataFromDB(preparedData);
   }
 
   useEffect(() => {
-    GraphsService.getGraphData()
+    GraphService.getGraphData()
       .then((data) => {
-        console.log("DATA", data);
+        // console.log("DATA", data);
         prepareDataForGraph(data);
       });
   }, []);

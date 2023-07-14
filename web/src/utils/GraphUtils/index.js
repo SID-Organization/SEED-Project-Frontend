@@ -16,6 +16,20 @@ function getGraphMonthsTitleByInterval(timeInterval) {
     }
 }
 
+function prepareDataForGraph(status, rawData) {
+    const preparedData = []
+    status.forEach(labelStatus => {
+        const filteredData = rawData.find(item => item.status == labelStatus)
+        if (filteredData) {
+            preparedData.push(filteredData)
+        } else {
+            preparedData.push({ status: labelStatus, dados: [] })
+        }
+    })
+    return preparedData;
+}
+
 export default {
     getGraphMonthsTitleByInterval,
+    prepareDataForGraph
 }

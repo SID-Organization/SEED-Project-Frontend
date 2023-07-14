@@ -50,6 +50,16 @@ function formatDateForGraph(date) {
     return dateString;
 }
 
+function formatMonthToShort(month) {
+    const dateObject = new Date();
+    dateObject.setMonth(month - 1);
+    const dateString =
+        dateObject.toLocaleDateString("pt-BR", {
+            month: "short",
+        })
+    return dateString;
+}
+
 function getMonthInterval(timeInterval) {
     const currentDate = new Date(); // Create a new Date object with the current date
     currentDate.setMonth(currentDate.getMonth() + 1); // Updates to the correct month
@@ -70,4 +80,5 @@ export default {
     formatFromInputToSlash,
     formatDateForGraph,
     getMonthInterval,
+    formatMonthToShort,
 }
