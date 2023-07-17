@@ -114,8 +114,19 @@ export default function NewBenefitInsertion(props) {
                 label={translate["Valor mensal"]?.[language] ?? "Valor mensal"}
                 onBlur={updateState}
                 variant="outlined"
+                type="number"
+                multiline
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">{coin}</InputAdornment>
+                  ),
+                }}
+                maxRows={1}
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value.match(/^[0-9]*$/))
+                    setValue(e.target.value);
+                }}
               />
               <Box sx={{ minWidth: 100 }}>
                 <FormControl fullWidth>
