@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { LinearScale } from "chart.js";
-import 'chartjs-plugin-datalabels';
 
 // MUI
 import { styled } from "@mui/material/styles";
@@ -180,7 +179,7 @@ export default function Graph() {
   const options = {
     plugins: {
       legend: {
-        display: true
+        display: true,
       },
       title: {
         display: true,
@@ -267,6 +266,5 @@ export default function Graph() {
         </div>
       </div>
     </div>
-
   );
 }
