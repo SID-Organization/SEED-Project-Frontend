@@ -85,7 +85,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="whitespace-pre-wrap break-all pr-10 font-roboto font-normal"
             >
-              {proposal && proposal.escopoProposta} asd
+              {proposal && proposal.escopoProposta}
             </p>
           </div>
           <div className="grid items-center gap-1">
@@ -101,7 +101,7 @@ export default function ViewProposal() {
               style={{ fontSize: fonts.base }}
               className="whitespace-pre-wrap break-all pr-10 font-roboto font-normal"
             >
-              {proposal && proposal.escopoProposta}asdsa
+              {proposal && proposal.escopoProposta}
             </p>
           </div>
           <div className="grid items-center">
