@@ -21,9 +21,6 @@ import TranslationJson from "../../API/Translate/components/newBenefitInsert.jso
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
-//Formatador de números
-import { NumericFormat } from 'react-number-format';
-
 const TextFieldValue = styled(MuiTextField)({
   width: "15rem",
   height: "3.5rem",
@@ -44,16 +41,17 @@ const TextFieldValue = styled(MuiTextField)({
   },
 });
 
-
 export default function NewBenefitInsertion(props) {
-
   const translate = TranslationJson;
   const [language] = useContext(TranslateContext);
 
   const [coin, setCoin] = useState(props.coin);
   const [value, setValue] = useState(props.value);
 
-  const [benefitSpeech, setBenefitSpeech] = useState({ id: props.benefitIndex, text: "" });
+  const [benefitSpeech, setBenefitSpeech] = useState({
+    id: props.benefitIndex,
+    text: "",
+  });
 
   // Updates the real state  when the speech is updated
   useEffect(() => {
@@ -64,13 +62,15 @@ export default function NewBenefitInsertion(props) {
         );
         newState.splice(props.benefitIndex, 0, {
           ...props.benefitStates.realBenefits[props.benefitIndex],
-          descriptionHTML: props.benefitStates.realBenefits[props.benefitIndex].descriptionHTML + benefitSpeech.text,
+          descriptionHTML:
+            props.benefitStates.realBenefits[props.benefitIndex]
+              .descriptionHTML + benefitSpeech.text,
         });
         return newState;
       });
-      setBenefitSpeech({ id: props.benefitIndex, text: "" })
+      setBenefitSpeech({ id: props.benefitIndex, text: "" });
     }
-  }, [benefitSpeech])
+  }, [benefitSpeech]);
 
   const updateState = () => {
     props.benefitStates.setRealBenefits(() => {
@@ -109,27 +109,19 @@ export default function NewBenefitInsertion(props) {
         <div className="mb-4 grid">
           <div className="grid gap-10">
             <div className="mb-3 mt-5 flex gap-4">
-              <NumericFormat
-                customInput={TextFieldValue} // Utilize o TextFieldValue como componente personalizado
+              <TextFieldValue
                 id="outlined-textarea"
                 label={translate["Valor mensal"]?.[language] ?? "Valor mensal"}
                 onBlur={updateState}
                 variant="outlined"
                 value={value}
-                onValueChange={(values) => {
-                  setValue(values.floatValue); // Acessa o valor formatado como número
-                }}
-                decimalScale={2} // Define duas casas decimais (centavos)
-                decimalSeparator="," // Define a vírgula como separador de decimais
-                thousandSeparator="." // Define o ponto como separador de milhares
-                prefix={coin} // Adiciona a moeda como prefixo do valor
-                allowNegative={false} // Impede valores negativos
-                isNumericString // Permite apenas valores numéricos
-                style={{ width: '15rem', height: '3.5rem' }}
+                onChange={(e) => setValue(e.target.value)}
               />
               <Box sx={{ minWidth: 100 }}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">{translate["Moeda"]?.[language] ?? "Moeda"}</InputLabel>
+                  <InputLabel id="demo-simple-select-label">
+                    {translate["Moeda"]?.[language] ?? "Moeda"}
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -148,15 +140,19 @@ export default function NewBenefitInsertion(props) {
                     <MenuItem value={"€"}>EUR</MenuItem>
                   </Select>
                 </FormControl>
-
               </Box>
             </div>
 
             <div className="flex items-center">
               {props.children}
               {props.currentSpeech && (
-                <div onClick={() => props.currentSpeech.setId(props.benefitIndex)}>
-                  <VoiceSpeech setTexto={setBenefitSpeech} speechId={props.currentSpeech.id} />
+                <div
+                  onClick={() => props.currentSpeech.setId(props.benefitIndex)}
+                >
+                  <VoiceSpeech
+                    setTexto={setBenefitSpeech}
+                    speechId={props.currentSpeech.id}
+                  />
                 </div>
               )}
             </div>
@@ -165,7 +161,13 @@ export default function NewBenefitInsertion(props) {
       </div>
       {props.benefitIndex === props.benefitStates.realBenefits.length - 1 &&
         props.benefitIndex !== 0 && (
-          <Tooltip title={translate["Remover benefício"]?.[language] ?? "Remover benefício"} enterDelay={820} leaveDelay={200}>
+          <Tooltip
+            title={
+              translate["Remover benefício"]?.[language] ?? "Remover benefício"
+            }
+            enterDelay={820}
+            leaveDelay={200}
+          >
             <IconButton
               sx={{
                 marginLeft: "1rem",

@@ -124,8 +124,8 @@ export default function SecondStep({ props }) {
                   translate["Descreva o benefício."]?.[language] ??
                   "Descreva o benefício."
                 }
-                modules={quillModules}
-                style={quillStyle}
+                modules={ReactQuillUtils.quillModules}
+                style={ReactQuillUtils.quillStyle}
               />
             </NewBenefitInsertion>
             {(i < props.realBenefits.length - 1 || i === 0) && (
