@@ -177,7 +177,6 @@ export default function SecondStep({ props }) {
             benefitIndex={i}
           >
             <ReactQuill
-              theme="snow"
               modules={quillModules}
               style={quillStyle}
               value={item.descriptionHTML}

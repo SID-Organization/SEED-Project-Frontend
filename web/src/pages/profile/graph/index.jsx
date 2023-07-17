@@ -65,6 +65,7 @@ export default function Graph() {
   useEffect(() => {
     // Get data for graph
     GraphService.getGraphData().then((data) => {
+      console.log("GRAPH DATA", data);
       setPreparedData(
         GraphUtils.prepareDataForGraph(demandStatusOnGraph, data)
       );
