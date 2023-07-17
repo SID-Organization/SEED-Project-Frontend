@@ -1,4 +1,13 @@
 {
+    "Previsão de demandas a serem criadas":{
+        "pt-br": "Previsão de demandas a serem criadas",
+        "en-us": "Forecast of demands to be created",
+        "de": "Prognose der zu erstellenden Anforderungen",
+        "zh-cn": "预测要创建的需求",
+        "es": "Previsión de demandas a crear",
+        "fr": "Prévision des demandes à créer",
+        "it": "Previsione delle richieste da creare"
+    },
     "Demandas e seus status": {
         "pt-br": "Demandas e seus status",
         "en-us": "Demands and their status",

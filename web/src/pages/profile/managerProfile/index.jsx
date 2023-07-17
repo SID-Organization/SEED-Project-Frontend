@@ -21,6 +21,7 @@ import TranslationJson from "../../../API/Translate/pages/profile/profile.json";
 import { TranslateContext } from "../../../contexts/translate/index";
 import Graph from "../graph";
 import BarGraph from "../barGraph";
+import PredictGraph from "../predictGraph";
 
 const Button = styled(MuiButton)(() => ({
   background: "transparent",
@@ -268,8 +269,15 @@ export default function ManagerProfile(props) {
               </h1>
               <Graph />
             </div>
-
             <div className="grid">
+              <h1 className="font-roboto text-xl font-bold text-light-blue-weg ">
+                {translate["Previsão de demandas a serem criadas"]?.[
+                  language
+                ] ?? "Previsão de demandas a serem criadas"}
+              </h1>
+              <PredictGraph />
+            </div>
+            <div className="mt-10 grid">
               <h1 className="font-roboto text-xl font-bold text-light-blue-weg ">
                 {translate["Demandas e seus status"]?.[language] ??
                   "Demandas e seus status"}
