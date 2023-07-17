@@ -21,6 +21,9 @@ import TranslationJson from "../../API/Translate/components/newBenefitInsert.jso
 import TranslateUtils from "../../utils/Translate-Utils/index.js";
 import { TranslateContext } from "../../contexts/translate/index.jsx";
 
+//Formatador de números
+import { NumericFormat } from 'react-number-format';
+
 const TextFieldValue = styled(MuiTextField)({
   width: "15rem",
   height: "3.5rem",
@@ -106,24 +109,23 @@ export default function NewBenefitInsertion(props) {
         <div className="mb-4 grid">
           <div className="grid gap-10">
             <div className="mb-3 mt-5 flex gap-4">
-              <TextFieldValue
+              <NumericFormat
+                customInput={TextFieldValue} // Utilize o TextFieldValue como componente personalizado
                 id="outlined-textarea"
                 label={translate["Valor mensal"]?.[language] ?? "Valor mensal"}
                 onBlur={updateState}
                 variant="outlined"
-                type="number"
-                multiline
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">{coin}</InputAdornment>
-                  ),
-                }}
-                maxRows={1}
                 value={value}
-                onChange={(e) => {
-                  if (e.target.value.match(/^[0-9]*$/))
-                    setValue(e.target.value)
+                onValueChange={(values) => {
+                  setValue(values.floatValue); // Acessa o valor formatado como número
                 }}
+                decimalScale={2} // Define duas casas decimais (centavos)
+                decimalSeparator="," // Define a vírgula como separador de decimais
+                thousandSeparator="." // Define o ponto como separador de milhares
+                prefix={coin} // Adiciona a moeda como prefixo do valor
+                allowNegative={false} // Impede valores negativos
+                isNumericString // Permite apenas valores numéricos
+                style={{ width: '15rem', height: '3.5rem' }}
               />
               <Box sx={{ minWidth: 100 }}>
                 <FormControl fullWidth>
