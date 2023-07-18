@@ -13,6 +13,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
 import { Divider, Grid, InputAdornment, InputBase, Paper } from "@mui/material";
 
+import { useNavigate } from "react-router-dom";
+
 // Components
 import DatePicker from "../Date-picker";
 import NewPautaProposalCard from "../New-pauta-proposal-card";
@@ -101,6 +103,8 @@ export default function CreateNewPauta(props) {
   const [meetingDate, setMeetingDate] = useState("");
   const [meetingStartTime, setMeetingStartTime] = useState("");
   const [meetingEndTime, setMeetingEndTime] = useState("");
+
+  const navigate = useNavigate();
 
   // Search for title in create pauta
   const [searchTitle, setSearchTitle] = useState("");
@@ -199,28 +203,34 @@ export default function CreateNewPauta(props) {
 
     console.warn("Selected proposals", selectedProposals);
 
-    PautaService.createPauta(pautaJson).then((res) => {
-      if (res.error) {
-        setErrorCreatePautaNotification(true);
-        const timer = setTimeout(() => {
-          setErrorCreatePautaNotification(false);
-        }, 3000);
-        return () => clearTimeout(timer);
-      } else {
-        setNotifyCreation(true);
-        setIsModalOpen(false);
-        selectedProposals.forEach((proposal) => {
-          console.log("ProposalIdDemanda", proposal);
-          DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
-        });
-      }
-    }).then(() => {
-      if(props.fetchPautas) {
-        setTimeout(() => {
-          props.fetchPautas();
-        }, 600)
-      }
-    });
+    PautaService.createPauta(pautaJson)
+      .then((res) => {
+        if (res.error) {
+          setErrorCreatePautaNotification(true);
+          const timer = setTimeout(() => {
+            setErrorCreatePautaNotification(false);
+          }, 3000);
+          return () => clearTimeout(timer);
+        } else {
+          setNotifyCreation(true);
+          setIsModalOpen(false);
+          selectedProposals.forEach((proposal) => {
+            console.log("ProposalIdDemanda", proposal);
+            DemandService.updateDemandStatus(proposal.idDemanda, "EM_PAUTA");
+            const timer = setTimeout(() => {
+              window.location.reload();
+            }, 2300);
+            return () => clearTimeout(timer);
+          });
+        }
+      })
+      .then(() => {
+        if (props.fetchPautas) {
+          setTimeout(() => {
+            props.fetchPautas();
+          }, 600);
+        }
+      });
   };
 
   useEffect(() => {
