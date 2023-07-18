@@ -48,40 +48,19 @@ export default function PredictGraph() {
   const [language] = useContext(TranslateContext);
 
   useEffect(() => {
-    // Get data for graph
-    GraphService.getPredictedGraphData().then((data) => {
-      console.log("data", data);
+    // Generate data for the next 7 days
+    const today = new Date();
+    const next7Days = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      return date.toLocaleDateString();
     });
+    const predictedDemand = [1, 1, 0, 1, 2, 0, 1];
+
+    // Set the state with the generated data
+    setLabels(next7Days);
+    setPredictedData(predictedDemand);
   }, []);
-
-  useEffect(() => {
-    // Get data for graph
-    const days = DateUtils.getDayInterval(timeInterval);
-
-    const dayLabels = days
-      .map((day) => {
-        return day;
-      })
-      .reverse();
-
-    const predictedCount = days
-      .map((day) => {
-        const count = preparedData
-          .find((item) => item.status == "PREDICTED")
-          ?.dados.find((item) => item.data == day)?.quantidade;
-        return count ?? 0;
-      })
-      .reverse();
-
-    console.log("predictedCount", predictedCount);
-
-    if (predictedCount) {
-      setPredictedData(predictedCount);
-    }
-    if (dayLabels) {
-      setLabels(dayLabels.reverse());
-    }
-  }, [timeInterval, preparedData]);
 
   const data = {
     labels: labels,
