@@ -136,6 +136,12 @@ const getAllDemandsToManage = async () => {
     .catch((error) => error);
 };
 
+const getDemandPrevision = async () => {
+  return AxiosAPI.get(`${url}/prever-demandas`)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
 const openDemandPDF = async (demandId) => {
   // Open in new tab
   window.open(`${url}/pdf-demanda/${demandId}`, "_blank");
@@ -184,6 +190,7 @@ export default {
   getDemandsToManage,
   getAllDemandsToManage,
   getDraftsByRequestorId,
+  getDemandPrevision,
   deleteListDemands,
   deleteAllDrafts,
   openDemandPDF,

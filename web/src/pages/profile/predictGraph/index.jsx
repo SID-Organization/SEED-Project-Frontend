@@ -17,6 +17,7 @@ import { TranslateContext } from "../../../contexts/translate/index";
 
 // Service
 import GraphService from "../../../service/Graph-Service";
+import DemandService from "../../../service/Demand-Service";
 // utils
 import GraphUtils from "../../../utils/Graph-Utils";
 import DateUtils from "../../../utils/Date-Utils";
@@ -49,17 +50,26 @@ export default function PredictGraph() {
 
   useEffect(() => {
     // Generate data for the next 7 days
-    const today = new Date();
-    const next7Days = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      return date.toLocaleDateString();
+    DemandService.getDemandPrevision().then((response) => {
+      console.log("Prevision List", response);
+      
+      // Transformar as datas no formato desejado (dd/mm/yyyy)
+      const labels = response.map((item) => {
+        const dateString = item.data;
+        const dateObject = new Date(dateString);
+        const dia = dateObject.getDate() + 1;
+        const mes = dateObject.getMonth() + 1;
+        const ano = dateObject.getFullYear();
+        return dia.toString().padStart(2, '0') + '/' + mes.toString().padStart(2, '0') + '/' + ano;
+      });
+    
+      setLabels(labels);
+      setPredictedData(response.map((item) => item.quantidade_demandas));
     });
-    const predictedDemand = [1, 1, 0, 1, 2, 0, 1];
-
-    // Set the state with the generated data
-    setLabels(next7Days);
-    setPredictedData(predictedDemand);
+    
+    
+    // setLabels(next7Days);
+    // setPredictedData(predictedDemand);
   }, []);
 
   const data = {
